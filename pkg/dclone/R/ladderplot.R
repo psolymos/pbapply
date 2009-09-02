@@ -1,31 +1,26 @@
-ladderplot <- function(x, col, ylab, xlab, pch=19, horizontal=TRUE, ...) {
-    if (!horizontal)
-        .NotYetUsed(horizontal)
-    n <- nrow(x)
-    d <- 0.5
-    space=0.3
-    if (ncol(x) != 2)
-        stop("'x' must have 2 columns")
-    if (space > 1 || space < 0)
-        stop("'space' must be > 0 and < 1")
+ladderplot <-
+function(x, col, pch=19, lty=1, vertical = TRUE, ...)
+{
+    if (NCOL(x) < 2)
+        stop("'x' must have at least 2 columns")
     if (missing(col))
         col <- rep(1, nrow(x))
-    if (length(col) < n)
-        col <- rep(col, n)[1:n]
-    if (missing(ylab))
-        ylab <- ""
-    if (missing(xlab))
-        xlab <- deparse(substitute(x))
-    plot(array(x), rep(0, 2*n), type="n", ylim=c(-d/space,d/space), axes=FALSE, 
-        ylab=ylab, xlab=xlab, ...)
-    axis(1)
-    points(x[,1], rep(-d, n), col=col, pch=pch)
-    points(x[,2], rep(d, n), col=col, pch=pch)
-    for (i in 1:n) {
-        lines(x[i, 1:2], c(-d, d), col=col[i])
+    if (length(col) < nrow(x))
+        col <- rep(col, nrow(x))[1:nrow(x)]
+    y <- stack(x)
+    if (vertical) {
+        xlim <- c(0,ncol(x)+1)
+        ylim <- range(x)
+        with(y, stripchart(values ~ ind, pch=pch, ylim=ylim, xlim=xlim, vertical=vertical, ...))
+        lapply(1:ncol(x), function(i) points(cbind(rep(i,nrow(x)), x[,i]), col=col, pch=pch))
+        lapply(1:nrow(x), function(i) lines(cbind(1:ncol(x), as.matrix(x)[i,]), col=col[i], lty=lty))
+    } else {
+        xlim <- range(x)
+        ylim <- c(0,ncol(x)+1)
+        with(y, stripchart(values ~ ind, pch=pch, ylim=ylim, xlim=xlim, vertical=vertical, ...))
+        lapply(1:ncol(x), function(i) points(cbind(x[,i], rep(i,nrow(x))), col=col, pch=pch))
+        lapply(1:nrow(x), function(i) lines(cbind(as.matrix(x)[i,], 1:ncol(x)), col=col[i], lty=lty))
     }
-    lab <- if (is.null(colnames(x)))
-        paste(xlab, 1:2, sep=".") else colnames(x)
-    text(rep(min(x)+diff(range(x))/2, 2), c(-d*1.5, d*1.5), lab)
     invisible(NULL)
 }
+
