@@ -8,6 +8,7 @@ trace=1, stop.if.converged=TRUE, ...)
     if (!is.null(update) != !is.null(updatefun))
         stop("both 'update' and 'updatefun' must be provided")
     k <- n.clones[order(n.clones)]
+    k <- unique(k)
     times <- length(k)
     crit <- getOption("dclone.crit")
     converged <- FALSE
