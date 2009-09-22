@@ -8,7 +8,8 @@ Ladder plot
 Makes a ladder plot.
 }
 \usage{
-ladderplot(x, col, pch=19, lty=1, vertical = TRUE, ...)
+ladderplot(x, col, pch=19, lty=1, xlim=c(0,ncol(x)+1),
+ylim=range(x), vertical = TRUE, ...)
 }
 \arguments{
   \item{x}{
@@ -22,6 +23,9 @@ Point type to use.
 }
   \item{lty}{
 Line type to use.
+}
+  \item{xlim, ylim}{
+Limits for axes.
 }
   \item{vertical}{
 Logical, if the orientation of the ladderplot should be vertical or horizontal.
