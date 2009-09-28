@@ -38,8 +38,9 @@ trace=1, stop.if.converged=TRUE, ...)
         initsfun <- match.fun(initsfun)
     ## iteration starts here
     for (i in 1:times) {
+        tmpch <- if (k[i] == 1) "clone" else "clones"
         if (trace)
-            cat("\nFitting model with", k[i], "clones\n\n")
+            cat("\nFitting model with", k[i], tmpch, "\n\n")
         jdat <- dclone(data, k[i], multiply=multiply, unchanged=unchanged)
         mod <- if (is.null(initsfun)) {
             jags.fit(jdat, params, model, ...)
@@ -89,8 +90,8 @@ trace=1, stop.if.converged=TRUE, ...)
         if (dctc[i,2] < crit[1] && dctc[i,3] > crit[2]) {
             converged <- TRUE
             if (trace)
-                cat("\nConvergence reached with", k[i], "clones\n\n")
-        } else cat("\nNo convergence reached with", k[i], "clones\n\n")
+                cat("\nConvergence reached with", k[i], tmpch, "\n\n")
+        } else cat("\nNo convergence reached with", k[i], tmpch, "\n\n")
         if (converged && stop.if.converged)
             break
     }
