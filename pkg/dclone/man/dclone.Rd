@@ -5,7 +5,9 @@
 \alias{dclone.default}
 \alias{dclone.list}
 \alias{dclone.ts}
+\alias{dclone.dcdim}
 \alias{dcsd}
+\alias{dcdim}
 \title{
 Clone R Objects
 }
@@ -17,8 +19,10 @@ leaving the original structure of the object intact.
 dclone(x, n.clones=1, ...)
 \method{dclone}{default}(x, n.clones = 1, attrib=TRUE, ...)
 \method{dclone}{ts}(x, n.clones = 1, attrib=TRUE, ...)
+\method{dclone}{dcdim}(x, n.clones = 1, attrib=TRUE, ...)
 \method{dclone}{list}(x, n.clones = 1, 
 multiply = NULL, unchanged = NULL, attrib=TRUE, ...)
+dcdim(x)
 dcsd(x, na.rm = FALSE)
 }
 \arguments{
@@ -45,11 +49,30 @@ Logical, if \code{NA}s should be removed.
 Other arguments passed to function.
 }
 }
+\details{
+\code{dclone} is a generic method to clone objects. It is separate from \code{\link{rep}},
+because there are different ways of cloning, depending on the \code{BUGS} code implementation:
+
+(1) Unchanged: no cloning at all (fo e.g. constants).
+
+(2) Repeat: this is the most often used cloning method, repeating the observations as if there
+were more samples.
+
+(3) Multiply: sometimes it is enough to multiply the numbers (e.g. for Binomial distribution).
+
+(4) Add dimension: under specific circumstances, it is easier to add another dimension for clones,
+but othervise repeat the observations (e.g. in case of time series, or for addressing special
+indexing conventions in the \code{BUGS} code, see examples for \code{dclone.ts}, \code{dclone.dcdim}
+and \code{dcdim}).
+}
 \value{
 An object with class attributes \code{"dclone"} plus the original one(s).
 Dimensions of the original object might change according to \code{n.clones}.
 The function tries to take care of names, sometimes replacing those with the
 combination of the original names and an integer for number of clones.
+
+\code{dcdim} sets the class attribute of an object to \code{"dcdim"}, thus
+\code{dclone} will clone the object by adding an extra dimension for the clones.
 
 \code{dcsd} returns the data cloning standard errors of a posterior MCMC chain
 calculated as standard deviation times the square root of the number of clones.
@@ -79,6 +102,9 @@ dclone(dfr, 2)
 (l <- list(n = 10, y = 1:10, x = 1:10, p = 1))
 dclone(l, 2)
 dclone(l, 2, attrib = FALSE)
+dclone(l, 2, multiply = "n", unchanged = "p")
+## effect of dcdim
+l$y <- dcdim(l$y)
 dclone(l, 2, multiply = "n", unchanged = "p")
 ## time series
 z <- as.ts(rnorm(10))
