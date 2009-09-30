@@ -5,6 +5,8 @@
 \alias{summary.mcmc.list.dc}
 \alias{print.summary.mcmc.dc}
 \alias{dcsd}
+\alias{confint.mcmc.list.dc}
+\alias{coef.mcmc.list}
 \title{
 Convenient function to fit JAGS models.
 }
@@ -58,6 +60,16 @@ Type of progress bar (see \code{\link[rjags]{update.jags}}).
 }
   \item{x, object}{
   MCMC object to be processed.
+}
+  \item{na.rm}{
+Logical, if \code{NA}s should be removed.
+}
+  \item{parm}{
+A specification of which parameters are to be given confidence intervals, 
+either a vector of numbers or a vector of names. If missing, all parameters are considered.
+}
+  \item{level}{
+The confidence level required.
 }
   \item{\dots}{
 Further arguments passed to \code{\link[rjags]{jags.model}}, 

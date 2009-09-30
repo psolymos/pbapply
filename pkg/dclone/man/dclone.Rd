@@ -40,9 +40,6 @@ Numeric or character index for list element(s) to be left unchanged.
   \item{attrib}{
 Logical, \code{TRUE} if attributes are to be attached.
 }
-  \item{na.rm}{
-Logical, if \code{NA}s should be removed.
-}
   \item{\dots}{
 Other arguments passed to function.
 }
