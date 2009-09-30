@@ -6,7 +6,6 @@
 \alias{dclone.list}
 \alias{dclone.ts}
 \alias{dclone.dcdim}
-\alias{dcsd}
 \alias{dcdim}
 \title{
 Clone R Objects
@@ -23,7 +22,6 @@ dclone(x, n.clones=1, ...)
 \method{dclone}{list}(x, n.clones = 1, 
 multiply = NULL, unchanged = NULL, attrib=TRUE, ...)
 dcdim(x)
-dcsd(x, na.rm = FALSE)
 }
 \arguments{
   \item{x}{
@@ -73,9 +71,6 @@ combination of the original names and an integer for number of clones.
 
 \code{dcdim} sets the class attribute of an object to \code{"dcdim"}, thus
 \code{dclone} will clone the object by adding an extra dimension for the clones.
-
-\code{dcsd} returns the data cloning standard errors of a posterior MCMC chain
-calculated as standard deviation times the square root of the number of clones.
 }
 \references{
 Lele, S.R., B. Dennis and F. Lutscher, 2007.

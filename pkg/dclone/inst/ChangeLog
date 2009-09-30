@@ -2,6 +2,8 @@ dclone package versions
 
 Version 0.2-3, August 6, 2009
 
+    * coef.mcmc.list and confint.mcmc.list.cd:
+      new convenient functions added.
     * dcdim and dclone.dcdim: functions to add
       extra dimension for the data.
     * jags.dclone: initsfun argument added.
