@@ -1,5 +1,7 @@
 dclone package versions
 
+Version 0.2-4, October 1, 2009
+
 Version 0.2-3, August 6, 2009
 
     * coef.mcmc.list and confint.mcmc.list.cd:

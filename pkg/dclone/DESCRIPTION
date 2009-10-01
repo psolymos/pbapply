@@ -1,12 +1,12 @@
 Package: dclone
 Type: Package
-Title: Data Cloning and MCMC Tools for Composite-Likelihood Methods
-Version: 0.2-3
+Title: Data Cloning and MCMC Tools for Maximum Likelihood Methods
+Version: 0.2-4
 Date: 2009-07-10
 Author: Peter Solymos, Khurram Nadeem and Subhash Lele
 Maintainer: Peter Solymos <solymos@ualberta.ca>
 Description: Convenient functions to help implementing
-    estimating procedures for composite-likelihood
+    estimating procedures for maximum likelihood
     estimation of complex models using data cloning
     and Bayesian Markov chain Monte Carlo methods.
 License: GPL-2

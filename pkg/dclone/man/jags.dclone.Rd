@@ -151,14 +151,11 @@ Y <- rpois(n, exp(linpred))
 jfun1 <- function() {
     for (i in 1:n) {
         Y[i] ~ dpois(lambda[i])
-        log(lambda[i]) <- alpha[i] + inprod(X[i,], betas[i,])
-        for (j in 1:np) {
-            betas[i,j] <- beta[j]
-        }
+        log(lambda[i]) <- alpha[i] + inprod(X[i,], beta[1,])
         alpha[i] ~ dnorm(0, tau)
     }
     for (j in 1:np) {
-        beta[j] ~ dnorm(0, 0.001)
+        beta[1,j] ~ dnorm(0, 0.001)
     }
     tau ~ dgamma(1.0E-3, 1.0E-3)
     sigma <- 1.0/sqrt(tau)
@@ -196,14 +193,11 @@ par(opar)
 jfun2 <- function() {
     for (i in 1:n) {
         Y[i] ~ dbin(p[i], k)
-        logit(p[i]) <- alpha[i] + inprod(X[i,], betas[i,])
-        for (j in 1:np) {
-            betas[i,j] <- beta[j]
-        }
+        logit(p[i]) <- alpha[i] + inprod(X[i,], beta[1,])
         alpha[i] ~ dnorm(0, tau)
     }
     for (j in 1:np) {
-        beta[j] ~ dnorm(0, 0.001)
+        beta[1,j] ~ dnorm(0, 0.001)
     }
     tau ~ dgamma(1.0E-3, 1.0E-3)
     sigma <- 1.0/sqrt(tau)
@@ -226,14 +220,11 @@ lapply(dc2$statistics, function(z) z$sd)
 jfun1v <- function() {
     for (i in 1:n) {
         Y[i] ~ dpois(lambda[i])
-        log(lambda[i]) <- alpha[i] + inprod(X[i,], betas[i,])
-        for (j in 1:np) {
-            betas[i,j] <- beta[j]
-        }
+        log(lambda[i]) <- alpha[i] + inprod(X[i,], beta[1,])
         alpha[i] ~ dnorm(0, tau)
     }
     for (j in 1:np) {
-        beta[j] ~ dnorm(priors[j,1], priors[j,2])
+        beta[1,j] ~ dnorm(priors[j,1], priors[j,2])
     }
     tau ~ dgamma(priors[(np+1),2], priors[(np+1),1])
     sigma <- 1.0/sqrt(tau)
