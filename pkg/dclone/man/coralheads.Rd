@@ -7,7 +7,7 @@
 Richness and Abundance of Decapod Crustaceans on Coral Heads
 }
 \description{
-The data set contains observations from Abele and Patton (1976).
+The data set contains observations of 35 coral heads from Abele and Patton (1976).
 \code{A} is the size of the coral heads in \eqn{cm^3},
 \code{S} is the number of decapod crustacean species,
 \code{N} is the number of decapod crustacean individuals on the coral heads.

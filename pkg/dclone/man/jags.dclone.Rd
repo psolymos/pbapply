@@ -270,7 +270,8 @@ beverton.holt <- function() {
     lambda <- tmp + 1
     mu0 <- log(2)  + log(lambda) - log(1 + beta * 2)
 }
-mod <- jags.dclone(dat, c("lambda","beta","sigma"), beverton.holt, n.clones=2:3, multiply="ncl", unchanged="n")
+mod <- jags.dclone(dat, c("lambda","beta","sigma"), beverton.holt,
+    n.clones=c(2, 5, 10), multiply="ncl", unchanged="n")
 ## compare with results from the paper:
 ##   beta   = 0.00235
 ##   lambda = 2.274
