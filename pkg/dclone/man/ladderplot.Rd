@@ -8,7 +8,7 @@ Ladder plot
 Makes a ladder plot.
 }
 \usage{
-ladderplot(x, col, pch=19, lty=1, xlim=c(0,ncol(x)+1),
+ladderplot(x, col=1, pch=19, lty=1, xlim=c(0.5, ncol(x) + 0.5),
 ylim=range(x), vertical = TRUE, ...)
 }
 \arguments{
@@ -16,13 +16,13 @@ ylim=range(x), vertical = TRUE, ...)
 A matrix or data frame with at least 2 columns.
 }
   \item{col}{
-Color values to use for rows of \code{x}.
+Color values to use for rows of \code{x}. If longer then 1, its value is recycled.
 }
   \item{pch}{
-Point type to use.
+Point type to use. If longer then 1, its value is recycled.
 }
   \item{lty}{
-Line type to use.
+Line type to use. If longer then 1, its value is recycled.
 }
   \item{xlim, ylim}{
 Limits for axes.
