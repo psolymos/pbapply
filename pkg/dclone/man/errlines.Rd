@@ -10,15 +10,17 @@ The function plots error bars to existing plot.
 }
 \usage{
 errlines(x, ...)
-\method{errlines}{default}(x, y, type = "l", code = 0, width = 0, ...)
+\method{errlines}{default}(x, y, type = "l", code = 0, 
+width = 0, vertical = TRUE, ...)
 }
 \arguments{
   \item{x}{
-Numeric vector with coordinates along the horizontal axis.
+Numeric vector with coordinates along the horizontal axis 
+(if \code{vertical = FALSE}, this sets the vertical axis).
 }
   \item{y}{
 A matrix-like object with 2 columns for lower and upper values on the
-vertical axis.
+vertical axis (if \code{vertical = FALSE}, this sets the horizontal axis).
 }
   \item{type}{
 Character, \code{"l"} for lines, \code{"b"} for boxes to be drawn.
@@ -29,6 +31,9 @@ Integer code, determining kind of ticks to be drawn. See Details.
   \item{width}{
 Numeric, width of the ticks (if \code{type = "l"}) or 
 width of the boxes (if \code{type = "b"}).
+}
+  \item{vertical}{
+Logical, if errorbars should be plotted vertically or horizontally.
 }
   \item{\dots}{
 Other arguments passed to the function \code{\link{lines}}.

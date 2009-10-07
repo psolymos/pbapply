@@ -1,5 +1,5 @@
 errlines.default <-
-function(x, y, type = "l", code = 0, width = 0, ...)
+function(x, y, type = "l", code = 0, width = 0, vertical = TRUE, ...)
 {
     if (NCOL(y) == 1 && length(y == 2) && length(x) == 1)
         y <- matrix(y, 1, 2)
@@ -19,17 +19,34 @@ function(x, y, type = "l", code = 0, width = 0, ...)
         x2 <- x + width / 2
         for (i in 1:n) {
             if (code %in% c(1, 3))
-                lines(c(x1[i], x2[i]), rep(y[i,1], 2), ...)
+                if (vertical) {
+                    lines(c(x1[i], x2[i]), rep(y[i,1], 2), ...)
+                } else {
+                    lines(rep(y[i,1], 2), c(x1[i], x2[i]), ...)
+                }
             if (code %in% c(2, 3))
-                lines(c(x1[i], x2[i]), rep(y[i,2], 2), ...)
+                if (vertical) {
+                    lines(c(x1[i], x2[i]), rep(y[i,2], 2), ...)
+                } else {
+                    lines(rep(y[i,2], 2), c(x1[i], x2[i]), ...)
+                }
         }
     }
     for (i in 1:n) {
         if (type == "l") {
-            lines(rep(x[i], 2), y[i,], ...)
+            if (vertical) {
+                lines(rep(x[i], 2), y[i,], ...)
+            } else {
+                lines(y[i,], rep(x[i], 2), ...)
+            }
         } else {
-            lines(rep(x1[i], 2), y[i,], ...)
-            lines(rep(x2[i], 2), y[i,], ...)
+            if (vertical) {
+                lines(rep(x1[i], 2), y[i,], ...)
+                lines(rep(x2[i], 2), y[i,], ...)
+            } else {
+                lines(y[i,], rep(x1[i], 2), ...)
+                lines(y[i,], rep(x2[i], 2), ...)
+            }
         }
     }
     invisible(NULL)
