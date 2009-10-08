@@ -1,0 +1,50 @@
+useDynLib("dclone")
+
+#Replace .First.lib functions with .onLoad functions or useDynLib directives.
+#.First.lib <- function(lib, pkg){
+#    cat("This is dclone ", utils::packageDescription("dclone", field="Version"),
+#    " (", utils::packageDescription("dclone", field="Date"), ")\n", sep="")
+#    if (is.null(getOption("dclone.crit"))) {
+#        options("dclone.crit"=c(lmax=0.05, pshw=0.05, rhat=1.1))
+#    }
+#}
+
+## main dclone functions
+export("dclone", "dcdim", "dclone.dcdim", "dclone.default", "dclone.list", "dclone.ts",
+       "jags.dclone", "jags.fit",
+       "clean.jags.model", "write.jags.model",
+       "dctable", "dctable.default",
+       "dcsd", "coef.mcmc.list", "confint.mcmc.list.dc", 
+       "lambdamax.diag", "shapiro.diag",
+       "nclones", "nclones.default", "nclones.list")
+
+## ststistical helper functions
+export("BIC", "BIC.default", "extractBIC", "extractBIC.default"
+       "nobservations", "nobservations.lm",
+       "diagnose",
+       "lincovtest",
+       "linkinvbinom",
+       "glmexplorer")
+
+## graphical helper functions
+export("errlines", "errlines.default",
+       "ladderplot")
+
+## import full packages
+import("coda", "rjags")
+
+## import from other packages
+#R2WinBUGS, mefa (>= 2.0), mvnormtest
+importFrom("mefa", "report")
+
+## methods for class zeroinfl
+S3method("plot", "dctable")
+S3method("plot", "lincovtest")
+S3method("print", "glmexplorer")
+S3method("print", "mcmc.list")
+S3method("print", "summary.glmexplorer")
+S3method("print", "summary.mcmc.dc")
+S3method("report", "mcmc.list")
+S3method("summary", "glmexplorer")
+S3method("summary", "mcmc.list.dc")
+
