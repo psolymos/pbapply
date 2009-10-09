@@ -23,20 +23,24 @@ export("errlines", "errlines.default",
 
 ## import full packages
 import("rjags")
-#importFrom(coda, as.mcmc.list, as.mcmc, spectrum0)
 
 ## import from other packages
-#R2WinBUGS, mefa (>= 2.0), mvnormtest
 importFrom("mefa", "report")
+importFrom("mvnormtest", "mshapiro.test")
+importFrom("R2WinBUGS", "write.model")
+#importFrom(coda, as.mcmc.list, as.mcmc, spectrum0)
 
-## methods for class zeroinfl
+## methods
 S3method("plot", "dctable")
+S3method("print", "mcmc.list")
+S3method("report", "mcmc.list") ## this has to be replaced by mcmcapply
+S3method("vcov", "mcmc.list")
+S3method("quantile", "mcmc.list")
+S3method("summary", "mcmc.list.dc")
+
 S3method("plot", "lincovtest")
 S3method("print", "glmexplorer")
-S3method("print", "mcmc.list")
 S3method("print", "summary.glmexplorer")
 S3method("print", "summary.mcmc.dc")
-S3method("report", "mcmc.list")
 S3method("summary", "glmexplorer")
-S3method("summary", "mcmc.list.dc")
 
