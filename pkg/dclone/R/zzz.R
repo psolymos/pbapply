@@ -17,32 +17,3 @@
     invisible(NULL)
 }
 
-## todo
-##
-## + 1 param case: shapiro.test, unscaled SD
-##   (plus rename mshapiro and mstp) -- done
-## + dctable: $convergence & $statistics
-##   within $statistics list by parameters
-##   (k * stats matrix) -- done## * remove default =1 in dclone ???
-## + rename jags.fit.dclone to dcjags or jags.dclone
-##   (similarly dcbugs/bugs.dclone in future)
-## + rename report???
-## + inits function -- just in example
-## + data$priors and priors function
-## + shapiro.diag: 5000 to decrease until memory is o.k.
-## - clean up methods from Rd
-
-#as.mcmc.list.dc <- function(object) {
-#    class(object) <- c("mcmc.list.dc", class(object))
-#    attr(object, "n.clones") <- nclones(object)
-#    object
-#}
-
-#make.symmetric <- function(x) {
-#    for (i in 1:nrow(x)) {
-#        for (j in 1:ncol(x)) {
-#            tmp <- mean(x[i,j], x[j,i])
-#            x[i,j] <- x[j,i] <- tmp
-#   }}
-#    x
-#}

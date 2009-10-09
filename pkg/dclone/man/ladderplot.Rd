@@ -1,6 +1,7 @@
 \name{ladderplot}
 \Rdversion{1.1}
 \alias{ladderplot}
+\alias{ladderplot.default}
 \title{
 Ladder plot
 }
@@ -8,7 +9,8 @@ Ladder plot
 Makes a ladder plot.
 }
 \usage{
-ladderplot(x, col=1, pch=19, lty=1, xlim=c(0.5, ncol(x) + 0.5),
+ladderplot(x, ...)
+\method{ladderplot}{default}(x, col=1, pch=19, lty=1, xlim=c(0.5, ncol(x) + 0.5),
 ylim=range(x), vertical = TRUE, ...)
 }
 \arguments{

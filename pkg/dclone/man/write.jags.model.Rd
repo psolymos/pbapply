@@ -1,5 +1,5 @@
 \encoding{UTF-8}
-\name{clean.jags.model}
+\name{write.jags.model}
 \Rdversion{1.1}
 \alias{write.jags.model}
 \alias{clean.jags.model}

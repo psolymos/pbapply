@@ -1,8 +1,8 @@
 Package: dclone
 Type: Package
 Title: Data Cloning and MCMC Tools for Maximum Likelihood Methods
-Version: 0.2-4
-Date: 2009-07-10
+Version: 0.3-0
+Date: 2009-10-09
 Author: Peter Solymos, Khurram Nadeem and Subhash Lele
 Maintainer: Peter Solymos <solymos@ualberta.ca>
 Description: Convenient functions to help implementing

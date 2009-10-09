@@ -1,9 +1,12 @@
 dclone package version history
 
+Version 0.3-0, October 9, 2009
+
 Version 0.2-4, October 1, 2009
 
     * lincovtest and linkinvbinom: removed (lecso pkg)
     * documentation: cleaned up due to NAMESPACE.
+    * as.mcmc.list.dc: coercion for mcmc.list objects.
     * report.mcmc.list: renamed to mcmcapply.
     * mefa: no longer depends on mefa.
     * vcov and quantile methods: added for mcmc.list

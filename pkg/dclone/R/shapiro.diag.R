@@ -16,7 +16,11 @@ function(x)
 #    } else {
 #        allch <- t(allch)
 #    }
-    rval <- if (nvar(x) == 1)
-        shapiro.test(allch) else mshapiro.test(t(allch))
+    if (nvar(x) == 1) {
+        rval <- shapiro.test(allch)
+    } else {
+        require(mvnormtest)
+        rval <- mshapiro.test(t(allch))
+    }
     rval
 }

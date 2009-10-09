@@ -1,5 +1,5 @@
 \encoding{UTF-8}
-\name{report.mcmc.list}
+\name{mcmcapply}
 \Rdversion{1.1}
 \alias{mcmcapply}
 \alias{print.mcmc.list}

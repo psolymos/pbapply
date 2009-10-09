@@ -15,7 +15,7 @@ Only for preliminary analyses.
 \usage{
 glmexplorer(formula, data, family=poisson(), select=FALSE, ...)
 %\method{print}{glmexplorer}(x, ...)
-%\method{summary}{glmexplorer}(object, crit = 0.05, ...)
+\method{summary}{glmexplorer}(object, crit = 0.05, ...)
 %\method{print}{summary.glmexplorer}(x, ...)
 }
 \arguments{

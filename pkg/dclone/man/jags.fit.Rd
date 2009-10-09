@@ -2,11 +2,6 @@
 \name{jags.fit}
 \Rdversion{1.1}
 \alias{jags.fit}
-%\alias{summary.mcmc.list.dc}
-%\alias{print.summary.mcmc.dc}
-\alias{dcsd}
-%\alias{confint.mcmc.list.dc}
-%\alias{coef.mcmc.list}
 \title{
 Convenient function to fit JAGS models.
 }
@@ -16,13 +11,6 @@ Function to fit a JAGS model in just one line.
 \usage{
 jags.fit(data, params, model, n.chains = 3, n.adapt = 1000,
 n.update = 0, thin = 1, n.iter = 5000, progress.bar = "text", ...)
-%\method{summary}{mcmc.list.dc}(object, 
-%quantiles = c(0.025, 0.25, 0.5, 0.75, 0.975), ...)
-%\method{print}{summary.mcmc.dc}(x, 
-%digits = max(3, .Options$digits - 3), ...)
-dcsd(x, na.rm = FALSE)
-%\method{coef}{mcmc.list}(object, ...)
-%\method{confint}{mcmc.list.dc}(object, parm, level = 0.95, ...)
 }
 \arguments{
   \item{data}{
@@ -52,28 +40,6 @@ Number of iterations.
   \item{progress.bar}{
 Type of progress bar (see \code{\link[rjags]{update.jags}}).
 }
-%  \item{quantiles}{
-%  Quantiles to be shown in the summary of the MCMC object.
-%}
-%  \item{digits}{
-%  Number of significant digits shown in the summary of the MCMC object.
-%}
-%  \item{object}{
-%  MCMC object to be processed.
-%}
-  \item{x}{
-  MCMC object to be processed.
-}
-  \item{na.rm}{
-Logical, if \code{NA}s should be removed.
-}
-%  \item{parm}{
-%A specification of which parameters are to be given confidence intervals, 
-%either a vector of numbers or a vector of names. If missing, all parameters are considered.
-%}
-%  \item{level}{
-%The confidence level required.
-%}
   \item{\dots}{
 Further arguments passed to \code{\link[rjags]{jags.model}}, 
 e.g. the \code{inits} argument.
@@ -84,21 +50,15 @@ An \code{mcmc} or \code{mcmc.list} object. If data cloning is used via the
 \code{data} argument, \code{summary(jags.fit)} returns a modified summary
 containing scaled data cloning standard errors (scaled by \code{sqrt(n.clones)}),
 and \eqn{R_{hat}} values (as returned by \code{\link[rjags]{gelman.diag}}).
-
-%The \code{coef} method returns mean of the posterior MCMC chains
-%for the monitored parameters.
-
-\code{dcsd} returns the data cloning standard errors of a posterior MCMC chain
-calculated as standard deviation times the square root of the number of clones.
-
-%The \code{confint} method returns confidence intervals for the parameters
-%assuming asymptotic normality.
 }
 \author{
 \enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \seealso{
 \code{\link[rjags]{jags.model}}, \code{\link[coda]{coda.samples}}
+
+\code{\link{dcsd}}, \code{\link{confint.mcmc.list.dc}}, 
+\code{\link{coef.mcmc.list}}, \code{\link{quantile.mcmc.list}}, \code{\link{vcov.mcmc.list.dc}}
 }
 \examples{
 \dontrun{
@@ -135,9 +95,6 @@ summary(regmod)
 dcdata <- dclone(jdata, 5, multiply = "N")
 dcmod <- jags.fit(dcdata, jpara, jfun, n.chains = 3)
 summary(dcmod)
-coef(dcmod)
-dcsd(dcmod)
-confint(dcmod)
 }
 }
 \keyword{ models }
