@@ -1,11 +1,13 @@
 #useDynLib("dclone")
+# play with useDynLib(rjags)
+# remove linkinvbinom lincovtest and ladderplot --> lecso
 
 ## main dclone functions
 export("dclone", "dcdim", "dclone.dcdim", "dclone.default", "dclone.list", "dclone.ts",
        "jags.dclone", "jags.fit",
        "clean.jags.model", "write.jags.model",
        "dctable", "dctable.default",
-       "dcsd", "coef.mcmc.list", "confint.mcmc.list.dc", 
+       "dcsd",
        "lambdamax.diag", "shapiro.diag",
        "nclones", "nclones.default", "nclones.list",
        "mcmcapply")
@@ -35,9 +37,10 @@ importFrom("stats", "quantile")
 ## methods
 S3method("plot", "dctable")
 S3method("print", "mcmc.list")
-#S3method("report", "mcmc.list") ## this has to be replaced by mcmcapply
 S3method("vcov", "mcmc.list")
 S3method("quantile", "mcmc.list")
+S3method("coef", "mcmc.list")
+S3method("confint", "mcmc.list.dc")
 S3method("summary", "mcmc.list.dc")
 S3method("print", "summary.mcmc.dc")
 

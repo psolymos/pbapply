@@ -21,8 +21,8 @@ n.update = 0, thin = 1, n.iter = 5000, progress.bar = "text", ...)
 %\method{print}{summary.mcmc.dc}(x, 
 %digits = max(3, .Options$digits - 3), ...)
 dcsd(x, na.rm = FALSE)
-\method{coef}{mcmc.list}(object, ...)
-\method{confint}{mcmc.list.dc}(object, parm, level = 0.95, ...)
+%\method{coef}{mcmc.list}(object, ...)
+%\method{confint}{mcmc.list.dc}(object, parm, level = 0.95, ...)
 }
 \arguments{
   \item{data}{
@@ -58,19 +58,22 @@ Type of progress bar (see \code{\link[rjags]{update.jags}}).
 %  \item{digits}{
 %  Number of significant digits shown in the summary of the MCMC object.
 %}
-  \item{x, object}{
+%  \item{object}{
+%  MCMC object to be processed.
+%}
+  \item{x}{
   MCMC object to be processed.
 }
   \item{na.rm}{
 Logical, if \code{NA}s should be removed.
 }
-  \item{parm}{
-A specification of which parameters are to be given confidence intervals, 
-either a vector of numbers or a vector of names. If missing, all parameters are considered.
-}
-  \item{level}{
-The confidence level required.
-}
+%  \item{parm}{
+%A specification of which parameters are to be given confidence intervals, 
+%either a vector of numbers or a vector of names. If missing, all parameters are considered.
+%}
+%  \item{level}{
+%The confidence level required.
+%}
   \item{\dots}{
 Further arguments passed to \code{\link[rjags]{jags.model}}, 
 e.g. the \code{inits} argument.
@@ -82,14 +85,14 @@ An \code{mcmc} or \code{mcmc.list} object. If data cloning is used via the
 containing scaled data cloning standard errors (scaled by \code{sqrt(n.clones)}),
 and \eqn{R_{hat}} values (as returned by \code{\link[rjags]{gelman.diag}}).
 
-The \code{coef} method returns mean of the posterior MCMC chains
-for the monitored parameters.
+%The \code{coef} method returns mean of the posterior MCMC chains
+%for the monitored parameters.
 
 \code{dcsd} returns the data cloning standard errors of a posterior MCMC chain
 calculated as standard deviation times the square root of the number of clones.
 
-The \code{confint} method returns confidence intervals for the parameters
-assuming asymptotic normality.
+%The \code{confint} method returns confidence intervals for the parameters
+%assuming asymptotic normality.
 }
 \author{
 \enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
