@@ -39,10 +39,10 @@ S3method("print", "mcmc.list")
 S3method("vcov", "mcmc.list")
 S3method("quantile", "mcmc.list")
 S3method("summary", "mcmc.list.dc")
+S3method("print", "summary.mcmc.dc")
 
 S3method("plot", "lincovtest")
 S3method("print", "glmexplorer")
 S3method("print", "summary.glmexplorer")
-S3method("print", "summary.mcmc.dc")
 S3method("summary", "glmexplorer")
 

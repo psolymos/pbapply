@@ -2,11 +2,11 @@
 \name{jags.fit}
 \Rdversion{1.1}
 \alias{jags.fit}
-\alias{summary.mcmc.list.dc}
-\alias{print.summary.mcmc.dc}
+%\alias{summary.mcmc.list.dc}
+%\alias{print.summary.mcmc.dc}
 \alias{dcsd}
-\alias{confint.mcmc.list.dc}
-\alias{coef.mcmc.list}
+%\alias{confint.mcmc.list.dc}
+%\alias{coef.mcmc.list}
 \title{
 Convenient function to fit JAGS models.
 }
@@ -16,10 +16,10 @@ Function to fit a JAGS model in just one line.
 \usage{
 jags.fit(data, params, model, n.chains = 3, n.adapt = 1000,
 n.update = 0, thin = 1, n.iter = 5000, progress.bar = "text", ...)
-\method{summary}{mcmc.list.dc}(object, 
-quantiles = c(0.025, 0.25, 0.5, 0.75, 0.975), ...)
-\method{print}{summary.mcmc.dc}(x, 
-digits = max(3, .Options$digits - 3), ...)
+%\method{summary}{mcmc.list.dc}(object, 
+%quantiles = c(0.025, 0.25, 0.5, 0.75, 0.975), ...)
+%\method{print}{summary.mcmc.dc}(x, 
+%digits = max(3, .Options$digits - 3), ...)
 dcsd(x, na.rm = FALSE)
 \method{coef}{mcmc.list}(object, ...)
 \method{confint}{mcmc.list.dc}(object, parm, level = 0.95, ...)
@@ -52,12 +52,12 @@ Number of iterations.
   \item{progress.bar}{
 Type of progress bar (see \code{\link[rjags]{update.jags}}).
 }
-  \item{quantiles}{
-  Quantiles to be shown in the summary of the MCMC object.
-}
-  \item{digits}{
-  Number of significant digits shown in the summary of the MCMC object.
-}
+%  \item{quantiles}{
+%  Quantiles to be shown in the summary of the MCMC object.
+%}
+%  \item{digits}{
+%  Number of significant digits shown in the summary of the MCMC object.
+%}
   \item{x, object}{
   MCMC object to be processed.
 }

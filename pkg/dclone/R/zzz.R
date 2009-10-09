@@ -26,20 +26,11 @@
 ##   (k * stats matrix) -- done## * remove default =1 in dclone ???
 ## + rename jags.fit.dclone to dcjags or jags.dclone
 ##   (similarly dcbugs/bugs.dclone in future)
-## * rename report???
-## * develop spts class for space-time series
-##   and dclone.spts, dclone.ts (??? mspts, mts)
-## * inits function -- just in example
-## * data$priors and priors function
-## * shapiro.diag: 5000 to decrease until memory is o.k.
-##   with try()
-## * store MCMC results in jags.dclone???
-
-#vcov.mcmc.list <- function(object, ...) cov(report(object, array))
-
-#quantile.mcmc.list <- function(x, ...) {
-#    apply(report(x, array), 2, quantile, ...)
-#}
+## + rename report???
+## + inits function -- just in example
+## + data$priors and priors function
+## + shapiro.diag: 5000 to decrease until memory is o.k.
+## - clean up methods from Rd
 
 #as.mcmc.list.dc <- function(object) {
 #    class(object) <- c("mcmc.list.dc", class(object))
