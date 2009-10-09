@@ -1,35 +1,5 @@
 useDynLib("dclone")
 
-#vcov.mcmc.list <- function(object, ...) cov(report(object, array))
-
-#quantile.mcmc.list <- function(x, ...) {
-#    apply(report(x, array), 2, quantile, ...)
-#}
-
-#as.mcmc.list.dc <- function(object) {
-#    class(object) <- c("mcmc.list.dc", class(object))
-#    attr(object, "n.clones") <- 1
-#    object
-#}
-
-#make.symmetric <- function(x) {
-#    for (i in 1:nrow(x)) {
-#        for (j in 1:ncol(x)) {
-#            tmp <- mean(x[i,j], x[j,i])
-#            x[i,j] <- x[j,i] <- tmp
-#   }}
-#    x
-#}
-
-#Replace .First.lib functions with .onLoad functions or useDynLib directives.
-#.First.lib <- function(lib, pkg){
-#    cat("This is dclone ", utils::packageDescription("dclone", field="Version"),
-#    " (", utils::packageDescription("dclone", field="Date"), ")\n", sep="")
-#    if (is.null(getOption("dclone.crit"))) {
-#        options("dclone.crit"=c(lmax=0.05, pshw=0.05, rhat=1.1))
-#    }
-#}
-
 ## main dclone functions
 export("dclone", "dcdim", "dclone.dcdim", "dclone.default", "dclone.list", "dclone.ts",
        "jags.dclone", "jags.fit",
@@ -52,7 +22,8 @@ export("errlines", "errlines.default",
        "ladderplot")
 
 ## import full packages
-import("coda", "rjags")
+import("rjags")
+#importFrom(coda, as.mcmc.list, as.mcmc, spectrum0)
 
 ## import from other packages
 #R2WinBUGS, mefa (>= 2.0), mvnormtest
