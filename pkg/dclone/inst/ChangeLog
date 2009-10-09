@@ -2,6 +2,12 @@ dclone package versions
 
 Version 0.2-4, October 1, 2009
 
+    * documentation: cleaned up due to NAMESPACE.
+    * report.mcmc.list: renamed to mcmcapply.
+    * mefa: no longer depends on mefa.
+    * vcov and quantile methods: added for mcmc.list
+      objects.
+    * NAMESPACE added.
     * jags.dclone example: Beverton-Holt model added.
     * ladderplot: recycles all graphical parameters.
     * errlines: got vertical = TRUE argument.

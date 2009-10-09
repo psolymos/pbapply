@@ -1,7 +1,7 @@
 \encoding{UTF-8}
 \name{report.mcmc.list}
 \Rdversion{1.1}
-\alias{report.mcmc.list}
+\alias{mcmcapply}
 \alias{print.mcmc.list}
 \title{
 Calculations on mcmc.list objects
@@ -10,7 +10,8 @@ Calculations on mcmc.list objects
 Conveniently calculates statistics for mcmc.list objects, or combining them.
 }
 \usage{
-\method{report}{mcmc.list}(x, FUN, ...)
+mcmcapply(x, FUN, ...)
+%\method{report}{mcmc.list}(x, FUN, ...)
 \method{print}{mcmc.list}(x, ...)
 }
 \arguments{
@@ -25,9 +26,9 @@ Other arguments passed to \code{FUN}.
 }
 }
 \details{
-The \code{report} method reports a certain statistics based on \code{FUN}.
+The \code{mcmcapply} returns a certain statistics based on \code{FUN}.
 
-The \code{report} method prints the object (without possible attributes).
+The \code{print} method prints the object (without possible attributes).
 }
 \value{
 Returns statistic value based on \code{FUN}, using all values in all chains of the MCMC object.
@@ -37,9 +38,7 @@ Returns statistic value based on \code{FUN}, using all values in all chains of t
 }
 \examples{
 data(regmod)
-report(regmod, mean)
-se <- function(x) sd(x) / sqrt(niter(regmod))
-report(regmod, se)
+mcmcapply(regmod, mean)
 }
 \keyword{ methods }
 \keyword{ utilities }

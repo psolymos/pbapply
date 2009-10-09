@@ -1,4 +1,4 @@
 quantile.mcmc.list <-
 function(x, ...)
-    apply(report(x, array), 2, quantile, ...)
+    apply(mcmcapply(x, array), 2, quantile, ...)
 

@@ -6,8 +6,8 @@ function(x)
     mcp <- mcpar(x[[1]])
     vmax <- 5000
     allch <- if (nch * n > vmax) {
-        report(window(x, mcp[1] + n - trunc(vmax / nch), mcp[2]), array)
-    } else report(x, array)
+        mcmcapply(window(x, mcp[1] + n - trunc(vmax / nch), mcp[2]), array)
+    } else mcmcapply(x, array)
 #    if (standardize) {
 #        vcinv <- solve(var(allch))
 #        vceig <- eigen(vcinv)

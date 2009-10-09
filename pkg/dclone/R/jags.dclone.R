@@ -14,7 +14,7 @@ trace=1, stop.if.converged=TRUE, ...)
     converged <- FALSE
     ## internal function to calculate statistics
     dctsfun <- function(x) {
-        y <- report(x, array)
+        y <- mcmcapply(x, array)
         if (nch > 1) {
             rhat <- gelman.diag(x)$psrf[,1]
             rval <- rbind(mean = apply(y, 2, mean),

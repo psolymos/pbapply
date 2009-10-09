@@ -59,7 +59,9 @@ The test used in this function: \code{\link[mvnormtest]{mshapiro.test}}
 This diagnostic test is used in the function \code{\link{jags.dclone}}
 }
 \examples{
+\dontrun{
 data(regmod)
 shapiro.diag(regmod)
+}
 }
 \keyword{ htest }

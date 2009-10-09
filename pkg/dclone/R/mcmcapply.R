@@ -1,4 +1,4 @@
-report.mcmc.list <-
+mcmcapply <-
 function(x, FUN, ...)
 {
     FUN <- match.fun(FUN)

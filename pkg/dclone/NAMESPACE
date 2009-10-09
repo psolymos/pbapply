@@ -1,4 +1,4 @@
-useDynLib("dclone")
+#useDynLib("dclone")
 
 ## main dclone functions
 export("dclone", "dcdim", "dclone.dcdim", "dclone.default", "dclone.list", "dclone.ts",
@@ -7,10 +7,11 @@ export("dclone", "dcdim", "dclone.dcdim", "dclone.default", "dclone.list", "dclo
        "dctable", "dctable.default",
        "dcsd", "coef.mcmc.list", "confint.mcmc.list.dc", 
        "lambdamax.diag", "shapiro.diag",
-       "nclones", "nclones.default", "nclones.list")
+       "nclones", "nclones.default", "nclones.list",
+       "mcmcapply")
 
 ## ststistical helper functions
-export("BIC", "BIC.default", "extractBIC", "extractBIC.default"
+export("BIC", "BIC.default", "extractBIC", "extractBIC.default",
        "nobservations", "nobservations.lm",
        "diagnose",
        "lincovtest",
@@ -25,15 +26,16 @@ export("errlines", "errlines.default",
 import("rjags")
 
 ## import from other packages
-importFrom("mefa", "report")
-importFrom("mvnormtest", "mshapiro.test")
+#importFrom("mefa", "report")
+#importFrom("mvnormtest", "mshapiro.test")
 importFrom("R2WinBUGS", "write.model")
+importFrom("stats", "quantile")
 #importFrom(coda, as.mcmc.list, as.mcmc, spectrum0)
 
 ## methods
 S3method("plot", "dctable")
 S3method("print", "mcmc.list")
-S3method("report", "mcmc.list") ## this has to be replaced by mcmcapply
+#S3method("report", "mcmc.list") ## this has to be replaced by mcmcapply
 S3method("vcov", "mcmc.list")
 S3method("quantile", "mcmc.list")
 S3method("summary", "mcmc.list.dc")

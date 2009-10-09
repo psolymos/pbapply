@@ -1,5 +1,5 @@
 coef.mcmc.list <-
 function (object, ...)
 {
-    report(object, mean, ...)
+    mcmcapply(object, mean, ...)
 }
