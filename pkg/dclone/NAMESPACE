@@ -1,24 +1,24 @@
 ## main dclone functions
-export("dclone", "dcdim", "dclone.dcdim", "dclone.default", "dclone.list", "dclone.ts",
+export("dclone", "dcdim", 
        "jags.dclone", "jags.fit",
        "clean.jags.model", "write.jags.model",
-       "dctable", "dctable.default",
+       "dctable",
        "dcsd",
        "lambdamax.diag", "shapiro.diag",
-       "nclones", "nclones.default", "nclones.list",
+       "nclones",
        "mcmcapply",
        "as.mcmc.list.dc",
        "make.symmetric")
 
 ## ststistical helper functions
-export("BIC", "BIC.default", "extractBIC", "extractBIC.default",
-       "nobservations", "nobservations.lm",
+export("BIC", "extractBIC",
+       "nobservations",
        "diagnose",
        "glmexplorer")
 
 ## graphical helper functions
-export("errlines", "errlines.default",
-       "ladderplot", "ladderplot.default")
+export("errlines", 
+       "ladderplot")
 
 ## import full packages
 import("rjags")
@@ -28,6 +28,15 @@ importFrom("R2WinBUGS", "write.model")
 importFrom("stats", "quantile")
 
 ## methods for main dclone functions/classes
+S3method("dctable", "default")
+S3method("nclones", "default")
+S3method("nclones", "list")
+S3method("as.mcmc.list.dc", "mcmc.list")
+S3method("dclone", "dcdim")
+S3method("dclone", "default")
+S3method("dclone", "list")
+S3method("dclone", "ts")
+
 S3method("plot", "dctable")
 S3method("print", "mcmc.list")
 S3method("quantile", "mcmc.list")
@@ -39,6 +48,12 @@ S3method("summary", "mcmc.list.dc")
 S3method("print", "summary.mcmc.dc")
 
 ## methods for helper functions/classes
+S3method("BIC", "default")
+S3method("extractBIC", "default")
+S3method("nobservations", "lm")
+S3method("errlines", "default")
+S3method("ladderplot", "default")
+
 S3method("print", "glmexplorer")
 S3method("print", "summary.glmexplorer")
 S3method("summary", "glmexplorer")
