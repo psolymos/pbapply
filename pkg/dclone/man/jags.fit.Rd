@@ -49,13 +49,13 @@ e.g. the \code{inits} argument.
 An \code{mcmc} or \code{mcmc.list} object. If data cloning is used via the 
 \code{data} argument, \code{summary(jags.fit)} returns a modified summary
 containing scaled data cloning standard errors (scaled by \code{sqrt(n.clones)}),
-and \eqn{R_{hat}} values (as returned by \code{\link[rjags]{gelman.diag}}).
+and \eqn{R_{hat}} values (as returned by \code{\link[coda]{gelman.diag}}).
 }
 \author{
 \enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \seealso{
-\code{\link[rjags]{jags.model}}, \code{\link[coda]{coda.samples}}
+\code{\link[rjags]{jags.model}}, \code{\link[rjags]{coda.samples}}
 
 \code{\link{dcsd}}, \code{\link{confint.mcmc.list.dc}}, 
 \code{\link{coef.mcmc.list}}, \code{\link{quantile.mcmc.list}}, \code{\link{vcov.mcmc.list.dc}}
