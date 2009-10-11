@@ -21,7 +21,7 @@ export("errlines",
        "ladderplot")
 
 ## import full packages
-import("rjags")
+#import("rjags")
 
 ## import from other packages
 importFrom("R2WinBUGS", "write.model")
