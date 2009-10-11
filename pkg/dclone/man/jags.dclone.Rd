@@ -108,9 +108,10 @@ changes in the estimates.
 Identifyability issues can also be tracked by statistics in the \code{dctable}
 attribute, see Examples how to retrieve these information, and for plotting.
 
-Fixme !!! Add UPDATE details !!! 
+FIXME !!! Add UPDATE and inits details !!! 
 }
 \value{
+FIXME !!! add value here !!!
 }
 \references{
 Lele, S.R., B. Dennis and F. Lutscher, 2007.
@@ -122,8 +123,6 @@ ecological models using Bayesian Markov chain Monte Carlo  methods.
 Khurram Nadeem, \email{knadeem@math.ualberta.ca}
 
 \enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
-}
-\note{
 }
 \seealso{
 Data cloning: \code{\link{dclone}}
