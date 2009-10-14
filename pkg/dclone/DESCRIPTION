@@ -10,8 +10,8 @@ Description: Convenient functions to help implementing
     estimation of complex models using data cloning
     and Bayesian Markov chain Monte Carlo methods.
 License: GPL-2
-Depends: R (>= 2.7.0), rjags, coda (>= 0.13), mvnormtest
-Imports: stats, R2WinBUGS
+Depends: R (>= 2.7.0), rjags, coda (>= 0.13), mvnormtest, R2WinBUGS
+Imports: stats
 SystemRequirements: jags (== 1.0.3)
 URL: https://r-forge.r-project.org/projects/dcr/
 LazyLoad: yes
