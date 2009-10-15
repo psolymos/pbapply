@@ -234,7 +234,7 @@ updfun <- function(x) {
         par <- coef(glm(S ~ log(A), coralheads, family=poisson))
         return(cbind(c(par, 0.001), rep(0.01, length(par) + 1)))
     } else {
-        par <- report(x, mean)
+        par <- mcmcapply(x, mean)
         return(cbind(par, rep(0.1, length(par))))
     }
 }

@@ -11,7 +11,6 @@ Conveniently calculates statistics for mcmc.list objects, or combining them.
 }
 \usage{
 mcmcapply(x, FUN, ...)
-%\method{report}{mcmc.list}(x, FUN, ...)
 \method{print}{mcmc.list}(x, ...)
 }
 \arguments{
