@@ -14,9 +14,8 @@ This data set was done via the code for \code{\link{jags.fit}} function.
 See example of \code{\link{jags.fit}}.
 }
 \examples{
-\dontrun{data(regmod)
+data(regmod)
 summary(regmod)
 plot(regmod)
-}
 }
 \keyword{datasets}

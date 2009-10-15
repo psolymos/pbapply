@@ -19,10 +19,8 @@ The size of coral heads and the community biology of associated decapod crustace
 \emph{Journal of Biogeography} \bold{3}, 35--47.
 }
 \examples{
-\dontrun{
 data(coralheads)
 summary(coralheads)
 str(coralheads)
-}
 }
 \keyword{datasets}
