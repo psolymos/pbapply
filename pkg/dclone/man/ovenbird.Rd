@@ -63,6 +63,32 @@ mod <- jags.dclone(dat, c("beta", "sigma"), jfun1v,
     update = "priors", updatefun = updfun,
     n.adapt = n.adapt, n.update = n.update, n.iter = n.iter)
 summary(mod)
+## 2nd example for ecosite specific HF
+dat2 <- list(Y = ovenbird$count, X = X[, c(1:5, 8:10)], Z = X[, 6:7],
+    n = nrow(ovenbird), np1 = 8, np2 = 2, ngr = 5,
+    gr = model.matrix(~ ecosite, ovenbird))
+jfun3 <- function() {
+    for (i in 1:n) {
+        Y[i] ~ dpois(lambda[i])
+        for (j in 1:np2) {
+            tmp[i, j] <- sum(inprod(gr[i,], gamma[j,]))
+        }
+        log(lambda[i]) <- alpha[i] + inprod(X[i,], beta[1,]) + inprod(Z[i,], tmp[i,])
+        alpha[i] ~ dnorm(0, tau)
+    }
+    for (j in 1:np1) {
+        beta[1,j] ~ dnorm(0, 0.001)
+    }
+    tau ~ dgamma(0.001, 0.001)
+    sigma <- 1.0/sqrt(tau)
+    for (j in 1:np2) {
+        for (k in 1:ngr){
+            gamma[j,k] ~ dnorm(0, 0.001)
+        }
+    }
+}
+mod2 <- jags.fit(dat2, c("beta", "gamma", "sigma"), jfun3)
+summary(mod2)
 }
 }
 \keyword{datasets}
