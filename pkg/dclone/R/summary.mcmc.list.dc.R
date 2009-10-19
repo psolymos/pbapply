@@ -5,11 +5,8 @@ function(object, quantiles = c(0.025, 0.25, 0.5, 0.75, 0.975), ...)
     out <- summary(object, quantiles = quantiles, ...)
     k <- nclones(object)
     out$nclones <- k
-    out$converged <- attr(object, "converged")
     nch <- nchain(object)
     n <- niter(object)
-#    allch <- mcmcapply(object, array)
-#    SD <- sqrt(k) * apply(allch, 2, sd)
     out$statistics <- cbind(out$statistics[,1:2],
         "DC SD"=dcsd(object), out$statistics[,3:4])
     if (nch > 1) {
