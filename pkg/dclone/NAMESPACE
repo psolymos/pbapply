@@ -6,7 +6,7 @@ export("dclone", "dcdim",
        "nclones",
        "mcmcapply",
        "as.mcmc.list.dc",
-       "make.symmetric"
+       "make.symmetric",
        "dctable")
 
 ## graphical helper functions

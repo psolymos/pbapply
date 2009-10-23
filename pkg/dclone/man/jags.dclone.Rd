@@ -60,11 +60,6 @@ returned by this function from the second iteration. See Examples.
   If positive, information is printed during the running of the iterations.
   Higher number indicate more information.
 }
-  \item{stop.if.converged}{
-  Logical, if \code{FALSE} the iteration goes through the values in \code{n.clones}
-  even if convergence has been reached. If \code{TRUE} it returns the model 
-  once converged, and ignores the rest in \code{n.clones}.
-}
   \item{x}{
   An MCMC or a 'dctable' object.
 }
@@ -188,7 +183,7 @@ updfun <- function(x) {
         par <- coef(glm(S ~ log(A), coralheads, family=poisson))
         return(cbind(c(par, 0), rep(0.001, length(par) + 1)))
     } else {
-        par <- mcmcapply(x, mean)
+        par <- coef(x)
         return(cbind(par, rep(0.1, length(par))))
     }
 }
