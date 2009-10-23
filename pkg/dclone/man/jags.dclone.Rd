@@ -20,7 +20,7 @@ trace = 1, ...)
 dctable(x, ...)
 \method{dctable}{default}(x, ...)
 \method{plot}{dctable}(x, which = 1:length(x), 
-position="topright", box.cex = 1, ...)
+position="topright", box.cex = 0.75, ...)
 }
 \arguments{
   \item{data}{
