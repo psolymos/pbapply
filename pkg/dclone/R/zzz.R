@@ -11,7 +11,7 @@
                     fields=c("Version", "Date"))
     cat(paste(pkgname, ver[1], "\t", ver[2], "\n"))
     if (is.null(getOption("dclone.crit"))) {
-        options("dclone.crit"=c(r.hat=1.1))
+        options("dclone.crit"=c(rhat=1.1))
     }
     invisible(NULL)
 }

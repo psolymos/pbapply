@@ -1,6 +1,8 @@
 mcmcapply <-
 function(x, FUN, ...)
 {
+    if (!inherits(x, "mcmc.list")
+        stop("object class is not 'mcmc.list'")
     FUN <- match.fun(FUN)
     nc <- nchain(x)
     nv <- nvar(x)

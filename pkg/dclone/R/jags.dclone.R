@@ -58,7 +58,7 @@ update=NULL, updatefun=NULL, initsfun=NULL, trace=1, ...)
 #                c("n.clones", "lambda.max", "p.shapiro", "multivariate.r.hat")
 #            }
 #            dctc[,1] <- k
-            dcts <- vector("list", length(vn))
+            dcts <- list()
             quantiles <- c(0.025, 0.25, 0.5, 0.75, 0.975)
             extracol <- if (nch > 1)
                 4 else 3
@@ -94,7 +94,7 @@ update=NULL, updatefun=NULL, initsfun=NULL, trace=1, ...)
 #        if (converged && stop.if.converged)
 #            break
     }
-    if (nch > 1 && any(dctmp[,"r.hat"] >= crit["r.hat"]))
+    if (nch > 1 && any(dctmp[,"r.hat"] >= crit["rhat"]))
         warning("chains convergence problem, see R.hat values")
     if (times > 1) {
 #        dctc <- as.data.frame(dctc[1:i,])

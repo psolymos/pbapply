@@ -95,6 +95,37 @@ summary(regmod)
 dcdata <- dclone(jdata, 5, multiply = "N")
 dcmod <- jags.fit(dcdata, jpara, jfun, n.chains = 3)
 summary(dcmod)
+## time series example
+## data and model taken from Ponciano et al. 2009
+## Ecology 90, 356-362.
+beverton.holt <- function() {
+    for (k in 1:ncl) {
+        for(i in 2:(n+1)){
+            ## observations
+            Y[(i-1), k] ~ dpois(exp(X[i, k]))
+            ## state
+            X[i, k] ~ dnorm(mu[i, k], 1 / sigma^2)
+            mu[i, k] <- X[(i-1), k] + log(lambda) - log(1 + beta * exp(X[(i-1), k]))
+        }
+        ## state at t0
+        X[1, k] ~ dnorm(mu0, 1 / sigma^2)
+    }
+    # Priors on model parameters
+    beta ~ dlnorm(-1, 1)
+    sigma ~ dlnorm(0, 1)
+    tmp ~ dlnorm(0, 1)
+    lambda <- tmp + 1
+    mu0 <- log(2)  + log(lambda) - log(1 + beta * 2)
+}
+paurelia <- c(17,29,39,63,185,258,267,392,510,570,650,560,575,650,550,480,520,500)
+dat <- list(ncl=1, n=length(paurelia), Y=as.ts(paurelia))
+dcdat <- dclone(dat, 10, multiply="ncl", unchanged="n")
+mod <- jags.fit(dcdat, c("lambda","beta","sigma"), beverton.holt)
+## compare with results from the paper:
+##   beta   = 0.00235
+##   lambda = 2.274
+##   sigma  = 0.1274
+summary(mod)
 }
 }
 \keyword{ models }
