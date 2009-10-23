@@ -6,7 +6,11 @@ export("dclone", "dcdim",
        "nclones",
        "mcmcapply",
        "as.mcmc.list.dc",
-       "make.symmetric")
+       "make.symmetric"
+       "dctable")
+
+## graphical helper functions
+export("errlines")
 
 ## import from other packages
 importFrom("stats", "quantile")
@@ -19,6 +23,7 @@ S3method("dclone", "dcdim")
 S3method("dclone", "default")
 S3method("dclone", "list")
 S3method("dclone", "ts")
+S3method("dctable", "default")
 
 S3method("print", "mcmc.list")
 S3method("quantile", "mcmc.list")
@@ -28,3 +33,7 @@ S3method("as.mcmc.list.dc", "mcmc.list")
 S3method("confint", "mcmc.list.dc")
 S3method("summary", "mcmc.list.dc")
 S3method("print", "summary.mcmc.dc")
+S3method("plot", "dctable")
+
+## methods for helper functions/classes
+S3method("errlines", "default")
