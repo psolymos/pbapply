@@ -8,7 +8,7 @@ dclone.ts <- function(x, n.clones=1, attrib=TRUE, ...)
     colnames(out) <- paste("clone", 1:n.clones, sep=".")
     if (attrib) {
         attr(out, "n.clones") <- n.clones
-        attr(attr(out, "n.clones"), "method") <- "rep"
+        attr(attr(out, "n.clones"), "method") <- "dim"
     }
     out
 }
