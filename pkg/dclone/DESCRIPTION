@@ -5,14 +5,15 @@ Version: 0.9-0
 Date: 2009-10-19
 Author: Peter Solymos
 Maintainer: Peter Solymos <solymos@ualberta.ca>
-Description: Convenient functions to help implementing
+Description: Low level functions for implementing
     estimating procedures for maximum likelihood
     estimation of complex models using data cloning
-    and Bayesian Markov chain Monte Carlo methods.
+    via Bayesian Markov chain Monte Carlo methods
+    with support for JAGS and WinBUGS/OpenBUGS.
 License: GPL-2
-Depends: R (>= 2.7.0), rjags, coda (>= 0.13), mvnormtest, R2WinBUGS
+Depends: R (>= 2.7.0), rjags, coda (>= 0.13), R2WinBUGS, mvnormtest
 Imports: stats
-SystemRequirements: jags (== 1.0.3)
+SystemRequirements: jags (== 1.0.3), WinBUGS (== 1.4)
 URL: https://r-forge.r-project.org/projects/dcr/
 LazyLoad: yes
 LazyData: true

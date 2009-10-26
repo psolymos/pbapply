@@ -1,5 +1,8 @@
 dclone package version history
 
-Version 1.0-0, October 19, 2009
-
+Version 1.0-0, October 26, 2009
     * First CRAN release with basic functionality.
+
+Version 0.9-0, October 19, 2009
+    * Support for WinBUGS added.
+    * Initial functionality is stable.

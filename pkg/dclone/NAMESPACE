@@ -1,7 +1,9 @@
 ## main dclone functions
 export("dclone", "dcdim", 
        "jags.fit",
-       "jags.dclone",
+       "bugs.fit",
+       "dc.fit",
+#       "jags.dclone",
        "clean.jags.model", "write.jags.model",
        "dcsd",
        "nclones",
@@ -15,6 +17,7 @@ export("errlines")
 
 ## import from other packages
 importFrom("stats", "quantile")
+importFrom("coda", "as.mcmc.list")
 
 ## methods for main dclone functions/classes
 S3method("nclones", "default")
@@ -26,6 +29,7 @@ S3method("dclone", "list")
 S3method("dclone", "ts")
 S3method("dctable", "default")
 
+S3method("as.mcmc.list", "bugs")
 S3method("print", "mcmc.list")
 S3method("quantile", "mcmc.list")
 S3method("coef", "mcmc.list")

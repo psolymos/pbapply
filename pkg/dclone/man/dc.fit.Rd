@@ -1,6 +1,6 @@
-\name{jags.dclone}
+\name{dc.fit}
 \Rdversion{1.1}
-\alias{jags.dclone}
+\alias{dc.fit}
 \alias{dctable}
 \alias{dctable.default}
 \alias{plot.dctable}
@@ -13,10 +13,10 @@ increasing the number of clones used until data cloning convergence
 is reached.
 }
 \usage{
-jags.dclone(data, params, model, n.clones, 
+dc.fit(data, params, model, inits, n.clones, 
 multiply = NULL, unchanged = NULL, 
-update = NULL, updatefun = NULL, initsfun=NULL,
-trace = 1, ...)
+update = NULL, updatefun = NULL, initsfun = NULL,
+trace = 1, flavour = c("jags", "bugs"), ...)
 dctable(x, ...)
 \method{dctable}{default}(x, ...)
 \method{plot}{dctable}(x, which = 1:length(x), 
@@ -31,6 +31,10 @@ Character vector of parameters to be samples.
 }
   \item{model}{
 Character string (name of the model file) or a function containing the model (see Examples).
+}
+  \item{inits}{
+Optional specification of initial values in the form of a list or a function (see Initialization at \code{\link[rjags]{jags.model}}). 
+If missing, will be treated as \code{NULL} and initial values will be generated automatically.
 }
   \item{n.clones}{
 An integer vector containing the numbers of clones to use itaratively.
@@ -50,23 +54,28 @@ is for making priors more informative, and anhancing convergence.
 See Details and Examples.
 }
   \item{updatefun}{
-A function to use for updating \code{data[[update]]}. See Details and Examples.
+A function to use for updating \code{data[[update]]}. It should take and 'mcmc.list' object as argument.
+See Details and Examples.
 }
   \item{initsfun}{
 A function to use for generating initial values, \code{inits} are updated by the object
-returned by this function from the second iteration. See Examples.
+returned by this function from the second iteration. If initial values
+are not dependent on the previous iteration, this should be \code{NULL}, otherwise,
+it should take and 'mcmc.list' object as argument. See Examples.
 }
   \item{trace}{
   If positive, information is printed during the running of the iterations.
   Higher number indicate more information.
 }
+  \item{flavour}{
+  If \code{"jags"}, the function \code{\link{jags.fit}} is called. If \code{"bugs"}, the function \code{\link{bugs.fit}} is called.
+}
   \item{x}{
   An MCMC or a 'dctable' object.
 }
-  \item{type}{
-  What to plot. Besides the default \code{"convergence"} (plot convergence
-  diagnostics), character names or integer indices of the estimated parameters
-  can be given.
+  \item{which}{
+  What to plot, character names or integer indices of the estimated parameters
+  are accepted.
 }
   \item{position}{
   Position for the legend, as for \code{\link{legend}}.
@@ -75,13 +84,11 @@ returned by this function from the second iteration. See Examples.
   Scaling factor for the interquartile boxes.
 }
   \item{\dots}{
-  Other values supplied to \code{\link{jags.fit}}, e.g.
-  initial values, \code{n.chains}, \code{n.adapt}, 
-    \code{n.update}, \code{thin}, \code{n.iter}.
+  Other values supplied to \code{\link{jags.fit}}, or \code{\link{bugs.fit}}, depending on the \code{flavour} argument.
 }
 }
 \details{
-The function fits a JAGS model with increasing numbers of clones, as supplied by
+The function fits a JAGS/BUGS model with increasing numbers of clones, as supplied by
 the argument \code{k}. Data cloning is done by the function \code{dclone} using
 the arguments \code{multiply} and \code{unchanged}.
 

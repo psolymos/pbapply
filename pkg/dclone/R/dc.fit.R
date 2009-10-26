@@ -1,17 +1,32 @@
-jags.dclone <- 
-function(data, params, model, n.clones, multiply=NULL, unchanged=NULL, 
-update=NULL, updatefun=NULL, initsfun=NULL, trace=1, ...)
+dc.fit <- 
+function(data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL, 
+update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs"), ...)
 {
+    flavour <- match.arg(flavour)
     if (identical(n.clones, 1))
         stop("'n.clones = 1' gives the Bayesian answer, no need for DC")
-    if (!is.null(update) != !is.null(updatefun))
-        stop("both 'update' and 'updatefun' must be provided")
+## relative convergence is compared with k=1, thus it is necessary to have it
+#    if (!(1 %in% n.clones))
+#        n.clones <- c(1, n.clones)
     k <- n.clones[order(n.clones)]
     k <- unique(k)
     times <- length(k)
     crit <- getOption("dclone.crit")
+    ## evaluate updating
+    if (!is.null(update) != !is.null(updatefun))
+        stop("both 'update' and 'updatefun' must be provided")
+    if (!is.null(update)) {
+        unchanged <- c(unchanged, update)
+        updatefun <- match.fun(updatefun)
+    }
+    ## evaluate inits
+    if (missing(inits))
+        inits <- NULL
+    if (!is.null(initsfun))
+        initsfun <- match.fun(initsfun)
+## not sure if this is needed once convergence results are stored
 #    converged <- FALSE
-    ## internal function to calculate statistics
+    ## internal function to calculate dctable statistics
     dctsfun <- function(x) {
         y <- mcmcapply(x, array)
         if (nch > 1) {
@@ -27,25 +42,28 @@ update=NULL, updatefun=NULL, initsfun=NULL, trace=1, ...)
         }
         t(rval)
     }
-    ## evaluate updating
-    if (!is.null(update)) {
-        unchanged <- c(unchanged, update)
-        updatefun <- match.fun(updatefun)
-    }
-    ## evaluate inits
-    if (!is.null(initsfun))
-        initsfun <- match.fun(initsfun)
     ## iteration starts here
     for (i in 1:times) {
         tmpch <- if (k[i] == 1) "clone" else "clones"
         if (trace)
             cat("\nFitting model with", k[i], tmpch, "\n\n")
         jdat <- dclone(data, k[i], multiply=multiply, unchanged=unchanged)
-        mod <- if (is.null(initsfun)) {
-            jags.fit(jdat, params, model, ...)
+
+#        mod <- if (is.null(initsfun)) {
+#            jags.fit(jdat, params, model, ...)
+#        } else {
+#            jags.fit(jdat, params, model, inits = inits, ...)
+#        }
+
+#        mod <- bugs.fit(jdat, params, model, initsfun, ...)
+#        mod <- as.mcmc.list(mod)
+
+        mod <- if (flavour == "jags") {
+            jags.fit(jdat, params, model, inits, ...)
         } else {
-            jags.fit(jdat, params, model, inits = inits, ...)
+            bugs.fit(jdat, params, model, inits, format="mcmc.list", DIC=FALSE, ...)
         }
+
         ## dctable evaluation
         if (i == 1) {
             vn <- varnames(mod)
