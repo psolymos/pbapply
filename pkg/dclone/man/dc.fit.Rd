@@ -121,9 +121,7 @@ Model fitting: \code{\link{jags.fit}}
 }
 \examples{
 \dontrun{
-## THIS MAY TAKE LONG TIME
-## simulation
-## Poisson GLMM
+## simulation for Poisson GLMM
 set.seed(1234)
 n <- 20
 beta <- c(2, -1)
@@ -148,59 +146,42 @@ jfun1 <- function() {
 ## data
 jdata <- list(n = n, Y = Y, X = X, np = NCOL(X))
 ## number of clones to be used, etc.
-ncl <- c(1, seq(10, 100, len=10))
-n.adapt <- 2000
-n.update <- 3000
-n.iter <- 5000
 ## iteartive fitting
-jmod <- jags.dclone(jdata, c("beta", "sigma"), jfun1, 
-    n.clones = ncl, multiply = "n", unchanged = "np",
-    n.adapt = n.adapt, n.update = n.update, n.iter = n.iter)
+jmod <- dc.fit(jdata, c("beta", "sigma"), jfun1, 
+    n.clones = 1:5, multiply = "n", unchanged = "np")
 ## summary with DC SE and R hat
-## it is also noted if convergence is reached
 summary(jmod)
-## coralheads example
-data(coralheads)
-chx <- model.matrix(~log(A), coralheads)
-chd <- list(Y = coralheads$S, X = chx, n = nrow(coralheads), np = 2)
-chm <- jags.dclone(chd, c("beta", "sigma"), jfun1, 
-    n.clones = ncl, multiply = "n", unchanged = "np",
-    n.adapt = n.adapt, n.update = n.update, n.iter = n.iter)
-dc <- dctable(chm)
-opar <- par(mfrow=c(1, 3))
-plot(dc, 1)
-plot(dc, 2)
-plot(dc, 3)
-par(opar)
+dct <- dctable(jmod)
+plot(dct)
 ## How to use estimates to make priors more informative?
-jfun1v <- function() {
+glmm.model.up <- function() {
     for (i in 1:n) {
         Y[i] ~ dpois(lambda[i])
         log(lambda[i]) <- alpha[i] + inprod(X[i,], beta[1,])
         alpha[i] ~ dnorm(0, 1/sigma^2)
     }
-    for (j in 1:np) {
+    for (j in 1:p) {
         beta[1,j] ~ dnorm(priors[j,1], priors[j,2])
     }
-    sigma ~ dlnorm(priors[(np+1),1], priors[(np+1),2])
+    sigma ~ dgamma(priors[(p+1),2], priors[(p+1),1])
 }
 ## function for updating, x is an MCMC object
-updfun <- function(x) {
+upfun <- function(x) {
     if (missing(x)) {
-        par <- coef(glm(S ~ log(A), coralheads, family=poisson))
-        return(cbind(c(par, 0), rep(0.001, length(par) + 1)))
+        p <- ncol(X)
+        return(cbind(c(rep(0, p), 0.001), rep(0.001, p+1)))
     } else {
         par <- coef(x)
-        return(cbind(par, rep(0.1, length(par))))
+        return(cbind(par, rep(0.01, length(par))))
     }
 }
-chdv <- list(Y = coralheads$S, X = chx, n = nrow(coralheads), np = 2,
-    priors = updfun())
-chmv <- jags.dclone(chdv, c("beta", "sigma"), jfun1v, 
-    n.clones = ncl, multiply = "n", unchanged = "np",
-    update = "priors", updatefun = updfun,
-    n.adapt = n.adapt, n.update = n.update, n.iter = n.iter)
-summary(chmv)
+updat <- list(n = n, Y = Y, X = X, p = ncol(X), priors = upfun())
+dcmod <- dc.fit(updat, c("beta", "sigma"), glmm.model.up,
+    n.clones = 1:5, multiply = "n", unchanged = "p",
+    update = "priors", updatefun = upfun)
+summary(dcmod)
+dct <- dctable(dcmod)
+plot(dct)
 ## time series example
 ## data and model taken from Ponciano et al. 2009
 ## Ecology 90, 356-362.

@@ -7,11 +7,12 @@
 Data Cloning
 }
 \description{
-Convenient functions to help implementing 
-estimating procedures for maximum likelihood
-estimation of complex models using data cloning
-and Bayesian Markov chain Monte Carlo methods
-as proposed in Lele et al. (2007).
+Low level functions for implementing
+    maximum likelihood estimating procedures for 
+    complex models using data cloning (Lele et al. 2007) and Bayesian
+    Markov chain Monte Carlo methods with support 
+    for JAGS, WinBUGS and OpenBUGS.
+    Convenient functions to help implementing 
 }
 \author{
 Authors: \enc{P\'eter S\'olymos}{Peter Solymos}

@@ -38,5 +38,6 @@ Returns statistic value based on \code{FUN}, using all values in all chains of t
 \examples{
 data(regmod)
 mcmcapply(regmod, mean)
+mcmcapply(regmod, sd)
 }
 \keyword{ utilities }

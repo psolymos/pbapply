@@ -66,7 +66,7 @@ of the statistics will not be applicable.
 \enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \seealso{
-\code{\link{jags.fit}}
+\code{\link{jags.fit}}, \code{\link{bugs.fit}}
 }
 \examples{
 \dontrun{

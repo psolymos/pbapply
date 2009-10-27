@@ -105,7 +105,7 @@ jfun <- function() {
         Y[i] ~ dnorm(mu[i], tau)
         mu[i] <- alpha + beta * (x[i] - x.bar)
     }
-    x.bar <- mean(x)
+    x.bar <- mean(x[])
     alpha ~ dnorm(0.0, 1.0E-4)
     beta ~ dnorm(0.0, 1.0E-4)
     sigma <- 1.0/sqrt(tau)
@@ -124,7 +124,7 @@ Y <- rnorm(N, mean = linpred, sd = sigma)
 jdata <- list(N = N, Y = Y, x = x)
 ## what to monitor
 jpara <- c("alpha", "beta", "sigma")
-## fit the model
+#### fit the model with JAGS
 regmod <- jags.fit(jdata, jpara, jfun, n.chains = 3)
 ## model summary
 summary(regmod)
@@ -132,38 +132,31 @@ summary(regmod)
 dcdata <- dclone(jdata, 5, multiply = "N")
 dcmod <- jags.fit(dcdata, jpara, jfun, n.chains = 3)
 summary(dcmod)
-## time series example
-## data and model taken from Ponciano et al. 2009
-## Ecology 90, 356-362.
-beverton.holt <- function() {
-    for (k in 1:ncl) {
-        for(i in 2:(n+1)){
-            ## observations
-            Y[(i-1), k] ~ dpois(exp(X[i, k]))
-            ## state
-            X[i, k] ~ dnorm(mu[i, k], 1 / sigma^2)
-            mu[i, k] <- X[(i-1), k] + log(lambda) - log(1 + beta * exp(X[(i-1), k]))
-        }
-        ## state at t0
-        X[1, k] ~ dnorm(mu0, 1 / sigma^2)
-    }
-    # Priors on model parameters
-    beta ~ dlnorm(-1, 1)
-    sigma ~ dlnorm(0, 1)
-    tmp ~ dlnorm(0, 1)
-    lambda <- tmp + 1
-    mu0 <- log(2)  + log(lambda) - log(1 + beta * 2)
+#### fitting with WinBUGS, bugs example
+data(schools)
+dat <- list(J = nrow(schools), y = schools$estimate, sigma.y = schools$sd)
+bugs.model <- function(){
+       for (j in 1:J){
+         y[j] ~ dnorm (theta[j], tau.y[j])
+         theta[j] ~ dnorm (mu.theta, tau.theta)
+         tau.y[j] <- pow(sigma.y[j], -2)
+       }
+       mu.theta ~ dnorm (0.0, 1.0E-6)
+       tau.theta <- pow(sigma.theta, -2)
+       sigma.theta ~ dunif (0, 1000)
+     }  
+inits <- function(){
+    list(theta=rnorm(nrow(schools), 0, 100), mu.theta=rnorm(1, 0, 100),
+         sigma.theta=runif(1, 0, 100))
 }
-paurelia <- c(17,29,39,63,185,258,267,392,510,570,650,560,575,650,550,480,520,500)
-dat <- list(ncl=1, n=length(paurelia), Y=as.ts(paurelia))
-dcdat <- dclone(dat, 10, multiply="ncl", unchanged="n")
-mod <- jags.fit(dcdat, c("lambda","beta","sigma"), beverton.holt)
-## compare with results from the paper:
-##   beta   = 0.00235
-##   lambda = 2.274
-##   sigma  = 0.1274
-summary(mod)
+param <- c("mu.theta", "sigma.theta")
+sim <- bugs.fit(dat, param, bugs.model, inits)
+dat2 <- dclone(dat, 2, multiply="J")
+sim2 <- bugs.fit(dat2, param, bugs.model)
+#### fitting the model with OpenBUGS
+sim3 <- bugs.fit(dat2, param, bugs.model, program="openbugs", n.thin=1)
+#### fitting the model with JAGS
+sim4 <- jags.fit(dat2, param, bugs.model)
 }
 }
 \keyword{ models }
-
