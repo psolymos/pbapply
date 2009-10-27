@@ -13,6 +13,9 @@ The data set contains observations of 310 sites of the Alberta Biodiversity Moni
 
 \code{ecosite}: factor with 5 levels, ecological categorisation of the sites.
 
+\code{uplow}: factor with 2 levels, ecological categorisation of the sites
+(same es ecosite but levels are grouped into \code{upland} and \code{lowland}).
+
 \code{thd}: numeric, percentage of total humab disturbance
 based on interpreted 3 x 7 km photoplots centered on each site.
 
