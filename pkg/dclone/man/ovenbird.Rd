@@ -7,7 +7,7 @@
 Abundances of ovenbird in Alberta
 }
 \description{
-The data set contains observations of 310 sites of the Alberta Biodiversity Monitoring Institute.
+The data set contains observations of 198 sites of the Alberta Biodiversity Monitoring Institute.
 
 \code{count}: integer, ovenbird counts per site.
 
