@@ -1,14 +1,13 @@
 plot.dctable <-
-function(x, which = 1:length(x), type = c("all", "sd"), position = "topright", box.cex = 0.75, ...)
+function(x, which = 1:length(x), type=c("all", "sd"), position = "topright", box.cex = 0.75, ...)
 {
     plotall <- function(param, show.legend, type, ...) {
         y <- x[[param]]
+        xlim <- range(xval - w/2, xval + w/2)
         if (type=="all") {
-            xlim <- range(xval - w/2, xval + w/2)
             ylim <- range(y[,"2.5%"], y[,"97.5%"], y$mean - y$sd, y$mean + y$sd)
         } else {
-            xlim <- range(0, 1)
-            ylim <- range(1/k)
+            ylim <- range(0, 1)
         }
         pch <- rep(21, nrow(y))
         if (!is.null(y$r.hat)) {
