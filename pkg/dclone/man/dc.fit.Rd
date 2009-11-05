@@ -20,7 +20,8 @@ trace = 1, flavour = c("jags", "bugs"), ...)
 dctable(x, ...)
 \method{dctable}{default}(x, ...)
 \method{plot}{dctable}(x, which = 1:length(x), 
-position="topright", box.cex = 0.75, ...)
+type = c("all", "sd"),
+position = "topright", box.cex = 0.75, ...)
 }
 \arguments{
   \item{data}{
@@ -76,6 +77,13 @@ it should take and 'mcmc.list' object as argument. See Examples.
   \item{which}{
   What to plot, character names or integer indices of the estimated parameters
   are accepted.
+}
+  \item{type}{
+  Type of plot to be drawn. \code{all} results in plotting means, standard deviations and quantiles
+  agains the number of clones as boxplot. \code{sd} reults in plotting the scaled standard deviations
+  agains the number of clones. This is possible if there is an uncloned (\code{n.clones = 1}) iteration
+  step in the \code{dctable} result. In this case standard deviations are divided by this uncloned
+  standard deviation. Along with the values, the 1/\code{n.clones} line is plotted.
 }
   \item{position}{
   Position for the legend, as for \code{\link{legend}}.
@@ -182,6 +190,7 @@ dcmod <- dc.fit(updat, c("beta", "sigma"), glmm.model.up,
 summary(dcmod)
 dct <- dctable(dcmod)
 plot(dct)
+plot(dct, type = "sd")
 ## time series example
 ## data and model taken from Ponciano et al. 2009
 ## Ecology 90, 356-362.

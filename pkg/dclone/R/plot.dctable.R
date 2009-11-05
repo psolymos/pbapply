@@ -1,17 +1,28 @@
 plot.dctable <-
-function(x, which = 1:length(x), position = "topright", box.cex = 0.75, ...)
+function(x, which = 1:length(x), type = c("all", "sd"), position = "topright", box.cex = 0.75, ...)
 {
-    plot1 <- function(param, show.legend, ...) {
+    plotall <- function(param, show.legend, type, ...) {
         y <- x[[param]]
-        xlim <- range(xval - w/2, xval + w/2)
-        ylim <- range(y[,"2.5%"], y[,"97.5%"], y$mean - y$sd, y$mean + y$sd)
+        if (type=="all") {
+            xlim <- range(xval - w/2, xval + w/2)
+            ylim <- range(y[,"2.5%"], y[,"97.5%"], y$mean - y$sd, y$mean + y$sd)
+        } else {
+            xlim <- range(0, 1)
+            ylim <- range(1/k)
+        }
         pch <- rep(21, nrow(y))
         if (!is.null(y$r.hat)) {
             pch[y$r.hat < crit] <- 19
         }
-        plot(xval, y$mean, ylim=ylim, xlim=xlim, pch=pch, type = "b", lty=2,
-            xlab = "Number of clones", ylab="Estimate",
-            main = param, axes = FALSE, ...)
+        if (type=="all") {
+            plot(xval, y$mean, ylim=ylim, xlim=xlim, pch=pch, type = "b", lty=2,
+                xlab = "Number of clones", ylab="Estimate",
+                main = param, axes = FALSE, ...)
+        } else {
+            plot(xval, y$sd/y$sd[1], ylim=ylim, xlim=xlim, pch=pch, type = "b", lty=1,
+                xlab = "Number of clones", ylab="Scaled Standard Deviation",
+                main = param, axes = FALSE, ...)
+        }
         axis(1, xval, k)
         axis(2)
         box()
@@ -20,13 +31,20 @@ function(x, which = 1:length(x), position = "topright", box.cex = 0.75, ...)
                 legend=c(paste("R.hat >= ", round(crit, 1), sep=""),
                 paste("R.hat < ", round(crit, 1), sep="")))
         }
-        errlines(xval, cbind(y$mean - y$sd, y$mean + y$sd))
-        errlines(xval, cbind(y[,"25%"], y[,"50%"]), width=w, code=3, type="b")
-        errlines(xval, cbind(y[,"50%"], y[,"75%"]), width=w, code=3, type="b")
-        points(xval, y[,"2.5%"], pch="x")
-        points(xval, y[,"97.5%"], pch="x")
+        if (type=="all") {
+            errlines(xval, cbind(y$mean - y$sd, y$mean + y$sd))
+            errlines(xval, cbind(y[,"25%"], y[,"50%"]), width=w, code=3, type="b")
+            errlines(xval, cbind(y[,"50%"], y[,"75%"]), width=w, code=3, type="b")
+            points(xval, y[,"2.5%"], pch="x")
+            points(xval, y[,"97.5%"], pch="x")
+        } else {
+            lines(xval, 1/k, lty=2)
+        }
     }
+    type <- match.arg(type)
     k <- x[[1]]$n.clones
+    if (type == "sd" && k[1] != 1)
+        stop("cannot plot without k = 1")
     xval <- 1:length(k)
     crit <- getOption("dclone.crit")["rhat"]
     nam <- names(x)[which]
@@ -41,7 +59,7 @@ function(x, which = 1:length(x), position = "topright", box.cex = 0.75, ...)
     }
     opar <- par(mfrow=c(nr, nc))
     for (i in 1:m) {
-        plot1(nam[i], nam[i] == nam[m], ...)
+        plotall(nam[i], nam[i] == nam[m], type, ...)
     }
     par(opar)
     invisible(NULL)
