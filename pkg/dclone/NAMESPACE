@@ -3,14 +3,13 @@ export("dclone", "dcdim",
        "jags.fit",
        "bugs.fit",
        "dc.fit",
-#       "jags.dclone",
        "clean.jags.model", "write.jags.model",
        "dcsd",
        "nclones",
        "mcmcapply",
        "as.mcmc.list.dc",
        "make.symmetric",
-       "dctable")
+       "dctable", "extractdctable")
 
 ## graphical helper functions
 export("errlines")
@@ -28,6 +27,7 @@ S3method("dclone", "default")
 S3method("dclone", "list")
 S3method("dclone", "ts")
 S3method("dctable", "default")
+S3method("extractdctable", "default")
 
 S3method("as.mcmc.list", "bugs")
 S3method("print", "mcmc.list")

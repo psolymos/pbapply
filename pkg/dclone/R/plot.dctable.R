@@ -1,13 +1,13 @@
 plot.dctable <-
-function(x, which = 1:length(x), type=c("all", "sd"), position = "topright", box.cex = 0.75, ...)
+function(x, which = 1:length(x), type=c("all", "var"), position = "topright", box.cex = 0.75, ...)
 {
-    plotall <- function(param, show.legend, type, ...) {
+    plotit <- function(param, show.legend, ...) {
         y <- x[[param]]
         xlim <- range(xval - w/2, xval + w/2)
         if (type=="all") {
             ylim <- range(y[,"2.5%"], y[,"97.5%"], y$mean - y$sd, y$mean + y$sd)
         } else {
-            ylim <- range(0, 1)
+            ylim <- range(0, 1, y$sd^2/y$sd[1]^2)
         }
         pch <- rep(21, nrow(y))
         if (!is.null(y$r.hat)) {
@@ -18,8 +18,8 @@ function(x, which = 1:length(x), type=c("all", "sd"), position = "topright", box
                 xlab = "Number of clones", ylab="Estimate",
                 main = param, axes = FALSE, ...)
         } else {
-            plot(xval, y$sd/y$sd[1], ylim=ylim, xlim=xlim, pch=pch, type = "b", lty=1,
-                xlab = "Number of clones", ylab="Scaled Standard Deviation",
+            plot(xval, y$sd^2/y$sd[1]^2, ylim=ylim, xlim=xlim, pch=pch, type = "b", lty=1,
+                xlab = "Number of clones", ylab="Scaled Variance",
                 main = param, axes = FALSE, ...)
         }
         axis(1, xval, k)
@@ -37,13 +37,12 @@ function(x, which = 1:length(x), type=c("all", "sd"), position = "topright", box
             points(xval, y[,"2.5%"], pch="x")
             points(xval, y[,"97.5%"], pch="x")
         } else {
-            lines(xval, 1/k, lty=2)
+            lines(xval, kmin/k, lty=2)
         }
     }
     type <- match.arg(type)
     k <- x[[1]]$n.clones
-    if (type == "sd" && k[1] != 1)
-        stop("cannot plot without k = 1")
+    kmin <- min(k)
     xval <- 1:length(k)
     crit <- getOption("dclone.crit")["rhat"]
     nam <- names(x)[which]
@@ -58,7 +57,7 @@ function(x, which = 1:length(x), type=c("all", "sd"), position = "topright", box
     }
     opar <- par(mfrow=c(nr, nc))
     for (i in 1:m) {
-        plotall(nam[i], nam[i] == nam[m], type, ...)
+        plotit(nam[i], nam[i] == nam[m], ...)
     }
     par(opar)
     invisible(NULL)

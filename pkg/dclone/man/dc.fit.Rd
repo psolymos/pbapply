@@ -1,9 +1,6 @@
 \name{dc.fit}
 \Rdversion{1.1}
 \alias{dc.fit}
-\alias{dctable}
-\alias{dctable.default}
-\alias{plot.dctable}
 \title{
 Iterative Algorithm for Testing Data Cloning Convergence
 }
@@ -17,11 +14,6 @@ dc.fit(data, params, model, inits, n.clones,
 multiply = NULL, unchanged = NULL, 
 update = NULL, updatefun = NULL, initsfun = NULL,
 trace = 1, flavour = c("jags", "bugs"), ...)
-dctable(x, ...)
-\method{dctable}{default}(x, ...)
-\method{plot}{dctable}(x, which = 1:length(x), 
-type = c("all", "sd"),
-position = "topright", box.cex = 0.75, ...)
 }
 \arguments{
   \item{data}{
@@ -71,26 +63,6 @@ it should take and 'mcmc.list' object as argument. See Examples.
   \item{flavour}{
   If \code{"jags"}, the function \code{\link{jags.fit}} is called. If \code{"bugs"}, the function \code{\link{bugs.fit}} is called.
 }
-  \item{x}{
-  An MCMC or a 'dctable' object.
-}
-  \item{which}{
-  What to plot, character names or integer indices of the estimated parameters
-  are accepted.
-}
-  \item{type}{
-  Type of plot to be drawn. \code{all} results in plotting means, standard deviations and quantiles
-  agains the number of clones as boxplot. \code{sd} reults in plotting the scaled standard deviations
-  agains the number of clones. This is possible if there is an uncloned (\code{n.clones = 1}) iteration
-  step in the \code{dctable} result. In this case standard deviations are divided by this uncloned
-  standard deviation. Along with the values, the 1/\code{n.clones} line is plotted.
-}
-  \item{position}{
-  Position for the legend, as for \code{\link{legend}}.
-}
-  \item{box.cex}{
-  Scaling factor for the interquartile boxes.
-}
   \item{\dots}{
   Other values supplied to \code{\link{jags.fit}}, or \code{\link{bugs.fit}}, depending on the \code{flavour} argument.
 }
@@ -99,12 +71,6 @@ it should take and 'mcmc.list' object as argument. See Examples.
 The function fits a JAGS/BUGS model with increasing numbers of clones, as supplied by
 the argument \code{k}. Data cloning is done by the function \code{dclone} using
 the arguments \code{multiply} and \code{unchanged}.
-
-\code{dctable} returns the \code{"dctable"} attribute of the MCMC object.
-This attribute is created during the iterative data cloning process,
-to store statistics for the sampled parameters,
-because only the last MCMC object is kept. This way, there is a track of
-changes in the estimates.
 
 FIXME !!! Add UPDATE and inits details !!! 
 }
@@ -188,9 +154,6 @@ dcmod <- dc.fit(updat, c("beta", "sigma"), glmm.model.up,
     n.clones = 1:5, multiply = "n", unchanged = "p",
     update = "priors", updatefun = upfun)
 summary(dcmod)
-dct <- dctable(dcmod)
-plot(dct)
-plot(dct, type = "sd")
 ## time series example
 ## data and model taken from Ponciano et al. 2009
 ## Ecology 90, 356-362.
