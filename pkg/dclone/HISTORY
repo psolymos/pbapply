@@ -1,8 +1,8 @@
 dclone package version history
 
-Version 1.0-0, November 9, 2009
-    * Unload problem fixed (reported by Bryan D Ripley).
-    * dctable now can take more than one models as argument.
+Version 1.0-0, November 10, 2009
+    * Unload problem fixed (reported by Brian D Ripley).
+    * dctable now can take more than one models as arguments.
 
 Version 0.9-0, October 19, 2009
     * First CRAN release with basic functionality.
