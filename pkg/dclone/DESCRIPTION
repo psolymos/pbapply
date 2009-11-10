@@ -11,7 +11,7 @@ Description: Low level functions for implementing
     Markov chain Monte Carlo methods with support 
     for JAGS, WinBUGS and OpenBUGS.
 License: GPL-2
-Depends: R (>= 2.7.0), rjags, coda (>= 0.13), R2WinBUGS, mvnormtest
+Depends: R (>= 2.7.0), rjags, coda (>= 0.13), R2WinBUGS
 Imports: stats
 SystemRequirements: jags (== 1.0.3), WinBUGS (== 1.4)
 URL: http://cran.r-project.org/web/packages/dclone, http://r-forge.r-project.org/projects/dcr
