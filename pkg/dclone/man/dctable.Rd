@@ -17,7 +17,7 @@ is reached.
 dctable(x, ...)
 \method{dctable}{default}(x, ...)
 \method{plot}{dctable}(x, which = 1:length(x), 
-type = c("all", "var"),
+type = c("all", "var", "logvar"),
 position = "topright", box.cex = 0.75, ...)
 extractdctable(x, ...)
 \method{extractdctable}{default}(x, ...)
@@ -34,10 +34,11 @@ extractdctable(x, ...)
   are accepted.
 }
   \item{type}{
-  Type of plot to be drawn. \code{all} results in plotting means, standard deviations and quantiles
-  agains the number of clones as boxplot. \code{var} reults in plotting the scaled variances
+  Type of plot to be drawn. \code{"all"} results in plotting means, standard deviations and quantiles
+  agains the number of clones as boxplot. \code{"var"} reults in plotting the scaled variances
   agains the number of clones. In this case variances are divided by the variance of the
-  model with smallest number of clones, \code{min(n.clones)}.
+  model with smallest number of clones, \code{min(n.clones)}. \code{"logvar"} is the same
+  as \code{"var"}, but on the log scale.
   Along with the values, the \code{min(n.clones) / n.clones} line is plotted for reference.
 }
   \item{position}{

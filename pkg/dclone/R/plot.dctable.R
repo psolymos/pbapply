@@ -1,25 +1,30 @@
 plot.dctable <-
-function(x, which = 1:length(x), type=c("all", "var"), position = "topright", box.cex = 0.75, ...)
+function(x, which = 1:length(x), type=c("all", "var", "logvar"), position = "topright", box.cex = 0.75, ...)
 {
     plotit <- function(param, show.legend, ...) {
         y <- x[[param]]
         xlim <- range(xval - w/2, xval + w/2)
-        if (type=="all") {
-            ylim <- range(y[,"2.5%"], y[,"97.5%"], y$mean - y$sd, y$mean + y$sd)
-        } else {
-            ylim <- range(0, 1, y$sd^2/y$sd[1]^2)
-        }
         pch <- rep(21, nrow(y))
         if (!is.null(y$r.hat)) {
             pch[y$r.hat < crit] <- 19
         }
         if (type=="all") {
+            ylim <- range(y[,"2.5%"], y[,"97.5%"], y$mean - y$sd, y$mean + y$sd)
             plot(xval, y$mean, ylim=ylim, xlim=xlim, pch=pch, type = "b", lty=2,
                 xlab = "Number of clones", ylab="Estimate",
                 main = param, axes = FALSE, ...)
         } else {
-            plot(xval, y$sd^2/y$sd[1]^2, ylim=ylim, xlim=xlim, pch=pch, type = "b", lty=1,
-                xlab = "Number of clones", ylab="Scaled Variance",
+            FUN <- switch(type,
+                "var" = function(x) return(x),
+                "logvar" = function(x) log(x))
+            ylim <- switch(type,
+                "var" = range(0, 1, y$sd^2/y$sd[1]^2),
+                "logvar" = range(0, log(y$sd^2/y$sd[1]^2)))
+            ylab <- switch(type,
+                "var" = "Scaled Variance",
+                "logvar" = "log(Scaled Variance)")
+            plot(xval, FUN(y$sd^2/y$sd[1]^2), ylim=ylim, xlim=xlim, pch=pch, type = "b", lty=1,
+                xlab = "Number of clones", ylab=ylab,
                 main = param, axes = FALSE, ...)
         }
         axis(1, xval, k)
@@ -37,7 +42,7 @@ function(x, which = 1:length(x), type=c("all", "var"), position = "topright", bo
             points(xval, y[,"2.5%"], pch="x")
             points(xval, y[,"97.5%"], pch="x")
         } else {
-            lines(xval, kmin/k, lty=2)
+            lines(xval, FUN(kmin/k), lty=2)
         }
     }
     type <- match.arg(type)
