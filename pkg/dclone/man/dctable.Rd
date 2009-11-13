@@ -1,4 +1,4 @@
-\name{dc.fit}
+\name{dctable}
 \Rdversion{1.1}
 \alias{dctable}
 \alias{dctable.default}
