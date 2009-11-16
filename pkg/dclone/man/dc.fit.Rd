@@ -46,14 +46,14 @@ is for making priors more informative, and anhancing convergence.
 See Details and Examples.
 }
   \item{updatefun}{
-A function to use for updating \code{data[[update]]}. It should take and 'mcmc.list' object as argument.
+A function to use for updating \code{data[[update]]}. It should take an 'mcmc.list' object as argument.
 See Details and Examples.
 }
   \item{initsfun}{
 A function to use for generating initial values, \code{inits} are updated by the object
 returned by this function from the second iteration. If initial values
 are not dependent on the previous iteration, this should be \code{NULL}, otherwise,
-it should take and 'mcmc.list' object as argument. See Examples.
+it should take an 'mcmc.list' object as argument. See Examples.
 }
   \item{trace}{
   If positive, information is printed during the running of the iterations.
@@ -101,7 +101,7 @@ sigma <- 0.1
 alpha <- rnorm(n, 0, sigma)
 x <- runif(n)
 X <- model.matrix(~x)
-linpred <- X %*% beta + alpha
+linpred <- X \%*\% beta + alpha
 Y <- rpois(n, exp(linpred))
 ## JAGS model as a function
 jfun1 <- function() {
@@ -176,7 +176,7 @@ beverton.holt <- function() {
     lambda <- tmp + 1
     mu0 <- log(2)  + log(lambda) - log(1 + beta * 2)
 }
-mod <- jags.dclone(dat, c("lambda","beta","sigma"), beverton.holt,
+mod <- dc.fit(dat, c("lambda","beta","sigma"), beverton.holt,
     n.clones=c(2, 5, 10), multiply="ncl", unchanged="n")
 ## compare with results from the paper:
 ##   beta   = 0.00235
