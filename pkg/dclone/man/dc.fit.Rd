@@ -2,12 +2,11 @@
 \Rdversion{1.1}
 \alias{dc.fit}
 \title{
-Iterative Algorithm for Testing Data Cloning Convergence
+Iterative model fitting with data cloning
 }
 \description{
 \code{\link{jags.fit}} is iteratively used to fit a model with
-increasing the number of clones used until data cloning convergence
-is reached.
+increasing the number of clones.
 }
 \usage{
 dc.fit(data, params, model, inits, n.clones, 
@@ -72,7 +71,7 @@ The function fits a JAGS/BUGS model with increasing numbers of clones, as suppli
 the argument \code{k}. Data cloning is done by the function \code{dclone} using
 the arguments \code{multiply} and \code{unchanged}.
 
-FIXME !!! Add UPDATE and inits details !!! 
+An updating function can be provided, see Examples.
 }
 \value{
 An object inheriting from the class 'mcmc.list'.
@@ -84,14 +83,13 @@ ecological models using Bayesian Markov chain Monte Carlo  methods.
 \emph{Ecology Letters} \strong{10}, 551--563.
 }
 \author{
-Khurram Nadeem, \email{knadeem@math.ualberta.ca}
-
-\enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
+\enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}, 
+implementation is based on many discussions with Khurram Nadeem and Subhash Lele.
 }
 \seealso{
-Data cloning: \code{\link{dclone}}
-
-Model fitting: \code{\link{jags.fit}}
+Data cloning: \code{\link{dclone}}. \
+Model fitting: \code{\link{jags.fit}}, \code{\link{bugs.fit}}
+Convergence diagnostics: \code{\link{dctable}}
 }
 \examples{
 \dontrun{
@@ -185,7 +183,6 @@ mod <- jags.dclone(dat, c("lambda","beta","sigma"), beverton.holt,
 ##   lambda = 2.274
 ##   sigma  = 0.1274
 summary(mod)
-## FIXME: initsfun example
 }
 }
 \keyword{ models }

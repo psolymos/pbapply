@@ -3,7 +3,7 @@
 \alias{errlines}
 \alias{errlines.default}
 \title{
-Plot Error Bars
+Plot error bars
 }
 \description{
 The function plots error bars to existing plot.

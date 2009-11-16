@@ -6,12 +6,12 @@
 \alias{extractdctable.default}
 \alias{plot.dctable}
 \title{
-Iterative Algorithm for Testing Data Cloning Convergence
+Retrieve descriptive statistics from fitted objects to evaluate convergence
 }
 \description{
-\code{\link{jags.fit}} is iteratively used to fit a model with
-increasing the number of clones used until data cloning convergence
-is reached.
+The function is used to retrieve descriptive statistics from fitted objects on order to evaluate
+convergence of the data cloning algorithm. This is done via visual display of the results,
+separately for each parameters of interest.
 }
 \usage{
 dctable(x, ...)
@@ -34,12 +34,7 @@ extractdctable(x, ...)
   are accepted.
 }
   \item{type}{
-  Type of plot to be drawn. \code{"all"} results in plotting means, standard deviations and quantiles
-  agains the number of clones as boxplot. \code{"var"} reults in plotting the scaled variances
-  agains the number of clones. In this case variances are divided by the variance of the
-  model with smallest number of clones, \code{min(n.clones)}. \code{"logvar"} is the same
-  as \code{"var"}, but on the log scale.
-  Along with the values, the \code{min(n.clones) / n.clones} line is plotted for reference.
+  Type of plot to be drawn. See Details.
 }
   \item{position}{
   Position for the legend, as for \code{\link{legend}}.
@@ -52,10 +47,22 @@ extractdctable(x, ...)
 \code{dctable} returns the \code{"dctable"} attribute of the MCMC object,
 or if it is \code{NULL}, calculates the \code{dctable} summaries.
 If more than one fitted objects are provided, summaries are calculated
-for all objects.
+for all objects, and results are ordered by the number of clones.
+
+The \code{plot} method helps in graphical representation of the descriptive statistics.
+\code{type = "all"} results in plotting means, standard deviations and quantiles
+against the number of clones as boxplot. \code{type = "var"} reults in plotting the scaled variances
+against the number of clones. In this case variances are divided by the variance of the
+model with smallest number of clones, \code{min(n.clones)}. \code{type = "logvar"} is the same
+as \code{"var"}, but on the log scale.
+Along with the values, the \code{min(n.clones) / n.clones} line is plotted for reference.
 }
 \value{
-An object inheriting from the class 'mcmc.list'.
+An object of class 'dctable'.
+It is a list, and contains as many data frames as the number of parameters in the fitted object.
+Each data frame contains descriptives as the function of the number of clones.
+
+The \code{plot} method produces graphs as side effect.
 }
 \references{
 Lele, S.R., B. Dennis and F. Lutscher, 2007.
@@ -64,9 +71,8 @@ ecological models using Bayesian Markov chain Monte Carlo  methods.
 \emph{Ecology Letters} \strong{10}, 551--563.
 }
 \author{
-Khurram Nadeem, \email{knadeem@math.ualberta.ca}
-
-\enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
+\enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca},
+implementation is based on many discussions with Khurram Nadeem and Subhash Lele.
 }
 \seealso{
 Data cloning: \code{\link{dclone}}

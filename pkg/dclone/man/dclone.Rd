@@ -8,11 +8,11 @@
 \alias{dclone.dcdim}
 \alias{dcdim}
 \title{
-Clone R Objects
+Cloning R objects
 }
 \description{
 Makes clones of R objects, that is values in the object are repeated \eqn{n} times, 
-leaving the original structure of the object intact.
+leaving the original structure of the object intact (in most of the cases).
 }
 \usage{
 dclone(x, n.clones=1, ...)
@@ -68,6 +68,10 @@ combination of the original names and an integer for number of clones.
 
 \code{dcdim} sets the class attribute of an object to \code{"dcdim"}, thus
 \code{dclone} will clone the object by adding an extra dimension for the clones.
+
+List (i.e. BUGS data objects) are handled differently to enable element specific
+determination of the mode of cloning. This can be done via the \code{unchanged}
+and \code{multiply} arguments, or by setting the behaviour by the \code{dcdim} function.
 }
 \references{
 Lele, S.R., B. Dennis and F. Lutscher, 2007.
