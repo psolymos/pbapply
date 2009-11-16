@@ -2,9 +2,11 @@ dc.fit <-
 function(data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL, 
 update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs"), ...)
 {
+    ## initail evals
     flavour <- match.arg(flavour)
     if (identical(n.clones, 1))
         stop("'n.clones = 1' gives the Bayesian answer, no need for DC")
+    ## determine k
     k <- n.clones[order(n.clones)]
     k <- unique(k)
     times <- length(k)
@@ -54,8 +56,10 @@ update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs")
             dcts[[j]][i,-1] <- dctmp[j,]
         }
     }
+    ## warning if R.hat < crit
     if (nch > 1 && any(dctmp[,"r.hat"] >= crit["rhat"]))
         warning("chains convergence problem, see R.hat values")
+    ## finalizing dctable attribute
     dcts <- lapply(dcts, function(z) as.data.frame(z))
     class(dcts) <- "dctable"
     attr(mod, "dctable") <- dcts

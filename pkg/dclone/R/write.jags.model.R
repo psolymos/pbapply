@@ -1,7 +1,6 @@
 write.jags.model <-
 function(model, filename="model.bug", dir=getwd(), n=5)
 {
-    require(R2WinBUGS)
     old.dir <- getwd()
     setwd(dir)
     if (file.exists(filename)) {
