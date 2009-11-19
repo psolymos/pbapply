@@ -3,6 +3,7 @@
 \Rdversion{1.1}
 \alias{write.jags.model}
 \alias{clean.jags.model}
+\alias{custommodel}
 \title{
 Write and remove model file
 }
@@ -12,10 +13,12 @@ Writes or removes a BUGS model file to or from the hard drive.
 \usage{
 write.jags.model(model, filename = "model.bug", dir = getwd(), n = 5)
 clean.jags.model(filename = "model.bug", dir = getwd())
+custommodel(model, exclude = NULL)
 }
 \arguments{
   \item{model}{
 JAGS model to write onto the hard drive (see Example).
+It can be an 'custommodel' object returned by \code{custommodel}.
 }
   \item{filename}{
 Character, the name of the file to write/remove.
@@ -28,6 +31,9 @@ look for the file to remove.
 Numeric, length of a random string to be attached to \code{filename} 
 if \code{filename} already exists.
 }
+  \item{exclude}{
+Numeric, lines of the model to exclude (see Details).
+}
 }
 \details{
 \code{write.jags.model} is built upon the function 
@@ -38,6 +44,10 @@ if \code{filename} already exists.
 intended to be used internally to clean the JAGS 
 model file up after estimating sessions, 
 ideally via the \code{\link{on.exit}} function.
+
+The function \code{custommodel} can be used to exclude some lines
+of the model. This is handy when there are variations of the same model.
+\code{write.jags.model} accepts results returned by \code{custommodel}.
 }
 \value{
 \code{write.jags.model} invisibly returns the name of the file
@@ -47,6 +57,8 @@ The function tries to avoid overwriting existing files.
 \code{clean.jags.model} invisibly returns the result of 
 \code{\link{file.remove}} (logical).
 Original working directory is then restored.
+
+\code{custommodel} returns an object of class 'custommodel', which is a character vector.
 }
 \author{
 \enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
@@ -89,6 +101,23 @@ regmod <- jags.fit(jdata, jpara, jmodnam, n.chains = 3)
 clean.jags.model(jmodnam)
 ## model summary
 summary(regmod)
+## let's customize this model
+jfun <- function() {
+    for (i in 1:n) {
+        Y[i] ~ dpois(lambda[i])
+        Y[i] <- alpha[i] + inprod(X[i,], beta[1,])
+        log(lambda[i]) <- alpha[i] + inprod(X[i,], beta[1,])
+        alpha[i] ~ dnorm(0, 1/sigma^2)
+    }
+    for (j in 1:np) {
+        beta[1,j] ~ dnorm(0, 0.001)
+    }
+    sigma ~ dlnorm(0, 0.001)
+}
+## GLMM
+custommodel(jfun, 4)
+## LM
+custommodel(jfun, c(3,5))
 }
 }
 \keyword{ IO }

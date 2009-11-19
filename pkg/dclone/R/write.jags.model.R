@@ -20,7 +20,11 @@ function(model, filename="model.bug", dir=getwd(), n=5)
     } else {
         filename2 <- filename
     }
-    write.model(model, filename2)
+    if (inherits(model, "custommodel")) {
+        writeLines(model, filename2)
+    } else {
+        write.model(model, filename2)
+    }
     setwd(old.dir)
     invisible(filename2)
 }

@@ -1,5 +1,8 @@
 dclone package version history
 
+Version 1.0-1, November 19, 2009
+    * custommodel function added
+
 Version 1.0-0, November 16, 2009
     * Unload problem fixed (reported by Brian D Ripley).
     * dctable now can take more than one models as arguments.
