@@ -114,6 +114,7 @@ jfun <- function() {
     }
     sigma ~ dlnorm(0, 0.001)
 }
+custommodel(jfun)
 ## GLMM
 custommodel(jfun, 4)
 ## LM
