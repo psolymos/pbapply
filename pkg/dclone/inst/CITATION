@@ -1,0 +1,19 @@
+#citHeader("To cite dclone in publications use:")
+
+#citEntry(entry = "Article",
+#  title        = "dclone: Data Cloning in {R}",
+#  author       = personList(as.person("P\\'eter S\\'olymos")),
+#  journal      = "???",
+#  year         = "2009",
+#  volume       = "1",
+#  number       = "2",
+#  pages        = "00--00",
+#  url          = "???",
+#
+#  textVersion  =
+#  paste("Peter Solymos (2009).",
+#        "dclone: Data Cloning in R.",
+#        "??? 1(2), 00-00.",
+#        "URL ???.")
+#)
+
