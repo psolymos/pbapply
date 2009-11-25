@@ -11,6 +11,12 @@ program=c("winbugs", "openbugs"), DIC=FALSE, dir=getwd(), ...)
         attr(z, "n.clones") <- NULL
         z
     })
+    if (is.function(model) || inherits(model, "custommodel")) {
+        if (is.function(model))
+            model <- match.fun(model)
+        model <- write.jags.model(model)
+        on.exit(clean.jags.model(model))
+    }
     ## WinBUGS evaluation is simple
     ## only default behavour is changed for args
     if (program == "winbugs") {
@@ -18,11 +24,6 @@ program=c("winbugs", "openbugs"), DIC=FALSE, dir=getwd(), ...)
     } else {
     ## OpenBUGS needs model file, and can't provide mcmc.list as output
     ## thin != 1 can cause problems in conversion
-        if (is.function(model)) {
-            model <- match.fun(model)
-            model <- write.jags.model(model)
-            on.exit(clean.jags.model(model))
-        }
         res <- openbugs(data, inits, params, model, DIC=DIC, working.directory=dir, ...)
     }
     ## converting bugs objects into mcmc.list

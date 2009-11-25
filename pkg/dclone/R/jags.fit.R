@@ -3,8 +3,9 @@ function(data, params, model, inits=NULL, n.chains=3, n.adapt=1000, n.update=0, 
 {
     ## inital steps
     n.clones <- nclones.list(data)
-    if (is.function(model)) {
-        model <- match.fun(model)
+    if (is.function(model) || inherits(model, "custommodel")) {
+        if (is.function(model))
+            model <- match.fun(model)
         model <- write.jags.model(model)
         on.exit(clean.jags.model(model))
     }

@@ -1,7 +1,7 @@
 dclone package version history
 
 Version 1.0-1, November 19, 2009
-    * custommodel function added
+    * custommodel function added, fitting functions modified
 
 Version 1.0-0, November 16, 2009
     * Unload problem fixed (reported by Brian D Ripley).
