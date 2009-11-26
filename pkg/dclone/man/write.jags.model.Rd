@@ -18,7 +18,11 @@ custommodel(model, exclude = NULL)
 \arguments{
   \item{model}{
 JAGS model to write onto the hard drive (see Example).
-It can be an 'custommodel' object returned by \code{custommodel}.
+For \code{write.jags.model}, it can be name of a file or a function,
+or it can be an 'custommodel' object returned by \code{custommodel}.
+\code{custommodel} can take its \code{model} argument as function
+or any object type. If \code{model} is not function, its is coerced
+as character.
 }
   \item{filename}{
 Character, the name of the file to write/remove.
