@@ -1,7 +1,7 @@
 ## main dclone functions
 export("dclone", "dcdim", 
        "jags.fit", "bugs.fit", "dc.fit",
-       "jags.pfit", "bugs.pfit",
+       "jags.pfit", "bugs.pfit", "dc.pfit",
        "clean.jags.model", "write.jags.model", "custommodel",
        "dcsd",
        "nclones",
