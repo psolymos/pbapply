@@ -1,5 +1,5 @@
 write.jags.model <-
-function(model, filename="model.bug", dir=getwd(), n=5)
+function(model, filename="model.bug", dir=getwd())
 {
     old.dir <- getwd()
     setwd(dir)
@@ -9,12 +9,12 @@ function(model, filename="model.bug", dir=getwd(), n=5)
             sn[(length(sn) - 1)] <- paste(sn[-length(sn)], collapse=".")
             sn <- sn[-c(1:(length(sn) - 2))]
         }
-        addlet <- paste(letters[sample(1:26, n, TRUE)], collapse="")
-        filename2 <- paste(sn[1], ".", addlet, ".", sn[2], sep="")
+        ff <- tempfile("model","")
+        filename2 <- paste(substr(ff, 2, nchar(ff)), "bug", sep=".")
         if (file.exists(filename2)) {
             while (!file.exists(filename2)) {
-                addlet <- paste(letters[sample(1:26, n, TRUE)], collapse="")
-                filename2 <- paste(sn[1], ".", addlet, ".", sn[2], sep="")
+                ff <- tempfile("model","")
+                filename2 <- paste(substr(ff, 2, nchar(ff)), "bug", sep=".")
             }
         }
     } else {
@@ -28,4 +28,3 @@ function(model, filename="model.bug", dir=getwd(), n=5)
     setwd(old.dir)
     invisible(filename2)
 }
-

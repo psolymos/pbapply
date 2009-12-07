@@ -1,12 +1,12 @@
 ## main dclone functions
 export("dclone", "dcdim", 
-       "jags.fit",
-       "bugs.fit",
-       "dc.fit",
+       "jags.fit", "bugs.fit", "dc.fit",
+       "jags.pfit", "bugs.pfit",
        "clean.jags.model", "write.jags.model", "custommodel",
        "dcsd",
        "nclones",
        "mcmcapply",
+       "mcmc.cluster",
        "as.mcmc.list.dc",
        "make.symmetric",
        "dctable", "extractdctable")

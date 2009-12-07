@@ -1,0 +1,33 @@
+jags.pfit <-
+function(cl, data, params, model, inits, n.chains = 3, load.balancing = TRUE, ...)
+{
+    ## eval args
+    if (n.chains == 1)
+        stop("no need for parallel computing with 1 chain")
+    if (missing(inits))
+        stop("provide initial values")
+    if (length(inits) != n.chains)
+        stop("provide initial values for each chains")
+    if (!all(c(".RNG.name", ".RNG.seed") %in% unique(unlist(lapply(inits, names)))))
+        stop("'.RNG.name' and '.RNG.seed' is missing from 'inits'")
+    if (length(unique(sapply(inits, function(z) z[[".RNG.seed"]]))) == 1)
+        stop("provide different '.RNG.seed' for each chain")
+    ## parallel function to evaluate by mcmc.cluster
+    jagsparallel <- function(i, ...)   {
+        jags.fit(data=cldata$data, params=cldata$params, model=cldata$model, 
+        inits=cldata$inits[[i]], n.chains=1, ...)
+    }
+    ## common data
+    cldata <- list(data=data, params=params, model=model, inits=inits)
+    ## parallel computations
+    mcmc <- mcmc.cluster(cl, 1:n.chains, jagsparallel, cldata, lib="dclone", ...)
+    ## binding the chains
+    res <- as.mcmc.list(lapply(mcmc, as.mcmc))
+    ## attaching attribs and return
+    n.clones <- nclones(data)
+    if (!is.null(n.clones) && n.clones > 1) {
+        attr(res, "n.clones") <- n.clones
+        class(res) <- c("mcmc.list.dc", class(res))
+    }
+    res
+}

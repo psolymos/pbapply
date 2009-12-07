@@ -14,7 +14,7 @@ Convenient functions designed to work well with cloned data arguments.
 jags.fit(data, params, model, inits = NULL, n.chains = 3, n.adapt = 1000,
 n.update = 0, thin = 1, n.iter = 5000, ...)
 bugs.fit(data, params, model, inits = NULL, format = c("mcmc.list", "bugs"), 
-program = c("winbugs", "openbugs"), DIC = FALSE, dir = getwd(), ...)
+program = c("winbugs", "openbugs"), DIC = FALSE, bugs.seed = NULL, dir = getwd(), ...)
 \method{as.mcmc.list}{bugs}(x, ...)
 }
 \arguments{
@@ -53,13 +53,16 @@ and \code{format = "mcmc.list"}, thus \code{n.thin = 1} is advised.)
   \item{program}{
 The program to use, not case sensitive.
 \code{winbugs} calls the function \code{\link[R2WinBUGS]{bugs}},
-\code{openbugs} calls the function \code{\link[R2WinBUGS]{openbugs}} and requires the CRAN package \pkg{BRugs}.
-\code{model} can be a function for \code{program = "openbugs"}, too.
+\code{openbugs} calls the function \code{\link{openbugs.seed}} and requires the CRAN package \pkg{BRugs}.
+\code{model} can be a function or 'custommodel' object for \code{program = "openbugs"}, too.
 }
   \item{DIC}{
 Logical, if deviance information criterion should be computed. (Needed for efficiency reasons, since it is
 opposite to the \code{bugs}/\code{openbugs} defaults, but if \code{format = "mcmc.list"} deviance is
 silently ignored.)
+}
+  \item{bugs.seed}{
+Random seed for WinBUGS and OpenBUGS (default is no seed).
 }
   \item{dir}{
 Identical to \code{working.directory} argument in the \code{bugs}/\code{openbugs} call for setting working directory.

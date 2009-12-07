@@ -1,6 +1,6 @@
 bugs.fit <-
 function(data, params, model, inits=NULL, format=c("mcmc.list", "bugs"), 
-program=c("winbugs", "openbugs"), DIC=FALSE, dir=getwd(), ...)
+program=c("winbugs", "openbugs"), DIC=FALSE, bugs.seed=NULL, dir=getwd(), ...)
 {
     ## not case sensitive evaluation of program arg
     program <- match.arg(tolower(program), c("winbugs", "openbugs"))
@@ -21,11 +21,11 @@ program=c("winbugs", "openbugs"), DIC=FALSE, dir=getwd(), ...)
     ## WinBUGS evaluation is simple
     ## only default behavour is changed for args
     if (program == "winbugs") {
-        res <- bugs(data, inits, params, model, DIC=DIC, codaPkg=FALSE, working.directory=dir, ...)
+        res <- bugs(data, inits, params, model, DIC=DIC, codaPkg=FALSE, working.directory=dir, bugs.seed=bugs.seed, ...)
     } else {
     ## OpenBUGS needs model file, and can't provide mcmc.list as output
     ## thin != 1 can cause problems in conversion
-        res <- openbugs(data, inits, params, model, DIC=DIC, working.directory=dir, ...)
+        res <- openbugs.seed(data, inits, params, model, DIC=DIC, working.directory=dir, bugs.seed=bugs.seed, ...)
     }
     ## converting bugs objects into mcmc.list
     format <- match.arg(format)
