@@ -1,5 +1,5 @@
 \encoding{UTF-8}
-\name{jags.fit}
+\name{jags.pfit}
 \Rdversion{1.1}
 \alias{jags.pfit}
 \alias{bugs.pfit}

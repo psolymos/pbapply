@@ -1,6 +1,7 @@
 \name{dc.fit}
 \Rdversion{1.1}
 \alias{dc.fit}
+\alias{dc.pfit}
 \title{
 Iterative model fitting with data cloning
 }
