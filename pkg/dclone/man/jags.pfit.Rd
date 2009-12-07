@@ -77,7 +77,7 @@ alpha <- 1
 beta <- -1
 sigma <- 0.5
 x <- runif(N)
-linpred <- model.matrix(~x) %*% c(alpha, beta)
+linpred <- model.matrix(~x) \%*\% c(alpha, beta)
 Y <- rnorm(N, mean = linpred, sd = sigma)
 ## list of data for the model
 jdata <- list(N = N, Y = Y, x = x)

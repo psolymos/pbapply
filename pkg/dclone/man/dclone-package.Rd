@@ -19,8 +19,11 @@ Main functions include:
 \code{\link{dclone}}: cloning R objects.
 
 \code{\link{jags.fit}}, \code{\link{bugs.fit}}: conveniently fit BUGS models.
+\code{\link{jags.pfit}}, \code{\link{bugs.pfit}} can be used for parallel
+chain computations on clusters.
 
 \code{\link{dc.fit}}: iterative model fitting by the data cloning algorithm.
+\code{\link{dc.pfit}} can be used for parallel computations on clusters.
 
 \code{\link{dctable}}: help evaluating data cloning convergence by descriptives.
 }
