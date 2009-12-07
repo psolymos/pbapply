@@ -20,7 +20,7 @@ function(cl, data, params, model, inits, n.chains = 3, load.balancing = TRUE, ..
     ## common data
     cldata <- list(data=data, params=params, model=model, inits=inits)
     ## parallel computations
-    mcmc <- mcmc.cluster(cl, 1:n.chains, jagsparallel, cldata, lib="dclone", ...)
+    mcmc <- mcmc.cluster(cl, 1:n.chains, jagsparallel, cldata, lib="dclone", load.balancing=load.balancing, ...)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))
     ## attaching attribs and return

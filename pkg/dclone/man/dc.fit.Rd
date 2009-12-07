@@ -5,16 +5,25 @@
 Iterative model fitting with data cloning
 }
 \description{
-\code{\link{jags.fit}} is iteratively used to fit a model with
-increasing the number of clones.
+\code{\link{jags.fit}} of \code{\link{bugs.fit}} is iteratively used to fit a model with
+increasing the number of clones. The iterative model fitting is sequential in \code{dc.fit} 
+and parallel in \code{dc.pfit}.
 }
 \usage{
 dc.fit(data, params, model, inits, n.clones, 
 multiply = NULL, unchanged = NULL, 
 update = NULL, updatefun = NULL, initsfun = NULL,
 trace = 1, flavour = c("jags", "bugs"), ...)
+dc.pfit(cl, data, params, model, inits, n.clones, 
+multiply=NULL, unchanged=NULL, 
+update=NULL, updatefun=NULL, initsfun=NULL, 
+trace=1, flavour = c("jags", "bugs"), 
+load.balancing = TRUE, ...)
 }
 \arguments{
+  \item{cl}{
+A cluster object created by \code{\link[snow]{makeCluster}}.
+}
   \item{data}{
 A list containing the data.
 }
@@ -61,6 +70,9 @@ it should take an 'mcmc.list' object as argument. See Examples.
 }
   \item{flavour}{
   If \code{"jags"}, the function \code{\link{jags.fit}} is called. If \code{"bugs"}, the function \code{\link{bugs.fit}} is called.
+}
+  \item{load.balancing}{
+Logical, if \code{TRUE} the function \code{\link[snow]{clusterApplyLB}} is used istead of \code{\link[snow]{clusterApply}}.
 }
   \item{\dots}{
   Other values supplied to \code{\link{jags.fit}}, or \code{\link{bugs.fit}}, depending on the \code{flavour} argument.
@@ -183,6 +195,12 @@ mod <- dc.fit(dat, c("lambda","beta","sigma"), beverton.holt,
 ##   lambda = 2.274
 ##   sigma  = 0.1274
 summary(mod)
+## parallel computation
+cl <- makeSOCKcluster(2)
+pmod <- dc.pfit(cl, dat, c("lambda","beta","sigma"), beverton.holt,
+    n.clones=c(2, 5, 10), multiply="ncl", unchanged="n")
+summary(pmod)
+stopCluster(cl)
 }
 }
 \keyword{ models }

@@ -37,8 +37,9 @@ update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs")
         ## dctable evaluation
         if (i == 1) {
             vn <- varnames(mod)
-            nch <- nchain(mod)
             dcts <- list()
+            ## note: quantiles must remain unchanged, because these values are
+            ## defined in extractdctable.default
             quantiles <- c(0.025, 0.25, 0.5, 0.75, 0.975)
             dcts0 <- matrix(0, times, 4 + length(quantiles))
             dcts0[,1] <- k
@@ -51,13 +52,13 @@ update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs")
             if (!is.null(initsfun))
                 inits <- initsfun(mod)
         }
-        dctmp <- extractdctable.default(mod, quantiles = quantiles)
+        dctmp <- extractdctable.default(mod)
         for (j in 1:length(vn)) {
             dcts[[j]][i,-1] <- dctmp[j,]
         }
     }
     ## warning if R.hat < crit
-    if (nch > 1 && any(dctmp[,"r.hat"] >= crit["rhat"]))
+    if (nchain(mod) > 1 && any(dctmp[,"r.hat"] >= crit["rhat"]))
         warning("chains convergence problem, see R.hat values")
     ## finalizing dctable attribute
     dcts <- lapply(dcts, function(z) as.data.frame(z))
