@@ -40,7 +40,7 @@ update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs")
             bugs.fit(jdat, params, model, inits, format="mcmc.list", DIC=FALSE, ...)
         }
         ## dctable of first model
-        dc.first <- extractdctable.default(mod)
+        dc.first <- extractdctable(mod)
         ## update priors and inits here
         jdat[[update]] <- updatefun(mod)
         if (!is.null(initsfun))
@@ -63,10 +63,9 @@ update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs")
             bugs.fit(data=jdat, params=cldata$params, model=cldata$model, inits=cldata$inits,
                 format="mcmc.list", DIC=FALSE, ...)
         }
-        extractdctable.default(mod)
+        extractdctable(mod)
     }
     ## common data
-    clusterExport(cl, "extractdctable.default") # !!!
     cldata <- list(data=data, params=params, model=model, inits=inits,
         multiply=multiply, unchanged=unchanged, flavour=flavour, kseq=kseq)
     ## parallel computations
@@ -82,7 +81,7 @@ update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs")
     } else {
         bugs.fit(jdat, params, model, inits, format="mcmc.list", DIC=FALSE, ...)
     }
-    dc.last <- extractdctable.default(mod)
+    dc.last <- extractdctable(mod)
 
     ## dctable skeleton
     vn <- varnames(mod)
