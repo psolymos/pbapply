@@ -11,6 +11,7 @@ program=c("winbugs", "openbugs"), DIC=FALSE, dir=getwd(), ...)
         attr(z, "n.clones") <- NULL
         z
     })
+    ## using write.model to enable custommodel settings
     if (is.function(model) || inherits(model, "custommodel")) {
         if (is.function(model))
             model <- match.fun(model)
@@ -27,11 +28,14 @@ program=c("winbugs", "openbugs"), DIC=FALSE, dir=getwd(), ...)
         res <- openbugs(data, inits, params, model, DIC=DIC, working.directory=dir, ...)
     }
     ## converting bugs objects into mcmc.list
-    if (match.arg(format) == "mcmc.list")
+    format <- match.arg(format)
+    if (format == "mcmc.list")
         res <- as.mcmc.list(res)
-    ## adding n.clones attribute
+    ## adding n.clones attribute, and class attr if mcmc.list
     if (!is.null(n.clones) && n.clones > 1) {
         attr(res, "n.clones") <- n.clones
+        if (format == "mcmc.list")
+            class(res) <- c("mcmc.list.dc", class(res))
     }
     res
 }
