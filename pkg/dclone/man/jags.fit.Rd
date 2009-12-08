@@ -4,6 +4,7 @@
 \alias{jags.fit}
 \alias{bugs.fit}
 \alias{as.mcmc.list.bugs}
+\alias{updated.model}
 \title{
 Fit JAGS/BUGS models with cloned data
 }
@@ -12,10 +13,11 @@ Convenient functions designed to work well with cloned data arguments.
 }
 \usage{
 jags.fit(data, params, model, inits = NULL, n.chains = 3, n.adapt = 1000,
-n.update = 0, thin = 1, n.iter = 5000, updated.model=FALSE, ...)
+n.update = 0, thin = 1, n.iter = 5000, updated.model=TRUE, ...)
 bugs.fit(data, params, model, inits = NULL, format = c("mcmc.list", "bugs"), 
 program = c("winbugs", "openbugs"), DIC = FALSE, bugs.seed = NULL, dir = getwd(), ...)
 \method{as.mcmc.list}{bugs}(x, ...)
+updated.model(object, ...)
 }
 \arguments{
   \item{data}{
@@ -47,7 +49,8 @@ Thinning value.
 Number of iterations.
 }
   \item{updated.model}{
-Logical, if the updated model should be attached as attribute.
+Logical, if the updated model should be attached as attribute (this can be used to further update if convergence
+was not satisfactory).
 }
   \item{format}{
 Required output format. (Note that default behaviour of \code{n.thin} can cause problems when \code{program = "openbugs"}
@@ -74,6 +77,9 @@ Identical to \code{working.directory} argument in the \code{bugs}/\code{openbugs
   \item{x}{
 A fitted 'bugs' object.
 }
+  \item{object}{
+A fitted 'mcmc.list' object.
+}
   \item{\dots}{
 Further arguments passed to \code{\link[rjags]{coda.samples}}, and \code{\link[rjags]{update.jags}}
 (e.g. the \code{progress.bar} argument) for \code{jags.fit}. For \code{bugs.fit}, other arguments
@@ -93,6 +99,10 @@ and can be retrieved by the function \code{\link{nclones}}.
 The function \code{as.mcmc.list.bugs} converts a 'bugs' object into 'mcmc.list'.
 Default behaviour of \code{n.thin} can cause problems in conversion when \code{program = "openbugs"}
 and \code{format = "mcmc.list"}, thus \code{n.thin = 1} is advised in such cases.
+
+The function \code{updated.model} returns the state of the JAGS model after updating
+(before sampling). This can be further updated by the function \code{\link[rjags]{update.jags}}
+and sampled by \code{\link[rjags]{coda.samples}} if convergence diagnostics were not satisfactory.
 }
 \author{
 \enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
