@@ -58,7 +58,7 @@ update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs")
         }
     }
     ## warning if R.hat < crit
-    if (nchain(mod) > 1 && any(dctmp[,"r.hat"] >= crit["rhat"]))
+    if (nchain(mod) > 1 && any(dctmp[,"r.hat"] >= crit$r.hat))
         warning("chains convergence problem, see R.hat values")
     ## finalizing dctable attribute
     dcts <- lapply(dcts, function(z) as.data.frame(z))

@@ -18,8 +18,7 @@ trace = 1, flavour = c("jags", "bugs"), ...)
 dc.pfit(cl, data, params, model, inits, n.clones, 
 multiply=NULL, unchanged=NULL, 
 update=NULL, updatefun=NULL, initsfun=NULL, 
-trace=1, flavour = c("jags", "bugs"), 
-load.balancing = TRUE, ...)
+trace=1, flavour = c("jags", "bugs"), ...)
 }
 \arguments{
   \item{cl}{
@@ -71,9 +70,6 @@ it should take an 'mcmc.list' object as argument. See Examples.
 }
   \item{flavour}{
   If \code{"jags"}, the function \code{\link{jags.fit}} is called. If \code{"bugs"}, the function \code{\link{bugs.fit}} is called.
-}
-  \item{load.balancing}{
-Logical, if \code{TRUE} the function \code{\link[snow]{clusterApplyLB}} is used istead of \code{\link[snow]{clusterApply}}.
 }
   \item{\dots}{
   Other values supplied to \code{\link{jags.fit}}, or \code{\link{bugs.fit}}, depending on the \code{flavour} argument.

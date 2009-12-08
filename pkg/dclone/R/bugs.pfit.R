@@ -1,5 +1,5 @@
 bugs.pfit <-
-function(cl, data, params, model, inits, n.chains = 3, bugs.seed=1:n.chains, load.balancing = TRUE, ...)
+function(cl, data, params, model, inits, n.chains = 3, bugs.seed=1:n.chains, ...)
 {
     ## eval args
     if (n.chains == 1)
@@ -24,7 +24,8 @@ function(cl, data, params, model, inits, n.chains = 3, bugs.seed=1:n.chains, loa
     ## common data
     cldata <- list(data=data, params=params, model=model, inits=inits)
     ## parallel computations
-    mcmc <- mcmc.cluster(cl, 1:n.chains, bugsparallel, cldata, lib="dclone", load.balancing=load.balancing, ...)
+    mcmc <- mcmc.cluster(cl, 1:n.chains, bugsparallel, cldata, lib="dclone", 
+        load.balancing=getOption("dclone.cluster")$load.balancing, ...)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))
     ## attaching attribs and return

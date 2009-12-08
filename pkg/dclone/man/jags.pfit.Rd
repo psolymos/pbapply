@@ -12,8 +12,8 @@ but parallel chanis are run on parallel workers, thus more than 4 chains are ena
 computation can be faster for long MCMC runs.
 }
 \usage{
-jags.pfit(cl, data, params, model, inits, n.chains = 3, load.balancing = TRUE, ...)
-bugs.pfit(cl, data, params, model, inits, n.chains = 3, bugs.seed = 1:n.chains, load.balancing = TRUE, ...)
+jags.pfit(cl, data, params, model, inits, n.chains = 3, ...)
+bugs.pfit(cl, data, params, model, inits, n.chains = 3, bugs.seed = 1:n.chains, ...)
 }
 \arguments{
   \item{cl}{
@@ -39,9 +39,6 @@ Number of chains to generate, must be higher than 1. Ideally, this is equal to t
 }
   \item{bugs.seed}{
 Random seeds for each chains (can be a vector or a list containing integers that are different from each other).
-}
-  \item{load.balancing}{
-Logical, if \code{TRUE} the function \code{\link[snow]{clusterApplyLB}} is used istead of \code{\link[snow]{clusterApply}}.
 }
   \item{...}{
 Other arguments accepted by \code{\link{jags.fit}} and \code{\link{bugs.fit}}.

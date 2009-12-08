@@ -49,7 +49,7 @@ function(x, which = 1:length(x), type=c("all", "var", "logvar"), position = "top
     k <- x[[1]]$n.clones
     kmin <- min(k)
     xval <- 1:length(k)
-    crit <- getOption("dclone.crit")["rhat"]
+    crit <- getOption("dclone.crit")$r.hat
     nam <- names(x)[which]
     w <- box.cex
     m <- length(which)

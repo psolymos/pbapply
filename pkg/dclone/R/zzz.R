@@ -3,15 +3,17 @@
                     fields=c("Version", "Date"))
     cat(paste(pkgname, ver[1], "\t", ver[2], "\n"))
     if (is.null(getOption("dclone.crit"))) {
-        options("dclone.crit"=c(rhat=1.1))
+        options("dclone.crit"=list(r.hat=1.1))
+    }
+    if (is.null(getOption("dclone.cluster"))) {
+        options("dclone.cluster"=list(load.balancing=TRUE))
     }
     invisible(NULL)
 }
 
 .onUnload <- function(libpath){
-    if (!is.null(getOption("dclone.crit"))) {
-        options("dclone.crit"=NULL)
-    }
+    options("dclone.crit"=NULL)
+    options("dclone.cluster"=NULL)
     invisible(NULL)
 }
 

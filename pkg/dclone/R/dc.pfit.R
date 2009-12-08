@@ -1,6 +1,6 @@
 dc.pfit <- 
 function(cl, data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL, 
-update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs"), load.balancing = TRUE, ...)
+update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs"), ...)
 {
     ## initail evals
     flavour <- match.arg(flavour)
@@ -69,7 +69,8 @@ update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs")
     cldata <- list(data=data, params=params, model=model, inits=inits,
         multiply=multiply, unchanged=unchanged, flavour=flavour, kseq=kseq)
     ## parallel computations
-    pdct <- mcmc.cluster(cl, cldata$kseq, dcparallel, cldata, lib="dclone", load.balancing=load.balancing, ...)
+    pdct <- mcmc.cluster(cl, cldata$kseq, dcparallel, cldata, lib="dclone", 
+        load.balancing=getOption("dclone.cluster")$load.balancing, ...)
 
     #### last model fitting
     tmpch <- if (k[times] == 1) "clone" else "clones"
@@ -104,7 +105,7 @@ update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs")
     }
 
     ## warning if R.hat < crit
-    if (nchain(mod) > 1 && any(dc.last[,"r.hat"] >= crit["rhat"]))
+    if (nchain(mod) > 1 && any(dc.last[,"r.hat"] >= crit$r.hat))
         warning("chains convergence problem, see R.hat values")
     ## finalizing dctable attribute
     dcts <- lapply(dcts, function(z) as.data.frame(z))
