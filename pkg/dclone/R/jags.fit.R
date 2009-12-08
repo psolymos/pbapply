@@ -1,5 +1,6 @@
 jags.fit <-
-function(data, params, model, inits=NULL, n.chains=3, n.adapt=1000, n.update=0, thin=1, n.iter=5000, ...)
+function(data, params, model, inits=NULL, n.chains=3, n.adapt=1000, n.update=0, thin=1, n.iter=5000, 
+updated.model=FALSE, ...)
 {
     ## inital steps
     n.clones <- nclones.list(data)
@@ -21,6 +22,9 @@ function(data, params, model, inits=NULL, n.chains=3, n.adapt=1000, n.update=0, 
     }
     ## coda samples
     res <- coda.samples(m, params, n.iter=n.iter, thin=thin, ...)
+    ## jags.model attribute
+    if (updated.model)
+        attr(res, "updated.model") <- m
     ## n.clones attr
     if (!is.null(n.clones) && n.clones > 1) {
         attr(res, "n.clones") <- n.clones

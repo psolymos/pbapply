@@ -12,7 +12,7 @@ Convenient functions designed to work well with cloned data arguments.
 }
 \usage{
 jags.fit(data, params, model, inits = NULL, n.chains = 3, n.adapt = 1000,
-n.update = 0, thin = 1, n.iter = 5000, ...)
+n.update = 0, thin = 1, n.iter = 5000, updated.model=FALSE, ...)
 bugs.fit(data, params, model, inits = NULL, format = c("mcmc.list", "bugs"), 
 program = c("winbugs", "openbugs"), DIC = FALSE, bugs.seed = NULL, dir = getwd(), ...)
 \method{as.mcmc.list}{bugs}(x, ...)
@@ -45,6 +45,9 @@ Thinning value.
 }
   \item{n.iter}{
 Number of iterations.
+}
+  \item{updated.model}{
+Logical, if the updated model should be attached as attribute.
 }
   \item{format}{
 Required output format. (Note that default behaviour of \code{n.thin} can cause problems when \code{program = "openbugs"}
