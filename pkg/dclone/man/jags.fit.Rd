@@ -2,21 +2,16 @@
 \name{jags.fit}
 \Rdversion{1.1}
 \alias{jags.fit}
-\alias{bugs.fit}
-\alias{as.mcmc.list.bugs}
 \alias{updated.model}
 \title{
-Fit JAGS/BUGS models with cloned data
+Fit JAGS models with cloned data
 }
 \description{
-Convenient functions designed to work well with cloned data arguments.
+Convenient functions designed to work well with cloned data arguments and JAGS.
 }
 \usage{
 jags.fit(data, params, model, inits = NULL, n.chains = 3, n.adapt = 1000,
 n.update = 0, thin = 1, n.iter = 5000, updated.model=TRUE, ...)
-bugs.fit(data, params, model, inits = NULL, format = c("mcmc.list", "bugs"), 
-program = c("winbugs", "openbugs"), DIC = FALSE, bugs.seed = NULL, dir = getwd(), ...)
-\method{as.mcmc.list}{bugs}(x, ...)
 updated.model(object, ...)
 }
 \arguments{
@@ -52,53 +47,19 @@ Number of iterations.
 Logical, if the updated model should be attached as attribute (this can be used to further update if convergence
 was not satisfactory).
 }
-  \item{format}{
-Required output format. (Note that default behaviour of \code{n.thin} can cause problems when \code{program = "openbugs"}
-and \code{format = "mcmc.list"}, thus \code{n.thin = 1} is advised.)
-}
-  \item{program}{
-The program to use, not case sensitive.
-\code{winbugs} calls the function \code{\link[R2WinBUGS]{bugs}},
-\code{openbugs} calls the function \code{\link{openbugs.seed}} and requires the CRAN package \pkg{BRugs}.
-\code{model} can be a function or 'custommodel' object for \code{program = "openbugs"}, too.
-}
-  \item{DIC}{
-Logical, if deviance information criterion should be computed. (Needed for efficiency reasons, since it is
-opposite to the \code{bugs}/\code{openbugs} defaults, but if \code{format = "mcmc.list"} deviance is
-silently ignored.)
-}
-  \item{bugs.seed}{
-Random seed for WinBUGS and OpenBUGS (default is no seed).
-}
-  \item{dir}{
-Identical to \code{working.directory} argument in the \code{bugs}/\code{openbugs} call for setting working directory.
-(Needed for stability, because \code{openbugs} cant't always handle its default \code{NULL} value (a bug?).)
-}
-  \item{x}{
-A fitted 'bugs' object.
-}
   \item{object}{
 A fitted 'mcmc.list' object.
 }
   \item{\dots}{
 Further arguments passed to \code{\link[rjags]{coda.samples}}, and \code{\link[rjags]{update.jags}}
-(e.g. the \code{progress.bar} argument) for \code{jags.fit}. For \code{bugs.fit}, other arguments
-except for \code{codaPkg} are passed also, most notably the ones to set up burn-in, thin, etc. (see Details).
+(e.g. the \code{progress.bar} argument).
 }
 }
 \value{
-By default, an \code{mcmc.list} object. If data cloning is used via the 
+An \code{mcmc.list} object. If data cloning is used via the 
 \code{data} argument, \code{summary} returns a modified summary
 containing scaled data cloning standard errors (scaled by \code{sqrt(n.clones)}),
 and \eqn{R_{hat}} values (as returned by \code{\link[coda]{gelman.diag}}).
-
-\code{bugs.fit} can return a \code{bugs} object if \code{format = "bugs"}.
-In this case, printing is not changed, but the number of clones used is attached as attribute
-and can be retrieved by the function \code{\link{nclones}}.
-
-The function \code{as.mcmc.list.bugs} converts a 'bugs' object into 'mcmc.list'.
-Default behaviour of \code{n.thin} can cause problems in conversion when \code{program = "openbugs"}
-and \code{format = "mcmc.list"}, thus \code{n.thin = 1} is advised in such cases.
 
 The function \code{updated.model} returns the state of the JAGS model after updating
 (before sampling). This can be further updated by the function \code{\link[rjags]{update.jags}}
@@ -108,9 +69,11 @@ and sampled by \code{\link[rjags]{coda.samples}} if convergence diagnostics were
 \enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \seealso{
-\code{\link[rjags]{jags.model}}, \code{\link[rjags]{coda.samples}}
+Underlying functions: \code{\link[rjags]{jags.model}}, \code{\link[rjags]{coda.samples}}
 
-\code{\link{dcsd}}, \code{\link{confint.mcmc.list.dc}}, 
+Parallel computing version: \code{\link{jags.pfit}}
+
+Methods: \code{\link{dcsd}}, \code{\link{confint.mcmc.list.dc}}, 
 \code{\link{coef.mcmc.list}}, \code{\link{quantile.mcmc.list}}, \code{\link{vcov.mcmc.list.dc}}
 }
 \examples{
@@ -148,31 +111,7 @@ summary(regmod)
 dcdata <- dclone(jdata, 5, multiply = "N")
 dcmod <- jags.fit(dcdata, jpara, jfun, n.chains = 3)
 summary(dcmod)
-#### fitting with WinBUGS, bugs example
-data(schools)
-dat <- list(J = nrow(schools), y = schools$estimate, sigma.y = schools$sd)
-bugs.model <- function(){
-       for (j in 1:J){
-         y[j] ~ dnorm (theta[j], tau.y[j])
-         theta[j] ~ dnorm (mu.theta, tau.theta)
-         tau.y[j] <- pow(sigma.y[j], -2)
-       }
-       mu.theta ~ dnorm (0.0, 1.0E-6)
-       tau.theta <- pow(sigma.theta, -2)
-       sigma.theta ~ dunif (0, 1000)
-     }  
-inits <- function(){
-    list(theta=rnorm(nrow(schools), 0, 100), mu.theta=rnorm(1, 0, 100),
-         sigma.theta=runif(1, 0, 100))
-}
-param <- c("mu.theta", "sigma.theta")
-sim <- bugs.fit(dat, param, bugs.model, inits)
-dat2 <- dclone(dat, 2, multiply="J")
-sim2 <- bugs.fit(dat2, param, bugs.model)
-#### fitting the model with OpenBUGS
-sim3 <- bugs.fit(dat2, param, bugs.model, program="openbugs", n.thin=1)
-#### fitting the model with JAGS
-sim4 <- jags.fit(dat2, param, bugs.model)
 }
 }
 \keyword{ models }
+\keyword{ htest }

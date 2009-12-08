@@ -49,7 +49,7 @@ lower ticks are drawn, if \code{code = 3} both
 lower and upper ticks are drawn.
 }
 \value{
-Add error bars to an existing plot as a side effect.
+Adds error bars to an existing plot as a side effect.
 Returns \code{NULL} invisibly.
 }
 \author{

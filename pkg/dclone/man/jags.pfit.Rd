@@ -13,7 +13,8 @@ computation can be faster for long MCMC runs.
 }
 \usage{
 jags.pfit(cl, data, params, model, inits, n.chains = 3, ...)
-bugs.pfit(cl, data, params, model, inits, n.chains = 3, bugs.seed = 1:n.chains, ...)
+bugs.pfit(cl, data, params, model, inits, n.chains = 3, 
+bugs.seed = 1:n.chains, ...)
 }
 \arguments{
   \item{cl}{
@@ -44,6 +45,9 @@ Random seeds for each chains (can be a vector or a list containing integers that
 Other arguments accepted by \code{\link{jags.fit}} and \code{\link{bugs.fit}}.
 }
 }
+\details{
+Chains are run on parallel workers, and the results are combined in the end.
+}
 \value{
 An \code{mcmc.list} object.
 }
@@ -51,7 +55,7 @@ An \code{mcmc.list} object.
 \enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \seealso{
-\code{\link{jags.fit}}
+\code{\link{jags.fit}}, \code{\link{bugs.fit}}
 }
 \examples{
 \dontrun{

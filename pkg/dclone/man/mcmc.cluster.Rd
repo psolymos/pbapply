@@ -9,7 +9,8 @@ A function similar to \code{\link[snow]{clusterApply}} and \code{\link[snow]{clu
 designed to work closely with MCMC fitting functions (can be called from inside of a function).
 }
 \usage{
-mcmc.cluster(cl, seq, fun, cldata, name = "cldata", lib = NULL, load.balancing = TRUE, ...)
+mcmc.cluster(cl, seq, fun, cldata, name = "cldata", 
+lib = NULL, load.balancing = TRUE, ...)
 }
 \arguments{
   \item{cl}{

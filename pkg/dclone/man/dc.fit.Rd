@@ -79,8 +79,9 @@ it should take an 'mcmc.list' object as argument. See Examples.
 The function fits a JAGS/BUGS model with increasing numbers of clones, as supplied by
 the argument \code{k}. Data cloning is done by the function \code{dclone} using
 the arguments \code{multiply} and \code{unchanged}.
-
 An updating function can be provided, see Examples.
+
+The \code{dc.pfit} os a parallel computing version of \code{dc.fit}.
 }
 \value{
 An object inheriting from the class 'mcmc.list'.
