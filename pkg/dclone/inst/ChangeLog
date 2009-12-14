@@ -1,5 +1,7 @@
 dclone package version history
 
+Version 1.0-3, December 14, 2009
+
 Version 1.0-2, December 4, 2009
     * jags.pfit, bugs.pfit: parallel computing for chains based on snow.
     * mcmc.cluster: internal function for parallel MCMC computations.
