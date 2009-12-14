@@ -16,7 +16,7 @@ updated.model(object, ...)
 }
 \arguments{
   \item{data}{
-A list containing the data.
+A named list or environment containing the data. If an environment, data cloning might not work properly.
 }
   \item{params}{
 Character vector of parameters to be samples.

@@ -25,7 +25,7 @@ trace=1, flavour = c("jags", "bugs"), ...)
 A cluster object created by \code{\link[snow]{makeCluster}}.
 }
   \item{data}{
-A list containing the data.
+A named list (not environment) containing the data.
 }
   \item{params}{
 Character vector of parameters to be samples.

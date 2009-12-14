@@ -6,6 +6,8 @@ update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs")
     flavour <- match.arg(flavour)
     if (identical(n.clones, 1))
         stop("'n.clones = 1' gives the Bayesian answer, no need for DC")
+    if (is.environment(data))
+        stop("'data' should be list, not environment")
     ## determine k
     k <- n.clones[order(n.clones)]
     k <- unique(k)
