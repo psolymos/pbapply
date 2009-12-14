@@ -1,5 +1,6 @@
 plot.dctable <-
-function(x, which = 1:length(x), type=c("all", "var", "logvar"), position = "topright", box.cex = 0.75, ...)
+function(x, which = 1:length(x), type=c("all", "var", "logvar"), position = "topright", 
+box.cex = 0.75, box.bg = NA, ...)
 {
     plotit <- function(param, show.legend, ...) {
         y <- x[[param]]
@@ -10,7 +11,7 @@ function(x, which = 1:length(x), type=c("all", "var", "logvar"), position = "top
         }
         if (type=="all") {
             ylim <- range(y[,"2.5%"], y[,"97.5%"], y$mean - y$sd, y$mean + y$sd)
-            plot(xval, y$mean, ylim=ylim, xlim=xlim, pch=pch, type = "b", lty=2,
+            plot(xval, y$mean, ylim=ylim, xlim=xlim, pch=pch, type = "n", lty=2,
                 xlab = "Number of clones", ylab="Estimate",
                 main = param, axes = FALSE, ...)
         } else {
@@ -36,6 +37,8 @@ function(x, which = 1:length(x), type=c("all", "var", "logvar"), position = "top
                 paste("R.hat < ", round(crit, 1), sep="")))
         }
         if (type=="all") {
+            if (!is.na(box.bg))
+                errlines(xval, cbind(y[,"25%"], y[,"75%"]), width=w, code=3, type="b", bg=box.bg)
             errlines(xval, cbind(y$mean - y$sd, y$mean + y$sd))
             errlines(xval, cbind(y[,"25%"], y[,"50%"]), width=w, code=3, type="b")
             errlines(xval, cbind(y[,"50%"], y[,"75%"]), width=w, code=3, type="b")
@@ -44,6 +47,7 @@ function(x, which = 1:length(x), type=c("all", "var", "logvar"), position = "top
         } else {
             lines(xval, FUN(kmin/k), lty=2)
         }
+        points(xval, y$mean, pch=pch, type = "b", lty=2)
     }
     type <- match.arg(type)
     k <- x[[1]]$n.clones
