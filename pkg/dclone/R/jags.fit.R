@@ -21,7 +21,9 @@ updated.model=TRUE, ...)
         update(m, n.update, ...)
     }
     ## coda samples
-    res <- coda.samples(m, params, n.iter=n.iter, thin=thin, ...)
+    if (n.iter > 0) {
+        res <- coda.samples(m, params, n.iter=n.iter, thin=thin, ...)
+    } else return(m)
     ## jags.model attribute
     if (updated.model)
         attr(res, "updated.model") <- m
