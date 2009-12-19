@@ -2,6 +2,9 @@ jags.pfit <-
 function(cl, data, params, model, inits, n.chains = 3, ...)
 {
     ## eval args
+    if (!is.null(list(...)$n.iter))
+        if (list(...)$n.iter == 0)
+            stop("'n.iter = 0' is not supported for parallel computations")
     if (n.chains == 1)
         stop("no need for parallel computing with 1 chain")
     if (missing(inits))
