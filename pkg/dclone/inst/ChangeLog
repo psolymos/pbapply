@@ -3,6 +3,9 @@ dclone package version history
 Version 1.0-3, December 14, 2009
     * jags.fit: if n.iter=0, the (updated) JAGS model is returned
       instead of an MCMC object.
+    * autoupdate: function to perform automatic updates of an
+      MCMC object, until a desired statistics value 
+      (e.g. R_hat < 1.1) reached.
 
 Version 1.0-2, December 4, 2009
     * jags.pfit, bugs.pfit: parallel computing for chains based on snow.
