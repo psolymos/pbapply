@@ -2,7 +2,6 @@
 \name{jags.fit}
 \Rdversion{1.1}
 \alias{jags.fit}
-\alias{updated.model}
 \title{
 Fit JAGS models with cloned data
 }
@@ -12,7 +11,6 @@ Convenient functions designed to work well with cloned data arguments and JAGS.
 \usage{
 jags.fit(data, params, model, inits = NULL, n.chains = 3, n.adapt = 1000,
 n.update = 0, thin = 1, n.iter = 5000, updated.model=TRUE, ...)
-updated.model(object, ...)
 }
 \arguments{
   \item{data}{
@@ -45,10 +43,7 @@ Number of iterations.
 }
   \item{updated.model}{
 Logical, if the updated model should be attached as attribute (this can be used to further update if convergence
-was not satisfactory).
-}
-  \item{object}{
-A fitted 'mcmc.list' object.
+was not satisfactory, see \code{\link{updated.model}} and \code{\link{autoupdate}}).
 }
   \item{\dots}{
 Further arguments passed to \code{\link[rjags]{coda.samples}}, and \code{\link[rjags]{update.jags}}
@@ -60,10 +55,6 @@ An \code{mcmc.list} object. If data cloning is used via the
 \code{data} argument, \code{summary} returns a modified summary
 containing scaled data cloning standard errors (scaled by \code{sqrt(n.clones)}),
 and \eqn{R_{hat}} values (as returned by \code{\link[coda]{gelman.diag}}).
-
-The function \code{updated.model} returns the state of the JAGS model after updating
-(before sampling). This can be further updated by the function \code{\link[rjags]{update.jags}}
-and sampled by \code{\link[rjags]{coda.samples}} if convergence diagnostics were not satisfactory.
 }
 \author{
 \enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
@@ -103,7 +94,7 @@ Y <- rnorm(N, mean = linpred, sd = sigma)
 jdata <- list(N = N, Y = Y, x = x)
 ## what to monitor
 jpara <- c("alpha", "beta", "sigma")
-#### fit the model with JAGS
+## fit the model with JAGS
 regmod <- jags.fit(jdata, jpara, jfun, n.chains = 3)
 ## model summary
 summary(regmod)

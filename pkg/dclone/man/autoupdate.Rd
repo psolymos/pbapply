@@ -1,6 +1,7 @@
 \name{autoupdate}
 \Rdversion{1.1}
 \alias{autoupdate}
+\alias{updated.model}
 \title{
 Automatic updating of an MCMC object
 }
@@ -8,6 +9,7 @@ Automatic updating of an MCMC object
 Automatic updating of an MCMC object until a desired statistic value reached.
 }
 \usage{
+updated.model(object, ...)
 autoupdate(object, fun, times, n.update = 0, 
 n.iter = niter(object) * thin(object), thin = thin(object), ...)
 }
@@ -37,64 +39,63 @@ Other arguments passed to \code{\link[rjags]{coda.samples}}.
 }
 \details{
 FIXME Add details here
+
+- times vs. n.update
+
+- n.iter effects on result
 }
 \value{
-An MCMC object with \code{"updated.model"} attribute.
-}
-\references{
-REFS???
+\code{updated.model} returns the state of the JAGS model after updating
+and sampling. This can be further updated by the function \code{\link[rjags]{update.jags}}
+and sampled by \code{\link[rjags]{coda.samples}} if convergence diagnostics were not satisfactory.
+
+\code{autoupdate} returns an MCMC object with \code{"updated.model"} attribute.
 }
 \author{
-Peter Solymos
+\enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \seealso{
-\code{\link{}}
+\code{\link{jags.fit}}, \code{\link[rjags]{coda.samples}}
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function(object, fun, times, n.update = 0, 
-n.iter = niter(object) * thin(object), thin = thin(object), ...)
-{
-    ## eval of args
-    upm <- updated.model(object)
-    if (is.null(upm))
-        stop("updated model not found")
-    mod <- object
-    attr(mod, "updated.model") <- NULL    
-    fun <- match.fun(fun)
-    fval <- fun(mod)
-    if (!is.logical(fval))
-        stop("'fun' must return logical")
-    if (fval)
-        return(object)
-    ## what to sample
-    params <- varnames(mod)
-    ## n.update vs. times eval
-    if (length(n.update) == 1)
-        n.update <- rep(n.update, times)
-    ## auto-updating
-    for (i in n.update) {
-        if (i > 0)
-            update(upm, i, ...)
-        mod <- coda.samples(upm, params, n.iter, thin, ...)
-        if (fun(mod))
-            break
+\dontrun{
+## simple regression example from the JAGS manual
+jfun <- function() {
+    for (i in 1:N) {
+        Y[i] ~ dnorm(mu[i], tau)
+        mu[i] <- alpha + beta * (x[i] - x.bar)
     }
-    ## put things together
-    attr(mod, "updated.model") <- upm
-    n.clones <- nclones(object)
-    if (!is.null(n.clones) && n.clones > 1) {
-        attr(mod, "n.clones") <- n.clones
-        class(mod) <- c("mcmc.list.dc", class(mod))
-    }
-    mod
-  }
+    x.bar <- mean(x[])
+    alpha ~ dnorm(0.0, 1.0E-4)
+    beta ~ dnorm(0.0, 1.0E-4)
+    sigma <- 1.0/sqrt(tau)
+    tau ~ dgamma(1.0E-3, 1.0E-3)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+## data generation
+set.seed(1234)
+N <- 100
+alpha <- 1
+beta <- -1
+sigma <- 0.5
+x <- runif(N)
+linpred <- model.matrix(~x) \%*\% c(alpha, beta)
+Y <- rnorm(N, mean = linpred, sd = sigma)
+## list of data for the model
+jdata <- list(N = N, Y = Y, x = x)
+## what to monitor
+jpara <- c("alpha", "beta", "sigma")
+## fit the model with JAGS
+regmod <- jags.fit(jdata, jpara, jfun, n.chains = 3)
+## get the updated model
+upmod <- updated.model(regmod)
+upmod
+## automatic updating
+## using R_hat < 1.1 as criteria
+critfun <- function(x)
+    all(gelman.diag(x)$psrf[,1] < 1.1)
+mod <- autoaupdate(regmod, critfun, 5)
+summary(mod)
+}
+}
+\keyword{ models }
+\keyword{ htest }
