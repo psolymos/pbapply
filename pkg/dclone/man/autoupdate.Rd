@@ -46,6 +46,9 @@ for the case when MCMC convergence is problematic. A function
 is evaluated on the updated model in each iteration of the updating process,
 and an MCMC object is returned when iteration ends, or when the evaluated
 function returns \code{TRUE} value.
+
+\code{n.update} and \code{n.iter} can be vectors, if lengths are
+shorter then \code{times}, values are recycled.
 }
 \value{
 \code{updated.model} returns the state of the JAGS model after updating
