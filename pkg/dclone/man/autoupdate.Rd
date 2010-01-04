@@ -19,6 +19,7 @@ A fitted MCMC object ('mcmc.list' class for example), with \code{"updated.model"
 }
   \item{fun}{
 A function that evaluates convergence of the MCMC chains, must return logical result. See Examples.
+The iterative updating quits when return value is \code{TRUE}.
 }
   \item{times}{
 Number of times the updating should be repeated. If \code{fun} returns \code{TRUE}, updating
@@ -38,11 +39,13 @@ Other arguments passed to \code{\link[rjags]{coda.samples}}.
 }
 }
 \details{
-FIXME Add details here
-
-- times vs. n.update
-
-- n.iter effects on result
+\code{updated.model} can be used to retrieve the updated model
+from an MCMC object fitted via the function \code{\link{jags.fit}}.
+The \code{autoupdate} is a wrapper for this purpose, specifically designed
+for the case when MCMC convergence is problematic. A function
+is evaluated on the updated model in each iteration of the updating process,
+and an MCMC object is returned when iteration ends, or when the evaluated
+function returns \code{TRUE} value.
 }
 \value{
 \code{updated.model} returns the state of the JAGS model after updating
