@@ -7,7 +7,7 @@ n.iter = niter(object) * thin(object), thin = thin(object), ...)
     if (is.null(upm))
         stop("updated model not found")
     mod <- object
-    attr(mod, "updated.model") <- NULL    
+    attr(mod, "updated.model") <- NULL
     fun <- match.fun(fun)
     fval <- fun(mod)
     if (!is.logical(fval))
@@ -16,14 +16,16 @@ n.iter = niter(object) * thin(object), thin = thin(object), ...)
         return(object)
     ## what to sample
     params <- varnames(mod)
-    ## n.update vs. times eval
-    if (length(n.update) == 1)
-        n.update <- rep(n.update, times)
+    ## n.update/n.iter vs. times
+    if (length(n.update) < times)
+        n.update <- rep(n.update, times)[1:times]
+    if (length(n.iter) < times)
+        n.iter <- rep(n.iter, times)[1:times]
     ## auto-updating
-    for (i in n.update) {
+    for (i in 1:times) {
         if (i > 0)
-            update(upm, i, ...)
-        mod <- coda.samples(upm, params, n.iter, thin, ...)
+            update(upm, n.update[i], ...)
+        mod <- coda.samples(upm, params, n.iter[i], thin, ...)
         if (fun(mod))
             break
     }
