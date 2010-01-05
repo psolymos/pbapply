@@ -99,7 +99,7 @@ upmod
 ## using R_hat < 1.1 as criteria
 critfun <- function(x)
     all(gelman.diag(x)$psrf[,1] < 1.1)
-mod <- autoaupdate(regmod, critfun, 5)
+mod <- autoupdate(regmod, critfun, 5)
 summary(mod)
 }
 }
