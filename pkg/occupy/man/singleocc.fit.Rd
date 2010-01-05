@@ -55,7 +55,7 @@ A fitted model object (but without a class attribute).
 \references{
 Lele, S.R., M. Moreno and E. Bayne, 2010.
 Dealing with detection error in site occupancy surveys: What can we do with a single survey?
-\enmph{Methods in Ecology and Evolution} \strong{00}, 00--00.
+\emph{Methods in Ecology and Evolution} \strong{00}, 00--00.
 }
 \author{
 \enc{P\'eter S\'olymos}{Peter Solymos} and Monica Moreno
