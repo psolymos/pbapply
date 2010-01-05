@@ -24,6 +24,8 @@ The package implements zero inflated binomial models
 Maintainer: \enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \references{
-REFS HERE
+Lele, S.R., M. Moreno and E. Bayne, 2010.
+Dealing with detection error in site occupancy surveys: What can we do with a single survey?
+\enmph{Methods in Ecology and Evolution} \strong{00}, 00--00.
 }
 \keyword{ package }

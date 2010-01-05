@@ -7,7 +7,8 @@ Zero Inflated Binomial Model for Single Visit Site Occupancy Data
 }
 \description{
 Fit a zero inflated binomial model for single visit site occupancy data
-based on maximum likelihood or penalized maximum likelihood estimation.
+based on maximum likelihood or penalized maximum likelihood estimation
+as described by Lele et al. (2010).
 }
 \usage{
 singleocc(formula, data, link = "logit", penalized = FALSE, 
@@ -90,6 +91,10 @@ ecological models using Bayesian Markov chain Monte Carlo  methods.
 \emph{Ecology Letters} \strong{10}, 551--563.
 
 Plummer, M., 2009. JAGS Version 1.0.3 manual (April 23, 2009), \url{http://mcmc-jags.sourceforge.net}
+
+Lele, S.R., M. Moreno and E. Bayne, 2010.
+Dealing with detection error in site occupancy surveys: What can we do with a single survey?
+\enmph{Methods in Ecology and Evolution} \strong{00}, 00--00.
 }
 \author{
 \enc{P\'eter S\'olymos}{Peter Solymos} and Monica Moreno
