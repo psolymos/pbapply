@@ -1,6 +1,7 @@
 dclone package version history
 
 Version 1.0-3, December 14, 2009
+    * errlines: got col argument.
     * jags.fit: if n.iter=0, the (updated) JAGS model is returned
       instead of an MCMC object.
     * autoupdate: function to perform automatic updates of an

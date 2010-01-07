@@ -11,7 +11,7 @@ The function plots error bars to existing plot.
 \usage{
 errlines(x, ...)
 \method{errlines}{default}(x, y, type = "l", code = 0, 
-width = 0, vertical = TRUE, bg = NA, ...)
+width = 0, vertical = TRUE, col = 1, bg = NA, ...)
 }
 \arguments{
   \item{x}{
@@ -34,6 +34,9 @@ width of the boxes (if \code{type = "b"}).
 }
   \item{vertical}{
 Logical, if errorbars should be plotted vertically or horizontally.
+}
+  \item{col}{
+Color of the error lines to be drawn, recicled.
 }
   \item{bg}{
 If \code{type = "b"} the bacground color of the boxes. By default, no background color used.
@@ -72,8 +75,8 @@ plot(x, a, ylim = range(y))
 errlines(x, y)
 plot(x, a, ylim = range(y))
 errlines(x, y, width = 0.5, code = 1)
-plot(x, a, ylim = range(y))
-errlines(x, y, width = 0.5, code = 3)
+plot(x, a, ylim = range(y), col = 1:10)
+errlines(x, y, width = 0.5, code = 3, col = 1:10)
 plot(x, a, ylim = range(y))
 errlines(x, y, width = 0.5, code = 2, type = "b")
 plot(x, a, ylim = range(y))
