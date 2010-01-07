@@ -1,6 +1,7 @@
 mcmc.cluster <-
 function(cl, seq, fun, cldata, name="cldata", lib=NULL, load.balancing = TRUE, ...)
 {
+    require(snow)
     ## elav args
     fun <- match.fun(fun)
     clusterfun <- if (load.balancing)
@@ -13,7 +14,8 @@ function(cl, seq, fun, cldata, name="cldata", lib=NULL, load.balancing = TRUE, .
     }
     ## loads lib on each worker
     if (!is.null(lib))
-        eval(parse(text=paste("clusterEvalQ(cl, library(", lib, "))")))
+        for (i in lib)
+            eval(parse(text=paste("clusterEvalQ(cl, library(", i, "))")))
     ## place object name into global env (clusterExport can reach it)
     assign(name, cldata, envir = .GlobalEnv)
     clusterExport(cl, name)

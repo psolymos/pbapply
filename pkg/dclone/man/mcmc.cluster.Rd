@@ -32,7 +32,7 @@ Data in \code{cldata} can be used by \code{fun}.
 Character, the name of \code{cldata} as to be assigned to the global environment and used in \code{fun}.
 }
   \item{lib}{
-Character, name of a package. Optionally a package can be loaded onto the cluster.
+Character, name of package(s). Optionally a package can be loaded onto the cluster. More than one package can be specified as character vector.
 }
   \item{load.balancing}{
 Logical, if \code{TRUE} the function \code{\link[snow]{clusterApplyLB}} is used istead of \code{\link[snow]{clusterApply}}.
