@@ -1,0 +1,394 @@
+\documentclass[article,shortnames,nojss]{jss}
+\usepackage{thumbpdf}
+
+%% need no \usepackage{Sweave.sty}
+\SweaveOpts{engine = R, strip.white = TRUE, keep.source = TRUE, eps = FALSE}
+
+\newcommand{\class}[1]{`\code{#1}'}
+
+%\VignetteIndexEntry{dcglm tutorial}
+%\VignettePackage{dcglm}
+%\VignetteDepends{dclone}
+%\VignetteKeywords{Bayesian statistics, data cloning, maximum likelihood inference, generalized linear models, R}
+
+\author{P\'eter S\'olymos\\University of Alberta}
+\Plainauthor{P\'eter S\'olymos}
+
+\title{Tutorial for the \pkg{dcglm} package}
+\Plaintitle{Tutorial for the dcglm package}
+\Shorttitle{Tutorial for the dcglm package}
+
+\Abstract{
+  This tutorial package to demonstrate the 
+  capabilities of data cloning algorithm via 
+  the infrastructure provided by the \pkg{dclone} package.
+  Functions reproduce main features of the \code{glm}
+  base function in \proglang{R} by using data cloning.
+}
+
+\Keywords{Bayesian statistics, data cloning, maximum likelihood inference, generalized linear models, \proglang{R}}
+\Plainkeywords{Bayesian statistics, data cloning, maximum likelihood inference, generalized linear models, R}
+
+\Address{
+  P\'eter S\'olymos\\
+  Alberta Biodiversity Monitoring Institute\\
+  Department of Biological Sciences\\
+  CW 405, Biological Sciences Bldg\\
+  University of Alberta\\
+  Edmonton, Alberta, T6G 2E9, Canada\\
+  E-mail: \email{solymos@ualberta.ca}\\
+}
+
+
+
+\begin{document}
+
+
+<<echo=FALSE, results=hide>>=
+options(prompt = "R> ", continue = "+   ", useFancyQuotes = FALSE, width = 76)
+@
+
+
+\section{Introduction}
+
+Data cloning is a statistical computing method introduced by \citet{Lele2007}.
+It exploits the computational simplicity of the Markov chain Monte Carlo (MCMC) algorithms
+used in the Bayesian statistical framework, but it provides valid frequentist inferences such as the maximum 
+likelihood estimates and their standard errors for complex hierarchical models.
+The use of the data cloning algorithm is especially straightforward for complex models, 
+where the number of unknowns increases with sample size (i.e.~mixed models),
+because inference and prediction procedures are often hard to implement in such situations.
+
+The \textbf{dclone} R package \citep{Solymos2009} aims to provide low level functionality to easily implement 
+more specific higher level procedures based on data cloning for users familiar with the Bayesian methodology.
+This tutorial, we develop write high level functions to duplicate the some features of 
+the \code{glm} base function of \proglang{R} by using
+the data cloning algorithm building on the infrastructure of the \pkg{dclone} package.
+
+\section{Data generation}
+
+We generate random data for Poisson and Binomal GLMs. First we define the number of locations (\code{n})
+and the independent covariate (\code{x}). \code{X} represents the design matrix:
+<<>>=
+set.seed(1234)
+n <- 20
+x <- runif(n, -1, 1)
+X <- model.matrix(~x)
+@
+Parameters (\code{beta1}), linear predictor (\code{mu1}) 
+and random response (\code{Y1}) for the Poisson case (log link function):
+<<>>=
+beta1 <- c(2, -1)
+mu1 <- X %*% beta1
+Y1 <- rpois(n, exp(mu1))
+@
+Parameters (\code{beta2}), linear predictor (\code{mu2}) 
+and random response (\code{Y2}) for the Binomial (Bernoulli) case (logistic link function):
+<<>>=
+beta2 <- c(0, -1)
+mu2 <- X %*% beta2
+Y2 <- rbinom(n, 1, exp(mu2) / (1 + exp(mu2)))
+@
+
+\section{GLM based on the \code{glm} base function}
+
+Now we fit the Poisson and Binomail GLM by using the \code{glm} base function and inspect their summaries:
+<<>>=
+m1 <- glm(Y1 ~ x, family=poisson)
+summary(m1)
+m2 <- glm(Y2 ~ x, family=binomial)
+summary(m2)
+@
+
+\section{The full Bayesian model for GLM and data cloning}
+
+Now we have to load the \pkg{dclone} package (it load its dependencies, that we also need):
+<<>>=
+library(dclone)
+@
+Here is the \proglang{JAGS} model for the Poisson case, with flat Normal priors for the regression coefficients:
+<<>>=
+glm.pois <- function() {
+    for (i in 1:n) {
+        Y[i] ~ dpois(lambda[i])
+        log(lambda[i]) <- inprod(X[i,], beta[1,])
+    }
+    for (j in 1:np) {
+        beta[1,j] ~ dnorm(0, 0.001)
+    }
+}
+@
+The data will be represented as a list (if we want to use data cloning consistently, 
+we have to use the list format instead of the global environment):
+<<>>=
+dat1 <- list(n = length(Y1), Y = Y1, X = X, np = ncol(X))
+str(dat1)
+@
+Now let's clone the data set (note that \code{n} should be multiplies, while
+\code{np} must remain unchanged):
+<<>>=
+n.clones <- 5
+dcdat1 <- dclone(dat1, n.clones, multiply = "n", unchanged = "np")
+str(dcdat1)
+@
+To fit the model to the data with data cloning is as easy as this:
+<<>>=
+mod1 <- jags.fit(dcdat1, "beta", glm.pois)
+summary(mod1)
+@
+Le's compare this \code{mcmc.list} (more accurately an \code{mcmc.list.dc}) object with the \code{glm} results:
+<<>>=
+cbind(glm.estimates=coef(m1), glm.se=summary(m1)$coefficients[,2],
+    dc.estimates=coef(mod1), dc.se=dcsd(mod1))
+@
+
+Here is the \proglang{JAGS} model for the Binomial (Bernoulli, because \code{k}=1) case:
+<<>>=
+glm.bin <- function() {
+    for (i in 1:n) {
+        Y[i] ~ dbin(p[i], k)
+        logit(p[i]) <- inprod(X[i,], beta[1,])
+    }
+    for (j in 1:np) {
+        beta[1,j] ~ dnorm(0, 0.001)
+    }
+}
+@
+Putting together the data set is similar to the Poisson case:
+<<>>=
+dat2 <- list(n = length(Y2), Y = Y2, k = 1, X = X, np = ncol(X))
+str(dat2)
+@
+but data cloning setup is a bit different. We don't have to repeat the data vectors
+or columns in the design matrix \code{n.clones} times, because there is an easier way.
+We multiply \code{Y} and \code{k} with \code{n.clones} and leave the other elements unchanged:
+<<>>=
+dcdat2 <- dclone(dat, n.clones, multiply = c("Y","k"), unchanged = c("n", "np", "X"))
+str(dcdat2)
+@
+Now fit the model to the data with data cloning:
+<<>>=
+mod2 <- jags.fit(dcdat2, "beta", glm.bin)
+summary(mod2)
+@
+and compare results with \code{glm} results:
+<<>>=
+cbind(glm.estimates=coef(m2), glm.se=summary(m2)$coefficients[,2],
+    dc.estimates=coef(mod2), dc.se=dcsd(mod2))
+@
+
+\section{The \code{custommodel} function}
+
+The \code{custommodel} function enables us to resuse the same \proglang{JAGS} model
+with minor modifications. For example we combine the above Poisson and Binomial model into one.
+<<>>=
+glm.model <- function() {
+    for (i in 1:n) {
+        Y[i] ~ dpois(lambda[i])
+        Y[i] ~ dbin(p[i], k)
+        log(lambda[i]) <- inprod(X[i,], beta[1,])
+        logit(p[i]) <- inprod(X[i,], beta[1,])
+    }
+    for (j in 1:np) {
+        beta[1,j] ~ dnorm(0, 0.001)
+    }
+}
+@
+If we want to use this in the \code{jags.fit} function, it would give the error message
+about the attempt to define the nodes more than onece. To avoid this, we tell the function
+which lines ahould be excluded:
+<<>>=
+custommodel(glm.model, c(4,6))
+custommodel(glm.model, c(3,5))
+@
+so eventually we get back our original models. But these are not functions, but character vectors
+of the class \code{custommodel}. \code{jags.fit} will recognize this.
+
+Why do we want to complicate our lives with the \code{custommodel}? We'll see it soon.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliography{dcglm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}
+
+
+
+dcglm <- function(formula, data = parent.frame(), family=c("poisson", "binomial"), n.clones=5, ...){
+    glm.model <- c("model {",
+                   "    for (i in 1:n) {",
+                   "        Y[i] ~ dpois(lambda[i])",
+                   "        Y[i] ~ dbin(p[i], k)",
+                   "        log(lambda[i]) <- inprod(X[i,], beta[1,])",
+                   "        logit(p[i]) <- inprod(X[i,], beta[1,])",
+                   "    }",
+                   "    for (j in 1:np) {",
+                   "        beta[1,j] ~ dnorm(0, 0.001)",
+                   "    }",
+                   "}")
+    family <- match.arg(family)
+    lhs <- formula[[2]]
+    Y <- eval(lhs, data)
+    formula[[2]] <- NULL
+    rhs <- model.frame(formula, data)
+    X <- model.matrix(attr(rhs, "terms"), rhs)
+    dat <- list(n = length(Y), Y = Y, X = X, np = ncol(X), k = 1)
+    if (family == "poisson") {
+        model <- model <- custommodel(glm.model, c(4,6))
+        dcdat <- dclone(dat, n.clones, multiply = "n", unchanged = "np")
+    } else {
+        model <- custommodel(glm.model, c(3,5))
+        dcdat <- dclone(dat, n.clones, multiply = c("Y","k"), unchanged = c("n", "np", "X"))
+    }
+    mod <- jags.fit(dcdat, "beta", model, ...)
+    COEF <- coef(mod)
+    SE <- dcsd(mod)
+    names(COEF) <- names(SE) <- colnames(X)
+    mu <- X %*% COEF
+    if (family == "poisson") {
+        fitval <- exp(mu)
+        ll <- sum(log(fitval^Y * exp(-fitval)) - log(factorial(Y)))
+    } else {
+        fitval <- exp(mu) / (1 + exp(mu))
+        ll <- sum(log(choose(1, Y) * fitval^Y * (1-fitval)^(1-Y)))
+    }
+    rval <- list(call=match.call(),
+        mcmc = mod,
+        y = Y,
+        x = rhs, 
+        model = X,
+        fitted.values = fitval,
+        linear.predictors = mu,
+        formula = formula,
+        coefficients = COEF,
+        std.error = SE,
+        loglik = ll,
+        family = family,
+        df.residual = length(Y) - length(COEF),
+        df.null = length(Y) - 1)
+    class(rval) <- c("dcglm")
+    rval
+}
+
+dcm1 <- dcglm(Y1 ~ x)
+dcm2 <- dcglm(Y2 ~ x, family = "binomial")
+
+coef.dcglm <- function(object, ...) object$coefficients
+
+fitted.dcglm <- function(object, ...) object$fitted.values
+
+logLik.dcglm <- function (object, ...)
+    structure(object$loglik,
+        df = object$df.null + 1 - object$df.residual,
+        nobs = object$df.null + 1,
+        class = "logLik")
+
+confint.dcglm <- function(object, parm, level = 0.95, ...) {
+    rval <- confint(object$mcmc, parm, level, ...)
+    rownames(rval) <- names(coef(object))
+    rval
+}
+
+vcov.dcglm <- function(object, ...) {
+    rval <- vcov(object$mcmc, ...)
+    rownames(rval) <- colnames(rval) <- names(coef(object))
+    rval
+}
+
+print.dcglm <- function(x, digits = max(3, getOption("digits") - 3), ...) {
+    cat("\nCall: ", deparse(x$call), "\n\n")
+    cat("Coefficients:\n")
+    print.default(format(x$coefficients, digits = digits), print.gap = 2, quote = FALSE)
+    cat("\nDegrees of Freedom:", x$df.null, "Total (i.e. Null); ", x$df.residual, "Residual\n")
+    cat("Log Likelihood:\t   ", format(signif(x$loglik, digits)), "\n")
+    invisible(x)
+}
+
+summary.dcglm <- function(object, ...){
+    COEF <- coef(object)
+    SE <- object$std.error
+    z <- COEF / SE
+    p <-  2 * pnorm(-abs(z))
+    stab <- cbind("Estimate" = COEF, "Std. Error" = SE,
+        "z value" = z, "Pr(>|z|)" = p)
+    rval <- list(call = object$call, 
+        coefficients = stab, 
+        loglik = object$loglik,
+        df.residual = object$df.residual,
+        df.null = object$df.null)
+    class(rval) <- "summary.dcglm"
+    rval
+}
+
+print.summary.dcglm <- 
+function (x, digits = max(3, getOption("digits") - 3), 
+    signif.stars = getOption("show.signif.stars"), ...) 
+{
+    cat("\nCall:\n")
+    cat(paste(deparse(x$call), sep = "\n", collapse = "\n"), "\n", sep = "")
+    cat("\nCoefficients:\n")
+    printCoefmat(x$coefficients, digits = digits, signif.stars = signif.stars, na.print = "NA", ...)
+    cat("\nDegrees of Freedom:", x$df.null, "Total (i.e. Null); ", x$df.residual, "Residual\n")
+    cat("Log Likelihood:\t   ", format(signif(x$loglik, digits)), "\n")
+    invisible(x)
+}
+
+glm.pred <- function() {
+    for (i in 1:n) {
+        Y[i] ~ dpois(z[i])
+        Y[i] ~ dbin(z[i], k)
+        log(z[i]) <- mu[i]
+        logit(z[i]) <- mu[i]
+        mu[i] <- inprod(X[i,], beta[1,])
+    }
+    beta[1,1:np] <- mvn[1:np]
+    mvn[1:np] ~ dmnorm(coefs[], prec[,])
+    }
+
+custommodel(glm.pred, c(4,6))
+custommodel(glm.pred, c(3,5))
+
+predict.dcglm <- function(object, newdata = NULL, type = c("link", "response"), se = FALSE, ...){
+    glm.pred <- c("model {",
+           "    for (i in 1:n) {",
+           "        Y[i] ~ dpois(z[i])",
+           "        Y[i] ~ dbin(z[i], k)",
+           "        log(z[i]) <- mu[i]",
+           "        logit(z[i]) <- mu[i]",
+           "        mu[i] <- inprod(X[i,], beta[1,])",
+           "    }",
+           "    beta[1,1:np] <- mvn[1:np]",
+           "    mvn[1:np] ~ dmnorm(coefs[], prec[,])",
+           "    }")
+    prec <- make.symmetric(solve(vcov(object)))
+    coefs <- coef(object)
+    if (is.null(newdata)) {
+        X <- object$model
+    } else {
+        rhs <- model.frame(object$formula, newdata)
+        X <- model.matrix(attr(rhs, "terms"), rhs)
+    }
+    type <- match.arg(type)
+    params <- switch(type,
+        "link" = "mu",
+        "response" = "z")
+    model <- switch(object$family,
+        "poisson" = custommodel(glm.pred, c(4,6)),
+        "binomial" = custommodel(glm.pred, c(3,5)))
+    prdat <- list(n = nrow(X), X = X, 
+        np = ncol(X), k = 1, coefs = coefs, prec = prec)
+    prval <- jags.fit(prdat, params, model, ...)
+    if (!se) {
+        rval <- coef(prval)
+    } else {
+        rval <- list(fit = coef(prval), 
+            se.fit = mcmcapply(prval, sd))
+    }
+    rval
+}
+
+
+package.skeleton("dcglm", c("coef.dcglm","confint.dcglm","dcglm",
+    "fitted.dcglm","logLik.dcglm","predict.dcglm",
+    "print.dcglm","print.summary.dcglm","summary.dcglm","vcov.dcglm"))
