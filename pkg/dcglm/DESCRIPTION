@@ -1,0 +1,14 @@
+Package: dcglm
+Type: Package
+Title: GLM with Data Cloning
+Version: 1.0
+Date: 2010-01-12
+Author: Peter Solymos
+Maintainer: Peter Solymos <solymos@ualberta.ca>
+Description: Tutorial package to demonstrate the 
+  capabilities of data cloning (DC) algorithm via 
+  the infrastructure provided by the 'dclone' package.
+  Functions reproduce main features of the glm()
+  base function by using DC.
+License: GLP-2
+LazyLoad: yes
