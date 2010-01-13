@@ -118,7 +118,7 @@ method = c("optim", "dc"), n.clones = 1000, prec = 0.1, ...)
 #        incl <- (1:length(mcmcSS.all))[!(1:length(mcmcSS.all) %in% c(excl.occ, excl.det))]
 #        model <- mcmcSS.all[incl]
 #        class(model) <- "custommodel"
-        model <- custommodel(mcmcSS.all, c(excl.occ, excl.det))
+        model <- dclone:::custommodel(mcmcSS.all, c(excl.occ, excl.det))
         dat <- list(Y=obs * n.clones, X=occ, Z=det, k=n.clones,
             N.sites=N.sites, num.cov.occ=num.cov.occ, num.cov.det=num.cov.det,
             prior.occ=prior.occ, prior.det=prior.det)
