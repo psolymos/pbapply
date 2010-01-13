@@ -1,6 +1,7 @@
 dclone package version history
 
 Version 1.0-3, December 14, 2009
+    * lambdamax.diag: added back.
     * errlines: got col argument.
     * jags.fit: if n.iter=0, the (updated) JAGS model is returned
       instead of an MCMC object.
