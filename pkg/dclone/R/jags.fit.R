@@ -23,7 +23,10 @@ updated.model=TRUE, ...)
     ## coda samples
     if (n.iter > 0) {
         res <- coda.samples(m, params, n.iter=n.iter, thin=thin, ...)
-    } else return(m)
+    } else {
+## see if nclones attr can be added
+        return(m)
+    }
     ## jags.model attribute
     if (updated.model)
         attr(res, "updated.model") <- m
