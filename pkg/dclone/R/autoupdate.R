@@ -8,6 +8,9 @@ n.iter = niter(object) * thin(object), thin = thin(object), ...)
         stop("updated model not found")
     mod <- object
     attr(mod, "updated.model") <- NULL
+    ## update can go even if fun is missing
+    if (missing(fun))
+        fun <- function(z) FALSE
     fun <- match.fun(fun)
     fval <- fun(mod)
     if (!is.logical(fval))
