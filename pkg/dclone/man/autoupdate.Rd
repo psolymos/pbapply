@@ -1,6 +1,6 @@
 \name{autoupdate}
 \Rdversion{1.1}
-\alias{autoupdate}
+\alias{update.mcmc.list}
 \alias{updated.model}
 \title{
 Automatic updating of an MCMC object
@@ -11,7 +11,7 @@ Automatic updating of an MCMC object until a desired statistic value reached.
 \usage{
 updated.model(object, ...)
 autoupdate(object, fun, times, n.update = 0, 
-n.iter = niter(object) * thin(object), thin = thin(object), ...)
+n.iter, thin, ...)
 }
 \arguments{
   \item{object}{
@@ -19,7 +19,7 @@ A fitted MCMC object ('mcmc.list' class for example), with \code{"updated.model"
 }
   \item{fun}{
 A function that evaluates convergence of the MCMC chains, must return logical result. See Examples.
-The iterative updating quits when return value is \code{TRUE}.
+The iterative updating quits when return value is \code{TRUE}. Can be missing.
 }
   \item{times}{
 Number of times the updating should be repeated. If \code{fun} returns \code{TRUE}, updating
@@ -30,9 +30,10 @@ Number of updating iterations. The default 0 indicates, that only \code{n.iter} 
 }
   \item{n.iter}{
 Number of iterations for sampling and evaluating \code{fun}.
+If missing, value is taken from \code{object}.
 }
   \item{thin}{
-Thinning value.
+Thinning value. If missing, value is taken from \code{object}.
 }
   \item{\dots}{
 Other arguments passed to \code{\link[rjags]{coda.samples}}.

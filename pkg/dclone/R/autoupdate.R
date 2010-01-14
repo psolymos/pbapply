@@ -1,6 +1,6 @@
 autoupdate <-
 function(object, fun, times, n.update = 0, 
-n.iter = niter(object) * thin(object), thin = thin(object), ...)
+n.iter, thin, ...)
 {
     ## eval of args
     upm <- updated.model(object)
@@ -19,6 +19,11 @@ n.iter = niter(object) * thin(object), thin = thin(object), ...)
         return(object)
     ## what to sample
     params <- varnames(mod)
+    ## missing args
+    if (missing(thin))
+        thin <- coda:::thin(object)
+    if (missing(n.iter))
+        n.iter <- niter(object) * coda:::thin(object)
     ## n.update/n.iter vs. times
     if (length(n.update) < times)
         n.update <- rep(n.update, times)[1:times]
@@ -26,7 +31,7 @@ n.iter = niter(object) * thin(object), thin = thin(object), ...)
         n.iter <- rep(n.iter, times)[1:times]
     ## auto-updating
     for (i in 1:times) {
-        if (i > 0)
+        if (n.update[i] > 0)
             update(upm, n.update[i], ...)
         mod <- coda.samples(upm, params, n.iter[i], thin, ...)
         if (fun(mod))
@@ -41,4 +46,3 @@ n.iter = niter(object) * thin(object), thin = thin(object), ...)
     }
     mod
 }
-
