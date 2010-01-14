@@ -15,7 +15,7 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
         stop("'.RNG.name' and '.RNG.seed' is missing from 'inits'")
     if (length(unique(sapply(inits, function(z) z[[".RNG.seed"]]))) == 1)
         stop("provide different '.RNG.seed' for each chain")
-    ## parallel function to evaluate by mcmc.cluster
+    ## parallel function to evaluate by cluster.wrapper
     jagsparallel <- function(i, ...)   {
         jags.fit(data=cldata$data, params=cldata$params, model=cldata$model, 
         inits=cldata$inits[[i]], n.chains=1, ...)
@@ -23,7 +23,7 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
     ## common data
     cldata <- list(data=data, params=params, model=model, inits=inits)
     ## parallel computations
-    mcmc <- mcmc.cluster(cl, 1:n.chains, jagsparallel, cldata, lib="dclone", 
+    mcmc <- cluster.wrapper(cl, 1:n.chains, jagsparallel, cldata, lib="dclone", 
         load.balancing=getOption("dclone.cluster")$load.balancing, ...)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))

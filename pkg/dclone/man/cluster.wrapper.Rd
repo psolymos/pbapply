@@ -1,6 +1,6 @@
-\name{mcmc.cluster}
+\name{cluster.wrapper}
 \Rdversion{1.1}
-\alias{mcmc.cluster}
+\alias{cluster.wrapper}
 \title{
 Convenient function for parallel MCMC computations
 }
@@ -9,7 +9,7 @@ A function similar to \code{\link[snow]{clusterApply}} and \code{\link[snow]{clu
 designed to work closely with MCMC fitting functions (can be called from inside of a function).
 }
 \usage{
-mcmc.cluster(cl, seq, fun, cldata, name = "cldata", 
+cluster.wrapper(cl, seq, fun, cldata, name = "cldata", 
 lib = NULL, load.balancing = TRUE, ...)
 }
 \arguments{
@@ -60,7 +60,7 @@ A list with results returned by the cluster.
 cl <- makeSOCKcluster(2)
 fun <- function(i) cldata$a * i - cldata$b
 cldata <- list(a=10, b=5)
-mcmc.cluster(cl, 1:2, fun, cldata)
+cluster.wrapper(cl, 1:2, fun, cldata)
 stopCluster(cl)
 }
 }

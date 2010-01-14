@@ -16,7 +16,7 @@ function(cl, data, params, model, inits, n.chains = 3, bugs.seed=1:n.chains, ...
         stop("provide initial values")
     if (length(inits) != n.chains)
         stop("provide initial values for each chains")
-    ## parallel function to evaluate by mcmc.cluster
+    ## parallel function to evaluate by cluster.wrapper
     bugsparallel <- function(i, ...)   {
         jags.fit(data=cldata$data, params=cldata$params, model=cldata$model,
         inits=cldata$inits[[i]], n.chains=1, bugs.seed=bugs.seed[[i]], ...)
@@ -24,7 +24,7 @@ function(cl, data, params, model, inits, n.chains = 3, bugs.seed=1:n.chains, ...
     ## common data
     cldata <- list(data=data, params=params, model=model, inits=inits)
     ## parallel computations
-    mcmc <- mcmc.cluster(cl, 1:n.chains, bugsparallel, cldata, lib="dclone", 
+    mcmc <- cluster.wrapper(cl, 1:n.chains, bugsparallel, cldata, lib="dclone", 
         load.balancing=getOption("dclone.cluster")$load.balancing, ...)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))
