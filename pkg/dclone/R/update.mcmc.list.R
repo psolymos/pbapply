@@ -1,4 +1,4 @@
-autoupdate <-
+update.mcmc.list <-
 function(object, fun, times, n.update = 0, 
 n.iter, thin, ...)
 {

@@ -3,7 +3,7 @@ export("dclone", "dcdim",
        "jags.fit", "bugs.fit", "dc.fit",
        "jags.pfit", "bugs.pfit", "dc.pfit",
        "clean.jags.model", "write.jags.model", "custommodel",
-       "updated.model", "autoupdate",
+       "updated.model",
        "dcsd",
        "nclones",
        "mcmcapply",
@@ -30,6 +30,7 @@ S3method("dclone", "ts")
 S3method("dctable", "default")
 S3method("extractdctable", "default")
 S3method("updated.model", "mcmc.list")
+S3method("update", "mcmc.list")
 
 S3method("as.mcmc.list", "bugs")
 S3method("print", "mcmc.list")
