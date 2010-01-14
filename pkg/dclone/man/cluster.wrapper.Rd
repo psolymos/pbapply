@@ -1,11 +1,13 @@
 \name{cluster.wrapper}
 \Rdversion{1.1}
 \alias{cluster.wrapper}
+\alias{cluster.split}
+\alias{cluster.size}
 \title{
-Convenient function for parallel MCMC computations
+Convenient functions for parallel MCMC computations
 }
 \description{
-A function similar to \code{\link[snow]{clusterApply}} and \code{\link[snow]{clusterApplyLB}},
+\code{cluster.wrapper} is a wrapper function around many 'snow' functions,
 designed to work closely with MCMC fitting functions (can be called from inside of a function).
 }
 \usage{
@@ -37,6 +39,12 @@ Character, name of package(s). Optionally a package can be loaded onto the clust
   \item{load.balancing}{
 Logical, if \code{TRUE} the function \code{\link[snow]{clusterApplyLB}} is used istead of \code{\link[snow]{clusterApply}}.
 }
+  \item{n}{
+Maximum number of workers.
+}
+  \item{size}{
+Vector of problem sizes (or relative performance information) correcponding to elements of \code{seq}.
+}
   \item{\dots}{
 Other arguments of \code{fun}, that are simple values and not objects. (Arguments passed as objects should be specified in
 \code{cldata}, otherwise not exported to the cluster.)
@@ -58,10 +66,20 @@ A list with results returned by the cluster.
 \examples{
 \dontrun{
 cl <- makeSOCKcluster(2)
+## wrapper
 fun <- function(i) cldata$a * i - cldata$b
 cldata <- list(a=10, b=5)
 cluster.wrapper(cl, 1:2, fun, cldata)
+## split
+cluster.split(cl, 1:5)
+cluster.split(cl, 1:5, 5:1)
+x <- list("a", c("b", "c"), 1, c(2, 3), TRUE)
+cluster.split(cl, x)
+cluster.split(cl, x, 5:1)
 stopCluster(cl)
+## determine the number of workers
+cluster.size(10, rep(1, 10))
+cluster.size(10, 1:10)
 }
 }
 \keyword{ utilities }

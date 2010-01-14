@@ -1,6 +1,8 @@
 dclone package version history
 
 Version 1.0-3, December 14, 2009
+    * cluster.size and cluster.split: new function for optimizing
+      load balance (especially for different k problems in DC)
     * lambdamax.diag: added back.
     * errlines: got col argument.
     * jags.fit: if n.iter=0, the (updated) JAGS model is returned
