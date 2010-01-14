@@ -24,3 +24,4 @@ function(cl, seq, fun, cldata, name="cldata", lib=NULL, load.balancing = TRUE, .
     res <- clusterfun(cl, seq, fun, ...)
     res
 }
+

@@ -72,7 +72,7 @@ cl <- makeSOCKcluster(2)
 ## wrapper
 fun <- function(i) cldata$a * i - cldata$b
 cldata <- list(a=10, b=5)
-cluster.wrapper(cl, 1:2, fun, cldata)
+cluster.wrapper(cl, 1:5, fun, cldata)
 ## split
 cluster.split(cl, 1:5)
 cluster.split(cl, 1:5, 5:1)

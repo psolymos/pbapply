@@ -7,7 +7,7 @@ export("dclone", "dcdim",
        "dcsd",
        "nclones",
        "mcmcapply",
-       "cluster.wrapper",
+       "cluster.wrapper", "cluster.size", "cluster.split",
        "as.mcmc.list.dc",
        "make.symmetric",
        "dctable", "extractdctable")

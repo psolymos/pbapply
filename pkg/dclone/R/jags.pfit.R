@@ -39,3 +39,4 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
     }
     res
 }
+
