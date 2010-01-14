@@ -1,5 +1,6 @@
 mcmc.cluster <-
 function(cl, seq, fun, cldata, name="cldata", lib=NULL, load.balancing = TRUE, ...)
+## add size arg and split function
 {
     require(snow)
     ## elav args
