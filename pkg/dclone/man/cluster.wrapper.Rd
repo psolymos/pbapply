@@ -13,6 +13,8 @@ designed to work closely with MCMC fitting functions (can be called from inside 
 \usage{
 cluster.wrapper(cl, seq, fun, cldata, name = "cldata", 
 lib = NULL, load.balancing = TRUE, ...)
+cluster.split(cl, seq, size = 1)
+cluster.size(n, size) {
 }
 \arguments{
   \item{cl}{
@@ -44,6 +46,7 @@ Maximum number of workers.
 }
   \item{size}{
 Vector of problem sizes (or relative performance information) correcponding to elements of \code{seq}.
+Recicled if needed. The default \code{1} indicates equality of problem sizes.
 }
   \item{\dots}{
 Other arguments of \code{fun}, that are simple values and not objects. (Arguments passed as objects should be specified in
@@ -75,11 +78,11 @@ cluster.split(cl, 1:5)
 cluster.split(cl, 1:5, 5:1)
 x <- list("a", c("b", "c"), 1, c(2, 3), TRUE)
 cluster.split(cl, x)
-cluster.split(cl, x, 5:1)
+cluster.split(cl, x, 1:5)
 stopCluster(cl)
 ## determine the number of workers
-cluster.size(10, rep(1, 10))
-cluster.size(10, 1:10)
+cluster.size(5, rep(1, 5))
+cluster.size(5, 1:5)
 }
 }
 \keyword{ utilities }
