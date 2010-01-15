@@ -1,0 +1,15 @@
+Package: dclone
+Type: Package
+Title: Parallel Computing Features for Data Cloning and MCMC Methods
+Version: 0.1-0
+Date: 2010-01-14
+Author: Peter Solymos
+Maintainer: Peter Solymos <solymos@ualberta.ca>
+Description: Parallel computing features for the dclone package.
+License: GPL-2
+Depends: dclone, snow
+Imports: stats
+SystemRequirements: jags (== 1.0.3), WinBUGS (== 1.4)
+URL: http://cran.r-project.org/package=dclone, http://dcr.r-forge.r-project.org/
+LazyLoad: yes
+LazyData: true
