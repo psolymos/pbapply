@@ -10,7 +10,7 @@ Automatic updating of an MCMC object until a desired statistic value reached.
 }
 \usage{
 updated.model(object, ...)
-autoupdate(object, fun, times, n.update = 0, 
+\method{update}{mcmc.list}(object, fun, times, n.update = 0, 
 n.iter, thin, ...)
 }
 \arguments{

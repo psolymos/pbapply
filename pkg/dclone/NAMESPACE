@@ -2,6 +2,7 @@
 export("dclone", "dcdim", 
        "jags.fit", "bugs.fit", "dc.fit",
        "clean.jags.model", "write.jags.model", "custommodel",
+       "openbugs.seed",
        "updated.model",
        "dcsd",
        "nclones",

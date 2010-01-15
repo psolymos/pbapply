@@ -45,8 +45,6 @@ Khurram Nadeem, \email{knadeem@math.ualberta.ca}
 }
 \seealso{
 Eigen decomposition: \code{\link{eigen}}
-
-This test is used in the function \code{\link{jags.dclone}}
 }
 \examples{
 data(regmod)
