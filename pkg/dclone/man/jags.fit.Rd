@@ -43,7 +43,7 @@ Number of iterations.
 }
   \item{updated.model}{
 Logical, if the updated model should be attached as attribute (this can be used to further update if convergence
-was not satisfactory, see \code{\link{updated.model}} and \code{\link{autoupdate}}).
+was not satisfactory, see \code{\link{updated.model}} and \code{\link{update.mcmc.list}}).
 }
   \item{\dots}{
 Further arguments passed to \code{\link[rjags]{coda.samples}}, and \code{\link[rjags]{update.jags}}
