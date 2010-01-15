@@ -1,6 +1,5 @@
-cluster.wrapper <-
-function(cl, seq, fun, cldata, name="cldata", lib=NULL, load.balancing = TRUE, ...)
-## add size arg and split function
+snowWrapper <-
+function(cl, seq, fun, cldata, name="cldata", lib=NULL, load.balancing = TRUE, size = 1, ...)
 {
     require(snow)
     ## elav args
@@ -20,8 +19,10 @@ function(cl, seq, fun, cldata, name="cldata", lib=NULL, load.balancing = TRUE, .
     ## place object name into global env (clusterExport can reach it)
     assign(name, cldata, envir = .GlobalEnv)
     clusterExport(cl, name)
-    ## parallel work done here and return
-    res <- clusterfun(cl, seq, fun, ...)
+    ## parallel work done here similarly as in clusterLapply
+    s <- cluster.split(cl, seq, size)
+    res <- clusterfun(cl, s, lapply, fun, ...)
+    res <- docall(c, res)
+    res <- res[order(unlist(s))]
     res
 }
-

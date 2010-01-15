@@ -1,4 +1,4 @@
-cluster.size <- function(n, size) {
+clusterSize <- function(n, size) {
     fun <- function(n, seq, size) {
         m <- length(size)
         w <- matrix(0, m-n+1, n)

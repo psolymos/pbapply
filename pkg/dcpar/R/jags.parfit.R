@@ -1,4 +1,4 @@
-jags.pfit <-
+jags.parfit <-
 function(cl, data, params, model, inits, n.chains = 3, ...)
 {
     ## eval args
@@ -23,8 +23,8 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
     ## common data
     cldata <- list(data=data, params=params, model=model, inits=inits)
     ## parallel computations
-    mcmc <- cluster.wrapper(cl, 1:n.chains, jagsparallel, cldata, lib="dclone", 
-        load.balancing=getOption("dclone.cluster")$load.balancing, ...)
+    mcmc <- snowWrapper(cl, 1:n.chains, jagsparallel, cldata, lib="dclone", 
+        load.balancing=getOption("dclone.cluster")$load.balancing, size=1, ...)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))
     ## updated models

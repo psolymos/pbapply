@@ -1,4 +1,4 @@
-bugs.pfit <-
+bugs.parfit <-
 function(cl, data, params, model, inits, n.chains = 3, bugs.seed=1:n.chains, ...)
 {
     ## eval args
@@ -24,8 +24,8 @@ function(cl, data, params, model, inits, n.chains = 3, bugs.seed=1:n.chains, ...
     ## common data
     cldata <- list(data=data, params=params, model=model, inits=inits)
     ## parallel computations
-    mcmc <- cluster.wrapper(cl, 1:n.chains, bugsparallel, cldata, lib="dclone", 
-        load.balancing=getOption("dclone.cluster")$load.balancing, ...)
+    mcmc <- snowWrapper(cl, 1:n.chains, bugsparallel, cldata, lib="dclone", 
+        load.balancing=getOption("dclone.cluster")$load.balancing, size=1, ...)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))
     ## attaching attribs and return
