@@ -12,7 +12,7 @@ Description: Low level functions for implementing
     for JAGS, WinBUGS and OpenBUGS and 
     parallel computing features.
 License: GPL-2
-Depends: R (>= 2.7.0), rjags, coda (>= 0.13), R2WinBUGS, snow
+Depends: R (>= 2.7.0), rjags, coda (>= 0.13), R2WinBUGS
 Suggests: BRugs
 Imports: stats
 SystemRequirements: jags (== 1.0.3), WinBUGS (== 1.4)

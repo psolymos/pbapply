@@ -80,8 +80,6 @@ and \code{format = "mcmc.list"}, thus \code{n.thin = 1} is advised in such cases
 \seealso{
 Underlying functions: \code{\link{openbugs.seed}}, \code{\link[R2WinBUGS]{bugs}}
 
-Parallel computing version: \code{\link{bugs.pfit}}
-
 Methods: \code{\link{dcsd}}, \code{\link{confint.mcmc.list.dc}}, 
 \code{\link{coef.mcmc.list}}, \code{\link{quantile.mcmc.list}}, \code{\link{vcov.mcmc.list.dc}}
 }

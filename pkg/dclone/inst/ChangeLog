@@ -1,24 +1,19 @@
 dclone package version history
 
+Version 1.0-4, January 14, 2010
+    * dclone and dcpar split: parallet computing features
+      in separate package.
+
 Version 1.0-3, December 14, 2009
-    * cluster.size and cluster.split: new function for optimizing
-      load balance (especially for different k problems in DC)
     * lambdamax.diag: added back.
     * errlines: got col argument.
     * jags.fit: if n.iter=0, the (updated) JAGS model is returned
       instead of an MCMC object.
-    * autoupdate: function to perform automatic updates of an
+    * update.mcmc.list: function to perform automatic updates of an
       MCMC object, until a desired statistics value 
       (e.g. R_hat < 1.1) reached.
 
 Version 1.0-2, December 4, 2009
-    * jags.pfit, bugs.pfit: parallel computing for chains based on snow.
-    * cluster.wrapper: internal function for parallel MCMC computations.
-    * openbugs.seed: modified version of R2WinBUGS::openbugs with
-      RNG seed argument (for parallel computations).
-    * dc.pfit: models with different n.clones are run parallel
-      with load balancing as default.
-    * options got cluster (incl. load.balancing).
     * updated.model attr in jags.fit output for further updating.
     * bg arg in errlines and box.bg in plot.dctable for background
       color of boxes.

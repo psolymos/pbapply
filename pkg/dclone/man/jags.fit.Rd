@@ -62,8 +62,6 @@ and \eqn{R_{hat}} values (as returned by \code{\link[coda]{gelman.diag}}).
 \seealso{
 Underlying functions: \code{\link[rjags]{jags.model}}, \code{\link[rjags]{coda.samples}}
 
-Parallel computing version: \code{\link{jags.pfit}}
-
 Methods: \code{\link{dcsd}}, \code{\link{confint.mcmc.list.dc}}, 
 \code{\link{coef.mcmc.list}}, \code{\link{quantile.mcmc.list}}, \code{\link{vcov.mcmc.list.dc}}
 }

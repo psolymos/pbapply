@@ -1,29 +1,20 @@
 \name{dc.fit}
 \Rdversion{1.1}
 \alias{dc.fit}
-\alias{dc.pfit}
 \title{
 Iterative model fitting with data cloning
 }
 \description{
 \code{\link{jags.fit}} of \code{\link{bugs.fit}} is iteratively used to fit a model with
-increasing the number of clones. The iterative model fitting is sequential in \code{dc.fit} 
-and parallel in \code{dc.pfit}.
+increasing the number of clones.
 }
 \usage{
 dc.fit(data, params, model, inits, n.clones, 
 multiply = NULL, unchanged = NULL, 
 update = NULL, updatefun = NULL, initsfun = NULL,
 trace = 1, flavour = c("jags", "bugs"), ...)
-dc.pfit(cl, data, params, model, inits, n.clones, 
-multiply=NULL, unchanged=NULL, 
-update=NULL, updatefun=NULL, initsfun=NULL, 
-trace=1, flavour = c("jags", "bugs"), ...)
 }
 \arguments{
-  \item{cl}{
-A cluster object created by \code{\link[snow]{makeCluster}}.
-}
   \item{data}{
 A named list (not environment) containing the data.
 }
@@ -80,8 +71,6 @@ The function fits a JAGS/BUGS model with increasing numbers of clones, as suppli
 the argument \code{k}. Data cloning is done by the function \code{dclone} using
 the arguments \code{multiply} and \code{unchanged}.
 An updating function can be provided, see Examples.
-
-The \code{dc.pfit} os a parallel computing version of \code{dc.fit}.
 }
 \value{
 An object inheriting from the class 'mcmc.list'.
@@ -193,12 +182,6 @@ mod <- dc.fit(dat, c("lambda","beta","sigma"), beverton.holt,
 ##   lambda = 2.274
 ##   sigma  = 0.1274
 summary(mod)
-## parallel computation
-cl <- makeSOCKcluster(2)
-pmod <- dc.pfit(cl, dat, c("lambda","beta","sigma"), beverton.holt,
-    n.clones=c(2, 5, 10), multiply="ncl", unchanged="n")
-summary(pmod)
-stopCluster(cl)
 }
 }
 \keyword{ models }
