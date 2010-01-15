@@ -1,8 +1,8 @@
 \encoding{UTF-8}
-\name{jags.pfit}
+\name{jags.parfit}
 \Rdversion{1.1}
-\alias{jags.pfit}
-\alias{bugs.pfit}
+\alias{jags.parfit}
+\alias{bugs.parfit}
 \title{
 Parallel computing with JAGS and WinBUGS/OpenBUGS
 }
@@ -12,8 +12,8 @@ but parallel chanis are run on parallel workers, thus more than 4 chains are ena
 computation can be faster for long MCMC runs.
 }
 \usage{
-jags.pfit(cl, data, params, model, inits, n.chains = 3, ...)
-bugs.pfit(cl, data, params, model, inits, n.chains = 3, 
+jags.parfit(cl, data, params, model, inits, n.chains = 3, ...)
+bugs.parfit(cl, data, params, model, inits, n.chains = 3, 
 bugs.seed = 1:n.chains, ...)
 }
 \arguments{
@@ -31,8 +31,8 @@ Character string (name of the model file) or a function containing the model (se
 }
   \item{inits}{
 Specification of initial values in the form of a list or a function. 
-For the function \code{jags.pfit}, \code{inits} must contain RNG seed information, too (see Initialization at \code{\link[rjags]{jags.model}}).
-For the function \code{bugs.pfit}, \code{inits} has to contain only initial values without random seed specifications 
+For the function \code{jags.parfit}, \code{inits} must contain RNG seed information, too (see Initialization at \code{\link[rjags]{jags.model}}).
+For the function \code{bugs.parfit}, \code{inits} has to contain only initial values without random seed specifications 
 (but see argument \code{bugs.seed}).
 }
   \item{n.chains}{
@@ -91,7 +91,7 @@ inits <- lapply(1:3, initsfun)
 system.time(regmod <- jags.fit(jdata, jpara, jfun, inits, n.chains = 3))
 ## fit the model with parallelization
 cl <- makeCluster(3, type = "SOCK")
-system.time(pregmod <- jags.pfit(cl, jdata, jpara, jfun, inits, n.chains = 3))
+system.time(pregmod <- jags.parfit(cl, jdata, jpara, jfun, inits, n.chains = 3))
 stopCluster(cl)
 }
 }

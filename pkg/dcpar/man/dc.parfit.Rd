@@ -1,16 +1,16 @@
-\name{dc.pfit}
+\name{dc.parfit}
 \Rdversion{1.1}
-\alias{dc.pfit}
+\alias{dc.parfit}
 \title{
 Iterative model fitting with data cloning
 }
 \description{
 \code{\link{jags.fit}} of \code{\link{bugs.fit}} is iteratively used to fit a model with
 increasing the number of clones. The iterative model fitting is sequential in \code{dc.fit} 
-and parallel in \code{dc.pfit}.
+and parallel in \code{dc.parfit}.
 }
 \usage{
-dc.pfit(cl, data, params, model, inits, n.clones, 
+dc.parfit(cl, data, params, model, inits, n.clones, 
 multiply=NULL, unchanged=NULL, 
 update=NULL, updatefun=NULL, initsfun=NULL, 
 trace=1, flavour = c("jags", "bugs"), ...)
@@ -76,7 +76,7 @@ the argument \code{k}. Data cloning is done by the function \code{dclone} using
 the arguments \code{multiply} and \code{unchanged}.
 An updating function can be provided, see Examples.
 
-The \code{dc.pfit} os a parallel computing version of \code{dc.fit}.
+The \code{dc.parfit} os a parallel computing version of \code{dc.fit}.
 }
 \value{
 An object inheriting from the class 'mcmc.list'.
@@ -131,7 +131,7 @@ mod <- dc.fit(dat, c("lambda","beta","sigma"), beverton.holt,
 summary(mod)
 ## parallel computation
 cl <- makeSOCKcluster(2)
-pmod <- dc.pfit(cl, dat, c("lambda","beta","sigma"), beverton.holt,
+pmod <- dc.parfit(cl, dat, c("lambda","beta","sigma"), beverton.holt,
     n.clones=c(2, 5, 10), multiply="ncl", unchanged="n")
 summary(pmod)
 stopCluster(cl)

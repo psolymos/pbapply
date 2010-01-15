@@ -3,7 +3,7 @@
                     fields=c("Version", "Date"))
     cat(paste(pkgname, ver[1], "\t", ver[2], "\n"))
     if (is.null(getOption("dcpar"))) {
-        options("dcpar"=list(load.balancing=TRUE))
+        options("dcpar"=list(load.balancing=FALSE))
     }
     invisible(NULL)
 }

@@ -1,11 +1,6 @@
 snowWrapper <-
-function(cl, seq, fun, cldata, name="cldata", lib=NULL, load.balancing = TRUE, size = 1, ...)
+function(cl, seq, fun, cldata, name="cldata", lib=NULL, load.balancing = FALSE, size = 1, ...)
 {
-    require(snow)
-    ## elav args
-    fun <- match.fun(fun)
-    clusterfun <- if (load.balancing)
-        match.fun(clusterApplyLB) else match.fun(clusterApply)
     ## if object name exists in global env, make a copy as tmp, and put back in the end
     if (exists(name, envir=.GlobalEnv)) {
         assign("tmp", get("cldata", envir=.GlobalEnv))
@@ -19,10 +14,7 @@ function(cl, seq, fun, cldata, name="cldata", lib=NULL, load.balancing = TRUE, s
     ## place object name into global env (clusterExport can reach it)
     assign(name, cldata, envir = .GlobalEnv)
     clusterExport(cl, name)
-    ## parallel work done here similarly as in clusterLapply
-    s <- cluster.split(cl, seq, size)
-    res <- clusterfun(cl, s, lapply, fun, ...)
-    res <- docall(c, res)
-    res <- res[order(unlist(s))]
+    ## parallel work done here similarly as in parLapply
+    res <- function(cl, seq, fun, size=size, load.balancing=load.balancing, ...)
     res
 }

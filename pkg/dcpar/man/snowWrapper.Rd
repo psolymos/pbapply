@@ -1,20 +1,22 @@
-\name{cluster.wrapper}
+\name{snowWrapper}
 \Rdversion{1.1}
-\alias{cluster.wrapper}
-\alias{cluster.split}
-\alias{cluster.size}
+\alias{snowWrapper}
+\alias{clusterSplitSB}
+\alias{clusterSize}
+\alias{parLapplySB}
 \title{
 Convenient functions for parallel MCMC computations
 }
 \description{
-\code{cluster.wrapper} is a wrapper function around many 'snow' functions,
+\code{snowWrapper} is a wrapper function around many 'snow' functions,
 designed to work closely with MCMC fitting functions (can be called from inside of a function).
 }
 \usage{
-cluster.wrapper(cl, seq, fun, cldata, name = "cldata", 
-lib = NULL, load.balancing = TRUE, ...)
-cluster.split(cl, seq, size = 1)
-cluster.size(n, size) {
+snowWrapper(cl, seq, fun, cldata, name = "cldata", 
+lib = NULL, load.balancing = FALSE, ...)
+clusterSplitSB(cl, seq, size = 1)
+clusterSize(n, size)
+parLapplySB(cl, x, fun, size = 1, load.balancing = FALSE, ...)
 }
 \arguments{
   \item{cl}{
@@ -72,17 +74,17 @@ cl <- makeSOCKcluster(2)
 ## wrapper
 fun <- function(i) cldata$a * i - cldata$b
 cldata <- list(a=10, b=5)
-cluster.wrapper(cl, 1:5, fun, cldata)
+snowWrapper(cl, 1:5, fun, cldata)
 ## split
-cluster.split(cl, 1:5)
-cluster.split(cl, 1:5, 5:1)
+clusterSplitSB(cl, 1:5)
+clusterSplitSB(cl, 1:5, 5:1)
 x <- list("a", c("b", "c"), 1, c(2, 3), TRUE)
-cluster.split(cl, x)
-cluster.split(cl, x, 1:5)
+clusterSplitSB(cl, x)
+clusterSplitSB(cl, x, 1:5)
 stopCluster(cl)
 ## determine the number of workers
-cluster.size(5, rep(1, 5))
-cluster.size(5, 1:5)
+clusterSize(5, rep(1, 5))
+clusterSize(5, 1:5)
 }
 }
 \keyword{ utilities }
