@@ -13,7 +13,7 @@ designed to work closely with MCMC fitting functions (can be called from inside 
 }
 \usage{
 snowWrapper(cl, seq, fun, cldata, name = "cldata", 
-lib = NULL, load.balancing = FALSE, ...)
+lib = NULL, size = 1, load.balancing = FALSE, ...)
 clusterSplitSB(cl, seq, size = 1)
 clusterSize(n, size)
 parLapplySB(cl, x, fun, size = 1, load.balancing = FALSE, ...)
@@ -22,7 +22,7 @@ parLapplySB(cl, x, fun, size = 1, load.balancing = FALSE, ...)
   \item{cl}{
 A cluster object created by \code{\link[snow]{makeCluster}}.
 }
-  \item{seq}{
+  \item{x, seq}{
 A vector to split.
 }
   \item{fun}{

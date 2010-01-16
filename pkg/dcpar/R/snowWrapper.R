@@ -1,5 +1,5 @@
 snowWrapper <-
-function(cl, seq, fun, cldata, name="cldata", lib=NULL, load.balancing = FALSE, size = 1, ...)
+function(cl, seq, fun, cldata, name="cldata", lib=NULL, size = 1, load.balancing = FALSE, ...)
 {
     ## if object name exists in global env, make a copy as tmp, and put back in the end
     if (exists(name, envir=.GlobalEnv)) {

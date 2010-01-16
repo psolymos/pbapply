@@ -42,7 +42,7 @@ Number of chains to generate, must be higher than 1. Ideally, this is equal to t
 Random seeds for each chains (can be a vector or a list containing integers that are different from each other).
 }
   \item{...}{
-Other arguments accepted by \code{\link{jags.fit}} and \code{\link{bugs.fit}}.
+Other arguments accepted by \code{\link[dclone]{jags.fit}} and \code{\link[dclone]{bugs.fit}}.
 }
 }
 \details{
@@ -55,7 +55,7 @@ An \code{mcmc.list} object.
 \enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \seealso{
-\code{\link{jags.fit}}, \code{\link{bugs.fit}}
+\code{\link[dclone]{jags.fit}}, \code{\link[dclone]{bugs.fit}}
 }
 \examples{
 \dontrun{

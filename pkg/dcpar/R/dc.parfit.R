@@ -42,7 +42,7 @@ update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs")
             bugs.fit(jdat, params, model, inits, format="mcmc.list", DIC=FALSE, ...)
         }
         ## dctable of first model
-        dc.first <- extractdctable(mod)
+        dc.first <- dclone:::extractdctable(mod)
         ## update priors and inits here
         jdat[[update]] <- updatefun(mod)
         if (!is.null(initsfun))
@@ -65,7 +65,7 @@ update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs")
             bugs.fit(data=jdat, params=cldata$params, model=cldata$model, inits=cldata$inits,
                 format="mcmc.list", DIC=FALSE, ...)
         }
-        extractdctable(mod)
+        dclone:::extractdctable(mod)
     }
     ## common data
     cldata <- list(data=data, params=params, model=model, inits=inits,
@@ -84,7 +84,7 @@ update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs")
     } else {
         bugs.fit(jdat, params, model, inits, format="mcmc.list", DIC=FALSE, ...)
     }
-    dc.last <- extractdctable(mod)
+    dc.last <- dclone:::extractdctable(mod)
 
     ## dctable skeleton
     vn <- varnames(mod)

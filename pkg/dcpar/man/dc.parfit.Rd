@@ -5,9 +5,7 @@
 Iterative model fitting with data cloning
 }
 \description{
-\code{\link{jags.fit}} of \code{\link{bugs.fit}} is iteratively used to fit a model with
-increasing the number of clones. The iterative model fitting is sequential in \code{dc.fit} 
-and parallel in \code{dc.parfit}.
+The iterative model fitting in parallel.
 }
 \usage{
 dc.parfit(cl, data, params, model, inits, n.clones, 
@@ -76,7 +74,7 @@ the argument \code{k}. Data cloning is done by the function \code{dclone} using
 the arguments \code{multiply} and \code{unchanged}.
 An updating function can be provided, see Examples.
 
-The \code{dc.parfit} os a parallel computing version of \code{dc.fit}.
+The \code{dc.parfit} os a parallel computing version of \code{\link[dclone]{dc.fit}}.
 }
 \value{
 An object inheriting from the class 'mcmc.list'.
@@ -92,9 +90,11 @@ ecological models using Bayesian Markov chain Monte Carlo  methods.
 implementation is based on many discussions with Khurram Nadeem and Subhash Lele.
 }
 \seealso{
-Data cloning: \code{\link{dclone}}. \
-Model fitting: \code{\link{jags.fit}}, \code{\link{bugs.fit}}
-Convergence diagnostics: \code{\link{dctable}}
+Data cloning: \code{\link[dclone]{dclone}}. \
+
+Model fitting: \code{\link[dclone]{jags.fit}}, \code{\link[dclone]{bugs.fit}}
+
+Convergence diagnostics: \code{\link[dclone]{dctable}}
 }
 \examples{
 \dontrun{
