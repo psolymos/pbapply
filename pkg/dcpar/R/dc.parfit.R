@@ -71,7 +71,7 @@ update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs")
     cldata <- list(data=data, params=params, model=model, inits=inits,
         multiply=multiply, unchanged=unchanged, flavour=flavour, kseq=kseq)
     ## parallel computations
-    pdct <- snowWrapper(cl, cldata$kseq, dcparallel, cldata, lib="dclone", 
+    pdct <- snowWrapper(cl, cldata$kseq, dcparallel, cldata, lib="dcpar", 
         load.balancing=getOption("dclone.cluster")$load.balancing, ...)
 
     #### last model fitting

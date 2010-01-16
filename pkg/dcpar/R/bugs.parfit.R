@@ -14,6 +14,8 @@ function(cl, data, params, model, inits, n.chains = 3, bugs.seed=1:n.chains, ...
         stop("provide different seed values for each chains")
     if (missing(inits))
         stop("provide initial values")
+    if (is.function(inits))
+        inits <- lapply(1:n.chains, inits)
     if (length(inits) != n.chains)
         stop("provide initial values for each chains")
     ## parallel function to evaluate by cluster.wrapper
@@ -24,7 +26,7 @@ function(cl, data, params, model, inits, n.chains = 3, bugs.seed=1:n.chains, ...
     ## common data
     cldata <- list(data=data, params=params, model=model, inits=inits)
     ## parallel computations
-    mcmc <- snowWrapper(cl, 1:n.chains, bugsparallel, cldata, lib="dclone", 
+    mcmc <- snowWrapper(cl, 1:n.chains, bugsparallel, cldata, lib="dcpar", 
         load.balancing=getOption("dclone.cluster")$load.balancing, size=1, ...)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))

@@ -9,6 +9,8 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
         stop("no need for parallel computing with 1 chain")
     if (missing(inits))
         stop("provide initial values")
+    if (is.function(inits))
+        inits <- lapply(1:n.chains, inits)
     if (length(inits) != n.chains)
         stop("provide initial values for each chains")
     if (!all(c(".RNG.name", ".RNG.seed") %in% unique(unlist(lapply(inits, names)))))
@@ -23,7 +25,7 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
     ## common data
     cldata <- list(data=data, params=params, model=model, inits=inits)
     ## parallel computations
-    mcmc <- snowWrapper(cl, 1:n.chains, jagsparallel, cldata, lib="dclone", 
+    mcmc <- snowWrapper(cl, 1:n.chains, jagsparallel, cldata, lib="dcpar", 
         load.balancing=getOption("dclone.cluster")$load.balancing, size=1, ...)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))
