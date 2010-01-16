@@ -62,10 +62,10 @@ it should take an 'mcmc.list' object as argument. See Examples.
   Higher number indicate more information.
 }
   \item{flavour}{
-  If \code{"jags"}, the function \code{\link{jags.fit}} is called. If \code{"bugs"}, the function \code{\link{bugs.fit}} is called.
+  If \code{"jags"}, the function \code{\link[dclone]{jags.fit}} is called. If \code{"bugs"}, the function \code{\link[dclone]{bugs.fit}} is called.
 }
   \item{\dots}{
-  Other values supplied to \code{\link{jags.fit}}, or \code{\link{bugs.fit}}, depending on the \code{flavour} argument.
+  Other values supplied to \code{\link[dclone]{jags.fit}}, or \code{\link[dclone]{bugs.fit}}, depending on the \code{flavour} argument.
 }
 }
 \details{
