@@ -10,21 +10,10 @@ function(x, ...) {
         ord <- order(k)
         obj <- obj[ord]
         k <- k[ord]
-        dctmp <- lapply(obj, extractdcdiag.default)
-        rnam <- lapply(dctmp, rownames)
-        nam <- rnam[[1]]
-        if (!setequal(nam, unique(unlist(rnam))))
-            stop("parameter names in each model should be identical")
-        rval <- vector("list", length(nam))
-        names(rval) <- rownames(dctmp[[1]])
+        dctmp <- t(sapply(obj, extractdcdiag.default))
         Call <- match.call()
         mnam <- as.character(Call[-1])
-        for (i in 1:length(nam)) {
-            rval[[i]] <- cbind(n.clones=k, t(sapply(dctmp, function(z) z[i,])))
-            if (length(mnam) > 1)
-                rownames(rval[[i]]) <- mnam
-        }
-            rval <- lapply(rval, function(z) as.data.frame(z))
+            rval <- data.frame(n.clones=k, dctmp)
     } else {
         rval <- attr(x, "dcdiag")
     }
