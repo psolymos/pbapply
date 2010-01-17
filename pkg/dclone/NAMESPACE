@@ -9,7 +9,9 @@ export("dclone", "dcdim",
        "mcmcapply",
        "as.mcmc.list.dc",
        "make.symmetric",
-       "dctable", "extractdctable", "lambdamax.diag")
+       "dctable", "extractdctable",
+       "dcdiag", "extractdcdiag", 
+       "lambdamax.diag")
 
 ## graphical helper functions
 export("errlines")

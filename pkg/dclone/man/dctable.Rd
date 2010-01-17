@@ -5,6 +5,11 @@
 \alias{extractdctable}
 \alias{extractdctable.default}
 \alias{plot.dctable}
+\alias{dcdiag}
+\alias{dcdiag.default}
+\alias{extractdcdiag}
+\alias{extractdcdiag.default}
+\alias{plot.dcdiag}
 \title{
 Retrieve descriptive statistics from fitted objects to evaluate convergence
 }
@@ -21,6 +26,14 @@ type = c("all", "var", "logvar"),
 position = "topright", box.cex = 0.75, box.bg, ...)
 extractdctable(x, ...)
 \method{extractdctable}{default}(x, ...)
+
+dcdiag(x, ...)
+\method{dcdiag}{default}(x, ...)
+\method{plot}{dcdiag}(x, which = 1:length(x), 
+type = c("all", "var", "logvar"),
+position = "topright", box.cex = 0.75, box.bg, ...)
+extractdcdiag(x, ...)
+\method{extractdcdiag}{default}(x, ...)
 }
 \arguments{
   \item{x}{
