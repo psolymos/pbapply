@@ -1,6 +1,7 @@
 \name{lambdamax.diag}
 \Rdversion{1.1}
 \alias{lambdamax.diag}
+\alias{chisq.diag}
 \title{
 Maximum Eigenvalue of the Posterior Variance-Covariance Matrix
 }
@@ -9,6 +10,7 @@ Calculates the maximum eigenvalue of the posterior variance-covariance matrix
 }
 \usage{
 lambdamax.diag(x)
+chisq.diag(x)
 }
 \arguments{
   \item{x}{
@@ -49,5 +51,6 @@ Eigen decomposition: \code{\link{eigen}}
 \examples{
 data(regmod)
 lambdamax.diag(regmod)
+chisq.diag(regmod)
 }
 \keyword{ htest }
