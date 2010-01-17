@@ -1,6 +1,6 @@
 dcdiag.default <-
 function(x, ...) {
-    dct <- is.null(attr(x, "dctable"))
+    dct <- is.null(attr(x, "dcdiag"))
     ll <- length(list(...))
     if (ll || (!ll && dct)) {
         obj <- list(x, ...)
@@ -10,7 +10,7 @@ function(x, ...) {
         ord <- order(k)
         obj <- obj[ord]
         k <- k[ord]
-        dctmp <- lapply(obj, extractdctable.default)
+        dctmp <- lapply(obj, extractdcdiag.default)
         rnam <- lapply(dctmp, rownames)
         nam <- rnam[[1]]
         if (!setequal(nam, unique(unlist(rnam))))
@@ -26,8 +26,8 @@ function(x, ...) {
         }
             rval <- lapply(rval, function(z) as.data.frame(z))
     } else {
-        rval <- attr(x, "dctable")
+        rval <- attr(x, "dcdiag")
     }
-    class(rval) <- "dctable"
+    class(rval) <- "dcdiag"
     rval
 }
