@@ -12,7 +12,7 @@ increasing the number of clones.
 dc.fit(data, params, model, inits, n.clones, 
 multiply = NULL, unchanged = NULL, 
 update = NULL, updatefun = NULL, initsfun = NULL,
-trace = 1, flavour = c("jags", "bugs"), ...)
+flavour = c("jags", "bugs"), ...)
 }
 \arguments{
   \item{data}{
@@ -54,10 +54,6 @@ A function to use for generating initial values, \code{inits} are updated by the
 returned by this function from the second iteration. If initial values
 are not dependent on the previous iteration, this should be \code{NULL}, otherwise,
 it should take an 'mcmc.list' object as argument. See Examples.
-}
-  \item{trace}{
-  If positive, information is printed during the running of the iterations.
-  Higher number indicate more information.
 }
   \item{flavour}{
   If \code{"jags"}, the function \code{\link{jags.fit}} is called. If \code{"bugs"}, the function \code{\link{bugs.fit}} is called.

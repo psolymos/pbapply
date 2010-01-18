@@ -1,6 +1,6 @@
 dc.fit <- 
 function(data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL, 
-update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs"), ...)
+update=NULL, updatefun=NULL, initsfun=NULL, flavour = c("jags", "bugs"), ...)
 {
     ## initail evals
     flavour <- match.arg(flavour)
@@ -12,7 +12,9 @@ update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs")
     k <- n.clones[order(n.clones)]
     k <- unique(k)
     times <- length(k)
-    crit <- getOption("dclone.crit")
+    dcoptions <- <- getOption("dclone")
+    crit <- dcoptions$r.hat$crit
+    trace <- dcoptions$verbose
     ## evaluate updating
     if (!is.null(update) != !is.null(updatefun))
         stop("both 'update' and 'updatefun' must be provided")

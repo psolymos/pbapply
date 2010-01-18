@@ -13,10 +13,12 @@ function(x, ...) {
         dctmp <- t(sapply(obj, extractdcdiag.default))
         Call <- match.call()
         mnam <- as.character(Call[-1])
-            rval <- data.frame(n.clones=k, dctmp)
+        rval <- as.data.frame(dctmp)
+        rownames(rval) <- mnam
     } else {
         rval <- attr(x, "dcdiag")
     }
-    class(rval) <- "dcdiag"
+    class(rval) <- c("dcdiag", class(rval))
     rval
 }
+
