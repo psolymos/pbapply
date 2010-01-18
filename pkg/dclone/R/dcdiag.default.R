@@ -14,7 +14,7 @@ function(x, ...) {
         Call <- match.call()
         mnam <- as.character(Call[-1])
         rval <- as.data.frame(dctmp)
-        rownames(rval) <- mnam
+        rownames(rval) <- mnam[ord]
     } else {
         rval <- attr(x, "dcdiag")
     }

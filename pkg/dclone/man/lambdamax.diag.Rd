@@ -10,11 +10,14 @@ Calculates the maximum eigenvalue of the posterior variance-covariance matrix
 }
 \usage{
 lambdamax.diag(x)
-chisq.diag(x)
+chisq.diag(x, probs = c(0, 1))
 }
 \arguments{
   \item{x}{
-  an object of class \code{mcmc} or \code{mcmc.list}.
+  An object of class \code{mcmc} or \code{mcmc.list}.
+}
+  \item{probs}{
+  Range of quantiles to use to remove outliers. This option should be used with caution.
 }
 }
 \details{

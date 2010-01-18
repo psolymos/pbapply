@@ -1,3 +1,3 @@
 dcdiag <-
 function(x, ...)
-UseMethod("dctable")
+UseMethod("dcdiag")

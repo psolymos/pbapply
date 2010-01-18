@@ -22,7 +22,7 @@ function(x, ...) {
         for (i in 1:length(nam)) {
             rval[[i]] <- cbind(n.clones=k, t(sapply(dctmp, function(z) z[i,])))
             if (length(mnam) > 1)
-                rownames(rval[[i]]) <- mnam
+                rownames(rval[[i]]) <- mnam[ord]
         }
             rval <- lapply(rval, function(z) as.data.frame(z))
     } else {
