@@ -10,8 +10,9 @@ function(object, quantiles = c(0.025, 0.25, 0.5, 0.75, 0.975), ...)
     if (nch > 1) {
         abin <- getOption("dclone")$r.hat$autoburnin
         rhat <- gelman.diag(object, autoburnin = abin)$psrf[,1]
-        out$statistics <- cbind(out$statistics, "R hat" = rhat)
-    }
+        
+    } else rhat <- NA
+    out$statistics <- cbind(out$statistics, "R hat" = rhat)
     class(out) <- "summary.mcmc.dc"
     out
 }

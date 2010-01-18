@@ -1,3 +1,4 @@
+## stop.if.converged = FALSE arg to break when all dcdiag criteria are met
 dc.fit <- 
 function(data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL, 
 update=NULL, updatefun=NULL, initsfun=NULL, flavour = c("jags", "bugs"), ...)
@@ -13,7 +14,7 @@ update=NULL, updatefun=NULL, initsfun=NULL, flavour = c("jags", "bugs"), ...)
     k <- unique(k)
     times <- length(k)
     dcoptions <- getOption("dclone")
-    crit <- dcoptions$r.hat$crit
+    rhat.crit <- dcoptions$r.hat$crit
     trace <- dcoptions$verbose
     ## evaluate updating
     if (!is.null(update) != !is.null(updatefun))
@@ -27,6 +28,8 @@ update=NULL, updatefun=NULL, initsfun=NULL, flavour = c("jags", "bugs"), ...)
         inits <- NULL
     if (!is.null(initsfun))
         initsfun <- match.fun(initsfun)
+    ## list for dcdiag results
+    dcdr <- list()
     ## iteration starts here
     for (i in 1:times) {
         tmpch <- if (k[i] == 1) "clone" else "clones"
@@ -57,16 +60,23 @@ update=NULL, updatefun=NULL, initsfun=NULL, flavour = c("jags", "bugs"), ...)
                 inits <- initsfun(mod)
         }
         dctmp <- extractdctable.default(mod)
+        dcdr[[i]] <- extractdcdiag.default(mod)
         for (j in 1:length(vn)) {
             dcts[[j]][i,-1] <- dctmp[j,]
         }
     }
     ## warning if R.hat < crit
-    if (nchain(mod) > 1 && any(dctmp[,"r.hat"] >= crit$r.hat))
+    if (nchain(mod) > 1 && any(dctmp[,"r.hat"] >= rhat.crit))
         warning("chains convergence problem, see R.hat values")
     ## finalizing dctable attribute
     dcts <- lapply(dcts, function(z) as.data.frame(z))
     class(dcts) <- "dctable"
     attr(mod, "dctable") <- dcts
+    ## finalizing dcdiag attribute
+    dcd <- t(as.data.frame(dcdr))
+    rownames(dcd) <- 1:length(dcdr)
+    dcd <- data.frame(dcd)
+    class(dcd) <- c("dcdiag", class(dcd))
+    attr(mod, "dcdiag") <- dcd
     mod
 }
