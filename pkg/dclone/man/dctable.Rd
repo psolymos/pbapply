@@ -29,9 +29,8 @@ extractdctable(x, ...)
 
 dcdiag(x, ...)
 \method{dcdiag}{default}(x, ...)
-\method{plot}{dcdiag}(x, which = 1:length(x), 
-type = c("all", "var", "logvar"),
-position = "topright", box.cex = 0.75, box.bg, ...)
+\method{plot}{dcdiag}(x, which = c("all", "lambda.max", 
+"ms.error", "r.squared"), position = "topright", ...)
 extractdcdiag(x, ...)
 \method{extractdcdiag}{default}(x, ...)
 }
@@ -43,8 +42,8 @@ extractdcdiag(x, ...)
   Optionally more fitted model objects for function \code{dctable}.
 }
   \item{which}{
-  What to plot, character names or integer indices of the estimated parameters
-  are accepted.
+  What to plot. For \code{dctable}, character names or integer indices of the estimated parameters are accepted.
+  for \code{dcdiag} it should be one of \code{c("all", "lambda.max", "ms.error", "r.squared")}.
 }
   \item{type}{
   Type of plot to be drawn. See Details.

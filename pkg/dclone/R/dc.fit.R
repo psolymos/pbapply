@@ -12,7 +12,7 @@ update=NULL, updatefun=NULL, initsfun=NULL, flavour = c("jags", "bugs"), ...)
     k <- n.clones[order(n.clones)]
     k <- unique(k)
     times <- length(k)
-    dcoptions <- <- getOption("dclone")
+    dcoptions <- getOption("dclone")
     crit <- dcoptions$r.hat$crit
     trace <- dcoptions$verbose
     ## evaluate updating
