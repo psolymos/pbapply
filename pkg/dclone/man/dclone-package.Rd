@@ -22,7 +22,8 @@ Main functions include:
 
 \code{\link{dc.fit}}: iterative model fitting by the data cloning algorithm.
 
-\code{\link{dctable}}: help evaluating data cloning convergence by descriptives.
+\code{\link{dctable}}, \code{\link{dctable}}: helps evaluating data cloning 
+convergence by descriptive statistics and diagnostic tools.
 }
 \author{
 Authors: \enc{P\'eter S\'olymos}{Peter Solymos}
