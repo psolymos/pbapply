@@ -27,12 +27,12 @@ position = "topright", box.cex = 0.75, box.bg, ...)
 extractdctable(x, ...)
 \method{extractdctable}{default}(x, ...)
 
-dcdiag(x, probs = c(0, 1), ...)
-\method{dcdiag}{default}(x, ...)
+dcdiag(x, ...)
+\method{dcdiag}{default}(x, probs = c(0, 1), ...)
 \method{plot}{dcdiag}(x, which = c("all", "lambda.max", 
 "ms.error", "r.squared"), position = "topright", ...)
 extractdcdiag(x, ...)
-\method{extractdcdiag}{default}(x, ...)
+\method{extractdcdiag}{default}(x, probs = c(0, 1), ...)
 }
 \arguments{
   \item{x}{
