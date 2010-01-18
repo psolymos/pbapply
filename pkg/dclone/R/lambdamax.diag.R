@@ -7,5 +7,6 @@ function(x)
     } else {
         max(eigen(var(y), symmetric=TRUE, only.values=TRUE)$val)
     }
+    class(rval) <- "lambdamax.diag"
     rval
 }
