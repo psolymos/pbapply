@@ -1,4 +1,4 @@
-print.chisq.diag <- function(x, 
+plot.chisq.diag <- function(x, 
     xlab = "Theoretical Quantiles",
     ylab = "Empirical Quantiles", ...)
 {

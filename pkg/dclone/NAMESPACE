@@ -11,7 +11,7 @@ export("dclone", "dcdim",
        "make.symmetric",
        "dctable", "extractdctable",
        "dcdiag", "extractdcdiag", 
-       "lambdamax.diag")
+       "lambdamax.diag", "chisq.diag")
 
 ## graphical helper functions
 export("errlines")
@@ -30,6 +30,8 @@ S3method("dclone", "list")
 S3method("dclone", "ts")
 S3method("dctable", "default")
 S3method("extractdctable", "default")
+S3method("dcdiag", "default")
+S3method("extractdcdiag", "default")
 S3method("updated.model", "mcmc.list")
 S3method("update", "mcmc.list")
 
@@ -44,6 +46,10 @@ S3method("confint", "mcmc.list.dc")
 S3method("summary", "mcmc.list.dc")
 S3method("print", "summary.mcmc.dc")
 S3method("plot", "dctable")
+S3method("plot", "dcdiag")
+S3method("print", "lambdamax.diag")
+S3method("print", "chisq.diag")
+S3method("plot", "chisq.diag")
 
 ## methods for helper functions/classes
 S3method("errlines", "default")

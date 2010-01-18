@@ -1,6 +1,7 @@
 dclone package version history
 
 Version 1.0-4, January 14, 2010
+    * S+ methods added for diagnostic functions.
     * dclone and dcpar split: parallet computing features
       in separate package.
     * chisq.diag: diagnostic tool added.
