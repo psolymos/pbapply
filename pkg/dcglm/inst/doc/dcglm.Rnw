@@ -204,17 +204,20 @@ custommodel(glm.model, c(3,5))
 so eventually we get back our original models. But these are not functions, but character vectors
 of the class \code{custommodel}. \code{jags.fit} will recognize this.
 
-Why do we want to complicate our lives with the \code{custommodel}? We'll see it soon.
+Why do we want to complicate our lives with the \code{custommodel}?
+Because \code{dpois}, \code{dbin}, and \code{inprod} are not recognised
+as valid \R objects or functions. So if our aim is to make an \R package
+that passes the rather strict \code{R CMD check}, so won't be published
+at the Comprehensive \R Archive Network (CRAN). A way to overcome this
+situation is to define fake objects as e.g.~\code{inprod <- function() NULL},
+but this option should be regaded as ugly and inefficient (unnecessary) as compared to 
+a clean \code{custommodel} approach that will be presented in the next section.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\bibliography{dcglm}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The main function: \code{dcglm}}
 
-
-\end{document}
-
-
-
+Here our main function for the data cloning based estimating procedure
+for the Poisson and Binomial GLMs:
+<<>>=
 dcglm <- function(formula, data = parent.frame(), family=c("poisson", "binomial"), n.clones=5, ...){
     glm.model <- c("model {",
                    "    for (i in 1:n) {",
@@ -270,32 +273,103 @@ dcglm <- function(formula, data = parent.frame(), family=c("poisson", "binomial"
     class(rval) <- c("dcglm")
     rval
 }
+@
 
+Let'g go through it step-by-step as pseudo-code:
+
+\begin{enumerate}
+  \item \code{glm.model} is the \code{custommodel} version of the \proglang{BUGS} model,
+    unifying the Poisson and Binomial cases, as we have seen before.
+  \item The \code{family} argument is recognized, and as a result, it can be given not
+    only in full (e.g.~\code{family = "p"} is equivalent of \code{family = "poisson"}).
+  \item \code{lhs} is the left-hand-side of the formula, \code{Y} is the value as a result
+    of evaluating \code{lhs} in \code{data} (that is the parent frame, which is usually the global
+    environment if not called from inside of a function).
+  \item \code{formula[[2]] <- NULL} removes the left-hand-side from the formula.
+  \item \code{rhs} is the right-hand-side, that is a model frame with variables
+    defined in \code{data}.
+  \item The design matrix \code{X} is a result of using the \code{"terms"} attribute
+    of \code{rhs} and evaluated in \code{rhs}.
+  \item \code{dat} is the Bayesian data representation.
+  \item The \code{model} and the data cloned data representation
+    (\code{dcdat}) depends on the \code{family} argument.
+  \item \code{mod} is the fitted \code{mcmc.list} object. Dots (\code{...}) represents
+    all the additional arguments that can be passed, including \code{n.update}, \code{n.iter},
+    and \code{n.chains}.
+  \item \code{COEF} is the \code{coef} method evaluated on the \code{mcmc.list} object \code{mod}.
+    \code{SD} is the data cloned standard error (scaled by $\sqrt{k}$). 
+    Names of \code{COEF} and \code{SD} follow column names of \code{X}.
+  \item \code{mu} is the linear predictor (on log/logit scale), while \code{fitval} is the
+    fitted value (response scale after using the appropriate inverse link function) and
+    \code{ll} is the log-likelihood calculated from the probability mass function.
+  \item \code{rval} is the return value, that is a list with elements commonly applied in
+    objects representing model fit (cf.~for example element names with \code{names(m1)}):
+    \begin{description}
+        \item[call] the function call,
+        \item[mcmc] the fitted \code{mcmc.list} object,
+        \item[y] the response,
+        \item[x] the model frame (right-hand-side), 
+        \item[model] the design matrix,
+        \item[fitted.values] fitted values,
+        \item[linear.predictors] linear predictors,
+        \item[formula] the formula argument of the call,
+        \item[coefficients] means of the joint posterior distribution (maximum likelihood estimates),
+        \item[std.error] standard errors of the MLE,
+        \item[loglik] log-likelihood,
+        \item[family] family argument of the call,
+        \item[df.residual] residual degrees of freedom,
+        \item[df.null] degrees of freedom in the null model.
+    \end{description}
+  \item Finally, we attach the class attribute and return \code{rval}.
+\end{enumerate}
+
+Fun, isn't it? See if it is actually working:
+<<>>=
 dcm1 <- dcglm(Y1 ~ x)
 dcm2 <- dcglm(Y2 ~ x, family = "binomial")
+@
 
+If we are about to inspect these objects, well, it is a mess without some
+additional helper functions. The most basic such functions (called methods in \R
+jargon) are \code{print} and \code{summary}. For our convenience, 
+we also define some other methods, too. These are based on the so called S3
+method dispatch system. That is, if a generic function is defined,
+we can add class specific methods to it.
+
+In our case, the most simple methods are the \code{coef} and \code{fitted},
+because these only extract an element from the objects:
+<<>>=
 coef.dcglm <- function(object, ...) object$coefficients
-
 fitted.dcglm <- function(object, ...) object$fitted.values
-
+@
+Compare with the \code{glm} results:
+<<>>=
+rbind(glm=coef(m1), dcglm=coef(dcm1))
+rbind(glm=coef(m2), dcglm=coef(dcm2))
+rbind(glm=fitted(m1), dcglm=fitted(dcm1))
+rbind(glm=fitted(m2), dcglm=fitted(dcm2))
+@
+For the \code{logLik} method, it is necessary to follow the standard
+rules, because AIC calculations depend on this method (this means, that we don't have to
+define a method for AIC if the \code{logLik} method exists for a class):
+<<>>=
 logLik.dcglm <- function (object, ...)
     structure(object$loglik,
         df = object$df.null + 1 - object$df.residual,
         nobs = object$df.null + 1,
         class = "logLik")
+@
+Compare with the \code{glm} results:
+<<>>=
+logLik(m1)
+logLik(dcm1)
+logLik(m2)
+logLik(dcm2)
+AIC(m1, dcm1, m2, dcm2)
+@
 
-confint.dcglm <- function(object, parm, level = 0.95, ...) {
-    rval <- confint(object$mcmc, parm, level, ...)
-    rownames(rval) <- names(coef(object))
-    rval
-}
-
-vcov.dcglm <- function(object, ...) {
-    rval <- vcov(object$mcmc, ...)
-    rownames(rval) <- colnames(rval) <- names(coef(object))
-    rval
-}
-
+Now it is possible to write the \code{print} method:
+<<>>=
 print.dcglm <- function(x, digits = max(3, getOption("digits") - 3), ...) {
     cat("\nCall: ", deparse(x$call), "\n\n")
     cat("Coefficients:\n")
@@ -304,6 +378,38 @@ print.dcglm <- function(x, digits = max(3, getOption("digits") - 3), ...) {
     cat("Log Likelihood:\t   ", format(signif(x$loglik, digits)), "\n")
     invisible(x)
 }
+@
+
+Let's have a look at the resulting objects of our \code{dcglm} function:
+<<>>=
+dcm1
+dcm2
+@
+Well done so far!
+
+%%%%%%% Inference
+
+For the \code{confint}, we use the asymptotic normality result
+of the data cloning theory, and the \code{confint} method defined for the
+data cloned \code{mcmc.list} part of the fitted model object:
+<<>>=
+confint.dcglm <- function(object, parm, level = 0.95, ...) {
+    rval <- confint(object$mcmc, parm, level, ...)
+    rownames(rval) <- names(coef(object))
+    rval
+}
+@
+
+It is similar with the \code{vcov} method, we simply use the
+\code{vcov} method defined for the \code{mcmc.list} part of 
+the fitted model object and do some cosmetics on the names:
+<<>>=
+vcov.dcglm <- function(object, ...) {
+    rval <- vcov(object$mcmc, ...)
+    rownames(rval) <- colnames(rval) <- names(coef(object))
+    rval
+}
+@
 
 summary.dcglm <- function(object, ...){
     COEF <- coef(object)
@@ -333,6 +439,26 @@ function (x, digits = max(3, getOption("digits") - 3),
     cat("Log Likelihood:\t   ", format(signif(x$loglik, digits)), "\n")
     invisible(x)
 }
+
+
+%%%%%%%%% prediction
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliography{dcglm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}
+
+
+
+
+
+
+
+
 
 glm.pred <- function() {
     for (i in 1:n) {
