@@ -465,8 +465,13 @@ glm.pred <- function() {
 }
 @
 
+Poisson and Binomial case:
+<<>>=
 custommodel(glm.pred, c(4,6))
 custommodel(glm.pred, c(3,5))
+@
+
+jags.fit version here from predict
 
 \section{Methods for prediction}
 
@@ -481,7 +486,8 @@ vcov.dcglm <- function(object, ...) {
 }
 @
 
-
+The \code{predict} function:
+<<>>=
 predict.dcglm <- function(object, newdata = NULL, type = c("link", "response"), se = FALSE, ...){
     glm.pred <- c("model {",
            "    for (i in 1:n) {",
@@ -520,6 +526,11 @@ predict.dcglm <- function(object, newdata = NULL, type = c("link", "response"), 
     }
     rval
 }
+@
+
+Pseudo-code for \code{predict}:
+
+Then do the prediction and graphically compare
 
 \section{Making the \code{dcglm} package}
 
@@ -539,3 +550,5 @@ Follow this workflow for your own model and estimating procedure, then edit the 
 
 \end{document}
 
+Todo:
+- edit Rd files of the package
