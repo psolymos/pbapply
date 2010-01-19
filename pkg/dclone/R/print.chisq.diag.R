@@ -8,10 +8,10 @@ function (x, digits = max(3, getOption("digits") - 3), ...)
     cat("\nQuantiles:\n")
     print.default(qq, digits = digits, quote = FALSE)
     probs <- attr(x, "probs")
-    if (!identical(c(0,1), probs))
-        cat("\nQuantile range used:", 
-            round(min(probs), digits = digits), "-", 
-            round(min(probs), digits = digits), "\n")
+#    if (!identical(c(0,1), probs))
+#        cat("\nQuantile range used:", 
+#            round(min(probs), digits = digits), "-", 
+#            round(min(probs), digits = digits), "\n")
     invisible(x)
 }
 

@@ -28,18 +28,15 @@ extractdctable(x, ...)
 \method{extractdctable}{default}(x, ...)
 
 dcdiag(x, ...)
-\method{dcdiag}{default}(x, probs = c(0, 1), ...)
+\method{dcdiag}{default}(x, ...)
 \method{plot}{dcdiag}(x, which = c("all", "lambda.max", 
 "ms.error", "r.squared"), position = "topright", ...)
 extractdcdiag(x, ...)
-\method{extractdcdiag}{default}(x, probs = c(0, 1), ...)
+\method{extractdcdiag}{default}(x, ...)
 }
 \arguments{
   \item{x}{
   An MCMC or a 'dctable' object.
-}
-  \item{probs}{
-  Range of quantiles to use to remove outliers. This option should be used with caution.
 }
   \item{\dots}{
   Optionally more fitted model objects for function \code{dctable}.

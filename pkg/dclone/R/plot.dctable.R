@@ -14,6 +14,7 @@ box.cex = 0.75, box.bg = NA, ...)
             plot(xval, y$mean, ylim=ylim, xlim=xlim, pch=pch, type = "n", lty=2,
                 xlab = "Number of clones", ylab="Estimate",
                 main = param, axes = FALSE, ...)
+            points(xval, y$mean, pch=pch, type = "b", lty=2)
         } else {
             FUN <- switch(type,
                 "var" = function(x) return(x),
@@ -47,13 +48,12 @@ box.cex = 0.75, box.bg = NA, ...)
         } else {
             lines(xval, FUN(kmin/k), lty=2)
         }
-        points(xval, y$mean, pch=pch, type = "b", lty=2)
     }
     type <- match.arg(type)
     k <- x[[1]]$n.clones
     kmin <- min(k)
     xval <- 1:length(k)
-    crit <- getOption("dclone.crit")$r.hat
+    crit <- getOption("dclone")$r.hat$crit
     nam <- names(x)[which]
     w <- box.cex
     m <- length(which)

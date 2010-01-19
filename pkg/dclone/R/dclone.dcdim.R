@@ -10,6 +10,8 @@ function(x, n.clones=1, attrib=TRUE, ...)
         DIMNAM <- list(names(x), clch)
     } else {
         DIMNAM <- dimnames(x)
+        if (is.null(DIMNAM))
+            DIMNAM <- lapply(1:length(DIM), function(i) NULL)
         DIMNAM[[(length(DIMNAM) + 1)]] <- clch
     }
     rval <- array(rep(x, n.clones), dim=c(DIM, n.clones), dimnames=DIMNAM)

@@ -3,11 +3,9 @@ function(object, fun, times, n.update = 0,
 n.iter, thin, ...)
 {
     ## eval of args
-    upm <- updated.model(object)
-    if (is.null(upm))
+    if (is.null(updated.model(object)))
         stop("updated model not found")
     mod <- object
-    attr(mod, "updated.model") <- NULL
     ## update can go even if fun is missing
     if (missing(fun))
         fun <- function(z) FALSE
@@ -32,13 +30,13 @@ n.iter, thin, ...)
     ## auto-updating
     for (i in 1:times) {
         if (n.update[i] > 0)
-            update(upm, n.update[i], ...)
-        mod <- coda.samples(upm, params, n.iter[i], thin, ...)
+            update(updated.model(object), n.update[i], ...)
+        mod <- coda.samples(updated.model(object), params, n.iter[i], thin, ...)
         if (fun(mod))
             break
     }
     ## put things together
-    attr(mod, "updated.model") <- upm
+    attr(mod, "updated.model") <- updated.model(object)
     n.clones <- nclones(object)
     if (!is.null(n.clones) && n.clones > 1) {
         attr(mod, "n.clones") <- n.clones

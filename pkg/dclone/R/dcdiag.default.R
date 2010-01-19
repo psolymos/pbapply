@@ -1,5 +1,5 @@
 dcdiag.default <-
-function(x, probs = c(0, 1), ...) {
+function(x, ...) {
     dct <- is.null(attr(x, "dcdiag"))
     ll <- length(list(...))
     if (ll || (!ll && dct)) {
@@ -10,7 +10,7 @@ function(x, probs = c(0, 1), ...) {
         ord <- order(k)
         obj <- obj[ord]
         k <- k[ord]
-        dctmp <- t(sapply(obj, extractdcdiag.default, probs=probs))
+        dctmp <- t(sapply(obj, dclone:::extractdcdiag.default))
         Call <- match.call()
         mnam <- as.character(Call[-1])
         rval <- as.data.frame(dctmp)

@@ -1,7 +1,7 @@
 extractdcdiag.default <- 
-function(x, probs = c(0, 1), ...)
+function(x, ...)
 {
-    chisq <- chisq.diag(x, probs=probs)$statistics
+    chisq <- chisq.diag(x)$statistics
     n.clones <- ifelse(is.null(nclones(x)), 1, nclones(x))
     abin <- getOption("dclone")$r.hat$autoburnin
     if (nchain(x) > 1) {

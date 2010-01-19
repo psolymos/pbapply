@@ -1,5 +1,6 @@
-chisq.diag <- function(x, probs = c(0, 1))
+chisq.diag <- function(x)
 {
+#    probs <- c(0, 1)
     mcmc <- mcmcapply(x, array)
     mn <- coef(x)
     npar <- length(mn)
@@ -10,9 +11,9 @@ chisq.diag <- function(x, probs = c(0, 1))
     qchi <- qchisq(pval, npar)
     ## empirical squared generalized diatsnces
     sdsq <- sort(apply(mcmc, 1, function(z) (t(z-mn)) %*% vci %*% (z-mn)))
-    id <- pval >= min(probs) & pval <= max(probs)
-    qchi <- qchi[id]
-    sdsq <- sdsq[id]
+#    id <- pval >= min(probs) & pval <= max(probs)
+#    qchi <- qchi[id]
+#    sdsq <- sdsq[id]
     rval <- list(quantiles = list(
             theoretical=qchi,
             empirical=sdsq),
@@ -23,6 +24,6 @@ chisq.diag <- function(x, probs = c(0, 1))
             r.squared = 1 - cor(qchi, sdsq)^2))
     class(rval) <- "chisq.diag"
     attr(rval, "npar") <- npar
-    attr(rval, "probs") <- probs
+#    attr(rval, "probs") <- probs
     rval
 }
