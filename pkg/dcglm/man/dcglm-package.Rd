@@ -1,13 +1,12 @@
 \name{dcglm-package}
 \alias{dcglm-package}
-\alias{dcglm}
 \docType{package}
 \title{
 What the package does (short line)
 Tutorial package for writing packages based on data cloning
 }
 \description{
-Tutorial package for writing packages based on data cloning
+Tutorial package for writing packages based on data cloning.
 }
 \author{
 Peter Solymos \email{solymos@ulaberta.ca}

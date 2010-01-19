@@ -7,7 +7,7 @@ Prediction for 'dcglm' Objects
 Makes prediction for 'dcglm' objects, similar to \code{\link{predict.glm}}.
 }
 \usage{
-predict.dcglm(object, newdata = NULL, type = c("link", "response"), se = FALSE, ...)
+\method{predict}{dcglm}(object, newdata = NULL, type = c("link", "response"), se = FALSE, ...)
 }
 \arguments{
   \item{object}{

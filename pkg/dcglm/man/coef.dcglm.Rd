@@ -19,7 +19,9 @@ S3 methods for 'dcglm' objects.
 \method{fitted}{dcglm}(object, ...)
 \method{logLik}{dcglm}(object, ...)
 \method{print}{dcglm}(x, digits = max(3, getOption("digits") - 3), ...)
-\method{print}{summary.dcglm}(x, digits = max(3, getOption("digits") - 3), signif.stars = getOption("show.signif.stars"), ...)
+\method{print}{summary.dcglm}(x, 
+digits = max(3, getOption("digits") - 3), 
+signif.stars = getOption("show.signif.stars"), ...)
 \method{summary}{dcglm}(object, ...)
 \method{vcov}{dcglm}(object, ...)
 }
@@ -34,6 +36,12 @@ of names.  If missing, all parameters are considered.
 }
   \item{level}{
 the confidence level required.
+}
+\item{digits}{
+minimal number of significant digits.
+}
+\item{signif.stars}{
+if significance starts should be showed.
 }
   \item{\dots}{
 other arguments.
