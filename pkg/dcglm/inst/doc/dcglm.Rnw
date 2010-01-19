@@ -70,6 +70,7 @@ the data cloning algorithm building on the infrastructure of the \pkg{dclone} pa
 We generate random data for Poisson and Binomal GLMs. First we define the number of locations (\code{n})
 and the independent covariate (\code{x}). \code{X} represents the design matrix:
 <<>>=
+library(dclone)
 set.seed(1234)
 n <- 20
 x <- runif(n, -1, 1)
@@ -102,10 +103,6 @@ summary(m2)
 
 \section{The full Bayesian model for GLM and data cloning}
 
-Now we have to load the \pkg{dclone} package (it load its dependencies, that we also need):
-<<>>=
-library(dclone)
-@
 Here is the \proglang{JAGS} model for the Poisson case, with flat Normal priors for the regression coefficients:
 <<>>=
 glm.pois <- function() {
@@ -138,7 +135,8 @@ summary(mod1)
 @
 Le's compare this \code{mcmc.list} (more accurately an \code{mcmc.list.dc}) object with the \code{glm} results:
 <<>>=
-cbind(glm.estimates=coef(m1), glm.se=summary(m1)$coefficients[,2],
+cbind(true.values=beta1,
+    glm.estimates=coef(m1), glm.se=summary(m1)$coefficients[,2],
     dc.estimates=coef(mod1), dc.se=dcsd(mod1))
 @
 
@@ -163,7 +161,7 @@ but data cloning setup is a bit different. We don't have to repeat the data vect
 or columns in the design matrix \code{n.clones} times, because there is an easier way.
 We multiply \code{Y} and \code{k} with \code{n.clones} and leave the other elements unchanged:
 <<>>=
-dcdat2 <- dclone(dat, n.clones, multiply = c("Y","k"), unchanged = c("n", "np", "X"))
+dcdat2 <- dclone(dat2, n.clones, multiply = c("Y","k"), unchanged = c("n", "np", "X"))
 str(dcdat2)
 @
 Now fit the model to the data with data cloning:
@@ -173,7 +171,8 @@ summary(mod2)
 @
 and compare results with \code{glm} results:
 <<>>=
-cbind(glm.estimates=coef(m2), glm.se=summary(m2)$coefficients[,2],
+cbind(true.values=beta2,
+    glm.estimates=coef(m2), glm.se=summary(m2)$coefficients[,2],
     dc.estimates=coef(mod2), dc.se=dcsd(mod2))
 @
 
@@ -250,10 +249,10 @@ dcglm <- function(formula, data = parent.frame(), family=c("poisson", "binomial"
     names(COEF) <- names(SE) <- colnames(X)
     mu <- X %*% COEF
     if (family == "poisson") {
-        fitval <- exp(mu)
+        fitval <- drop(exp(mu))
         ll <- sum(log(fitval^Y * exp(-fitval)) - log(factorial(Y)))
     } else {
-        fitval <- exp(mu) / (1 + exp(mu))
+        fitval <- drop(exp(mu) / (1 + exp(mu)))
         ll <- sum(log(choose(1, Y) * fitval^Y * (1-fitval)^(1-Y)))
     }
     rval <- list(call=match.call(),
@@ -380,7 +379,6 @@ print.dcglm <- function(x, digits = max(3, getOption("digits") - 3), ...) {
     invisible(x)
 }
 @
-
 Let's have a look at the resulting objects of our \code{dcglm} function:
 <<>>=
 dcm1
@@ -390,18 +388,7 @@ Well done so far!
 
 \section{Methods for inference}
 
-For the \code{confint}, we use the asymptotic normality result
-of the data cloning theory \citep{Lele2007}, and the \code{confint} method defined for the
-data cloned \code{mcmc.list} part of the fitted model object:
-<<>>=
-confint.dcglm <- function(object, parm, level = 0.95, ...) {
-    rval <- confint(object$mcmc, parm, level, ...)
-    rownames(rval) <- names(coef(object))
-    rval
-}
-@
-
-The \code{summary} methods returns the ML estimates, data cloning
+The \code{summary} method returns the ML estimates, data cloning
 standard errors, and Wald-type $z$ statistics and $p$-values:
 <<>>=
 summary.dcglm <- function(object, ...){
@@ -446,6 +433,29 @@ summary(dcm2)
 @
 Piece of cake!
 
+For the \code{confint}, we use the asymptotic normality result
+of the data cloning theory \citep{Lele2007}, and the \code{confint} method defined for the
+data cloned \code{mcmc.list} part of the fitted model object:
+<<>>=
+confint.dcglm <- function(object, parm, level = 0.95, ...) {
+    rval <- confint(object$mcmc, parm, level, ...)
+    rownames(rval) <- names(coef(object))
+    rval
+}
+@
+The 95\% confidence intervals for the model estimates are:
+<<>>=
+confint(m1)
+confint(dcm1)
+confint(m2)
+confint(dcm2)
+@
+Differences are due to the fact, that \code{confint} for \code{glm} uses
+profile likelihood, while \code{dcglm} confidence intervals are
+based on the asymptotic normality assumption. Profile likelihood
+can be computed based on data cloning \citep{Ponciano2009}
+but that procedure is not covered here.
+
 \section{Prediction based on the joint posterior distribution}
 
 In the prediction, we use MCMC. The likelihood part of the 
@@ -464,19 +474,39 @@ glm.pred <- function() {
     mvn[1:np] ~ dmnorm(coefs[], prec[,])
 }
 @
-
-Poisson and Binomial case:
+Note that we denote \code{lambda} or \code{p} as \code{z}, this will make life easier later.
+We use again the \code{custommodel} approach to differentiate between the
+Poisson and Binomial cases:
 <<>>=
 custommodel(glm.pred, c(4,6))
 custommodel(glm.pred, c(3,5))
 @
-
-jags.fit version here from predict
+Let's consider the Poisson case only (the Binomial differs from it only by the specification of the
+\code{model} argument based on the \code{custommodel} approach, and the fitted model used).
+The prediction can be done by \code{jags.fit}, only the data specification
+is somewhat different. We will define the model parameters based on the MLE (\code{coefs}) and the variance-covariance
+matrix. We define a Multivariate Normal node for all the model parameters, by using the
+inverse of the variance-covariance matrix as a precision matrix (\code{prec}). Be careful, the check for symmetry
+in \proglang{JAGS} is stricter than the usual numerical precision in \R, consequently we ensure that
+this condition is met by using the \code{make.symmetric} function. The data specification will look like
+(note, we are using the observed data in \code{X}, but algorithmically, this doesn't make any difference):
+<<>>=
+prec <- make.symmetric(solve(vcov(mod1)))
+coefs <- coef(mod1)
+prdat <- list(n = nrow(X), X = X, 
+    np = ncol(X), k = 1, coefs = coefs, prec = prec)
+@
+We use the \code{jags.fit} function. One chain is usually enough:
+<<>>=
+prval <- jags.fit(prdat, "z", custommodel(glm.pred, c(4,6)), n.chains = 1)
+@
+The resuling \code{mcmc.list} object contains the conditional posterior distribution for our
+Poisson GLM based prediction with prediction intervals.
 
 \section{Methods for prediction}
 
-It is similar with the \code{vcov} method, we simply use the
-\code{vcov} method defined for the \code{mcmc.list} part of 
+For our convenience, we can write a \code{vcov} method.
+We simply use the \code{vcov} method defined for the \code{mcmc.list} part of 
 the fitted model object and do some cosmetics on the names:
 <<>>=
 vcov.dcglm <- function(object, ...) {
@@ -485,8 +515,16 @@ vcov.dcglm <- function(object, ...) {
     rval
 }
 @
+Comparison of the \code{glm} and \code{dcglm} approaches:
+<<>>=
+vcov(m1)
+vcov(dcm1)
+vcov(m2)
+vcov(dcm2)
+@
+Quite similar as we expected.
 
-The \code{predict} function:
+The \code{predict} function will look like:
 <<>>=
 predict.dcglm <- function(object, newdata = NULL, type = c("link", "response"), se = FALSE, ...){
     glm.pred <- c("model {",
@@ -527,10 +565,92 @@ predict.dcglm <- function(object, newdata = NULL, type = c("link", "response"), 
     rval
 }
 @
+The pseudo-code for \code{predict} is:
+\begin{enumerate}
+  \item \code{glm.predict} is the familiar \code{custommodel} specification.
+  \item \code{prec| and \code{coefs} is nneded for the data specification.
+  \item If \code{newdata} is \code{NULL}, we use the extracted design matrix
+    ou our fitted model (\code{object}). Else, we create the design matrix
+    corresponding to our model from \code{newdata} (a data frame, containing the same
+    covariates, but possibly with different values). For this extraction,
+    we use the \code{formula} of the fitted model \code{object}.
+  \item Based on the \code{type} argument, we will monitor (sample) the nodes
+    \code{mu} (if \code{type = "link"}) or \code{z} (if \code{type = "response"}).
+    \code{mu} corresponds to the values on the scale of the linear predictors,
+    while \code{z} corresponds to the values on the response scale.
+  \item \code{model} is determined by the \code{family} of the fitted model \code{object}.
+  \item \code{prdat} is the data, \code{prmod} is the fitted MCMC object.
+  \item If the \code{se} argument is \code{FALSE}, the return value will be the point 
+    estimate vector of the prediction. If the \code{se} argument is \code{TRUE}, the
+    return value will be a list including point estimates (\code{fit}) and standard
+    errors (\code{se.fit}). Then, return thevalue.
+\end{enumerate}
 
-Pseudo-code for \code{predict}:
-
-Then do the prediction and graphically compare
+Now let's do the prediction for a range of \code{x} values from $-1$ to $1$ (call it \code{px}):
+<<>>=
+px <- data.frame(x=seq(-1, 1, len = 10))
+x
+@
+The \code{glm} based predictions are:
+<<>>=
+pm1link <- predict(m1, newdata=px, type="link", se=TRUE)
+pm1resp <- predict(m1, newdata=px, type="response", se=TRUE)
+pm2link <- predict(m2, newdata=px, type="link", se=TRUE)
+pm2resp <- predict(m2, newdata=px, type="response", se=TRUE)
+@
+The \code{dcglm} based predictions are:
+<<>>=
+pdcm1link <- predict(dcm1, newdata=px, type="link", se=TRUE)
+pdcm1resp <- predict(dcm1, newdata=px, type="response", se=TRUE)
+pdcm2link <- predict(dcm2, newdata=px, type="link", se=TRUE)
+pdcm2resp <- predict(dcm2, newdata=px, type="response", se=TRUE)
+@
+Fig.~\ref{fig:pred} shows prediction results.
+The code to produce the graphs are as follows:
+\begin{figure}[tbh]
+\begin{center}
+<<predfig,fig=true,echo=true,width=7,height=7>>=
+opar <- par(mfrow=c(2,2))
+offs <- 0.02
+se <- cbind(pm1link$fit - pm1link$se.fit, pm1link$fit + pm1link$se.fit)
+plot(px$x-offs, pm1link$fit, col=2, ylim=range(se), xlim=range(px$x-offs, px$x+offs),
+    main="Poisson GLM, predictor scale", xlab="linear predictor", ylab="log(lambda)")
+errlines(px$x-offs, se, col=2)
+se <- cbind(pdcm1link$fit - pdcm1link$se.fit, pdcm1link$fit + pdcm1link$se.fit)
+points(px$x+offs, pdcm1link$fit, ylim=range(se), col=4)
+errlines(px$x+offs, se, col=4)
+legend("topright", col=c(2,4), lty=1, pch=21, legend=c("glm", "dcglm"))
+se <- cbind(pm1resp$fit - pm1resp$se.fit, pm1resp$fit + pm1resp$se.fit)
+plot(px$x-offs, pm1resp$fit, col=2, ylim=range(se), xlim=range(px$x-offs, px$x+offs),
+    main="Poisson GLM, response scale", xlab="linear predictor", ylab="lambda")
+errlines(px$x-offs, se, col=2)
+se <- cbind(pdcm1resp$fit - pdcm1resp$se.fit, pdcm1resp$fit + pdcm1resp$se.fit)
+points(px$x+offs, pdcm1resp$fit, ylim=range(se), col=4)
+errlines(px$x+offs, se, col=4)
+legend("topright", col=c(2,4), lty=1, pch=21, legend=c("glm", "dcglm"))
+se <- cbind(pm2link$fit - pm2link$se.fit, pm2link$fit + pm2link$se.fit)
+plot(px$x-offs, pm2link$fit, col=2, ylim=range(se), xlim=range(px$x-offs, px$x+offs),
+    main="Binomial GLM, predictor scale", xlab="linear predictor", ylab="logit(p)")
+errlines(px$x-offs, se, col=2)
+se <- cbind(pdcm2link$fit - pdcm2link$se.fit, pdcm2link$fit + pdcm2link$se.fit)
+points(px$x+offs, pdcm2link$fit, ylim=range(se), col=4)
+errlines(px$x+offs, se, col=4)
+legend("topright", col=c(2,4), lty=1, pch=21, legend=c("glm", "dcglm"))
+se <- cbind(pm2resp$fit - pm2resp$se.fit, pm2resp$fit + pm2resp$se.fit)
+plot(px$x-offs, pm2resp$fit, col=2, ylim=range(se), xlim=range(px$x-offs, px$x+offs),
+    main="Binomial GLM, response scale", xlab="linear predictor", ylab="p")
+errlines(px$x-offs, se, col=2)
+se <- cbind(pdcm2resp$fit - pdcm2resp$se.fit, pdcm2resp$fit + pdcm2resp$se.fit)
+points(px$x+offs, pdcm2resp$fit, ylim=range(se), col=4)
+errlines(px$x+offs, se, col=4)
+legend("topright", col=c(2,4), lty=1, pch=21, legend=c("glm", "dcglm"))
+par(opar)
+@
+\end{center}
+\caption{Prediction results based on the \code{glm} and \code{dcglm} approaches for the Poisson GLM.
+  Points are prediction estimates, whiskers are prediction standard errors.}
+  \label{fig:pred}
+\end{figure}
 
 \section{Making the \code{dcglm} package}
 
@@ -550,5 +670,3 @@ Follow this workflow for your own model and estimating procedure, then edit the 
 
 \end{document}
 
-Todo:
-- edit Rd files of the package
