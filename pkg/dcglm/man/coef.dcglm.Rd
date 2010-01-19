@@ -1,58 +1,43 @@
 \name{coef.dcglm}
 \alias{coef.dcglm}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Extract Model Coefficients from dcglm objects
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Extract Model Coefficients from dcglm objects.
 }
 \usage{
-coef.dcglm(object, ...)
+\method{coef}{dcglm}(object, ...)
+\method{confint}{dcglm}(object, parm, level = 0.95, ...)
+\method{fitted}{dcglm}(object, ...)
+\method{logLik}{dcglm}(object, ...)
+\method{print}{dcglm}(x, digits = max(3, getOption("digits") - 3), ...)
+\method{print}{summary.dcglm}(x, digits = max(3, getOption("digits") - 3), signif.stars = getOption("show.signif.stars"), ...)
+\method{summary}{dcglm}(object, ...)
+\method{vcov}{dcglm}(object, ...)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{object}{
-%%     ~~Describe \code{object} here~~
+  \item{object, x}{
+an fitted model object ofclass 'dcglm'.
+}
+  \item{parm}{
+a specification of which parameters are to be given
+confidence intervals, either a vector of numbers or a vector
+of names.  If missing, all parameters are considered.
+}
+  \item{level}{
+the confidence level required.
 }
   \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
+other arguments.
 }
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
-\references{
-%% ~put references to the literature/web site here ~
+Coefficients extracted from the model object \code{object}.
 }
 \author{
-%%  ~~who you are~~
+Peter Solymos \email{solymos@ulaberta.ca}
 }
-\note{
-%%  ~~further notes~~
-}
+\keyword{ htest }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function(object, ...) object$coefficients
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

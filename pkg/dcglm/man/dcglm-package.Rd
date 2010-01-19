@@ -4,40 +4,21 @@
 \docType{package}
 \title{
 What the package does (short line)
-~~ package title ~~
+Tutorial package for writing packages based on data cloning
 }
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
-}
-\details{
-\tabular{ll}{
-Package: \tab dcglm\cr
-Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2010-01-12\cr
-License: \tab What license is it under?\cr
-LazyLoad: \tab yes\cr
-}
-~~ An overview of how to use the package, including the most important ~~
-~~ functions ~~
+Tutorial package for writing packages based on data cloning
 }
 \author{
-Who wrote it
-
-Maintainer: Who to complain to <yourfault@somewhere.net>
-~~ The author and/or maintainer of the package ~~
+Peter Solymos \email{solymos@ulaberta.ca}
 }
 \references{
-~~ Literature or other references for background information ~~
+Lele, S.R., B. Dennis and F. Lutscher, 2007.
+Data cloning: easy maximum likelihood estimation for complex 
+ecological models using Bayesian Markov chain Monte Carlo  methods.
+\emph{Ecology Letters} \strong{10}, 551--563.
 }
-~~ Optionally other standard keywords, one per line, from file KEYWORDS in ~~
-~~ the R documentation directory ~~
 \keyword{ package }
-\seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
-}
 \examples{
-~~ simple examples of the most important functions ~~
+## see vignette
 }
