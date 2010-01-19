@@ -4,7 +4,12 @@
 %% need no \usepackage{Sweave.sty}
 \SweaveOpts{engine = R, strip.white = TRUE, keep.source = TRUE, eps = FALSE}
 
+\let\code=\texttt
+\let\proglang=\textsf
+%% \newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
+\newcommand{\R}{\proglang{R}}
 \newcommand{\class}[1]{`\code{#1}'}
+\renewenvironment{Schunk}{\small}{}
 
 %\VignetteIndexEntry{dcglm tutorial}
 %\VignettePackage{dcglm}
@@ -91,7 +96,7 @@ mu2 <- X %*% beta2
 Y2 <- rbinom(n, 1, exp(mu2) / (1 + exp(mu2)))
 @
 
-\section{GLM based on the \code{glm} base function}
+\section{GLM based on the glm function}
 
 Now we fit the Poisson and Binomail GLM by using the \code{glm} base function and inspect their summaries:
 <<>>=
@@ -129,8 +134,10 @@ dcdat1 <- dclone(dat1, n.clones, multiply = "n", unchanged = "np")
 str(dcdat1)
 @
 To fit the model to the data with data cloning is as easy as this:
-<<>>=
+<<results=hide>>=
 mod1 <- jags.fit(dcdat1, "beta", glm.pois)
+@
+<<>>=
 summary(mod1)
 @
 Le's compare this \code{mcmc.list} (more accurately an \code{mcmc.list.dc}) object with the \code{glm} results:
@@ -165,8 +172,10 @@ dcdat2 <- dclone(dat2, n.clones, multiply = c("Y","k"), unchanged = c("n", "np",
 str(dcdat2)
 @
 Now fit the model to the data with data cloning:
-<<>>=
+<<results=hide>>=
 mod2 <- jags.fit(dcdat2, "beta", glm.bin)
+@
+<<>>=
 summary(mod2)
 @
 and compare results with \code{glm} results:
@@ -176,7 +185,7 @@ cbind(true.values=beta2,
     dc.estimates=coef(mod2), dc.se=dcsd(mod2))
 @
 
-\section{The \code{custommodel} function}
+\section{The custommodel function}
 
 The \code{custommodel} function enables us to resuse the same \proglang{JAGS} model
 with minor modifications. For example we combine the above Poisson and Binomial model into one.
@@ -201,18 +210,18 @@ custommodel(glm.model, c(4,6))
 custommodel(glm.model, c(3,5))
 @
 so eventually we get back our original models. But these are not functions, but character vectors
-of the class \code{custommodel}. \code{jags.fit} will recognize this.
+of the class \class{custommodel}. \code{jags.fit} will recognize this.
 
 Why do we want to complicate our lives with the \code{custommodel}?
 Because \code{dpois}, \code{dbin}, and \code{inprod} are not recognised
-as valid \R objects or functions. So if our aim is to make an \R package
+as valid \proglang{R} objects or functions. So if our aim is to make an \proglang{R} package
 that passes the rather strict \code{R CMD check}, so won't be published
-at the Comprehensive \R Archive Network (CRAN). A way to overcome this
+at the Comprehensive \proglang{R} Archive Network (CRAN). A way to overcome this
 situation is to define fake objects as e.g.~\code{inprod <- function() NULL},
 but this option should be regaded as ugly and inefficient (unnecessary) as compared to 
 a clean \code{custommodel} approach that will be presented in the next section.
 
-\section{The main function: \code{dcglm}}
+\section{The main function dcglm}
 
 Here our main function for the data cloning based estimating procedure
 for the Poisson and Binomial GLMs:
@@ -323,13 +332,13 @@ Let'g go through it step-by-step as pseudo-code:
 \end{enumerate}
 
 Fun, isn't it? See if it is actually working:
-<<>>=
+<<results=hide>>=
 dcm1 <- dcglm(Y1 ~ x)
 dcm2 <- dcglm(Y2 ~ x, family = "binomial")
 @
 
 If we are about to inspect these objects, well, it is a mess without some
-additional helper functions. The most basic such functions (called methods in \R
+additional helper functions. The most basic such functions (called methods in \proglang{R}
 jargon) are \code{print} and \code{summary}. For our convenience, 
 we also define some other methods, too. These are based on the so called S3
 method dispatch system. That is, if a generic function is defined,
@@ -409,7 +418,7 @@ summary.dcglm <- function(object, ...){
 @
 The return value here is also a list, repeating some of the elements of
 the fitted \code{object}. To appropriately format the summary,
-we use the \code{print} method for the object class \code{summary.dcglm}:
+we use the \code{print} method for the object class \class{summary.dcglm}:
 <<>>=
 print.summary.dcglm <- 
 function (x, digits = max(3, getOption("digits") - 3), 
@@ -487,7 +496,7 @@ The prediction can be done by \code{jags.fit}, only the data specification
 is somewhat different. We will define the model parameters based on the MLE (\code{coefs}) and the variance-covariance
 matrix. We define a Multivariate Normal node for all the model parameters, by using the
 inverse of the variance-covariance matrix as a precision matrix (\code{prec}). Be careful, the check for symmetry
-in \proglang{JAGS} is stricter than the usual numerical precision in \R, consequently we ensure that
+in \proglang{JAGS} is stricter than the usual numerical precision in \proglang{R}, consequently we ensure that
 this condition is met by using the \code{make.symmetric} function. The data specification will look like
 (note, we are using the observed data in \code{X}, but algorithmically, this doesn't make any difference):
 <<>>=
@@ -497,7 +506,7 @@ prdat <- list(n = nrow(X), X = X,
     np = ncol(X), k = 1, coefs = coefs, prec = prec)
 @
 We use the \code{jags.fit} function. One chain is usually enough:
-<<>>=
+<<results=hide,eval=false>>=
 prval <- jags.fit(prdat, "z", custommodel(glm.pred, c(4,6)), n.chains = 1)
 @
 The resuling \code{mcmc.list} object contains the conditional posterior distribution for our
@@ -568,7 +577,7 @@ predict.dcglm <- function(object, newdata = NULL, type = c("link", "response"), 
 The pseudo-code for \code{predict} is:
 \begin{enumerate}
   \item \code{glm.predict} is the familiar \code{custommodel} specification.
-  \item \code{prec| and \code{coefs} is nneded for the data specification.
+  \item \code{prec} and \code{coefs} is needed for the data specification.
   \item If \code{newdata} is \code{NULL}, we use the extracted design matrix
     ou our fitted model (\code{object}). Else, we create the design matrix
     corresponding to our model from \code{newdata} (a data frame, containing the same
@@ -589,7 +598,7 @@ The pseudo-code for \code{predict} is:
 Now let's do the prediction for a range of \code{x} values from $-1$ to $1$ (call it \code{px}):
 <<>>=
 px <- data.frame(x=seq(-1, 1, len = 10))
-x
+px
 @
 The \code{glm} based predictions are:
 <<>>=
@@ -599,17 +608,16 @@ pm2link <- predict(m2, newdata=px, type="link", se=TRUE)
 pm2resp <- predict(m2, newdata=px, type="response", se=TRUE)
 @
 The \code{dcglm} based predictions are:
-<<>>=
+<<results=hide>>=
 pdcm1link <- predict(dcm1, newdata=px, type="link", se=TRUE)
 pdcm1resp <- predict(dcm1, newdata=px, type="response", se=TRUE)
 pdcm2link <- predict(dcm2, newdata=px, type="link", se=TRUE)
 pdcm2resp <- predict(dcm2, newdata=px, type="response", se=TRUE)
 @
 Fig.~\ref{fig:pred} shows prediction results.
-The code to produce the graphs are as follows:
-\begin{figure}[tbh]
+\begin{figure}[tb]
 \begin{center}
-<<predfig,fig=true,echo=true,width=7,height=7>>=
+<<predfig,echo=false,fig=true,width=7,height=7>>=
 opar <- par(mfrow=c(2,2))
 offs <- 0.02
 se <- cbind(pm1link$fit - pm1link$se.fit, pm1link$fit + pm1link$se.fit)
@@ -652,7 +660,7 @@ par(opar)
   \label{fig:pred}
 \end{figure}
 
-\section{Making the \code{dcglm} package}
+\section{Making the dcglm package}
 
 The easiest part now comes:
 <<eval=false>>=
@@ -661,7 +669,7 @@ package.skeleton("dcglm", c("coef.dcglm","confint.dcglm","dcglm",
     "print.dcglm","print.summary.dcglm","summary.dcglm","vcov.dcglm"))
 @
 
-Follow this workflow for your own model and estimating procedure, then edit the files (read the \emph{Writing \R Extensions} manual) in the package directory, run \code{R CMD check}, and ditribute your package.
+Follow this workflow for your own model and estimating procedure, then edit the files (read the \emph{Writing \proglang{R} Extensions} manual) in the package directory, run \code{R CMD check}, and ditribute your package.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliography{dcglm}
