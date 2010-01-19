@@ -349,6 +349,7 @@ rbind(glm=coef(m2), dcglm=coef(dcm2))
 rbind(glm=fitted(m1), dcglm=fitted(dcm1))
 rbind(glm=fitted(m2), dcglm=fitted(dcm2))
 @
+
 For the \code{logLik} method, it is necessary to follow the standard
 rules, because AIC calculations depend on this method (this means, that we don't have to
 define a method for AIC if the \code{logLik} method exists for a class):
@@ -387,10 +388,10 @@ dcm2
 @
 Well done so far!
 
-%%%%%%% Inference
+\section{Methods for inference}
 
 For the \code{confint}, we use the asymptotic normality result
-of the data cloning theory, and the \code{confint} method defined for the
+of the data cloning theory \citep{Lele2007}, and the \code{confint} method defined for the
 data cloned \code{mcmc.list} part of the fitted model object:
 <<>>=
 confint.dcglm <- function(object, parm, level = 0.95, ...) {
@@ -400,17 +401,9 @@ confint.dcglm <- function(object, parm, level = 0.95, ...) {
 }
 @
 
-It is similar with the \code{vcov} method, we simply use the
-\code{vcov} method defined for the \code{mcmc.list} part of 
-the fitted model object and do some cosmetics on the names:
+The \code{summary} methods returns the ML estimates, data cloning
+standard errors, and Wald-type $z$ statistics and $p$-values:
 <<>>=
-vcov.dcglm <- function(object, ...) {
-    rval <- vcov(object$mcmc, ...)
-    rownames(rval) <- colnames(rval) <- names(coef(object))
-    rval
-}
-@
-
 summary.dcglm <- function(object, ...){
     COEF <- coef(object)
     SE <- object$std.error
@@ -426,7 +419,11 @@ summary.dcglm <- function(object, ...){
     class(rval) <- "summary.dcglm"
     rval
 }
-
+@
+The return value here is also a list, repeating some of the elements of
+the fitted \code{object}. To appropriately format the summary,
+we use the \code{print} method for the object class \code{summary.dcglm}:
+<<>>=
 print.summary.dcglm <- 
 function (x, digits = max(3, getOption("digits") - 3), 
     signif.stars = getOption("show.signif.stars"), ...) 
@@ -439,27 +436,22 @@ function (x, digits = max(3, getOption("digits") - 3),
     cat("Log Likelihood:\t   ", format(signif(x$loglik, digits)), "\n")
     invisible(x)
 }
+@
+Summaries of the \code{glm()} results and our models:
+<<>>=
+summary(m1)
+summary(dcm1)
+summary(m2)
+summary(dcm2)
+@
+Piece of cake!
 
+\section{Prediction based on the joint posterior distribution}
 
-%%%%%%%%% prediction
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\bibliography{dcglm}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\end{document}
-
-
-
-
-
-
-
-
-
+In the prediction, we use MCMC. The likelihood part of the 
+\proglang{BUGS} model for the prediction is the same as for the
+estimation. The only difference is in the prior specification:
+<<>>=
 glm.pred <- function() {
     for (i in 1:n) {
         Y[i] ~ dpois(z[i])
@@ -470,10 +462,25 @@ glm.pred <- function() {
     }
     beta[1,1:np] <- mvn[1:np]
     mvn[1:np] ~ dmnorm(coefs[], prec[,])
-    }
+}
+@
 
 custommodel(glm.pred, c(4,6))
 custommodel(glm.pred, c(3,5))
+
+\section{Methods for prediction}
+
+It is similar with the \code{vcov} method, we simply use the
+\code{vcov} method defined for the \code{mcmc.list} part of 
+the fitted model object and do some cosmetics on the names:
+<<>>=
+vcov.dcglm <- function(object, ...) {
+    rval <- vcov(object$mcmc, ...)
+    rownames(rval) <- colnames(rval) <- names(coef(object))
+    rval
+}
+@
+
 
 predict.dcglm <- function(object, newdata = NULL, type = c("link", "response"), se = FALSE, ...){
     glm.pred <- c("model {",
@@ -514,7 +521,21 @@ predict.dcglm <- function(object, newdata = NULL, type = c("link", "response"), 
     rval
 }
 
+\section{Making the \code{dcglm} package}
 
+The easiest part now comes:
+<<eval=false>>=
 package.skeleton("dcglm", c("coef.dcglm","confint.dcglm","dcglm",
     "fitted.dcglm","logLik.dcglm","predict.dcglm",
     "print.dcglm","print.summary.dcglm","summary.dcglm","vcov.dcglm"))
+@
+
+Follow this workflow for your own model and estimating procedure, then edit the files (read the \emph{Writing \R Extensions} manual) in the package directory, run \code{R CMD check}, and ditribute your package.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliography{dcglm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{document}
+
