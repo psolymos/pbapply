@@ -1,10 +1,17 @@
 \name{coef.dcglm}
 \alias{coef.dcglm}
+\alias{confint.dcglm}
+\alias{fitted.dcglm}
+\alias{logLik.dcglm}
+\alias{print.dcglm}
+\alias{summary.dcglm}
+\alias{vcov.dcglm}
+\alias{print.summary.dcglm}
 \title{
-Extract Model Coefficients from dcglm objects
+S3 Methods for 'dcglm' Objects
 }
 \description{
-Extract Model Coefficients from dcglm objects.
+S3 methods for 'dcglm' objects.
 }
 \usage{
 \method{coef}{dcglm}(object, ...)
@@ -39,5 +46,3 @@ Coefficients extracted from the model object \code{object}.
 Peter Solymos \email{solymos@ulaberta.ca}
 }
 \keyword{ htest }
-
-
