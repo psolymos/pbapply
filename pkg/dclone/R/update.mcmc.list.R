@@ -1,5 +1,5 @@
 update.mcmc.list <-
-function(object, fun, times, n.update = 0, 
+function(object, fun, times = 1, n.update = 0, 
 n.iter, thin, ...)
 {
     ## eval of args

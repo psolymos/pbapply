@@ -1,4 +1,4 @@
-\name{autoupdate}
+\name{update.mcmc.list}
 \Rdversion{1.1}
 \alias{update.mcmc.list}
 \alias{updated.model}
@@ -10,8 +10,8 @@ Automatic updating of an MCMC object until a desired statistic value reached.
 }
 \usage{
 updated.model(object, ...)
-\method{update}{mcmc.list}(object, fun, times, n.update = 0, 
-n.iter, thin, ...)
+\method{update}{mcmc.list}(object, fun,
+times = 1, n.update = 0, n.iter, thin, ...)
 }
 \arguments{
   \item{object}{
@@ -100,7 +100,9 @@ upmod
 ## using R_hat < 1.1 as criteria
 critfun <- function(x)
     all(gelman.diag(x)$psrf[,1] < 1.1)
-mod <- autoupdate(regmod, critfun, 5)
+mod <- update(regmod, critfun, 5)
+## update just once
+mod2 <- update(regmod)
 summary(mod)
 }
 }
