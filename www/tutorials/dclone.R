@@ -300,4 +300,4 @@ plot(dct, type="var")
 dcd <- dcdiag(jmod)
 dcd
 plot(dcd)
-
+plot(chisq.diag(jmod))
