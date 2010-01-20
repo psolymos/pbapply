@@ -29,6 +29,10 @@ dat <- list(n = n, Y = Y, X = X, np=ncol(X))
 ## and ways of defining the BUGS models
 model <- write.jags.model(lm.model)
 model
+## without data arg
+np <- ncol(X)
+m0 <- jags.model(model, n.chains=3, n.adapt=1000)
+## with data arg
 m <- jags.model(model, dat, n.chains=3, n.adapt=1000) # 1000
 m
 str(m)
@@ -63,10 +67,15 @@ summary(mod)
 ## 1 line istead of 5 (note, start=n.adapt+n.update+1, end=n.adapt+n.update+n.iter)
 mod2 <- jags.fit(dat, c("beta", "sigma"), lm.model, n.chains=3, n.update=1000, n.iter=1000, thin=1) # 3000
 summary(mod2)
-## further updating
+
+## further updating, the rjags way
 update(updated.model(mod2), 1000) # 4000
 mod3 <- coda.samples(updated.model(mod2), c("beta", "sigma"), n.iter=1000, thin = 1) # 5000
 summary(mod3)
+
+## autoupdate for mcmc.list, the dclone way (why? -- see later)
+mm2 <- update(mod2, times=1)
+mm3 <- update(mm2, times=1)
 
 ## initial values
 initsfun1 <- function(i) list(beta=rep(rnorm(1), dat$np), sigma=rlnorm(1))
@@ -96,7 +105,7 @@ n.clones <- 2
 ## rep version
 dclone(1, n.clones)
 dclone(1:4, n.clones)
-dclone(1:4, n.clones, attrib=FALSE)
+dclone(1:4, n.clones, attrib=FALSE) # needed for WinBUGS
 dclone(1:4)
 dclone(matrix(1:12, 3, 4), n.clones)
 dclone(data.frame(a=1:2, b=c(TRUE, FALSE)), n.clones)
@@ -120,6 +129,23 @@ nclones(dcdat)
 mod7 <- jags.fit(dcdat, c("beta", "sigma"), lm.model)
 nclones(mod7)
 nclones(mod)
+## note DC SD and R_hat values
+summary(mod7)
+
+## further updating, the rjags way
+update(updated.model(mod7), 1000)
+mod7x <- coda.samples(updated.model(mod7), c("beta", "sigma"), n.iter=1000, thin = 1)
+nclones(mod7x)
+## what if we loose track of n.clones attributes? (note -- this is the undocumented hacker's interface :)
+mod7x <- as.mcmc.list.dc(mod7x, nclones(mod7))
+nclones(mod7x)
+
+## autoupdate, the dclone way
+mod8 <- jags.fit(dcdat, c("beta", "sigma"), lm.model)
+dcmm2 <- update(mod8, times=1)
+dcmm3 <- update(dcmm2, times=1)
+sapply(list(mod7, dcmm2, dcmm3), function(z) c(start(z), end(z), nclones(z)))
+## other args in update: fun
 
 ## dctable
 dct <- dctable(mod7)
@@ -165,4 +191,113 @@ dcsd(dcm10)
 # do it by hand using priors and inits
 # do it by dc.fit
 # revied dctable and dcdiag as returned by dc.fit
+
+set.seed(1234)
+n <- 100
+beta <- c(1, -1)
+sigma <- 0.5
+x <- runif(n)
+X <- model.matrix(~x)
+sigma <- 0.25
+alpha <- rnorm(n, 0, sd=sigma)
+mu <- drop(X %*% beta) + alpha
+Y <- rpois(n, exp(mu))
+## JAGS model as a function
+jfun1 <- function() {
+    for (i in 1:n) {
+        Y[i] ~ dpois(lambda[i])
+        log(lambda[i]) <- alpha[i] + inprod(X[i,], beta[1,])
+        alpha[i] ~ dnorm(0, 1/sigma^2)
+    }
+    for (j in 1:np) {
+        beta[1,j] ~ dnorm(0, 0.001)
+    }
+    sigma ~ dgamma(0.001, 0.001)
+}
+## data
+jdata <- list(n = n, Y = Y, X = X, np = NCOL(X))
+## number of clones to be used, etc.
+## iteartive fitting
+jmod <- dc.fit(jdata, c("beta", "sigma"), jfun1, 
+    n.clones = 1:5, multiply = "n", unchanged = "np", 
+    n.update=1000, n.iter=1000)
+## summary with DC SE and R hat
+summary(jmod)
+dct <- dctable(jmod)
+plot(dct)
+plot(dct, type="var")
+dcd <- dcdiag(jmod)
+dcd
+plot(dcd)
+
+## How to use estimates to make priors more informative? -- learning process
+glmm.model.up <- function() {
+    for (i in 1:n) {
+        Y[i] ~ dpois(lambda[i])
+        log(lambda[i]) <- alpha[i] + inprod(X[i,], beta[1,])
+        alpha[i] ~ dnorm(0, 1/sigma^2)
+    }
+    for (j in 1:p) {
+        beta[1,j] ~ dnorm(priors[j,1], priors[j,2])
+    }
+    sigma ~ dgamma(priors[(p+1),2], priors[(p+1),1])
+}
+## function for updating, x is an MCMC object
+upfun <- function(x) {
+    if (missing(x)) {
+        p <- ncol(X)
+        return(cbind(c(rep(0, p), 0.001), rep(0.001, p+1)))
+    } else {
+        par <- coef(x)
+        return(cbind(par, rep(0.01, length(par))))
+    }
+}
+## we can also use initial values that are depending on the previous MCMC object
+## by setting initsfun
+updat <- list(n = n, Y = Y, X = X, p = ncol(X), priors = upfun())
+dcmod <- dc.fit(updat, c("beta", "sigma"), glmm.model.up,
+    n.clones = 1:5, multiply = "n", unchanged = "p",
+    update = "priors", updatefun = upfun)
+summary(dcmod)
+dct <- dctable(jmod)
+plot(dct)
+plot(dct, type="var")
+dcd <- dcdiag(jmod)
+dcd
+plot(dcd)
+
+## a question in development: based on dcdiag, should it stop if all criteria are met?
+## or that should be considered dangerous, because of MCMC variation?
+## or that can be an option, defaulted to FALSE (i.e. stop.if.converged = FALSE argument)
+
+## non identifiable model
+set.seed(1234)
+Y <- rbinom(n, 1, exp(mu) / (1 + exp(mu)))
+## JAGS model as a function
+jfun1 <- function() {
+    for (i in 1:n) {
+        Y[i] ~ dbern(p[i])
+        logit(p[i]) <- alpha[i] + inprod(X[i,], beta[1,])
+        alpha[i] ~ dnorm(0, 1/sigma^2)
+    }
+    for (j in 1:np) {
+        beta[1,j] ~ dnorm(0, 0.001)
+    }
+    sigma ~ dgamma(0.001, 0.001)
+}
+## data
+jdata <- list(n = n, Y = Y, X = X, np = NCOL(X))
+## number of clones to be used, etc.
+## iteartive fitting
+jmod <- dc.fit(jdata, c("beta", "sigma"), jfun1, 
+    n.clones = 1:5, multiply = "n", unchanged = "np", 
+    n.update=1000, n.iter=1000)
+## summary with DC SE and R hat
+summary(jmod)
+dct <- dctable(jmod)
+plot(dct)
+plot(dct, type="var")
+dcd <- dcdiag(jmod)
+dcd
+plot(dcd)
 
