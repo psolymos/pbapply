@@ -18,6 +18,3 @@ ecological models using Bayesian Markov chain Monte Carlo  methods.
 \emph{Ecology Letters} \strong{10}, 551--563.
 }
 \keyword{ package }
-\examples{
-## see vignette
-}

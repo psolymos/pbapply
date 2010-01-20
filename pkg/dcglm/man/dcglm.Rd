@@ -48,7 +48,4 @@ Peter Solymos \email{solymos@ulaberta.ca}
 \seealso{
 \code{\link{glm}}.
 }
-\examples{
-## see vignette
-}
 \keyword{ models }

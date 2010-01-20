@@ -37,7 +37,4 @@ Peter Solymos \email{solymos@ulaberta.ca}
 \seealso{
 \code{\link{predict.glm}}
 }
-\examples{
-## see vignette
-}
 \keyword{ models }
