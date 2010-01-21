@@ -3,6 +3,7 @@
 \alias{snowWrapper}
 \alias{clusterSplitSB}
 \alias{clusterSize}
+\alias{clusterSeed}
 \alias{parLapplySB}
 \title{
 Convenient functions for parallel MCMC computations
@@ -16,6 +17,7 @@ snowWrapper(cl, seq, fun, cldata, name = "cldata",
 lib = NULL, size = 1, load.balancing = FALSE, ...)
 clusterSplitSB(cl, seq, size = 1)
 clusterSize(n, size)
+clusterSeed(cl, seed, kind = "default", normal.kind = "default")
 parLapplySB(cl, x, fun, size = 1, load.balancing = FALSE, ...)
 }
 \arguments{
@@ -50,6 +52,15 @@ Maximum number of workers.
 Vector of problem sizes (or relative performance information) correcponding to elements of \code{seq}.
 Recicled if needed. The default \code{1} indicates equality of problem sizes.
 }
+  \item{seed}{
+\code{seed} argument used by \code{\link{set.seed}}.
+}
+  \item{kind}{
+\code{kind} argument used by \code{\link{set.seed}}.
+}
+  \item{normal.kind}{
+\code{normal.kind} argument used by \code{\link{set.seed}}.
+}
   \item{\dots}{
 Other arguments of \code{fun}, that are simple values and not objects. (Arguments passed as objects should be specified in
 \code{cldata}, otherwise not exported to the cluster.)
@@ -60,7 +71,7 @@ The function loads a package \code{lib} onto the cluster, exports \code{cldata} 
 Intended mostly for internal use.
 }
 \value{
-A list with results returned by the cluster.
+Usually a list with results returned by the cluster.
 }
 \author{
 \enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
