@@ -27,7 +27,8 @@ function(cl, data, params, model, inits, n.chains = 3, bugs.seed=1:n.chains, ...
     cldata <- list(data=data, params=params, model=model, inits=inits)
     ## parallel computations
     mcmc <- snowWrapper(cl, 1:n.chains, bugsparallel, cldata, lib="dcpar", 
-        load.balancing=getOption("dclone.cluster")$load.balancing, size=1, ...)
+        load.balancing=getOption("dclone.cluster")$load.balancing, size=1, 
+        seed=100*1:length(cl), ...)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))
     ## attaching attribs and return

@@ -14,7 +14,8 @@ designed to work closely with MCMC fitting functions (can be called from inside 
 }
 \usage{
 snowWrapper(cl, seq, fun, cldata, name = "cldata", 
-lib = NULL, size = 1, load.balancing = FALSE, ...)
+lib = NULL, size = 1, load.balancing = FALSE, 
+seed = 1, kind = "default", random.kind = "default", ...)
 clusterSplitSB(cl, seq, size = 1)
 clusterSize(n, size)
 clusterSeed(cl, seed, kind = "default", normal.kind = "default")
@@ -92,6 +93,15 @@ clusterSplitSB(cl, 1:5, 5:1)
 x <- list("a", c("b", "c"), 1, c(2, 3), TRUE)
 clusterSplitSB(cl, x)
 clusterSplitSB(cl, x, 1:5)
+## setting RNG seeds
+tmp <- clusterSeed(cl, 1)
+x <- clusterCall(cl, rnorm, 3)
+x
+sapply(2:4, function(i) identical(x[[1]], x[[i]]))
+tmp <- clusterSeed(cl, 1:4)
+x <- clusterCall(cl, rnorm, 3)
+x
+sapply(2:4, function(i) identical(x[[1]], x[[i]]))
 stopCluster(cl)
 ## determine the number of workers
 clusterSize(5, rep(1, 5))

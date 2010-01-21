@@ -1,6 +1,8 @@
 snowWrapper <-
-function(cl, seq, fun, cldata, name="cldata", lib=NULL, size = 1, load.balancing = FALSE, ...)
+function(cl, seq, fun, cldata, name="cldata", lib=NULL, size = 1, load.balancing = FALSE, 
+seed=1, kind="default", random.kind="default", ...)
 {
+    clusterSeed(cl, seed, kind, normal.kind)
     ## if object name exists in global env, make a copy as tmp, and put back in the end
     if (exists(name, envir=.GlobalEnv)) {
         assign("tmp", get("cldata", envir=.GlobalEnv))
