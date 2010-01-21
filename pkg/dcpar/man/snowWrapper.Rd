@@ -93,15 +93,21 @@ clusterSplitSB(cl, 1:5, 5:1)
 x <- list("a", c("b", "c"), 1, c(2, 3), TRUE)
 clusterSplitSB(cl, x)
 clusterSplitSB(cl, x, 1:5)
+stopCluster(cl)
 ## setting RNG seeds
+cl <- makeSOCKcluster(4)
 tmp <- clusterSeed(cl, 1)
-x <- clusterCall(cl, rnorm, 3)
-x
+res1 <- clusterCall(cl, rnorm, 3)
+res1
 sapply(2:4, function(i) identical(x[[1]], x[[i]]))
 tmp <- clusterSeed(cl, 1:4)
-x <- clusterCall(cl, rnorm, 3)
-x
+res2 <- clusterCall(cl, rnorm, 3)
+res2
 sapply(2:4, function(i) identical(x[[1]], x[[i]]))
+tmp <- clusterSeed(cl, 1)
+res3 <- clusterCall(cl, rnorm, 3)
+res3
+identical(res1, res3) # same seed, same results
 stopCluster(cl)
 ## determine the number of workers
 clusterSize(5, rep(1, 5))
