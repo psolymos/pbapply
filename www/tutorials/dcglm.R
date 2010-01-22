@@ -195,10 +195,12 @@ dcglm <- function(formula, data = parent.frame(), family=c("poisson", "binomial"
     mu <- X %*% COEF
     if (family == "poisson") {
         fitval <- drop(exp(mu))
-        ll <- sum(log(fitval^Y * exp(-fitval)) - log(factorial(Y)))
+#        ll <- sum(log(fitval^Y * exp(-fitval)) - log(factorial(Y)))
+        ll <-  sum(dpois(Y, fitval, log=TRUE))
     } else {
         fitval <- drop(exp(mu) / (1 + exp(mu)))
-        ll <- sum(log(choose(1, Y) * fitval^Y * (1-fitval)^(1-Y)))
+#        ll <- sum(log(choose(1, Y) * fitval^Y * (1-fitval)^(1-Y)))
+        ll <-  sum(dbinom(Y, 1, fitval, log=TRUE))
     }
     rval <- list(call=match.call(),
         mcmc = mod,
