@@ -18,7 +18,7 @@ dcsd(x, na.rm = FALSE)
 as.mcmc.list.dc(x, ...)
 \method{coef}{mcmc.list}(object, ...)
 \method{confint}{mcmc.list.dc}(object, parm, 
-level = 0.95, parametric = TRUE...)
+level = 0.95, type = c("wald", "quantile"), ...)
 \method{vcov}{mcmc.list.dc}(object, ...)
 \method{quantile}{mcmc.list}(x, ...)
 }
@@ -36,9 +36,10 @@ either a vector of numbers or a vector of names. If missing, all parameters are 
   \item{level}{
 The confidence level required.
 }
-  \item{parametric}{
-Logical, if \code{TRUE} Wald-type confidence intervals are returned. If \code{FALSE} the (non-parametric) 
-quantiles are returned.
+  \item{type}{
+Type of confidence intervals (CI) to be returned. Wald-type (\code{"wald"})
+CIs are based on standard errors of the estimates (\code{dcsd}). 
+Otherwise \code{"quantile"}s of the joint posterior distribution are returned.
 }
   \item{\dots}{
 Further arguments passed to functions.
@@ -55,7 +56,8 @@ The \code{coef} method returns mean of the posterior MCMC chains
 for the monitored parameters.
 
 The \code{confint} method returns confidence intervals for the parameters
-assuming asymptotic normality.
+assuming asymptotic normality (default, \code{"wald"}), or based on the posterior density
+(\code{"quantile"}).
 
 The \code{vcov} method returns the inverse of the Fisher information matrix.
 
@@ -104,7 +106,7 @@ summary(dcmod)
 coef(dcmod)
 dcsd(dcmod)
 confint(dcmod)
-confint(dcmod, parametric = FALSE)
+confint(dcmod, type = "quantile")
 vcov(dcmod)
 quantile(dcmod)
 }

@@ -1,6 +1,7 @@
 confint.mcmc.list.dc <-
-function(object, parm, level = 0.95, parametric=TRUE, ...)
+function(object, parm, level = 0.95, type = c("wald", "quantile"), ...)
 {
+    type <- match.arg(type)
     ## handling names and subsetting according to parm
     pnames <- varnames(object)
     if (missing(parm)) 
