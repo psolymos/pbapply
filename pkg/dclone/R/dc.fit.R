@@ -33,8 +33,10 @@ update=NULL, updatefun=NULL, initsfun=NULL, flavour = c("jags", "bugs"), ...)
     ## iteration starts here
     for (i in 1:times) {
         tmpch <- if (k[i] == 1) "clone" else "clones"
-        if (trace)
+        if (trace) {
             cat("\nFitting model with", k[i], tmpch, "\n\n")
+            flush.console()
+        }
         jdat <- dclone(data, k[i], multiply=multiply, unchanged=unchanged)
         mod <- if (flavour == "jags") {
             jags.fit(jdat, params, model, inits, ...)
