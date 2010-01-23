@@ -11,7 +11,7 @@ function(object, parm, level = 0.95, parametric=TRUE, ...)
     a <- (1 - level)/2
     a <- c(a, 1 - a)
     ## scientific formatting
-    np <- nvar(object)
+    np <- length(parm)
     pct <- paste(format(100 * a, trim = TRUE, scientific = FALSE, digits = 3), "%")
     ## empty array to fill up with values
     ci <- array(NA, dim = c(np, 2L), dimnames = list(parm, pct))
@@ -26,7 +26,7 @@ function(object, parm, level = 0.95, parametric=TRUE, ...)
         ci[] <- cf[parm] + ses %o% fac
     } else {
         ## quantiles
-        ci[] <- t(mcmcapply(object, quantile, probs=a))
+        ci[] <- t(mcmcapply(object[,parm], quantile, probs=a))
     }
     ci
 }
