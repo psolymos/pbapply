@@ -1,4 +1,4 @@
-#### Bayesian toolkit (coda and rjags packages)
+#### (1) Bayesian toolkit (coda and rjags packages)
 
 ## load dclone package
 library(dclone)
@@ -64,6 +64,8 @@ nchain(mod)
 varnames(mod) <- c("beta1", "beta2", "sigma")
 summary(mod)
 
+#### (2) the jags.fit wrapper in  dclone
+
 ## 1 line istead of 5 (note, start=n.adapt+n.update+1, end=n.adapt+n.update+n.iter)
 mod2 <- jags.fit(dat, c("beta", "sigma"), lm.model, n.chains=3, n.update=1000, n.iter=1000, thin=1) # 3000
 summary(mod2)
@@ -99,7 +101,7 @@ tmp <- jags.fit(dat, c("beta", "sigma"), lm.model, progress.bar="gui", by=2)
 ## default 'by' argument is either min(n.iter/50, 100) (this is happening in update.jags)
 
 
-#### convenient data structure definitions for data cloning
+#### (3) convenient data structure definitions for data cloning
 
 n.clones <- 2
 ## rep version
@@ -114,7 +116,7 @@ dclone(as.ts(1:4), n.clones)
 dclone(dcdim(1:4), n.clones)
 dclone(dcdim(matrix(1:12, 3, 4)), n.clones)
 
-## now many clones
+## how many clones?
 nclones(dclone(1:4, 1))
 nclones(dclone(1:4, n.clones))
 nclones(dclone(dcdim(1:4), n.clones))
@@ -125,7 +127,8 @@ str(dat)
 str(dcdat)
 nclones(dcdat)
 
-## fitting the model with cloned data
+#### (4) fitting the model with cloned data
+
 mod7 <- jags.fit(dcdat, c("beta", "sigma"), lm.model)
 nclones(mod7)
 nclones(mod)
@@ -146,6 +149,8 @@ dcmm2 <- update(mod8, times=1)
 dcmm3 <- update(dcmm2, times=1)
 sapply(list(mod7, dcmm2, dcmm3), function(z) c(start(z), end(z), nclones(z)))
 ## other args in update: fun
+
+#### (5) DC diagnostics
 
 ## dctable
 dct <- dctable(mod7)
@@ -186,7 +191,7 @@ vcov(dcm10)
 coef(dcm10)
 dcsd(dcm10)
 
-## iterative model fitting for data cloning (learning process)
+#### (6) iterative model fitting for data cloning (learning process)
 
 # do it by hand using priors and inits
 # do it by dc.fit
