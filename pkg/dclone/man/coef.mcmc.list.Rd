@@ -17,7 +17,8 @@ Functions and methods for 'mcmc.list' objects.
 dcsd(x, na.rm = FALSE)
 as.mcmc.list.dc(x, ...)
 \method{coef}{mcmc.list}(object, ...)
-\method{confint}{mcmc.list.dc}(object, parm, level = 0.95, ...)
+\method{confint}{mcmc.list.dc}(object, parm, 
+level = 0.95, parametric = TRUE...)
 \method{vcov}{mcmc.list.dc}(object, ...)
 \method{quantile}{mcmc.list}(x, ...)
 }
@@ -34,6 +35,10 @@ either a vector of numbers or a vector of names. If missing, all parameters are 
 }
   \item{level}{
 The confidence level required.
+}
+  \item{parametric}{
+Logical, if \code{TRUE} Wald-type confidence intervals are returned. If \code{FALSE} the (non-parametric) 
+quantiles are returned.
 }
   \item{\dots}{
 Further arguments passed to functions.
@@ -99,6 +104,7 @@ summary(dcmod)
 coef(dcmod)
 dcsd(dcmod)
 confint(dcmod)
+confint(dcmod, parametric = FALSE)
 vcov(dcmod)
 quantile(dcmod)
 }
