@@ -19,7 +19,7 @@ as.mcmc.list.dc(x, ...)
 \method{coef}{mcmc.list}(object, ...)
 \method{confint}{mcmc.list.dc}(object, parm, 
 level = 0.95, type = c("wald", "quantile"), ...)
-\method{vcov}{mcmc.list.dc}(object, ...)
+\method{vcov}{mcmc.list.dc}(object, invfisher = TRUE, ...)
 \method{quantile}{mcmc.list}(x, ...)
 }
 \arguments{
@@ -43,6 +43,10 @@ Otherwise \code{"quantile"}s of the joint posterior distribution are returned.
 }
   \item{\dots}{
 Further arguments passed to functions.
+}
+  \item{invfisher}{
+Logical, if the inverse of the Fisher information matrix (\code{TRUE}) should be returned
+instead of the variance-covariance matris of the joint posterior distribution (\code{FALSE}).
 }
 }
 \value{
@@ -108,6 +112,7 @@ dcsd(dcmod)
 confint(dcmod)
 confint(dcmod, type = "quantile")
 vcov(dcmod)
+vcov(dcmod, invfisher = FALSE)
 quantile(dcmod)
 }
 }

@@ -1,3 +1,8 @@
 vcov.mcmc.list.dc <-
-function(object, ...)
-    cov(mcmcapply(object, array)) * nclones(object)
+function(object, invfisher=TRUE, ...)
+{
+    rval <- cov(mcmcapply(object, array))
+    if (invfisher)
+        rval <- rval * nclones(object)
+    rval
+}
