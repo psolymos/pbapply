@@ -16,7 +16,7 @@ function(object, parm, level = 0.95, type = c("wald", "quantile"), ...)
     pct <- paste(format(100 * a, trim = TRUE, scientific = FALSE, digits = 3), "%")
     ## empty array to fill up with values
     ci <- array(NA, dim = c(np, 2L), dimnames = list(parm, pct))
-    if (parametric) {
+    if (type == "wald") {
         ## retrieve posterior means
         cf <- coef(object)
         ## Normal quantiles
