@@ -2,7 +2,6 @@
 \name{coef.mcmc.list}
 \Rdversion{1.1}
 \alias{dcsd}
-\alias{as.mcmc.list.dc}
 \alias{coef.mcmc.list}
 \alias{confint.mcmc.list.dc}
 \alias{vcov.mcmc.list.dc}
@@ -15,7 +14,6 @@ Functions and methods for 'mcmc.list' objects.
 }
 \usage{
 dcsd(x, na.rm = FALSE)
-as.mcmc.list.dc(x, ...)
 \method{coef}{mcmc.list}(object, ...)
 \method{confint}{mcmc.list.dc}(object, parm, 
 level = 0.95, type = c("wald", "quantile"), ...)
@@ -53,9 +51,6 @@ instead of the variance-covariance matris of the joint posterior distribution (\
 \code{dcsd} returns the data cloning standard errors of a posterior MCMC chain
 calculated as standard deviation times the square root of the number of clones.
 
-The function \code{as.mcmc.list.dc} creates a data cloning version of
-an 'mcmc.list' object
-
 The \code{coef} method returns mean of the posterior MCMC chains
 for the monitored parameters.
 
@@ -69,9 +64,7 @@ The \code{quantile} method returns quantiles for each variable.
 }
 \note{
 Some functions only available for the 'mcmc.list.dc' class which inherits from
-class 'mcmc.list'. Such statistics for Bayesian models are available
-after coercion by the function \code{as.mcmc.list.dc}, but the frequentis meaning
-of the statistics will not be applicable.
+class 'mcmc.list'.
 }
 \author{
 \enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
