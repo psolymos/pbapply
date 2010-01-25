@@ -7,7 +7,6 @@ export("dclone", "dcdim",
        "dcsd",
        "nclones",
        "mcmcapply",
-#       "as.mcmc.list.dc",
        "make.symmetric",
        "dctable", "extractdctable",
        "dcdiag", "extractdcdiag", 
@@ -41,7 +40,6 @@ S3method("quantile", "mcmc.list")
 S3method("coef", "mcmc.list")
 S3method("vcov", "mcmc.list")
 S3method("vcov", "mcmc.list.dc")
-#S3method("as.mcmc.list.dc", "default")
 S3method("confint", "mcmc.list.dc")
 S3method("summary", "mcmc.list.dc")
 S3method("print", "summary.mcmc.dc")
