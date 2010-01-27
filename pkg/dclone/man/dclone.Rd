@@ -40,6 +40,9 @@ Numeric or character index for list element(s) to be left unchanged.
   \item{attrib}{
 Logical, \code{TRUE} if attributes are to be attached.
 }
+%%  \item{drop}{
+%%Logical, if \code{TRUE}, deletes the dimensions of an array which have only one level.
+%%}
   \item{\dots}{
 Other arguments passed to function.
 }

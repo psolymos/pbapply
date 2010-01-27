@@ -1,11 +1,12 @@
 dclone.dcdim <-
-function(x, n.clones=1, attrib=TRUE, drop=TRUE, ...)
+function(x, n.clones=1, attrib=TRUE, ...)
 {
-    if (drop)
-        x <- drop(x)
     if (n.clones==1)
         return(x)
     DIM <- dim(x)
+    ## if last dim is 1, drop it
+    if (DIM[length(DIM)] == 1)
+        DIM <- DIM[-length(DIM)]
     clch <- paste("clone", 1:n.clones, sep=".")
     if (is.null(DIM)) {
         DIM <- length(x)
