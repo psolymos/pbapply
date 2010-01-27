@@ -1,9 +1,9 @@
 dclone.list <- function(x, n.clones=1, 
-multiply=NULL, unchanged=NULL, attrib=TRUE, ...)
+multiply=NULL, unchanged=NULL, attrib=TRUE, drop=TRUE, ...)
 {
     if (n.clones == 1)
         return(x)
-    out <- lapply(x, dclone, n.clones=n.clones, attrib=attrib, ...)
+    out <- lapply(x, dclone, n.clones=n.clones, attrib=attrib, drop=drop, ...)
     if (!is.null(multiply))
         for (i in 1:length(multiply)) {
             tmp <- x[[multiply[i]]] * n.clones
