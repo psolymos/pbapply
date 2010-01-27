@@ -19,10 +19,10 @@ function(formula, data = parent.frame(), family=c("poisson", "binomial"), n.clon
     X <- model.matrix(attr(rhs, "terms"), rhs)
     dat <- list(n = length(Y), Y = Y, X = X, np = ncol(X), k = 1)
     if (family == "poisson") {
-        model <- model <- custommodel(glm.model, c(4,6))
+        model <- model <- dclone:::custommodel(glm.model, c(4,6))
         dcdat <- dclone(dat, n.clones, multiply = "n", unchanged = "np")
     } else {
-        model <- custommodel(glm.model, c(3,5))
+        model <- dclone:::custommodel(glm.model, c(3,5))
         dcdat <- dclone(dat, n.clones, multiply = c("Y","k"), unchanged = c("n", "np", "X"))
     }
     mod <- jags.fit(dcdat, "beta", model, ...)
@@ -32,10 +32,12 @@ function(formula, data = parent.frame(), family=c("poisson", "binomial"), n.clon
     mu <- X %*% COEF
     if (family == "poisson") {
         fitval <- exp(mu)
-        ll <- sum(log(fitval^Y * exp(-fitval)) - log(factorial(Y)))
+#        ll <- sum(log(fitval^Y * exp(-fitval)) - log(factorial(Y)))
+        ll <-  sum(dpois(Y, fitval, log=TRUE))
     } else {
         fitval <- exp(mu) / (1 + exp(mu))
-        ll <- sum(log(choose(1, Y) * fitval^Y * (1-fitval)^(1-Y)))
+#        ll <- sum(log(choose(1, Y) * fitval^Y * (1-fitval)^(1-Y)))
+        ll <-  sum(dbinom(Y, 1, fitval, log=TRUE))
     }
     rval <- list(call=match.call(),
         mcmc = mod,

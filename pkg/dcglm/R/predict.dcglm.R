@@ -24,8 +24,8 @@ function(object, newdata = NULL, type = c("link", "response"), se = FALSE, ...){
         "link" = "mu",
         "response" = "z")
     model <- switch(object$family,
-        "poisson" = custommodel(glm.pred, c(4,6)),
-        "binomial" = custommodel(glm.pred, c(3,5)))
+        "poisson" = dclone:::custommodel(glm.pred, c(4,6)),
+        "binomial" = dclone:::custommodel(glm.pred, c(3,5)))
     prdat <- list(n = nrow(X), X = X, 
         np = ncol(X), k = 1, coefs = coefs, prec = prec)
     prval <- jags.fit(prdat, params, model, ...)
