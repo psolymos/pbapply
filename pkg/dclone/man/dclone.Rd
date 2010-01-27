@@ -21,7 +21,7 @@ dclone(x, n.clones=1, ...)
 \method{dclone}{dcdim}(x, n.clones = 1, attrib=TRUE, ...)
 \method{dclone}{list}(x, n.clones = 1, 
 multiply = NULL, unchanged = NULL, attrib=TRUE, ...)
-dcdim(x)
+dcdim(x, drop = TRUE)
 }
 \arguments{
   \item{x}{
@@ -40,9 +40,9 @@ Numeric or character index for list element(s) to be left unchanged.
   \item{attrib}{
 Logical, \code{TRUE} if attributes are to be attached.
 }
-%%  \item{drop}{
-%%Logical, if \code{TRUE}, deletes the dimensions of an array which have only one level.
-%%}
+  \item{drop}{
+Logical, if \code{TRUE}, deletes the last dimension of an array if that have only one level.
+}
   \item{\dots}{
 Other arguments passed to function.
 }

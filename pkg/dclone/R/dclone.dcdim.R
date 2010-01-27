@@ -4,14 +4,14 @@ function(x, n.clones=1, attrib=TRUE, ...)
     if (n.clones==1)
         return(x)
     DIM <- dim(x)
-    ## if last dim is 1, drop it
-    if (DIM[length(DIM)] == 1)
-        DIM <- DIM[-length(DIM)]
     clch <- paste("clone", 1:n.clones, sep=".")
     if (is.null(DIM)) {
         DIM <- length(x)
         DIMNAM <- list(names(x), clch)
     } else {
+        ## if last dim is 1 and 'drop' attr is TRUE, drop it
+        if (attr(x, "drop") && (DIM[length(DIM)] == 1))
+            DIM <- DIM[-length(DIM)]
         DIMNAM <- dimnames(x)
         if (is.null(DIMNAM))
             DIMNAM <- lapply(1:length(DIM), function(i) NULL)
