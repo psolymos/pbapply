@@ -15,7 +15,7 @@ designed to work closely with MCMC fitting functions (can be called from inside 
 \usage{
 snowWrapper(cl, seq, fun, cldata, name = "cldata", 
 lib = NULL, size = 1, load.balancing = FALSE, 
-seed = 1, kind = "default", random.kind = "default", ...)
+seed = 1, kind = "default", normal.kind = "default", ...)
 clusterSplitSB(cl, seq, size = 1)
 clusterSize(n, size)
 clusterSeed(cl, seed, kind = "default", normal.kind = "default")
