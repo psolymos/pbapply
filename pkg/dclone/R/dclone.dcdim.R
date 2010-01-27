@@ -1,6 +1,8 @@
 dclone.dcdim <-
-function(x, n.clones=1, attrib=TRUE, ...)
+function(x, n.clones=1, attrib=TRUE, drop=TRUE, ...)
 {
+    if (drop)
+        x <- drop(x)
     if (n.clones==1)
         return(x)
     DIM <- dim(x)
