@@ -13,13 +13,13 @@ Convenient functions for parallel MCMC computations
 designed to work closely with MCMC fitting functions (can be called from inside of a function).
 }
 \usage{
-snowWrapper(cl, seq, fun, cldata, name = "cldata", 
-lib = NULL, size = 1, load.balancing = FALSE, 
-seed = 1, kind = "default", normal.kind = "default", ...)
+snowWrapper(cl, seq, fun, cldata, name = "cldata", lib = NULL, size = 1,
+seed = 1, kind = "default", normal.kind = "default", 
+balancing = c("none", "load", "size"), ...)
 clusterSplitSB(cl, seq, size = 1)
 clusterSize(n, size)
 clusterSeed(cl, seed, kind = "default", normal.kind = "default")
-parLapplySB(cl, x, fun, size = 1, load.balancing = FALSE, ...)
+parLapplySB(cl, x, size = 1, fun, ...)
 }
 \arguments{
   \item{cl}{
@@ -43,8 +43,8 @@ Character, the name of \code{cldata} as to be assigned to the global environment
   \item{lib}{
 Character, name of package(s). Optionally a package can be loaded onto the cluster. More than one package can be specified as character vector.
 }
-  \item{load.balancing}{
-Logical, if \code{TRUE} the function \code{\link[snow]{clusterApplyLB}} is used istead of \code{\link[snow]{clusterApply}}.
+  \item{balancing}{
+Character, type of balancing to perform.
 }
   \item{n}{
 Maximum number of workers.
