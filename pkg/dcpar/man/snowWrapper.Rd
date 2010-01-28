@@ -3,6 +3,7 @@
 \alias{snowWrapper}
 \alias{clusterSplitSB}
 \alias{clusterSize}
+\alias{plotClusterSize}
 \alias{clusterSeed}
 \alias{parLapplySB}
 \alias{parLapplySLB}
@@ -18,10 +19,12 @@ snowWrapper(cl, seq, fun, cldata, name = "cldata", lib = NULL, evalq=NULL,
 size = 1, seed = 1, kind = "default", normal.kind = "default", 
 balancing = c("none", "load", "size", "both"), ...)
 clusterSplitSB(cl, seq, size = 1)
-clusterSize(n, size)
 clusterSeed(cl, seed, kind = "default", normal.kind = "default")
 parLapplySB(cl, x, size = 1, fun, ...)
 parLapplySLB(cl, x, size = 1, fun, ...)
+clusterSize(size)
+plotClusterSize(n, size, balancing = c("none", "load", "size", "both"),
+plot = TRUE)
 }
 \arguments{
   \item{cl}{
@@ -66,6 +69,9 @@ Recicled if needed. The default \code{1} indicates equality of problem sizes.
 }
   \item{normal.kind}{
 \code{normal.kind} argument used by \code{\link{set.seed}}.
+}
+  \item{plot}{
+Logical, if a plot should be drawn.
 }
   \item{\dots}{
 Other arguments of \code{fun}, that are simple values and not objects. (Arguments passed as objects should be specified in
@@ -114,9 +120,15 @@ res3 <- clusterCall(cl, rnorm, 3)
 res3
 identical(res1, res3) # same seed, same results
 stopCluster(cl)
-## determine the number of workers
-clusterSize(5, rep(1, 5))
-clusterSize(5, 1:5)
+## compare balancin options
+opar <- par(mfrow=c(2,2))
+plotClusterSize(2,1:5,"none")
+plotClusterSize(2,1:5,"load")
+plotClusterSize(2,1:5,"size")
+plotClusterSize(2,1:5,"both")
+par(opar)
+## determine the number of workers needed
+clusterSize(1:5)
 }
 }
 \keyword{ utilities }
