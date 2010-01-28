@@ -7,7 +7,7 @@
 Parallel computing with JAGS and WinBUGS/OpenBUGS
 }
 \description{
-Do the same job as \code{\link{jags.fit}} and \code{\link{bugs.fit}}, 
+Do the same job as \code{\link[dclone]{jags.fit}} and \code{\link[dclone]{bugs.fit}}, 
 but parallel chanis are run on parallel workers, thus more than 4 chains are enabled, and
 computation can be faster for long MCMC runs.
 }
@@ -55,7 +55,7 @@ An \code{mcmc.list} object.
 \enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \seealso{
-\code{\link[dclone]{jags.fit}}, \code{\link[dclone]{bugs.fit}}
+\code{\link[dclone]{jags.parfit}}, \code{\link[dclone]{bugs.parfit}}
 }
 \examples{
 \dontrun{
