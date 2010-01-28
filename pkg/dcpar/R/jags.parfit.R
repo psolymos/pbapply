@@ -30,9 +30,9 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))
     ## updated models
-    if (!is.null(attr(mcmc[[1]], "updated.model"))) {
-        attr(res, "updated.model") <- lapply(mcmc, function(z) attr(z, "updated.model"))
-    }
+#    if (!is.null(attr(mcmc[[1]], "updated.model"))) {
+#        attr(res, "updated.model") <- lapply(mcmc, function(z) attr(z, "updated.model"))
+#    }
     ## attaching attribs and return
     n.clones <- nclones(data)
     if (!is.null(n.clones) && n.clones > 1) {
