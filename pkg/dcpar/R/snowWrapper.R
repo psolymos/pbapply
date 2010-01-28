@@ -1,7 +1,7 @@
 snowWrapper <-
-function(cl, seq, fun, cldata, name="cldata", lib=NULL, size = 1, 
-seed=1, kind="default", normal.kind="default", 
-balancing=c("none", "load", "size"), ...)
+function(cl, seq, fun, cldata, name="cldata", lib=NULL, evalq=NULL,
+size = 1, seed=1, kind="default", normal.kind="default", 
+balancing=c("none", "load", "size", "both"), ...)
 {
     balancing <- match.arg(balancing)
     clusterSeed(cl, seed, kind, normal.kind)
@@ -16,13 +16,19 @@ balancing=c("none", "load", "size"), ...)
         for (i in lib)
             eval(parse(text=paste("clusterEvalQ(cl, library(", i, "))")))
     }
+    ## evaluates literal expressions if needed (e.g. setwd())
+    if (!is.null(evalq)) {
+        for (i in evalq)
+            eval(parse(text=paste("clusterEvalQ(cl,", i, ")")))
+    }
     ## place object name into global env (clusterExport can reach it)
     assign(name, cldata, envir = .GlobalEnv)
     clusterExport(cl, name)
-    ## parallel work done here similarly as in parLapply
+    ## parallel work done here due to balancing
     res <- switch(balancing,
-        "none" = clusterApplyLB(cl, seq, fun, ...),
-        "load" = parLapply(cl, seq, fun, ...),
-        "size" = parLapplySB(cl, seq, size=size, fun, ...))
+        "none" = parLapply(cl, seq, fun, ...),
+        "load" = clusterApplyLB(cl, seq, fun, ...),
+        "size" = parLapplySB(cl, seq, size=size, fun, ...),
+        "both" = parLapplySLB(cl, seq, size=size, fun, ...))
     res
 }
