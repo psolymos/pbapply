@@ -18,7 +18,7 @@ function(cl, data, params, model, inits, n.chains = 3, bugs.seed=1:n.chains, ...
         inits <- lapply(1:n.chains, inits)
     if (length(inits) != n.chains)
         stop("provide initial values for each chains")
-    ## parallel function to evaluate by cluster.wrapper
+    ## parallel function to evaluate by snowWrapper
     bugsparallel <- function(i, ...)   {
         bugs.fit(data=cldata$data, params=cldata$params, model=cldata$model,
         inits=cldata$inits[i], n.chains=1, bugs.seed=bugs.seed[i], ...)
@@ -27,8 +27,7 @@ function(cl, data, params, model, inits, n.chains = 3, bugs.seed=1:n.chains, ...
     cldata <- list(data=data, params=params, model=model, inits=inits)
     ## parallel computations
     mcmc <- snowWrapper(cl, 1:n.chains, bugsparallel, cldata, lib="dcpar", 
-        load.balancing=getOption("dclone.cluster")$load.balancing, size=1, 
-        seed=100*1:length(cl), ...)
+        balancing="none", size=1, seed=100*1:length(cl), ...)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))
     ## attaching attribs and return

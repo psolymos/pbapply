@@ -72,8 +72,7 @@ update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs")
         multiply=multiply, unchanged=unchanged, flavour=flavour, kseq=kseq)
     ## parallel computations
     pdct <- snowWrapper(cl, cldata$kseq, dcparallel, cldata, lib="dcpar", 
-        load.balancing=getOption("dclone.cluster")$load.balancing, 
-        seed=100*1:length(cl), ...)
+        balancing="size", size=kseq, seed=100*1:length(kseq), ...)
 
     #### last model fitting
     tmpch <- if (k[times] == 1) "clone" else "clones"
