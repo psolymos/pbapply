@@ -115,6 +115,10 @@ dclone(data.frame(a=1:2, b=c(TRUE, FALSE)), n.clones)
 dclone(as.ts(1:4), n.clones)
 dclone(dcdim(1:4), n.clones)
 dclone(dcdim(matrix(1:12, 3, 4)), n.clones)
+## drop
+dm <- data.matrix(1:4)
+dm
+dclone(dcdim(dm), n.clones)
 
 ## how many clones?
 nclones(dclone(1:4, 1))
@@ -126,6 +130,9 @@ dcdat <- dclone(dat, n.clones, multiply="n", unchanged="np")
 str(dat)
 str(dcdat)
 nclones(dcdat)
+
+## the most important thing!
+cat("\nLet's have a break!\n\n")
 
 #### (4) fitting the model with cloned data
 
@@ -183,6 +190,7 @@ plot(c2)
 ## dcdiag
 dcdiag(dcm1)
 dcd <- dcdiag(dcm1, dcm2, dcm5, dcm10)
+dcd
 plot(dcd)
 
 ## useful functions (methods) for data cloned MCMC objects
@@ -192,10 +200,6 @@ coef(dcm10)
 dcsd(dcm10)
 
 #### (6) iterative model fitting for data cloning (learning process)
-
-# do it by hand using priors and inits
-# do it by dc.fit
-# revied dctable and dcdiag as returned by dc.fit
 
 set.seed(1234)
 n <- 100
@@ -279,7 +283,7 @@ plot(dcd)
 set.seed(1234)
 Y <- rbinom(n, 1, exp(mu) / (1 + exp(mu)))
 ## JAGS model as a function
-jfun1 <- function() {
+jjfun1 <- function() {
     for (i in 1:n) {
         Y[i] ~ dbern(p[i])
         logit(p[i]) <- alpha[i] + inprod(X[i,], beta[1,])
@@ -291,18 +295,18 @@ jfun1 <- function() {
     sigma ~ dgamma(0.001, 0.001)
 }
 ## data
-jdata <- list(n = n, Y = Y, X = X, np = NCOL(X))
+jjdata <- list(n = n, Y = Y, X = X, np = NCOL(X))
 ## number of clones to be used, etc.
 ## iteartive fitting
-jmod <- dc.fit(jdata, c("beta", "sigma"), jfun1, 
+jjmod <- dc.fit(jjdata, c("beta", "sigma"), jjfun1, 
     n.clones = 1:5, multiply = "n", unchanged = "np", 
     n.update=1000, n.iter=1000)
 ## summary with DC SE and R hat
-summary(jmod)
-dct <- dctable(jmod)
-plot(dct)
-plot(dct, type="var")
-dcd <- dcdiag(jmod)
-dcd
-plot(dcd)
-plot(chisq.diag(jmod))
+summary(jjmod)
+ddct <- dctable(jjmod)
+plot(ddct)
+plot(ddct, type="var")
+ddcd <- dcdiag(jjmod)
+ddcd
+plot(ddcd)
+plot(chisq.diag(jjmod))
