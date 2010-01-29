@@ -158,7 +158,7 @@ snowWrapper(cl, 1:5, fun, cldata, balancing="size", size=1:5)
 
 ## data cloning
 
-plotworkload <- function(n, seq, size=1, balancing=c("none","load","size","both")) {
+plotClusterSize <- function(n, size, balancing=c("none","load","size","both"), plot=TRUE) {
     clusterSplitLB <- function(cl, seq, size = 1) {
         tmp1 <- tmp2 <- matrix(NA, length(cl), length(seq))
         tmp1[1,1] <- size[1]
@@ -170,9 +170,12 @@ plotworkload <- function(n, seq, size=1, balancing=c("none","load","size","both"
         }
         lapply(1:n, function(i) tmp2[i,!is.na(tmp2[i,])])
     }
+    if (n==1)
+        stop("'n' > 1 is needed")
+    m <- length(size)
+    seq <- 1:m
     balancing <- match.arg(balancing)
     cl <- 1:n
-    m <- length(seq)
     x <- switch(balancing,
         "none" = clusterSplit(cl, seq),
         "load" = clusterSplitLB(cl, seq, m:1),
@@ -192,31 +195,43 @@ plotworkload <- function(n, seq, size=1, balancing=c("none","load","size","both"
     y1 <- y+(0.5-offset)
     y2 <- y-(0.5-offset)
 
-    plot.new()
-    plot.window(xlim=range(x1,x2),ylim=range(y1,y2))
-    axis(side=1)
-    axis(side=2, at=y, tick=FALSE)
-    main <- switch(balancing,
-        "none" = "No Balancing",
-        "load" = "Load Balancing",
-        "size" = "Size Balancing",
-        "both" = "Size and Load Balancing")
-    title(main=main, xlab="Approximate Processing Time", ylab="Workers",
-        sub=paste("Max =", max(sapply(x2, max))))
-    for (i in 1:n) {
-        for (j in 1:length(x[[i]])) {
-            polygon(c(x1[[i]][j], x2[[i]][j], x2[[i]][j], x1[[i]][j]), c(y1[i], y1[i], y2[i], y2[i]))
-            text(mean(c(x1[[i]][j], x2[[i]][j])), y[i], x[[i]][j])
+    if (plot) {
+        plot.new()
+        plot.window(xlim=range(x1,x2),ylim=range(y1,y2))
+        axis(side=1)
+        axis(side=2, at=y, tick=FALSE)
+        main <- switch(balancing,
+            "none" = "No Balancing",
+            "load" = "Load Balancing",
+            "size" = "Size Balancing",
+            "both" = "Size and Load Balancing")
+        title(main=main, xlab="Approximate Processing Time", ylab="Workers",
+            sub=paste("Max =", max(sapply(x2, max))))
+        for (i in 1:n) {
+            for (j in 1:length(x[[i]])) {
+                polygon(c(x1[[i]][j], x2[[i]][j], x2[[i]][j], x1[[i]][j]), c(y1[i], y1[i], y2[i], y2[i]))
+                text(mean(c(x1[[i]][j], x2[[i]][j])), y[i], x[[i]][j])
+            }
         }
     }
-    invisible(NULL)
+    invisible(max(sapply(x2, max)))
 }
 
 opar <- par(mfrow=c(2,2))
-plotworkload(2,1:5,1:5,"none")
-plotworkload(2,1:5,1:5,"load")
-plotworkload(2,1:5,1:5,"size")
-plotworkload(2,1:5,1:5,"both")
+plotClusterSize(2,1:5,"none")
+plotClusterSize(2,1:5,"load")
+plotClusterSize(2,1:5,"size")
+plotClusterSize(2,1:5,"both")
 par(opar)
 
-todo: use same logic in clusterSize to return values according to balancing
+
+clusterSize <- function(size) {
+    m <- length(size)
+    if (m==1)
+        stop("'length(size)' > 1 is needed")
+    res1 <- sapply(2:m, function(i) plotClusterSize(i, size, "none", plot=FALSE))
+    res2 <- sapply(2:m, function(i) plotClusterSize(i, size, "load", plot=FALSE))
+    res3 <- sapply(2:m, function(i) plotClusterSize(i, size, "size", plot=FALSE))
+    data.frame(workers=2:m,none=res1,load=res2,size=res3,both=res3)
+}
+clusterSize(1:5)
