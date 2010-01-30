@@ -10,6 +10,7 @@ function (x, digits = max(3, getOption("digits") - 3), ...)
         cat("Standard deviation = ")
     }
     cat(round(y, digits = digits), "\n")
-    cat("Number of clones =", nclones(x), "\n")
+    if (!is.null(nclones(x)))
+        cat("Number of clones =", nclones(x), "\n")
     invisible(x)
 }

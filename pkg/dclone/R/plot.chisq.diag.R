@@ -2,10 +2,11 @@ plot.chisq.diag <- function(x,
     main, sub, xlab, ylab, qqline = TRUE, ...)
 {
     if (missing(main))
-        main <- paste("Number of Clones =", nclones(x))
+        main <- if (is.null(nclones(x)))
+            "" else paste("Number of Clones =", nclones(x))
     if (missing(sub))
         sub <- paste("MS Error =", round(x$statistics$ms.error, 3),
-            "\nr-squared =", round(x$statistics$r.squared, 3))
+            "\tr-squared =", round(x$statistics$r.squared, 3))
     if (missing(xlab))
         xlab <- "Theoretical Quantiles"
     if (missing(ylab))
