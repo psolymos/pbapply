@@ -1,5 +1,7 @@
 ## main dclone functions
 export("jags.parfit", "bugs.parfit", "dc.parfit",
        "snowWrapper", 
-       "clusterSize", "clusterSplitSB", "clusterSeed",
+       "clusterSize", "plotClusterSize",
+       "clusterSplitSB", 
+       "clusterSeed",
        "parLapplySB")
