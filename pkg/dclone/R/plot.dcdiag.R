@@ -37,7 +37,7 @@ function(x, which = c("all", "lambda.max", "ms.error", "r.squared"), position = 
             plotit(params[i], show.legend=show.legend[i], lin=lin[i], ...)
         par(opar)
     } else {
-        lin <- which == "lambdamax.diag"
+        lin <- which == "lambda.max"
         plotit(which, show.legend=TRUE, lin, ...)
     }
     invisible(NULL)
