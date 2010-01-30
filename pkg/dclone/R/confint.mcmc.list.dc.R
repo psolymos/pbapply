@@ -1,7 +1,6 @@
 confint.mcmc.list.dc <-
-function(object, parm, level = 0.95, type = c("wald", "quantile"), ...)
+function(object, parm, level = 0.95, ...)
 {
-    type <- match.arg(type)
     ## handling names and subsetting according to parm
     pnames <- varnames(object)
     if (missing(parm)) 
@@ -16,18 +15,13 @@ function(object, parm, level = 0.95, type = c("wald", "quantile"), ...)
     pct <- paste(format(100 * a, trim = TRUE, scientific = FALSE, digits = 3), "%")
     ## empty array to fill up with values
     ci <- array(NA, dim = c(np, 2L), dimnames = list(parm, pct))
-    if (type == "wald") {
-        ## retrieve posterior means
-        cf <- coef(object)
-        ## Normal quantiles
-        fac <- qnorm(a)
-        ## DC SD calculation
-        ses <- dcsd(object)[parm]
-        ## calculates actual CIs
-        ci[] <- cf[parm] + ses %o% fac
-    } else {
-        ## quantiles
-        ci[] <- t(mcmcapply(object[,parm], quantile, probs=a))
-    }
+    ## retrieve posterior means
+    cf <- coef(object)
+    ## Normal quantiles
+    fac <- qnorm(a)
+    ## DC SD calculation
+    ses <- dcsd(object)[parm]
+    ## calculates actual CIs
+    ci[] <- cf[parm] + ses %o% fac
     ci
 }

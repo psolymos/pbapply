@@ -25,5 +25,6 @@ chisq.diag <- function(x)
     class(rval) <- "chisq.diag"
     attr(rval, "npar") <- npar
 #    attr(rval, "probs") <- probs
+    attr(rval, "n.clones") <- nclones(x)
     rval
 }

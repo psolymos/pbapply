@@ -5,10 +5,11 @@ function (x, digits = max(3, getOption("digits") - 3), ...)
     y <- x
     attributes(y) <- NULL
     if (npar > 1) {
-        cat("Larges eigenvalue:\n")
+        cat("Larges eigenvalue = ")
     } else {
-        cat("Standard deviation:\n")
+        cat("Standard deviation = ")
     }
     cat(round(y, digits = digits), "\n")
+    cat("Number of clones =", nclones(x), "\n")
     invisible(x)
 }

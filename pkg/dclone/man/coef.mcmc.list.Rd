@@ -15,8 +15,7 @@ Functions and methods for 'mcmc.list' objects.
 \usage{
 dcsd(x, na.rm = FALSE)
 \method{coef}{mcmc.list}(object, ...)
-\method{confint}{mcmc.list.dc}(object, parm, 
-level = 0.95, type = c("wald", "quantile"), ...)
+\method{confint}{mcmc.list.dc}(object, parm, level = 0.95, ...)
 \method{vcov}{mcmc.list.dc}(object, invfisher = TRUE, ...)
 \method{quantile}{mcmc.list}(x, ...)
 }
@@ -33,11 +32,6 @@ either a vector of numbers or a vector of names. If missing, all parameters are 
 }
   \item{level}{
 The confidence level required.
-}
-  \item{type}{
-Type of confidence intervals (CI) to be returned. Wald-type (\code{"wald"})
-CIs are based on standard errors of the estimates (\code{dcsd}). 
-Otherwise \code{"quantile"}s of the joint posterior distribution are returned.
 }
   \item{\dots}{
 Further arguments passed to functions.
@@ -103,7 +97,6 @@ summary(dcmod)
 coef(dcmod)
 dcsd(dcmod)
 confint(dcmod)
-confint(dcmod, type = "quantile")
 vcov(dcmod)
 vcov(dcmod, invfisher = FALSE)
 quantile(dcmod)

@@ -1,7 +1,7 @@
 plot.dcdiag <-
 function(x, which = c("all", "lambda.max", "ms.error", "r.squared"), position = "topright", ...)
 {
-    plotit <- function(param, show.legend, ...) {
+    plotit <- function(param, show.legend, lin, ...) {
         y <- x[[param]]
         pch <- rep(21, length(y))
         pch[y < crit] <- 19
@@ -20,7 +20,8 @@ function(x, which = c("all", "lambda.max", "ms.error", "r.squared"), position = 
                 legend=c(paste(" >= ", round(crit, 2), sep=""),
                 paste(" < ", round(crit, 2), sep="")))
         }
-        lines(xval, kmin/k, lty=2)
+        if (lin)
+            lines(xval, kmin/k, lty=2)
     }
     which <- match.arg(which)
     k <- x$n.clones
@@ -29,11 +30,15 @@ function(x, which = c("all", "lambda.max", "ms.error", "r.squared"), position = 
     crit <- getOption("dclone")$dcdiag$crit
     if (which == "all") {
         show.legend <- c(FALSE, FALSE, TRUE)
+        lin <- c(TRUE, FALSE, FALSE)
         params <- c("lambda.max", "ms.error", "r.squared")
         opar <- par(mfrow=c(1, 3))
         for (i in 1:3)
-            plotit(params[i], show.legend=show.legend[i], ...)
+            plotit(params[i], show.legend=show.legend[i], lin=lin[i], ...)
         par(opar)
-    } else plotit(which, show.legend=TRUE, ...)
+    } else {
+        lin <- which == "lambdamax.diag"
+        plotit(which, show.legend=TRUE, lin, ...)
+    }
     invisible(NULL)
 }

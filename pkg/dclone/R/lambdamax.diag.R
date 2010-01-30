@@ -10,5 +10,6 @@ function(x)
     }
     class(rval) <- "lambdamax.diag"
     attr(rval, "npar") <- npar
+    attr(rval, "n.clones") <- nclones(x)
     rval
 }
