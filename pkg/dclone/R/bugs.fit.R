@@ -16,7 +16,7 @@ program=c("winbugs", "openbugs"), DIC=FALSE, bugs.seed=NULL, dir=getwd(), ...)
         if (is.function(model))
             model <- match.fun(model)
         model <- write.jags.model(model)
-        on.exit(clean.jags.model(model))
+        on.exit(try(clean.jags.model(model)))
     }
     ## WinBUGS evaluation is simple
     ## only default behavour is changed for args

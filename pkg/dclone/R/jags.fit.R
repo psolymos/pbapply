@@ -8,7 +8,7 @@ updated.model=TRUE, ...)
         if (is.function(model))
             model <- match.fun(model)
         model <- write.jags.model(model)
-        on.exit(clean.jags.model(model))
+        on.exit(try(clean.jags.model(model)))
     }
     ## handling inits arg, model initialization
     m <- if (is.null(inits)) {
