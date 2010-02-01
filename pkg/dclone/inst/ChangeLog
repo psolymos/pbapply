@@ -1,7 +1,7 @@
 dclone package version history
 
 Version 1.0-5, January 25, 2010
-    * drop argument in dcdim and dclone.dcdim
+    * drop and perm arguments in dcdim.
 
 Version 1.0-4, January 14, 2010
     * nclones.list: returns 'method' attributes.

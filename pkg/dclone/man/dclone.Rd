@@ -21,7 +21,7 @@ dclone(x, n.clones=1, ...)
 \method{dclone}{dcdim}(x, n.clones = 1, attrib=TRUE, ...)
 \method{dclone}{list}(x, n.clones = 1, 
 multiply = NULL, unchanged = NULL, attrib=TRUE, ...)
-dcdim(x, drop = TRUE)
+dcdim(x, drop = TRUE, perm = NULL)
 }
 \arguments{
   \item{x}{
@@ -42,6 +42,9 @@ Logical, \code{TRUE} if attributes are to be attached.
 }
   \item{drop}{
 Logical, if \code{TRUE}, deletes the last dimension of an array if that have only one level.
+}
+  \item{perm}{
+The subscript permutation value, if the cloning dimension is not the last.
 }
   \item{\dots}{
 Other arguments passed to function.
