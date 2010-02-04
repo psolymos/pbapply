@@ -55,7 +55,7 @@ An \code{mcmc.list} object.
 \enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \seealso{
-\code{\link[dclone]{jags.parfit}}, \code{\link[dclone]{bugs.parfit}}
+\code{\link[dclone]{jags.fit}}, \code{\link[dclone]{bugs.fit}}
 }
 \examples{
 \dontrun{
