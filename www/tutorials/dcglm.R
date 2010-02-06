@@ -177,6 +177,7 @@ dcglm <- function(formula, data = parent.frame(), family=c("poisson", "binomial"
     family <- match.arg(family)
     lhs <- formula[[2]]
     Y <- eval(lhs, data)
+    formula.orig <- formula
     formula[[2]] <- NULL
     rhs <- model.frame(formula, data)
     X <- model.matrix(attr(rhs, "terms"), rhs)
@@ -209,7 +210,7 @@ dcglm <- function(formula, data = parent.frame(), family=c("poisson", "binomial"
         model = X,
         fitted.values = fitval,
         linear.predictors = mu,
-        formula = formula,
+        formula = formula.orig,
         coefficients = COEF,
         std.error = SE,
         loglik = ll,
@@ -426,7 +427,9 @@ predict.dcglm <- function(object, newdata = NULL, type = c("link", "response"), 
     if (is.null(newdata)) {
         X <- object$model
     } else {
-        rhs <- model.frame(object$formula, newdata)
+        formul <- object$formula
+        formul[[2]] <- NULL
+        rhs <- model.frame(formul, newdata)
         X <- model.matrix(attr(rhs, "terms"), rhs)
     }
     type <- match.arg(type)
