@@ -27,7 +27,7 @@ the scale of the response variable.
 logical switch indicating if standard errors are required.
 }
   \item{\dots}{
-additional arguments passed to \code{\link{jags.fit}}, such as \code{n.update},
+additional arguments passed to \code{\link[dclone]{jags.fit}}, such as \code{n.update},
 \code{n.iter}, \code{n.chains} and \code{thin}.
 }
 }
