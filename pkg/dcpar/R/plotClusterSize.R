@@ -10,7 +10,7 @@ function(n, size, balancing=c("none","load","size","both"), plot=TRUE)
             tmp1[which(rs == min(rs))[1],i] <- size[i]
             tmp2[which(rs == min(rs))[1],i] <- i
         }
-        lapply(1:n, function(i) tmp2[i,!is.na(tmp2[i,])])
+        lapply(1:length(cl), function(i) tmp2[i,!is.na(tmp2[i,])])
     }
     if (n==1)
         stop("'n' > 1 is needed")
@@ -18,15 +18,15 @@ function(n, size, balancing=c("none","load","size","both"), plot=TRUE)
     seq <- 1:m
     balancing <- match.arg(balancing)
     cl <- 1:n
+    ord <- order(size, decreasing=TRUE)
     x <- switch(balancing,
         "none" = clusterSplit(cl, seq),
-        "load" = clusterSplitLB(cl, seq, m:1),
+        "load" = clusterSplitLB(cl, seq, size),
         "size" = clusterSplitSB(cl, seq, size),
         "both" = clusterSplitSB(cl, seq, size))
-    size <- rep(size, m)[1:m]
     s <- switch(balancing,
         "none" = clusterSplit(cl, size),
-        "load" = clusterSplitLB(cl, size, m:1),
+        "load" = clusterSplitLB(cl, size, size),
         "size" = clusterSplitSB(cl, size, size),
         "both" = clusterSplitSB(cl, size, size))
     x2 <- lapply(s, cumsum)
