@@ -1,4 +1,3 @@
-## this implementation includes only optim version
 `singleocc` <-
 function (formula, data, link = "logit", penalized = FALSE,
     method = c("optim", "dc"), n.clones = 1000, 
@@ -71,8 +70,6 @@ function (formula, data, link = "logit", penalized = FALSE,
     ## fit
     out <- singleocc.fit(Y, X, Z, link.occ, link.det, penalized = penalized, auc = FALSE, 
         method=method, n.clones=n.clones, prec=0.1, ...)
-#    if (inherits(out, "try-error"))
-#        return(out)
     out$call = match.call()
     out$formula <- list(occ = ffocc, det = ffdet, full = ff)
     out$terms <- list(occ = mtX, det = mtZ, full = mt)

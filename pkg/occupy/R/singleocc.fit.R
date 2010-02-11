@@ -232,7 +232,7 @@ method = c("optim", "dc"), n.clones = 1000, prec = 0.1, ...)
         auc.out <- u / (sum(observations) * (length(observations) - sum(observations)))
     }
 
-    ## assempling return object
+    ## assembling return object
     out <- list(coefficients = list(occ = par.occ, det = par.det),
         std.error = list(occ = se.occ, det = se.det), 
         estimated.probabilities = as.numeric(temp), 
