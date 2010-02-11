@@ -18,7 +18,6 @@ function(n, size, balancing=c("none","load","size","both"), plot=TRUE)
     seq <- 1:m
     balancing <- match.arg(balancing)
     cl <- 1:n
-    ord <- order(size, decreasing=TRUE)
     x <- switch(balancing,
         "none" = clusterSplit(cl, seq),
         "load" = clusterSplitLB(cl, seq, size),
@@ -39,9 +38,9 @@ function(n, size, balancing=c("none","load","size","both"), plot=TRUE)
 
     if (plot) {
         plot.new()
-        plot.window(xlim=range(x1,x2),ylim=range(y1,y2))
+        plot.window(xlim=range(x1,x2),ylim=c(range(y1,y2)[2], range(y1,y2)[1]))
         axis(side=1)
-        axis(side=2, at=y, tick=FALSE)
+        axis(side=2, at=y, tick=FALSE, las=1)
         main <- switch(balancing,
             "none" = "No Balancing",
             "load" = "Load Balancing",
