@@ -7,7 +7,7 @@ balancing=c("none", "load", "size", "both"), ...)
     clusterSeed(cl, seed, kind, normal.kind)
     ## if object name exists in global env, make a copy as tmp, and put back in the end
     if (exists(name, envir=.GlobalEnv)) {
-        assign("tmp", get("cldata", envir=.GlobalEnv))
+        assign("tmp", get(name, envir=.GlobalEnv))
         on.exit(rm(list=name, envir = .GlobalEnv), add=TRUE)
         on.exit(assign(name, tmp, envir = .GlobalEnv), add=TRUE)
     }
