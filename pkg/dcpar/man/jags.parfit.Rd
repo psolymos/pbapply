@@ -59,39 +59,29 @@ An \code{mcmc.list} object.
 }
 \examples{
 \dontrun{
-## simple regression example from the JAGS manual
-jfun <- function() {
-    for (i in 1:N) {
-        Y[i] ~ dnorm(mu[i], tau)
-        mu[i] <- alpha + beta * (x[i] - x.bar)
-    }
-    x.bar <- mean(x[])
-    alpha ~ dnorm(0.0, 1.0E-4)
-    beta ~ dnorm(0.0, 1.0E-4)
-    sigma <- 1.0/sqrt(tau)
-    tau ~ dgamma(1.0E-3, 1.0E-3)
-}
-## data generation
 set.seed(1234)
-N <- 100
-alpha <- 1
-beta <- -1
-sigma <- 0.5
-x <- runif(N)
-linpred <- model.matrix(~x) \%*\% c(alpha, beta)
-Y <- rnorm(N, mean = linpred, sd = sigma)
-## list of data for the model
-jdata <- list(N = N, Y = Y, x = x)
-## what to monitor
-jpara <- c("alpha", "beta", "sigma")
-initsfun <- function(i) list(alpha=rnorm(1), "beta"=rnorm(1), "tau"=rlnorm(1),
-    ".RNG.name"="base::Wichmann-Hill", ".RNG.seed"=rpois(1, 1000))
-inits <- lapply(1:3, initsfun)
-## fit the model without parallelization
-system.time(regmod <- jags.fit(jdata, jpara, jfun, inits, n.chains = 3))
-## fit the model with parallelization
+n <- 20
+x <- runif(n, -1, 1)
+X <- model.matrix(~x)
+beta <- c(2, -1)
+mu <- X %*% beta
+Y <- rpois(n, exp(mu))
+glm.model <- function() {
+    for (i in 1:n) {
+        Y[i] ~ dpois(lambda[i])
+        log(lambda[i]) <- inprod(X[i,], beta[1,])
+    }
+    for (j in 1:np) {
+        beta[1,j] ~ dnorm(0, 0.001)
+    }
+}
+dat <- list(Y=Y, X=X, n=n, np=ncol(X))
+m <- jags.fit(dat, "beta", glm.model)
 cl <- makeCluster(3, type = "SOCK")
-system.time(pregmod <- jags.parfit(cl, jdata, jpara, jfun, inits, n.chains = 3))
+pm <- jags.parfit(cl, dat, "beta", glm.model)
+## chains are not identical -- this is good
+pm[1:2,]
+summary(pm)
 stopCluster(cl)
 }
 }

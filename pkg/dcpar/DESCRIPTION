@@ -6,6 +6,7 @@ Date: 2010-01-27
 Author: Peter Solymos
 Maintainer: Peter Solymos <solymos@ualberta.ca>
 Description: Parallel computing features for the dclone package.
+    NOTE: under constant development!
 License: GPL-2
 Depends: dclone, snow
 URL: http://dcr.r-forge.r-project.org/

@@ -1,7 +1,7 @@
 snowWrapper <-
 function(cl, seq, fun, cldata, name="cldata", lib=NULL, evalq=NULL,
 size = 1, seed=1, kind="default", normal.kind="default", 
-balancing=c("none", "load", "size", "both"), ...)
+balancing=c("none", "load", "size", "both"), dir = getwd(), ...)
 {
     balancing <- match.arg(balancing)
     clusterSeed(cl, seed, kind, normal.kind)
@@ -16,6 +16,8 @@ balancing=c("none", "load", "size", "both"), ...)
         for (i in lib)
             eval(parse(text=paste("clusterEvalQ(cl, library(", i, "))")))
     }
+    ## sets common working directory
+    dirtmp <- eval(parse(text=paste("clusterEvalQ(cl, setwd('", dir, "'))", sep="")))
     ## evaluates literal expressions if needed (e.g. setwd())
     if (!is.null(evalq)) {
         for (i in evalq)
