@@ -17,7 +17,7 @@ designed to work closely with MCMC fitting functions (can be called from inside 
 \usage{
 snowWrapper(cl, seq, fun, cldata, name = "cldata", lib = NULL, evalq=NULL,
 size = 1, seed = 1, kind = "default", normal.kind = "default", 
-balancing = c("none", "load", "size", "both"), ...)
+balancing = c("none", "load", "size", "both"), dir = getwd(), ...)
 clusterSplitSB(cl, seq, size = 1)
 clusterSeed(cl, seed, kind = "default", normal.kind = "default")
 parLapplySB(cl, x, size = 1, fun, ...)
@@ -72,6 +72,9 @@ Recicled if needed. The default \code{1} indicates equality of problem sizes.
 }
   \item{plot}{
 Logical, if a plot should be drawn.
+}
+  \item{dir}{
+Working directorye to use. Can be a character vector.
 }
   \item{\dots}{
 Other arguments of \code{fun}, that are simple values and not objects. (Arguments passed as objects should be specified in

@@ -17,7 +17,8 @@ balancing=c("none", "load", "size", "both"), dir = getwd(), ...)
             eval(parse(text=paste("clusterEvalQ(cl, library(", i, "))")))
     }
     ## sets common working directory
-    dirtmp <- eval(parse(text=paste("clusterEvalQ(cl, setwd('", dir, "'))", sep="")))
+    for (i in evalq)
+        eval(parse(text=paste("clusterEvalQ(cl, setwd('", dir[i], "'))", sep="")))
     ## evaluates literal expressions if needed (e.g. setwd())
     if (!is.null(evalq)) {
         for (i in evalq)
