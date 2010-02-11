@@ -1,9 +1,9 @@
 dc.parfit <- 
-function(cl, data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL, 
-update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs"), ...)
+function(cl, data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL, ...)
 {
+    if (!inherits(cl, "cluster"))
+        stop("'cl' must be a 'cluster' object")
     ## initail evals
-    flavour <- match.arg(flavour)
     if (identical(n.clones, 1))
         stop("'n.clones = 1' gives the Bayesian answer, no need for DC")
     if (is.environment(data))
@@ -12,106 +12,62 @@ update=NULL, updatefun=NULL, initsfun=NULL, trace=1, flavour = c("jags", "bugs")
     k <- n.clones[order(n.clones)]
     k <- unique(k)
     times <- length(k)
-    crit <- getOption("dclone.crit")
-    ## evaluate updating
-    if (!is.null(update) != !is.null(updatefun))
-        stop("both 'update' and 'updatefun' must be provided")
-    if (!is.null(update)) {
-        unchanged <- c(unchanged, update)
-        updatefun <- match.fun(updatefun)
-    }
+    if (times < 2)
+        stop("no need for parallel computing")
+    ## globel options
+    opts <- getOption("dclone")
+    trace <- opts$verbose
     ## evaluate inits
     if (missing(inits))
         inits <- NULL
-    if (!is.null(initsfun))
-        initsfun <- match.fun(initsfun)
 
-    ## evaluate if parallel computing is needed
-    if ((!is.null(update) && (times-2) < 2) || (is.null(update) && (times-1) < 2))
-        stop("no need for parallel computing")
-
-    #### first model fitting
-    if (!is.null(update)) {
-        tmpch <- if (k[1] == 1) "clone" else "clones"
-        if (trace)
-            cat("\nFitting model with", k[1], tmpch, "\n\n")
-        jdat <- dclone(data, k[1], multiply=multiply, unchanged=unchanged)
-        mod <- if (flavour == "jags") {
-            jags.fit(jdat, params, model, inits, ...)
-        } else {
-            bugs.fit(jdat, params, model, inits, format="mcmc.list", DIC=FALSE, ...)
-        }
-        ## dctable of first model
-        dc.first <- dclone:::extractdctable(mod)
-        ## update priors and inits here
-        jdat[[update]] <- updatefun(mod)
-        if (!is.null(initsfun))
-            inits <- initsfun(mod)
-        ## kseq determines the clones in parallel part
-        kseq <- k[-c(1, times)]
-    } else kseq <- k[-times]
 
     #### parallel part
     if (trace) {
-        cat("\nParallel computation in progress\n\nFitting models with", kseq, "clones\n\n")
+        cat("\nParallel computation in progress\n\n")
         flush.console()
     }
     ## parallel function
     dcparallel <- function(i, ...) {
         jdat <- dclone(cldata$data, i, multiply=cldata$multiply, unchanged=cldata$unchanged)
-        mod <- if (cldata$flavour == "jags") {
-            jags.fit(data=jdat, params=cldata$params, model=cldata$model, inits=cldata$inits, ...)
-        } else {
-            bugs.fit(data=jdat, params=cldata$params, model=cldata$model, inits=cldata$inits,
-                format="mcmc.list", DIC=FALSE, ...)
-        }
-        dclone:::extractdctable(mod)
+        mod <- jags.fit(data=jdat, params=cldata$params, model=cldata$model, inits=cldata$inits, ...)
+        if (i == max(k))
+            return(mod) else return(list(dct=dclone:::extractdctable(mod), dcd=dclone:::extractdcdiag(mod)))
     }
     ## common data
     cldata <- list(data=data, params=params, model=model, inits=inits,
-        multiply=multiply, unchanged=unchanged, flavour=flavour, kseq=kseq)
+        multiply=multiply, unchanged=unchanged, k=k)
     ## parallel computations
-    pdct <- snowWrapper(cl, cldata$kseq, dcparallel, cldata, lib="dcpar", 
-        balancing="size", size=kseq, seed=100*1:length(kseq), ...)
+    pmod <- snowWrapper(cl, k, dcparallel, cldata, lib="dcpar", 
+        balancing="size", size=k, seed=100*1:length(k), dir=getwd(), ...)
+    mod <- pmod[[times]]
 
-    #### last model fitting
-    tmpch <- if (k[times] == 1) "clone" else "clones"
-    if (trace)
-        cat("\nFitting model with", k[times], tmpch, "\n\n")
-    jdat <- dclone(data, k[times], multiply=multiply, unchanged=unchanged)
-    mod <- if (flavour == "jags") {
-        jags.fit(jdat, params, model, inits, ...)
-    } else {
-        bugs.fit(jdat, params, model, inits, format="mcmc.list", DIC=FALSE, ...)
+    ## dctable
+    dct <- lapply(1:(times-1), function(i) pmod[[i]]$dct)
+    dct[[times]] <- extractdctable(mod)
+    rnam <- lapply(dct, rownames)
+    nam <- rnam[[1]]
+    dct2 <- vector("list", length(nam))
+    names(dct2) <- rownames(dct[[1]])
+    for (i in 1:length(nam)) {
+        dct2[[i]] <- cbind(n.clones = k, t(sapply(dct, function(z) z[i, ])))
     }
-    dc.last <- dclone:::extractdctable(mod)
+    dct2 <- lapply(dct2, function(z) as.data.frame(z))
 
-    ## dctable skeleton
-    vn <- varnames(mod)
-    dcts <- list()
-    ## note: quantiles must remain unchanged, because these values are
-    ## defined in extractdctable.default
-    quantiles <- c(0.025, 0.25, 0.5, 0.75, 0.975)
-    dcts0 <- matrix(0, times, 4 + length(quantiles))
-    dcts0[,1] <- k
-    colnames(dcts0) <- c("n.clones", "mean", "sd", names(quantile(0, probs=quantiles)), "r.hat")
-    for (j in 1:length(vn))
-        dcts[[vn[j]]] <- dcts0
-    ## assembling dctable
-    dctmp <- if (!is.null(update))
-        c(list(dc.first), pdct, list(dc.last)) else c(pdct, list(dc.last))
-    for (i in 1:times) {
-        for (j in 1:length(vn)) {
-            dcts[[j]][i,-1] <- dctmp[[i]][j,]
-        }
-    }
+    ## dcdiag
+    dcd <- lapply(1:(times-1), function(i) pmod[[i]]$dcd)
+    dcd[[times]] <- extractdcdiag(mod)
+    dcd2 <- as.data.frame(matrix(unlist(dcd), nrow=length(dcd), byrow=TRUE))
+    colnames(dcd2) <- names(dcd[[1]])
 
     ## warning if R.hat < crit
-    if (nchain(mod) > 1 && any(dc.last[,"r.hat"] >= crit$r.hat))
+    if (nchain(mod) > 1 && any(dct[[times]][,"r.hat"] >= opts$r.hat$crit))
         warning("chains convergence problem, see R.hat values")
     ## finalizing dctable attribute
-    dcts <- lapply(dcts, function(z) as.data.frame(z))
-    class(dcts) <- "dctable"
-    attr(mod, "dctable") <- dcts
+    class(dct2) <- "dctable"
+    attr(mod, "dctable") <- dct2
+    ## finalizing dcdiag attribute
+    class(dcd2) <- c("dcdiag", class(dcd2))
+    attr(mod, "dcdiag") <- dcd2
     mod
 }

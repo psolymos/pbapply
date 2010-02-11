@@ -60,7 +60,7 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
     }
     ## parallel computations
     mcmc <- snowWrapper(cl, 1:n.chains, jagsparallel, cldata, lib="dcpar", 
-        balancing="none", size=1, seed=100*1:length(cl), ...)
+        balancing="none", size=1, seed=100*1:length(cl), dir=getwd(), ...)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))
     ## attaching attribs and return

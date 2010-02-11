@@ -64,7 +64,7 @@ n <- 20
 x <- runif(n, -1, 1)
 X <- model.matrix(~x)
 beta <- c(2, -1)
-mu <- X %*% beta
+mu <- X \%*\% beta
 Y <- rpois(n, exp(mu))
 glm.model <- function() {
     for (i in 1:n) {

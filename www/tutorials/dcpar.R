@@ -1,4 +1,4 @@
-## We learn now to run MCMC chains (even >4) in parallel, how to evaluate
+## We learn now to run MCMC chains in parallel, how to evaluate
 ## simulations or bootstrap iteration in parallel, how to do data cloning
 ## with different number of clones in parallel.
 
@@ -18,7 +18,7 @@
 ## by loading dcpar, we get dclone and snow as well
 library(dcpar)
 
-## 1. parallel simulations/bootstrap with the snow package
+## 1. the snow package (plus few dcdim functions)
 
 ## snow = Simple Network Of Workstations
 
@@ -42,11 +42,11 @@ cl <- makeCluster(2, type = "SOCK")
 ## snow::clusterCall(cl, fun, ...)
 clusterCall(cl, runif, 5)
 ## same numbers on each worker, but random sequences
-## snow::clusterSeed
-## different seed
+## dcpar::clusterSeed
+## different seed, different results
 clusterSeed(cl, 1:2)
 clusterCall(cl, runif, 5)
-## same seed
+## same seed, identical results
 clusterSeed(cl, 1)
 clusterCall(cl, runif, 5)
 
@@ -67,8 +67,14 @@ clusterSplitSB(cl, 1:8, size=1:8)
 
 ## how many workers are needed?
 ## dcpar::clusterSize
-clusterSize(8, 1:8)
-## same max proc time from 5 workers
+clusterSize(1:5)
+n <- 3
+opar <- par(mfrow=c(2,2))
+plotClusterSize(n,1:5,"none")
+plotClusterSize(n,1:5,"load")
+plotClusterSize(n,1:5,"size")
+plotClusterSize(n,1:5,"both")
+par(opar)
 
 ## snow::clusterApply(cl, seq, fun, ...)
 clusterApply(cl, 1:2, sum, 3)
@@ -105,7 +111,7 @@ stopCluster(cl)
 ## - load balancing: clusterApplyLB
 ## - size balancing: parLapplySB
 
-## simulation example
+## 2. parallel simulations/bootstrap
 
 set.seed(1234)
 n <- 20
@@ -154,84 +160,127 @@ snowWrapper(cl, 1:5, fun, cldata)
 snowWrapper(cl, 1:5, fun, cldata, balancing="load")
 snowWrapper(cl, 1:5, fun, cldata, balancing="size", size=1:5)
 
-## parallel chains
+stopCluster(cl)
 
-## data cloning
+## 3. parallel chains
 
-plotClusterSize <- function(n, size, balancing=c("none","load","size","both"), plot=TRUE) {
-    clusterSplitLB <- function(cl, seq, size = 1) {
-        tmp1 <- tmp2 <- matrix(NA, length(cl), length(seq))
-        tmp1[1,1] <- size[1]
-        tmp2[1,1] <- 1
-        for (i in 2:length(seq)) {
-            rs <- rowSums(tmp1, na.rm=TRUE)
-            tmp1[which(rs == min(rs))[1],i] <- size[i]
-            tmp2[which(rs == min(rs))[1],i] <- i
-        }
-        lapply(1:n, function(i) tmp2[i,!is.na(tmp2[i,])])
+model <- function() {
+    for (i in 1:n) {
+        Y[i] ~ dpois(lambda[i])
+        log(lambda[i]) <- inprod(X[i,], beta[1,])
     }
-    if (n==1)
-        stop("'n' > 1 is needed")
-    m <- length(size)
-    seq <- 1:m
-    balancing <- match.arg(balancing)
-    cl <- 1:n
-    x <- switch(balancing,
-        "none" = clusterSplit(cl, seq),
-        "load" = clusterSplitLB(cl, seq, m:1),
-        "size" = clusterSplitSB(cl, seq, size),
-        "both" = clusterSplitSB(cl, seq, size))
-    size <- rep(size, m)[1:m]
-    s <- switch(balancing,
-        "none" = clusterSplit(cl, size),
-        "load" = clusterSplitLB(cl, size, m:1),
-        "size" = clusterSplitSB(cl, size, size),
-        "both" = clusterSplitSB(cl, size, size))
-    x2 <- lapply(s, cumsum)
-    x1 <- lapply(1:n, function(i) x2[[i]] - s[[i]])
-
-    offset <- 0.1
-    y <- 1:n
-    y1 <- y+(0.5-offset)
-    y2 <- y-(0.5-offset)
-
-    if (plot) {
-        plot.new()
-        plot.window(xlim=range(x1,x2),ylim=range(y1,y2))
-        axis(side=1)
-        axis(side=2, at=y, tick=FALSE)
-        main <- switch(balancing,
-            "none" = "No Balancing",
-            "load" = "Load Balancing",
-            "size" = "Size Balancing",
-            "both" = "Size and Load Balancing")
-        title(main=main, xlab="Approximate Processing Time", ylab="Workers",
-            sub=paste("Max =", max(sapply(x2, max))))
-        for (i in 1:n) {
-            for (j in 1:length(x[[i]])) {
-                polygon(c(x1[[i]][j], x2[[i]][j], x2[[i]][j], x1[[i]][j]), c(y1[i], y1[i], y2[i], y2[i]))
-                text(mean(c(x1[[i]][j], x2[[i]][j])), y[i], x[[i]][j])
-            }
-        }
+    for (j in 1:np) {
+        beta[1,j] ~ dnorm(0, 0.001)
     }
-    invisible(max(sapply(x2, max)))
+}
+data <- list(Y=Y, X=X, n=n, np=ncol(X))
+params <- "beta"
+m <- jags.fit(data, params, model)
+
+n.chains <- 3
+
+initsval <- suppressWarnings(jags.fit(data, params, model, n.adapt=1, n.iter=1, updated.model=FALSE))
+inits <- lapply(lapply(initsval, as.list), function(z) {
+    names(z) <- varnames(initsval)
+    z})
+rng <- c("base::Wichmann-Hill", "base::Marsaglia-Multicarry", "base::Super-Duper", "base::Mersenne-Twister")
+seed <- 99*1:n.chains
+for (i in 1:n.chains) {
+    inits[[i]][[".RNG.name"]] <- rng[i]
+    inits[[i]][[".RNG.seed"]] <- seed[i]
 }
 
-opar <- par(mfrow=c(2,2))
-plotClusterSize(2,1:5,"none")
-plotClusterSize(2,1:5,"load")
-plotClusterSize(2,1:5,"size")
-plotClusterSize(2,1:5,"both")
-par(opar)
+cldata <- list(data=data, params=params, model=model, inits=inits)
 
-
-clusterSize <- function(size) {
-    m <- length(size)
-    if (m==1)
-        stop("'length(size)' > 1 is needed")
-    res1 <- sapply(2:m, function(i) plotClusterSize(i, size, "none", plot=FALSE))
-    res2 <- sapply(2:m, function(i) plotClusterSize(i, size, "load", plot=FALSE))
-    res3 <- sapply(2:m, function(i) plotClusterSize(i, size, "size", plot=FALSE))
-    data.frame(workers=2:m,none=res1,load=res2,size=res3,both=res3)
+jagsparallel <- function(i, ...)   {
+    jags.fit(data=cldata$data, params=cldata$params, model=cldata$model,
+    inits=cldata$inits[[i]], n.chains=1, updated.model=FALSE, ...)
 }
-clusterSize(1:5)
+
+summary(jagsparallel(1))
+
+cl <- makeCluster(3, type = "SOCK")
+
+mcmc <- snowWrapper(cl, 1:n.chains, jagsparallel, cldata, lib="dcpar", 
+    balancing="none", size=1, seed=100*1:length(cl))
+res <- as.mcmc.list(lapply(mcmc, as.mcmc))
+res[1:2,]
+## chains are not identical
+summary(res)
+gelman.diag(res)
+
+mm <- jags.parfit(cl, data, params, model)
+mm[1:2,]
+summary(mm)
+gelman.diag(mm)
+
+stopCluster(cl)
+
+## a clean parallel session
+
+library(dcpar)
+set.seed(1234)
+n <- 20
+x <- runif(n, -1, 1)
+X <- model.matrix(~x)
+beta <- c(2, -1)
+mu <- X %*% beta
+Y <- rpois(n, exp(mu))
+
+glm.model <- function() {
+    for (i in 1:n) {
+        Y[i] ~ dpois(lambda[i])
+        log(lambda[i]) <- inprod(X[i,], beta[1,])
+    }
+    for (j in 1:np) {
+        beta[1,j] ~ dnorm(0, 0.001)
+    }
+}
+dat <- list(Y=Y, X=X, n=n, np=ncol(X))
+m <- jags.fit(dat, "beta", glm.model)
+cl <- makeCluster(3, type = "SOCK")
+pm <- jags.parfit(cl, dat, "beta", glm.model)
+pm[1:2,]
+summary(pm)
+gelman.diag(pm)
+stopCluster(cl)
+
+## 4. data cloning
+
+dat <- list(Y=Y, X=X, n=n, np=ncol(X))
+## no. of clones
+k <- 1:3
+## clone the data, fit the model, calculate statistics, and return the k.max model
+dcfun <- function(i, ...) {
+    dcdat <- dclone(dat, k[i], multiply="n", unchanged="np")
+    m <- jags.fit(dcdat, "beta", glm.model, ...)
+    if (i==length(k))
+        return(m) else return(list(dct=dctable(m), dcd=dcdiag(m)))
+}
+dcm <- lapply(1:length(k), dcfun)
+dcm[1:2]
+summary(dcm[[3]])
+str(dcm)
+
+## optimize the number of clusters
+clusterSize(1:3)
+plotClusterSize(2, 1:3, "size")
+cl <- makeCluster(2, type = "SOCK")
+
+clusterEvalQ(cl, library(dcpar))
+clusterExport(cl, c("dat", "glm.model", "dcfun", "k"))
+
+pdcm <- parLapplySB(cl, 1:length(k), k, dcfun)
+pdcm[1:2]
+summary(pdcm[[3]])
+str(pdcm)
+
+## this is implemented in dc.parfit
+dcmod <- dc.fit(dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np")
+pdcmod <- dc.parfit(cl, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np")
+
+stopCluster(cl)
+
+## The End
+
+
