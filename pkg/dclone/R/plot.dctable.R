@@ -49,11 +49,13 @@ box.cex = 0.75, box.bg = NA, ...)
             lines(xval, FUN(kmin/k), lty=2)
         }
     }
+    if (max(which) > length(x))
+        stop("'which' too large")
     type <- match.arg(type)
     k <- x[[1]]$n.clones
     kmin <- min(k)
     xval <- 1:length(k)
-    crit <- getOption("dclone")$r.hat$crit
+    crit <- getOption("dclone.diag")
     nam <- names(x)[which]
     w <- box.cex
     m <- length(which)

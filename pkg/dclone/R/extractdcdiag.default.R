@@ -3,9 +3,8 @@ function(x, ...)
 {
     chisq <- chisq.diag(x)$statistics
     n.clones <- ifelse(is.null(nclones(x)), 1, nclones(x))
-    abin <- getOption("dclone")$r.hat$autoburnin
     if (nchain(x) > 1) {
-        abin <- getOption("dclone")$r.hat$autoburnin
+        abin <- getOption("dclone.autoburnin")
         rhat <- gelman.diag(x, autoburnin=abin)$mpsrf
     } else rhat <- NA
     rval <- c(n.clones = n.clones,

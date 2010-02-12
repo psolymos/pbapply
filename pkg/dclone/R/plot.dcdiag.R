@@ -27,7 +27,7 @@ function(x, which = c("all", "lambda.max", "ms.error", "r.squared"), position = 
     k <- x$n.clones
     kmin <- min(k)
     xval <- 1:length(k)
-    crit <- getOption("dclone")$dcdiag$crit
+    crit <- getOption("dclone.diag")
     if (which == "all") {
         show.legend <- c(FALSE, FALSE, TRUE)
         lin <- c(TRUE, FALSE, FALSE)
