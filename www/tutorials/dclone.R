@@ -380,22 +380,12 @@ mod4 <- dc.parfit(cl, datb, c("beta", "log.sigma"), custommodel(glmm.model, 3),
     n.update = n.update, n.iter = n.iter)
 t4 <- proc.time() - t0
 stopCluster(cl)
-## 5 Poisson model, jags.fit, k=10
+## 5 Poisson model, jags.fit, k_max
 t0 <- proc.time()
 mod5 <- jags.fit(dcdatp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
     n.update = n.update, n.iter = n.iter)
 t5 <- proc.time() - t0
-## 6 Poisson model, jags.parfit, k=10
-glmm.model2 <- function() {
-    for (i in 1:n) {
-        Y[i] ~ dpois(exp(mu[i]))
-        mu[i] ~ dnorm(inprod(X[i,], beta), 1/exp(log.sigma)^2)
-    }
-    for (j in 1:np) {
-        beta[j] ~ dnorm(0, 0.001)
-    }
-    log.sigma ~ dnorm(0, 0.001)
-}
+## 6 Poisson model, jags.parfit, k_max
 cl <- makeCluster(3, type = "SOCK")
 t0 <- proc.time()
 mod5 <- jags.parfit(cl, dcdatp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
