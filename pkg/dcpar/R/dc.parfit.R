@@ -16,11 +16,11 @@ function(cl, data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL
         stop("no need for parallel computing")
     ## globel options
     opts <- getOption("dclone")
+    paropts <- getOption("dcpar")
     trace <- opts$verbose
     ## evaluate inits
     if (missing(inits))
         inits <- NULL
-
 
     #### parallel part
     if (trace) {
@@ -38,8 +38,13 @@ function(cl, data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL
     cldata <- list(data=data, params=params, model=model, inits=inits,
         multiply=multiply, unchanged=unchanged, k=k)
     ## parallel computations
+    rng <- c("Wichmann-Hill", "Marsaglia-Multicarry",
+        "Super-Duper", "Mersenne-Twister")
+    rng <- rep(rng, length(cl))[1:length(cl)]
+    balancing <- if (paropts$load.balancing)
+        "size" else "both"
     pmod <- snowWrapper(cl, k, dcparallel, cldata, lib="dcpar", 
-        balancing="size", size=k, seed=100*1:length(k), dir=getwd(), ...)
+        balancing=balancing, size=k, seed=1000*1:length(cl), kind=rng, dir=getwd(), ...)
     mod <- pmod[[times]]
 
     ## dctable

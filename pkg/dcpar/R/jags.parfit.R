@@ -4,6 +4,7 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
     if (!inherits(cl, "cluster"))
         stop("'cl' must be a 'cluster' object")
     opts <- getOption("dclone")
+    paropts <- getOption("dcpar")
     trace <- opts$verbose
     ## eval args
     if (!is.null(list(...)$n.iter))
@@ -11,6 +12,8 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
             stop("'n.iter = 0' is not supported for parallel computations")
     if (n.chains == 1)
         stop("no need for parallel computing with 1 chain")
+    rng <- c("Wichmann-Hill", "Marsaglia-Multicarry",
+        "Super-Duper", "Mersenne-Twister")
     if (n.chains > 4) {
         if (missing(inits))
             stop("provide initial values")
@@ -31,11 +34,9 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
             inits <- lapply(lapply(initsval, as.list), function(z) {
                 names(z) <- varnames(initsval)
                 z})
-            rng <- c("base::Wichmann-Hill", "base::Marsaglia-Multicarry",
-                "base::Super-Duper", "base::Mersenne-Twister")
-            seed <- 99*1:n.chains
+            seed <- 999*1:n.chains
             for (i in 1:n.chains) {
-                inits[[i]][[".RNG.name"]] <- rng[i]
+                inits[[i]][[".RNG.name"]] <- paste("base::", rng[i], sep="")
                 inits[[i]][[".RNG.seed"]] <- seed[i]
             }
         }
@@ -65,8 +66,11 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
         flush.console()
     }
     ## parallel computations
+    balancing <- if (paropts$load.balancing)
+        "load" else "none"
     mcmc <- snowWrapper(cl, 1:n.chains, jagsparallel, cldata, lib="dcpar", 
-        balancing="none", size=1, seed=100*1:length(cl), dir=getwd(), ...)
+        balancing=balancing, size=1, seed=1000*1:length(cl), 
+        kind=rng[1:length(cl)], dir=getwd(), ...)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))
     ## attaching attribs and return
