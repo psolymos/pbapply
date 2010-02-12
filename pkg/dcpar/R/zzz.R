@@ -3,13 +3,13 @@
                     fields=c("Version", "Date"))
     cat(paste(pkgname, ver[1], "\t", ver[2], "\n"))
     if (is.null(getOption("dcpar"))) {
-        options("dcpar"=list(load.balancing=FALSE))
+        options("dcpar.LB"=FALSE)
     }
     invisible(NULL)
 }
 
 .onUnload <- function(libpath){
-    options("dcpar"=NULL)
+    options("dcpar.LB"=NULL)
     invisible(NULL)
 }
 

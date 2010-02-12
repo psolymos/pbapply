@@ -3,9 +3,7 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
 {
     if (!inherits(cl, "cluster"))
         stop("'cl' must be a 'cluster' object")
-    opts <- getOption("dclone")
-    paropts <- getOption("dcpar")
-    trace <- opts$verbose
+    trace <- getOption("dclone.verbose")
     ## eval args
     if (!is.null(list(...)$n.iter))
         if (list(...)$n.iter == 0)
@@ -30,7 +28,6 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
         if (missing(inits)) {
             initsval <- suppressWarnings(jags.fit(data, params, model, 
                 n.adapt=1, n.iter=1, updated.model=FALSE))
-#            flush.console()
             inits <- lapply(lapply(initsval, as.list), function(z) {
                 names(z) <- varnames(initsval)
                 z})
@@ -66,7 +63,7 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
         flush.console()
     }
     ## parallel computations
-    balancing <- if (paropts$load.balancing)
+    balancing <- if (getOption("dcpar.LB"))
         "load" else "none"
     mcmc <- snowWrapper(cl, 1:n.chains, jagsparallel, cldata, lib="dcpar", 
         balancing=balancing, size=1, seed=1000*1:length(cl), 

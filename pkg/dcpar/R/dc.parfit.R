@@ -15,9 +15,8 @@ function(cl, data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL
     if (times < 2)
         stop("no need for parallel computing")
     ## globel options
-    opts <- getOption("dclone")
-    paropts <- getOption("dcpar")
-    trace <- opts$verbose
+    rhat.opts <- getOption("dclone.rhat")
+    trace <- getOption("dclone.verbose")
     ## evaluate inits
     if (missing(inits))
         inits <- NULL
@@ -41,7 +40,7 @@ function(cl, data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL
     rng <- c("Wichmann-Hill", "Marsaglia-Multicarry",
         "Super-Duper", "Mersenne-Twister")
     rng <- rep(rng, length(cl))[1:length(cl)]
-    balancing <- if (paropts$load.balancing)
+    balancing <- if (getOption("dcpar.LB"))
         "size" else "both"
     pmod <- snowWrapper(cl, k, dcparallel, cldata, lib="dcpar", 
         balancing=balancing, size=k, seed=1000*1:length(cl), kind=rng, dir=getwd(), ...)
@@ -66,7 +65,7 @@ function(cl, data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL
     colnames(dcd2) <- names(dcd[[1]])
 
     ## warning if R.hat < crit
-    if (nchain(mod) > 1 && any(dct[[times]][,"r.hat"] >= opts$r.hat$crit))
+    if (nchain(mod) > 1 && any(dct[[times]][,"r.hat"] >= rhat.opts))
         warning("chains convergence problem, see R.hat values")
     ## finalizing dctable attribute
     class(dct2) <- "dctable"
