@@ -16,13 +16,20 @@ updated.model=TRUE, ...)
     } else {
         jags.model(model, data, inits, n.chain=n.chains, n.adapt=n.adapt)
     }
+    if (!is.null(list(...)$progress.bar)) {
+        trace <- if (getOption("dclone")$verbose)
+            "text" else "none"
+    } else trace <- list(...)$progress.bar
+    byval <- if (!is.null(list(...)$by))
+        list(...)$by else floor(min(n.iter/50, 100))
     ## model updating
     if (n.update > 0) {
-        update(m, n.update, ...)
+        update(m, n.update, progress.bar=trace, by=byval, ...)
     }
     ## coda samples
     if (n.iter > 0) {
-        res <- coda.samples(m, params, n.iter=n.iter, thin=thin, ...)
+        res <- coda.samples(m, params, n.iter=n.iter, thin=thin, 
+            progress.bar=trace, by=byval, ...)
     } else {
         return(m)
     }
