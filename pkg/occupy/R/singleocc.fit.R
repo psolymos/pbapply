@@ -1,7 +1,7 @@
 ## this is the new ver with PMLE, but still not intended to be directly user callable
 `singleocc.fit` <-
 function(obs, occ, det, link.occ = "logit", link.det = "logit", penalized = FALSE, auc = FALSE,
-method = c("optim", "dc"), n.clones = 1000, prec = 0.1, ...)
+method = c("optim", "dc"), n.clones = 1000, prec = 0.1, inits, ...)
 {
     ## internal funs
     `singleocc.MLE` <-
@@ -95,10 +95,11 @@ method = c("optim", "dc"), n.clones = 1000, prec = 0.1, ...)
     coef.occ[is.na(coef.occ)] <- 0
     coef.det <- coef(glm.det)
     coef.det[is.na(coef.det)] <- 0
-    inits <- c(coef.occ, coef.det)
-    control.optim <- getOption("occupy.control.optim")
-    control.mcmc <- getOption("occupy.control.mcmc")
-#    status.tryCatch <- getOption("occupy.tryCatch")
+    if (missing(inits))
+        inits <- c(coef.occ, coef.det)
+    control.optim <- getOption("occupy.optim.control")
+    control.mcmc <- getOption("occupy.mcmc.control")
+    opmeth <- getOption("occupy.optim.method")
     pmle.problem <- FALSE
     converged <- c(mle=NA, pmle=NA)
 
@@ -132,7 +133,7 @@ method = c("optim", "dc"), n.clones = 1000, prec = 0.1, ...)
     }
     ## MLE from optim
     if (method=="optim") {
-        mle.res <- optim(inits, singleocc.MLE, gr = NULL, method = "BFGS", hessian = TRUE,
+        mle.res <- optim(inits, singleocc.MLE, gr = NULL, method = opmeth, hessian = TRUE,
             control = control.optim,
             observations = observations, X = X, Z = Z, link1 = link.occ, link2 = link.det)
         if (rcond(mle.res$hessian) < 1e-06 && penalized) {
