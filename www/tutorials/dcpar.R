@@ -103,7 +103,7 @@ res <- clusterApply(cl, SEQ, lapply, function(z) z^2)
 docall(c, res)
 ## result is not really what we wanted
 ## so size balancing version of parLapply is implemented
-dcpar:::parLapplySB(cl, dat, function(z) z^2, size=1:4)
+parLapplySB(cl, dat, function(z) z^2, size=1:4)
 
 stopCluster(cl)
 
@@ -245,7 +245,7 @@ summary(pm)
 gelman.diag(pm)
 stopCluster(cl)
 
-## 4. data cloning
+## 4. iterative parallel data cloning
 
 dat <- list(Y=Y, X=X, n=n, np=ncol(X))
 ## no. of clones

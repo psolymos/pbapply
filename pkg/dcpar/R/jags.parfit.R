@@ -41,7 +41,8 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
     ## common data to cluster
     if (is.function(model) || inherits(model, "custommodel")) {
         if (is.function(model))
-            model0 <- match.fun(model)
+            model <- match.fun(model)
+        model0 <- model
         modnam <- paste("model.cl", 1:n.chains, ".bug", sep="")
         model <- rep("", n.chains)
         for (i in 1:n.chains) {
