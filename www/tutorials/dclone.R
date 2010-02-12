@@ -358,12 +358,20 @@ mod1 <- dc.fit(datp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
     n.clones = k, multiply = "n", unchanged = "np",
     n.update = n.update, n.iter = n.iter)
 t1 <- proc.time() - t0
+
 ## 2 Bernoulli model, df.fit
 t0 <- proc.time()
 mod2 <- dc.fit(datb, c("beta", "log.sigma"), custommodel(glmm.model, 3),
     n.clones = k, multiply = "n", unchanged = "np",
     n.update = n.update, n.iter = n.iter)
 t2 <- proc.time() - t0
+
+## 5 Poisson model, jags.fit, k_max
+t0 <- proc.time()
+mod5 <- jags.fit(dcdatp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
+    n.update = n.update, n.iter = n.iter)
+t5 <- proc.time() - t0
+
 ## 3 Poisson model, dc.parfit
 cl <- makeCluster(3, type = "SOCK")
 t0 <- proc.time()
@@ -371,25 +379,26 @@ mod3 <- dc.parfit(cl, datp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
     n.clones = k, multiply = "n", unchanged = "np",
     n.update = n.update, n.iter = n.iter)
 t3 <- proc.time() - t0
-stopCluster(cl)
+#stopCluster(cl)
+
 ## 4 Bernoulli model, dc.parfit
-cl <- makeCluster(3, type = "SOCK")
+#cl <- makeCluster(3, type = "SOCK")
 t0 <- proc.time()
 mod4 <- dc.parfit(cl, datb, c("beta", "log.sigma"), custommodel(glmm.model, 3),
     n.clones = k, multiply = "n", unchanged = "np",
     n.update = n.update, n.iter = n.iter)
 t4 <- proc.time() - t0
-stopCluster(cl)
-## 5 Poisson model, jags.fit, k_max
-t0 <- proc.time()
-mod5 <- jags.fit(dcdatp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
-    n.update = n.update, n.iter = n.iter)
-t5 <- proc.time() - t0
+#stopCluster(cl)
+
 ## 6 Poisson model, jags.parfit, k_max
-cl <- makeCluster(3, type = "SOCK")
+#cl <- makeCluster(3, type = "SOCK")
 t0 <- proc.time()
 mod5 <- jags.parfit(cl, dcdatp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
     n.update = n.update, n.iter = n.iter)
 t6 <- proc.time() - t0
 stopCluster(cl)
 ## end
+
+rbind(dc.pois=c(fit=t1[3], parfit=t3[3]),
+    dc.bern=c(fit=t2[3], parfit=t4[3]),
+    jags.pois=c(fit=t5[3], parfit=t6[3]))
