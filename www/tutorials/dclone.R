@@ -393,12 +393,12 @@ t4 <- proc.time() - t0
 ## 6 Poisson model, jags.parfit, k_max
 #cl <- makeCluster(3, type = "SOCK")
 t0 <- proc.time()
-mod5 <- jags.parfit(cl, dcdatp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
+mod6 <- jags.parfit(cl, dcdatp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
     n.update = n.update, n.iter = n.iter)
 t6 <- proc.time() - t0
 stopCluster(cl)
 ## end
 
-rbind(dc.pois=c(fit=t1[3], parfit=t3[3]),
+res <- rbind(dc.pois=c(fit=t1[3], parfit=t3[3]),
     dc.bern=c(fit=t2[3], parfit=t4[3]),
     jags.pois=c(fit=t5[3], parfit=t6[3]))
