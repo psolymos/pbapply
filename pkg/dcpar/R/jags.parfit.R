@@ -38,25 +38,29 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
             }
         }
     }
+
+    ## writing data file. Is it necessary?
+#    if (is.function(model) || inherits(model, "custommodel")) {
+#        if (is.function(model))
+#            model <- match.fun(model)
+#        model0 <- model
+#        modnam <- paste("model.cl", 1:n.chains, ".bug", sep="")
+#        model <- rep("", n.chains)
+#        for (i in 1:n.chains) {
+#            model[i] <- write.jags.model(model0, modnam[i])
+#        }
+#        on.exit(try(clean.jags.model(model)))
+#    } else {
+#        if (length(model) != n.chains)
+#            stop("provide 'n.chains' number of model files")
+#    }
+
     ## common data to cluster
-    if (is.function(model) || inherits(model, "custommodel")) {
-        if (is.function(model))
-            model <- match.fun(model)
-        model0 <- model
-        modnam <- paste("model.cl", 1:n.chains, ".bug", sep="")
-        model <- rep("", n.chains)
-        for (i in 1:n.chains) {
-            model[i] <- write.jags.model(model0, modnam[i])
-        }
-        on.exit(try(clean.jags.model(model)))
-    } else {
-        if (length(model) != n.chains)
-            stop("provide 'n.chains' number of model files")
-    }
     cldata <- list(data=data, params=params, model=model, inits=inits)
     ## parallel function to evaluate by snowWrapper
     jagsparallel <- function(i, ...)   {
-        jags.fit(data=cldata$data, params=cldata$params, model=cldata$model[[i]], 
+        jags.fit(data=cldata$data, params=cldata$params, 
+        model=cldata$model, # model=cldata$model[[i]], 
         inits=cldata$inits[[i]], n.chains=1, updated.model=FALSE, ...)
     }
     if (trace) {

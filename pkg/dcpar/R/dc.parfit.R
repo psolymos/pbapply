@@ -21,6 +21,8 @@ function(cl, data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL
     if (missing(inits))
         inits <- NULL
 
+## write times number of files to avoud access complications (???)
+
     #### parallel part
     if (trace) {
         cat("\nParallel computation in progress\n\n")
