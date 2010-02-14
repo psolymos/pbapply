@@ -744,6 +744,7 @@ t5 <- proc.time() - t0
 
 ## 3 Poisson model, dc.parfit
 cl <- makeCluster(3, type = "SOCK")
+Sys.sleep(10)
 t0 <- proc.time()
 mod3 <- dc.parfit(cl, datp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
     n.clones = k, multiply = "n", unchanged = "np",
