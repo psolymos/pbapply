@@ -30,7 +30,7 @@ program=c("winbugs", "openbugs"), DIC=FALSE, bugs.seed=NULL, dir=getwd(), ...)
     ## converting bugs objects into mcmc.list
     format <- match.arg(format)
     if (format == "mcmc.list")
-        res <- as.mcmc.list(res)
+        res <- as.mcmc.list(res, DIC=DIC)
     ## adding n.clones attribute, and class attr if mcmc.list
     if (!is.null(n.clones) && n.clones > 1) {
         attr(res, "n.clones") <- n.clones

@@ -14,7 +14,7 @@ and WinBUGS and OpenBUGS.
 bugs.fit(data, params, model, inits = NULL, 
 format = c("mcmc.list", "bugs"), program = c("winbugs", "openbugs"), 
 DIC = FALSE, bugs.seed = NULL, dir = getwd(), ...)
-\method{as.mcmc.list}{bugs}(x, ...)
+\method{as.mcmc.list}{bugs}(x, DIC = FALSE, ...)
 }
 \arguments{
   \item{data}{
