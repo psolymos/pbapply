@@ -14,7 +14,7 @@ computation can be faster for long MCMC runs.
 \usage{
 jags.parfit(cl, data, params, model, inits, n.chains = 3, ...)
 bugs.parfit(cl, data, params, model, inits, n.chains = 3, 
-bugs.seed = 1:n.chains, ...)
+bugs.seed, ...)
 }
 \arguments{
   \item{cl}{
