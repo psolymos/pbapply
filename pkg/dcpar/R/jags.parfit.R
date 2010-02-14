@@ -39,7 +39,13 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
         }
     }
 
-    ## writing data file. Is it necessary?
+    ## writing data file
+    if (is.function(model) || inherits(model, "custommodel")) {
+        if (is.function(model))
+            model <- match.fun(model)
+        model <- write.jags.model(model)
+        on.exit(try(clean.jags.model(model)))
+    }
 #    if (is.function(model) || inherits(model, "custommodel")) {
 #        if (is.function(model))
 #            model <- match.fun(model)
@@ -60,7 +66,8 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
     ## parallel function to evaluate by snowWrapper
     jagsparallel <- function(i, ...)   {
         jags.fit(data=cldata$data, params=cldata$params, 
-        model=cldata$model, # model=cldata$model[[i]], 
+        model=cldata$model, 
+        ## model=cldata$model[[i]], 
         inits=cldata$inits[[i]], n.chains=1, updated.model=FALSE, ...)
     }
     if (trace) {

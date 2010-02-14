@@ -21,7 +21,13 @@ function(cl, data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL
     if (missing(inits))
         inits <- NULL
 
-## write times number of files to avoud access complications (???)
+    ## write model
+    if (is.function(model) || inherits(model, "custommodel")) {
+        if (is.function(model))
+            model <- match.fun(model)
+        model <- write.jags.model(model)
+        on.exit(try(clean.jags.model(model)))
+    }
 
     #### parallel part
     if (trace) {

@@ -19,9 +19,9 @@
 \author{P\'eter S\'olymos\\University of Alberta}
 \Plainauthor{P\'eter S\'olymos}
 
-\title{Tutorial for the \pkg{dcglm} package}
-\Plaintitle{Tutorial for the dcglm package}
-\Shorttitle{Tutorial for the dcglm package}
+\title{dcpar: parallel computing and data cloning with JAGS (???)}
+\Plaintitle{}
+\Shorttitle{}
 
 \Abstract{
   This tutorial package to demonstrate the 
