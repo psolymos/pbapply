@@ -1,4 +1,4 @@
-bugs.parfit0 <-
+bugs.parfit <-
 function(cl, data, params, model, inits, n.chains = 3, bugs.seed, ...)
 {
     if (!inherits(cl, "cluster"))
