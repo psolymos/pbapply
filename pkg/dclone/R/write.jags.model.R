@@ -3,6 +3,7 @@ function(model, filename="model.bug", dir=getwd())
 {
     old.dir <- getwd()
     setwd(dir)
+    on.exit(setwd(old.dir))
     if (file.exists(filename)) {
         sn <- unlist(strsplit(filename, "\\."))
         if (length(sn) > 2) {
@@ -25,6 +26,5 @@ function(model, filename="model.bug", dir=getwd())
     } else {
         write.model(model, filename2)
     }
-    setwd(old.dir)
     invisible(filename2)
 }
