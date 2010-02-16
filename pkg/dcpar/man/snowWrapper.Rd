@@ -24,7 +24,7 @@ parLapplySB(cl, x, size = 1, fun, ...)
 parLapplySLB(cl, x, size = 1, fun, ...)
 clusterSize(size)
 plotClusterSize(n, size, balancing = c("none", "load", "size", "both"),
-plot = TRUE)
+plot = TRUE, col = NA, ...)
 }
 \arguments{
   \item{cl}{
@@ -76,9 +76,12 @@ Logical, if a plot should be drawn.
   \item{dir}{
 Working directorye to use. Can be a character vector.
 }
+  \item{col}{
+Color of the polygons for work load pieces.
+}
   \item{\dots}{
 Other arguments of \code{fun}, that are simple values and not objects. (Arguments passed as objects should be specified in
-\code{cldata}, otherwise not exported to the cluster.)
+\code{cldata}, otherwise not exported to the cluster.) \code{plotClusterSize} passes further argumernts to \code{\link{polygon}}.
 }
 }
 \details{

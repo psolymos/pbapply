@@ -14,7 +14,7 @@
 %\VignetteIndexEntry{dcglm tutorial}
 %\VignettePackage{dcglm}
 %\VignetteDepends{dclone}
-%\VignetteKeywords{Bayesian statistics, data cloning, maximum likelihood inference, generalized linear models, R}
+%\VignetteKeywords{Bayesian statistics, data cloning, maximum likelihood inference, generalized linear models, R, parallel computing}
 
 \author{P\'eter S\'olymos\\University of Alberta}
 \Plainauthor{P\'eter S\'olymos}
@@ -31,8 +31,8 @@
   base function in \proglang{R} by using data cloning.
 }
 
-\Keywords{Bayesian statistics, data cloning, maximum likelihood inference, generalized linear models, \proglang{R}}
-\Plainkeywords{Bayesian statistics, data cloning, maximum likelihood inference, generalized linear models, R}
+\Keywords{Bayesian statistics, data cloning, maximum likelihood inference, generalized linear models, \proglang{R}, parallel computing}
+\Plainkeywords{Bayesian statistics, data cloning, maximum likelihood inference, generalized linear models, R, parallel computing}
 
 \Address{
   P\'eter S\'olymos\\
@@ -697,11 +697,13 @@ glmm.model <- function() {
 }
 
 n <- 200
-n.update <- 4000
+n.adapt <- 2000
+n.update <- 8000
 n.iter <- 2000
-k <- c(1,2,5,10)
+k <- c(1, 2, 5, 10, 20)
 
 #n <- 20
+#n.adapt <- 500
 #n.update <- 400
 #n.iter <- 200
 #k <- c(1,2)
@@ -722,54 +724,121 @@ datp <- list(Y = Yp, X = X, n = n, np = NCOL(X))
 datb <- list(Y = Yb, X = X, n = n, np = NCOL(X))
 dcdatp <- dclone(datp, n.clones = max(k), multiply = "n", unchanged = "np")
 
-## 1 Poisson model, df.fit
+## (A) Poisson models, different k, jags.fit
+## see that processing time is increasing linearly
+
+timerfitfun <- function(parallel=FALSE, ...) {
+    t0 <- proc.time()
+    mod <- if (parallel)
+        jags.parfit(...) else jags.fit(...)
+    attr(mod, "timer") <- (proc.time() - t0)[3] / 60
+    mod
+}
+
+res1 <- lapply(k, function(z)
+    timerfitfun(parallel = FALSE,
+        dclone(datp, z, multiply = "n", unchanged = "np"),
+        c("beta", "log.sigma"), custommodel(glmm.model, 4),
+        n.adapt = n.adapt, n.update = n.update, n.iter = n.iter))
+
+## (B) Poisson models, different k, jags.parfit
+## to compare with jags.fit results
+
+cl <- makeCluster(3, type = "SOCK")
+Sys.sleep(5)
+res2 <- lapply(k, function(z)
+    timerfitfun(parallel = TRUE, cl,
+        dclone(datp, z, multiply = "n", unchanged = "np"),
+        c("beta", "log.sigma"), custommodel(glmm.model, 4),
+        n.adapt = n.adapt, n.update = n.update, n.iter = n.iter))
+stopCluster(cl)
+
+## A-B results
+
+pt1 <- sapply(res1, function(z) attr(z, "timer"))
+pt2 <- sapply(res2, function(z) attr(z, "timer"))
+
+data.frame(n.clones=k, proc.time=pt1, percent=pt1/pt1[1])
+
+clusterSize(pt1)
+opar <- par(mfrow=c(1,3))
+plotClusterSize(2, pt1, "none", col=heat.colors(length(k)))
+plotClusterSize(2, pt1, "load", col=heat.colors(length(k)))
+plotClusterSize(2, pt1, "size", col=heat.colors(length(k)))
+par(opar)
+
+data.frame(n.clones=k, proc.time=pt1, proc.time.par=pt2, percent=pt2/pt1)
+
+plot(k, pt1, xlab="Number of clones", ylab="Processing time (min)", ylim=range(pt1, pt2))
+abline(0, pt1[1],lty=2)
+abline(lm(pt1 ~ k - 1),lty=1)
+
+points(k, pt2, col="red")
+abline(0, pt2[1], lty=2, col="red")
+abline(lm(pt2 ~ k), lty=1, col="red")
+
+expsigma <- function(x)
+    mcmcapply(x[,"log.sigma"], exp)
+
+## (C) dc.fit
+
 t0 <- proc.time()
-mod1 <- dc.fit(datp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
+res3 <- dc.fit(datp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
     n.clones = k, multiply = "n", unchanged = "np",
     n.update = n.update, n.iter = n.iter)
-t1 <- proc.time() - t0
+attr(res3, "timer") <- (proc.time() - t0)[3] / 60
+
+cl <- makeCluster(2, type = "SOCK")
+Sys.sleep(5)
+t0 <- proc.time()
+res4 <- dc.parfit(cl, datp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
+    n.clones = k, multiply = "n", unchanged = "np",
+    n.update = n.update, n.iter = n.iter)
+attr(res4, "timer") <- (proc.time() - t0)[3] / 60
+
+t0 <- proc.time()
+modb2 <- dc.parfit(cl, datb, c("beta", "log.sigma"), custommodel(glmm.model, 3),
+    n.clones = k, multiply = "n", unchanged = "np",
+    n.update = n.update, n.iter = n.iter)
+tb2 <- proc.time() - t0
+
+stopCluster(cl)
+
+
+
+
+## 1 Poisson model, df.fit
+t0 <- proc.time()
+
+modp1 <- dc.fit(datp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
+    n.clones = k, multiply = "n", unchanged = "np",
+    n.update = n.update, n.iter = n.iter)
+tp1 <- proc.time() - t0
 
 ## 2 Bernoulli model, df.fit
 t0 <- proc.time()
-mod2 <- dc.fit(datb, c("beta", "log.sigma"), custommodel(glmm.model, 3),
+
+modp1 <- dc.fit(datb, c("beta", "log.sigma"), custommodel(glmm.model, 3),
     n.clones = k, multiply = "n", unchanged = "np",
     n.update = n.update, n.iter = n.iter)
-t2 <- proc.time() - t0
+tb1 <- proc.time() - t0
 
-## 5 Poisson model, jags.fit, k_max
-t0 <- proc.time()
-mod5 <- jags.fit(dcdatp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
-    n.update = n.update, n.iter = n.iter)
-t5 <- proc.time() - t0
 
 ## 3 Poisson model, dc.parfit
-cl <- makeCluster(3, type = "SOCK")
-Sys.sleep(10)
+cl <- makeCluster(2, type = "SOCK")
+Sys.sleep(5)
+
 t0 <- proc.time()
-mod3 <- dc.parfit(cl, datp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
+modp2 <- dc.parfit(cl, datp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
     n.clones = k, multiply = "n", unchanged = "np",
     n.update = n.update, n.iter = n.iter)
-t3 <- proc.time() - t0
-#stopCluster(cl)
+tp2 <- proc.time() - t0
 
-## 4 Bernoulli model, dc.parfit
-#cl <- makeCluster(3, type = "SOCK")
 t0 <- proc.time()
-mod4 <- dc.parfit(cl, datb, c("beta", "log.sigma"), custommodel(glmm.model, 3),
+modb2 <- dc.parfit(cl, datb, c("beta", "log.sigma"), custommodel(glmm.model, 3),
     n.clones = k, multiply = "n", unchanged = "np",
     n.update = n.update, n.iter = n.iter)
-t4 <- proc.time() - t0
-#stopCluster(cl)
+tb2 <- proc.time() - t0
 
-## 6 Poisson model, jags.parfit, k_max
-#cl <- makeCluster(3, type = "SOCK")
-t0 <- proc.time()
-mod6 <- jags.parfit(cl, dcdatp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
-    n.update = n.update, n.iter = n.iter)
-t6 <- proc.time() - t0
 stopCluster(cl)
-## end
 
-res <- rbind(dc.pois=c(fit=t1[3], parfit=t3[3]),
-    dc.bern=c(fit=t2[3], parfit=t4[3]),
-    jags.pois=c(fit=t5[3], parfit=t6[3]))
