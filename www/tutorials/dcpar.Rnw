@@ -709,20 +709,16 @@ k <- c(1, 2, 5, 10, 20)
 #k <- c(1,2)
 
 beta <- c(1, -1)
-sigma <- 0.5
+sigma <- 0.25
 
 set.seed(1234)
 x <- runif(n)
 X <- model.matrix(~x)
-sigma <- 0.25
-alpha <- rnorm(n, 0, sd=sigma)
-mu <- drop(X %*% beta) + alpha
+mu <- rnorm(n, mean=drop(X %*% beta), sd=sigma)
 Yp <- rpois(n, exp(mu))
 Yb <- rbinom(n, 1, plogis(mu))
 
-datp <- list(Y = Yp, X = X, n = n, np = NCOL(X))
-datb <- list(Y = Yb, X = X, n = n, np = NCOL(X))
-dcdatp <- dclone(datp, n.clones = max(k), multiply = "n", unchanged = "np")
+dat <- list(Y = Yp, X = X, n = n, np = NCOL(X))
 
 ## (A) Poisson models, different k, jags.fit
 ## see that processing time is increasing linearly
@@ -737,7 +733,7 @@ timerfitfun <- function(parallel=FALSE, ...) {
 
 res1 <- lapply(k, function(z)
     timerfitfun(parallel = FALSE,
-        dclone(datp, z, multiply = "n", unchanged = "np"),
+        dclone(dat, z, multiply = "n", unchanged = "np"),
         c("beta", "log.sigma"), custommodel(glmm.model, 4),
         n.adapt = n.adapt, n.update = n.update, n.iter = n.iter))
 
@@ -748,12 +744,21 @@ cl <- makeCluster(3, type = "SOCK")
 Sys.sleep(5)
 res2 <- lapply(k, function(z)
     timerfitfun(parallel = TRUE, cl,
-        dclone(datp, z, multiply = "n", unchanged = "np"),
+        dclone(dat, z, multiply = "n", unchanged = "np"),
         c("beta", "log.sigma"), custommodel(glmm.model, 4),
         n.adapt = n.adapt, n.update = n.update, n.iter = n.iter))
 stopCluster(cl)
 
 ## A-B results
+
+lapply(res1, gelman.diag)
+lapply(res2, gelman.diag)
+
+sapply(res1, coef)
+sapply(res2, coef)
+
+sapply(res1, dcsd)
+sapply(res2, dcsd)
 
 pt1 <- sapply(res1, function(z) attr(z, "timer"))
 pt2 <- sapply(res2, function(z) attr(z, "timer"))
@@ -780,10 +785,16 @@ abline(lm(pt2 ~ k), lty=1, col="red")
 expsigma <- function(x)
     mcmcapply(x[,"log.sigma"], exp)
 
+sapply(res1, function(z) mean(expsigma(z)))
+sapply(res2, function(z) mean(expsigma(z)))
+sapply(res1, function(z) sd(expsigma(z)))
+sapply(res2, function(z) sd(expsigma(z)))
+
+
 ## (C) dc.fit
 
 t0 <- proc.time()
-res3 <- dc.fit(datp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
+res3 <- dc.fit(dat, c("beta", "log.sigma"), custommodel(glmm.model, 4),
     n.clones = k, multiply = "n", unchanged = "np",
     n.update = n.update, n.iter = n.iter)
 attr(res3, "timer") <- (proc.time() - t0)[3] / 60
@@ -791,54 +802,11 @@ attr(res3, "timer") <- (proc.time() - t0)[3] / 60
 cl <- makeCluster(2, type = "SOCK")
 Sys.sleep(5)
 t0 <- proc.time()
-res4 <- dc.parfit(cl, datp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
+res4 <- dc.parfit(cl, dat, c("beta", "log.sigma"), custommodel(glmm.model, 4),
     n.clones = k, multiply = "n", unchanged = "np",
     n.update = n.update, n.iter = n.iter)
 attr(res4, "timer") <- (proc.time() - t0)[3] / 60
 
-t0 <- proc.time()
-modb2 <- dc.parfit(cl, datb, c("beta", "log.sigma"), custommodel(glmm.model, 3),
-    n.clones = k, multiply = "n", unchanged = "np",
-    n.update = n.update, n.iter = n.iter)
-tb2 <- proc.time() - t0
-
 stopCluster(cl)
 
-
-
-
-## 1 Poisson model, df.fit
-t0 <- proc.time()
-
-modp1 <- dc.fit(datp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
-    n.clones = k, multiply = "n", unchanged = "np",
-    n.update = n.update, n.iter = n.iter)
-tp1 <- proc.time() - t0
-
-## 2 Bernoulli model, df.fit
-t0 <- proc.time()
-
-modp1 <- dc.fit(datb, c("beta", "log.sigma"), custommodel(glmm.model, 3),
-    n.clones = k, multiply = "n", unchanged = "np",
-    n.update = n.update, n.iter = n.iter)
-tb1 <- proc.time() - t0
-
-
-## 3 Poisson model, dc.parfit
-cl <- makeCluster(2, type = "SOCK")
-Sys.sleep(5)
-
-t0 <- proc.time()
-modp2 <- dc.parfit(cl, datp, c("beta", "log.sigma"), custommodel(glmm.model, 4),
-    n.clones = k, multiply = "n", unchanged = "np",
-    n.update = n.update, n.iter = n.iter)
-tp2 <- proc.time() - t0
-
-t0 <- proc.time()
-modb2 <- dc.parfit(cl, datb, c("beta", "log.sigma"), custommodel(glmm.model, 3),
-    n.clones = k, multiply = "n", unchanged = "np",
-    n.update = n.update, n.iter = n.iter)
-tb2 <- proc.time() - t0
-
-stopCluster(cl)
 
