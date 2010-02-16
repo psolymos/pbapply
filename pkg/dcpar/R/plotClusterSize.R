@@ -38,7 +38,7 @@ function(n, size, balancing=c("none","load","size","both"), plot=TRUE)
 
     if (plot) {
         plot.new()
-        plot.window(xlim=range(x1,x2),ylim=c(range(y1,y2)[2], range(y1,y2)[1]))
+        plot.window(xlim=range(x1,x2), ylim=c(range(y1,y2)[2], range(y1,y2)[1]))
         axis(side=1)
         axis(side=2, at=y, tick=FALSE, las=1)
         main <- switch(balancing,

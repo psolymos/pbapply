@@ -7,5 +7,8 @@ function(size)
     res1 <- sapply(2:m, function(i) plotClusterSize(i, size, "none", plot=FALSE))
     res2 <- sapply(2:m, function(i) plotClusterSize(i, size, "load", plot=FALSE))
     res3 <- sapply(2:m, function(i) plotClusterSize(i, size, "size", plot=FALSE))
-    data.frame(workers=2:m,none=res1,load=res2,size=res3,both=res3)
+    r0 <- sum(size)
+    res <- data.frame(workers=1:m, none=c(r0, res1),
+        load=c(r0, res2), size=c(r0, res3), both=c(r0, res3))
+    res
 }
