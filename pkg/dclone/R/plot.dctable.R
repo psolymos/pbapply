@@ -55,7 +55,7 @@ box.cex = 0.75, box.bg = NA, ...)
     k <- x[[1]]$n.clones
     kmin <- min(k)
     xval <- 1:length(k)
-    crit <- getOption("dclone.diag")
+    crit <- getOption("dclone.rhat")
     nam <- names(x)[which]
     w <- box.cex
     m <- length(which)
