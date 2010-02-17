@@ -1,12 +1,12 @@
 Package: dcpar
 Type: Package
-Title: Parallel Computing Features for Data Cloning and MCMC Methods
+Title: Parallel Computing with MCMC and Data Cloning
 Version: 0.1-2
 Date: 2010-01-27
 Author: Peter Solymos
 Maintainer: Peter Solymos <solymos@ualberta.ca>
-Description: Parallel computing features for the dclone package.
-    NOTE: under constant development!
+Description: Parallel computing extension of the 'dclone' package
+    built on the infrastructure provided by the 'snow' package.
 License: GPL-2
 Depends: dclone, snow
 URL: http://dcr.r-forge.r-project.org/

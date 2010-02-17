@@ -1,4 +1,4 @@
-\name{snowWrapper}
+\name{clusterSize}
 \Rdversion{1.1}
 \alias{clusterSize}
 \alias{plotClusterSize}
@@ -18,7 +18,7 @@ plot = TRUE, col = NA, ...)
 Number of workers.
 }
   \item{size}{
-Vector of problem sizes (recicled if needed).
+Vector of problem sizes (recycled if needed).
 The default \code{1} indicates equality of problem sizes.
 }
   \item{balancing}{
@@ -35,7 +35,11 @@ Other arguments passed to \code{\link{polygon}}.
 }
 }
 \details{
-Balancing here
+These functions help determine the optimal number of workers needed for different sized problems
+('size' indicates approximate processing time here). The number of workers needed depends on the
+type of balancing.
+
+For the description of the balancing types, see \code{\link{snowWrapper}}.
 }
 \value{
 \code{clusterSize} returns a data frame with approximate processing time as the function of
@@ -59,6 +63,5 @@ plotClusterSize(2,1:5, "load")
 plotClusterSize(2,1:5, "size")
 plotClusterSize(2,1:5, "both")
 par(opar)
-}
 }
 \keyword{ utilities }

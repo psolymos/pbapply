@@ -17,9 +17,8 @@ balancing=c("none", "load", "size", "both"), dir = getwd(), ...)
             eval(parse(text=paste("clusterEvalQ(cl, library(", i, "))")))
     }
     ## sets common working directory
-    for (i in evalq)
-        eval(parse(text=paste("clusterEvalQ(cl, setwd('", dir[i], "'))", sep="")))
-    ## evaluates literal expressions if needed (e.g. setwd())
+    eval(parse(text=paste("clusterEvalQ(cl, setwd('", dir, "'))", sep="")))
+    ## evaluates literal expressions if needed
     if (!is.null(evalq)) {
         for (i in evalq)
             eval(parse(text=paste("clusterEvalQ(cl,", i, ")")))

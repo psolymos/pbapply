@@ -2,47 +2,39 @@
 \name{jags.parfit}
 \Rdversion{1.1}
 \alias{jags.parfit}
-\alias{bugs.parfit}
 \title{
-Parallel computing with JAGS and WinBUGS/OpenBUGS
+Parallel computing with JAGS
 }
 \description{
-Do the same job as \code{\link[dclone]{jags.fit}} and \code{\link[dclone]{bugs.fit}}, 
-but parallel chanis are run on parallel workers, thus more than 4 chains are enabled, and
-computation can be faster for long MCMC runs.
+Do the same job as \code{\link[dclone]{jags.fit}}, 
+but parallel chanis are run on parallel workers, thus 
+computations can be faster (up to 1/\code{n.chains}) for long MCMC runs.
 }
 \usage{
 jags.parfit(cl, data, params, model, inits, n.chains = 3, ...)
-bugs.parfit(cl, data, params, model, inits, n.chains = 3, 
-bugs.seed, ...)
 }
 \arguments{
   \item{cl}{
 A cluster object created by \code{\link[snow]{makeCluster}}.
 }
   \item{data}{
-A named list or environment containing the data. If an environment, data cloning might not work properly.
+A named list or environment containing the data. If an environment, data cloning might not work properly (has to be done manually).
 }
   \item{params}{
-Character vector of parameters to be samples.
+Character vector of parameters to be sampled.
 }
   \item{model}{
 Character string (name of the model file) or a function containing the model (see Examples).
 }
   \item{inits}{
-Specification of initial values in the form of a list or a function. 
-For the function \code{jags.parfit}, \code{inits} must contain RNG seed information, too (see Initialization at \code{\link[rjags]{jags.model}}).
-For the function \code{bugs.parfit}, \code{inits} has to contain only initial values without random seed specifications 
-(but see argument \code{bugs.seed}).
+Specification of initial values in the form of a list or a function, can be missing if \code{n.chains <= 4}. 
+\code{inits} must contain RNG seed information, too (see Initialization at \code{\link[rjags]{jags.model}}).
 }
   \item{n.chains}{
 Number of chains to generate, must be higher than 1. Ideally, this is equal to the number of parallel workers in the cluster.
 }
-  \item{bugs.seed}{
-Random seeds for each chains (can be a vector or a list containing integers that are different from each other).
-}
   \item{...}{
-Other arguments accepted by \code{\link[dclone]{jags.fit}} and \code{\link[dclone]{bugs.fit}}.
+Other arguments passed to \code{\link[dclone]{jags.fit}}.
 }
 }
 \details{
@@ -55,7 +47,7 @@ An \code{mcmc.list} object.
 \enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \seealso{
-\code{\link[dclone]{jags.fit}}, \code{\link[dclone]{bugs.fit}}
+\code{\link[dclone]{jags.fit}}
 }
 \examples{
 \dontrun{
