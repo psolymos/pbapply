@@ -1,6 +1,9 @@
 \name{snowWrapper}
 \Rdversion{1.1}
-\alias{snowWrapper}
+\alias{clusterSeed}
+\alias{clusterSplitSB}
+\alias{parLapplySB}
+\alias{parLapplySLB}
 \title{
 Convenient functions for parallel MCMC computations
 }

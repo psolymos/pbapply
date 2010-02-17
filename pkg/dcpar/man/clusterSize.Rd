@@ -1,6 +1,7 @@
 \name{snowWrapper}
 \Rdversion{1.1}
-\alias{snowWrapper}
+\alias{clusterSize}
+\alias{plotClusterSize}
 \title{
 Convenient functions for parallel MCMC computations
 }
