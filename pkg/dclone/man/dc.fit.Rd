@@ -19,7 +19,7 @@ flavour = c("jags", "bugs"), ...)
 A named list (not environment) containing the data.
 }
   \item{params}{
-Character vector of parameters to be samples.
+Character vector of parameters to be sampled.
 }
   \item{model}{
 Character string (name of the model file) or a function containing the model (see Examples).

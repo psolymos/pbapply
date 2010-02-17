@@ -64,9 +64,9 @@ It is a global optimization technique, that exploits the computational simplicit
 The basic idea of data cloning is, that if we copy identical clones of the data $k$ times, we can approach the asymptotic maximum likelihood estimates corresponding to $k$ times the log-likelihood.
 This approach enables to fit complex hierarchical models (\citep{Lele2007}, \citep{Ponciano2009}) and helps in studying parameter identifiability (cit here), but comes with a price in ptocessing time that increases with the number of clones. 
 
-The \pkg{dclone} R package \citep{Solymos2009} aims to provide low level functionality to easily implement 
+The \pkg{dclone} \proglang{R} (cite R) package \citep{Solymos2009} aims to provide low level functionality to easily implement 
 more specific higher level procedures based on data cloning for users familiar with the Bayesian methodology.
-The \pkg{dcpar} extends the \pkg{dclone} for parallel computations building on the infrastructure provided by the \pkg{snow} package (cit here). This paper I demonstrate how computing time can improve by using \pkg{dcpar}, and how can the parallelization effectively been optimized. The \pkg{dcpar} package currently
+The \pkg{dcpar} package (sit dcpar) extends the \pkg{dclone} for parallel computations building on the infrastructure provided by the \pkg{snow} package (cit here). This paper I demonstrate how computing time can improve by using \pkg{dcpar}, and how can the parallelization effectively been optimized. The \pkg{dcpar} package currently
 supports the \proglang{JAGS} software (cit), but future development might include to support other MCMC software (e.g. WinBUGS and OpenBUGS, cit, cit).
 
 \section{Ways of parallelization}
@@ -133,6 +133,8 @@ k <- c(1, 2, 5, 10, 20)
 
 \section{Parallel MCMC chains}
 
+%%% ADD HERE MORE CONTEXT ON PARALLEL BAYESIAN ANALYSES !!!!!!!!!! %%%%%%%%%%
+
 This simple function allows us to switch parallelization on/off (by setting the \code{parallel} argument as \code{TRUE}/\code{FALSE}, respectively), and also measure the time elapsed in minutes:
 <<>>=
 timerfitfun <- function(parallel = FALSE, ...) {
@@ -169,42 +171,32 @@ We can extract timer information from the result objects:
 pt1 <- sapply(res1, function(z) attr(z, "timer"))
 pt2 <- sapply(res2, function(z) attr(z, "timer"))
 @
-Processing time (column \code{time}) increased almost linearly with $k$ (with and without parallelization, too; cf.~Fig.~\ref{fig1}), columns {rel.change} indicate change relative to $k=1$:
+Processing time (column \code{time}) increased almost linearly with $k$ (with and without parallelization, too), columns {rel.change} indicate change relative to $k=1$:
 <<>>=
 tab1 <- data.frame(n.clones=k,
     time=pt1, rel.change=pt1/pt1[1],
     time.par=pt2, rel.change.par=pt2/pt2[1])
-round(tab1, 3)
+round(tab1, 2)
 @
 It took \Sexpr{round(sum(pt1),2)} minutes to fit the five models without parallelization, and only \Sexpr{round(sum(pt2),2)} minutes with parallelization (\Sexpr{round(100*sum(pt2)/sum(pt1),2)} \%).
 Parallel MCMC computations effectively reduced the processing time to 1 / (number of chains) = 1/3.
 
-\begin{figure}[tb]
-\begin{center}
-<<fig1,echo=false,fig=true,width=7,height=7>>=
-plot(k, pt1, xlab="Number of clones", ylab="Processing time (min)", ylim=range(pt1, pt2), cex=1.5, cex.lab=1.5, type="b")
-points(k, pt2, col="red", cex=1.5, type="b")
-@
-\end{center}
-\caption{Processing times of fitted model corresponding to different number of clones in the data set without (black) and with (red) parallelization.}
-  \label{fig1}
-\end{figure}
-
 \section{Partitioning the problem into parallel subsets}
 
-- clusterSplit, parLapply (no balancing)
-- load balancing (dcpar option) (parLapplyLB)
-- clusterSplitSB, parLapplySB
-- parLapplySLB
+The other way of parallelizing the iterative fitting procedure with data cloning is to split the problem into subsets with respect to the problem size (i.e.~approximate processing time). As we saw in the previous section, processing time increased linearly with $k$. Consequently, processing time can be effectively approximated by $k$.
 
-How to optimize (Fig.~\ref{fig2})?
+The \pkg{dcpar} has some underlying functions (e.g.~\code{clusterSplitSB}, \code{parLapplySB}\footnote{These function resemble in name to functions \code{clusterSplit} and \code{parLapply} in the \pkg{snow} package.}) developped to deal with \emph{size balancing}. In size balancing, the problems are re-ordered from largest to smallest, and then subsets are determined by minimizing the total approximate processing time.
+This splitting is deterministic, thus computations are reproducible. However, size balancing can be combined with load balancing (cit here). This option is implemented in the \code{parLapplySLB} function. If size (processing time) is correct, this should be identical to size balancing, but the actual sequence of execution might depend on unequal performance of the workers. The splitting in this case is non-deterministic (might not be reproducible). Load balancing can be set as a global \pkg{dcpar} option by setting \code{options("dcpar.LB" = TRUE)} (this value is \code{FALSE} by default).
+
+The \code{clusterSize} function can be used to determine the optimal number of workers needed for a given size vecor:
 <<>>=
 clusterSize(pt1)
 @
-
+Essentially, by using size balancing, only two workers are needed to accomplish the task.
+The \code{clusterSize} can help to visualize the effect of using different balancing options (Fig.~\ref{fig:balance}):
 \begin{figure}[tb]
 \begin{center}
-<<fig1,echo=false,fig=true,width=9,height=3>>=
+<<fig1,echo=true,fig=true,width=9,height=3>>=
 clusterSize(pt1)
 opar <- par(mfrow=c(1,3))
 plotClusterSize(2, pt1, "none", col=heat.colors(length(k)))
@@ -213,11 +205,12 @@ plotClusterSize(2, pt1, "size", col=heat.colors(length(k)))
 par(opar)
 @
 \end{center}
-\caption{}
-  \label{fig2}
+\caption{Effect of different balancing types on approximate processing time by showing the subsets. Note, the actual sequance of execution might be different for load balancing, because it is non-deterministic.}
+  \label{fig:balance}
 \end{figure}
+We can see in Fig.~\ref{fig:balance} that for two workers size balancing results in the shortest processing time. While the model with $k=\mathrm{max}(k)$ is running, all the other models can be fitted on the other worker. Total processing time is determined by the largest problem size.
 
-Fit the models
+First, we fit the five models iteratively without parallelization by using the \code{dc.fit} function of the \pkg{dclone} package:
 <<eval=false>>=
 t0 <- proc.time()
 res3 <- dc.fit(dat, c("beta", "log.sigma"), glmm.model,
@@ -225,7 +218,7 @@ res3 <- dc.fit(dat, c("beta", "log.sigma"), glmm.model,
     n.update = n.update, n.iter = n.iter)
 attr(res3, "timer") <- (proc.time() - t0)[3] / 60
 @
-
+Then, we fit the same models, using thesame arguments, but with parallelization (using size balancing and socket cluster with two workers):
 <<eval=false>>=
 cl <- makeCluster(2, type = "SOCK")
 t0 <- proc.time()
@@ -236,156 +229,15 @@ attr(res4, "timer") <- (proc.time() - t0)[3] / 60
 stopCluster(cl)
 @
 
-Evaluate proc time:
-\Sexpr{round(attr(res3, "timer"), 2)}
-
-\Sexpr{round(attr(res4, "timer"), 2)}
-
-(\Sexpr{round(100*attr(res4, "timer")/attr(res3, "timer"),2)} \%)
-
+It took \Sexpr{round(attr(res3, "timer"), 2)} minutes without parallelization, as compared to 
+\Sexpr{round(attr(res4, "timer"), 2)} minutes with parallelization 
+(\Sexpr{round(100*attr(res4, "timer")/attr(res3, "timer"),2)} \%). The parallel processing time 
+in this case was close to the time needed to fit the model with $k=20$ (\Sexpr{round(tab1[5,2], 2)} minutes), so it was really the larges problem that determined the processing time.
 
 \section{Conclusions}
 
-Conclusions here.
-
+If the length of the vector $k$ (numbers of clones used) is short, or the number of available workers is limited to a few (2-4, i.e. the number of chains), the first type of parallelization (parallel MCMC chanis) and the the use of the \code{jags.parfit} function can be more efficient. If the length of $k$ is longer, or the sice of the computing cluster is high enough, the second type of parallelization (splitting the problem with respect to size) and the use of the \code{dc.parfit} function can be more efficient. Results presented in this paper can guide such decisions. But the advantage of parallelization was demonstrated in both cases: processing time decreased to \Sexpr{round(100*sum(pt2)/sum(pt1),2)} \% and round(100*attr(res4, "timer")/attr(res3, "timer"),2) \%, respectively.
 
 \bibliography{dclone}
 
 \end{document}
-
-## glmm example for parfit
-
-library(dcpar)
-glmm.model <- function() {
-    for (i in 1:n) {
-        Y[i] ~ dpois(exp(mu[i]))
-        Y[i] ~ dbern(ilogit(mu[i]))
-        mu[i] ~ dnorm(inprod(X[i,], beta), 1/exp(log.sigma)^2)
-    }
-    for (j in 1:np) {
-        beta[j] ~ dnorm(0, 0.001)
-    }
-    log.sigma ~ dnorm(0, 0.001)
-}
-
-n <- 200
-n.adapt <- 2000
-n.update <- 8000
-n.iter <- 2000
-k <- c(1, 2, 5, 10, 20)
-
-#n <- 20
-#n.adapt <- 500
-#n.update <- 400
-#n.iter <- 200
-#k <- c(1,2)
-
-beta <- c(1, -1)
-sigma <- 0.25
-
-set.seed(1234)
-x <- runif(n)
-X <- model.matrix(~x)
-mu <- rnorm(n, mean=drop(X %*% beta), sd=sigma)
-Yp <- rpois(n, exp(mu))
-Yb <- rbinom(n, 1, plogis(mu))
-
-dat <- list(Y = Y, X = X, n = n, np = NCOL(X))
-
-## (A) Poisson models, different k, jags.fit
-## see that processing time is increasing linearly
-
-timerfitfun <- function(parallel=FALSE, ...) {
-    t0 <- proc.time()
-    mod <- if (parallel)
-        jags.parfit(...) else jags.fit(...)
-    attr(mod, "timer") <- (proc.time() - t0)[3] / 60
-    mod
-}
-
-res1 <- lapply(k, function(z)
-    timerfitfun(parallel = FALSE,
-        dclone(dat, z, multiply = "n", unchanged = "np"),
-        c("beta", "log.sigma"), glmm.model,
-        n.adapt = n.adapt, n.update = n.update, n.iter = n.iter))
-
-## (B) Poisson models, different k, jags.parfit
-## to compare with jags.fit results
-
-cl <- makeCluster(3, type = "SOCK")
-Sys.sleep(5)
-res2 <- lapply(k, function(z)
-    timerfitfun(parallel = TRUE, cl,
-        dclone(dat, z, multiply = "n", unchanged = "np"),
-        c("beta", "log.sigma"), glmm.model,
-        n.adapt = n.adapt, n.update = n.update, n.iter = n.iter))
-stopCluster(cl)
-
-## (C) dc.fit
-
-t0 <- proc.time()
-res3 <- dc.fit(dat, c("beta", "log.sigma"), glmm.model,
-    n.clones = k, multiply = "n", unchanged = "np",
-    n.update = n.update, n.iter = n.iter)
-attr(res3, "timer") <- (proc.time() - t0)[3] / 60
-
-cl <- makeCluster(2, type = "SOCK")
-Sys.sleep(5)
-t0 <- proc.time()
-res4 <- dc.parfit(cl, dat, c("beta", "log.sigma"), glmm.model,
-    n.clones = k, multiply = "n", unchanged = "np",
-    n.update = n.update, n.iter = n.iter)
-attr(res4, "timer") <- (proc.time() - t0)[3] / 60
-
-stopCluster(cl)
-
-## A-B results
-
-lapply(res1, gelman.diag)
-lapply(res2, gelman.diag)
-
-sapply(res1, coef)
-sapply(res2, coef)
-
-sapply(res1, dcsd)
-sapply(res2, dcsd)
-
-pt1 <- sapply(res1, function(z) attr(z, "timer"))
-pt2 <- sapply(res2, function(z) attr(z, "timer"))
-
-data.frame(n.clones=k, proc.time=pt1, percent=100*pt1/pt1[1])
-
-plot(k, pt1, xlab="Number of clones", ylab="Processing time (min)", ylim=range(pt1, pt2))
-abline(0, pt1[1],lty=2)
-abline(lm(pt1 ~ k - 1),lty=1)
-
-points(k, pt2, col="red")
-abline(0, pt2[1], lty=2, col="red")
-abline(lm(pt2 ~ k), lty=1, col="red")
-
-
-clusterSize(pt1)
-opar <- par(mfrow=c(1,3))
-plotClusterSize(2, pt1, "none", col=heat.colors(length(k)))
-plotClusterSize(2, pt1, "load", col=heat.colors(length(k)))
-plotClusterSize(2, pt1, "size", col=heat.colors(length(k)))
-par(opar)
-
-data.frame(n.clones=k, proc.time=pt1, proc.time.par=pt2, percent=100*pt2/pt1)
-
-
-expsigma <- function(x)
-    mcmcapply(x[,"log.sigma"], exp)
-
-sapply(res1, function(z) mean(expsigma(z)))
-sapply(res2, function(z) mean(expsigma(z)))
-sapply(res1, function(z) sd(expsigma(z)))
-sapply(res2, function(z) sd(expsigma(z)))
-
-attr(res3, "timer")
-
-attr(res4, "timer")
-
-plot.dctable(dctable(res4))
-plot.dctable(dctable(res1[[1]],res1[[2]],res1[[3]],res1[[4]],res1[[5]]))
-plot.dctable(dctable(res2[[1]],res2[[2]],res2[[3]],res2[[4]],res2[[5]]))

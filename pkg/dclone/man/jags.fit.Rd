@@ -14,10 +14,10 @@ n.update = 0, thin = 1, n.iter = 5000, updated.model=TRUE, ...)
 }
 \arguments{
   \item{data}{
-A named list or environment containing the data. If an environment, data cloning might not work properly.
+A named list or environment containing the data. If an environment, data cloning might not work properly (has to be done manually).
 }
   \item{params}{
-Character vector of parameters to be samples.
+Character vector of parameters to be sampled.
 }
   \item{model}{
 Character string (name of the model file) or a function containing the model (see Examples).
