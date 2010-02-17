@@ -74,7 +74,7 @@ supports the \proglang{JAGS} software (cit), but future development might includ
 There is no universal number of clones that is needed to reach convergence (the asymptotic joint distribution of the parameters is degenerate multivariate normal), so $k$ has to be determined empirically, by fitting the same model with the data of different number of clones, and checking if the variances of the parameters are going to zero. For example, if we fit the same model with $k=(1,2,5,10,20)$, it means that we have to fit five models. Without parallelization, we can use subsequent calls of the \code{jags.fit} function of the \pkg{dclone} \proglang{R} package with different cloned data sets (corresponding to elements in $k$), or use the \code{dc.fit} wrapper function.
 
 Parallelization can happen in two ways: (1) we parallelize the computation of the MCMC chains (ususally we use more than one chain to chack proper mixing behavour of the model); or (2) we split the problem into subsets and fit the models in each subset on a different worker of the parallelized computing environment.
-The first type of parallelization can be addressed by the \code{jags.parfit} function (parallelized version of \code{jags.fit}), while the second type can be addressed by the \code{dc.parfit} function (parallelized version of \code{dc.fit}).
+The first type of parallelization can be addressed by the \code{jags.parfit} function (parallelized version of \code{jags.fit}), while the second type can be addressed by the \code{dc.parfit} function (parallelized version of \code{dc.fit}). Both \code{jags.parfit} and \code{dc.parfit} is built upon the parallel computing infrastructure provided by the \pkg{snow} package, with some additional convenince functions (see next sections). The most important additional function is the \code{snowWrapper}, which unites several basic \pkg{snow} function (i.e.~\code{clusterCall}, \code{clusterEvalQ}, \code{clusterApply}), and most importantly can execute the \code{clusterExport} function call from within a function (where objects are not defined in the global environment).
 
 \section{Example data and the Bayesian model}
 
@@ -191,6 +191,11 @@ points(k, pt2, col="red", cex=1.5, type="b")
 \end{figure}
 
 \section{Partitioning the problem into parallel subsets}
+
+- clusterSplit, parLapply (no balancing)
+- load balancing (dcpar option) (parLapplyLB)
+- clusterSplitSB, parLapplySB
+- parLapplySLB
 
 How to optimize (Fig.~\ref{fig2})?
 <<>>=
