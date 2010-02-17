@@ -17,7 +17,7 @@ balancing = c("none", "load", "size", "both"), dir = getwd(), ...)
   \item{cl}{
 A cluster object created by \code{\link[snow]{makeCluster}}.
 }
-  \item{x, seq}{
+  \item{seq}{
 A vector to split.
 }
   \item{fun}{

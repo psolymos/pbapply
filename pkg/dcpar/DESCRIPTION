@@ -1,8 +1,8 @@
 Package: dcpar
 Type: Package
 Title: Parallel Computing with MCMC and Data Cloning
-Version: 0.1-2
-Date: 2010-01-27
+Version: 0.2-0
+Date: 2010-02-17
 Author: Peter Solymos
 Maintainer: Peter Solymos <solymos@ualberta.ca>
 Description: Parallel computing extension of the 'dclone' package
