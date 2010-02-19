@@ -11,7 +11,7 @@ The functions help in optimizing workload for the workers if problems are of dif
 \usage{
 clusterSize(size)
 plotClusterSize(n, size, balancing = c("none", "load", "size", "both"),
-plot = TRUE, col = NA, ...)
+plot = TRUE, col = NA, xlim = NULL, ylim = NULL, ...)
 }
 \arguments{
   \item{n}{
@@ -29,6 +29,9 @@ Logical, if a plot should be drawn.
 }
   \item{col}{
 Color of the polygons for work load pieces.
+}
+  \item{xlim, ylim}{
+Limits for the x and the y axis, respectively (optional).
 }
   \item{\dots}{
 Other arguments passed to \code{\link{polygon}}.

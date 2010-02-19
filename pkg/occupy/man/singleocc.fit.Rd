@@ -12,7 +12,7 @@ have already been calculated.
 }
 \usage{
 singleocc.fit(obs, occ, det, link.occ = "logit", link.det = "logit", penalized = FALSE, auc = FALSE,
-method = c("optim", "dc"), n.clones = 1000, prec = 0.1, ...)
+method = c("optim", "dc"), n.clones = 1000, prec = 0.1, inits, ...)
 }
 \arguments{
   \item{obs}{
@@ -44,6 +44,9 @@ Number of clones, if \code{method = "dc"}.
 }
   \item{prec}{
 Precision for Normal prior distributions (means are taken from naive GLMs), if \code{method = "dc"}.
+}
+  \item{inits}{
+Optionally, initial values for optimization methods.
 }
   \item{\dots}{
 Other arguments passed to the functions (e.g. MCMC settings passed to function \code{\link[dclone]{jags.fit}}).

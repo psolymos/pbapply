@@ -1,5 +1,5 @@
 plotClusterSize <-
-function(n, size, balancing=c("none","load","size","both"), plot=TRUE, col=NA, ...)
+function(n, size, balancing=c("none","load","size","both"), plot=TRUE, col=NA, xlim=NULL, ylim=NULL, ...)
 {
     clusterSplitLB <- function(cl, seq, size = 1) {
         tmp1 <- tmp2 <- matrix(NA, length(cl), length(seq))
@@ -40,8 +40,12 @@ function(n, size, balancing=c("none","load","size","both"), plot=TRUE, col=NA, .
     coli <- 1
 
     if (plot) {
+        if (is.null(xlim))
+            xlim <- range(x1,x2)
+        if (is.null(ylim))
+            ylim <- c(range(y1,y2)[2], range(y1,y2)[1])
         plot.new()
-        plot.window(xlim=range(x1,x2), ylim=c(range(y1,y2)[2], range(y1,y2)[1]))
+        plot.window(xlim=xlim, ylim=ylim)
         box()
         axis(side=1)
         axis(side=2, at=y, tick=FALSE, las=1)
@@ -51,7 +55,7 @@ function(n, size, balancing=c("none","load","size","both"), plot=TRUE, col=NA, .
             "size" = "Size Balancing",
             "both" = "Size and Load Balancing")
         title(main=main, xlab="Approximate Processing Time", ylab="Workers",
-            sub=paste("Max =", round(max(sapply(x2, max)), 4)))
+            sub=paste("Max =", round(max(sapply(x2, max)), max(3, getOption("digits") - 3))))
         for (i in 1:n) {
             for (j in 1:length(x[[i]])) {
                 polygon(c(x1[[i]][j], x2[[i]][j], x2[[i]][j], x1[[i]][j]), c(y1[i], y1[i], y2[i], y2[i]), 

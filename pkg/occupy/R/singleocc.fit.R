@@ -95,8 +95,10 @@ method = c("optim", "dc"), n.clones = 1000, prec = 0.1, inits, ...)
     coef.occ[is.na(coef.occ)] <- 0
     coef.det <- coef(glm.det)
     coef.det[is.na(coef.det)] <- 0
-    if (missing(inits))
-        inits <- c(coef.occ, coef.det)
+    if (missing(inits)) {
+        inits <- if (method=="dc")
+            NULL else c(coef.occ, coef.det)
+    }
     control.optim <- getOption("occupy.optim.control")
     control.mcmc <- getOption("occupy.mcmc.control")
     opmeth <- getOption("occupy.optim.method")
@@ -123,7 +125,7 @@ method = c("optim", "dc"), n.clones = 1000, prec = 0.1, inits, ...)
         dat <- list(Y=obs * n.clones, X=occ, Z=det, k=n.clones,
             N.sites=N.sites, num.cov.occ=num.cov.occ, num.cov.det=num.cov.det,
             prior.occ=prior.occ, prior.det=prior.det)
-        mle.res <- jags.fit(dat, c("beta", "theta"), model, 
+        mle.res <- jags.fit(dat, c("beta", "theta"), model, inits,
             n.chains=control.mcmc$n.chains, n.adapt=control.mcmc$n.adapt, 
             n.update=control.mcmc$n.update, n.iter=control.mcmc$n.iter, thin=control.mcmc$thin, ...)
         if (!is.null(n.clones) && n.clones > 1) {
