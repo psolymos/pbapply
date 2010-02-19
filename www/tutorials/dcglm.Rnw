@@ -24,10 +24,10 @@
 \Shorttitle{Tutorial for the dcglm package}
 
 \Abstract{
-  This tutorial package to demonstrate the 
+  This tutorial package to demonstrates the 
   capabilities of data cloning algorithm via 
   the infrastructure provided by the \pkg{dclone} package.
-  Functions reproduce main features of the \code{glm}
+  The functions developed here reproduce main features of the \code{glm}
   base function in \proglang{R} by using data cloning.
 }
 
@@ -66,8 +66,7 @@ because inference and prediction procedures are often hard to implement in such 
 
 The \textbf{dclone} R package \citep{Solymos2009} aims to provide low level functionality to easily implement 
 more specific higher level procedures based on data cloning for users familiar with the Bayesian methodology.
-This tutorial, we develop write high level functions to duplicate the some features of 
-the \code{glm} base function of \proglang{R} by using
+This tutorial, we develop high level functions to reproduce the \code{glm} base function of \proglang{R} by using
 the data cloning algorithm building on the infrastructure of the \pkg{dclone} package.
 
 \section{Data generation}
@@ -126,7 +125,7 @@ we have to use the list format instead of the global environment):
 dat1 <- list(n = length(Y1), Y = Y1, X = X, np = ncol(X))
 str(dat1)
 @
-Now let's clone the data set (note that \code{n} should be multiplies, while
+Now let's clone the data set (note that \code{n} should be multiplied, while
 \code{np} must remain unchanged):
 <<>>=
 n.clones <- 5
@@ -140,14 +139,14 @@ mod1 <- jags.fit(dcdat1, "beta", glm.pois)
 <<>>=
 summary(mod1)
 @
-Le's compare this \code{mcmc.list} (more accurately an \code{mcmc.list.dc}) object with the \code{glm} results:
+Let's compare this \code{mcmc.list} (more accurately an \code{mcmc.list.dc}) object with the \code{glm} results:
 <<>>=
 cbind(true.values=beta1,
     glm.estimates=coef(m1), glm.se=summary(m1)$coefficients[,2],
     dc.estimates=coef(mod1), dc.se=dcsd(mod1))
 @
 
-Here is the \proglang{JAGS} model for the Binomial (Bernoulli, because \code{k}=1) case:
+Here is the \proglang{JAGS} model for the Binomial (Bernoulli, because only one trial) case:
 <<>>=
 glm.bin <- function() {
     for (i in 1:n) {
@@ -185,9 +184,9 @@ cbind(true.values=beta2,
     dc.estimates=coef(mod2), dc.se=dcsd(mod2))
 @
 
-\section{The custommodel function}
+\section{The 'custommodel' function}
 
-The \code{custommodel} function enables us to resuse the same \proglang{JAGS} model
+The \code{custommodel} function enables us to reuse the same \proglang{JAGS} model
 with minor modifications. For example we combine the above Poisson and Binomial model into one.
 <<>>=
 glm.model <- function() {
@@ -204,7 +203,7 @@ glm.model <- function() {
 @
 If we want to use this in the \code{jags.fit} function, it would give the error message
 about the attempt to define the nodes more than onece. To avoid this, we tell the function
-which lines ahould be excluded:
+which line(s) should be excluded:
 <<>>=
 custommodel(glm.model, c(4,6))
 custommodel(glm.model, c(3,5))
@@ -214,19 +213,21 @@ of the class \class{custommodel}. \code{jags.fit} will recognize this.
 
 Why do we want to complicate our lives with the \code{custommodel}?
 Because \code{dpois}, \code{dbin}, and \code{inprod} are not recognised
-as valid \proglang{R} objects or functions. So if our aim is to make an \proglang{R} package
-that passes the rather strict \code{R CMD check}, so won't be published
-at the Comprehensive \proglang{R} Archive Network (CRAN). A way to overcome this
-situation is to define fake objects as e.g.~\code{inprod <- function() NULL},
+as valid \proglang{R} objects or functions. This is, however, a requisite of
+building a valid \proglang{R} package that that passes \code{R CMD check}.
+A way to overcome this is to define fake objects as e.g.~\code{inprod <- function() NULL},
 but this option should be regaded as ugly and inefficient (unnecessary) as compared to 
 a clean \code{custommodel} approach that will be presented in the next section.
 
 \section{The main function dcglm}
 
-Here our main function for the data cloning based estimating procedure
+Here is our main function for the data cloning based estimating procedure
 for the Poisson and Binomial GLMs:
 <<>>=
-dcglm <- function(formula, data = parent.frame(), family=c("poisson", "binomial"), n.clones=5, ...){
+dcglm <- 
+function(formula, data = parent.frame(), 
+family=c("poisson", "binomial"), n.clones=5, ...)
+{
     glm.model <- c("model {",
                    "    for (i in 1:n) {",
                    "        Y[i] ~ dpois(lambda[i])",
@@ -245,13 +246,14 @@ dcglm <- function(formula, data = parent.frame(), family=c("poisson", "binomial"
     formula[[2]] <- NULL
     rhs <- model.frame(formula, data)
     X <- model.matrix(attr(rhs, "terms"), rhs)
-    dat <- list(n = length(Y), Y = Y, X = X, np = ncol(X), k = 1)
     if (family == "poisson") {
-        model <- model <- custommodel(glm.model, c(4,6))
+        dat <- list(n = length(Y), Y = Y, X = X, np = ncol(X))
         dcdat <- dclone(dat, n.clones, multiply = "n", unchanged = "np")
+        model <- dclone:::custommodel(glm.model, c(4,6))
     } else {
-        model <- custommodel(glm.model, c(3,5))
+        dat <- list(n = length(Y), Y = Y, X = X, np = ncol(X), k = 1)
         dcdat <- dclone(dat, n.clones, multiply = c("Y","k"), unchanged = c("n", "np", "X"))
+        model <- dclone:::custommodel(glm.model, c(3,5))
     }
     mod <- jags.fit(dcdat, "beta", model, ...)
     COEF <- coef(mod)
@@ -260,10 +262,10 @@ dcglm <- function(formula, data = parent.frame(), family=c("poisson", "binomial"
     mu <- X %*% COEF
     if (family == "poisson") {
         fitval <- drop(exp(mu))
-        ll <- sum(log(fitval^Y * exp(-fitval)) - log(factorial(Y)))
+        ll <-  sum(dpois(Y, fitval, log=TRUE))
     } else {
         fitval <- drop(exp(mu) / (1 + exp(mu)))
-        ll <- sum(log(choose(1, Y) * fitval^Y * (1-fitval)^(1-Y)))
+        ll <-  sum(dbinom(Y, 1, fitval, log=TRUE))
     }
     rval <- list(call=match.call(),
         mcmc = mod,
@@ -284,7 +286,7 @@ dcglm <- function(formula, data = parent.frame(), family=c("poisson", "binomial"
 }
 @
 
-Let'g go through it step-by-step as pseudo-code:
+Let'g go through this function step-by-step as pseudo-code:
 
 \begin{enumerate}
   \item \code{glm.model} is the \code{custommodel} version of the \proglang{BUGS} model,
@@ -294,14 +296,14 @@ Let'g go through it step-by-step as pseudo-code:
   \item \code{lhs} is the left-hand-side of the formula, \code{Y} is the value as a result
     of evaluating \code{lhs} in \code{data} (that is the parent frame, which is usually the global
     environment if not called from inside of a function).
-  \item \code{formula[[2]] <- NULL} removes the left-hand-side from the formula.
+  \item \code{formula[[2]] <- NULL} removes the left-hand-side from the formula (that's why
+    we keep a copy of it named as \code{formula.orig}).
   \item \code{rhs} is the right-hand-side, that is a model frame with variables
     defined in \code{data}.
   \item The design matrix \code{X} is a result of using the \code{"terms"} attribute
     of \code{rhs} and evaluated in \code{rhs}.
-  \item \code{dat} is the Bayesian data representation.
-  \item The \code{model} and the data cloned data representation
-    (\code{dcdat}) depends on the \code{family} argument.
+  \item The the Bayesian (\code{dat}) and data cloned (\code{dcdat}) data representation, and \code{model} 
+    depends on the \code{family} argument.
   \item \code{mod} is the fitted \code{mcmc.list} object. Dots (\code{...}) represents
     all the additional arguments that can be passed, including \code{n.update}, \code{n.iter},
     and \code{n.chains}.
@@ -346,7 +348,9 @@ method dispatch system. That is, if a generic function is defined,
 we can add class specific methods to it.
 
 In our case, the most simple methods are the \code{coef} and \code{fitted},
-because these only extract an element from the objects:
+because these only extract an element from the objects%
+\footnote{Note that these are identical to the \code{coef.default} and \code{fitted.default}
+functions, but shown here for didactic purposes.}:
 <<>>=
 coef.dcglm <- function(object, ...) object$coefficients
 fitted.dcglm <- function(object, ...) object$fitted.values
@@ -536,7 +540,10 @@ Quite similar as we expected.
 
 The \code{predict} function will look like:
 <<>>=
-predict.dcglm <- function(object, newdata = NULL, type = c("link", "response"), se = FALSE, ...){
+predict.dcglm <- 
+function(object, newdata = NULL, 
+type = c("link", "response"), se = FALSE, ...)
+{
     glm.pred <- c("model {",
            "    for (i in 1:n) {",
            "        Y[i] ~ dpois(z[i])",
@@ -566,7 +573,9 @@ predict.dcglm <- function(object, newdata = NULL, type = c("link", "response"), 
         "poisson" = custommodel(glm.pred, c(4,6)),
         "binomial" = custommodel(glm.pred, c(3,5)))
     prdat <- list(n = nrow(X), X = X, 
-        np = ncol(X), k = 1, coefs = coefs, prec = prec)
+        np = ncol(X), coefs = coefs, prec = prec)
+    if (object$family == "binomial")
+        prdat[["k"]] <- 1
     prval <- jags.fit(prdat, params, model, ...)
     if (!se) {
         rval <- coef(prval)
@@ -580,9 +589,9 @@ predict.dcglm <- function(object, newdata = NULL, type = c("link", "response"), 
 The pseudo-code for \code{predict} is:
 \begin{enumerate}
   \item \code{glm.predict} is the familiar \code{custommodel} specification.
-  \item \code{prec} and \code{coefs} is needed for the data specification.
+  \item \code{prec} and \code{coefs} are needed for the data specification.
   \item If \code{newdata} is \code{NULL}, we use the extracted design matrix
-    ou our fitted model (\code{object}). Else, we create the design matrix
+    of our fitted model (\code{object}). Else, we create the design matrix
     corresponding to our model from \code{newdata} (a data frame, containing the same
     covariates, but possibly with different values). For this extraction,
     we use the \code{formula} of the fitted model \code{object}.
@@ -591,7 +600,9 @@ The pseudo-code for \code{predict} is:
     \code{mu} corresponds to the values on the scale of the linear predictors,
     while \code{z} corresponds to the values on the response scale.
   \item \code{model} is determined by the \code{family} of the fitted model \code{object}.
-  \item \code{prdat} is the data, \code{prmod} is the fitted MCMC object.
+  \item \code{prdat} is the data, \code{prmod} is the fitted MCMC object (we use \code{k}
+  only in case of the Bionimal family, otherwise \pkg{rjags} warns us that \code{k} is unused
+    for the Poisson case).
   \item If the \code{se} argument is \code{FALSE}, the return value will be the point 
     estimate vector of the prediction. If the \code{se} argument is \code{TRUE}, the
     return value will be a list including point estimates (\code{fit}) and standard
@@ -672,11 +683,9 @@ package.skeleton("dcglm", c("coef.dcglm","confint.dcglm","dcglm",
     "print.dcglm","print.summary.dcglm","summary.dcglm","vcov.dcglm"))
 @
 
-Follow this workflow for your own model and estimating procedure, then edit the files (read the \emph{Writing \proglang{R} Extensions} manual) in the package directory, run \code{R CMD check}, and ditribute your package.
+Follow this workflow for your own model and estimating procedure, then edit the files (read the \emph{Writing \proglang{R} Extensions} manual) in the package directory, run \code{R CMD check} and \code{R CMD build}, distribute your package, and go out for a walk!
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliography{dclone}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \end{document}
