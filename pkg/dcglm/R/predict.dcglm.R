@@ -27,7 +27,9 @@ function(object, newdata = NULL, type = c("link", "response"), se = FALSE, ...){
         "poisson" = dclone:::custommodel(glm.pred, c(4,6)),
         "binomial" = dclone:::custommodel(glm.pred, c(3,5)))
     prdat <- list(n = nrow(X), X = X, 
-        np = ncol(X), k = 1, coefs = coefs, prec = prec)
+        np = ncol(X), coefs = coefs, prec = prec)
+    if (object$family == "binomial")
+        prdat[["k"]] <- 1
     prval <- jags.fit(prdat, params, model, ...)
     if (!se) {
         rval <- coef(prval)
