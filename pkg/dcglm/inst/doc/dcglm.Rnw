@@ -51,6 +51,7 @@
 
 <<echo=FALSE, results=hide>>=
 options(prompt = "R> ", continue = "+   ", useFancyQuotes = FALSE, width = 76)
+load("dcglm.tutorial.Rdata")
 @
 
 
@@ -133,7 +134,7 @@ dcdat1 <- dclone(dat1, n.clones, multiply = "n", unchanged = "np")
 str(dcdat1)
 @
 To fit the model to the data with data cloning is as easy as this:
-<<results=hide>>=
+<<eval=false,results=hide>>=
 mod1 <- jags.fit(dcdat1, "beta", glm.pois, n.iter = 1000)
 @
 <<>>=
@@ -171,7 +172,7 @@ dcdat2 <- dclone(dat2, n.clones, multiply = c("Y","k"), unchanged = c("n", "np",
 str(dcdat2)
 @
 Now fit the model to the data with data cloning:
-<<results=hide>>=
+<<eval=false,results=hide>>=
 mod2 <- jags.fit(dcdat2, "beta", glm.bin, n.iter = 1000)
 @
 <<>>=
@@ -335,7 +336,7 @@ Let'g go through this function step-by-step as pseudo-code:
 \end{enumerate}
 
 Fun, isn't it? See if it is actually working:
-<<results=hide>>=
+<<eval=false,results=hide>>=
 dcm1 <- dcglm(Y1 ~ x, n.iter = 1000)
 dcm2 <- dcglm(Y2 ~ x, family = "binomial", n.iter = 1000)
 @
@@ -432,8 +433,10 @@ function (x, digits = max(3, getOption("digits") - 3),
     cat("\nCall:\n")
     cat(paste(deparse(x$call), sep = "\n", collapse = "\n"), "\n", sep = "")
     cat("\nCoefficients:\n")
-    printCoefmat(x$coefficients, digits = digits, signif.stars = signif.stars, na.print = "NA", ...)
-    cat("\nDegrees of Freedom:", x$df.null, "Total (i.e. Null); ", x$df.residual, "Residual\n")
+    printCoefmat(x$coefficients, digits = digits, 
+        signif.stars = signif.stars, na.print = "NA", ...)
+    cat("\nDegrees of Freedom:", x$df.null, "Total (i.e. Null); ",
+        x$df.residual, "Residual\n")
     cat("Log Likelihood:\t   ", format(signif(x$loglik, digits)), "\n")
     invisible(x)
 }
@@ -623,7 +626,7 @@ pm2link <- predict(m2, newdata=px, type="link", se=TRUE)
 pm2resp <- predict(m2, newdata=px, type="response", se=TRUE)
 @
 The \code{dcglm} based predictions are:
-<<results=hide>>=
+<<eval=false,results=hide>>=
 pdcm1link <- predict(dcm1, newdata=px, type="link", 
     se=TRUE, n.iter = 1000)
 pdcm1resp <- predict(dcm1, newdata=px, type="response", 
