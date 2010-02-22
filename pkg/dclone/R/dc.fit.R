@@ -14,8 +14,8 @@ update=NULL, updatefun=NULL, initsfun=NULL, flavour = c("jags", "bugs"), ...)
     k <- unique(k)
     times <- length(k)
 #    dcoptions <- getOption("dclone")
-    rhat.crit <- getOption("dclone.rhat") # dcoptions$r.hat$crit
-    trace <- getOption("dclone.verbose") # dcoptions$verbose
+    rhat.crit <- getOption("dclone.rhat")
+    trace <- getOption("dclone.verbose")
     ## evaluate updating
     if (!is.null(update) != !is.null(updatefun))
         stop("both 'update' and 'updatefun' must be provided")

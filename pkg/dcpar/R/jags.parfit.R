@@ -26,11 +26,13 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
     } else {
         ## generating initial values
         if (missing(inits)) {
-            initsval <- suppressWarnings(jags.fit(data, params, model, 
-                n.adapt=1, n.iter=1, updated.model=FALSE))
-            inits <- lapply(lapply(initsval, as.list), function(z) {
-                names(z) <- varnames(initsval)
-                z})
+#            initsval <- suppressWarnings(jags.fit(data, params, model, inits, n.chains,
+#                n.adapt=1, n.iter=1, updated.model=FALSE, ...))
+#            inits <- lapply(lapply(initsval, as.list), function(z) {
+#                names(z) <- varnames(initsval)
+#                z})
+            inits <- jags.fit(data, params, model, inits=NULL, n.chains,
+                n.adapt=0, n.update=0, n.iter=0)
             seed <- 999*1:n.chains
             for (i in 1:n.chains) {
                 inits[[i]][[".RNG.name"]] <- paste("base::", rng[i], sep="")
@@ -46,20 +48,6 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
         model <- write.jags.model(model)
         on.exit(try(clean.jags.model(model)))
     }
-#    if (is.function(model) || inherits(model, "custommodel")) {
-#        if (is.function(model))
-#            model <- match.fun(model)
-#        model0 <- model
-#        modnam <- paste("model.cl", 1:n.chains, ".bug", sep="")
-#        model <- rep("", n.chains)
-#        for (i in 1:n.chains) {
-#            model[i] <- write.jags.model(model0, modnam[i])
-#        }
-#        on.exit(try(clean.jags.model(model)))
-#    } else {
-#        if (length(model) != n.chains)
-#            stop("provide 'n.chains' number of model files")
-#    }
 
     ## common data to cluster
     cldata <- list(data=data, params=params, model=model, inits=inits)
