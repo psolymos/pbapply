@@ -32,7 +32,7 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
 #                names(z) <- varnames(initsval)
 #                z})
             inits <- jags.fit(data, params, model, inits=NULL, n.chains,
-                n.adapt=0, n.update=0, n.iter=0)
+                n.adapt=0, n.update=0, n.iter=0)$state()
             seed <- 999*1:n.chains
             for (i in 1:n.chains) {
                 inits[[i]][[".RNG.name"]] <- paste("base::", rng[i], sep="")
