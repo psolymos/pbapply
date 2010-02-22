@@ -41,7 +41,7 @@ This splitting is deterministic (reproducible).
 \code{parLapplySB} and \code{parLapplySLB} evaluates \code{fun} on elements of \code{x} in parallel, similarly to \code{\link[snow]{parLapply}}. \code{parLapplySB} uses size balancing (\code{clusterSplitSB}).
 \code{parLapplySLB} uses size and load balancing. This means that the problem 
 is re-ordered from largest to smallest, and then undeterministic load balancing
-is used (see \code{\link{clusterApplyLB}}). If \code{size} is correct, this
+is used (see \code{\link[snow]{clusterApplyLB}}). If \code{size} is correct, this
 is identical to size balancing. This splitting is non-deterministic (might not be reproducible).
 }
 \value{

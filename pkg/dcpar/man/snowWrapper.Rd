@@ -36,7 +36,7 @@ Character, the name of \code{cldata} as to be assigned to the global environment
 Character, name of package(s). Optionally packages can be loaded onto the cluster. More than one package can be specified as character vector.
 }
   \item{evalq}{
-Character, expressions to evaluate, e.g. for changing global options (passed to \code{\link{clusterEvalQ}}).
+Character, expressions to evaluate, e.g. for changing global options (passed to \code{\link[snow]{clusterEvalQ}}).
 More than one expressions can be specified as character vector.
 }
   \item{balancing}{
