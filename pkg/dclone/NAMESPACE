@@ -47,6 +47,7 @@ S3method("plot", "dcdiag")
 S3method("print", "lambdamax.diag")
 S3method("print", "chisq.diag")
 S3method("plot", "chisq.diag")
+S3method("print", "custommodel")
 
 ## methods for helper functions/classes
 S3method("errlines", "default")
