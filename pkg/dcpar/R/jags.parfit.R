@@ -12,9 +12,11 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
         stop("no need for parallel computing with 1 chain")
     rng <- c("Wichmann-Hill", "Marsaglia-Multicarry",
         "Super-Duper", "Mersenne-Twister")
-    if (n.chains > 4) {
-        if (missing(inits))
-            stop("provide initial values")
+
+    if (n.chains > 4 && missing(inits))
+        stop("provide initial values")
+
+    if (!missing(inits)) {
         if (is.function(inits))
             inits <- lapply(1:n.chains, inits)
         if (length(inits) != n.chains)
@@ -25,19 +27,12 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
             stop("provide different '.RNG.seed' for each chain")
     } else {
         ## generating initial values
-        if (missing(inits)) {
-#            initsval <- suppressWarnings(jags.fit(data, params, model, inits, n.chains,
-#                n.adapt=1, n.iter=1, updated.model=FALSE, ...))
-#            inits <- lapply(lapply(initsval, as.list), function(z) {
-#                names(z) <- varnames(initsval)
-#                z})
-            inits <- jags.fit(data, params, model, inits=NULL, n.chains,
-                n.adapt=0, n.update=0, n.iter=0)$state()
-            seed <- 999*1:n.chains
-            for (i in 1:n.chains) {
-                inits[[i]][[".RNG.name"]] <- paste("base::", rng[i], sep="")
-                inits[[i]][[".RNG.seed"]] <- seed[i]
-            }
+        inits <- jags.fit(data, params, model, inits=NULL, n.chains,
+            n.adapt=0, n.update=0, n.iter=0)$state()
+        seed <- 999*1:n.chains
+        for (i in 1:n.chains) {
+            inits[[i]][[".RNG.name"]] <- paste("base::", rng[i], sep="")
+            inits[[i]][[".RNG.seed"]] <- seed[i]
         }
     }
 
