@@ -1,7 +1,7 @@
 ## this is the new ver with PMLE, but still not intended to be directly user callable
-`singleocc.fit` <-
+`xsingleocc.fit` <-
 function(obs, occ, det, link.occ = "logit", link.det = "logit", penalized = FALSE, auc = FALSE,
-method = c("optim", "dc"), n.clones = 1000, prec = 0.1, inits, ...)
+method = c("optim", "dc"), n.clones = 1, prec = 0.1, inits, ...)
 {
     ## internal funs
     `singleocc.MLE` <-
@@ -60,20 +60,20 @@ method = c("optim", "dc"), n.clones = 1000, prec = 0.1, inits, ...)
     ## BUGS model for 2^3 kinds of link pairs
     mcmcSS.all <- c("model {",
         "for (i in 1:N.sites) {",
-            "Y[i] ~ dbin(p[i], k)",
-            "logit(p.occ[i]) <- inprod(X[i, ], beta[1, ])",
-            "logit(p.det[i]) <- inprod(Z[i, ], theta[1, ])",
-            "probit(p.occ[i]) <- inprod(X[i, ], beta[1, ])",
-            "probit(p.det[i]) <- inprod(Z[i, ], theta[1, ])",
-            "cloglog(p.occ[i]) <- inprod(X[i, ], beta[1, ])",
-            "cloglog(p.det[i]) <- inprod(Z[i, ], theta[1, ])",
-            "p[i] <- p.occ[i] * p.det[i]",
+            "Y[i] ~ dbin(p.det[i] * W[i], k)",
+            "logit(p.occ[i]) <- inprod(X[i, ], beta)",
+            "logit(p.det[i]) <- inprod(Z[i, ], theta)",
+            "probit(p.occ[i]) <- inprod(X[i, ], beta)",
+            "probit(p.det[i]) <- inprod(Z[i, ], theta)",
+            "cloglog(p.occ[i]) <- inprod(X[i, ], beta)",
+            "cloglog(p.det[i]) <- inprod(Z[i, ], theta)",
+            "W[i] ~ dbin(p.occ[i], k)",
         "}",
         "for (j in 1:num.cov.occ) {",
-            "beta[1, j] ~ dnorm(prior.occ[j,1], prior.occ[j,2])",
+            "beta[j] ~ dnorm(prior.occ[j,1], prior.occ[j,2])",
         "}",
         "for (j in 1:num.cov.det) {",
-            "theta[1, j] ~ dnorm(prior.det[j,1], prior.det[j,2])",
+            "theta[j] ~ dnorm(prior.det[j,1], prior.det[j,2])",
         "}",
     "}")
 
@@ -95,15 +95,23 @@ method = c("optim", "dc"), n.clones = 1000, prec = 0.1, inits, ...)
     coef.occ[is.na(coef.occ)] <- 0
     coef.det <- coef(glm.det)
     coef.det[is.na(coef.det)] <- 0
-    if (missing(inits)) {
-        inits <- if (method=="dc")
-            NULL else c(coef.occ, coef.det)
-    }
+
     control.optim <- getOption("occupy.optim.control")
     control.mcmc <- getOption("occupy.mcmc.control")
     opmeth <- getOption("occupy.optim.method")
     pmle.problem <- FALSE
     converged <- c(mle=NA, pmle=NA)
+
+    if (missing(inits)) {
+        if (method=="dc") {
+#            W <- Y
+#            W[sample(which(W==0), floor(sum(W>0)/2))] <- 1
+#            lapply(1:control.mcmc$n.chains, function(i) list(W=W*n.clones))
+            inits <- NULL
+        } else {
+            inits <- c(coef.occ, coef.det)
+        }
+    }
 
     ## MLE from MCMC
     if (method=="dc") {
@@ -122,9 +130,14 @@ method = c("optim", "dc"), n.clones = 1000, prec = 0.1, inits, ...)
 #        model <- mcmcSS.all[incl]
 #        class(model) <- "custommodel"
         model <- dclone:::custommodel(mcmcSS.all, c(excl.occ, excl.det))
-        dat <- list(Y=obs * n.clones, X=occ, Z=det, k=n.clones,
+#        dat <- list(Y=obs * n.clones, X=occ, Z=det, k=n.clones,
+#            N.sites=N.sites, num.cov.occ=num.cov.occ, num.cov.det=num.cov.det,
+#            prior.occ=prior.occ, prior.det=prior.det)
+        dat <- dclone(list(Y=obs, X=occ, Z=det, k=1,
             N.sites=N.sites, num.cov.occ=num.cov.occ, num.cov.det=num.cov.det,
-            prior.occ=prior.occ, prior.det=prior.det)
+            prior.occ=prior.occ, prior.det=prior.det), n.clones,
+            unchanged=c("k","num.cov.occ","num.cov.det","prior.occ","prior.det"), 
+            multiply="N.sites")
         mle.res <- jags.fit(dat, c("beta", "theta"), model, inits,
             n.chains=control.mcmc$n.chains, n.adapt=control.mcmc$n.adapt, 
             n.update=control.mcmc$n.update, n.iter=control.mcmc$n.iter, thin=control.mcmc$thin, ...)
@@ -257,3 +270,5 @@ method = c("optim", "dc"), n.clones = 1000, prec = 0.1, inits, ...)
         out$auc <- auc.out
     return(out)
 }
+
+ m <- xsingleocc(y.obs ~ x1 | x1+x3, rdata[1:50,], method="dc")
