@@ -7,7 +7,7 @@
     if (is.null(getOption("occupy.optim.method")))
         options("occupy.optim.method"="BFGS")
     if (is.null(getOption("occupy.mcmc.control")))
-        options("occupy.mcmc.control"=list(n.chains = 3, n.adapt = 1000, n.update = 4000, thin = 1, n.iter = 5000))
+        options("occupy.mcmc.control"=list(n.chains = 3, n.adapt = 1000, n.update = 4000, thin = 1, n.iter = 5000, prec = 0.1))
     invisible(NULL)
 }
 

@@ -12,7 +12,7 @@ as described by Lele et al. (2010).
 }
 \usage{
 singleocc(formula, data, link = "logit", penalized = FALSE, 
-method = c("optim", "dc"), n.clones = 1000, 
+method = c("optim", "dc"), n.clones = 1, inits,
 subset, na.action = na.omit, model = TRUE, x = FALSE, ...)
 }
 \arguments{
@@ -39,6 +39,9 @@ Numerical optimization method to be used. See Details.
 }
   \item{n.clones}{
 Number of clones, if \code{method = "dc"}.
+}
+  \item{inits}{
+Optionally, initial values for optimization methods.
 }
   \item{subset}{
 An optional vector specifying a subset of observations to be used in the fitting process.

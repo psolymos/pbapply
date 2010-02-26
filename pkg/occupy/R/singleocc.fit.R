@@ -1,7 +1,7 @@
 ## this is the new ver with PMLE, but still not intended to be directly user callable
-`xsingleocc.fit` <-
+`singleocc.fit` <-
 function(obs, occ, det, link.occ = "logit", link.det = "logit", penalized = FALSE, auc = FALSE,
-method = c("optim", "dc"), n.clones = 1, prec = 0.1, inits, ...)
+method = c("optim", "dc"), n.clones=1, inits, ...)
 {
     ## internal funs
     `singleocc.MLE` <-
@@ -60,14 +60,14 @@ method = c("optim", "dc"), n.clones = 1, prec = 0.1, inits, ...)
     ## BUGS model for 2^3 kinds of link pairs
     mcmcSS.all <- c("model {",
         "for (i in 1:N.sites) {",
-            "Y[i] ~ dbin(p.det[i] * W[i], k)",
+            "Y[i] ~ dbern(p.det[i] * W[i])",
             "logit(p.occ[i]) <- inprod(X[i, ], beta)",
             "logit(p.det[i]) <- inprod(Z[i, ], theta)",
             "probit(p.occ[i]) <- inprod(X[i, ], beta)",
             "probit(p.det[i]) <- inprod(Z[i, ], theta)",
             "cloglog(p.occ[i]) <- inprod(X[i, ], beta)",
             "cloglog(p.det[i]) <- inprod(Z[i, ], theta)",
-            "W[i] ~ dbin(p.occ[i], k)",
+            "W[i] ~ dbern(p.occ[i])",
         "}",
         "for (j in 1:num.cov.occ) {",
             "beta[j] ~ dnorm(prior.occ[j,1], prior.occ[j,2])",
@@ -116,8 +116,8 @@ method = c("optim", "dc"), n.clones = 1, prec = 0.1, inits, ...)
     ## MLE from MCMC
     if (method=="dc") {
         ## prior specifications
-        prior.occ <- cbind(coef.occ, rep(prec, length(coef.occ)))
-        prior.det <- cbind(coef.det, rep(prec, length(coef.det)))
+        prior.occ <- cbind(coef.occ, rep(control.mcmc$prec, length(coef.occ)))
+        prior.det <- cbind(coef.det, rep(control.mcmc$prec, length(coef.det)))
         excl.occ <- switch(link.occ,
             "logit"=c(6,8),
             "probit"=c(4,8),
@@ -133,18 +133,18 @@ method = c("optim", "dc"), n.clones = 1, prec = 0.1, inits, ...)
 #        dat <- list(Y=obs * n.clones, X=occ, Z=det, k=n.clones,
 #            N.sites=N.sites, num.cov.occ=num.cov.occ, num.cov.det=num.cov.det,
 #            prior.occ=prior.occ, prior.det=prior.det)
-        dat <- dclone(list(Y=obs, X=occ, Z=det, k=1,
+        dat <- dclone(list(Y=obs, X=occ, Z=det,
             N.sites=N.sites, num.cov.occ=num.cov.occ, num.cov.det=num.cov.det,
             prior.occ=prior.occ, prior.det=prior.det), n.clones,
-            unchanged=c("k","num.cov.occ","num.cov.det","prior.occ","prior.det"), 
+            unchanged=c("num.cov.occ","num.cov.det","prior.occ","prior.det"), 
             multiply="N.sites")
         mle.res <- jags.fit(dat, c("beta", "theta"), model, inits,
             n.chains=control.mcmc$n.chains, n.adapt=control.mcmc$n.adapt, 
             n.update=control.mcmc$n.update, n.iter=control.mcmc$n.iter, thin=control.mcmc$thin, ...)
-        if (!is.null(n.clones) && n.clones > 1) {
-            attr(mle.res, "n.clones") <- n.clones
-            class(mle.res) <- c("mcmc.list.dc", class(mle.res))
-        }
+#        if (!is.null(n.clones) && n.clones > 1) {
+#            attr(mle.res, "n.clones") <- n.clones
+#            class(mle.res) <- c("mcmc.list.dc", class(mle.res))
+#        }
     }
     ## MLE from optim
     if (method=="optim") {
@@ -225,7 +225,7 @@ method = c("optim", "dc"), n.clones = 1, prec = 0.1, inits, ...)
         gelman.diag(mle.res)$mpsrf < 1.1 else mle.res$convergence == 0
     if (penalized)
         converged[2] <- pmle.res$convergence == 0
-    if (any(!converged==FALSE))
+    if (any(converged[!is.na(converged)]==FALSE))
         warning("model did not converge\n")
 
     ## separating occ and det results
@@ -270,5 +270,3 @@ method = c("optim", "dc"), n.clones = 1, prec = 0.1, inits, ...)
         out$auc <- auc.out
     return(out)
 }
-
- m <- xsingleocc(y.obs ~ x1 | x1+x3, rdata[1:50,], method="dc")

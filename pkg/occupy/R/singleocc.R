@@ -1,6 +1,6 @@
-`xsingleocc` <-
+`singleocc` <-
 function (formula, data, link = "logit", penalized = FALSE,
-    method = c("optim", "dc"), n.clones = 1000, 
+    method = c("optim", "dc"), n.clones=1, inits,
     subset, na.action = na.omit, model = TRUE, x = FALSE, ...)
 {
     ## evaluate formula and data
@@ -68,8 +68,8 @@ function (formula, data, link = "logit", penalized = FALSE,
     ## method
     method <- match.arg(method)
     ## fit
-    out <- xsingleocc.fit(Y, X, Z, link.occ, link.det, penalized = penalized, auc = FALSE, 
-        method=method, n.clones=n.clones, prec=0.1, ...)
+    out <- singleocc.fit(Y, X, Z, link.occ, link.det, penalized = penalized, auc = FALSE, 
+        method=method, n.clones=n.clones, inits=inits, ...)
     out$call = match.call()
     out$formula <- list(occ = ffocc, det = ffdet, full = ff)
     out$terms <- list(occ = mtX, det = mtZ, full = mt)
