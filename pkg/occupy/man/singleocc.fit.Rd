@@ -2,17 +2,19 @@
 \name{singleocc.fit}
 \Rdversion{1.1}
 \alias{singleocc.fit}
+\alias{jags.engine}
 \title{
 Internal Function to Fit a Single Visit ZIB Model
 }
 \description{
-This functions is used internally by \code{\link{singleocc}}.
+These functions are used internally by \code{\link{singleocc}}.
 It is normally not called directly but can be more efficient where the response vector and design mattrices
 have already been calculated.
 }
 \usage{
 singleocc.fit(obs, occ, det, link.occ = "logit", link.det = "logit", penalized = FALSE, auc = FALSE,
-method = c("optim", "dc"), n.clones = 1, inits, ...)
+method = c("optim", "dc"), n.clones = 1, inits, prec = 0.1, cl = NULL, ...)
+jags.engine(data, params, model, inits=NULL, cl=NULL, ...)
 }
 \arguments{
   \item{obs}{
@@ -45,12 +47,23 @@ Number of clones, if \code{method = "dc"}.
   \item{inits}{
 Optionally, initial values for optimization methods.
 }
+  \item{prec}{
+Prior precision if \code{method = "dc"}.
+}
+  \item{data, params, model}{
+Arguments passed to \code{\link[dclone]{jags.fit}}.
+}
+  \item{cl}{
+A cluster object if parallel chains are to be computed for \code{method = "dc"}.
+}
   \item{\dots}{
 Other arguments passed to the functions (e.g. MCMC settings passed to function \code{\link[dclone]{jags.fit}}).
 }
 }
 \value{
-A fitted model object (but without a class attribute).
+\code{singleocc.fit} returns a fitted model object (but without a class attribute).
+
+\code{jags.engine} returns an MCMC list object.
 }
 \references{
 Lele, S.R., M. Moreno and E. Bayne, 2010.

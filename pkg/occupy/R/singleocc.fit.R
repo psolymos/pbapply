@@ -1,7 +1,7 @@
 ## this is the new ver with PMLE, but still not intended to be directly user callable
 `singleocc.fit` <-
 function(obs, occ, det, link.occ = "logit", link.det = "logit", penalized = FALSE, auc = FALSE,
-method = c("optim", "dc"), n.clones=1, inits, ...)
+method = c("optim", "dc"), n.clones=1, inits, prec=0.1, cl=NULL, ...)
 {
     ## internal funs
     `singleocc.MLE` <-
@@ -97,27 +97,21 @@ method = c("optim", "dc"), n.clones=1, inits, ...)
     coef.det[is.na(coef.det)] <- 0
 
     control.optim <- getOption("occupy.optim.control")
-    control.mcmc <- getOption("occupy.mcmc.control")
+#    control.mcmc <- getOption("occupy.mcmc.control")
     opmeth <- getOption("occupy.optim.method")
     pmle.problem <- FALSE
     converged <- c(mle=NA, pmle=NA)
 
     if (missing(inits)) {
-        if (method=="dc") {
-#            W <- Y
-#            W[sample(which(W==0), floor(sum(W>0)/2))] <- 1
-#            lapply(1:control.mcmc$n.chains, function(i) list(W=W*n.clones))
-            inits <- NULL
-        } else {
-            inits <- c(coef.occ, coef.det)
-        }
+        inits <- if (method=="dc")
+            NULL else c(coef.occ, coef.det)
     }
 
     ## MLE from MCMC
     if (method=="dc") {
         ## prior specifications
-        prior.occ <- cbind(coef.occ, rep(control.mcmc$prec, length(coef.occ)))
-        prior.det <- cbind(coef.det, rep(control.mcmc$prec, length(coef.det)))
+        prior.occ <- cbind(coef.occ, rep(prec, length(coef.occ)))
+        prior.det <- cbind(coef.det, rep(prec, length(coef.det)))
         excl.occ <- switch(link.occ,
             "logit"=c(6,8),
             "probit"=c(4,8),
@@ -126,25 +120,18 @@ method = c("optim", "dc"), n.clones=1, inits, ...)
             "logit"=c(7,9),
             "probit"=c(5,9),
             "cloglog"=c(5,7))
-#        incl <- (1:length(mcmcSS.all))[!(1:length(mcmcSS.all) %in% c(excl.occ, excl.det))]
-#        model <- mcmcSS.all[incl]
-#        class(model) <- "custommodel"
         model <- dclone:::custommodel(mcmcSS.all, c(excl.occ, excl.det))
-#        dat <- list(Y=obs * n.clones, X=occ, Z=det, k=n.clones,
-#            N.sites=N.sites, num.cov.occ=num.cov.occ, num.cov.det=num.cov.det,
-#            prior.occ=prior.occ, prior.det=prior.det)
         dat <- dclone(list(Y=obs, X=occ, Z=det,
             N.sites=N.sites, num.cov.occ=num.cov.occ, num.cov.det=num.cov.det,
             prior.occ=prior.occ, prior.det=prior.det), n.clones,
             unchanged=c("num.cov.occ","num.cov.det","prior.occ","prior.det"), 
             multiply="N.sites")
-        mle.res <- jags.fit(dat, c("beta", "theta"), model, inits,
-            n.chains=control.mcmc$n.chains, n.adapt=control.mcmc$n.adapt, 
-            n.update=control.mcmc$n.update, n.iter=control.mcmc$n.iter, thin=control.mcmc$thin, ...)
-#        if (!is.null(n.clones) && n.clones > 1) {
-#            attr(mle.res, "n.clones") <- n.clones
-#            class(mle.res) <- c("mcmc.list.dc", class(mle.res))
-#        }
+        ## old specification, depending on options
+#        mle.res <- jags.fit(dat, c("beta", "theta"), model, inits,
+#            n.chains=control.mcmc$n.chains, n.adapt=control.mcmc$n.adapt, 
+#            n.update=control.mcmc$n.update, n.iter=control.mcmc$n.iter, thin=control.mcmc$thin, ...)
+        ## new specification
+        mle.res <- jags.engine(dat, c("beta", "theta"), model, inits, cl=cl, ...)
     }
     ## MLE from optim
     if (method=="optim") {
@@ -177,7 +164,6 @@ method = c("optim", "dc"), n.clones=1, inits, ...)
             result <- mle.res
             penalized <- FALSE
             pmle.problem <- TRUE
-#            attr(penalized, "penalized.in.call") <- TRUE
             warning("negative variance values in optim, penalization not used")
         } else {
             vv.occ <- sqrt(sum(vv[1:num.cov.occ]))

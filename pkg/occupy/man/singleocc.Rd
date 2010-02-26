@@ -13,7 +13,7 @@ as described by Lele et al. (2010).
 \usage{
 singleocc(formula, data, link = "logit", penalized = FALSE, 
 method = c("optim", "dc"), n.clones = 1, inits,
-subset, na.action = na.omit, model = TRUE, x = FALSE, ...)
+subset, na.action = na.omit, model = TRUE, x = FALSE, cl = NULL, ...)
 }
 \arguments{
   \item{formula}{
@@ -55,6 +55,9 @@ A logical value indicating whether model frame should be included as a component
   \item{x}{
 Logical values indicating whether the response vector and model matrix used in the 
 fitting process should be returned as components of the returned value.
+}
+  \item{cl}{
+A cluster object if parallel chains are to be computed for \code{method = "dc"}.
 }
   \item{\dots}{
 Other arguments passed to the functions (e.g. MCMC settings passed to function \code{\link[dclone]{jags.fit}}).

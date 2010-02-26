@@ -1,5 +1,6 @@
 ## main occupy functions
-export("singleocc", "singleocc.fit")
+export("singleocc", "singleocc.fit",
+    "jags.engine")
 
 ## model selection helper functions
 export("AUC", "rocplot")
