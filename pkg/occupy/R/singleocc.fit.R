@@ -1,8 +1,11 @@
 ## this is the new ver with PMLE, but still not intended to be directly user callable
 `singleocc.fit` <-
-function(obs, occ, det, link.occ = "logit", link.det = "logit", penalized = FALSE, auc = FALSE,
+function(Y, X, Z, link.occ = "logit", link.det = "logit", penalized = FALSE, auc = FALSE,
 method = c("optim", "dc"), n.clones=1, inits, prec=0.1, cl=NULL, ...)
 {
+    obs <- Y
+    occ <- X
+    det <- Z
     ## internal funs
     `singleocc.MLE` <-
     function(parameters, observations, X, Z, link1, link2)
@@ -244,7 +247,7 @@ method = c("optim", "dc"), n.clones=1, inits, prec=0.1, cl=NULL, ...)
         n = N.sites, 
         df.null = N.sites - 2,
         df.residual = N.sites - num.cov.occ - num.cov.det, 
-        start = inits, 
+        inits = inits, 
         phi = as.numeric(phi),
         delta = as.numeric(delta), 
         loglik = loglik, 
