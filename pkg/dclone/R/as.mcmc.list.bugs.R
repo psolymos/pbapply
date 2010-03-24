@@ -7,9 +7,15 @@ function(x, DIC = FALSE, ...)
     if (!DIC)
         sarr <- sarr[,,dimnames(sarr)[[3]] != "deviance", drop=FALSE]
     ## rearranging the array into coda mcmc.list format
-    res <- lapply(1:x$n.chains, function(i) sarr[,i,])
+    res <- lapply(1:x$n.chains, function(i) sarr[,i,, drop=FALSE])
+    DIM <- dim(res[[1]])[-2]
+    DIMNAMES <- dimnames(res[[1]])[-2]
+    for (i in 1:x$n.chains) {
+        dim(res[[i]]) <- DIM
+        dimnames(res[[i]]) <- DIMNAMES
+    }
     ## retrieve ts attributes
-    niter <- nrow(res[[1]])
+    niter <- NROW(res[[1]])
     start <- x$n.burnin+1
     end <- x$n.iter
     thin <- x$n.thin
