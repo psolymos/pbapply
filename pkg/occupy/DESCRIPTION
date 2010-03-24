@@ -5,8 +5,8 @@ Version: 1.0-0
 Date: 2010-01-05
 Author: Peter Solymos, Monica Moreno
 Maintainer: Peter Solymos <solymos@ualberta.ca>
-Depends: R (>= 1.7.0), nlme, dclone
-Suggests: snow, dcpar
+Depends: R (>= 1.7.0), nlme
+Suggests: dclone, snow, dcpar
 Description: The package implements zero inflated binomial models
   for single visit site occupancy data when the probability of detection
   is less than one. Provides hands-on formula interface with inferences

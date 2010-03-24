@@ -11,7 +11,7 @@ importFrom("stats",
     "case.names", "drop.scope", "drop1", "fitted",
     "logLik", "model.matrix", "terms",
     "update.formula", "update", "vcov", "variable.names")
-importFrom("dclone")
+#importFrom("dclone")
 
 ## methods for singleocc class
 S3method("print", "singleocc")
