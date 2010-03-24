@@ -12,9 +12,8 @@ and WinBUGS and OpenBUGS.
 }
 \usage{
 bugs.fit(data, params, model, inits = NULL, 
-format = c("mcmc.list", "bugs"), program = c("winbugs", "openbugs"), 
-DIC = FALSE, bugs.seed = NULL, dir = getwd(), ...)
-\method{as.mcmc.list}{bugs}(x, DIC = FALSE, ...)
+format = c("mcmc.list", "bugs"), program = c("winbugs", "openbugs"), ...)
+\method{as.mcmc.list}{bugs}(x, ...)
 }
 \arguments{
   \item{data}{
@@ -37,20 +36,8 @@ and \code{format = "mcmc.list"}, thus \code{n.thin = 1} is advised.)
   \item{program}{
 The program to use, not case sensitive.
 \code{winbugs} calls the function \code{\link[R2WinBUGS]{bugs}},
-\code{openbugs} calls the function \code{\link{openbugs.seed}} and requires the CRAN package \pkg{BRugs}.
+\code{openbugs} calls the function \code{\link[R2WinBUGS]{openbugs}} and requires the CRAN package \pkg{BRugs}.
 \code{model} can be a function or 'custommodel' object for \code{program = "openbugs"}, too.
-}
-  \item{DIC}{
-Logical, if deviance information criterion should be computed. (Needed for efficiency reasons, since it is
-opposite to the \code{bugs}/\code{openbugs} defaults, but if \code{format = "mcmc.list"} deviance is
-silently ignored.)
-}
-  \item{bugs.seed}{
-Random seed for WinBUGS and OpenBUGS (default is no seed).
-}
-  \item{dir}{
-Identical to \code{working.directory} argument in the \code{bugs}/\code{openbugs} call for setting working directory.
-(Needed for stability, because \code{openbugs} cant't always handle its default \code{NULL} value (a bug?).)
 }
   \item{x}{
 A fitted 'bugs' object.
@@ -78,7 +65,7 @@ and \code{format = "mcmc.list"}, thus \code{n.thin = 1} is advised in such cases
 \enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \seealso{
-Underlying functions: \code{\link{openbugs.seed}}, \code{\link[R2WinBUGS]{bugs}}
+Underlying functions: \code{\link[R2WinBUGS]{openbugs}}, \code{\link[R2WinBUGS]{bugs}}
 
 Methods: \code{\link{dcsd}}, \code{\link{confint.mcmc.list.dc}}, 
 \code{\link{coef.mcmc.list}}, \code{\link{quantile.mcmc.list}}, \code{\link{vcov.mcmc.list.dc}}

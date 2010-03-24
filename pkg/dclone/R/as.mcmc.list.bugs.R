@@ -1,11 +1,11 @@
 as.mcmc.list.bugs <-
-function(x, DIC = FALSE, ...)
+function(x, ...)
 {
     ## retrieve coda samples
     sarr <- x$sims.array
     ## exclude deviance monitor
-    if (!DIC)
-        sarr <- sarr[,,dimnames(sarr)[[3]] != "deviance", drop=FALSE]
+#    if (!DIC)
+#        sarr <- sarr[,,dimnames(sarr)[[3]] != "deviance", drop=FALSE]
     ## rearranging the array into coda mcmc.list format
     res <- lapply(1:x$n.chains, function(i) sarr[,i,, drop=FALSE])
     DIM <- dim(res[[1]])[-2]

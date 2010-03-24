@@ -1,6 +1,6 @@
 bugs.fit <-
 function(data, params, model, inits=NULL, format=c("mcmc.list", "bugs"), 
-program=c("winbugs", "openbugs"), DIC=FALSE, bugs.seed=NULL, dir=getwd(), ...)
+program=c("winbugs", "openbugs"), ...)
 {
     ## not case sensitive evaluation of program arg
     program <- match.arg(tolower(program), c("winbugs", "openbugs"))
@@ -21,16 +21,16 @@ program=c("winbugs", "openbugs"), DIC=FALSE, bugs.seed=NULL, dir=getwd(), ...)
     ## WinBUGS evaluation is simple
     ## only default behavour is changed for args
     if (program == "winbugs") {
-        res <- bugs(data, inits, params, model, DIC=DIC, codaPkg=FALSE, working.directory=dir, bugs.seed=bugs.seed, ...)
+        res <- bugs(data, inits, params, model, codaPkg=FALSE, ...)
     } else {
     ## OpenBUGS needs model file, and can't provide mcmc.list as output
     ## thin != 1 can cause problems in conversion
-        res <- openbugs.seed(data, inits, params, model, DIC=DIC, working.directory=dir, bugs.seed=bugs.seed, ...)
+        res <- openbugs(data, inits, params, model, ...)
     }
     ## converting bugs objects into mcmc.list
     format <- match.arg(format)
     if (format == "mcmc.list")
-        res <- as.mcmc.list(res, DIC=DIC)
+        res <- dclone:::as.mcmc.list.bugs(res)
     ## adding n.clones attribute, and class attr if mcmc.list
     if (!is.null(n.clones) && n.clones > 1) {
         attr(res, "n.clones") <- n.clones
@@ -39,4 +39,3 @@ program=c("winbugs", "openbugs"), DIC=FALSE, bugs.seed=NULL, dir=getwd(), ...)
     }
     res
 }
-
