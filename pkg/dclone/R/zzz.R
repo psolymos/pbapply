@@ -11,6 +11,8 @@
         options("dclone.diag"=0.05)
     if (is.null(getOption("dclone.verbose")))
         options("dclone.verbose"=1)
+    if (is.null(getOption("dclone.LB")))
+        options("dcpar.LB"=FALSE)
     invisible(NULL)
 }
 
@@ -20,6 +22,7 @@
     options("dclone.autoburnin"=NULL)
     options("dclone.diag"=NULL)
     options("dclone.verbose"=NULL)
+    options("dclone.LB"=NULL)
     invisible(NULL)
 }
 

@@ -12,6 +12,14 @@ export("dclone", "dcdim",
        "dcdiag", "extractdcdiag", 
        "lambdamax.diag", "chisq.diag")
 
+## parallel functions
+export("jags.parfit", "dc.parfit",
+       "snowWrapper", 
+       "clusterSize", "plotClusterSize",
+       "clusterSplitSB", 
+       "clusterSeed",
+       "parLapplySB", "parLapplySLB")
+
 ## graphical helper functions
 export("errlines")
 

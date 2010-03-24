@@ -1,7 +1,7 @@
 Package: dclone
 Type: Package
 Title: Data Cloning and MCMC Tools for Maximum Likelihood Methods
-Version: 1.0-5
+Version: 1.0-6
 Date: 2010-01-25
 Author: Peter Solymos
 Maintainer: Peter Solymos <solymos@ualberta.ca>
@@ -9,9 +9,10 @@ Description: Low level functions for implementing
     maximum likelihood estimating procedures for 
     complex models using data cloning and Bayesian
     Markov chain Monte Carlo methods with support 
-    for JAGS, WinBUGS and OpenBUGS.
+    for JAGS, WinBUGS and OpenBUGS. Parallel
+    computing with JAGS is supported.
 License: GPL-2
-Depends: R (>= 2.7.0), rjags, coda (>= 0.13), R2WinBUGS
+Depends: R (>= 2.7.0), rjags, coda (>= 0.13), R2WinBUGS, snow
 Suggests: BRugs
 Imports: stats
 SystemRequirements: jags (== 1.0.3), WinBUGS (== 1.4)
