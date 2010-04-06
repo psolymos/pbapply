@@ -82,9 +82,13 @@ ecological models using Bayesian Markov chain Monte Carlo  methods.
 implementation is based on many discussions with Khurram Nadeem and Subhash Lele.
 }
 \seealso{
-Data cloning: \code{\link{dclone}}. \
+Data cloning: \code{\link{dclone}}.
+
+Parallel computations: \code{\link{dc.parfit}}
+
 Model fitting: \code{\link{jags.fit}}, \code{\link{bugs.fit}}
-Convergence diagnostics: \code{\link{dctable}}
+
+Convergence diagnostics: \code{\link{dctable}}, \code{\link{dcdiag}}
 }
 \examples{
 \dontrun{
