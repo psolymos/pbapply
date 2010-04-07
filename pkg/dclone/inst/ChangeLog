@@ -1,9 +1,15 @@
 dclone package version history
 
+Version 1.0-7, April 7, 2010
+    *
+
 Version 1.0-6, March 14, 2010
     * openbugs.seed removed.
     * bugs.fit fixed, several arguments removed.
     * dcpar package merged with dclone.
+    * WinBUGS/OpenBUGS related revision done:
+      as.mcmc.list.bugs and dc.fit now works properly.
+    * dclone.ts removed, use dcdim instead.
 
 Version 1.0-5, January 25, 2010
     * drop and perm arguments in dcdim.
