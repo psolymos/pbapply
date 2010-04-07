@@ -48,8 +48,6 @@ The \code{dc.parfit} is a parallel computing version of \code{\link[dclone]{dc.f
 The vector \code{n.clones} is used to determine size balancing. If load balancing is also desired 
 besides of size balancing (e.g. due to unequal performance of the workers, the option \code{"dcpar.LB"} should be set to \code{TRUE} (by using \code{options("dcpar.LB" = TRUE)}). By default, the \code{"dcpar.LB"}
 option is \code{FALSE} for reproducibility reasons.
-
-Note, \code{falvour = "bugs"} has not been tested!
 }
 \value{
 An object inheriting from the class 'mcmc.list'.

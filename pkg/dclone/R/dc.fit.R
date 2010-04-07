@@ -5,6 +5,8 @@ update=NULL, updatefun=NULL, initsfun=NULL, flavour = c("jags", "bugs"), ...)
 {
     ## initail evals
     flavour <- match.arg(flavour)
+    if (missing(n.clones))
+        stop("'n.clones' argument must be provided")
     if (identical(n.clones, 1))
         stop("'n.clones = 1' gives the Bayesian answer, no need for DC")
     if (is.environment(data))
@@ -13,7 +15,6 @@ update=NULL, updatefun=NULL, initsfun=NULL, flavour = c("jags", "bugs"), ...)
     k <- n.clones[order(n.clones)]
     k <- unique(k)
     times <- length(k)
-#    dcoptions <- getOption("dclone")
     rhat.crit <- getOption("dclone.rhat")
     trace <- getOption("dclone.verbose")
     ## evaluate updating
@@ -41,7 +42,7 @@ update=NULL, updatefun=NULL, initsfun=NULL, flavour = c("jags", "bugs"), ...)
         mod <- if (flavour == "jags") {
             jags.fit(jdat, params, model, inits, ...)
         } else {
-            bugs.fit(jdat, params, model, inits, format="mcmc.list", DIC=FALSE, ...)
+            bugs.fit(jdat, params, model, inits, format="mcmc.list", ...)
         }
         ## dctable evaluation
         if (i == 1) {

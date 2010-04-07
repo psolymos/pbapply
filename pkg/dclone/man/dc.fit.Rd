@@ -155,7 +155,7 @@ summary(dcmod)
 ## data and model taken from Ponciano et al. 2009
 ## Ecology 90, 356-362.
 paurelia <- c(17,29,39,63,185,258,267,392,510,570,650,560,575,650,550,480,520,500)
-dat <- list(ncl=1, n=length(paurelia), Y=as.ts(paurelia))
+dat <- list(ncl=1, n=length(paurelia), Y=dcdim(data.matrix(paurelia)))
 beverton.holt <- function() {
     for (k in 1:ncl) {
         for(i in 2:(n+1)){
@@ -182,6 +182,29 @@ mod <- dc.fit(dat, c("lambda","beta","sigma"), beverton.holt,
 ##   lambda = 2.274
 ##   sigma  = 0.1274
 summary(mod)
+
+## Using WinBUGS/OpenBUGS
+data(schools)
+dat <- list(J = nrow(schools), y = schools$estimate, sigma.y = schools$sd)
+bugs.model <- function(){
+       for (j in 1:J){
+         y[j] ~ dnorm (theta[j], tau.y[j])
+         theta[j] ~ dnorm (mu.theta, tau.theta)
+         tau.y[j] <- pow(sigma.y[j], -2)
+       }
+       mu.theta ~ dnorm (0.0, 1.0E-6)
+       tau.theta <- pow(sigma.theta, -2)
+       sigma.theta ~ dunif (0, 1000)
+     }  
+inits <- function(){
+    list(theta=rnorm(nrow(schools), 0, 100), mu.theta=rnorm(1, 0, 100),
+         sigma.theta=runif(1, 0, 100))
+}
+param <- c("mu.theta", "sigma.theta")
+sim2 <- dc.fit(dat, param, bugs.model, n.clones=1:2, 
+    flavour="bugs", program="WinBUGS", multiply="J")
+sim3 <- dc.fit(dat, param, bugs.model, n.clones=1:2, 
+    flavour="bugs", program="OpenBUGS", multiply="J")
 }
 }
 \keyword{ models }

@@ -20,10 +20,10 @@ function(x, ...)
     end <- x$n.iter
     thin <- x$n.thin
     nobs <- floor((end - start)/thin + 1)
-    ## NOTE: thin != 1 values can cause problems
-    ## error message produced if this is the case
-    if (niter < nobs) 
-        stop("can't coerce 'bugs' object as 'mcmc.list',\nconsider refitting the model with 'n.thin = 1'")
+    ## some tweaking for OpenBUGS
+    if (niter < nobs) {
+        start <- start + thin - 1
+    }
     ## makes mcmc objects
     res <- lapply(res, function(z) mcmc(data = z,
         start = start, end = end, thin = thin))

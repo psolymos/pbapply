@@ -30,8 +30,7 @@ Optional specification of initial values in the form of a list or a function (se
 If \code{NULL}, initial values will be generated automatically. It is an error to supply an initial value for an observed node.
 }
   \item{format}{
-Required output format. (Note that default behaviour of \code{n.thin} can cause problems when \code{program = "openbugs"}
-and \code{format = "mcmc.list"}, thus \code{n.thin = 1} is advised.)
+Required output format.
 }
   \item{program}{
 The program to use, not case sensitive.
@@ -57,9 +56,8 @@ and \eqn{R_{hat}} values (as returned by \code{\link[coda]{gelman.diag}}).
 In this case, printing is not changed, but the number of clones used is attached as attribute
 and can be retrieved by the function \code{\link{nclones}}.
 
-The function \code{as.mcmc.list.bugs} converts a 'bugs' object into 'mcmc.list'.
-Default behaviour of \code{n.thin} can cause problems in conversion when \code{program = "openbugs"}
-and \code{format = "mcmc.list"}, thus \code{n.thin = 1} is advised in such cases.
+The function \code{as.mcmc.list.bugs} converts a 'bugs' object into 'mcmc.list' and retrieves
+data cloning information as well.
 }
 \author{
 \enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
