@@ -12,7 +12,7 @@
     if (is.null(getOption("dclone.verbose")))
         options("dclone.verbose"=1)
     if (is.null(getOption("dclone.LB")))
-        options("dcpar.LB"=FALSE)
+        options("dclone.LB"=FALSE)
     invisible(NULL)
 }
 
