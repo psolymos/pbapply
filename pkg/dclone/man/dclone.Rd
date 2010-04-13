@@ -4,7 +4,6 @@
 \alias{dclone}
 \alias{dclone.default}
 \alias{dclone.list}
-\alias{dclone.ts}
 \alias{dclone.dcdim}
 \alias{dcdim}
 \title{
@@ -17,7 +16,6 @@ leaving the original structure of the object intact (in most of the cases).
 \usage{
 dclone(x, n.clones=1, ...)
 \method{dclone}{default}(x, n.clones = 1, attrib=TRUE, ...)
-\method{dclone}{ts}(x, n.clones = 1, attrib=TRUE, ...)
 \method{dclone}{dcdim}(x, n.clones = 1, attrib=TRUE, ...)
 \method{dclone}{list}(x, n.clones = 1, 
 multiply = NULL, unchanged = NULL, attrib=TRUE, ...)
@@ -63,8 +61,7 @@ were more samples.
 
 (4) Add dimension: under specific circumstances, it is easier to add another dimension for clones,
 but othervise repeat the observations (e.g. in case of time series, or for addressing special
-indexing conventions in the \code{BUGS} code, see examples for \code{dclone.ts}, \code{dclone.dcdim}
-and \code{dcdim}).
+indexing conventions in the \code{BUGS} code, see examples \code{dcdim} and \code{dclone.dcdim}).
 }
 \value{
 An object with class attributes \code{"dclone"} plus the original one(s).
@@ -108,8 +105,8 @@ dclone(l, 2, multiply = "n", unchanged = "p")
 ## effect of dcdim
 l$y <- dcdim(l$y)
 dclone(l, 2, multiply = "n", unchanged = "p")
-## time series
-z <- as.ts(rnorm(10))
-dclone(z, 2)
+## time series like usage of dcdim
+z <- data.matrix(rnorm(10))
+dclone(dcdim(z), 2)
 }
 \keyword{ manip }
