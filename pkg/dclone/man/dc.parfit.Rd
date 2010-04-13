@@ -96,6 +96,31 @@ pdcm <- dc.parfit(cl, dat, "beta", glm.model, n.clones=k, multiply="n", unchange
 summary(dcm)
 summary(pdcm)
 stopCluster(cl)
+
+## Using WinBUGS/OpenBUGS
+data(schools)
+dat <- list(J = nrow(schools), y = schools$estimate, sigma.y = schools$sd)
+bugs.model <- function(){
+       for (j in 1:J){
+         y[j] ~ dnorm (theta[j], tau.y[j])
+         theta[j] ~ dnorm (mu.theta, tau.theta)
+         tau.y[j] <- pow(sigma.y[j], -2)
+       }
+       mu.theta ~ dnorm (0.0, 1.0E-6)
+       tau.theta <- pow(sigma.theta, -2)
+       sigma.theta ~ dunif (0, 1000)
+     }  
+inits <- function(){
+    list(theta=rnorm(nrow(schools), 0, 100), mu.theta=rnorm(1, 0, 100),
+         sigma.theta=runif(1, 0, 100))
+}
+param <- c("mu.theta", "sigma.theta")
+cl <- makeCluster(2, type = "SOCK")
+sim2 <- dc.parfit(cl, dat, param, bugs.model, n.clones=1:2, 
+    flavour="bugs", program="WinBUGS", multiply="J")
+sim3 <- dc.parfit(cl, dat, param, bugs.model, n.clones=1:2, 
+    flavour="bugs", program="OpenBUGS", multiply="J")
+stopCluster(cl)
 }
 }
 \keyword{ models }
