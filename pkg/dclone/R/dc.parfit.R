@@ -1,9 +1,15 @@
 dc.parfit <- 
-function(cl, data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL, ...)
+function(cl, data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL,
+flavour = c("jags", "bugs"), ...)
 {
+    ## initail evals
     if (!inherits(cl, "cluster"))
         stop("'cl' must be a 'cluster' object")
-    ## initail evals
+    flavour <- match.arg(flavour)
+    if (flavour == "bugs")
+        stop("flavour = \"bugs\" not yet implemented")
+    if (missing(n.clones))
+        stop("'n.clones' argument must be provided")
     if (identical(n.clones, 1))
         stop("'n.clones = 1' gives the Bayesian answer, no need for DC")
     if (is.environment(data))
@@ -35,12 +41,25 @@ function(cl, data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL
         flush.console()
     }
     ## parallel function
+#    dcparallel <- function(i, ...) {
+#        jdat <- dclone(cldata$data, i, multiply=cldata$multiply, unchanged=cldata$unchanged)
+#        mod <- jags.fit(data=jdat, params=cldata$params, model=cldata$model, inits=cldata$inits, ...)
+#        if (i == max(k))
+#            return(mod) else return(list(dct=dclone:::extractdctable(mod), dcd=dclone:::extractdcdiag(mod)))
+#    }
+
     dcparallel <- function(i, ...) {
         jdat <- dclone(cldata$data, i, multiply=cldata$multiply, unchanged=cldata$unchanged)
-        mod <- jags.fit(data=jdat, params=cldata$params, model=cldata$model, inits=cldata$inits, ...)
+        mod <- if (flavour == "jags") {
+            jags.fit(data=jdat, params=cldata$params, model=cldata$model, inits=cldata$inits, ...)
+        } else {
+            bugs.fit(data=jdat, params=cldata$params, model=cldata$model, inits=cldata$inits, 
+                format="mcmc.list", ...)
+        }
         if (i == max(k))
             return(mod) else return(list(dct=dclone:::extractdctable(mod), dcd=dclone:::extractdcdiag(mod)))
     }
+
     ## common data
     cldata <- list(data=data, params=params, model=model, inits=inits,
         multiply=multiply, unchanged=unchanged, k=k)

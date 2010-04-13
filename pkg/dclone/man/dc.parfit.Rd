@@ -9,7 +9,7 @@ The iterative model fitting in on parallel workers with different number of clon
 }
 \usage{
 dc.parfit(cl, data, params, model, inits, n.clones, 
-multiply=NULL, unchanged=NULL, ...)
+multiply=NULL, unchanged=NULL, flavour = c("jags", "bugs"), ...)
 }
 \arguments{
   \item{cl}{
@@ -38,6 +38,9 @@ to be multiplied by the number of clones instead of repetitions.
   \item{unchanged}{
 Numeric or character index for list element(s) in the \code{data} argument
 to be left unchanged.
+}
+  \item{flavour}{
+  If \code{"jags"}, the function \code{\link{jags.fit}} is called. If \code{"bugs"}, the function \code{\link{bugs.fit}} is called.
 }
   \item{\dots}{
   Other values supplied to \code{\link[dclone]{jags.fit}}, or \code{\link[dclone]{bugs.fit}}, depending on the \code{flavour} argument. (Note, \code{falvour = "bugs"} has not been tested!)

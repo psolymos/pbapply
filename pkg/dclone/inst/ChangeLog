@@ -1,7 +1,7 @@
 dclone package version history
 
 Version 1.0-7, April 7, 2010
-    *
+    * flavour argument in dc.parfit.
 
 Version 1.0-6, March 14, 2010
     * openbugs.seed removed.
