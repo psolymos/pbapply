@@ -28,12 +28,10 @@ position = "topright", ...)
     k <- x$n.clones
     kmin <- min(k)
     xval <- 1:length(k)
-    FUN <- function(x) return(x)
-    if (type == "log.lambda.max") {
-#        k <- log(k)
-#        kmin <- log(kmin)
+    if (which == "log.lambda.max") {
+        k <- log(k)
+        kmin <- log(kmin)
         xval <- log(k)
-        FUN <- function(x) log(x)
     }
     crit <- getOption("dclone.diag")
     if (which == "all") {
@@ -45,6 +43,8 @@ position = "topright", ...)
             plotit(params[i], show.legend=show.legend[i], lin=lin[i], ...)
         par(opar)
     } else {
+        if (which == "log.lambda.max")
+            which <- "lambda.max"
         lin <- which == "lambda.max"
         plotit(which, show.legend=TRUE, lin, ...)
     }
