@@ -16,18 +16,13 @@ position = "topright", box.cex = 0.75, box.bg = NA, ...)
                 main = param, axes = FALSE, ...)
             points(xval, y$mean, pch=pch, type = "b", lty=2)
         } else {
-            FUN <- switch(type,
-                "var" = function(x) return(x),
-                "logvar" = function(x) log(x))
             ylim <- switch(type,
                 "var" = range(0, 1, y$sd^2/y$sd[1]^2),
                 "logvar" = range(0, log(y$sd^2/y$sd[1]^2)))
             ylab <- switch(type,
-                "var" = "Scaled Variance",
-                "logvar" = "log(Scaled Variance)")
-            xlab <- switch(type,
-                "var" = "Number of Clones",
-                "logvar" = "log("Number of Clones")")
+                "var" = "Scaled variance",
+                "logvar" = "log(Scaled variance)")
+            xlab <- "Number of clones"
             plot(xval, FUN(y$sd^2/y$sd[1]^2), ylim=ylim, xlim=xlim, pch=pch, type = "b", lty=1,
                 xlab = xlab, ylab=ylab,
                 main = param, axes = FALSE, ...)
@@ -61,11 +56,13 @@ position = "topright", box.cex = 0.75, box.bg = NA, ...)
     k <- x[[1]]$n.clones
     kmin <- min(k)
     xval <- 1:length(k)
+    FUN <- function(x) return(x)
     if (type == "log.var") {
 #        k <- log(k)
 #        kmin <- log(kmin)
         xval <- log(k)
         w <- 0
+        FUN <- function(x) log(x)
     }
     m <- length(which)
     if (m <= 3) {

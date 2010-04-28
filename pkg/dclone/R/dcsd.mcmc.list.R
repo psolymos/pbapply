@@ -1,8 +1,8 @@
-dcsd <-
-function(object, na.rm = FALSE)
+dcsd.mcmc.list <-
+function(object, ...)
 {
-    ncl <- nclones(x)
+    ncl <- nclones(object)
     if (is.null(ncl))
         ncl <- 1
-    mcmcapply(x, sd, na.rm=na.rm) * sqrt(ncl)
+    mcmcapply(object, sd) * sqrt(ncl)
 }

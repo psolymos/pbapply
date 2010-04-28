@@ -22,7 +22,7 @@ separately for each parameters of interest.
 dctable(x, ...)
 \method{dctable}{default}(x, ...)
 \method{plot}{dctable}(x, which = 1:length(x), 
-type = c("all", "var", "logvar"),
+type = c("all", "var", "log.var"),
 position = "topright", box.cex = 0.75, box.bg, ...)
 extractdctable(x, ...)
 \method{extractdctable}{default}(x, ...)
@@ -30,7 +30,7 @@ extractdctable(x, ...)
 dcdiag(x, ...)
 \method{dcdiag}{default}(x, ...)
 \method{plot}{dcdiag}(x, which = c("all", "lambda.max", 
-"ms.error", "r.squared"), position = "topright", ...)
+"ms.error", "r.squared", "log.lambda.max"), position = "topright", ...)
 extractdcdiag(x, ...)
 \method{extractdcdiag}{default}(x, ...)
 }
@@ -68,7 +68,7 @@ The \code{plot} method helps in graphical representation of the descriptive stat
 \code{type = "all"} results in plotting means, standard deviations and quantiles
 against the number of clones as boxplot. \code{type = "var"} reults in plotting the scaled variances
 against the number of clones. In this case variances are divided by the variance of the
-model with smallest number of clones, \code{min(n.clones)}. \code{type = "logvar"} is the same
+model with smallest number of clones, \code{min(n.clones)}. \code{type = "log.var"} is the same
 as \code{"var"}, but on the log scale.
 Along with the values, the \code{min(n.clones) / n.clones} line is plotted for reference.
 }

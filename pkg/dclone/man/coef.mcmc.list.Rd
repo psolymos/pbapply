@@ -15,7 +15,7 @@ Methods for 'mcmc.list' objects.
 }
 \usage{
 dcsd(object, ...)
-\method{dcsd}{mcmc.list}(object, na.rm = FALSE, ...)
+\method{dcsd}{mcmc.list}(object, ...)
 \method{coef}{mcmc.list}(object, ...)
 \method{confint}{mcmc.list.dc}(object, parm, level = 0.95, ...)
 \method{vcov}{mcmc.list.dc}(object, invfisher = TRUE, ...)
@@ -24,9 +24,6 @@ dcsd(object, ...)
 \arguments{
   \item{x, object}{
   MCMC object to be processed.
-}
-  \item{na.rm}{
-Logical, if \code{NA}s should be removed.
 }
   \item{parm}{
 A specification of which parameters are to be given confidence intervals, 
