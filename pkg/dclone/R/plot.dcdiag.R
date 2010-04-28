@@ -18,7 +18,7 @@ position = "topright", ...)
             yy <- y/y[1]
             ylab <- paste("Scaled ", param, sep="")
         }
-        xlab <- Number of clones"
+        xlab <- "Number of clones"
         ylim <- range(0, yy)
         plot(xval, yy, ylim=ylim, pch=pch, type = "b", lty=1,
             xlab = xlab, ylab=ylab,
