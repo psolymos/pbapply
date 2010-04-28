@@ -1,6 +1,6 @@
 plot.dctable <-
-function(x, which = 1:length(x), type=c("all", "var", "logvar"), position = "topright", 
-box.cex = 0.75, box.bg = NA, ...)
+function(x, which = 1:length(x), type=c("all", "var", "log.var"),
+position = "topright", box.cex = 0.75, box.bg = NA, ...)
 {
     plotit <- function(param, show.legend, ...) {
         y <- x[[param]]
@@ -25,8 +25,11 @@ box.cex = 0.75, box.bg = NA, ...)
             ylab <- switch(type,
                 "var" = "Scaled Variance",
                 "logvar" = "log(Scaled Variance)")
+            xlab <- switch(type,
+                "var" = "Number of Clones",
+                "logvar" = "log("Number of Clones")")
             plot(xval, FUN(y$sd^2/y$sd[1]^2), ylim=ylim, xlim=xlim, pch=pch, type = "b", lty=1,
-                xlab = "Number of clones", ylab=ylab,
+                xlab = xlab, ylab=ylab,
                 main = param, axes = FALSE, ...)
         }
         axis(1, xval, k)
@@ -52,12 +55,18 @@ box.cex = 0.75, box.bg = NA, ...)
     if (max(which) > length(x))
         stop("'which' too large")
     type <- match.arg(type)
-    k <- x[[1]]$n.clones
-    kmin <- min(k)
-    xval <- 1:length(k)
     crit <- getOption("dclone.rhat")
     nam <- names(x)[which]
     w <- box.cex
+    k <- x[[1]]$n.clones
+    kmin <- min(k)
+    xval <- 1:length(k)
+    if (type == "log.var") {
+#        k <- log(k)
+#        kmin <- log(kmin)
+        xval <- log(k)
+        w <- 0
+    }
     m <- length(which)
     if (m <= 3) {
         nr <- 1

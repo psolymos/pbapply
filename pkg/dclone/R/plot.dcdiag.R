@@ -1,5 +1,6 @@
 plot.dcdiag <-
-function(x, which = c("all", "lambda.max", "ms.error", "r.squared"), position = "topright", ...)
+function(x, which = c("all", "lambda.max", "ms.error", "r.squared", "log.lambda.max"),
+position = "topright", ...)
 {
     plotit <- function(param, show.legend, lin, ...) {
         y <- x[[param]]
@@ -21,12 +22,19 @@ function(x, which = c("all", "lambda.max", "ms.error", "r.squared"), position = 
                 paste(" < ", round(crit, 2), sep="")))
         }
         if (lin)
-            lines(xval, kmin/k, lty=2)
+            lines(xval, FUN(kmin/k), lty=2)
     }
     which <- match.arg(which)
     k <- x$n.clones
     kmin <- min(k)
     xval <- 1:length(k)
+    FUN <- function(x) return(x)
+    if (type == "log.lambda.max") {
+#        k <- log(k)
+#        kmin <- log(kmin)
+        xval <- log(k)
+        FUN <- function(x) log(x)
+    }
     crit <- getOption("dclone.diag")
     if (which == "all") {
         show.legend <- c(FALSE, FALSE, TRUE)
