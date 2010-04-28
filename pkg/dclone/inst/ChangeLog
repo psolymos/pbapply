@@ -1,8 +1,10 @@
 dclone package version history
 
 Version 1.0-7, April 7, 2010
-    * flavour argument in dc.parfit.
+    * added flavour argument in dc.parfit.
     * methods for mcmc objects added (coef, vcov, quantile).
+    * plot.dcdiag got log.lambda.max option.
+    * log.var type of plot.dctable changed.
 
 Version 1.0-6, March 14, 2010
     * openbugs.seed removed.
