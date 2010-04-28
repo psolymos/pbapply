@@ -2,18 +2,20 @@
 \name{coef.mcmc.list}
 \Rdversion{1.1}
 \alias{dcsd}
+\alias{dcsd.mcmc.list}
 \alias{coef.mcmc.list}
 \alias{confint.mcmc.list.dc}
 \alias{vcov.mcmc.list.dc}
 \alias{quantile.mcmc.list}
 \title{
-Functions and methods for the 'mcmc.list' class
+Methods for the 'mcmc.list' class
 }
 \description{
-Functions and methods for 'mcmc.list' objects.
+Methods for 'mcmc.list' objects.
 }
 \usage{
-dcsd(x, na.rm = FALSE)
+dcsd(object, ...)
+\method{dcsd}{mcmc.list}(object, na.rm = FALSE, ...)
 \method{coef}{mcmc.list}(object, ...)
 \method{confint}{mcmc.list.dc}(object, parm, level = 0.95, ...)
 \method{vcov}{mcmc.list.dc}(object, invfisher = TRUE, ...)
