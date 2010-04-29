@@ -64,26 +64,50 @@ or if it is \code{NULL}, calculates the \code{dctable} summaries.
 If more than one fitted objects are provided, summaries are calculated
 for all objects, and results are ordered by the number of clones.
 
-The \code{plot} method helps in graphical representation of the descriptive statistics.
+The \code{plot} method for \code{dctable} helps in graphical representation of the descriptive statistics.
 \code{type = "all"} results in plotting means, standard deviations and quantiles
 against the number of clones as boxplot. \code{type = "var"} reults in plotting the scaled variances
 against the number of clones. In this case variances are divided by the variance of the
 model with smallest number of clones, \code{min(n.clones)}. \code{type = "log.var"} is the same
 as \code{"var"}, but on the log scale.
 Along with the values, the \code{min(n.clones) / n.clones} line is plotted for reference.
+
+Lele et al. (2010) itroduced diagnostic measures
+for checking the convergence of the data cloning algorithm
+which are based on the joint posterior distribution
+and not only on single parameters. These
+include to calculate the largest eigenvalue of the posterior
+variance covariance matrix (\code{lambda.max} as returned by \code{\link{lambdamax.diag}}),
+or to calculate mean squared error (\code{ms. error}) and another
+correlation-like fit statistic (\code{r.squared}) based on a Chi-square2 approximation
+(as returned by \code{\link{chisq.diag}}). The maximum
+eigenvalue reflects the degenerateness of the
+posterior distribution, while the two fit measures reflect
+if the Normal approximation is adequate. All
+three statistics should converge to zero as the number of clones increases.
+If this happens, different prior specifications are no
+longer influencing the results (Lele et al., 2007, 2010).
 }
 \value{
 An object of class 'dctable'.
 It is a list, and contains as many data frames as the number of parameters in the fitted object.
 Each data frame contains descriptives as the function of the number of clones.
 
-The \code{plot} method produces graphs as side effect.
+\code{dcdiag} returns a data frame with convergence diagnostics.
+
+The \code{plot} methods produce graphs as side effect.
 }
 \references{
 Lele, S.R., B. Dennis and F. Lutscher, 2007.
 Data cloning: easy maximum likelihood estimation for complex 
 ecological models using Bayesian Markov chain Monte Carlo  methods.
 \emph{Ecology Letters} \strong{10}, 551--563.
+
+Lele, S. R., Nadeem, K. and Schmuland, B, 2010.
+Estimability and likelihood inference for generalized linear
+mixed models using data cloning. 
+\emph{Journal of the American Statistical Association}
+Under revision.
 }
 \author{
 \enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca},
