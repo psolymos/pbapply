@@ -22,7 +22,7 @@ A named list (not environment) containing the data.
 Character vector of parameters to be sampled.
 }
   \item{model}{
-Character string (name of the model file) or a function containing the model (see Examples).
+Character string (name of the model file), a function containing the model, or a or \code{\link{custommodel}} object (see Examples).
 }
   \item{inits}{
 Optional specification of initial values in the form of a list or a function (see Initialization at \code{\link[rjags]{jags.model}}). 

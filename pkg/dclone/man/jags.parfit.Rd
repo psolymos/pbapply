@@ -24,7 +24,7 @@ A named list or environment containing the data. If an environment, data cloning
 Character vector of parameters to be sampled.
 }
   \item{model}{
-Character string (name of the model file) or a function containing the model (see Examples).
+Character string (name of the model file), a function containing the model, or a or \code{\link{custommodel}} object (see Examples).
 }
   \item{inits}{
 Specification of initial values in the form of a list or a function, can be missing if \code{n.chains <= 4}. 

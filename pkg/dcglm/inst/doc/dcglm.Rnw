@@ -206,8 +206,8 @@ If we want to use this in the \code{jags.fit} function, it would give the error 
 about the attempt to define the nodes more than onece. To avoid this, we tell the function
 which line(s) should be excluded:
 <<>>=
-custommodel(glm.model, c(4,6))
-custommodel(glm.model, c(3,5))
+dclone:::custommodel(glm.model, c(4,6))
+dclone:::custommodel(glm.model, c(3,5))
 @
 so eventually we get back our original models. But these are not functions, but character vectors
 of the class \class{custommodel}. \code{jags.fit} will recognize this.
@@ -495,8 +495,8 @@ Note that we denote \code{lambda} or \code{p} as \code{z}, this will make life e
 We use again the \code{custommodel} approach to differentiate between the
 Poisson and Binomial cases:
 <<>>=
-custommodel(glm.pred, c(4,6))
-custommodel(glm.pred, c(3,5))
+dclone:::custommodel(glm.pred, c(4,6))
+dclone:::custommodel(glm.pred, c(3,5))
 @
 Let's consider the Poisson case only (the Binomial differs from it only by the specification of the
 \code{model} argument based on the \code{custommodel} approach, and the fitted model used).
@@ -515,7 +515,7 @@ prdat <- list(n = nrow(X), X = X,
 @
 We use the \code{jags.fit} function. One chain is usually enough:
 <<results=hide,eval=false>>=
-prval <- jags.fit(prdat, "z", custommodel(glm.pred, c(4,6)), 
+prval <- jags.fit(prdat, "z", dclone:::custommodel(glm.pred, c(4,6)), 
     n.chains = 1, n.iter = 1000)
 @
 The resuling \code{mcmc.list} object contains the conditional posterior distribution for our
@@ -574,8 +574,8 @@ type = c("link", "response"), se = FALSE, ...)
         "link" = "mu",
         "response" = "z")
     model <- switch(object$family,
-        "poisson" = custommodel(glm.pred, c(4,6)),
-        "binomial" = custommodel(glm.pred, c(3,5)))
+        "poisson" = dclone:::custommodel(glm.pred, c(4,6)),
+        "binomial" = dclone:::custommodel(glm.pred, c(3,5)))
     prdat <- list(n = nrow(X), X = X, 
         np = ncol(X), coefs = coefs, prec = prec)
     if (object$family == "binomial")

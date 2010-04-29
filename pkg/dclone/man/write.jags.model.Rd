@@ -101,6 +101,7 @@ regmod <- jags.fit(jdata, jpara, jmodnam, n.chains = 3)
 clean.jags.model(jmodnam)
 ## model summary
 summary(regmod)
+}
 ## let's customize this model
 jfun <- function() {
     for (i in 1:n) {
@@ -119,6 +120,5 @@ custommodel(jfun)
 custommodel(jfun, 4)
 ## LM
 custommodel(jfun, c(3,5))
-}
 }
 \keyword{ IO }
