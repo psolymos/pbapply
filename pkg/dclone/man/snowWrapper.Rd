@@ -5,7 +5,7 @@
 Parallel wrapper function to call from within a function
 }
 \description{
-\code{snowWrapper} is a wrapper function around many \pkg{snow} and other \pkg{dcpar} functions,
+\code{snowWrapper} is a wrapper function around many \pkg{snow},
 designed to work closely with MCMC fitting functions (can be called from inside of a function).
 }
 \usage{

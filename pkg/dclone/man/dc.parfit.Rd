@@ -49,7 +49,7 @@ to be left unchanged.
 \details{
 The \code{dc.parfit} is a parallel computing version of \code{\link[dclone]{dc.fit}}.
 The vector \code{n.clones} is used to determine size balancing. If load balancing is also desired 
-besides of size balancing (e.g. due to unequal performance of the workers, the option \code{"dcpar.LB"} should be set to \code{TRUE} (by using \code{options("dcpar.LB" = TRUE)}). By default, the \code{"dcpar.LB"}
+besides of size balancing (e.g. due to unequal performance of the workers, the option \code{"dclone.LB"} should be set to \code{TRUE} (by using \code{options("dclone.LB" = TRUE)}). By default, the \code{"dclone.LB"}
 option is \code{FALSE} for reproducibility reasons.
 }
 \value{
@@ -71,7 +71,6 @@ Optimizing the number of workers: \code{\link{clusterSize}}, \code{\link{plotClu
 }
 \examples{
 \dontrun{
-library(dcpar)
 set.seed(1234)
 n <- 20
 x <- runif(n, -1, 1)

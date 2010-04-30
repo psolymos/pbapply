@@ -60,7 +60,7 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
     ## parallel computations
     balancing <- if (getOption("dclone.LB"))
         "load" else "none"
-    mcmc <- snowWrapper(cl, 1:n.chains, jagsparallel, cldata, lib="dcpar", 
+    mcmc <- snowWrapper(cl, 1:n.chains, jagsparallel, cldata, lib="dclone", 
         balancing=balancing, size=1, seed=1000*1:length(cl), 
         kind=rng[1:length(cl)], dir=getwd(), ...)
     ## binding the chains

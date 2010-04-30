@@ -39,13 +39,6 @@ flavour = c("jags", "bugs"), ...)
         flush.console()
     }
     ## parallel function
-#    dcparallel <- function(i, ...) {
-#        jdat <- dclone(cldata$data, i, multiply=cldata$multiply, unchanged=cldata$unchanged)
-#        mod <- jags.fit(data=jdat, params=cldata$params, model=cldata$model, inits=cldata$inits, ...)
-#        if (i == max(k))
-#            return(mod) else return(list(dct=dclone:::extractdctable(mod), dcd=dclone:::extractdcdiag(mod)))
-#    }
-
     dcparallel <- function(i, ...) {
         jdat <- dclone(cldata$data, i, multiply=cldata$multiply, unchanged=cldata$unchanged)
         mod <- if (flavour == "jags") {
@@ -67,7 +60,7 @@ flavour = c("jags", "bugs"), ...)
     rng <- rep(rng, length(cl))[1:length(cl)]
     balancing <- if (getOption("dclone.LB"))
         "size" else "both"
-    pmod <- snowWrapper(cl, k, dcparallel, cldata, lib="dcpar", 
+    pmod <- snowWrapper(cl, k, dcparallel, cldata, lib="dclone", 
         balancing=balancing, size=k, seed=1000*1:length(cl), kind=rng, dir=getwd(), ...)
     mod <- pmod[[times]]
 
