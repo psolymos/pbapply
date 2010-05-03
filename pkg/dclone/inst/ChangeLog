@@ -1,7 +1,8 @@
 dclone package version history
 
-Version 1.0-8, April 29, 2010
+Version 1.1-0, May 3, 2010
     * dclone was tested with JAGS 2.0.
+    * major release submitted to CRAN.
 
 Version 1.0-7, April 7, 2010
     * added flavour argument in dc.parfit.
