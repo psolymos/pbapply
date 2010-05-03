@@ -18,7 +18,7 @@ updated.model=TRUE, ...)
     }
     if (is.null(list(...)$progress.bar)) {
         trace <- if (getOption("dclone.verbose"))
-            "text" else "none"
+            getOption("jags.pb") else "none"
     } else trace <- list(...)$progress.bar
     byval <- if (!is.null(list(...)$by))
         list(...)$by else floor(min(n.iter/50, 100))
