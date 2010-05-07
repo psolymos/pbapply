@@ -4,6 +4,9 @@ function(x, ...) {
     ll <- length(list(...))
     if (ll || (!ll && dct)) {
         obj <- list(x, ...)
+        vnams <- lapply(obj, varnames)
+        if (!setequal(vnams[[1]], unique(unlist(vnams))))
+            stop("parameter names in each model should be identical")
         k <- sapply(obj, nclones)
         k[sapply(k, is.null)] <- 1
         k <- unlist(k)
