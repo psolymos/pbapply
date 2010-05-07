@@ -1,10 +1,8 @@
 snowWrapper <-
 function(cl, seq, fun, cldata, name="cldata", lib=NULL, evalq=NULL,
-size = 1, seed=1, kind="default", normal.kind="default", 
-balancing=c("none", "load", "size", "both"), dir = getwd(), ...)
+size = 1, balancing=c("none", "load", "size", "both"), dir = getwd(), ...)
 {
     balancing <- match.arg(balancing)
-    clusterSeed(cl, seed, kind, normal.kind)
     ## if object name exists in global env, make a copy as tmp, and put back in the end
     if (exists(name, envir=.GlobalEnv)) {
         assign("tmp", get(name, envir=.GlobalEnv))

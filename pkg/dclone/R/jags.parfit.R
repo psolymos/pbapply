@@ -10,32 +10,6 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
             stop("'n.iter = 0' is not supported for parallel computations")
     if (n.chains == 1)
         stop("no need for parallel computing with 1 chain")
-    rng <- c("Wichmann-Hill", "Marsaglia-Multicarry",
-        "Super-Duper", "Mersenne-Twister")
-
-    if (n.chains > 4 && missing(inits))
-        stop("provide initial values")
-
-    if (!missing(inits)) {
-        if (is.function(inits))
-            inits <- lapply(1:n.chains, inits)
-        if (length(inits) != n.chains)
-            stop("provide initial values for each chains")
-        if (!all(c(".RNG.name", ".RNG.seed") %in% unique(unlist(lapply(inits, names)))))
-            stop("'.RNG.name' and '.RNG.seed' is missing from 'inits'")
-        if (length(unique(sapply(inits, function(z) z[[".RNG.seed"]]))) == 1)
-            stop("provide different '.RNG.seed' for each chain")
-    } else {
-        ## generating initial values
-        inits <- jags.fit(data, params, model, inits=NULL, n.chains,
-            n.adapt=0, n.update=0, n.iter=0)$state()
-        seed <- 999*1:n.chains
-        for (i in 1:n.chains) {
-            inits[[i]][[".RNG.name"]] <- paste("base::", rng[i], sep="")
-            inits[[i]][[".RNG.seed"]] <- seed[i]
-        }
-    }
-
     ## writing data file
     if (is.function(model) || inherits(model, "custommodel")) {
         if (is.function(model))
@@ -43,7 +17,9 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
         model <- write.jags.model(model)
         on.exit(try(clean.jags.model(model)))
     }
-
+    ## generating initial values and RNGs if needed
+    inits <- jags.fit(data, params, model, inits, n.chains,
+        n.adapt=0, n.update=0, n.iter=0)$state(internal=TRUE)
     ## common data to cluster
     cldata <- list(data=data, params=params, model=model, inits=inits)
     ## parallel function to evaluate by snowWrapper
@@ -61,8 +37,7 @@ function(cl, data, params, model, inits, n.chains = 3, ...)
     balancing <- if (getOption("dclone.LB"))
         "load" else "none"
     mcmc <- snowWrapper(cl, 1:n.chains, jagsparallel, cldata, lib="dclone", 
-        balancing=balancing, size=1, seed=1000*1:length(cl), 
-        kind=rng[1:length(cl)], dir=getwd(), ...)
+        balancing=balancing, size=1, dir=getwd(), ...)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))
     ## attaching attribs and return

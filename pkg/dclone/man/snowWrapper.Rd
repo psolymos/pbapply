@@ -10,8 +10,7 @@ designed to work closely with MCMC fitting functions (can be called from inside 
 }
 \usage{
 snowWrapper(cl, seq, fun, cldata, name = "cldata", lib = NULL, evalq=NULL,
-size = 1, seed = 1, kind = "default", normal.kind = "default", 
-balancing = c("none", "load", "size", "both"), dir = getwd(), ...)
+size = 1, balancing = c("none", "load", "size", "both"), dir = getwd(), ...)
 }
 \arguments{
   \item{cl}{
@@ -44,15 +43,6 @@ Character, type of balancing to perform (see Details).
 }
   \item{size}{
 Vector of problem sizes (or relative performance information) corresponding to elements of \code{seq} (recycled if needed). The default \code{1} indicates equality of problem sizes.
-}
-  \item{seed}{
-\code{seed} argument used by \code{\link{clusterSeed}}.
-}
-  \item{kind}{
-\code{kind} argument used by \code{\link{clusterSeed}}.
-}
-  \item{normal.kind}{
-\code{normal.kind} argument used by \code{\link{clusterSeed}}.
 }
   \item{dir}{
 Working directory to use.

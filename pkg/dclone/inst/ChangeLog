@@ -1,5 +1,8 @@
 dclone package version history
 
+Version 1.1-1, May 6, 2010
+    * parallel RNG handling reworked.
+
 Version 1.1-0, May 3, 2010
     * dclone was tested with JAGS 2.0.
     * major release submitted to CRAN.

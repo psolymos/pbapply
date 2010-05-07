@@ -61,7 +61,7 @@ flavour = c("jags", "bugs"), ...)
     balancing <- if (getOption("dclone.LB"))
         "size" else "both"
     pmod <- snowWrapper(cl, k, dcparallel, cldata, lib="dclone", 
-        balancing=balancing, size=k, seed=1000*1:length(cl), kind=rng, dir=getwd(), ...)
+        balancing=balancing, size=k, dir=getwd(), ...)
     mod <- pmod[[times]]
 
     ## dctable
