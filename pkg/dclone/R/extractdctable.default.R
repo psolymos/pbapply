@@ -15,5 +15,8 @@ function(x, ...)
     } else {
         rval <- rbind(mean = Mean, sd = Sd, r.hat=rhat)
     }
-    t(rval)
+    rval <- t(rval)
+    if (nrow(rval) == 1)
+        rownames(rval) <- varnames(x)
+    rval
 }
