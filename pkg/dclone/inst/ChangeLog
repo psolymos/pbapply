@@ -1,6 +1,7 @@
 dclone package version history
 
 Version 1.1-1, May 6, 2010
+    * glm module of JAGS is loaded at startup
     * parallel RNG handling reworked.
     * dctable fix for one parameter mcmc.list.
     * dcdiag returns r.hat for one parameter models.
