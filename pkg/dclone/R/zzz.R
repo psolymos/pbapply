@@ -1,5 +1,4 @@
 .onAttach <- function(libname, pkgname){
-    load.module("glm")
     ver <- read.dcf(file=system.file("DESCRIPTION", package=pkgname), 
                     fields=c("Version", "Date"))
     cat(paste(pkgname, ver[1], "\t", ver[2], "\n"))
@@ -14,6 +13,9 @@
         options("dclone.verbose"=1)
     if (is.null(getOption("dclone.LB")))
         options("dclone.LB"=FALSE)
+    if (as.numeric(substr(utils::packageDescription("rjags", 
+        field="Version"), 1, 1)) > 1)
+            load.module("glm")
     invisible(NULL)
 }
 
