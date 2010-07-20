@@ -1,5 +1,5 @@
 jags.parfit <-
-function(cl, data, params, model, inits, n.chains = 3, ...)
+function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
 {
     if (!inherits(cl, "cluster"))
         stop("'cl' must be a 'cluster' object")

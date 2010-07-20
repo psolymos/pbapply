@@ -11,7 +11,7 @@ but parallel chanis are run on parallel workers, thus
 computations can be faster (up to 1/\code{n.chains}) for long MCMC runs.
 }
 \usage{
-jags.parfit(cl, data, params, model, inits, n.chains = 3, ...)
+jags.parfit(cl, data, params, model, inits = NULL, n.chains = 3, ...)
 }
 \arguments{
   \item{cl}{
