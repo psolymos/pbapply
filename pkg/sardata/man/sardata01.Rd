@@ -26,7 +26,8 @@ The element \code{sardata$study} is a data frame with variables:
     \item{\code{study}}{Factor, levels are the study identifiers.}
     \item{\code{taxon.group}}{Factor, taxonomic group.}
     \item{\code{island.type}}{Factor, island type.}
-    \item{\code{latitude}}{Numeric, latitude for the sudy close to the equator.}
+    \item{\code{latitude}}{Numeric, midlle band of latitude for the sudy calculated as (min + max) / 2, 
+      where min is the latitude close to the Equator, max is the latitude close to the poles.}
     \item{\code{extent}}{Numeric, latitudinal extent of the study.}
     \item{\code{location}}{Character, location of the study.}
   }
