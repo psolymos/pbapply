@@ -1,6 +1,7 @@
 print.custommodel <-
-function (x, ...)
+function (x, deparse = FALSE, ...)
 {
-    dput(x, control=NULL)
+    if (deparse)
+        dput(x, control=NULL) else print.default(x, ...)
     invisible(x)
 }

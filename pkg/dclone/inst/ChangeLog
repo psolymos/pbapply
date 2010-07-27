@@ -1,6 +1,7 @@
 dclone package version history
 
 Version 1.1-1, May 6, 2010
+    * print.custommodel has deparse=FALSE argument.
     * glm module of JAGS is loaded at startup
     * parallel RNG handling reworked.
     * dctable fix for one parameter mcmc.list.
