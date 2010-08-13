@@ -1,5 +1,6 @@
-hsar <- 
-function(formula, data, group, n.clones=1, subset, na.action, ...)
+#http://cran.r-project.org/web/packages/Formula/vignettes/Formula.pdf
+hsarx <- 
+function(formula, data, group, n.clones=1, cl=NULL, subset, na.action, ...)
 {
     mf <- match.call(expand.dots = FALSE)
     m <- match(c("formula", "data", "subset", "na.action"), names(mf), 0)
@@ -15,27 +16,31 @@ function(formula, data, group, n.clones=1, subset, na.action, ...)
     X <- model.matrix(f, data = mf, rhs = 1)
     if (st[2] > 1) {
         Z <- model.matrix(f, data = mf, rhs = 2)
-        gnam <- as.character(formula(f, lhs=FALSE, rhs=3)[[2]])
-        if (length(gnam) > 1)
-            stop("provide only one grouping variable")
-        G <- mf[,gnam]
-        G <- as.numeric(G)
-        if (min(G) > 1 || max(G) > length(Y))
+        if (length(formula(f, lhs=FALSE, rhs=3)[[2]]) > 1)
             stop("inappropriate grouping variable")
+        G <- model.matrix(f, data = mf, rhs = 3)
+        if (ncol(G) > 2) {
+            G[rowSums(G[,-1]) != 0,1] <- 0
+            G <- rowSums(col(G) * G)
+        } else {
+            G <- G[,2]
+        }
+        G <- as.integer(as.factor(G))
     } else {
         Z <- NULL
         G <- NULL
     }
-    out <- hsar.fit(Y, X, Z, G, n.clones, ...)
+    out <- hsarx.fit(Y, X, Z, G, n.clones, cl, ...)
     class(out) <- "hsar"
     out$formula <- f
+    out$model <- mf
     out
 }
 
-hsar.fit <- 
-function(Y, X, Z, G, n.clones, ...)
+hsarx.fit <- 
+function(Y, X, Z, G, n.clones=1, cl=NULL, ...)
 {
-    list(Y=Y, X=X, Z=Z, G=G, n.clones=n.clones)
+    list(Y=Y, X=X, Z=Z, G=G, n.clones=n.clones, cl=cl)
 }
 
 library(Formula)
@@ -43,7 +48,6 @@ d <- data.frame(S=c(1:10, 10:1), A=c(1:10, 10:1) / 10, study=rep(c("b","a"), eac
 db <- data.frame(study=c("a","b"), H=c(100,200))
 dat <- data.frame(d, db[match(d$study, db$study),])
 
-x <- hsar(S ~ A, dat)
-x <- hsar(S ~ A | H | study, dat)
-
-http://cran.r-project.org/web/packages/Formula/vignettes/Formula.pdf
+x <- hsarx(S ~ A, dat)
+x <- hsarx(S ~ A | H | study, dat)
+x$G
