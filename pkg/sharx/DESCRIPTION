@@ -1,0 +1,11 @@
+Package: sharx
+Type: Package
+Title: Models and Data Sets for the Study of the Species-Area Relationship
+Version: 1.0
+Date: 2010-08-13
+Author: Peter Solymos
+Maintainer: Peter Solymos <solymos@ualberta.ca>
+Description: Models and Data sets for the study of the species-srea relationship
+Depends: Formula, dclone
+License: GPL-2
+LazyLoad: yes
