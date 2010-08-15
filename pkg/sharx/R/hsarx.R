@@ -283,3 +283,16 @@ brackets(c(4, 5), c(1,2))
 brackets(5, 2, len=5)
 brackets(c(5,5), 2, lower=c(-Inf,0))
 brackets(c(5,5), Inf, lower=c(0,2), upper=c(20,20))
+
+x <- brackets(rep(5, 7), sd=c(2,2,2,3,3,3,Inf), 
+    lower=c(-Inf,0,-Inf,-Inf,0,-Inf,0), 
+    upper=c(Inf,Inf,8,Inf,Inf,8,8))
+plot(as.numeric(x[11,]), 1:7, xlim=range(x), ylim=c(7,1), axes=FALSE, ann=FALSE, cex=1.5)
+axis(1)
+tmp <- lapply(1:7, function(i) {
+    abline(h=i, col="grey")
+    s <- attr(x[,i],"sd")
+    lines(c(x[11,i]-s, x[11,i]+s), c(i,i), lwd=2)
+    points(x[,i], rep(i, 21), pch="|")
+})
+
