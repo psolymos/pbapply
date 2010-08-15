@@ -46,7 +46,8 @@ function(Y, X, Z, G, n.clones=1, cl=NULL, ...)
 }
 
 library(Formula)
-d <- data.frame(S=c(1:10, 10:1), A=c(1:10, 10:1) / 10, study=rep(c("b","a"), each=10))
+A=c(1:10, 10:1) / 10
+d <- data.frame(S=rnorm(20, 1.9+0.25*A, 0.2), A, study=rep(c("b","a"), each=10))
 db <- data.frame(study=c("a","b"), H=c(100,200))
 dat <- data.frame(d, db[match(d$study, db$study),])
 
@@ -228,3 +229,55 @@ hsarx.lmm <- function() { ## this is for cloning
 }
 
 
+## brackets
+brackets <-
+function (x, ...) 
+    UseMethod("brackets")
+
+brackets.mcmc.list <-
+function (x, parm, ...) {
+    pnames <- varnames(x)
+    if (missing(parm))
+        parm <- pnames
+    else if (is.numeric(parm)) 
+        parm <- pnames[parm]
+    brackets.default(coef(x[,parm]), dcsd(x[,parm]), ...)
+}
+
+brackets.default <-
+function (x, sd, times=3, len=10, lower=-Inf, upper=Inf, ...)
+{
+    fun <- function(m, s, times, len, lower, upper) {
+        z <- c(seq(max(m-times*s, lower), m, len=len+1),
+            seq(m, min(m+times*s, upper), len=len+1)[-1])
+        attr(z, "sd") <- as.numeric(s)
+        z
+    }
+#    if (times == Inf && (missing(lower) || missing(upper)))
+#        stop("'times' incompatible with range")
+    np <- length(x)
+    pnames <- names(x)
+    if (is.null(pnames))
+        pnames <- paste("var", 1:np, sep="")
+    sd <- rep(sd, np)[1:np]
+    times <- rep(times, np)[1:np]
+    lower <- rep(lower, np)[1:np]
+    upper <- rep(upper, np)[1:np]
+    rval <- lapply(1:np, function(i) {
+        fun(x[i], sd[i], times[i], len, lower[i], upper[i])
+    })
+    rval <- as.data.frame(rval)
+    colnames(rval) <- pnames
+    class(rval) <- c("brackets", class(rval))
+    rval
+}
+
+library(dclone)
+data(regmod)
+brackets(regmod)
+brackets(regmod, 1)
+brackets(4, 1)
+brackets(c(4, 5), c(1,2))
+brackets(5, 2, len=5)
+brackets(c(5,5), 2, lower=c(-Inf,0))
+brackets(c(5,5), Inf, lower=c(0,2), upper=c(20,20))

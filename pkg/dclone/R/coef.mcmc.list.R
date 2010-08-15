@@ -1,5 +1,7 @@
 coef.mcmc.list <-
 function (object, ...)
 {
-    mcmcapply(object, mean, ...)
+    rval <- mcmcapply(object, mean, ...)
+    names(rval) <- varnames(object, allow.null=FALSE)
+    rval
 }
