@@ -253,12 +253,7 @@ function (x, sd, times=3, len=10, lower=-Inf, upper=Inf, ...)
         attr(z, "sd") <- as.numeric(s)
         z
     }
-#    if (times == Inf && (missing(lower) || missing(upper)))
-#        stop("'times' incompatible with range")
     np <- length(x)
-    pnames <- names(x)
-    if (is.null(pnames))
-        pnames <- paste("var", 1:np, sep="")
     sd <- rep(sd, np)[1:np]
     times <- rep(times, np)[1:np]
     lower <- rep(lower, np)[1:np]
@@ -266,8 +261,15 @@ function (x, sd, times=3, len=10, lower=-Inf, upper=Inf, ...)
     rval <- lapply(1:np, function(i) {
         fun(x[i], sd[i], times[i], len, lower[i], upper[i])
     })
-    rval <- as.data.frame(rval)
-    colnames(rval) <- pnames
+    if (length(x) > 1) {
+        pnames <- names(x)
+        if (is.null(pnames))
+            pnames <- paste("var", 1:np, sep="")
+        rval <- as.data.frame(rval)
+        colnames(rval) <- pnames
+    } else {
+        rval <- rval[[1]]
+    }
     class(rval) <- c("brackets", class(rval))
     rval
 }
