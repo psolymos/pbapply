@@ -296,3 +296,73 @@ tmp <- lapply(1:7, function(i) {
     points(x[,i], rep(i, 21), pch="|")
 })
 
+## ranking
+
+jfun <- function() {
+    for (i in 1:N) {
+        Y[i] ~ dnorm(mu[i], 1/exp(log.sigma)^2)
+        mu[i] <- alpha + beta * (x[i] - x.bar)
+    }
+    x.bar <- mean(x[])
+    alpha ~ dnorm(0.0, 1.0E-4)
+    beta ~ dnorm(0.0, 1.0E-4)
+    log.sigma ~ dnorm(0.0, 1.0E-4)
+}
+## data generation
+set.seed(1234)
+N <- 10
+alpha <- 1
+beta <- -1
+sigma <- 2.5
+x <- runif(N)
+linpred <- model.matrix(~x) %*% c(alpha, beta)
+Y <- rnorm(N, mean = linpred, sd = sigma)
+## list of data for the model
+jdata <- list(N = N, Y = Y, x = x)
+## what to monitor
+jpara <- c("alpha", "beta", "log.sigma")
+## fit the model with JAGS
+regmod <- jags.fit(jdata, jpara, jfun, n.chains = 3)
+
+pfun <- function() {
+    for (i in 1:N) {
+        Y[i] ~ dnorm(mu[i], 1/exp(log.sigma)^2)
+        mu[i] <- alpha + beta * (x[i] - x.bar)
+        d[i] <- Y[i]-mu[i]
+    }
+    x.bar <- mean(x[])
+    alpha ~ dnorm(parm[1], prec[1])
+    beta ~ dnorm(parm[2], prec[2])
+    log.sigma ~ dnorm(parm[3], prec[3])
+}
+pdata <- list(N = N, x = x, parm=coef(regmod), prec=1/dcsd(regmod))
+
+prmod <- jags.fit(pdata, "d", pfun, n.chains = 1, n.iter=1000)
+
+mcmcrank <-
+function (x, decreasing=FALSE, na.last=TRUE, 
+ties.method=c("average", "first", "random", "max", "min"))
+{
+    x <- mcmcapply(x, array)
+    n <- nrow(x)
+    p <- ncol(x)
+    r <- apply(x, 1, rank, na.last = na.last, ties.method = ties.method)
+    Max <- max(r)
+    vMax <- 1:Max
+    if (!decreasing)
+        r <- Max + 1 - r
+    fun <- function(z) {
+        sapply(vMax, function(i) sum(z == i))
+    }
+    tmp <- sapply(1:p, function(i) {
+        sapply(vMax, function(z) sum(r[i,] == z))
+    })
+    rval <- data.frame(vMax, tmp)
+    colnames(rval) <- c("rank", colnames(x))
+    attr(rval, "H") <- -colSums(apply(tmp/n, 2, function(z) z*log(z)))
+    rval
+}
+
+x <- mcmcrank(prmod)
+x
+attr(x, "H")
