@@ -20,8 +20,8 @@ position = "topright", box.cex = 0.75, box.bg = NA, ...)
                 "var" = range(0, 1, y$sd^2/y$sd[1]^2),
                 "log.var" = range(0, log(y$sd^2/y$sd[1]^2)))
             ylab <- switch(type,
-                "var" = "Scaled variance",
-                "log.var" = "log(Scaled variance)")
+                "var" = "Scaled Variance",
+                "log.var" = "log(Scaled Variance)")
             xlab <- "Number of clones"
             plot(xval, FUN(y$sd^2/y$sd[1]^2), ylim=ylim, xlim=xlim, pch=pch, type = "b", lty=1,
                 xlab = xlab, ylab=ylab,
