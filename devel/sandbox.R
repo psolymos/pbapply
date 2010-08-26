@@ -116,22 +116,45 @@ ties.method=c("average", "first", "random", "max", "min"))
     n <- nrow(x)
     p <- ncol(x)
     r <- apply(x, 1, rank, na.last = na.last, ties.method = ties.method)
-    Max <- max(r)
-    vMax <- 1:Max
+    vp <- 1:p
     if (!decreasing)
-        r <- Max + 1 - r
+        r <- p + 1 - r
     fun <- function(z) {
-        sapply(vMax, function(i) sum(z == i))
+        sapply(vp, function(i) sum(z == i))
     }
     tmp <- sapply(1:p, function(i) {
-        sapply(vMax, function(z) sum(r[i,] == z))
+        sapply(vp, function(z) sum(r[i,] == z))
     })
-    rval <- data.frame(vMax, tmp)
-    colnames(rval) <- c("rank", colnames(x))
-    attr(rval, "H") <- -colSums(apply(tmp/n, 2, function(z) z*log(z)))
+    tmp <- tmp/n
+    rval <- data.frame(tmp)
+    colnames(rval) <- colnames(x)
+#    attr(rval, "H") <- -colSums(apply(tmp, 2, function(z) z*log(z)))
+    attr(rval, "conc") <- apply(tmp, 2, function(z) {
+        (max(z) - 1/p) / (1 - 1/p)
+    })
+    attr(rval, "max") <- max.col(t(tmp))
     rval
 }
 
 x <- mcmcrank(prmod)
 x
-attr(x, "H")
+attr(x, "conc")
+attr(x, "max")
+
+library(sardata)
+data(sardata01)
+d <- sardata01$sar[sardata01$sar$study=="hice2002",]
+jdata <- list(N = nrow(d), Y = log(d$S+0.5), x = log(d$A))
+regmod <- jags.fit(jdata, jpara, jfun, n.chains = 3)
+pdata <- list(N = nrow(d), x = log(d$A), parm=coef(regmod), prec=1/dcsd(regmod))
+prmod <- jags.fit(pdata, "d", pfun, n.chains = 1, n.iter=10000)
+x <- mcmcrank(prmod)
+x
+attr(x, "conc")
+attr(x, "max")
+xx <- x[,order(attr(x, "max"))]
+par(mfrow=c(4,5))
+for (i in 1:20) plot(1:nrow(x), xx[,i], type="h")
+
+
+
