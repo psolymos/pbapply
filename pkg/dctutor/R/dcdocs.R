@@ -2,6 +2,7 @@ dcdocs <-
 function (doc = c("dclone","dcglm","dcpar")) 
 {
     doc <- match.arg(doc)
+    doc <- paste(doc, "pdf", sep=".")
     if (length(grep(".pdf", doc)) > 0) {
         doc <- file.path(system.file(package = "dctutor"), "doc", 
             doc)

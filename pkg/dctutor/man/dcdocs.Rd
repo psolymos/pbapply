@@ -7,12 +7,12 @@
   defined in \code{\link{options}}.
 }
 \usage{
-mefadocs(doc = c("dclone","dcglm","dcpar"))
+dcdocs(doc = c("dclone","dcglm","dcpar"))
 }
 \arguments{
   \item{doc}{The name of the document (partial match, case sensitive). }
 }
-\author{Peter Solymos \email{solymos@ualberta.ca, adapted Jari Oksanen's \code{\link[vegan]{vegandocs}}}
+\author{Peter Solymos \email{solymos@ualberta.ca, adapted Jari Oksanen's \code{\link[vegan]{vegandocs}}}}
 \examples{
 \dontrun{
 dcdocs("dclone")

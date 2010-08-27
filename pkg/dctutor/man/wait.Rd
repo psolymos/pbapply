@@ -30,9 +30,7 @@ Peter Solymos
 \dontrun{
 wait()
 wait("What's up, doc? ")
-\dontrun{
 wait("Opening 'dclone' demo\nPress any key ... ", demo("dclone"))
-}
 }
 }
 \keyword{ IO }
