@@ -1,0 +1,15 @@
+Package: dctutor
+Type: Package
+Title: Tutorials for Data Cloning
+Version: 0.1-0
+Date: 2010-08-27
+Author: Peter Solymos
+Maintainer: Peter Solymos <solymos@ualberta.ca>
+Description: Tutorial package to demonstrate the 
+  capabilities of data cloning algorithm via 
+  the infrastructure provided by the 'dclone' package.
+License: GPL-2
+Depends: dclone
+LazyLoad: yes
+LazyData: true
+URL: http://dcr.r-forge.r-project.org/
