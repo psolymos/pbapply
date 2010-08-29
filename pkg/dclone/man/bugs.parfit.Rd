@@ -28,8 +28,10 @@ Character vector of parameters to be sampled.
 Character string (name of the model file), a function containing the model, or a or \code{\link{custommodel}} object (see Examples).
 }
   \item{inits}{
-Optional specification of initial values in the form of a list or a function (see Initialization at \code{\link[rjags]{jags.model}}). 
-If \code{NULL}, initial values will be generated automatically. It is an error to supply an initial value for an observed node.
+Optional specification of initial values in the form of a list or a function. 
+If \code{NULL}, initial values will be generated automatically.
+If this is a function, it must be self containing, i.e. not having references to R objects outside of the
+function, because those object are not exported to the parallel workers.
 }
   \item{n.chains}{
 Number of chains to generate, must be higher than 1. Ideally, this is equal to the number of parallel workers in the cluster.
@@ -73,10 +75,6 @@ bugs.model <- function(){
        tau.theta <- pow(sigma.theta, -2)
        sigma.theta ~ dunif (0, 1000)
      }  
-#inits <- function(){
-#    list(theta=rnorm(nrow(schools), 0, 100), mu.theta=rnorm(1, 0, 100),
-#         sigma.theta=runif(1, 0, 100))
-#}
 inits <- NULL
 param <- c("mu.theta", "sigma.theta")
 cl <- makeSOCKcluster(3)
