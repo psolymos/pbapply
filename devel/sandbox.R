@@ -1,3 +1,138 @@
+## seed in WinBUGS/OpenBUGS
+set.seed(1234)
+n <- 50
+beta <- c(1.8, -0.9)
+sigma <- 0.2
+x <- runif(n, min = 0, max = 1)
+X <- model.matrix(~ x)
+alpha <- rnorm(n, mean = 0, sd = sigma)
+lambda <- exp(alpha + drop(X %*% beta))
+Y <- rpois(n, lambda)
+
+glmm.model.bugs <- function() {
+   for (i in 1:n) {
+      Y[i] ~ dpois(lambda[i])
+      lambda[i] <- exp(alpha[i] +
+         inprod(X[i,], beta[1,]))
+      alpha[i] ~ dnorm(0, tau) %_% I(-5, 5)
+   }
+   for (j in 1:np) {
+      beta[1,j] ~ dnorm(0, 0.01) %_% I(-5, 5)
+   }
+   log.sigma ~ dnorm(0, 0.01) %_% I(-5, 5)
+   sigma <- exp(log.sigma)
+   tau <- 1 / pow(sigma, 2)
+}
+dat <- list(Y = Y, X = X, n = n,
+   np = ncol(X))
+
+cl <- makeSOCKcluster(3)
+mod <- bugs.parfit(cl, dat, c("beta", "sigma"), 
+   glmm.model.bugs, DIC = FALSE, n.thin = 1, program="openbugs")
+mod[1:2,]
+mod2 <- bugs.parfit(cl, dat, c("beta", "sigma"), 
+   glmm.model.bugs, DIC = FALSE, n.thin = 1, program="winbugs")
+mod2[1:2,]
+
+mod.wb1 <- bugs.fit(dat, c("beta", "sigma"), 
+   glmm.model.bugs, DIC = FALSE, n.thin = 1, bugs.seed=1234)
+mod.ob1 <- bugs.fit(dat, c("beta", "sigma"), 
+   glmm.model.bugs, program = "openbugs", 
+   DIC = FALSE, n.thin = 1, seed=1234)
+mod.wb2 <- bugs.fit(dat, c("beta", "sigma"), 
+   glmm.model.bugs, DIC = FALSE, n.thin = 1, bugs.seed=1234)
+mod.ob2 <- bugs.fit(dat, c("beta", "sigma"), 
+   glmm.model.bugs, program = "openbugs", 
+   DIC = FALSE, n.thin = 1, seed=1234)
+mod.wb3 <- bugs.fit(dat, c("beta", "sigma"), 
+   glmm.model.bugs, DIC = FALSE, n.thin = 1, bugs.seed=1234, n.burnin=500)
+mod.ob3 <- bugs.fit(dat, c("beta", "sigma"), 
+   glmm.model.bugs, program = "openbugs", 
+   DIC = FALSE, n.thin = 1, seed=1234, n.burnin=500)
+mod.wb4 <- bugs.fit(dat, c("beta", "sigma"), 
+   glmm.model.bugs, DIC = FALSE, n.thin = 1, bugs.seed=1235, n.burnin=500)
+mod.ob4 <- bugs.fit(dat, c("beta", "sigma"), 
+   glmm.model.bugs, program = "openbugs", 
+   DIC = FALSE, n.thin = 1, seed=1235, n.burnin=500)
+
+
+mod.wb1[1:2,][[1]]
+mod.wb2[1:2,][[1]]
+mod.wb3[501:502,][[1]]
+mod.wb4[501:502,][[1]]
+
+mod.ob1[1:2,][[1]]
+mod.ob2[1:2,][[1]]
+mod.ob3[501:502,][[1]]
+
+cl <- makeSOCKcluster(3)
+
+bugs.parfit <-
+function(cl, data, params, model, inits=NULL, 
+n.chains = 3, seed = 1:n.chains,
+program=c("winbugs", "openbugs"), ...) ## only mcmc.list format is supported
+{
+    if (!inherits(cl, "cluster"))
+        stop("'cl' must be a 'cluster' object")
+    trace <- getOption("dclone.verbose")
+    if (n.chains == 1)
+        stop("no need for parallel computing with 1 chain")
+    if (length(unique(seed)) < n.chains)
+        stop("'seed' must have 'n.chains' unique values")
+    ## not case sensitive evaluation of program arg
+    program <- match.arg(tolower(program), c("winbugs", "openbugs"))
+    ## retrieves n.clones
+    n.clones <- dclone:::nclones.list(data)
+    ## removes n.clones attr from each element of data
+    data <- lapply(data, function(z) {
+        attr(z, "n.clones") <- NULL
+        z
+    })
+    ## using write.model to enable custommodel settings
+    if (is.function(model) || inherits(model, "custommodel")) {
+        if (is.function(model))
+            model <- match.fun(model)
+        model <- write.jags.model(model)
+        on.exit(try(clean.jags.model(model)))
+    }
+    if (is.null(inits))
+        inits <- lapply(1:n.chains, function(i) NULL)
+    ## common data to cluster
+    cldata <- list(data=data, params=params, model=model, inits=inits, 
+        seed=seed, program=program)
+    ## parallel function to evaluate by snowWrapper
+    bugsparallel <- function(i, ...)   {
+        bugs.fit(data=cldata$data, params=cldata$params, 
+            model=cldata$model, 
+            inits=cldata$inits[[i]], n.chains=1, 
+            seed=cldata$seed[i], 
+            program=cldata$program, format="mcmc.list", ...)
+    }
+    if (trace) {
+        cat("\nParallel computation in progress\n\n")
+        flush.console()
+    }
+    ## parallel computations
+    balancing <- if (getOption("dclone.LB"))
+        "load" else "none"
+    mcmc <- snowWrapper(cl, 1:n.chains, bugsparallel, cldata, lib="dclone", 
+        balancing=balancing, size=1, dir=getwd(), ...)
+    ## binding the chains
+    res <- as.mcmc.list(lapply(mcmc, as.mcmc))
+
+    ## adding n.clones attribute, and class attr if mcmc.list
+    if (!is.null(n.clones) && n.clones > 1) {
+        attr(res, "n.clones") <- n.clones
+        if (format == "mcmc.list")
+            class(res) <- c("mcmc.list.dc", class(res))
+    }
+    res
+}
+mod <- bugs.parfit(cl, dat, c("beta", "sigma"), 
+   glmm.model.bugs, DIC = FALSE, n.thin = 1)
+
+
+
 ## brackets
 brackets <-
 function (x, ...) 

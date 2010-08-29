@@ -1,5 +1,9 @@
 dclone package version history
 
+Version 1.2-1, August 26, 2010
+    * experimenting with bugs.parfit, problems with inits
+    * seed arg added to bugs.fit
+
 Version 1.2-0, August 26, 2010
     * polishing plot methods for R Journal paper.
     * citation entry added.

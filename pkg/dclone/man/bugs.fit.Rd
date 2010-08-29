@@ -12,7 +12,8 @@ and WinBUGS and OpenBUGS.
 }
 \usage{
 bugs.fit(data, params, model, inits = NULL, 
-format = c("mcmc.list", "bugs"), program = c("winbugs", "openbugs"), ...)
+format = c("mcmc.list", "bugs"), program = c("winbugs", "openbugs"), 
+seed = NULL, ...)
 \method{as.mcmc.list}{bugs}(x, ...)
 }
 \arguments{
@@ -26,8 +27,8 @@ Character vector of parameters to be sampled.
 Character string (name of the model file), a function containing the model, or a or \code{\link{custommodel}} object (see Examples).
 }
   \item{inits}{
-Optional specification of initial values in the form of a list or a function (see Initialization at \code{\link[rjags]{jags.model}}). 
-If \code{NULL}, initial values will be generated automatically. It is an error to supply an initial value for an observed node.
+Optional specification of initial values in the form of a list or a function. 
+If \code{NULL}, initial values will be generated automatically.
 }
   \item{format}{
 Required output format.
@@ -36,6 +37,9 @@ Required output format.
 The program to use, not case sensitive.
 \code{winbugs} calls the function \code{\link[R2WinBUGS]{bugs}},
 \code{openbugs} calls the function \code{\link[R2WinBUGS]{openbugs}} and requires the CRAN package \pkg{BRugs}.
+}
+  \item{seed}{
+Random seed (\code{bugs.seed} argument for \code{\link{bugs}}, \code{seed} argument for \code{\link{openbugs}}).
 }
   \item{x}{
 A fitted 'bugs' object.

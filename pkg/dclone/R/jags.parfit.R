@@ -25,9 +25,8 @@ function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
     ## parallel function to evaluate by snowWrapper
     jagsparallel <- function(i, ...)   {
         jags.fit(data=cldata$data, params=cldata$params, 
-        model=cldata$model, 
-        ## model=cldata$model[[i]], 
-        inits=cldata$inits[[i]], n.chains=1, updated.model=FALSE, ...)
+            model=cldata$model, 
+            inits=cldata$inits[[i]], n.chains=1, updated.model=FALSE, ...)
     }
     if (trace) {
         cat("\nParallel computation in progress\n\n")
