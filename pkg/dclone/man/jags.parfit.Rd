@@ -30,7 +30,7 @@ Character string (name of the model file), a function containing the model, or a
 Specification of initial values in the form of a list or a function, can be missing if \code{n.chains <= 4}. 
 \code{inits} must contain RNG seed information, too (see Initialization at \code{\link[rjags]{jags.model}}).
 If this is a function, it must be self containing, i.e. not having references to R objects outside of the
-function, because those object are not exported to the parallel workers.
+function, or the objects should be exported with \code{\link{clusterExport}} befor calling \code{bugs.parfit}.
 }
   \item{n.chains}{
 Number of chains to generate, must be higher than 1. Ideally, this is equal to the number of parallel workers in the cluster.

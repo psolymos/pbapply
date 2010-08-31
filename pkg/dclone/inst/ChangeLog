@@ -2,9 +2,8 @@ dclone package version history
 
 Version 1.2-1, August 26, 2010
     * experimenting with bugs.parfit:
-      but the different seeds approach is not satisfactory
-      because with long enough iterations the chains
-      might overlap -- how is this handled at all???
+      the different seeds approach is not satisfactory
+      because it cannot garantee independence of the chains
     * seed arg added to bugs.fit
 
 Version 1.2-0, August 26, 2010

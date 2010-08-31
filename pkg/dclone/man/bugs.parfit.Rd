@@ -31,7 +31,7 @@ Character string (name of the model file), a function containing the model, or a
 Optional specification of initial values in the form of a list or a function. 
 If \code{NULL}, initial values will be generated automatically.
 If this is a function, it must be self containing, i.e. not having references to R objects outside of the
-function, because those object are not exported to the parallel workers.
+function, or the objects should be exported with \code{\link{clusterExport}} befor calling \code{bugs.parfit}.
 }
   \item{n.chains}{
 Number of chains to generate, must be higher than 1. Ideally, this is equal to the number of parallel workers in the cluster.
