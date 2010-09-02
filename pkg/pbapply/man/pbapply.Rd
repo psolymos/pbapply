@@ -3,15 +3,10 @@
 \alias{pbsapply}
 \alias{pblapply}
 \title{
-Adding Progress Bar to *apply Functions
+Adding Progress Bar to '*apply' Functions
 }
 \description{
-Progress bar is often useful
-  to check the progress during data analysis.
-  The implenentation can easily be added to
-  packages, where showing the progress is
-  useful for the user (e.g. bootstrap).
-}
+Adding progress bar to \code{*apply} functions}
 \usage{
 pblapply(X, FUN, ...)
 pbapply(X, MARGIN, FUN, ...)
@@ -47,20 +42,22 @@ use \code{X} as names for the result unless it had names already.
 }
 }
 \details{
-The behaviour of the progress bar is controlled by options:
+The behaviour of the progress bar is controlled by the options:
 \code{getOption("pbapply.pb")}, 
 \code{getOption("pbapply.txt")}, 
-and \code{getOption("pbapply.win")}.
+and \code{getOption("pbapply.win")}. 
 
-The \code{"pbapply.pb"} can take values in
+The \code{"pbapply.pb"} option can take values in
 \code{c("txt", "win", "tk", "none",)} or can be \code{NULL}.
-For settings of the other options, see
-\code{\link[utils]{winProgressBar}}, 
+Other options have elements that are arguments used in the functions
+\code{\link[utils]{winProgressBar}} (for \code{"txt"}), 
 \code{\link[utils]{txtProgressBar}}, 
-and \code{\link[tcltk]{tkProgressBar}}.
+and \code{\link[tcltk]{tkProgressBar}} (both for \code{"gui"}).
+
+See \code{\link{pboptions}} for how to conveniently set these.
 }
 \value{
-Similar to the value returned by the standard *apply functions.
+Similar to the value returned by the standard \code{*apply} functions.
 
 A progress bar is showed as a side effect.
 }
@@ -68,7 +65,7 @@ A progress bar is showed as a side effect.
 Peter Solymos <solymos@ualberta.ca>
 }
 \note{
-Progress bar can substantially slow down the computation.
+Progress bar can add an overhead to the computation.
 }
 \seealso{
 Progress bars used in the functions:
@@ -76,8 +73,13 @@ Progress bars used in the functions:
 \code{\link[utils]{txtProgressBar}}, 
 \code{\link[tcltk]{tkProgressBar}}
 
-Standard *apply functions:
+Standard \code{*apply} functions:
 \code{\link{apply}}, \code{\link{sapply}}, \code{\link{lapply}}
+
+Setting the options: \code{\link{pboptions}}
+
+Conveniently add progress bar to \code{for}-like loops:
+\code{\link{startpb}}, \code{\link{setpb}}, \code{\link{getpb}}, \code{\link{closepb}}
 }
 \examples{
 ## simple linear model simulation
@@ -94,11 +96,11 @@ fun <- function(z) {
     ndat <- ndat[sample(nrow(ndat), nrow(ndat), TRUE),]
     coef(lm(mod$call$formula, data=ndat[z,]))
 }
-## standard *apply functions
+## standard '*apply' functions
 system.time(res1 <- lapply(1:B, function(i) fun(bid[,i])))
 system.time(res2 <- sapply(1:B, function(i) fun(bid[,i])))
 system.time(res3 <- apply(bid, 2, fun))
-## pb*apply functions
+## 'pb*apply' functions
 ## try different settings:
 ## "none", "txt", "win", "tk"
 options("pbapply.pb"="txt")
