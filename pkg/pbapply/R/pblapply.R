@@ -24,7 +24,7 @@ function (X, FUN, ...)
             style = control$style, width = control$width, char = control$char), 
         win = winProgressBar(min = 0, max = B, initial = control$initial, 
             title = control$title, label = control$label), 
-        tk = tkProgressBar(min = 0, 
+        tk = tcltk:::tkProgressBar(min = 0, 
             max = B, initial = control$initial, title = control$title, 
             label = control$label))
     rval <- vector("list", length(X))
@@ -33,7 +33,7 @@ function (X, FUN, ...)
         switch(progress.bar, 
             txt = setTxtProgressBar(pb, i), 
             win = setWinProgressBar(pb, i, label = control$label), 
-            tk = setTkProgressBar(pb, i, label = control$label))
+            tk = tcltk:::setTkProgressBar(pb, i, label = control$label))
     }
     close(pb)
     rval

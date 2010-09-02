@@ -1,7 +1,7 @@
 .onAttach <- function(libname, pkgname){
-    ver <- read.dcf(file=system.file("DESCRIPTION", package=pkgname), 
-                    fields=c("Version", "Date"))
-    cat(paste(pkgname, ver[1], "\t", ver[2], "\n"))
+#    ver <- read.dcf(file=system.file("DESCRIPTION", package=pkgname), 
+#                    fields=c("Version", "Date"))
+#    cat(paste(pkgname, ver[1], "\t", ver[2], "\n"))
     if (is.null(getOption("pbapply.pb")))
         options("pbapply.pb"="txt")
     if (is.null(getOption("pbapply.gui")))

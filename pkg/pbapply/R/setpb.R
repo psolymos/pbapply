@@ -7,10 +7,11 @@ function(pb, value)
             txt = getOption("pbapply.txt"),
             win = getOption("pbapply.gui"),
             tk = getOption("pbapply.gui"))
-        switch(progress.bar, 
+        rval <- switch(progress.bar, 
             txt = setTxtProgressBar(pb, value), 
             win = setWinProgressBar(pb, value, label=control$label),
-            tk = setTkProgressBar(pb, value, label=control$label))
-    }
+            tk = tcltk:::setTkProgressBar(pb, value, label=control$label))
+    } else rval <- NULL
+    invisible(rval)
 }
 

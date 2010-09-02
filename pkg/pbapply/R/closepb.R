@@ -1,5 +1,5 @@
 closepb <-
-function(pb, ...)
+function(pb)
     if (is.null(pb))
-        invisible(NULL) else close(pb, ...)
+        invisible(NULL) else close(pb)
 

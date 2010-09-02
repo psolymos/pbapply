@@ -27,6 +27,6 @@ function(pb, txt, gui)
     }
     rval <- list(pb=opb, txt=otxt, gui=ogui)
     class(rval) <- "pboptions"
-    rval
+    invisible(rval)
 }
 
