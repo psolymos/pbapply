@@ -1,0 +1,14 @@
+Package: pbapply
+Type: Package
+Title: Adding Progress Bar to *apply Functions
+Version: 1.0
+Date: 2010-09-02
+Author: Peter Solymos
+Maintainer: Peter Solymos <solymos@ualberta.ca>
+Description: Progress bar is often useful
+  to check the progress during data analysis.
+  The implenentation can easily be added to
+  packages, where showing the progress is
+  useful for the user (e.g. bootstrap).
+License: GPL-2
+LazyLoad: yes
