@@ -1,3 +1,148 @@
+## progress bar for packages
+## make it according to sapply and lapply, 
+#http://ryouready.wordpress.com/2010/01/11/progress-bars-in-r-part-ii-a-wrapper-for-apply-functions/
+
+options("pbapply.pb"="txt")
+options("pbapply.gui"=list(title="R progress bar",
+    label="", width=300, initial=0))
+options("pbapply.text"=list(char="+", width=50, style=3, initial=0))
+
+pblapply <-
+function (X, FUN, ...)
+{
+    FUN <- match.fun(FUN)
+    if (!is.vector(X) || is.object(X)) 
+        X <- as.list(X)
+    progress.bar <- getOption("pbapply.pb")
+    if (!is.null(progress.bar)) {
+        progress.bar <- match.arg(progress.bar, c("txt", "win", "tk", "none"))
+        if (progress.bar == "none") 
+            progress.bar <- NULL
+    }
+    B <- length(X)
+    do.pd <- interactive() && !is.null(progress.bar) && B >= 1
+    if (!do.pd)
+        return(.Internal(lapply(X, FUN)))
+    control <- switch(progress.bar,
+        text = getOption("pbapply.text"),
+        win = getOption("pbapply.gui"),
+        tk = getOption("pbapply.gui"))
+    pb <- switch(progress.bar, 
+        text = txtProgressBar(0, B, initial=control$initial,
+            style = control$style, width = control$width, char = control$char),
+        win = winProgressBar(min=0, max=B, initial=control$initial,
+            title = control$title, label = control$label),
+        tk = tkProgressBar(min=0, max=B, initial=control$initial,
+            title = control$title, label = control$label))
+    rval <- vector("list", length(X))
+    for (i in 1:B) {
+        rval[[i]] <- FUN(X[[i]], ...)
+        switch(progress.bar, 
+            text = setTxtProgressBar(pb, i), 
+            win = setWinProgressBar(pb, i, label=control$label),
+            win = setTkProgressBar(pb, i, label=control$label))
+    }
+    close(pb)
+    rval
+}
+
+pbsapply <-
+function (X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE) 
+{
+    FUN <- match.fun(FUN)
+    answer <- pblapply(X, FUN, ...)
+    if (USE.NAMES && is.character(X) && is.null(names(answer))) 
+        names(answer) <- X
+    if (simplify && length(answer) && length(common.len <- unique(unlist(lapply(answer, 
+        length)))) == 1L) {
+        if (common.len == 1L) 
+            unlist(answer, recursive = FALSE)
+        else if (common.len > 1L) 
+            array(unlist(answer, recursive = FALSE), dim = c(common.len, 
+                length(X)), dimnames = if (!(is.null(n1 <- names(answer[[1L]])) & 
+                is.null(n2 <- names(answer)))) 
+                list(n1, n2))
+        else answer
+    }
+    else answer
+}
+
+pbapply <-
+function (X, MARGIN, FUN, ...)
+{
+    if (is.null(dim(X)) || length(dim(X)) != 2)
+        stop("X must have 2 dimensions")
+    if (MARGIN == 2)
+        X <- t(X) 
+    Z <- lapply(1:NROW(X), function(i) X[i,])
+    names(Z) <- rownames(X)
+    FUN <- match.fun(FUN)
+    pbsapply(Z, FUN, ...)
+}
+
+n <- 200
+x <- rnorm(n)
+y <- rnorm(n, model.matrix(~x) %*% c(0,1), sd=0.5)
+d <- data.frame(y, x)
+mod <- lm(y~x, d)
+ndat <- model.frame(mod)
+B <- 100
+bid <- sapply(1:B, function(i) sample(nrow(ndat), nrow(ndat), TRUE))
+fun <- function(z) {
+    ndat <- ndat[sample(nrow(ndat), nrow(ndat), TRUE),]
+    coef(lm(mod$call$formula, data=ndat[z,]))
+}
+
+system.time(res1 <- lapply(1:B, function(i) fun(bid[,i])))
+system.time(res2 <- sapply(1:B, function(i) fun(bid[,i])))
+system.time(res3 <- apply(bid, 2, fun))
+
+system.time(res4 <- pblapply(1:B, function(i) fun(bid[,i])))
+system.time(res5 <- pbsapply(1:B, function(i) fun(bid[,i])))
+system.time(res6 <- pbapply(bid, 2, fun))
+
+system.time(l_ply(1:1000, identity, .progress = "none"))
+system.time(l_ply(1:1000, identity, .progress = "tk"))
+system.time(l_ply(1:1000, identity, .progress = "text"))
+system.time(l_ply(1:1000, identity, .progress = progress_text(char = "-")))
+
+system.time(res2 <- pblapply(1:1000, identity))
+system.time(res4 <- pbsapply(1:1000, identity))
+system.time(res6 <- pbapply(bid, 2, fun))
+
+
+
+lapply_pb <- function(X, FUN, ...)
+{
+ env <- environment()
+ pb_Total <- length(X)
+ counter <- 0
+ pb <- txtProgressBar(min = 0, max = pb_Total, style = 3)   
+
+ # wrapper around FUN
+ wrapper <- function(...){
+   curVal <- get("counter", envir = env)
+   assign("counter", curVal +1 ,envir=env)
+   setTxtProgressBar(get("pb", envir=env), curVal +1)
+   FUN(...)
+ }
+ lapply(X, wrapper, ...)
+ close(pb)
+}
+
+
+l <- sapply(1:10000, function(x) rnorm(1000))
+system.time(tmp <- lapply(l, mean))
+system.time(tmp <- pblapply(l, mean))
+system.time(tmp <- lapply_pb(l, mean))
+
+system.time(tmp <- sapply(l, mean))
+system.time(tmp <- pbsapply(l, mean))
+
+system.time(tmp <- apply(l, 1, mean))
+system.time(tmp <- pbapply(l, 1, mean))
+
+
 ## seed in WinBUGS/OpenBUGS
 set.seed(1234)
 n <- 50
