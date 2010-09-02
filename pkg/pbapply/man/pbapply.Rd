@@ -82,6 +82,7 @@ Conveniently add progress bar to \code{for}-like loops:
 \code{\link{startpb}}, \code{\link{setpb}}, \code{\link{getpb}}, \code{\link{closepb}}
 }
 \examples{
+\dontrun{
 ## simple linear model simulation
 n <- 200
 x <- rnorm(n)
@@ -107,6 +108,7 @@ options("pbapply.pb"="txt")
 system.time(res4 <- pblapply(1:B, function(i) fun(bid[,i])))
 system.time(res5 <- pbsapply(1:B, function(i) fun(bid[,i])))
 system.time(res6 <- pbapply(bid, 2, fun))
+}
 }
 \keyword{ manip }
 \keyword{ utilities }
