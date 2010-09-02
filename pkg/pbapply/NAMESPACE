@@ -1,4 +1,6 @@
-importFrom(tcltk, tkProgressBar, getTkProgressBar, setTkProgressBar)
-importFrom(utils, winProgressBar, getWinProgressBar, setWinProgressBar,
-    txtProgressBar, getTxtProgressBar, setTxtProgressBar)
-export(pbapply, pbsapply, pblapply)
+#importFrom(tcltk, tkProgressBar, getTkProgressBar, setTkProgressBar)
+#importFrom(utils, winProgressBar, getWinProgressBar, setWinProgressBar,
+#    txtProgressBar, getTxtProgressBar, setTxtProgressBar)
+export(pbapply, pbsapply, pblapply,
+    startpb, setpb, closepb, dopb, pboptions)
+

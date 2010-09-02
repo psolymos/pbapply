@@ -8,7 +8,7 @@
         options("pbapply.gui"=list(title="R progress bar",
             label="", width=300, initial=0))
     if (is.null(getOption("pbapply.txt")))
-        options("pbapply.text"=list(char="+", width=50, style=3, initial=0))
+        options("pbapply.txt"=list(char="+", width=50, style=3, initial=0))
 
     invisible(NULL)
 }
