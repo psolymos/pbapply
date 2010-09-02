@@ -22,8 +22,8 @@ For \code{pbapply} an array, including a matrix.
 }
   \item{MARGIN}{
 A vector giving the subscripts which the function will be applied over.
-\code{1} indicates rows, \code{2} indicates columns.
-(\code{c(1,2)} indicating rows and columns currently not implemented.)
+\code{1} indicates rows, \code{2} indicates columns, \code{c(1,2)} 
+indicates rows and columns.
 }
   \item{FUN}{
 The function to be applied to each element of \code{X}: 
