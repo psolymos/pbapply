@@ -3,6 +3,8 @@ pbapply package version history
 Version 1.0-1, September 3, 2010
     * pbreplicate added
     * tests directory created
+    * check failed on unix systems:
+      man an R directory reworked
 
 Version 1.0-0, September 2, 2010
     * first release

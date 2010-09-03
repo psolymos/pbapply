@@ -52,14 +52,19 @@ Expression (language object, usually a call) to evaluate repeatedly.
 The behaviour of the progress bar is controlled by the options:
 \code{getOption("pbapply.pb")}, 
 \code{getOption("pbapply.txt")}, 
-and \code{getOption("pbapply.win")}. 
+and \code{getOption("pbapply.gui")}. 
 
 The \code{"pbapply.pb"} option can take values in
-\code{c("txt", "win", "tk", "none",)} or can be \code{NULL}.
+\code{c("txt", "win", "tk", "none",)} on Windows,
+\code{c("txt", "tk", "none",)} on Unix systems,
+or can be \code{NULL}.
+
 Other options have elements that are arguments used in the functions
-\code{\link[utils]{winProgressBar}} (for \code{"txt"}), 
-\code{\link[utils]{txtProgressBar}}, 
-and \code{\link[tcltk]{tkProgressBar}} (both for \code{"gui"}).
+\code{\link[utils]{txtProgressBar}} (for \code{"pbapply.txt"} option), 
+#ifdef windows
+\code{\link[utils]{winProgressBar}}, 
+#endif
+and \code{\link[tcltk]{tkProgressBar}} (for \code{"pbapply.gui"} option).
 
 See \code{\link{pboptions}} for how to conveniently set these.
 }
@@ -76,7 +81,9 @@ Progress bar can add an overhead to the computation.
 }
 \seealso{
 Progress bars used in the functions:
+#ifdef windows
 \code{\link[utils]{winProgressBar}}, 
+#endif
 \code{\link[utils]{txtProgressBar}}, 
 \code{\link[tcltk]{tkProgressBar}}
 
@@ -110,7 +117,7 @@ system.time(res2 <- sapply(1:B, function(i) fun(bid[,i])))
 system.time(res3 <- apply(bid, 2, fun))
 ## 'pb*apply' functions
 ## try different settings:
-## "none", "txt", "win", "tk"
+## "none", "txt", "tk"
 options("pbapply.pb"="txt")
 system.time(res4 <- pblapply(1:B, function(i) fun(bid[,i])))
 system.time(res5 <- pbsapply(1:B, function(i) fun(bid[,i])))

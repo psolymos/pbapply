@@ -64,7 +64,9 @@ Peter Solymos <solymos@ualberta.ca>
 }
 \seealso{
 Progress bars used in the functions:
+#ifdef windows
 \code{\link[utils]{winProgressBar}}, 
+#endif
 \code{\link[utils]{txtProgressBar}}, 
 \code{\link[tcltk]{tkProgressBar}}
 }
