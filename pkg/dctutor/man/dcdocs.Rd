@@ -7,11 +7,11 @@
   defined in \code{\link{options}}.
 }
 \usage{
-dcdocs(doc = c("dclone","dcglm","dcpar"), pdf = TRUE)
+dcdocs(doc = c("dclone","dcglm","dcpar"), ext = ".pdf")
 }
 \arguments{
   \item{doc}{The name of the document (partial match, case sensitive). }
-  \item{pdf}{Logical, if the file is of PDF format (attaches the extension \code{.doc} to \code{doc}).}
+  \item{ext}{Character, file extension.}
 }
 \author{Peter Solymos \email{solymos@ualberta.ca, adapted Jari Oksanen's \code{\link[vegan]{vegandocs}}}}
 \examples{
