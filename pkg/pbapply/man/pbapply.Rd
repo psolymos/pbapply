@@ -31,7 +31,6 @@ indicates rows and columns.
 The function to be applied to each element of \code{X}: 
 see \code{\link{apply}}, \code{\link{sapply}}, and \code{\link{lapply}}.
 }
-
   \item{\dots}{
 Optional arguments to \code{FUN}.
 }
@@ -41,6 +40,9 @@ Logical; should the result be simplified to a vector or matrix if possible?
   \item{USE.NAMES}{
 Logical; if \code{TRUE} and if \code{X} is character, 
 use \code{X} as names for the result unless it had names already.
+}
+  \item{n}{
+Number of replications.
 }
   \item{expr}{
 Expression (language object, usually a call) to evaluate repeatedly.

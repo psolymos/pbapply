@@ -1,0 +1,5 @@
+library(pbapply)
+example(pboptions)
+example(pbapply)
+example(lapply)
+example(apply)
