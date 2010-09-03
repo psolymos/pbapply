@@ -2,6 +2,7 @@
 \alias{pbapply}
 \alias{pbsapply}
 \alias{pblapply}
+\alias{pbreplicate}
 \title{
 Adding Progress Bar to '*apply' Functions
 }
@@ -11,6 +12,7 @@ Adding progress bar to \code{*apply} functions}
 pblapply(X, FUN, ...)
 pbapply(X, MARGIN, FUN, ...)
 pbsapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE)
+pbreplicate(n, expr, simplify = TRUE)
 }
 \arguments{
   \item{X}{
@@ -39,6 +41,9 @@ Logical; should the result be simplified to a vector or matrix if possible?
   \item{USE.NAMES}{
 Logical; if \code{TRUE} and if \code{X} is character, 
 use \code{X} as names for the result unless it had names already.
+}
+  \item{expr}{
+Expression (language object, usually a call) to evaluate repeatedly.
 }
 }
 \details{
@@ -74,7 +79,8 @@ Progress bars used in the functions:
 \code{\link[tcltk]{tkProgressBar}}
 
 Standard \code{*apply} functions:
-\code{\link{apply}}, \code{\link{sapply}}, \code{\link{lapply}}
+\code{\link{apply}}, \code{\link{sapply}}, 
+\code{\link{lapply}}, \code{\link{replicate}}
 
 Setting the options: \code{\link{pboptions}}
 
@@ -82,7 +88,6 @@ Conveniently add progress bar to \code{for}-like loops:
 \code{\link{startpb}}, \code{\link{setpb}}, \code{\link{getpb}}, \code{\link{closepb}}
 }
 \examples{
-\dontrun{
 ## simple linear model simulation
 n <- 200
 x <- rnorm(n)
@@ -108,7 +113,64 @@ options("pbapply.pb"="txt")
 system.time(res4 <- pblapply(1:B, function(i) fun(bid[,i])))
 system.time(res5 <- pbsapply(1:B, function(i) fun(bid[,i])))
 system.time(res6 <- pbapply(bid, 2, fun))
-}
+
+## Examples taken from standard '*apply' functions
+
+## sapply and lapply
+
+require(stats); require(graphics)
+
+x <- list(a = 1:10, beta = exp(-3:3), logic = c(TRUE,FALSE,FALSE,TRUE))
+# compute the list mean for each list element
+pblapply(x,mean)
+# median and quartiles for each list element
+pblapply(x, quantile, probs = 1:3/4)
+pbsapply(x, quantile)
+i39 <- pbsapply(3:9, seq) # list of vectors
+pbsapply(i39, fivenum)
+
+## replicate
+
+foo <- function(x=1, y=2) c(x,y)
+# does not work: bar <- function(n, ...) replicate(n, foo(...))
+bar <- function(n, x) pbreplicate(n, foo(x=x))
+bar(5, x=3)
+
+## apply
+
+## Compute row and column sums for a matrix:
+x <- cbind(x1 = 3, x2 = c(4:1, 2:5))
+dimnames(x)[[1]] <- letters[1:8]
+pbapply(x, 2, mean, trim = .2)
+col.sums <- pbapply(x, 2, sum)
+row.sums <- pbapply(x, 1, sum)
+rbind(cbind(x, Rtot = row.sums), Ctot = c(col.sums, sum(col.sums)))
+
+stopifnot( pbapply(x, 2, is.vector))
+
+## Sort the columns of a matrix
+pbapply(x, 2, sort)
+
+##- function with extra args:
+cave <- function(x, c1, c2) c(mean(x[c1]), mean(x[c2]))
+pbapply(x,1, cave,  c1="x1", c2=c("x1","x2"))
+
+ma <- matrix(c(1:4, 1, 6:8), nrow = 2)
+ma
+pbapply(ma, 1, table)  #--> a list of length 2
+pbapply(ma, 1, stats::quantile)# 5 x n matrix with rownames
+
+stopifnot(dim(ma) == dim(pbapply(ma, 1:2, sum)))
+
+## Example with different lengths for each call
+z <- array(1:24, dim=2:4)
+zseq <- pbapply(z, 1:2, function(x) seq_len(max(x)))
+zseq         ## a 2 x 3 matrix
+typeof(zseq) ## list
+dim(zseq) ## 2 3
+zseq[1,]
+pbapply(z, 3, function(x) seq_len(max(x)))
+# a list without a dim attribute
 }
 \keyword{ manip }
 \keyword{ utilities }

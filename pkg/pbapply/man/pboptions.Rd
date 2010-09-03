@@ -69,7 +69,6 @@ Progress bars used in the functions:
 \code{\link[tcltk]{tkProgressBar}}
 }
 \examples{
-\dontrun{
 pb <- startpb(0, 10)
 for (i in 1:10) {
     Sys.sleep(0.2)
@@ -93,7 +92,6 @@ closepb(pb)
 pboptions(opb)
 ## check reset
 getOption("pbapply.txt")
-}
 }
 \keyword{ IO }
 \keyword{ utilities }
