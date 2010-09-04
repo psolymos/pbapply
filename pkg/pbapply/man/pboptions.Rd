@@ -12,7 +12,7 @@ Creating Progress Bar and Setting Options
 Creating progress bar and setting options.
 }
 \usage{
-pboptions(pb, txt, gui)
+pboptions(...)
 startpb(min = 0, max = 1)
 setpb(pb, value)
 getpb(pb)
@@ -20,18 +20,12 @@ closepb(pb)
 dopb()
 }
 \arguments{
+  \item{\dots}{
+Arguments in \code{tag = value} form, or a list of tagged values.
+The tags must come from the parameters described below.
+}
   \item{pb}{
-For \code{pboptions} it is the progress bar option, a list as returned by 
-\code{getOption("pbapply.pb")}.
-For the other functions, it is a progress bar object created by \code{startpb}.
-}
-  \item{txt}{
-Text progress bar options, a list as returned by 
-\code{getOption("pbapply.txt")} (or some elements of it to change).
-}
-  \item{gui}{
-GUI progress bar options, a list as returned by 
-\code{getOption("pbapply.gui")} (or some elements of it to change).
+A progress bar object created by \code{startpb}.
 }
   \item{min, max}{
 Finite numeric values for the extremes of the progress bar. Must have \code{min < max}.
@@ -48,6 +42,23 @@ Other functions can be used for conveniently adding progress bar to \code{for}-l
 }
 \value{
 When parameters are set by \code{pboptions}, their former values are returned in an invisible named list. Such a list can be passed as an argument to \code{pboptions} to restore the parameter values.
+Tags are the following:
+
+  \item{type}{Default value is \code{"txt"}.}
+  \item{char}{The character (or character string) to form the progress bar.
+    Default value is \code{"+"}.}
+  \item{txt.width}{The width of the text based progress bar, as a multiple of the width of \code{char}.
+    If \code{NA}, the number of characters is that which fits into \code{getOption("width")}.
+    Default value is \code{50}.}
+  \item{gui.width}{The width of the GUI based progress bar in pixels: 
+    the dialog box will be 40 pixels wider (plus frame). 
+    Default value is \code{300}.}
+  \item{style}{The style of the bar, see \code{\link[utils]{txtProgressBar}}. Default value is \code{3}.}
+  \item{initial}{Initial value for the progress bar. Default value is \code{0}.}
+  \item{title}{Character string giving the window title 
+    on the GUI dialog box. Default value is \code{"R progress bar"}.}
+  \item{label}{Character string giving the window label
+    on the GUI dialog box. Default value is \code{""}.}
 
 For \code{startpb} a progress bar object.
 
@@ -78,9 +89,9 @@ for (i in 1:10) {
 }
 closepb(pb)
 ## resetting pboptions
-opb <- pboptions(txt=list(style=1, char=">"))
+opb <- pboptions(style=1, char=">")
 ## check new settings
-getOption("pbapply.txt")
+getOption("pboptions")
 ## running again with new settings
 pb <- startpb(0, 10)
 i <- 1
@@ -93,7 +104,7 @@ closepb(pb)
 ## resetting original
 pboptions(opb)
 ## check reset
-getOption("pbapply.txt")
+getOption("pboptions")
 }
 \keyword{ IO }
 \keyword{ utilities }

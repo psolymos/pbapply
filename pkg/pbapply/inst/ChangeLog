@@ -1,5 +1,9 @@
 pbapply package version history
 
+Version 1.0-2, September 4, 2010
+    * pboptions reworked
+    * functions simplified
+
 Version 1.0-1, September 3, 2010
     * pbreplicate added
     * tests directory created

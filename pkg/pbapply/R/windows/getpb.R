@@ -2,7 +2,7 @@ getpb <-
 function(pb)
 {
     if (dopb()) {
-        progress.bar <- getOption("pbapply.pb")
+        progress.bar <- getOption("pboptions")$type
         rval <- switch(progress.bar, 
             txt = getTxtProgressBar(pb), 
             win = getWinProgressBar(pb),
