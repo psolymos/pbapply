@@ -36,7 +36,7 @@ function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
     balancing <- if (getOption("dcoptions")$LB)
         "load" else "none"
     mcmc <- snowWrapper(cl, 1:n.chains, jagsparallel, cldata, lib="dclone", 
-        balancing=balancing, size=1, dir=getwd(), ...)
+        balancing=balancing, size=1, dir=getwd(), set.rng=TRUE, ...)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))
     ## attaching attribs and return
