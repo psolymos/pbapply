@@ -4,7 +4,7 @@ function(x, ...)
     chisq <- chisq.diag(x)$statistics
     n.clones <- ifelse(is.null(nclones(x)), 1, nclones(x))
     if (nchain(x) > 1) {
-        abin <- getOption("dclone.autoburnin")
+        abin <- getOption("dcoptions")$autoburnin
         rhat <- if (nvar(x) > 1) 
             gelman.diag(x, autoburnin=abin)$mpsrf
             else gelman.diag(x, autoburnin=abin)$psrf[,1]

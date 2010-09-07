@@ -6,7 +6,7 @@ function(x, ...)
     Mean <- apply(y, 2, mean)
     Sd <- apply(y, 2, sd)
     if (nchain(x) > 1) {
-        abin <- getOption("dclone.autoburnin")
+        abin <- getOption("dcoptions")$autoburnin
         rhat <- gelman.diag(x, autoburnin=abin)$psrf[,1]
     } else rhat <- NA
     if (!is.null(quantiles)) {

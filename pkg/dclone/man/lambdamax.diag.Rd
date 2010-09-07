@@ -28,7 +28,7 @@ If only one parameter is dealt with, the unscaled posterior standard
 error is given.
 
 There is no critical value under which \eqn{\lambda_{max}} is good enough.
-By default, 0.1 is used (see \code{getOption("dclone.crit")}).
+By default, 0.05 is used (see \code{getOption("dclone")$diag}).
 }
 \value{
 Returns a single vaue, the maximum of the eigenvalues of the 

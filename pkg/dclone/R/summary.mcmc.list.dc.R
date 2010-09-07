@@ -5,7 +5,7 @@ function(object, quantiles = c(0.025, 0.25, 0.5, 0.75, 0.975), ...)
     out <- summary(object, quantiles = quantiles, ...)
     out$nclones <- nclones(object)
     if (nchain(object) > 1) {
-        abin <- getOption("dclone.autoburnin")
+        abin <- getOption("dcoptions")$autoburnin
         rhat <- gelman.diag(object, autoburnin = abin)$psrf[,1]
     } else rhat <- NA
     if (nvar(object) > 1) {

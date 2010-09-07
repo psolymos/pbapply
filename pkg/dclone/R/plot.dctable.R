@@ -50,7 +50,7 @@ position = "topright", box.cex = 0.75, box.bg = NA, ...)
     if (max(which) > length(x))
         stop("'which' too large")
     type <- match.arg(type)
-    crit <- getOption("dclone.rhat")
+    crit <- getOption("dcoptions")$rhat
     nam <- names(x)[which]
     w <- box.cex
     k <- x[[1]]$n.clones

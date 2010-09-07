@@ -5,7 +5,7 @@ program=c("winbugs", "openbugs"), ...) ## only mcmc.list format is supported
 {
     if (!inherits(cl, "cluster"))
         stop("'cl' must be a 'cluster' object")
-    trace <- getOption("dclone.verbose")
+    trace <- getOption("dcoptions")$verbose
     if (n.chains == 1)
         stop("no need for parallel computing with 1 chain")
     if (length(unique(seed)) < n.chains)
@@ -46,7 +46,7 @@ program=c("winbugs", "openbugs"), ...) ## only mcmc.list format is supported
         flush.console()
     }
     ## parallel computations
-    balancing <- if (getOption("dclone.LB"))
+    balancing <- if (getOption("dcoptions")$LB)
         "load" else "none"
     mcmc <- snowWrapper(cl, 1:n.chains, bugsparallel, cldata, lib="dclone", 
         balancing=balancing, size=1, dir=getwd(), ...)

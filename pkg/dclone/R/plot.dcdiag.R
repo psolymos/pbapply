@@ -45,7 +45,7 @@ position = "topright", ...)
         xval <- log(k)
         log.var <- TRUE
     }
-    crit <- getOption("dclone.diag")
+    crit <- getOption("dcoptions")$diag
     if (which == "all") {
         show.legend <- c(FALSE, FALSE, TRUE)
         lin <- c(TRUE, FALSE, FALSE)

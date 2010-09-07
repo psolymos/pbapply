@@ -19,8 +19,8 @@ flavour = c("jags", "bugs"), ...)
     if (times < 2)
         stop("no need for parallel computing")
     ## globel options
-    rhat.opts <- getOption("dclone.rhat")
-    trace <- getOption("dclone.verbose")
+    rhat.opts <- getOption("dcoptions")$rhat
+    trace <- getOption("dcoptions")$verbose
     ## evaluate inits
     if (missing(inits))
         inits <- NULL
@@ -58,7 +58,7 @@ flavour = c("jags", "bugs"), ...)
     rng <- c("Wichmann-Hill", "Marsaglia-Multicarry",
         "Super-Duper", "Mersenne-Twister")
     rng <- rep(rng, length(cl))[1:length(cl)]
-    balancing <- if (getOption("dclone.LB"))
+    balancing <- if (getOption("dcoptions")$LB)
         "size" else "both"
     pmod <- snowWrapper(cl, k, dcparallel, cldata, lib="dclone", 
         balancing=balancing, size=k, dir=getwd(), ...)

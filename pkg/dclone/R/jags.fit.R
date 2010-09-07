@@ -17,7 +17,7 @@ updated.model=TRUE, ...)
         jags.model(model, data, inits, n.chain=n.chains, n.adapt=n.adapt)
     }
     if (is.null(list(...)$progress.bar)) {
-        trace <- if (getOption("dclone.verbose"))
+        trace <- if (getOption("dcoptions")$verbose)
             getOption("jags.pb") else "none"
     } else trace <- list(...)$progress.bar
     byval <- if (!is.null(list(...)$by))

@@ -17,7 +17,7 @@ set.rng=TRUE, ...)
     }
     ## set seed on each worker 
     if (set.rng) {
-        clusterSetupRNG(cl, type = getOption("dclone.RNG"))
+        clusterSetupRNG(cl, type = getOption("dcoptions")$RNG)
     }
     ## sets common working directory
     eval(parse(text=paste("clusterEvalQ(cl, setwd('", dir, "'))", sep="")))
