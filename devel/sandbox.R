@@ -1,3 +1,29 @@
+    if (is.null(getOption("dcoptions")))
+        options("dcoptions"=list("rhat"=1.1,
+            "autoburnin"=TRUE,
+            "diag"=0.05,
+            "verbose"=1,
+            "LB"=FALSE,
+            "RNG"="RNGstream"))
+
+dcoptions <-
+function(...)
+{
+    opar <- getOption("dcoptions")
+    args <- list(...)
+    if (length(args)) {
+        if (length(args)==1 && is.list(args[[1]])) {
+            npar <- args[[1]]
+        } else {
+            npar <- opar
+            npar[match(names(args), names(npar))] <- args
+        }
+        options("pboptions"=npar)
+    }
+    invisible(opar)
+}
+
+
 ## progress bar for packages
 ## make it according to sapply and lapply, 
 #http://ryouready.wordpress.com/2010/01/11/progress-bars-in-r-part-ii-a-wrapper-for-apply-functions/

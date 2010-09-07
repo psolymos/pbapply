@@ -7,4 +7,5 @@
 * add parallel RNG option
 * rework options as dcoptions() similar to pboptions
 * finish bugs.parfit
-
+* documentation should reflect options
+* tests in /devel for dclone
