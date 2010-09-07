@@ -2,7 +2,6 @@
 export("dclone", "dcdim", 
        "jags.fit", "bugs.fit", "dc.fit",
        "clean.jags.model", "write.jags.model", "custommodel",
-#       "openbugs.seed",
        "updated.model",
        "dcsd",
        "nclones",
@@ -10,7 +9,8 @@ export("dclone", "dcdim",
        "make.symmetric",
        "dctable", "extractdctable",
        "dcdiag", "extractdcdiag", 
-       "lambdamax.diag", "chisq.diag")
+       "lambdamax.diag", "chisq.diag",
+       "dcoptions")
 
 ## parallel functions
 export("jags.parfit", "dc.parfit", "bugs.parfit",
