@@ -13,6 +13,8 @@
         options("dclone.verbose"=1)
     if (is.null(getOption("dclone.LB")))
         options("dclone.LB"=FALSE)
+    if (is.null(getOption("dclone.LB")))
+        options("dclone.RNG"="RNGstream")
     if (as.numeric(substr(utils::packageDescription("rjags", 
         field="Version"), 1, 1)) > 1)
             load.module("glm")
@@ -26,6 +28,7 @@
     options("dclone.diag"=NULL)
     options("dclone.verbose"=NULL)
     options("dclone.LB"=NULL)
+    options("dclone.RNG"=NULL)
     invisible(NULL)
 }
 
