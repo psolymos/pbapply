@@ -3,9 +3,10 @@
 * add progress bar to functions
 
 ## dclone
-* add parallel RNG to snowWrapper
-* add parallel RNG option
-* rework options as dcoptions() similar to pboptions
+* OK -- add parallel RNG to snowWrapper
+* OK -- add parallel RNG option
+* OK -- rework options as dcoptions() similar to pboptions
+* OK -- documentation should reflect options
 * finish bugs.parfit
-* documentation should reflect options
 * tests in /devel for dclone
+* update references (dclone-package, etc.)

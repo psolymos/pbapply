@@ -599,3 +599,177 @@ system.time(out <- oecosimu(sipoo, decorana, "quasiswap", thin=10, statistic="ev
 system.time(out <- oecosimu2(sipoo, decorana, "quasiswap", thin=10, statistic="evals"))
 
 ## label can be added for win, and *=burnin, +=iter
+
+library(dclone)
+data(schools)
+dat <- list(J = nrow(schools), y = schools$estimate, sigma.y = schools$sd)
+bugs.model <- function(){
+       for (j in 1:J){
+         y[j] ~ dnorm (theta[j], tau.y[j])
+         theta[j] ~ dnorm (mu.theta, tau.theta)
+         tau.y[j] <- pow(sigma.y[j], -2)
+       }
+       mu.theta ~ dnorm (0.0, 1.0E-6)
+       tau.theta <- pow(sigma.theta, -2)
+       sigma.theta ~ dunif (0, 1000)
+     }  
+inits <- function(){
+    list(theta=rnorm(nrow(schools), 0, 100), mu.theta=rnorm(1, 0, 100),
+         sigma.theta=runif(1, 0, 100))
+}
+param <- c("mu.theta", "sigma.theta")
+sim2 <- dc.fit(dat, param, bugs.model, n.clones=1:2, 
+    flavour="bugs", program="WinBUGS", multiply="J")
+sim3 <- dc.fit(dat, param, bugs.model, n.clones=1:2, 
+    flavour="bugs", program="OpenBUGS", multiply="J")
+
+
+dc.fit2 <- 
+function(data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL, 
+update=NULL, updatefun=NULL, initsfun=NULL, flavour = c("jags", "bugs"), ...)
+{
+    ## initail evals
+    flavour <- match.arg(flavour)
+    if (missing(n.clones))
+        stop("'n.clones' argument must be provided")
+    if (identical(n.clones, 1))
+        stop("'n.clones = 1' gives the Bayesian answer, no need for DC")
+    if (is.environment(data))
+        stop("'data' should be list, not environment")
+    ## determine k
+    k <- n.clones[order(n.clones)]
+    k <- unique(k)
+    times <- length(k)
+    rhat.crit <- getOption("dclone.rhat")
+    trace <- getOption("dclone.verbose")
+    ## evaluate updating
+    if (!is.null(update) != !is.null(updatefun))
+        stop("both 'update' and 'updatefun' must be provided")
+    if (!is.null(update)) {
+        unchanged <- c(unchanged, update)
+        updatefun <- match.fun(updatefun)
+    }
+    ## evaluate inits
+    if (missing(inits))
+        inits <- NULL
+    if (!is.null(initsfun))
+        initsfun <- match.fun(initsfun)
+    ## list for dcdiag results
+    dcdr <- list()
+    ## iteration starts here
+    for (i in 1:times) {
+        tmpch <- if (k[i] == 1) "clone" else "clones"
+        if (trace) {
+            cat("\nFitting model with", k[i], tmpch, "\n\n")
+            flush.console()
+        }
+        jdat <- dclone(data, k[i], multiply=multiply, unchanged=unchanged)
+        mod <- if (flavour == "jags") {
+            jags.fit(jdat, params, model, inits, ...)
+        } else {
+            bugs.fit(jdat, params, model, inits, format="mcmc.list", ...)
+        }
+        ## dctable evaluation
+        if (i == 1) {
+            vn <- varnames(mod)
+            dcts <- list()
+            ## note: quantiles must remain unchanged, because these values are
+            ## defined in extractdctable.default
+            quantiles <- c(0.025, 0.25, 0.5, 0.75, 0.975)
+            dcts0 <- matrix(0, times, 4 + length(quantiles))
+            dcts0[,1] <- k
+            colnames(dcts0) <- c("n.clones", "mean", "sd", names(quantile(0, probs=quantiles)), "r.hat")
+            for (j in 1:length(vn))
+                dcts[[vn[j]]] <- dcts0
+        } else {
+            if (!is.null(update))
+                jdat[[update]] <- updatefun(mod)
+            if (!is.null(initsfun))
+                inits <- initsfun(mod)
+        }
+        dctmp <- extractdctable.default(mod)
+        dcdr[[i]] <- extractdcdiag.default(mod)
+        for (j in 1:length(vn)) {
+            dcts[[j]][i,-1] <- dctmp[j,]
+        }
+    }
+    ## warning if R.hat < crit
+    if (nchain(mod) > 1 && any(dctmp[,"r.hat"] >= rhat.crit))
+        warning("chains convergence problem, see R.hat values")
+    ## finalizing dctable attribute
+    dcts <- lapply(dcts, function(z) as.data.frame(z))
+    class(dcts) <- "dctable"
+    attr(mod, "dctable") <- dcts
+    ## finalizing dcdiag attribute
+    dcd <- t(as.data.frame(dcdr))
+    rownames(dcd) <- 1:length(dcdr)
+    dcd <- data.frame(dcd)
+    class(dcd) <- c("dcdiag", class(dcd))
+    attr(mod, "dcdiag") <- dcd
+    mod
+}
+
+
+summary(R2WinBUGS:::as.mcmc.list.bugs(sim2))
+summary(dclone:::as.mcmc.list.bugs(sim2))
+
+summary(as.mcmc.list.bugs1(bugs.fit(dat2, param, bugs.model, program="openbugs", format="bugs", n.thin=3)))
+
+as.mcmc.list.bugs1 <-
+function(x, ...)
+{
+    ## retrieve coda samples
+    sarr <- x$sims.array
+    ## rearranging the array into coda mcmc.list format
+    res <- lapply(1:x$n.chains, function(i) sarr[,i,, drop=FALSE])
+    DIM <- dim(res[[1]])[-2]
+    DIMNAMES <- dimnames(res[[1]])[-2]
+    for (i in 1:x$n.chains) {
+        dim(res[[i]]) <- DIM
+        dimnames(res[[i]]) <- DIMNAMES
+    }
+    ## retrieve ts attributes
+    start <- x$n.burnin+1
+    end <- x$n.iter
+    thin <- x$n.thin
+
+    niter <- NROW(res[[1]])
+    nobs <- floor((end - start)/thin + 1)
+    ## some tweaking for OpenBUGS
+    if (niter < nobs) {
+        start <- start + thin - 1
+    }
+    ## makes mcmc objects
+    res <- lapply(res, function(z) mcmc(data = z,
+        start = start, end = end, thin = thin))
+    ## coercing into mcmc.list
+    res <- as.mcmc.list(res)
+    ## retrieves n.clones attr
+    n.clones <- attr(x, "n.clones")
+    ## final class determination based on n.clones
+    if (!is.null(n.clones) && n.clones > 1) {
+        attr(res, "n.clones") <- n.clones
+        class(res) <- c("mcmc.list.dc", class(res))
+    }
+    res
+}
+
+a<-1:333 * 3
+
+as.mcmc.list.bugs2 <- 
+function (x, ...) 
+{
+    if (!inherits(x, "bugs")) 
+        stop("Method as.mcmc.list.bugs() is only intended for bugs objects.")
+    if (dim(x$sims.array)[2] != x$n.chains) 
+        stop("Inconsistancy in bug object regarding the number of chains.")
+    mclis <- vector("list", x$n.chains)
+    strt <- x$n.burnin + 1
+    end <- x$n.iter
+    ord <- order(dimnames(x$sims.array)[[3]])
+    for (i in 1:x$n.chains) {
+        tmp1 <- x$sims.array[, i, ord]
+        mclis[[i]] <- mcmc(tmp1, start = strt, end = end, thin = x$n.thin)
+    }
+    as.mcmc.list(mclis)
+}
