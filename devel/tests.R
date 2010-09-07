@@ -1,3 +1,10 @@
+## here is how to use dctutor to make dclone tests
+
+source(system.file(package = "dctutor", "dclone.R"))
+source(system.file(package = "dctutor", "dcglm.R"))
+source(system.file(package = "dctutor", "dcpar.R"))
+
+## dclone documentation
 library(dclone)
 example(bugs.fit)
 example(bugs.parfit)
