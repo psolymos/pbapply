@@ -1,0 +1,10 @@
+## dependent packages
+* add verbose text to function
+* add progress bar to functions
+
+## dclone
+* add parallel RNG to snowWrapper
+* add parallel RNG option
+* rework options as dcoptions() similar to pboptions
+* finish bugs.parfit
+
