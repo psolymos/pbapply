@@ -7,6 +7,9 @@
 * OK -- add parallel RNG option
 * OK -- rework options as dcoptions() similar to pboptions
 * OK -- documentation should reflect options
-* finish bugs.parfit
-* tests in /devel for dclone
-* update references (dclone-package, etc.)
+* OK -- finish bugs.parfit
+* OK -- tests in /devel for dclone
+* OK -- update references (dclone-package, etc.)
+
+## dctutor
+* add general install tutorial

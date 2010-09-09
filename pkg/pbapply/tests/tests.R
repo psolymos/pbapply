@@ -6,6 +6,7 @@ example(apply)
 
 ##
 #library(plyr)
+## from http://ryouready.wordpress.com/2010/01/11/progress-bars-in-r-part-ii-a-wrapper-for-apply-functions/#comment-122
 lapply_pb <- function(X, FUN, ...)
 {
  env <- environment()
