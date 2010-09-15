@@ -9,8 +9,8 @@ Description: Low level functions for implementing
     maximum likelihood estimating procedures for 
     complex models using data cloning and Bayesian
     Markov chain Monte Carlo methods with support 
-    for JAGS, WinBUGS and OpenBUGS, with support for
-    parallel computing.
+    for JAGS, WinBUGS and OpenBUGS.
+    The package supports parallel computations.
 License: GPL-2
 Depends: R (>= 2.7.0), rjags, coda (>= 0.13), R2WinBUGS, snow, rlecuyer
 Suggests: BRugs, rsprng
