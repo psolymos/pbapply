@@ -1,3 +1,19 @@
+## check if fun can be evaluated remotely
+library(snow)
+cl <- makeSOCKcluster(2)
+inits <- function() runif(1)
+clusterExport(cl, "inits")
+parLapply(cl, 1:length(cl), function(i) try(inits()))
+a <- 1
+inits <- function() runif(1) * a
+
+clusterExport(cl, "inits")
+Try <- parLapply(cl, 1:length(cl), function(i) try(inits()))
+if (inherits(Try[[1]], "try-error"))
+    stop(paste("  from remote workers\n", Try[[1]], sep="  "))
+
+
+
     if (is.null(getOption("dcoptions")))
         options("dcoptions"=list("rhat"=1.1,
             "autoburnin"=TRUE,

@@ -28,8 +28,15 @@ program=c("winbugs", "openbugs"), ...) ## only mcmc.list format is supported
     }
     if (is.null(inits))
         inits <- lapply(1:n.chains, function(i) NULL)
-    if (is.function(inits))
+    ## function must be self containing
+    ## but it can be tested
+    if (is.function(inits)) {
+        clusterExport(cl, "inits")
+        Try <- parLapply(cl, 1:length(cl), function(i) try(inits()))
+        if (inherits(Try[[1]], "try-error"))
+            stop(paste("  from remote workers\n", Try[[1]], sep="  "))
         inits <- lapply(1:n.chains, function(i) inits)
+    }
     ## common data to cluster
     cldata <- list(data=data, params=params, model=model, inits=inits, 
         seed=seed, program=program)

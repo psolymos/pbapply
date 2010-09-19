@@ -10,7 +10,7 @@
 * OK -- finish bugs.parfit
 * OK -- tests in /devel for dclone
 * OK -- update references (dclone-package, etc.)
-* check fun for inits on remote workers
+* OK -- check fun for inits on remote workers (bugs.parfit)
 
 ## dctutor
 * add general install tutorial
