@@ -24,17 +24,6 @@ flavour = c("jags", "bugs"), ...)
     ## evaluate inits
     if (missing(inits))
         inits <- NULL
-
-    ## fix this by snowWrapper
-    if (!is.null(inits)) {
-        ## function must be self containing
-        ## but it can be tested
-        clusterExport(cl, "inits")
-        Try <- parLapply(cl, 1:length(cl), function(i) try(inits()))
-        if (inherits(Try[[1]], "try-error"))
-            stop(paste(" produced remotely\n", Try[[1]], sep="  "))
-    }
-
     ## write model
     if (is.function(model) || inherits(model, "custommodel")) {
         if (is.function(model))

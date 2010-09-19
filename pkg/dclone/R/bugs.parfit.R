@@ -31,22 +31,10 @@ program=c("winbugs", "openbugs"), ...) ## only mcmc.list format is supported
         model <- write.jags.model(model)
         on.exit(try(clean.jags.model(model)))
     }
-    if (is.null(inits)) {
+    if (is.null(inits))
         inits <- lapply(1:n.chains, function(i) NULL)
-
-    ## fix this by snowWrapper
-    } else {
-        ## function must be self containing
-        ## but it can be tested
-        clusterExport(cl, "inits")
-        Try <- parLapply(cl, 1:length(cl), function(i) try(inits()))
-        if (inherits(Try[[1]], "try-error"))
-            stop(paste(" produced remotely\n", Try[[1]], sep="  "))
-        if (is.function(inits)) {
-            inits <- lapply(1:n.chains, function(i) inits)
-        }
-    }
-
+    if (is.function(inits))
+        inits <- lapply(1:n.chains, function(i) inits)
     ## common data to cluster
     cldata <- list(data=data, params=params, model=model, inits=inits, 
         seed=seed, program=program)
