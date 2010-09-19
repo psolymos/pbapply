@@ -12,7 +12,7 @@ computations can be faster (up to 1/\code{n.chains}) for long MCMC runs.
 }
 \usage{
 bugs.parfit(cl, data, params, model, inits = NULL, n.chains = 3, 
-seed = 1:n.chains, program=c("winbugs", "openbugs"), ...)
+seed, program=c("winbugs", "openbugs"), ...)
 }
 \arguments{
   \item{cl}{
@@ -43,6 +43,7 @@ The program to use, not case sensitive.
 }
   \item{seed}{
 Random seed (\code{bugs.seed} argument for \code{\link{bugs}}, \code{seed} argument for \code{\link{openbugs}}).
+Length must equal \code{n.chains}.
 }
   \item{...}{
 Other arguments passed to \code{\link[dclone]{bugs.fit}}.

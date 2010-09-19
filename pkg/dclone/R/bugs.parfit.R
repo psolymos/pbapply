@@ -1,8 +1,13 @@
 bugs.parfit <-
 function(cl, data, params, model, inits=NULL, 
-n.chains = 3, seed = 1:n.chains,
+n.chains = 3, seed,
 program=c("winbugs", "openbugs"), ...) ## only mcmc.list format is supported
 {
+    if (missing(seed))
+        stop("'seed' must be provided")
+    ## if all seed are the same
+    if (length(unique(seed)) != n.chains)
+        stop("provide 'seed' for each chain")
     if (!inherits(cl, "cluster"))
         stop("'cl' must be a 'cluster' object")
     trace <- getOption("dcoptions")$verbose
@@ -26,17 +31,22 @@ program=c("winbugs", "openbugs"), ...) ## only mcmc.list format is supported
         model <- write.jags.model(model)
         on.exit(try(clean.jags.model(model)))
     }
-    if (is.null(inits))
+    if (is.null(inits)) {
         inits <- lapply(1:n.chains, function(i) NULL)
-    ## function must be self containing
-    ## but it can be tested
-    if (is.function(inits)) {
+
+    ## fix this by snowWrapper
+    } else {
+        ## function must be self containing
+        ## but it can be tested
         clusterExport(cl, "inits")
         Try <- parLapply(cl, 1:length(cl), function(i) try(inits()))
         if (inherits(Try[[1]], "try-error"))
-            stop(paste("  from remote workers\n", Try[[1]], sep="  "))
-        inits <- lapply(1:n.chains, function(i) inits)
+            stop(paste(" produced remotely\n", Try[[1]], sep="  "))
+        if (is.function(inits)) {
+            inits <- lapply(1:n.chains, function(i) inits)
+        }
     }
+
     ## common data to cluster
     cldata <- list(data=data, params=params, model=model, inits=inits, 
         seed=seed, program=program)

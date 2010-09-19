@@ -27,6 +27,8 @@ Character string (name of the model file), a function containing the model, or a
   \item{inits}{
 Optional specification of initial values in the form of a list or a function (see Initialization at \code{\link[rjags]{jags.model}}). 
 If missing, will be treated as \code{NULL} and initial values will be generated automatically.
+If this is a function, it must be self containing, i.e. not having references to R objects outside of the
+function, or the objects should be exported with \code{\link{clusterExport}} befor calling \code{bugs.parfit}.
 }
   \item{n.clones}{
 An integer vector containing the numbers of clones to use itaratively.
