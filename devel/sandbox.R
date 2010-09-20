@@ -1,5 +1,38 @@
 ## area-duration
 
+## negbin version
+library(MASS)
+shape <- 2
+beta <- c(1.2, -0.5)
+phi <- 0.3
+n <- 200
+x <- rnorm(n)
+X <- model.matrix(~x)
+A <- rep(1:5, each=20)
+T <- rep(1:5, 20)
+D <- exp(X %*% beta)
+p <- 1 - exp(-phi * T)
+mu <- D * A * p
+lambda <- rgamma(n, shape=shape, scale=mu/shape)
+Y <- rpois(n, lambda)
+glmnb.fitter <- function(z) {
+    z <- max(.Machine$double.eps, z)
+    off <- log(A) + log(1 - exp(-z * T))
+    d <- data.frame(y=Y, x=x, off=off)
+    fit <- glm.nb(y ~ x + offset(off), data=d)
+    -logLik(fit)
+}
+res <- suppressWarnings(optim(1, glmnb.fitter, method="Nelder-Mead", lower=.Machine$double.eps, hessian=TRUE))
+phi.hat <- res$par
+phi.se <- 1 / res$hessian
+
+res <- sapply((1:100)/100, glmnb.fitter)
+plot((1:100)/100, res)
+abline(v=phi, col=2)
+abline(v=phi.hat, col=4)
+
+
+
 beta <- c(1.2, -0.5)
 phi <- 0.3
 n <- 200
