@@ -1,3 +1,27 @@
+## area-duration
+
+beta <- c(1.2, -0.5)
+phi <- 0.3
+n <- 200
+x <- rnorm(n)
+X <- model.matrix(~x)
+A <- rep(1:5, each=20)
+T <- rep(1:5, 20)
+D <- exp(X %*% beta)
+p <- 1 - exp(-phi * T)
+lambda <- D * A * p
+Y <- rpois(n, lambda)
+
+glm.ad <- function(z) {
+    off <- log(A) + log(1 - exp(-z * T))
+    m <- glm.fit(X, Y, family=poisson(), offset=off)
+    0.5 * (m$aic - 2*NCOL(X))
+}
+res <- sapply((1:100)/100, glm.ad)
+plot((1:100)/100, res)
+abline(v=phi, col=2)
+
+
 ## check if fun can be evaluated remotely
 library(snow)
 cl <- makeSOCKcluster(2)
