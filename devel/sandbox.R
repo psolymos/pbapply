@@ -12,14 +12,104 @@ p <- 1 - exp(-phi * T)
 lambda <- D * A * p
 Y <- rpois(n, lambda)
 
-glm.ad <- function(z) {
+glm.fitter <- function(z) {
+    z <- max(.Machine$double.eps, z)
     off <- log(A) + log(1 - exp(-z * T))
-    m <- glm.fit(X, Y, family=poisson(), offset=off)
-    0.5 * (m$aic - 2*NCOL(X))
+    fit <- glm.fit(X, Y, family=poisson(), offset=off)
+    class(fit) <- c("glm", "lm")
+    -logLik(fit)
 }
-res <- sapply((1:100)/100, glm.ad)
+res <- suppressWarnings(optim(1, glm.fitter, method="Nelder-Mead", lower=.Machine$double.eps, hessian=TRUE))
+phi.hat <- res$par
+phi.se <- 1 / res$hessian
+
+res <- sapply((1:100)/100, glm.fitter)
 plot((1:100)/100, res)
 abline(v=phi, col=2)
+abline(v=phi.hat, col=4)
+
+glm.at <- function(formula, data, area, duration, 
+method="Nelder-Mead", control=list(),
+model = TRUE, x = FALSE, ...) {
+    ## parsing formula
+    if (missing(data))
+        data <- parent.frame()
+    mf <- match.call(expand.dots = FALSE)
+    mm <- match(c("formula", "data"), names(mf), 0)
+    mf <- mf[c(1, mm)]
+    mf$drop.unused.levels <- TRUE
+    mf[[1]] <- as.name("model.frame")
+    mf <- eval(mf, parent.frame())
+    Y <- model.response(mf, "numeric")
+    ff <- formula
+    ff[[2]] <- NULL
+    mt <- terms(ff, data = data)
+    X <- model.matrix(mt, mf)
+    Xlevels <- .getXlevels(mt, mf)
+    ## check variables
+    if (length(Y) < 1) 
+        stop("empty model")
+    if (!isTRUE(all.equal(as.vector(Y), as.integer(round(Y + 
+        0.001))))) 
+        stop("invalid dependent variable, non-integer values")
+    Y <- as.integer(round(Y + 0.001))
+    if (any(Y < 0)) 
+        stop("invalid dependent variable, negative counts")
+    if (length(Y) != NROW(X)) 
+        stop("invalid dependent variable, not a vector")
+    ## internal fun for optim
+    glm.fitter <- function(z) {
+        z <- max(.Machine$double.eps, z)
+        off <- log(area) + log(1 - exp(-z * duration))
+        fit <- glm.fit(X, Y, family=poisson(), offset=off)
+        class(fit) <- c("glm", "lm")
+        -logLik(fit)
+    }
+    ## optimizing for phi
+    res <- suppressWarnings(optim(1, glm.fitter, 
+        method=method, lower=.Machine$double.eps, hessian=TRUE, control=control))
+    phi.hat <- res$par
+    ## refitting
+    off <- log(area) + log(1 - exp(-phi.hat * duration))
+    out <- glm.fit(X, Y, family=poisson(), offset=off)
+    out$call <- match.call()
+    out$phi <- phi.hat
+    out$SE.phi <- 1 / res$hessian
+    out$df.residual <- out$df.residual - 1
+    out$df.null <- out$df.null - 1
+    out2 <- list(formula=formula,
+        offset=off,
+        terms=mt,
+        levels=Xlevels,
+        contrasts=attr(X, "contrasts"),
+        model= if (model) mf else NULL,
+        x= if (x) X else NULL)
+    out <- c(out, out2)
+
+    class(out) <- c("glmat", "glm", "lm")
+    out
+}
+summary.glmat <- 
+function (object, ...) 
+{
+    summ <- c(summary.glm(object, dispersion = 1, correlation = FALSE), 
+        object[c("phi", "SE.phi")])
+    class(summ) <- c("summary.glmat", "summary.glm")
+    summ
+}
+print.summary.glmat <- 
+function (x, ...) 
+{
+    NextMethod()
+    dp <- max(2 - floor(log10(x$SE.phi)), 0)
+    cat("\n                Phi: ", format(round(x$phi, dp), 
+        nsmall = dp), "\n          Std. Err.: ", format(round(x$SE.phi, 
+        dp), nsmall = dp), "\n")
+    invisible(x)
+}
+m <- glm.at(Y~x, area=A, duration=T)
+summary(m)
+summary(update(m, Y~1))
 
 
 ## check if fun can be evaluated remotely
