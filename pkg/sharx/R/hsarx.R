@@ -115,37 +115,6 @@ if (!is.null(Z)) {
     pr.cfs <- t(sapply(wm, coef))
     pr.ses <- t(sapply(wm, function(z) 1/(coef(summary(z))[,2]^2)))
     pr.tau <- rbind(c(log(sqrt(tau2)), 0), rep(0.1, p+1))
-
-    ## DC comes here
-    hsarx.lmm <- function() {
-        for (cl in 1:ncl) { # clones
-            for (j in 1:m) { # islands
-                ## focal model
-                logY[j,cl] ~ dnorm(mu[j,cl], 1/exp(log.sigma.i[G[j],cl])^2)
-                mu[j,cl] <- inprod(X[j,], beta.i[G[j],])
-            }
-            for (i in 1:n) { # studies
-                for (k in 1:p) { # focal parameters
-                    ## modifier models for each focal parameter k
-                    beta.i[i,k,cl] ~ dnorm(mu.k[i,cl], 1/exp(log.tau.k[k])^2)
-                    mu.k[i,k,cl] <- inprod(ZG[i,], beta.k[k,])
-                }
-                epsilon.i[i,cl] <- inprod(ZG[i,], theta)
-                log.sigma.i[i,cl] ~ dnorm(epsilon.i[i,cl], 1/exp(log.tau)^2)
-            }
-        }
-        ## prior specifications
-        for (t in 1:q) { # modifier parameters
-            for (k in 1:p) { # focal parameters
-                beta.k[k,t] ~ dnorm(pr.cfs[k,t], pr.ses[k,t])
-            }
-            theta[t] ~ dnorm(pr.cfs[(k+1),t], pr.ses[(k+1),t])
-        }
-        for (k in 1:p) { # focal parameters
-            log.tau.k[k] ~ dnorm(pr.tau[1,k], pr.tau[2,k])
-        }
-        log.tau ~ dnorm(pr.tau[1,(k+1)], pr.tau[2,(k+1)])
-    }
     ZG <- Z[sapply(1:n, function(i) min(which(G == unique(G)[i]))),]
     dat <- list(logY=dcdim(data.matrix(Y)), X=X, ZG=ZG, G=G,
         n=n, m=m, p=p, q=q, ncl=1, 
@@ -154,11 +123,43 @@ if (!is.null(Z)) {
 
     n.clones <- 2
 
+    datk <- dclone(dat, n.clones, unchanged=c("X","ZG","G","n","m","p","q",
+        "pr.cfs","pr.ses","pr.tau"), multiply="ncl")
+
+    ## DC comes here
+    hsarx.lmm <- function() {
+        for (cl in 1:ncl) { # clones
+            for (j in 1:m) { # islands
+                ## focal model
+                logY[j,cl] ~ dnorm(mu[j,cl], 1/exp(log.sigma.i[G[j],cl])^2)
+                mu[j,cl] <- inprod(X[j,], beta.i[G[j],,cl])
+            }
+            for (i in 1:n) { # studies
+                for (k in 1:p) { # focal parameters
+                    ## modifier models for each focal parameter k
+                    beta.i[i,k,cl] ~ dnorm(mu.k[i,k,cl], 1/exp(log.tau.k[k])^2)
+                    mu.k[i,k,cl] <- inprod(ZG[i,], beta.k[k,]) ## no need for cl
+                }
+                log.sigma.i[i,cl] ~ dnorm(epsilon.i[i,cl], 1/exp(log.tau)^2)
+                epsilon.i[i,cl] <- inprod(ZG[i,], theta) ## no need for cl
+            }
+        }
+        ## prior specifications
+        for (t in 1:q) { # modifier parameters
+            for (k in 1:p) { # focal parameters
+                beta.k[k,t] ~ dnorm(pr.cfs[k,t], pr.ses[k,t])
+            }
+            theta[t] ~ dnorm(pr.cfs[(p+1),t], pr.ses[(p+1),t])
+        }
+        for (k in 1:p) { # focal parameters
+            log.tau.k[k] ~ dnorm(pr.tau[1,k], pr.tau[2,k])
+        }
+        log.tau ~ dnorm(pr.tau[1,(p+1)], pr.tau[2,(p+1)])
+    }
+
     res <- jags.fit(datk, c("beta.k","theta","log.tau.k","log.tau"), 
         hsarx.lmm, inits=NULL, n.adapt=2000, n.update=3000, n.iter=1000)
 
-    datk <- dclone(dat, n.clones, unchanged=c("X","ZG","G","n","m","p","q",
-        "pr.cfs","pr.ses","pr.tau"), multiply="ncl")
     res <- if (is.null(cl)) {
         jags.fit(datk, c("beta.k","theta","log.tau.k","log.tau"), 
             hsarx.lmm, inits=NULL, n.adapt=2000, n.update=3000, n.iter=1000)
