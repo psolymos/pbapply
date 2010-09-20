@@ -29,7 +29,7 @@ abline(v=phi, col=2)
 abline(v=phi.hat, col=4)
 
 glm.at <- function(formula, data, area, duration, 
-method="Nelder-Mead", control=list(),
+init.phi=1, method="Nelder-Mead", control=list(),
 model = TRUE, x = FALSE, ...) {
     ## parsing formula
     if (missing(data))
@@ -66,7 +66,7 @@ model = TRUE, x = FALSE, ...) {
         -logLik(fit)
     }
     ## optimizing for phi
-    res <- suppressWarnings(optim(1, glm.fitter, 
+    res <- suppressWarnings(optim(init.phi, glm.fitter, 
         method=method, lower=.Machine$double.eps, hessian=TRUE, control=control))
     phi.hat <- res$par
     ## refitting
