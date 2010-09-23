@@ -1,3 +1,59 @@
+## BAM short course
+
+- Installing necessary software
+- WinBUGS basics
+- R and WinBUGS, JAGS
+- basic GLM and GLMM examples
+- MCMC convergence disgnostics
+- data cloning (DC) basics (getting MLE out of BUGS)
+- DC convergence diagnostics
+- speeding up computations by parallel computing (snow package, parallel MCMC)
+
+1) Motivation
+
+a) GLM
+Y ~ Poisson(lambda)
+log(lambda) = beta_0
+calculate the likelihood function
+determine its maximum: MLE
+(? score function, curvature)
+glm(y ~ 1)
+
+b) covariates
+log(lambda) = beta_0 + beta_1*x = X %*% beta
+understand design matrix
+determine likelihood surface for 2 pars
+glm(y ~ 1)
+
+c) WinBUGS
+write GLM model
+use low n to show effect of priors
+increase n to how MLE is reached asymptotically
+refresh memories from Banff
+do not want to click, use bugs() etc
+
+d) GLMM (Poisson-lognormal model)
+no. of unknown increases with n
+adequate sample size is meant by information and not by df
+troubles with high dim integral
+
+e) Bayesian model
+use R and JAGS for GLMM model
+MCMC diagnostics
+Bayesian idea works, but there is the prior
+Prior is bad because: inference, prediction
+cannot use Jeffreys priors
+Bayesian learning: empirical Bayes, updating prior info
+
+e) DC
+DC idea of repeated experiments
+DC asymptotics
+... follow dclone paper (JAGS, diagnostics)
+
+f) computation demands - go parallel
+
+
+
 ## area-duration
 
 ## negbin version
