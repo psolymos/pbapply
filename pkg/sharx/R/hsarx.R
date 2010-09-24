@@ -188,7 +188,11 @@ data(sardata01)
 DAT <- data.frame(sardata01$sar, sardata01$study[match(sardata01$sar$study, rownames(sardata01$study)),])
 #x <- hsarx(log(S+0.5) ~ log(A) | abs(latitude) | study, DAT)
 cl <- makeSOCKcluster(3)
-x <- hsarx(log(S+0.5) ~ log(A) | (taxon.group + island.type + abs(latitude) + I(log(extent)))^2 | study, DAT, 
+x1 <- hsarx(log(S+1) ~ log(A) | (taxon.group + island.type + abs(latitude) + I(log(extent)))^2 | study, DAT, 
+    n.clones=5, cl=cl, n.adapt=2000, n.update=3000, n.iter=1000)
+x2 <- hsarx(log(S+0.5) ~ log(A) | (taxon.group + island.type + abs(latitude) + I(log(extent)))^2 | study, DAT, 
+    n.clones=5, cl=cl, n.adapt=2000, n.update=3000, n.iter=1000)
+x3 <- hsarx(log(S+0.1) ~ log(A) | (taxon.group + island.type + abs(latitude) + I(log(extent)))^2 | study, DAT, 
     n.clones=5, cl=cl, n.adapt=2000, n.update=3000, n.iter=1000)
 stopCluster(cl)
 

@@ -1,5 +1,33 @@
 ## BAM short course
 
+glm.pois <- function() {
+    for (i in 1:n) {
+        Y[i] ~ dpois(lambda[i])
+        log(lambda[i]) <- inprod(X[i,], beta[1,])
+    }
+    for (j in 1:np) {
+        beta[1,j] ~ dnorm(mu, prec)
+    }
+}
+Y <- 4
+X <- matrix(1, 1, 1)
+vals <- expand.grid(mu=c(-5, 0, 5), prec=c(0.001, 1))
+d <- apply(vals, 1, function(z) list(n = length(Y), Y = Y, X = X, np = ncol(X), mu=z[1], prec=z[2]))
+m <- lapply(d, function(z) jags.fit(z, "beta", glm.pois, n.iter = 1000))
+res <- data.frame(vals, est=sapply(m, coef), std.err=sapply(m, dcsd))
+res$diff <- res$est - coef(glm(Y ~ 1, family=poisson))
+res
+
+n <- 20
+Y <- rpois(n, 4)
+X <- matrix(1, n, 1)
+vals <- expand.grid(mu=c(-5, 0, 5), prec=c(0.001, 1))
+d <- apply(vals, 1, function(z) list(n = length(Y), Y = Y, X = X, np = ncol(X), mu=z[1], prec=z[2]))
+m <- lapply(d, function(z) jags.fit(z, "beta", glm.pois, n.iter = 1000))
+res <- data.frame(vals, est=sapply(m, coef), std.err=sapply(m, dcsd))
+res$diff <- res$est - coef(glm(Y ~ 1, family=poisson))
+res
+
 - Installing necessary software
 - WinBUGS basics
 - R and WinBUGS, JAGS
