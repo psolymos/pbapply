@@ -28,6 +28,19 @@ res <- data.frame(vals, est=sapply(m, coef), std.err=sapply(m, dcsd))
 res$diff <- res$est - coef(glm(Y ~ 1, family=poisson))
 res
 
+x <- rnorm(n)
+X <- model.matrix(~x)
+Y <- rpois(n, exp(X %*% c(1, -0.5)))
+glm(Y ~ x, family=poisson)
+vals <- expand.grid(b0=seq(0,2,len=101), b1=seq(-1,1,len=101))
+fun2 <- function(z) sum(dpois(Y, exp(X %*% z), log=TRUE))
+tp <- apply(vals, 1, fun2)
+L <- matrix(exp(tp), 101, 101)
+image(seq(0,2,len=101), seq(-1,1,len=101), max(L)-L)
+abline(v=coef(glm(Y ~ x, family=poisson))[1], h=coef(glm(Y ~ x, family=poisson))[2], col=4)
+
+
+
 - Installing necessary software
 - WinBUGS basics
 - R and WinBUGS, JAGS
@@ -51,7 +64,7 @@ b) covariates
 log(lambda) = beta_0 + beta_1*x = X %*% beta
 understand design matrix
 determine likelihood surface for 2 pars
-glm(y ~ 1)
+glm(y ~ x)
 
 c) WinBUGS
 write GLM model
