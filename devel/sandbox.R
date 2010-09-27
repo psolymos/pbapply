@@ -17,8 +17,10 @@ m <- lapply(d, function(z) jags.fit(z, "beta", glm.pois, n.iter = 1000))
 res <- data.frame(vals, est=sapply(m, coef), std.err=sapply(m, dcsd))
 res$diff <- res$est - coef(glm(Y ~ 1, family=poisson))
 res
+glm(Y ~ 1, family=poisson)
 
 n <- 20
+set.seed(1234)
 Y <- rpois(n, 4)
 X <- matrix(1, n, 1)
 vals <- expand.grid(mu=c(-5, 0, 5), prec=c(0.001, 1))
@@ -27,6 +29,19 @@ m <- lapply(d, function(z) jags.fit(z, "beta", glm.pois, n.iter = 1000))
 res <- data.frame(vals, est=sapply(m, coef), std.err=sapply(m, dcsd))
 res$diff <- res$est - coef(glm(Y ~ 1, family=poisson))
 res
+glm(Y ~ 1, family=poisson)
+
+
+fun1 <- function(y) sum(dpois(Y, exp(y), log=TRUE))
+parm <- seq(0, 2, len=101)
+llik <- sapply(parm, fun1)
+par(mfrow=c(1,2))
+plot(parm, llik, type="l", col=4, ylab="log Likelihood", xlab="Estimate")
+abline(v=coef(glm(Y ~ 1, family=poisson)), col=2)
+plot(parm, exp(llik), type="l", col=4, ylab="Likelihood", xlab="Estimate")
+abline(v=coef(glm(Y ~ 1, family=poisson)), col=2)
+
+## next: add a continuous covariate, llik surface using outer
 
 x <- rnorm(n)
 X <- model.matrix(~x)
