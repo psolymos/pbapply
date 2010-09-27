@@ -29,6 +29,10 @@ function(formula, data, n.clones, cl=NULL, subset, na.action, ...)
         G <- as.integer(as.factor(G))
         if (length(unique(G)) == 1)
             stop("grouping variable must have at least 2 levels")
+
+if (ncol(X) > 2)
+    stop("multiple focal covariates not supported")
+
     } else {
         Z <- NULL
         G <- NULL
