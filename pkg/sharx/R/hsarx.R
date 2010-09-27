@@ -83,9 +83,14 @@ function(Y, X, Z, G, n.clones, cl=NULL, stage, ...)
         pr.cfs <- t(sapply(wm, coef))
 #        pr.ses <- t(sapply(wm, function(z) 1/(coef(summary(z))[,2]^2))) ## too strong priors
         pr.ses <- rep(0.1, prod(dim(pr.cfs)))
+        if (q == 1) {
+            pr.cfs <- matrix(pr.cfs, ncol=1)
+            pr.ses <- matrix(pr.ses, ncol=1)
+        }
         dim(pr.ses) <- dim(pr.cfs)
         pr.tau <- rbind(c(log(sqrt(tau2)), 0), rep(0.1, p+1))
         ZG <- Z[sapply(1:n, function(i) min(which(G == unique(G)[i]))),]
+        ZG <- data.matrix(ZG)
         dat <- list(logY=dcdim(data.matrix(Y)), X=X, ZG=ZG, G=G,
             n=n, m=m, p=p, q=q, ncl=1, 
             pr.cfs=pr.cfs, pr.ses=pr.ses, pr.tau=pr.tau)
