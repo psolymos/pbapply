@@ -80,7 +80,7 @@ function(Y, X, Z, G, n.clones, cl=NULL, ...)
 #            }
 #            log.tau ~ dnorm(pr.tau[1,(p+1)], pr.tau[2,(p+1)])
 #        }
-        hsarx.lmm2 <- structure(c(
+        hsarx.lmm <- structure(c(
             c("model {", 
             "            for (cl in 1:ncl) { # clones", 
             "                for (j in 1:m) { # islands # focal model", 
@@ -112,7 +112,6 @@ function(Y, X, Z, G, n.clones, cl=NULL, ...)
             "            log.tau ~ dnorm(pr.tau[1,(p+1)], pr.tau[2,(p+1)])", 
             "        }")
             ), class = "custommodel")
-
         if (length(n.clones) == 1) {
             datk <- dclone(dat, n.clones, unchanged=c("X","ZG","G","n","m","p","q",
                 "pr.cfs","pr.ses","pr.tau"), multiply="ncl")

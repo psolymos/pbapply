@@ -37,6 +37,6 @@ if (ncol(X) > 2)
         Z <- NULL
         G <- NULL
     }
-    out <- hsarx.fit(Y, X, Z, G, n.clones, cl, ...)
+    out <- sharx:::hsarx.fit(Y, X, Z, G, n.clones, cl, ...)
     out
 }

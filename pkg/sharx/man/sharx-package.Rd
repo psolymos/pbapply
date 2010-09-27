@@ -10,8 +10,7 @@ Data sets and SAR, SARX, HSAR and HSARX
 models as described in Solymos and Lele (under review).
 }
 \details{
-\tabular{ll}{
-See \code{\link{sardata}} and \code{\link{sharx}}
+See \code{\link{sardata}} and \code{\link{hsarx}}
 }
 \author{
 Peter Solymos
