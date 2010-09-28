@@ -8,8 +8,9 @@ Version 1.2-1, August 26, 2010
     * RNG option added to work with snowWrapper
     * set.rng arg added to snowWrapper that calls
       snow::clusterSetupRNG
-    * options for dclone reworked: canbe accessed via
+    * options for dclone reworked: can be accessed via
       the pdoptions function, and it sets the pdoptions option
+    * dclone.dcdim: dimnames bug fixed when drop=TRUE
 
 Version 1.2-0, August 26, 2010
     * polishing plot methods for R Journal paper.

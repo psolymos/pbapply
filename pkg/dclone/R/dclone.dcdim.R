@@ -19,12 +19,16 @@ function(x, n.clones=1, attrib=TRUE, ...)
             DIM <- DIM[i]
         }
         ## if last dim is 1 and 'drop' attr is TRUE, drop it
-        if (attr(x, "drop") && (DIM[length(DIM)] == 1))
-            DIM <- DIM[-length(DIM)]
         DIMNAM <- dimnames(y)
+        if (attr(x, "drop") && (DIM[length(DIM)] == 1)) {
+            DIM <- DIM[-length(DIM)]
+            DNI <- length(DIMNAM)
+        } else {
+            DNI <- length(DIMNAM) + 1
+        }
         if (is.null(DIMNAM))
             DIMNAM <- lapply(1:length(DIM), function(i) NULL)
-        DIMNAM[[(length(DIMNAM) + 1)]] <- clch
+        DIMNAM[[DNI]] <- clch
     }
     rval <- array(rep(y, n.clones), dim=c(DIM, n.clones), dimnames=DIMNAM)
     ## permuting back subscripts
@@ -34,7 +38,6 @@ function(x, n.clones=1, attrib=TRUE, ...)
         i[c(perm, d)] <- i[c(d, perm)]
         rval <- aperm(rval, i)
     }
-
     if (attrib) {
         attr(rval, "n.clones") <- n.clones
         attr(attr(rval, "n.clones"), "method") <- "dim"
