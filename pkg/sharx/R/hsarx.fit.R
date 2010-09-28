@@ -48,7 +48,7 @@ function(Y, X, Z, G, n.clones, cl=NULL, ...)
         dat <- list(logY=dcdim(data.matrix(Y)), X=X, ZG=ZG, G=G,
             n=n, m=m, p=p, q=q, ncl=1, 
             pr.cfs=pr.cfs, pr.ses=pr.ses, pr.tau=pr.tau)
-        dimnames(dat$logY) <- NULL
+#        dimnames(dat$logY) <- NULL
         ## DC comes here
 #        hsarx.lmm <- function() {
 #            for (cl in 1:ncl) { # clones
