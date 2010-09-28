@@ -11,6 +11,8 @@
 * OK -- tests in /devel for dclone
 * OK -- update references (dclone-package, etc.)
 * NO -- check fun for inits on remote workers (bugs.parfit): too complicated
+* dc.fit: fails whan unable to calculate dctable or dcdiag
+  easiest way is to shut it down by an option (arg is not nice)
 
 ## dctutor
 * add general install tutorial

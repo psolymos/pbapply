@@ -1086,7 +1086,7 @@ study01 <- c("abbott1978", "abbott1978", "abbott1992", "adler1985", "adler1994",
 
 #http://cran.r-project.org/web/packages/Formula/vignettes/Formula.pdf
 hsarx <- 
-function(formula, data, n.clones, cl=NULL, subset, na.action, ...)
+function(formula, data, n.clones, cl=NULL, subset, na.action, stage=0,...)
 {
     if (missing(n.clones))
         stop("'n.clones' argument missing")
@@ -1120,6 +1120,8 @@ function(formula, data, n.clones, cl=NULL, subset, na.action, ...)
         Z <- NULL
         G <- NULL
     }
+    if (stage == 1)
+        return(list(Y=Y, X=X, Z=Z, G=G, n.clones=n.clones, cl=cl))
     out <- hsarx.fit(Y, X, Z, G, n.clones, cl, ...)
 #    class(out) <- "hsar"
 #    out$formula <- f

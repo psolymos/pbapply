@@ -21,7 +21,7 @@ update=NULL, updatefun=NULL, initsfun=NULL, flavour = c("jags", "bugs"), ...)
     if (!is.null(update) != !is.null(updatefun))
         stop("both 'update' and 'updatefun' must be provided")
     if (!is.null(update)) {
-        unchanged <- c(unchanged, update)
+        unchanged <- unique(c(unchanged, update))
         updatefun <- match.fun(updatefun)
     }
     ## evaluate inits
