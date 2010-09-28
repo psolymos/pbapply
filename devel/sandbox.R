@@ -1,3 +1,15 @@
+## SARX
+library(MASS)
+n <- 200
+rho <- 0.8
+x <- mvrnorm(n, c(0,0), matrix(c(1,rho,rho,1), 2,2))
+x <- x[order(x[,1]),]
+d <- data.frame(x)
+colnames(d) <- c("logA","logX")
+d$logS <- drop(model.matrix(~logA*logX, d) %*% c(1,0.1, 0.2, 0.1))
+plot(logS ~ logA, d)
+## note, if log not used, S can be negative???
+
 ## BAM short course
 
 glm.pois <- function() {
