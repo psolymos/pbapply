@@ -11,6 +11,17 @@ plot(logS ~ logA, d)
 ## note, if log not used, S can be negative???
 
 ## BAM short course
+library(dclone)
+Y <- 4
+gm <- glm(Y ~ 1, family=poisson)
+fun1 <- function(y) sum(dpois(Y, exp(y), log=TRUE))
+parm <- seq(0, 2, len=101)
+llik <- sapply(parm, fun1)
+par(mfrow=c(1,2))
+plot(parm, llik, type="l", col=4, ylab="log Likelihood", xlab="Estimate")
+abline(v=coef(glm(Y ~ 1, family=poisson)), col=2)
+plot(parm, exp(llik), type="l", col=4, ylab="Likelihood", xlab="Estimate")
+abline(v=coef(glm(Y ~ 1, family=poisson)), col=2)
 
 glm.pois <- function() {
     for (i in 1:n) {
@@ -21,15 +32,20 @@ glm.pois <- function() {
         beta[1,j] ~ dnorm(mu, prec)
     }
 }
-Y <- 4
 X <- matrix(1, 1, 1)
 vals <- expand.grid(mu=c(-5, 0, 5), prec=c(0.001, 1))
 d <- apply(vals, 1, function(z) list(n = length(Y), Y = Y, X = X, np = ncol(X), mu=z[1], prec=z[2]))
 m <- lapply(d, function(z) jags.fit(z, "beta", glm.pois, n.iter = 1000))
 res <- data.frame(vals, est=sapply(m, coef), std.err=sapply(m, dcsd))
-res$diff <- res$est - coef(glm(Y ~ 1, family=poisson))
+res$diff <- res$est - coef(gm)
+
+m2 <- lapply(d, function(z) jags.fit(dclone(z, 100, multiply="n", unchanged=c("np","mu","prec")), "beta", glm.pois, n.iter = 1000))
+res2 <- data.frame(vals, est=sapply(m2, coef), std.err=sapply(m2, dcsd))
+res2$diff <- res2$est - coef(gm)
+
 res
-glm(Y ~ 1, family=poisson)
+res2
+coef(summary(gm))
 
 n <- 20
 set.seed(1234)
@@ -44,14 +60,6 @@ res
 glm(Y ~ 1, family=poisson)
 
 
-fun1 <- function(y) sum(dpois(Y, exp(y), log=TRUE))
-parm <- seq(0, 2, len=101)
-llik <- sapply(parm, fun1)
-par(mfrow=c(1,2))
-plot(parm, llik, type="l", col=4, ylab="log Likelihood", xlab="Estimate")
-abline(v=coef(glm(Y ~ 1, family=poisson)), col=2)
-plot(parm, exp(llik), type="l", col=4, ylab="Likelihood", xlab="Estimate")
-abline(v=coef(glm(Y ~ 1, family=poisson)), col=2)
 
 ## next: add a continuous covariate, llik surface using outer
 
