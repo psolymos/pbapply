@@ -47,6 +47,9 @@ res
 res2
 coef(summary(gm))
 
+res3 <- dc.fit(d[[4]], "beta", glm.pois, n.iter = 1000,
+    n.clones=c(1, 5, 10, 25, 50, 100), multiply="n", unchanged=c("np","mu","prec"))
+
 n <- 20
 set.seed(1234)
 Y <- rpois(n, 4)
