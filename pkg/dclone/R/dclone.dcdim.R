@@ -21,10 +21,10 @@ function(x, n.clones=1, attrib=TRUE, ...)
         ## if last dim is 1 and 'drop' attr is TRUE, drop it
         DIMNAM <- dimnames(y)
         if (attr(x, "drop") && (DIM[length(DIM)] == 1)) {
+            DNI <- length(DIM)
             DIM <- DIM[-length(DIM)]
-            DNI <- length(DIMNAM)
         } else {
-            DNI <- length(DIMNAM) + 1
+            DNI <- length(DIM) + 1
         }
         if (is.null(DIMNAM))
             DIMNAM <- lapply(1:length(DIM), function(i) NULL)
