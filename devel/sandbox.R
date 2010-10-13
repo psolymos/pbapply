@@ -135,7 +135,7 @@ f) computation demands - go parallel
 
 ## area-duration
 
-## negbin version
+## NB
 library(MASS)
 shape <- 2
 beta <- c(1.2, -0.5)
@@ -152,6 +152,7 @@ lambda <- rgamma(n, shape=shape, scale=mu/shape)
 Y <- rpois(n, lambda)
 glmnb.fitter <- function(z) {
     z <- max(.Machine$double.eps, z)
+    ## use if (z < .Machine$double.eps) return(-10^6)
     off <- log(A) + log(1 - exp(-z * T))
     d <- data.frame(y=Y, x=x, off=off)
     fit <- glm.nb(y ~ x + offset(off), data=d)
@@ -162,11 +163,11 @@ phi.hat <- res$par
 phi.se <- 1 / res$hessian
 
 res <- sapply((1:100)/100, glmnb.fitter)
-plot((1:100)/100, res)
+plot((1:100)/100, res, type="l")
 abline(v=phi, col=2)
 abline(v=phi.hat, col=4)
 
-
+## P
 
 beta <- c(1.2, -0.5)
 phi <- 0.3
@@ -182,6 +183,7 @@ Y <- rpois(n, lambda)
 
 glm.fitter <- function(z) {
     z <- max(.Machine$double.eps, z)
+    ## use if (z < .Machine$double.eps) return(-10^6)
     off <- log(A) + log(1 - exp(-z * T))
     fit <- glm.fit(X, Y, family=poisson(), offset=off)
     class(fit) <- c("glm", "lm")
@@ -192,9 +194,88 @@ phi.hat <- res$par
 phi.se <- 1 / res$hessian
 
 res <- sapply((1:100)/100, glm.fitter)
-plot((1:100)/100, res)
+plot((1:100)/100, res, type="l")
 abline(v=phi, col=2)
 abline(v=phi.hat, col=4)
+
+## ZIP
+
+beta <- c(1.2, -0.5)
+phi <- 0.3
+n <- 200
+x <- rnorm(n)
+X <- model.matrix(~x)
+A <- rep(1:5, each=20)
+T <- rep(1:5, 20)
+D <- exp(X %*% beta)
+p <- 1 - exp(-phi * T)
+lambda <- D * A * p
+zi <- 0.3
+B <- rbinom(n, 1, 1-plogis(zi))
+Y <- rpois(n, lambda * B)
+library(pscl)
+
+zip.fitter <- function(z) {
+    z <- max(.Machine$double.eps, z)
+    ## use??? if (z < .Machine$double.eps) return(-10^6)
+    off <- log(A) + log(1 - exp(-z * T))
+    d <- data.frame(y=Y, x=x, off=off)
+    fit <- zeroinfl(y ~ x, data=d, dist="poisson", offset=off)
+    -logLik(fit)
+}
+res <- suppressWarnings(optim(1, zip.fitter, method="Nelder-Mead", lower=.Machine$double.eps, hessian=TRUE))
+phi.hat <- res$par
+phi.se <- 1 / res$hessian
+
+res <- sapply((1:100)/100, zip.fitter)
+plot((1:100)/100, res, type="l")
+abline(v=phi, col=2)
+abline(v=phi.hat, col=4)
+
+## ZINB -- quite instable, oftehn fails to find MLE
+## BFGS is better than N-M or SANN
+## optimize also fails
+
+library(MASS)
+library(pscl)
+shape <- 2
+beta <- c(1.2, -0.5)
+phi <- 0.3
+n <- 200
+x <- rnorm(n)
+X <- model.matrix(~x)
+A <- rep(1:5, each=20)
+T <- rep(1:5, 20)
+D <- exp(X %*% beta)
+p <- 1 - exp(-phi * T)
+mu <- D * A * p
+lambda <- rgamma(n, shape=shape, scale=mu/shape)
+zi <- 0.3
+B <- rbinom(n, 1, 1-plogis(zi))
+Y <- rpois(n, lambda * B)
+
+zinb.fitter <- function(z) {
+    z <- max(.Machine$double.eps, z)
+    ## use??? if (z < .Machine$double.eps) return(-10^6)
+    off <- log(A) + log(1 - exp(-z * T))
+    d <- data.frame(y=Y, x=x, off=off)
+    fit <- zeroinfl(y ~ x, data=d, dist="negbin", offset=off)
+    -logLik(fit)
+}
+#res <- suppressWarnings(optim(1, zinb.fitter, method="BFGS", lower=.Machine$double.eps, hessian=TRUE))
+res <- optimize(zinb.fitter, interval=c(.Machine$double.eps, 10))
+phi.hat <- res$minimum
+#phi.se <- 1 / res$hessian
+
+res <- sapply((1:100)/100, zinb.fitter)
+plot((1:100)/100, res, type="l")
+abline(v=phi, col=2)
+abline(v=phi.hat, col=4)
+
+## add also Geometric and ZI-Geom
+
+##
+
 
 glm.at <- function(formula, data, area, duration, 
 init.phi=1, method="Nelder-Mead", control=list(),
