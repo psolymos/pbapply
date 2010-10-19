@@ -143,19 +143,20 @@ phi <- 0.3
 n <- 200
 x <- rnorm(n)
 X <- model.matrix(~x)
-A <- rep(1:5, each=20)
-T <- rep(1:5, 20)
+A <- rep(1:5, each=n/5)
+T <- rep(1:5, n/5)
 D <- exp(X %*% beta)
 p <- 1 - exp(-phi * T)
 mu <- D * A * p
 lambda <- rgamma(n, shape=shape, scale=mu/shape)
 Y <- rpois(n, lambda)
+d <- data.frame(y=Y, X, off=log(A))
 glmnb.fitter <- function(z) {
-    z <- max(.Machine$double.eps, z)
+#    z <- max(.Machine$double.eps, z)
     ## use if (z < .Machine$double.eps) return(-10^6)
-    off <- log(A) + log(1 - exp(-z * T))
-    d <- data.frame(y=Y, x=x, off=off)
-    fit <- glm.nb(y ~ x + offset(off), data=d)
+    d$off <- log(A) + log(1 - exp(-z * T))
+#    d <- data.frame(y=Y, x=x, off=off)
+    fit <- glm.nb(y ~ . - 1 - off + offset(off), data=d)
     -logLik(fit)
 }
 res <- suppressWarnings(optim(1, glmnb.fitter, method="Nelder-Mead", lower=.Machine$double.eps, hessian=TRUE))
@@ -174,8 +175,8 @@ phi <- 0.3
 n <- 200
 x <- rnorm(n)
 X <- model.matrix(~x)
-A <- rep(1:5, each=20)
-T <- rep(1:5, 20)
+A <- rep(1:5, each=n/5)
+T <- rep(1:5, n/5)
 D <- exp(X %*% beta)
 p <- 1 - exp(-phi * T)
 lambda <- D * A * p
@@ -205,8 +206,8 @@ phi <- 0.3
 n <- 200
 x <- rnorm(n)
 X <- model.matrix(~x)
-A <- rep(1:5, each=20)
-T <- rep(1:5, 20)
+A <- rep(1:5, each=n/5)
+T <- rep(1:5, n/5)
 D <- exp(X %*% beta)
 p <- 1 - exp(-phi * T)
 lambda <- D * A * p
@@ -219,8 +220,10 @@ zip.fitter <- function(z) {
     z <- max(.Machine$double.eps, z)
     ## use??? if (z < .Machine$double.eps) return(-10^6)
     off <- log(A) + log(1 - exp(-z * T))
-    d <- data.frame(y=Y, x=x, off=off)
-    fit <- zeroinfl(y ~ x, data=d, dist="poisson", offset=off)
+    d <- data.frame(y=Y, X)
+#    fit <- zeroinfl(y ~ . - 1 | 1, data=d, dist="poisson", offset=off)
+    d$off <- log(A) + log(1 - exp(-z * T))
+    fit <- zeroinfl(y ~ . - 1 - off + offset(off) | 1, data=d, dist="poisson")
     -logLik(fit)
 }
 res <- suppressWarnings(optim(1, zip.fitter, method="Nelder-Mead", lower=.Machine$double.eps, hessian=TRUE))
@@ -244,8 +247,8 @@ phi <- 0.3
 n <- 200
 x <- rnorm(n)
 X <- model.matrix(~x)
-A <- rep(1:5, each=20)
-T <- rep(1:5, 20)
+A <- rep(1:5, each=n/5)
+T <- rep(1:5, n/5)
 D <- exp(X %*% beta)
 p <- 1 - exp(-phi * T)
 mu <- D * A * p
@@ -262,8 +265,18 @@ zinb.fitter <- function(z) {
     fit <- zeroinfl(y ~ x, data=d, dist="negbin", offset=off)
     -logLik(fit)
 }
-#res <- suppressWarnings(optim(1, zinb.fitter, method="BFGS", lower=.Machine$double.eps, hessian=TRUE))
-res <- optimize(zinb.fitter, interval=c(.Machine$double.eps, 10))
+zinb.fitter <- function(z) {
+    z <- max(.Machine$double.eps, z)
+    ## use??? if (z < .Machine$double.eps) return(-10^6)
+    off <- log(A) + log(1 - exp(-z * T))
+    d <- data.frame(y=Y, X)
+    d$off <- log(A) + log(1 - exp(-z * T))
+    fit <- zeroinfl(y ~ . - 1 - off + offset(off) | 1, data=d, dist="negbin")
+    -logLik(fit)
+}
+
+res <- suppressWarnings(optim(1, zinb.fitter, method="BFGS", lower=.Machine$double.eps, hessian=TRUE))
+#res <- optimize(zinb.fitter, interval=c(.Machine$double.eps, 10))
 phi.hat <- res$minimum
 #phi.se <- 1 / res$hessian
 
@@ -277,7 +290,8 @@ abline(v=phi.hat, col=4)
 ##
 
 
-glm.at <- function(formula, data, area, duration, 
+dad <- function(formula, data, area, duration, 
+type=c("poisson", "negbin", "zipoisson"),
 init.phi=1, method="Nelder-Mead", control=list(),
 model = TRUE, x = FALSE, ...) {
     ## parsing formula
@@ -306,36 +320,68 @@ model = TRUE, x = FALSE, ...) {
         stop("invalid dependent variable, negative counts")
     if (length(Y) != NROW(X)) 
         stop("invalid dependent variable, not a vector")
-    ## internal fun for optim
-    glm.fitter <- function(z) {
-        z <- max(.Machine$double.eps, z)
-        off <- log(area) + log(1 - exp(-z * duration))
+    ## evaluating type
+    type <- match.arg(type)
+    logA <- log(area)
+    if ("off" %in% colnames(mf)) {
+        colnames(mf)["off" %in% colnames(mf)] <- "off.2"
+        warning("'off' detected as variable name, renamed to 'off.2'")
+    }
+    if (type != "poisson") {
+        d <- data.frame(y=Y, X, off=logA)
+    }
+    ## internal functions for negative loglikelihood
+    nll.p <- function(z) {
+        off <- logA + log(1 - exp(-z * duration))
         fit <- glm.fit(X, Y, family=poisson(), offset=off)
         class(fit) <- c("glm", "lm")
         -logLik(fit)
     }
+    nll.nb <- function(z) {
+        d$off <- logA + log(1 - exp(-z * duration))
+        fit <- glm.nb(y ~ . - 1 - off + offset(off), data=d,
+            model = FALSE, x = FALSE, y = FALSE)
+        -logLik(fit)
+    }
+    nll.zip <- function(z) {
+        d$off <- log(A) + log(1 - exp(-z * duration))
+        fit <- zeroinfl(y ~ . - 1 - off + offset(off) | 1, data=d, dist="poisson",
+            model = FALSE, x = FALSE, y = FALSE)
+        -logLik(fit)
+    }
+    ## internal fun for optim
+    nll <- switch(type,
+        poisson = nll.p,
+        negbin = nll.nb,
+        zipoisson = nll.zip)
     ## optimizing for phi
-    res <- suppressWarnings(optim(init.phi, glm.fitter, 
+    res <- suppressWarnings(optim(init.phi, nll, 
         method=method, lower=.Machine$double.eps, hessian=TRUE, control=control))
     phi.hat <- res$par
     ## refitting
-    off <- log(area) + log(1 - exp(-phi.hat * duration))
-    out <- glm.fit(X, Y, family=poisson(), offset=off)
+    mf$off <- logA + log(1 - exp(-phi.hat * duration))
+    f2 <- if (type == "zipoisson") {
+        as.formula(paste(c(as.character(formula)[c(2,1,3)], "+offset(off)|1"), collapse=""))
+    } else {
+        as.formula(paste(c(as.character(formula)[c(2,1,3)], "+offset(off)"), collapse=""))
+    }
+    ## fitting final object
+    out <- switch(type,
+        poisson = glm(f2, data=mf, family=poisson, ...),
+        negbin = glm.nb(f2, data=mf, ...),
+        zipoisson = zeroinfl(f2, data=mf, dist="poisson", ...))
+#    if (type != "poisson")
+#        mf$off <- NULL
+    ## assembling return value
     out$call <- match.call()
     out$phi <- phi.hat
-    out$SE.phi <- 1 / res$hessian
+    out$SE.phi <- sqrt(1 / res$hessian)
     out$df.residual <- out$df.residual - 1
     out$df.null <- out$df.null - 1
-    out2 <- list(formula=formula,
-        offset=off,
-        terms=mt,
-        levels=Xlevels,
-        contrasts=attr(X, "contrasts"),
-        model= if (model) mf else NULL,
-        x= if (x) X else NULL)
-    out <- c(out, out2)
-
-    class(out) <- c("glmat", "glm", "lm")
+    out$type <- type
+    out$area <- area
+    out$duration <- duration
+    class(out) <- c("dad", class(out))
     out
 }
 summary.glmat <- 
@@ -356,10 +402,65 @@ function (x, ...)
         dp), nsmall = dp), "\n")
     invisible(x)
 }
-m <- glm.at(Y~x, area=A, duration=T)
+m <- dad(Y~x, area=A, duration=T)
 summary(m)
 summary(update(m, Y~1))
 
+## simulations for P
+beta <- c(1.2, -0.5)
+phi <- 0.3
+n <- 200
+x <- rnorm(n)
+X <- model.matrix(~x)
+A <- rep(1:5, each=n/5)
+T <- rep(1:5, n/5)
+D <- exp(X %*% beta)
+p <- 1 - exp(-phi * T)
+lambda <- D * A * p
+YY <- lapply(1:100, function(i) rpois(n, lambda))
+mm <- lapply(YY, function(z) dad(z~x, area=A, duration=T))
+cfs <- sapply(mm, function(z) c(coef(z),phi=z$phi))
+boxplot(t(cfs))
+abline(h=c(beta, phi))
+
+## simulations for NB
+library(MASS)
+shape <- 2
+beta <- c(1.2, -0.5)
+phi <- 0.3
+n <- 200
+x <- rnorm(n)
+X <- model.matrix(~x)
+A <- rep(1:5, each=n/5)
+T <- rep(1:5, n/5)
+D <- exp(X %*% beta)
+p <- 1 - exp(-phi * T)
+mu <- D * A * p
+lambda <- rgamma(n, shape=shape, scale=mu/shape)
+YY <- lapply(1:100, function(i) rpois(n, lambda))
+mm <- lapply(YY, function(z) dad(z~x, area=A, duration=T, type="negbin"))
+cfs <- sapply(mm, function(z) c(coef(z),phi=z$phi,theta=z$theta))
+boxplot(t(cfs))
+abline(h=c(beta, phi, shape))
+
+## simulations for ZIP
+beta <- c(1.2, -0.5)
+phi <- 0.3
+n <- 200
+x <- rnorm(n)
+X <- model.matrix(~x)
+A <- rep(1:5, each=n/5)
+T <- rep(1:5, n/5)
+D <- exp(X %*% beta)
+p <- 1 - exp(-phi * T)
+lambda <- D * A * p
+zi <- 0.3
+B <- rbinom(n, 1, 1-plogis(zi))
+YY <- lapply(1:50, function(i) rpois(n, lambda * B))
+mm <- lapply(YY, function(z) dad(z~x, area=A, duration=T, type="zip"))
+cfs <- sapply(mm, function(z) c(coef(z),phi=z$phi))
+boxplot(t(cfs))
+abline(h=c(beta, phi, zi))
 
 ## check if fun can be evaluated remotely
 library(snow)
