@@ -1,6 +1,6 @@
 ## dependent packages
 * add verbose text to function
-* add progress bar to functions
+* OK -- add progress bar to functions
 
 ## dclone
 * OK -- add parallel RNG to snowWrapper
@@ -10,9 +10,14 @@
 * OK -- finish bugs.parfit
 * OK -- tests in /devel for dclone
 * OK -- update references (dclone-package, etc.)
-* NO -- check fun for inits on remote workers (bugs.parfit): too complicated
-* dc.fit: fails whan unable to calculate dctable or dcdiag
+* OK -- check fun for inits on remote workers: examples added
+* dc.fit: fails when unable to calculate dctable or dcdiag
   easiest way is to shut it down by an option (arg is not nice)
 
 ## dctutor
 * add general install tutorial
+
+## dctests
+* OK -- dclone examples
+* dontrun dclone examples (needs regular updating before major release)
+* dctutor examples
