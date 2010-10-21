@@ -1,0 +1,12 @@
+Package: dctests
+Type: Package
+Title: A package to test dclone and related packages
+Version: 1.0
+Date: 2010-10-21
+Author: Peter Solymos
+Maintainer: Peter Solymos <solymos@ualberta.ca>
+Description: A package to test dclone and related packages.
+  It is to be used for checking purposes prior to
+  major releases of dclone.
+License: GPL-2
+LazyLoad: yes
