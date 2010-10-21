@@ -62,6 +62,43 @@ res$diff <- res$est - coef(glm(Y ~ 1, family=poisson))
 res
 glm(Y ~ 1, family=poisson)
 
+## glmm example (using MCMCglmm also)
+set.seed(1234)
+library(MCMCglmm)
+n <- 20
+beta <- c(1.8, -0.9)
+sigma <- 0.2
+x <- runif(n, min = 0, max = 1)
+X <- model.matrix(~ x)
+alpha <- rnorm(n, mean = 0, sd = sigma)
+lambda <- exp(alpha + drop(X %*% beta))
+Y <- rpois(n, lambda)
+d <- data.frame(y=Y,x)
+ddc <- lapply(c(1, 5, 10, 25, 50, 100), function(z) dclone(d, z))
+m <- lapply(ddc, function(z) MCMCglmm(y~x, family="poisson",data=z))
+cbind(c(beta, sigma^2), sapply(m, function(z) colMeans(cbind(z$Sol, sqrt(z$VCV)))))
+
+glmm.model <- function() {
+   for (i in 1:n) {
+      Y[i] ~ dpois(lambda[i])
+      lambda[i] <- exp(alpha[i] +
+         inprod(X[i,], beta[1,]))
+      alpha[i] ~ dnorm(0, tau)
+   }
+   for (j in 1:np) {
+      beta[1,j] ~ dnorm(0, 0.001)
+   }
+   log.sigma ~ dnorm(0, 0.001)
+   sigma <- exp(log.sigma)
+   tau <- 1 / pow(sigma, 2)
+}
+dat <- list(Y = Y, X = X, n = n, np = ncol(X))
+mod <- dc.fit(dat, c("beta", "sigma"), glmm.model, n.iter = 1000,
+    n.clones=c(1, 5, 10, 25, 50, 100), multiply="n", unchanged="np")
+dct <- dctable(mod)
+cbind(c(beta, sigma), rbind(dct[[1]]$mean, dct[[2]]$mean, dct[[3]]$mean))
+
+#x<-MCMCglmm(count~uplow+thd,family="poisson",data=ovenbird)
 
 
 ## next: add a continuous covariate, llik surface using outer
