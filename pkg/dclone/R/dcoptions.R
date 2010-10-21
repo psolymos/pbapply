@@ -10,7 +10,7 @@ function(...)
             npar <- opar
             npar[match(names(args), names(npar))] <- args
         }
-        options("pboptions"=npar)
+        options("dcoptions"=npar)
     }
     invisible(opar)
 }
