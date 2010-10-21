@@ -120,5 +120,7 @@ custommodel(jfun)
 custommodel(jfun, 4)
 ## LM
 custommodel(jfun, c(3,5))
+## deparse when print
+print(custommodel(jfun),deparse=TRUE)
 }
 \keyword{ IO }
