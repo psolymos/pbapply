@@ -1,5 +1,7 @@
 dclone package version history
 
+Version 1.2-2, October 21, 2010
+
 Version 1.2-1, August 26, 2010
     * experimenting with bugs.parfit:
       the different seeds approach is not satisfactory
@@ -11,6 +13,7 @@ Version 1.2-1, August 26, 2010
     * options for dclone reworked: can be accessed via
       the pdoptions function, and it sets the pdoptions option
     * dclone.dcdim: dimnames bug fixed when drop=TRUE
+    * examples added on inits specifications for *.parfit
 
 Version 1.2-0, August 26, 2010
     * polishing plot methods for R Journal paper.
