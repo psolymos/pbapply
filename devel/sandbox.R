@@ -210,21 +210,21 @@ pievolp <- function(r, sigma, n=100) {
 }
 
 beta <- c(1.2, -0.5)
-n <- 1000
+n <- 200
 x <- rnorm(n)
 X <- model.matrix(~x)
-r <- rep(c(50,100), each=n/2)/100
+r <- rep(c(25,50,75,100), each=n/4)/100
 A <- r^2*pi
 D <- exp(X %*% beta)
 sigma <- 1.5
-p <- rep(c(pievolp(50/100, sigma), pievolp(100/100, sigma)), each=n/2)
+p <- rep(sapply(unique(r), pievolp, sigma=sigma), each=n/4)
 lambda <- D * A * p
 Y <- rpois(n, lambda)
 summary(Y)
 
 glm.fitter <- function(z) {
-    vals <- c(pievolp(r[1], z), pievolp(r[n], z))
-    p <- rep(vals, each=n/2)
+    vals <- sapply(unique(r), pievolp, sigma=z)
+    p <- rep(vals, each=n/4)
     off <- log(A) + log(p)
     fit <- glm.fit(X, Y, family=poisson(), offset=off)
     class(fit) <- c("glm", "lm")
@@ -233,13 +233,41 @@ glm.fitter <- function(z) {
 res <- suppressWarnings(optim(1, glm.fitter, method="Nelder-Mead", lower=.Machine$double.eps, hessian=TRUE))
 sigma.hat <- res$par
 
-xx <- seq(0.1,5,len=100)
+xx <- seq(0.05,5,len=100)
 res <- sapply(xx, glm.fitter)
 plot(xx, res, type="l")
 abline(v=sigma, col=2)
 abline(v=sigma.hat, col=4)
+#Likelihood surface is quite flat, make pdet depend on covariate to introduce more heterogeneity
 
-Likelihood surface is quite flat, make pdet depend on covariate to introduce more heterogeneity
+## distance sampling with heterogeneity in sigma
+beta <- c(1.2, -0.5)
+n <- 200
+x <- rnorm(n)
+X <- model.matrix(~x)
+r <- rep(c(25,50,75,100), each=n/4)/100
+A <- r^2*pi
+D <- exp(X %*% beta)
+theta <- c(0, 0.5)
+z <- rnorm(n)
+Z <- model.matrix(~z)
+sigma <- exp(drop(Z %*% theta))
+p <- sapply(1:n, function(i) pievolp(r[i], sigma[i]))
+lambda <- D * A * p
+Y <- rpois(n, lambda)
+summary(Y)
+
+glm.fitter <- function(z) {
+    sigma <- exp(drop(Z %*% z))
+    p <- sapply(1:n, function(i) pievolp(r[i], sigma[i]))
+    off <- log(A) + log(p)
+    fit <- glm.fit(X, Y, family=poisson(), offset=off)
+    class(fit) <- c("glm", "lm")
+    -logLik(fit)
+}
+res <- suppressWarnings(optim(c(0,0), glm.fitter, method="Nelder-Mead", lower=.Machine$double.eps, hessian=TRUE))
+res$par
+
 
 ## area-duration
 
