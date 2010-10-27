@@ -168,7 +168,78 @@ DC asymptotics
 
 f) computation demands - go parallel
 
+## distance sampling
 
+## hanf-Gaussian pie volume integral
+
+sigma <- 100
+r <- 100
+n <- 100
+
+pievol <- function(r, sigma, n=100) {
+    dr <- r/n
+    rvec <- seq(0, r+dr, len=n+1)
+    rmid <- rvec[1:n] + dr/2
+    A <- sapply(rvec, function(z) z^2*pi)
+    Ac <- sapply(1:n, function(i) A[i+1]-A[i])
+    Vnum <- cumsum(sapply(1:n, function(i) Ac[i]*exp(-rmid[i]^2/sigma^2)))
+    Vden <- cumsum(Ac)
+    cbind(rmid,Vnum/Vden)
+}
+
+piekern <- function(r, sigma, n=100) {
+    dr <- r/n
+    rvec <- seq(0, r, len=n)
+    sapply(rvec, function(z) exp(-z^2/sigma^2))
+}
+
+
+#sapply(1:100, function(z) pievol(z, sigma=100, z))
+plot((1:200), pievol(200, sigma=100, 200))
+lines((1:200), piekern(200, sigma=100, n=200)^0.5, col=2)
+
+pievolp <- function(r, sigma, n=100) {
+    dr <- r/n
+    rvec <- seq(0, r+dr, len=n+1)
+    rmid <- rvec[1:n] + dr/2
+    A <- sapply(rvec, function(z) z^2*pi)
+    Ac <- sapply(1:n, function(i) A[i+1]-A[i])
+    Vnum <- sum(sapply(1:n, function(i) Ac[i]*exp(-rmid[i]^2/sigma^2)))
+    Vden <- sum(Ac)
+    Vnum/Vden
+}
+
+beta <- c(1.2, -0.5)
+n <- 1000
+x <- rnorm(n)
+X <- model.matrix(~x)
+r <- rep(c(50,100), each=n/2)/100
+A <- r^2*pi
+D <- exp(X %*% beta)
+sigma <- 1.5
+p <- rep(c(pievolp(50/100, sigma), pievolp(100/100, sigma)), each=n/2)
+lambda <- D * A * p
+Y <- rpois(n, lambda)
+summary(Y)
+
+glm.fitter <- function(z) {
+    vals <- c(pievolp(r[1], z), pievolp(r[n], z))
+    p <- rep(vals, each=n/2)
+    off <- log(A) + log(p)
+    fit <- glm.fit(X, Y, family=poisson(), offset=off)
+    class(fit) <- c("glm", "lm")
+    -logLik(fit)
+}
+res <- suppressWarnings(optim(1, glm.fitter, method="Nelder-Mead", lower=.Machine$double.eps, hessian=TRUE))
+sigma.hat <- res$par
+
+xx <- seq(0.1,5,len=100)
+res <- sapply(xx, glm.fitter)
+plot(xx, res, type="l")
+abline(v=sigma, col=2)
+abline(v=sigma.hat, col=4)
+
+Likelihood surface is quite flat, make pdet depend on covariate to introduce more heterogeneity
 
 ## area-duration
 
