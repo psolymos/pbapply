@@ -1,3 +1,4 @@
+## Poisson-Binomial mixture
 model1 <- function() {
     for (i in 1:n) {
         Y[i] ~ dbin(p[i], N[i])
@@ -5,6 +6,21 @@ model1 <- function() {
         logit(p.sing[i]) <- inprod(Z.sing[i,], theta.sing)
         logit(p.det[i]) <- inprod(Z.det[i,], theta.det)
         N[i] ~ dpois(lambda[i])
+        log(lambda[i]) <- inprod(X[i,], beta)
+    }
+    for (i in 1:2) {
+        beta[i] ~ dnorm(0, 0.001)
+        theta.sing[i] ~ dnorm(0, 0.001)
+        theta.det[i] ~ dnorm(0, 0.001)
+    }
+}
+## marginal for P-B mixture
+model2 <- function() {
+    for (i in 1:n) {
+        Y[i] ~ dpois(lambda[i]*p[i])
+        p[i] <- p.sing[i] * p.det[i]
+        logit(p.sing[i]) <- inprod(Z.sing[i,], theta.sing)
+        logit(p.det[i]) <- inprod(Z.det[i,], theta.det)
         log(lambda[i]) <- inprod(X[i,], beta)
     }
     for (i in 1:2) {
@@ -28,22 +44,38 @@ Z1 <- model.matrix(~z1)
 Z2 <- model.matrix(~z2)
 p.det <- drop(plogis(Z2 %*% theta.det))
 p.sing <- drop(plogis(Z1 %*% theta.sing))
-lambda <- drop(plogis(X %*% beta))
+lambda <- drop(exp(X %*% beta))
 N <- rpois(n, lambda)
 Y <- rbinom(n, N, p.sing*p.det)
 
 dat <- list(n=n, X=X, Z.sing=Z1, Z.det=Z2, Y=Y)
+
+cl <- makeSOCKcluster(3)
+k <- c(1,2,5,10)
+res <- list()
+for (i in 1:length(k)) {
+    dcdat <- dclone(dat, k[i], multiply="n")
+    dcinits <- list(N=dcdat$Y+1)
+    res[[i]] <- jags.parfit(cl, dcdat, c("beta","theta.sing","theta.det"), model1, dcinits, n.update=4000,n.iter=2000)
+}
+res2 <- list()
+for (i in 1:length(k)) {
+    dcdat <- dclone(dat, k[i], multiply="n")
+    res2[[i]] <- jags.parfit(cl, dcdat, c("beta","theta.sing","theta.det"), model2, n.update=4000,n.iter=2000)
+}
+stopCluster(cl)
+
+aa <- cbind(c(beta, theta.det, theta.sing), sapply(res, coef))
+dct <- dctable(res[[1]], res[[2]], res[[3]], res[[4]])
+dcd <- dcdiag(res[[1]], res[[2]], res[[3]], res[[4]])
+
+aa2 <- cbind(c(beta, theta.det, theta.sing), sapply(res2, coef))
+dct2 <- dctable(res2[[1]], res2[[2]], res2[[3]], res2[[4]])
+dcd2 <- dcdiag(res2[[1]], res2[[2]], res2[[3]], res2[[4]])
+
 inits <- list(N=Y+1)
 mod <- jags.fit(dat, c("beta","theta.sing","theta.det"), model1, inits, n.iter=2000)
 cbind(c(beta, theta.det, theta.sing), coef(mod))
-
-k <- c(1,2,5,10,25)
-res <- list()
-for (i in 1:length(k)) {
-    dcdat <- dclone(dat, multiply="n")
-    dcinits <- list(N=dcdat$Y+1)
-    res[[i]] <- jags.fit(dcdat, c("beta","theta.sing","theta.det"), model1, dcinits, n.update=4000,n.iter=2000)
-}
 
 ## SARX
 library(MASS)
