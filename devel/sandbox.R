@@ -1,3 +1,50 @@
+model1 <- function() {
+    for (i in 1:n) {
+        Y[i] ~ dbin(p[i], N[i])
+        p[i] <- p.sing[i] * p.det[i]
+        logit(p.sing[i]) <- inprod(Z.sing[i,], theta.sing)
+        logit(p.det[i]) <- inprod(Z.det[i,], theta.det)
+        N[i] ~ dpois(lambda[i])
+        log(lambda[i]) <- inprod(X[i,], beta)
+    }
+    for (i in 1:2) {
+        beta[i] ~ dnorm(0, 0.001)
+        theta.sing[i] ~ dnorm(0, 0.001)
+        theta.det[i] ~ dnorm(0, 0.001)
+    }
+}
+
+library(dclone)
+set.seed(1234)
+n <- 200
+beta <- c(1.5, -0.5)
+theta.sing <- c(0.1, 0.5)
+theta.det <- c(-0.2, 0.8)
+x <- rnorm(n)
+z1 <- rnorm(n)
+z2 <- rnorm(n)
+X <- model.matrix(~x)
+Z1 <- model.matrix(~z1)
+Z2 <- model.matrix(~z2)
+p.det <- drop(plogis(Z2 %*% theta.det))
+p.sing <- drop(plogis(Z1 %*% theta.sing))
+lambda <- drop(plogis(X %*% beta))
+N <- rpois(n, lambda)
+Y <- rbinom(n, N, p.sing*p.det)
+
+dat <- list(n=n, X=X, Z.sing=Z1, Z.det=Z2, Y=Y)
+inits <- list(N=Y+1)
+mod <- jags.fit(dat, c("beta","theta.sing","theta.det"), model1, inits, n.iter=2000)
+cbind(c(beta, theta.det, theta.sing), coef(mod))
+
+k <- c(1,2,5,10,25)
+res <- list()
+for (i in 1:length(k)) {
+    dcdat <- dclone(dat, multiply="n")
+    dcinits <- list(N=dcdat$Y+1)
+    res[[i]] <- jags.fit(dcdat, c("beta","theta.sing","theta.det"), model1, dcinits, n.update=4000,n.iter=2000)
+}
+
 ## SARX
 library(MASS)
 n <- 200
