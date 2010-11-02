@@ -17,7 +17,6 @@ export("jags.parfit", "dc.parfit", "bugs.parfit",
        "snowWrapper", 
        "clusterSize", "plotClusterSize",
        "clusterSplitSB", 
-       "clusterSeed",
        "parLapplySB", "parLapplySLB")
 
 ## graphical helper functions

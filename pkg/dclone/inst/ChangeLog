@@ -1,6 +1,9 @@
 dclone package version history
 
 Version 1.2-2, October 21, 2010
+    * expanded examples for *.parfit functions.
+    * clusterSeed removed from package: use
+      clusterSetupRNG in snow instead.
 
 Version 1.2-1, August 26, 2010
     * experimenting with bugs.parfit:

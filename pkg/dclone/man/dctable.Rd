@@ -103,7 +103,7 @@ Data cloning: easy maximum likelihood estimation for complex
 ecological models using Bayesian Markov chain Monte Carlo  methods.
 \emph{Ecology Letters} \strong{10}, 551--563.
 
-Lele, S. R., Nadeem, K. and Schmuland, B, 2010.
+Lele, S.R., K. Nadeem and B. Schmuland, 2010.
 Estimability and likelihood inference for generalized linear
 mixed models using data cloning. 
 \emph{Journal of the American Statistical Association}
