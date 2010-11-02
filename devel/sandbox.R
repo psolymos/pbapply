@@ -155,7 +155,7 @@ Y <- rpois(n, lambda)
 d <- data.frame(y=Y,x)
 ddc <- lapply(c(1, 5, 10, 25, 50, 100), function(z) dclone(d, z))
 m <- lapply(ddc, function(z) MCMCglmm(y~x, family="poisson",data=z))
-cbind(c(beta, sigma^2), sapply(m, function(z) colMeans(cbind(z$Sol, sqrt(z$VCV)))))
+cbind(c(beta, sigma), sapply(m, function(z) colMeans(cbind(z$Sol, sqrt(z$VCV)))))
 
 glmm.model <- function() {
    for (i in 1:n) {
@@ -376,7 +376,7 @@ glmnb.fitter <- function(z) {
 }
 res <- suppressWarnings(optim(1, glmnb.fitter, method="Nelder-Mead", lower=.Machine$double.eps, hessian=TRUE))
 phi.hat <- res$par
-phi.se <- 1 / res$hessian
+phi.se <- sqrt(1 / res$hessian)
 
 res <- sapply((1:100)/100, glmnb.fitter)
 plot((1:100)/100, res, type="l")
@@ -407,12 +407,19 @@ glm.fitter <- function(z) {
 }
 res <- suppressWarnings(optim(1, glm.fitter, method="Nelder-Mead", lower=.Machine$double.eps, hessian=TRUE))
 phi.hat <- res$par
-phi.se <- 1 / res$hessian
+phi.se <- sqrt(1 / res$hessian)
 
 res <- sapply((1:100)/100, glm.fitter)
 plot((1:100)/100, res, type="l")
 abline(v=phi, col=2)
 abline(v=phi.hat, col=4)
+
+res <- suppressWarnings(optim(1, glm.fitter, method="Nelder-Mead", lower=.Machine$double.eps, hessian=TRUE))
+phi.hat <- res$par
+off <- log(A) + log(1 - exp(-phi.hat * T))
+glm(Y ~ x, family=poisson, offset=log(A))
+#xx <- glm(Y ~ x + I(as.factor(T)), family=poisson, offset=log(A))
+#log(1-exp((coef(xx)[1]+c(0,coef(xx)[3:6])))) / -(1:5)
 
 ## P-Ln
 
@@ -434,12 +441,19 @@ Y <- rpois(n, lambda)
 
 glm.fitter <- function(z) {
     off <- log(A) + log(1 - exp(-z * T))
+    fit <- glm.fit(X, Y, family=poisson(), offset=off)
+    class(fit) <- c("glm", "lm")
+    -logLik(fit)
+}
+glmm.fitter <- function(z) {
+    off <- log(A) + log(1 - exp(-z * T))
     fit <- glmer(Y ~ x + (1 | id), family=poisson, offset=off)
     -logLik(fit)
 }
-res <- suppressWarnings(optim(1, glm.fitter, method="Nelder-Mead", lower=.Machine$double.eps, hessian=TRUE))
+res0 <- suppressWarnings(optim(1, glm.fitter, method="Nelder-Mead", lower=.Machine$double.eps, hessian=TRUE))
+res <- suppressWarnings(optim(res0$par, glmm.fitter, method="Nelder-Mead", lower=.Machine$double.eps, hessian=TRUE))
 phi.hat <- res$par
-phi.se <- 1 / res$hessian
+phi.se <- sqrt(1 / res$hessian)
 
 res <- sapply((1:100)/100, glm.fitter)
 plot((1:100)/100, res, type="l")
@@ -475,7 +489,7 @@ zip.fitter <- function(z) {
 }
 res <- suppressWarnings(optim(1, zip.fitter, method="Nelder-Mead", lower=.Machine$double.eps, hessian=TRUE))
 phi.hat <- res$par
-phi.se <- 1 / res$hessian
+phi.se <- sqrt(1 / res$hessian)
 
 res <- sapply((1:100)/100, zip.fitter)
 plot((1:100)/100, res, type="l")
@@ -525,7 +539,7 @@ zinb.fitter <- function(z) {
 res <- suppressWarnings(optim(1, zinb.fitter, method="BFGS", lower=.Machine$double.eps, hessian=TRUE))
 #res <- optimize(zinb.fitter, interval=c(.Machine$double.eps, 10))
 phi.hat <- res$minimum
-#phi.se <- 1 / res$hessian
+#phi.se <- sqrt(1 / res$hessian)
 
 res <- sapply((1:100)/100, zinb.fitter)
 plot((1:100)/100, res, type="l")
@@ -670,7 +684,7 @@ cfs <- sapply(mm, function(z) c(coef(z),phi=z$phi))
 boxplot(t(cfs))
 abline(h=c(beta, phi))
 
-## simulations for NB
+## simulations for NB - slightly biased
 library(MASS)
 shape <- 2
 beta <- c(1.2, -0.5)
