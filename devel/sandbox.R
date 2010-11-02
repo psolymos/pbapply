@@ -414,6 +414,38 @@ plot((1:100)/100, res, type="l")
 abline(v=phi, col=2)
 abline(v=phi.hat, col=4)
 
+## P-Ln
+
+library(lme4)
+beta <- c(1.2, -0.5)
+phi <- 0.3
+n <- 200
+x <- rnorm(n)
+X <- model.matrix(~x)
+A <- rep(1:5, each=n/5)
+T <- rep(1:5, n/5)
+alpha <- rep(rnorm(n/2, 0, 0.3), each=2)
+alpha <- rnorm(n, alpha, 0.1)
+id <- rep(1:(n/2), each=2)
+D <- exp(X %*% beta) + alpha
+p <- 1 - exp(-phi * T)
+lambda <- D * A * p
+Y <- rpois(n, lambda)
+
+glm.fitter <- function(z) {
+    off <- log(A) + log(1 - exp(-z * T))
+    fit <- glmer(Y ~ x + (1 | id), family=poisson, offset=off)
+    -logLik(fit)
+}
+res <- suppressWarnings(optim(1, glm.fitter, method="Nelder-Mead", lower=.Machine$double.eps, hessian=TRUE))
+phi.hat <- res$par
+phi.se <- 1 / res$hessian
+
+res <- sapply((1:100)/100, glm.fitter)
+plot((1:100)/100, res, type="l")
+abline(v=phi, col=2)
+abline(v=phi.hat, col=4)
+
 ## ZIP
 
 beta <- c(1.2, -0.5)
@@ -450,7 +482,7 @@ plot((1:100)/100, res, type="l")
 abline(v=phi, col=2)
 abline(v=phi.hat, col=4)
 
-## ZINB -- quite instable, oftehn fails to find MLE
+## ZINB -- quite unstable, oftehn fails to find MLE
 ## BFGS is better than N-M or SANN
 ## optimize also fails
 
