@@ -15,7 +15,7 @@ citEntry(entry = "Article",
   paste("Solymos, P and Lele, S R (in press).",
         "Global pattern and local variation in species-area relationships.",
         "Global Ecology and Biogeography xx, xx-xx.",
-        "Version:", 
+        "R package version:", 
         read.dcf(file=system.file("DESCRIPTION", package="dclone"), fields="Version"))
 )
 
