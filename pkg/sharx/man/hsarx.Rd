@@ -39,8 +39,9 @@ Fit SAR, SARX, HSAR and HSARX models to data as described in Solymos and Lele
 An mcmc.list object.
 }
 \references{
-Solymos and Lele (under review), Global pattern and local variation
-in species-area relationship
+Solymos, P. and Lele, S. R. (in press), Global pattern and local variation
+in species-area relationships. 
+Global Ecology and Biogeography, xx: xx--xx.
 }
 \author{
 Peter Solymos

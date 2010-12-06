@@ -7,7 +7,7 @@ Models and Data Sets for the Study of the Species-Area Relationships
 }
 \description{
 Data sets and SAR, SARX, HSAR and HSARX 
-models as described in Solymos and Lele (under review).
+models as described in Solymos and Lele (in press).
 }
 \details{
 See \code{\link{sardata}} and \code{\link{hsarx}}
@@ -18,7 +18,8 @@ Peter Solymos
 Maintainer: Peter Solymos <solymos@ualberta.ca>
 }
 \references{
-Solymos and Lele (under review), Global pattern and local variation
-in species-area relationship
+Solymos, P. and Lele, S. R. (in press), Global pattern and local variation
+in species-area relationships. 
+Global Ecology and Biogeography, xx: xx--xx.
 }
 \keyword{ package }

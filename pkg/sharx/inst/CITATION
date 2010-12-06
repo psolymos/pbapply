@@ -1,0 +1,24 @@
+citHeader("To cite 'sharx' in publications use\nwith package version number:")
+
+citEntry(entry = "Article",
+  title        = "Global pattern and local variation in species-area relationships",
+  author       = personList(as.person("P\\'{e}ter S\\'{o}lymos"),
+                 as.person("Subhash R Lele")),
+  journal      = "Global Ecology and Biogeography",
+  year         = "in press",
+  volume       = "",
+  number       = "",
+  pages        = "",
+  note         = "in press",
+
+  textVersion  =
+  paste("Solymos, P and Lele, S R (in press).",
+        "Global pattern and local variation in species-area relationships.",
+        "Global Ecology and Biogeography xx, xx-xx.",
+        "Version:", 
+        read.dcf(file=system.file("DESCRIPTION", package="dclone"), fields="Version"))
+)
+
+
+
+
