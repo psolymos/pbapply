@@ -59,17 +59,17 @@ x <- hsarx(log(S+0.5) ~ log(A) | (taxon.group + island.type + abs(latitude) + I(
 
 ## SAR
 DATS <- DAT[1:191,]
-x <- hsarx(log(S+0.5) ~ log(A), DATS[DATS$study=="abbott1978bird",], n.clones=2)
+x1 <- hsarx(log(S+0.5) ~ log(A), DATS[DATS$study=="abbott1978bird",], n.clones=2)
 
 ## SARX
 DATS$rnd <- rnorm(nrow(DATS), log(DATS$extent))
-x <- hsarx(log(S+0.5) ~ log(A) * rnd, DATS[DATS$study=="abbott1978bird",], n.clones=2)
+x2 <- hsarx(log(S+0.5) ~ log(A) * rnd, DATS[DATS$study=="abbott1978bird",], n.clones=2)
 
 ## HSAR
-x <- hsarx(log(S+0.5) ~ log(A) | 1 | study, DATS, n.clones=2, n.iter=1000)
+x3 <- hsarx(log(S+0.5) ~ log(A) | 1 | study, DATS, n.clones=2, n.iter=1000)
 
 ## HSARX
-x <- hsarx(log(S+0.5) ~ log(A) | abs(latitude) | study, DATS, n.clones=2, n.iter=1000)
+x4 <- hsarx(log(S+0.5) ~ log(A) | abs(latitude) | study, DATS, n.clones=2, n.iter=1000)
 }
 }
 \keyword{ htest }
