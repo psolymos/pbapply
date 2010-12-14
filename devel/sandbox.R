@@ -1,3 +1,41 @@
+## guild selection check
+
+guildprop <- function(N, guild, R=99) {
+    fun <- function(T, R=99) {
+        n <- length(guild)
+        subs <- N >= T
+        m <- sum(subs)
+        p0 <- sum(guild) / n
+        p <- sum(guild[subs]) / m
+        null <- c(p, replicate(R, sum(sample(guild, m)) / m))
+        c(T=T, p0=p0, p.guild=p, quantile(null, probs=c(0.025, 0.975)))
+    }
+    t(sapply(1:6, fun, R=R))
+}
+rho <- 0
+tmp1 <- rnorm(100)
+tmp2 <- rnorm(100, tmp1*rho)
+N <- rpois(100, exp(tmp1+2))
+guild <- rbinom(100, 1, pnorm(tmp2))
+boxplot(log(N+1)~guild)
+guildprop(N, guild, R=999)
+
+rho <- 0.5
+tmp1 <- rnorm(100)
+tmp2 <- rnorm(100, tmp1*rho)
+N <- rpois(100, exp(tmp1+2))
+guild <- rbinom(100, 1, pnorm(tmp2))
+boxplot(log(N+1)~guild)
+guildprop(N, guild, R=999)
+
+rho <- 0.8
+tmp1 <- rnorm(100)
+tmp2 <- rnorm(100, tmp1*rho)
+N <- rpois(100, exp(tmp1+2))
+guild <- rbinom(100, 1, pnorm(tmp2))
+boxplot(log(N+1)~guild)
+guildprop(N, guild, R=999)
+
 ## Poisson-Binomial mixture
 model1 <- function() {
     for (i in 1:n) {
@@ -308,13 +346,13 @@ r <- rep(c(50,100,150,200), each=n/4)/100
 A <- r^2*pi
 D <- exp(X %*% beta)
 sigma <- 1
-p <- rep(sapply(unique(r), pievolp, sigma=sigma), each=n/4)
+p <- rep(sapply(unique(r), pievolp3, sigma=sigma), each=n/4)
 lambda <- D * A * p
 Y <- rpois(n, lambda)
 summary(Y)
 
 glm.fitter <- function(z) {
-    vals <- sapply(unique(r), pievolp, sigma=z)
+    vals <- sapply(unique(r), pievolp3, sigma=z)
     p <- rep(vals, each=n/4)
     off <- log(A) + log(p)
     fit <- glm.fit(X, Y, family=poisson(), offset=off)
@@ -330,7 +368,7 @@ plot(xx, res, type="l")
 abline(v=sigma, col=2)
 abline(v=sigma.hat, col=4)
 #Likelihood surface is quite flat, make pdet depend on covariate to introduce more heterogeneity
-plot(0:200, exp(-(0:200)^2/sigma.hat^2), type="l")
+plot(0:200/100, exp(-(0:200/100)^2/sigma.hat^2), type="l")
 
 
 ## distance sampling with heterogeneity in sigma
