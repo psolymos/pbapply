@@ -283,19 +283,22 @@ pievolp <- function(r, sigma, n=100) {
     rmid <- rvec[1:n] + dr/2
     A <- sapply(rvec, function(z) z^2*pi)
     Ac <- sapply(1:n, function(i) A[i+1]-A[i])
-    Vnum <- sum(sapply(1:n, function(i) Ac[i]*exp(-rmid[i]^2/sigma^2)))
+    p <- sapply(rmid, function(z) exp(-z^2/sigma^2))
+    Vnum <- sum(Ac*p)
     Vden <- sum(Ac)
     Vnum/Vden
 }
+plot(0:200, sapply(0:200, pievolp, sigma=100))
+
 
 beta <- c(1.2, -0.5)
 n <- 200
 x <- rnorm(n)
 X <- model.matrix(~x)
-r <- rep(c(25,50,75,100), each=n/4)/100
+r <- rep(c(50,100,150,200), each=n/4)/100
 A <- r^2*pi
 D <- exp(X %*% beta)
-sigma <- 1.5
+sigma <- 1
 p <- rep(sapply(unique(r), pievolp, sigma=sigma), each=n/4)
 lambda <- D * A * p
 Y <- rpois(n, lambda)
@@ -318,6 +321,8 @@ plot(xx, res, type="l")
 abline(v=sigma, col=2)
 abline(v=sigma.hat, col=4)
 #Likelihood surface is quite flat, make pdet depend on covariate to introduce more heterogeneity
+plot(0:200, exp(-(0:200)^2/sigma.hat^2), type="l")
+
 
 ## distance sampling with heterogeneity in sigma
 beta <- c(1.2, -0.5)
