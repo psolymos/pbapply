@@ -288,7 +288,16 @@ pievolp <- function(r, sigma, n=100) {
     Vden <- sum(Ac)
     Vnum/Vden
 }
+pievolp2 <- function(r, sigma) {
+    num <- pi*sigma^2*(1-exp(-r^2/sigma^2))
+    den <- r^2*pi
+    num/den
+}
+pievolp3 <- function(r, sigma) {
+    (sigma^2/r^2)*(1-exp(-r^2/sigma^2))
+}
 plot(0:200, sapply(0:200, pievolp, sigma=100))
+lines(0:200, sapply(0:200, pievolp3, sigma=100), col=2)
 
 
 beta <- c(1.2, -0.5)
