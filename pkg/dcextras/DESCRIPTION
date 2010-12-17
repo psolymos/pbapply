@@ -1,0 +1,13 @@
+Package: dcextras
+Type: Package
+Title: Extras and not fully supported functions to the dclone package
+Version: 1.0-0
+Date: 2010-12-16
+Author: Peter Solymos
+Maintainer: Peter Solymos <solymos@ualberta.ca>
+Description: Extras and not fully supported functions to the dclone package.
+License: GPL-2
+Depends: dclone, snow
+Suggests: BRugs
+URL: http://dcr.r-forge.r-project.org/
+LazyLoad: yes
