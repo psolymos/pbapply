@@ -19,7 +19,7 @@ Version 1.2-1, August 26, 2010
     * set.rng arg added to snowWrapper that calls
       snow::clusterSetupRNG
     * options for dclone reworked: can be accessed via
-      the pdoptions function, and it sets the pdoptions option
+      the dcoptions function, and it sets the dcoptions option
     * dclone.dcdim: dimnames bug fixed when drop=TRUE
     * examples added on inits specifications for *.parfit
 
