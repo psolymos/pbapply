@@ -27,7 +27,7 @@ Main functions include:
 \code{\link{dctable}}, \code{\link{dcdiag}}: helps evaluating data cloning 
   convergence by descriptive statistics and diagnostic tools.
   (These are based on e.g. \code{\link{chisq.diag}} 
-  and \code{\link{lambdamax.diag}})
+  and \code{\link{lambdamax.diag}}.)
 
 \code{\link{coef.mcmc.list}}, \code{\link{confint.mcmc.list.dc}},
   \code{\link{dcsd.mcmc.list}}, \code{\link{quantile.mcmc.list}},

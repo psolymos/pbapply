@@ -1,20 +1,20 @@
 citHeader("To cite 'dclone' in publications use\nwith package version number:")
 
 citEntry(entry = "Article",
-  title        = "dclone: Data Cloning in {R}",
-  author       = personList(as.person("P\\'{e}ter S\\'{o}lymos")),
-  journal      = "The R Journal",
-  year         = "2010",
-  volume       = "2",
-  number       = "2",
-  pages        = "",
-  note         = "in press",
-  url          = "http://journal.r-project.org/",
-
-  textVersion  =
-  paste("Peter Solymos (2010).",
+    title        = "dclone: Data Cloning in {R}",
+    author       = personList(as.person("P\\'{e}ter S\\'{o}lymos")),
+    journal      = "The R Journal",
+    year         = "2010, in press",
+    volume       = "2",
+    number       = "2",
+    pages        = "xx--xx",
+    url          = "http://journal.r-project.org/",
+    note         = paste("{R} package version:", 
+        read.dcf(file=system.file("DESCRIPTION", package="dclone"), fields="Version")),
+    textVersion  =
+    paste("Peter Solymos (2010, in press).",
         "dclone: Data Cloning in R.",
-        "The R Journal 2(2), in press.",
+        "The R Journal 2(2), xx-xx.",
         "http://journal.r-project.org/.",
         "R package version:", 
         read.dcf(file=system.file("DESCRIPTION", package="dclone"), fields="Version"))
