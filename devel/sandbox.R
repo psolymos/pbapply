@@ -140,7 +140,74 @@ p <- 1 - exp(-phi * T)
 lambda <- D * A * p
 Y <- rpois(n, lambda)
 dat <- list(Y=Y, A=A, T=T, X=X, n=length(Y), np=ncol(X))
-m <- jags.fit(dat, c("beta","phi"), DAp.model)
+#m <- jags.fit(dat, c("beta","phi"), DAp.model)
+cl <- makeSOCKcluster(6)
+m <- dc.parfit(cl, dat, c("beta","phi"), DAp.model,
+    n.clones=c(1, 2, 5, 10, 25), multiply="n", unchanged="np")
+stopCluster(cl)
+dcdiag(m)
+
+beta <- c(1.2, -0.5)
+phi <- 0.3
+n <- 200
+x <- rnorm(n)
+X <- model.matrix(~x)
+A <- rep(1:5, each=n/5)
+T <- rep(1:5, n/5)
+D <- exp(X %*% beta)
+p <- 1 - exp(-phi * T)
+lambda <- D * A * p
+Y <- rpois(n, lambda)
+dat <- list(Y=Y, A=A, T=T, X=X, n=length(Y), np=ncol(X))
+#m <- jags.fit(dat, c("beta","phi"), DAp.model)
+cl <- makeSOCKcluster(6)
+m2 <- dc.parfit(cl, dat, c("beta","phi"), DAp.model,
+    n.clones=c(1, 2, 5, 10, 25), multiply="n", unchanged="np")
+stopCluster(cl)
+dcdiag(m2)
+cor(mcmcapply(m2, array))
+
+DAp.model2 <- function() {
+    for (i in 1:n) {
+#        N[i] ~ dpois(D[i] * A[i])
+#        Y[i] ~ dbin(p[i], N[i])
+        Y[i] ~ dpois(D[i] * A[i] * p[i])
+        phi[i] <- exp(inprod(Z[i,], theta))
+        p[i] <- 1 - exp(-phi[i]*T[i])
+        log(D[i]) <- inprod(X[i,], beta)
+    }
+    for (i in 1:np1) {
+        beta[i] ~ dnorm(0, 0.001)
+    }
+    for (i in 1:np2) {
+        theta[i] ~ dnorm(0, 0.001)
+    }
+}
+
+beta <- c(1.2, -0.5)
+theta <- c(0, 0.5)
+phi <- 0.3
+n <- 200
+x <- rnorm(n)
+z <- rnorm(n)
+X <- model.matrix(~x)
+Z <- model.matrix(~z)
+A <- rep(1:5, each=n/5)
+T <- rep(1:5, n/5)
+D <- exp(X %*% beta)
+phi <- exp(Z %*% theta)
+p <- 1 - exp(-phi * T)
+lambda <- D * A * p
+Y <- rpois(n, lambda)
+dat <- list(Y=Y, A=A, T=T, X=X, Z=Z, n=length(Y), np1=ncol(X), np2=ncol(Z))
+mm <- jags.fit(dat, c("beta","theta"), DAp.model2)
+cl <- makeSOCKcluster(6)
+m3 <- dc.parfit(cl, dat, c("beta","theta"), DAp.model2,
+    n.clones=c(1, 2, 5, 10, 25), multiply="n", unchanged=c("np1","np2"))
+dcdiag(m3)
+cor(mcmcapply(m3, array))
+plot(data.frame(mcmcapply(m3, array)))
+stopCluster(cl)
 
 ## SARX
 library(MASS)
