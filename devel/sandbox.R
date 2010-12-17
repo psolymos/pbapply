@@ -115,6 +115,33 @@ inits <- list(N=Y+1)
 mod <- jags.fit(dat, c("beta","theta.sing","theta.det"), model1, inits, n.iter=2000)
 cbind(c(beta, theta.det, theta.sing), coef(mod))
 
+## identifiability check for DAp
+DAp.model <- function() {
+    for (i in 1:n) {
+        Y[i] ~ dpois(D[i] * A[i] * p[i])
+        p[i] <- 1 - exp(-phi*T[i])
+        log(D[i]) <- inprod(X[i,], beta)
+    }
+    for (i in 1:np) {
+        beta[i] ~ dnorm(0, 0.001)
+    }
+    log.phi ~ dnorm(0, 0.001)
+    phi <- exp(log.phi)
+}
+beta <- c(1.2)
+phi <- 0.3
+n <- 200
+x <- rep(1, n)
+X <- model.matrix(~x-1)
+A <- rep(1:5, each=n/5)
+T <- rep(1:5, n/5)
+D <- exp(X %*% beta)
+p <- 1 - exp(-phi * T)
+lambda <- D * A * p
+Y <- rpois(n, lambda)
+dat <- list(Y=Y, A=A, T=T, X=X, n=length(Y), np=ncol(X))
+m <- jags.fit(dat, c("beta","phi"), DAp.model)
+
 ## SARX
 library(MASS)
 n <- 200
