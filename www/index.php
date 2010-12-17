@@ -87,8 +87,6 @@ at once is to type this after opening R:</p>
 <li>Some tutorials are <a href="http://dcr.r-forge.r-project.org/tutorials/">here</a> (under development).</li>
 </ul>
 
-<p></p>
-
 <h2>Specialized packages in this repository</h2>
 
 <ul>
