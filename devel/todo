@@ -1,23 +1,32 @@
-## dependent packages
-* add verbose text to function
-* OK -- add progress bar to functions
-
-## dclone
+## *** dclone ***
+## Basic infrastructure for DC and stable parallel implementations.
 * OK -- add parallel RNG to snowWrapper
 * OK -- add parallel RNG option
 * OK -- rework options as dcoptions() similar to pboptions
 * OK -- documentation should reflect options
-* OK -- finish bugs.parfit
-* OK -- tests in /devel for dclone
 * OK -- update references (dclone-package, etc.)
 * OK -- check fun for inits on remote workers: examples added
 * dc.fit: fails when unable to calculate dctable or dcdiag
   easiest way is to shut it down by an option (arg is not nice)
 
-## dctutor
+## *** dctutor ***
+## Tutorial for dclone and related packages.
 * add general install tutorial
 
-## dctests
+## *** dctests ***
+## Package for testing dontrun examples in dclone and related packages.
 * OK -- dclone examples
-* dontrun dclone examples (needs regular updating before major release)
+* OK -- dontrun dclone examples (needs regular updating before major release)
 * dctutor examples
+
+## *** dcextras ***
+## New package for not fully supprted and developmental stuff.
+* OK -- bugs.parfit: add to repo with enhanced examples
+
+## *** dcglm ***
+## Obsolete, now part of dctutor, retained in repo because of functions.
+* None
+
+## dependent packages
+* add verbose text to function
+* OK -- add progress bar to functions
