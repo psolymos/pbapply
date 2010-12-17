@@ -13,7 +13,7 @@ export("dclone", "dcdim",
        "dcoptions")
 
 ## parallel functions
-export("jags.parfit", "dc.parfit", "bugs.parfit",
+export("jags.parfit", "dc.parfit",
        "snowWrapper", 
        "clusterSize", "plotClusterSize",
        "clusterSplitSB", 

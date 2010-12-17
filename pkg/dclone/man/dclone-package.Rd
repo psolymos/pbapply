@@ -19,8 +19,7 @@ Main functions include:
 \code{\link{dclone}}, \code{\link{dcdim}}: cloning R objects in various ways.
 
 \code{\link{jags.fit}}, \code{\link{bugs.fit}}: conveniently fit BUGS models.
-  (\code{\link{jags.parfit}} and \code{\link{bugs.parfit}} 
-  fits chains on parallel workers.)
+  (\code{\link{jags.parfit}} fits chains on parallel workers for JAGS.)
 
 \code{\link{dc.fit}}: iterative model fitting by the data cloning algorithm.
   (\code{\link{dc.parfit}} is the parallelized version.)

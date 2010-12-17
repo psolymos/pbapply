@@ -1,5 +1,10 @@
 dclone package version history
 
+Version 1.2-3, December 16, 2010
+    * bugs.parfit: migrated into the new dcextras package
+      where experimental and not fully supported functions
+      will reside in the future.
+
 Version 1.2-2, October 21, 2010
     * expanded examples for *.parfit functions.
     * clusterSeed removed from package: use
