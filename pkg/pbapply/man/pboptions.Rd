@@ -44,7 +44,9 @@ Other functions can be used for conveniently adding progress bar to \code{for}-l
 When parameters are set by \code{pboptions}, their former values are returned in an invisible named list. Such a list can be passed as an argument to \code{pboptions} to restore the parameter values.
 Tags are the following:
 
-  \item{type}{Default value is \code{"txt"}.}
+  \item{type}{Type of the progress bar: text (\code{"txt"}), 
+    Windows (\code{"win"}), TclTk (\code{"tk"}), or none (\code{"none"}).
+    Default value is \code{"txt"}.}
   \item{char}{The character (or character string) to form the progress bar.
     Default value is \code{"+"}.}
   \item{txt.width}{The width of the text based progress bar, as a multiple of the width of \code{char}.

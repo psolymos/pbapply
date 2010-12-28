@@ -1,7 +1,7 @@
 pbapply package version history
 
 Version 1.0-3, September 9, 2010
-    *
+    * pboptions.Rd modified: pb type values added
 
 Version 1.0-2, September 4, 2010
     * pboptions reworked
