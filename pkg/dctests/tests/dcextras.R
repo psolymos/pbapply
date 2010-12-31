@@ -1,4 +1,7 @@
 ## dcextras documentation checks for dontrun pieces
+Extras <- FALSE
+if (Extras) {
+
 library(dcextras)
 
 ## ?bugs.parfit #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -34,3 +37,5 @@ sim <- bugs.parfit(cl, dat, param, bugs.model, inits, seed=1:3)
 sim2 <- bugs.parfit(cl, dat, param, bugs.model, inits, program="openbugs",
     n.thin=1, seed=1:3)
 stopCluster(cl)
+
+}
