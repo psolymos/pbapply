@@ -1,7 +1,8 @@
 dclone package version history
 
-Version 1.3-0, December 17, 2010
+Version 1.3-0, December 31, 2010
     * preparing for major CRAN release.
+    * final RJ citation added.
 
 Version 1.2-3, December 16, 2010
     * bugs.parfit: migrated into the new dcextras package
