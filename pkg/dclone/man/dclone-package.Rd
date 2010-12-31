@@ -46,7 +46,7 @@ Maintainer: \enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \references{
 Solymos, P., 2010. dclone: Data Cloning in R.
-\emph{The R Journal} \strong{2(2)}, in press.
+\emph{The R Journal} \strong{2(2)}, 29--37.
 URL: \url{http://journal.r-project.org/}
 
 Lele, S.R., B. Dennis and F. Lutscher, 2007.
