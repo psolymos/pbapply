@@ -45,6 +45,21 @@ echo $contents; } ?>
 
 <p> The <strong>project summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
 
+<p> The <strong>stable dclone release</strong> you can find <a href="http://cran.r-project.org/web/packages/dclone/index.html"><strong>at CRAN</strong></a>. </p>
+
+<h2>Documentation</h2>
+<p>
+<ul>
+<li>Short introduction: P&eacute;ter S&oacute;lymos, 2010. dclone: Data Cloning in R. 
+<i>The R Journal</i>, 2(2):29-37, December 2010. URL <code>http://journal.R-project.org/</code> 
+[<A href="http://journal.r-project.org/archive/2010-2/RJournal_2010-2_bib.html#RJournal:2010-2:Solymos">bib</A>] 
+[<A href="http://journal.r-project.org/archive/2010-2/RJournal_2010-2_Solymos.pdf">pdf</A>] 
+[<A href="http://dcr.r-forge.r-project.org/tutorials/RJournal_2010-2_Solymos.pdf">local copy</A>]<i> (Official citation)</i>
+</li><li>Reference manual: [<A href="http://cran.r-project.org/web/packages/dclone/dclone.pdf">pdf</A>] <i>(Detailed technical documentation of the package from CRAN)</i></li>
+<li>Additional resources: <a href="http://dcr.r-forge.r-project.org/tutorials/"> tutorials</a> (under development).</li>
+</ul>
+</p>
+
 <h2>Infrastructure for dclone</h2>
 
 <p>Because dclone is an R package, installing R is absolutely necessary. 
@@ -75,17 +90,11 @@ operating systems.
 The easiest way to install the stable release and all required packages 
 at once is to type this after opening R:</p>
 
-<p><TT>install.packages("dclone")</TT></p>
+<p><code>install.packages("dclone")</code></p>
 
 <p>The development version can be installed as:</p>
 
-<p><TT>install.packages("dclone", repos = "http://r-forge.r-project.org")</TT></p>
-
-<h2>Additional resources</h2>
-
-<ul>
-<li>Some tutorials are <a href="http://dcr.r-forge.r-project.org/tutorials/">here</a> (under development).</li>
-</ul>
+<p><code>install.packages("dclone", repos = "http://r-forge.r-project.org")</code></p>
 
 <h2>Specialized packages in this repository</h2>
 
