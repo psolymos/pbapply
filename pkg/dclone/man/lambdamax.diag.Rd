@@ -45,7 +45,7 @@ Lele, S.R., K. Nadeem and B. Schmuland, 2010.
 Estimability and likelihood inference for generalized linear
 mixed models using data cloning. 
 \emph{Journal of the American Statistical Association}
-In press.
+\strong{105}, 1617--1625.
 }
 \author{
 Khurram Nadeem, \email{knadeem@math.ualberta.ca}
