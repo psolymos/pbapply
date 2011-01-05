@@ -2,6 +2,11 @@ dclone package version history
 
 Version 1.3-1, January 4, 2011
     * JASA paper (Lele et al. 2010) citation added to Rd.
+    * loading rjags changed: it is now only suggested.
+      Reason: some dclone functionality might be useful
+      without JAGS/rjags present, and now loading
+      rjags won't cause error if JAGS shared library
+      not found.
 
 Version 1.3-0, December 31, 2010
     * preparing for major CRAN release.

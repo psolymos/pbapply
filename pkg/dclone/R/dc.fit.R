@@ -3,6 +3,9 @@ dc.fit <-
 function(data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL, 
 update=NULL, updatefun=NULL, initsfun=NULL, flavour = c("jags", "bugs"), ...)
 {
+    ## stop if rjags not found
+    if (flavour=="jags" && !suppressWarnings(require(rjags)))
+        stop("there is no package called 'rjags'")
     ## initail evals
     flavour <- match.arg(flavour)
     if (missing(n.clones))

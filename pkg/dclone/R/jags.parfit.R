@@ -1,6 +1,9 @@
 jags.parfit <-
 function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
 {
+    ## stop if rjags not found
+    if (!suppressWarnings(require(rjags)))
+        stop("there is no package called 'rjags'")
     if (!inherits(cl, "cluster"))
         stop("'cl' must be a 'cluster' object")
     trace <- getOption("dcoptions")$verbose

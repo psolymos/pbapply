@@ -12,8 +12,8 @@ Description: Low level functions for implementing
     for JAGS, WinBUGS and OpenBUGS.
     With some functions for parallel MCMC computations.
 License: GPL-2
-Depends: R (>= 2.7.0), rjags, coda (>= 0.13), R2WinBUGS, snow, rlecuyer
-Suggests: BRugs, rsprng
+Depends: R (>= 2.7.0), coda (>= 0.13), R2WinBUGS, snow, rlecuyer
+Suggests: rjags, BRugs, rsprng
 Imports: stats
 SystemRequirements: jags (>= 1.0.3), WinBUGS (>= 1.4)
 URL: http://cran.r-project.org/package=dclone, http://dcr.r-forge.r-project.org/

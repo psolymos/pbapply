@@ -2,6 +2,9 @@ jags.fit <-
 function(data, params, model, inits=NULL, n.chains=3, n.adapt=1000, n.update=0, thin=1, n.iter=5000, 
 updated.model=TRUE, ...)
 {
+    ## stop if rjags not found
+    if (!suppressWarnings(require(rjags)))
+        stop("there is no package called 'rjags'")
     ## inital steps
     n.clones <- nclones.list(data)
     if (is.function(model) || inherits(model, "custommodel")) {
