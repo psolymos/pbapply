@@ -8,15 +8,17 @@
 * OK -- check fun for inits on remote workers: examples added
 * dc.fit: fails when unable to calculate dctable or dcdiag
   easiest way is to shut it down by an option (arg is not nice)
+* add NEWS/NEWS.Rd from 1.3-0 on
 
 ## *** dctutor ***
 ## Tutorial for dclone and related packages.
-* add general install tutorial
+* add general install tutorial (only JAGS?)
 
 ## *** dctests ***
 ## Package for testing dontrun examples in dclone and related packages.
 * OK -- dclone examples
 * OK -- dontrun dclone examples (needs regular updating before major release)
+* OK -- dcextras examples
 * dctutor examples
 
 ## *** dcextras ***
