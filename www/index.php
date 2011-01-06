@@ -54,7 +54,8 @@ echo $contents; } ?>
 <i>The R Journal</i>, 2(2):29-37, December 2010. URL <code>http://journal.R-project.org/</code> 
 [<A href="http://journal.r-project.org/archive/2010-2/RJournal_2010-2_bib.html#RJournal:2010-2:Solymos">bib</A>] 
 [<A href="http://journal.r-project.org/archive/2010-2/RJournal_2010-2_Solymos.pdf">pdf</A>] 
-[<A href="http://dcr.r-forge.r-project.org/publications/RJournal_2010-2_Solymos.pdf">local copy</A>]<i> (Official citation)</i>
+[<A href="http://dcr.r-forge.r-project.org/publications/RJournal_2010-2_Solymos.pdf">local copy</A>]
+[<A href="http://dcr.r-forge.r-project.org/publications/RJournal_2010-2_Solymos.R">R code</A>]<i> (Official citation)</i>
 </li><li>Reference manual: [<A href="http://cran.r-project.org/web/packages/dclone/dclone.pdf">pdf</A>] <i>(Detailed technical documentation of the package from CRAN)</i></li>
 <li>Additional resources: <a href="http://dcr.r-forge.r-project.org/tutorials/">tutorials</a> (under development).</li>
 </ul>
