@@ -1,7 +1,7 @@
 snowWrapper <-
 function(cl, seq, fun, cldata, name="cldata", lib=NULL, evalq=NULL,
 size = 1, balancing=c("none", "load", "size", "both"), dir = getwd(), 
-set.rng=TRUE, ...)
+rng.type=c("none", "RNGsteram", "SPRNG"), ...)
 {
     balancing <- match.arg(balancing)
     ## if object name exists in global env, make a copy as tmp, and put back in the end
@@ -15,9 +15,10 @@ set.rng=TRUE, ...)
         for (i in lib)
             eval(parse(text=paste("clusterEvalQ(cl, library(", i, "))")))
     }
-    ## set seed on each worker 
-    if (set.rng) {
-        clusterSetupRNG(cl, type = getOption("dcoptions")$RNG)
+    ## set seed on each worker
+    rng.type <- match.arg(rng.type) 
+    if (rng.type != "none") {
+        clusterSetupRNG(cl, type = rng.type)
     }
     ## sets common working directory
     eval(parse(text=paste("clusterEvalQ(cl, setwd('", dir, "'))", sep="")))

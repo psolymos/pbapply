@@ -54,7 +54,7 @@ program=c("winbugs", "openbugs"), ...) ## only mcmc.list format is supported
     balancing <- if (getOption("dcoptions")$LB)
         "load" else "none"
     mcmc <- snowWrapper(cl, 1:n.chains, bugsparallel, cldata, lib="dclone", 
-        balancing=balancing, size=1, dir=getwd(), set.rng=TRUE, ...)
+        balancing=balancing, size=1, dir=getwd(), rng.type=getOption("dcoptions")$RNG, ...)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))
 

@@ -30,7 +30,8 @@ Tags are the following:
   \item{diag}{critical value to use for data cloning convergence diagnostics, default is 0.05.}
   \item{verbose}{numeric, should output be verbose (>0) or not (0), default is 1.}
   \item{LB}{logical, should load balancing be used, default is \code{FALSE}.}
-  \item{RNG}{parallel RNG type, either \code{"RNGstream"} (default) or \code{"SPRNG"},
+  \item{RNG}{parallel RNG type, either 
+    \code{"none"} (default), \code{"RNGstream"} or \code{"SPRNG"},
     see \code{\link[snow]{clusterSetupRNG}}.}
 }
 \author{

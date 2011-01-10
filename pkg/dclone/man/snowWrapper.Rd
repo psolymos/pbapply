@@ -11,7 +11,7 @@ designed to work closely with MCMC fitting functions (can be called from inside 
 \usage{
 snowWrapper(cl, seq, fun, cldata, name = "cldata", lib = NULL, evalq=NULL,
 size = 1, balancing = c("none", "load", "size", "both"), dir = getwd(), 
-set.rng = TRUE, ...)
+rng.type = c("none", "RNGsteram", "SPRNG"), ...)
 }
 \arguments{
   \item{cl}{
@@ -48,8 +48,8 @@ Vector of problem sizes (or relative performance information) corresponding to e
   \item{dir}{
 Working directory to use.
 }
-  \item{set.rng}{
-Logical, if RNG shoul be set up on the workers (see \code{\link[snow]{clusterSetupRNG}}).
+  \item{rng.type}{
+Character, \code{"none"} or the type of RNG on the workers (see \code{\link[snow]{clusterSetupRNG}}).
 }
   \item{\dots}{
 Other arguments of \code{fun}, that are simple values and not objects. (Arguments passed as objects should be specified in \code{cldata}, otherwise not exported to the cluster.)
