@@ -11,6 +11,7 @@ Version 1.3-1, January 4, 2011
       it cannot be nicely unloaded in parallel versions.
     * dcoptions RNG got "none" value as default,
       *.parfit functions use dcoptions for snowWrapper.
+      As a result, dependencies changed a bit.
     * rats example from WinBUGS manual Vol I. added.
 
 Version 1.3-0, December 31, 2010
