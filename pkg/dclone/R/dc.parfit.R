@@ -60,7 +60,7 @@ flavour = c("jags", "bugs"), ...)
 #    rng <- c("Wichmann-Hill", "Marsaglia-Multicarry",
 #        "Super-Duper", "Mersenne-Twister")
 #    rng <- rep(rng, length(cl))[1:length(cl)]
-    balancing <- if (getOption("dcoptions")$LB)
+    balancing <- if (!getOption("dcoptions")$LB)
         "size" else "both"
     pmod <- snowWrapper(cl, k, dcparallel, cldata, lib="dclone", 
         balancing=balancing, size=k, dir=getwd(), rng.type=getOption("dcoptions")$RNG, ...)
