@@ -9,15 +9,12 @@
 * dc.fit: fails when unable to calculate dctable or dcdiag
   easiest way is to shut it down by an option (arg is not nice)
 * add NEWS/NEWS.Rd from 1.3-0 on (maybe only to www?)
-* dclone.function(n.clones) for dc.fit/dc.parfit
-* check if glm module is causing the par overhead
-* check if modules unload cleanly
-* look into rjags for inits RNG generation
-* write function for creating inits RNG
 
 ## *** dctutor ***
 ## Tutorial for dclone and related packages.
 * add general install tutorial (only JAGS?)
+* add examples from www and develop function to retrieve those
+  (or make .rda data files with .Rd pages?)
 
 ## *** dctests ***
 ## Package for testing dontrun examples in dclone and related packages.
