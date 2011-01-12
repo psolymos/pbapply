@@ -9,11 +9,11 @@ seeds <- list(
         x2 = c(0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1)),
     inits = list(tau = 1, alpha0 = 0, alpha1 = 0, alpha2 = 0, alpha12 = 0),
     model = function() {
-        alpha0  ~ dnorm(0.0,1.0E-6);  # intercept
-        alpha1  ~ dnorm(0.0,1.0E-6);  # seed coeff
-        alpha2  ~ dnorm(0.0,1.0E-6);  # extract coeff
-        alpha12 ~ dnorm(0.0,1.0E-6);
-        tau     ~ dgamma(1.0E-3,1.0E-3);    # 1/sigma^2
+        alpha0  ~ dnorm(0.0,1.0E-6);     # intercept
+        alpha1  ~ dnorm(0.0,1.0E-6);     # seed coeff
+        alpha2  ~ dnorm(0.0,1.0E-6);     # extract coeff
+        alpha12 ~ dnorm(0.0,1.0E-6);     # intercept
+        tau     ~ dgamma(1.0E-3,1.0E-3); # 1/sigma^2
         sigma  <- 1.0/sqrt(tau);
         for (i in 1:N) {
            b[i]         ~ dnorm(0.0,tau);
