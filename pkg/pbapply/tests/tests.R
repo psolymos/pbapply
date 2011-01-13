@@ -21,8 +21,9 @@ lapply_pb <- function(X, FUN, ...)
    setTxtProgressBar(get("pb", envir=env), curVal +1)
    FUN(...)
  }
- lapply(X, wrapper, ...)
+ res <- lapply(X, wrapper, ...)
  close(pb)
+ res
 }
 system.time(x1 <- lapply(1:10, function(i) Sys.sleep(0.2)))
 system.time(x1 <- lapply_pb(1:10, function(i) Sys.sleep(0.2)))
