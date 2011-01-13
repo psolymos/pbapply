@@ -16,6 +16,8 @@ n.iter, thin, ...)
     fval <- fun(mod)
     if (!is.logical(fval))
         stop("'fun' must return logical")
+    if (length(fval) > 1)
+        stop("'fun' must return a single value")
     if (fval)
         return(object)
     ## what to sample
