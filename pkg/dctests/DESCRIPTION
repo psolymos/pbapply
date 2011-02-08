@@ -10,3 +10,4 @@ Description: A package to test dclone and related packages.
   major releases of dclone.
 License: GPL-2
 LazyLoad: yes
+Suggests: dclone
