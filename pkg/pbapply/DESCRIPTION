@@ -7,7 +7,7 @@ Author: Peter Solymos
 Maintainer: Peter Solymos <solymos@ualberta.ca>
 Description: A lightweight package that adds
   progress bar to vectorized R functions
-  ('*apply'). The implenentation can easily be added 
+  ('*apply'). The implementation can easily be added 
   to functions, where showing the progress is
   useful for the user (e.g. bootstrap).
 License: GPL-2
