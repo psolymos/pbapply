@@ -1,5 +1,10 @@
 dclone package version history
 
+Version 1.3-2, March 2, 2011
+    * Typo in rng.type argument of snowWrapper fixed.
+    * plotClusterSize: col arg is reordered according to
+      balancing type.
+
 Version 1.3-1, January 4, 2011
     * JASA paper (Lele et al. 2010) citation added to Rd.
     * loading rjags changed: it is now only suggested.

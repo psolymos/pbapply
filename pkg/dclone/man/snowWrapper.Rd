@@ -11,7 +11,7 @@ designed to work closely with MCMC fitting functions (can be called from inside 
 \usage{
 snowWrapper(cl, seq, fun, cldata, name = "cldata", lib = NULL, evalq=NULL,
 size = 1, balancing = c("none", "load", "size", "both"), dir = getwd(), 
-rng.type = c("none", "RNGsteram", "SPRNG"), ...)
+rng.type = c("none", "RNGstream", "SPRNG"), ...)
 }
 \arguments{
   \item{cl}{

@@ -37,6 +37,7 @@ function(n, size, balancing=c("none","load","size","both"), plot=TRUE, col=NA, x
     y2 <- y-(0.5-offset)
 
     col <- rep(col, m)[1:m]
+    col <- col[unlist(x)]
     coli <- 1
 
     if (plot) {

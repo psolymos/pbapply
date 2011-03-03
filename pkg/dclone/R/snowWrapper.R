@@ -1,7 +1,7 @@
 snowWrapper <-
 function(cl, seq, fun, cldata, name="cldata", lib=NULL, evalq=NULL,
 size = 1, balancing=c("none", "load", "size", "both"), dir = getwd(), 
-rng.type=c("none", "RNGsteram", "SPRNG"), ...)
+rng.type=c("none", "RNGstream", "SPRNG"), ...)
 {
     balancing <- match.arg(balancing)
     ## if object name exists in global env, make a copy as tmp, and put back in the end
