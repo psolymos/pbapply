@@ -7,6 +7,8 @@ function(object, parm, level = 0.95, ...)
         parm <- pnames
     else if (is.numeric(parm)) 
         parm <- pnames[parm]
+    if (is.null(parm))
+        parm <- 1
     ## confidence levels based on level arg
     a <- (1 - level)/2
     a <- c(a, 1 - a)
