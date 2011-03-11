@@ -37,9 +37,9 @@ flavour = c("jags", "bugs"), ...)
     dcparallel <- function(i, ...) {
         jdat <- dclone(cldata$data, i, multiply=cldata$multiply, unchanged=cldata$unchanged)
         mod <- if (flavour == "jags") {
-            jags.fit(data=jdat, params=cldata$params, model=cldata$model[i], inits=cldata$inits, ...)
+            jags.fit(data=jdat, params=cldata$params, model=cldata$model, inits=cldata$inits, ...)
         } else {
-            bugs.fit(data=jdat, params=cldata$params, model=cldata$model[i], inits=cldata$inits, 
+            bugs.fit(data=jdat, params=cldata$params, model=cldata$model, inits=cldata$inits, 
                 format="mcmc.list", ...)
         }
         if (i == max(k))
@@ -47,26 +47,11 @@ flavour = c("jags", "bugs"), ...)
     }
 
     ## write model
-    if (dcoptions()$single.par.model) {
-        if (is.function(model) || inherits(model, "custommodel")) {
-            if (is.function(model))
-                model <- match.fun(model)
-            Model <- write.jags.model(model)
-            on.exit(try(clean.jags.model(Model)))
-        }
-        model <- rep(Model, n.chains)
-    } else {
-        writefun <- function(i) {
-            if (is.function(clmodel) || inherits(clmodel, "custommodel")) {
-                if (is.function(clmodel))
-                    model <- match.fun(clmodel)
-                model <- write.jags.model(model, paste("clmodel", i, ".bug", sep=""))
-            }
-            model
-        }
-        model <- unlist(snowWrapper(cl, 1:length(cl), writefun, 
-            cldata=model, name="clmodel", lib="dclone"))
-        on.exit(try(parLapply(cl, model, clean.jags.model)))
+    if (is.function(model) || inherits(model, "custommodel")) {
+        if (is.function(model))
+            model <- match.fun(model)
+        model <- write.jags.model(model)
+        on.exit(try(clean.jags.model(model)))
     }
 
     ## common data

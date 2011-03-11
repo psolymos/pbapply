@@ -26,26 +26,11 @@ program=c("winbugs", "openbugs"), ...) ## only mcmc.list format is supported
     })
 
     ## write model
-    if (dcoptions()$single.par.model) {
-        if (is.function(model) || inherits(model, "custommodel")) {
-            if (is.function(model))
-                model <- match.fun(model)
-            Model <- write.jags.model(model)
-            on.exit(try(clean.jags.model(Model)))
-        }
-        model <- rep(Model, n.chains)
-    } else {
-        writefun <- function(i) {
-            if (is.function(clmodel) || inherits(clmodel, "custommodel")) {
-                if (is.function(clmodel))
-                    model <- match.fun(clmodel)
-                model <- write.jags.model(model, paste("clmodel", i, ".bug", sep=""))
-            }
-            model
-        }
-        model <- unlist(snowWrapper(cl, 1:length(cl), writefun, 
-            cldata=model, name="clmodel", lib="dclone"))
-        on.exit(try(parLapply(cl, model, clean.jags.model)))
+    if (is.function(model) || inherits(model, "custommodel")) {
+        if (is.function(model))
+            model <- match.fun(model)
+        model <- write.jags.model(model)
+        on.exit(try(clean.jags.model(model)))
     }
 
     if (is.null(inits))
@@ -58,7 +43,7 @@ program=c("winbugs", "openbugs"), ...) ## only mcmc.list format is supported
     ## parallel function to evaluate by snowWrapper
     bugsparallel <- function(i, ...)   {
         bugs.fit(data=cldata$data, params=cldata$params, 
-            model=cldata$model[i], 
+            model=cldata$model, 
             inits=cldata$inits[[i]], n.chains=1, 
             seed=cldata$seed[i], 
             program=cldata$program, format="mcmc.list", ...)

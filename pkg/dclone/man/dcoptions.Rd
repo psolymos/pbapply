@@ -33,10 +33,6 @@ Tags are the following:
   \item{RNG}{parallel RNG type, either 
     \code{"none"} (default), \code{"RNGstream"} or \code{"SPRNG"},
     see \code{\link[snow]{clusterSetupRNG}}.}
-  \item{single.par.model}{logical, if a single model file should be written to hard drive
-    during parallel computations (e.g. when memory is shared), or not (e.g. for computing
-    grids and clusters). Default is \code{TRUE}. If \code{FALSE}, \code{length(cl)} files
-    are created, one at each worker.}
 }
 \author{
 Peter Solymos <solymos@ualberta.ca>
