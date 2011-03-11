@@ -27,13 +27,6 @@ flavour = c("jags", "bugs"), ...)
     ## evaluate inits
     if (missing(inits))
         inits <- NULL
-    ## write model
-    if (is.function(model) || inherits(model, "custommodel")) {
-        if (is.function(model))
-            model <- match.fun(model)
-        model <- write.jags.model(model)
-        on.exit(try(clean.jags.model(model)))
-    }
 
     #### parallel part
     if (trace) {
@@ -44,13 +37,36 @@ flavour = c("jags", "bugs"), ...)
     dcparallel <- function(i, ...) {
         jdat <- dclone(cldata$data, i, multiply=cldata$multiply, unchanged=cldata$unchanged)
         mod <- if (flavour == "jags") {
-            jags.fit(data=jdat, params=cldata$params, model=cldata$model, inits=cldata$inits, ...)
+            jags.fit(data=jdat, params=cldata$params, model=cldata$model[i], inits=cldata$inits, ...)
         } else {
-            bugs.fit(data=jdat, params=cldata$params, model=cldata$model, inits=cldata$inits, 
+            bugs.fit(data=jdat, params=cldata$params, model=cldata$model[i], inits=cldata$inits, 
                 format="mcmc.list", ...)
         }
         if (i == max(k))
             return(mod) else return(list(dct=dclone:::extractdctable(mod), dcd=dclone:::extractdcdiag(mod)))
+    }
+
+    ## write model
+    if (dcoptions()$single.par.model) {
+        if (is.function(model) || inherits(model, "custommodel")) {
+            if (is.function(model))
+                model <- match.fun(model)
+            Model <- write.jags.model(model)
+            on.exit(try(clean.jags.model(Model)))
+        }
+        model <- rep(Model, n.chains)
+    } else {
+        writefun <- function(i) {
+            if (is.function(clmodel) || inherits(clmodel, "custommodel")) {
+                if (is.function(clmodel))
+                    model <- match.fun(clmodel)
+                model <- write.jags.model(model, paste("clmodel", i, ".bug", sep=""))
+            }
+            model
+        }
+        model <- unlist(snowWrapper(cl, 1:length(cl), writefun, 
+            cldata=model, name="clmodel", lib="dclone"))
+        on.exit(try(parLapply(cl, model, clean.jags.model)))
     }
 
     ## common data
@@ -63,7 +79,7 @@ flavour = c("jags", "bugs"), ...)
     balancing <- if (!getOption("dcoptions")$LB)
         "size" else "both"
     pmod <- snowWrapper(cl, k, dcparallel, cldata, lib="dclone", 
-        balancing=balancing, size=k, dir=getwd(), rng.type=getOption("dcoptions")$RNG, ...)
+        balancing=balancing, size=k, rng.type=getOption("dcoptions")$RNG, ...)
     mod <- pmod[[times]]
 
     ## dctable

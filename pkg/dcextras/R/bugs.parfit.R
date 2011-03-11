@@ -43,7 +43,7 @@ program=c("winbugs", "openbugs"), ...) ## only mcmc.list format is supported
             }
             model
         }
-        model <- unlist(snowWrapper(cl, 1:n.chains, writefun, 
+        model <- unlist(snowWrapper(cl, 1:length(cl), writefun, 
             cldata=model, name="clmodel", lib="dclone"))
         on.exit(try(parLapply(cl, model, clean.jags.model)))
     }

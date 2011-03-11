@@ -6,7 +6,8 @@
             "diag"=0.05,
             "verbose"=1,
             "LB"=FALSE,
-            "RNG"="none"))
+            "RNG"="none",
+            "single.par.model"=TRUE))
     rj <- suppressWarnings(require(rjags))
     if (!rj)
         cat("Warning message:\n  there is no package called 'rjags'\n")
