@@ -3,6 +3,20 @@ multiply=NULL, unchanged=NULL, attrib=TRUE, ...)
 {
     if (n.clones == 1)
         return(x)
+    if (!is.null(multiply)) {
+        isMult <- multiply %in% names(x)
+        if (!all(isMult)) {
+            warning("unused elements in 'multiply'")
+            multiply <- multiply[isMult]
+        }
+    }
+    if (!is.null(unchanged)) {
+        isUnch <- unchanged %in% names(x)
+        if (!all(isUnch)) {
+            warning("unused elements in 'unchanged'")
+            unchanged <- unchanged[isUnch]
+        }
+    }
     out <- lapply(x, dclone, n.clones=n.clones, attrib=attrib, ...)
     if (!is.null(multiply))
         for (i in 1:length(multiply)) {
