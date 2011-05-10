@@ -11,7 +11,8 @@ Write and remove model file
 Writes or removes a BUGS model file to or from the hard drive.
 }
 \usage{
-write.jags.model(model, filename = "model.bug", dir = getwd())
+write.jags.model(model, filename = "model.bug", dir = getwd(),
+overwrite = FALSE)
 clean.jags.model(filename = "model.bug", dir = getwd())
 custommodel(model, exclude = NULL)
 }
@@ -30,6 +31,10 @@ Character, the name of the file to write/remove.
   \item{dir}{
 Optional argument for directory where to write or 
 look for the file to remove.
+}
+  \item{overwrite}{
+Logical, if \code{TRUE} the \code{filename} will be forced and axisting
+file with same name will be overwritten.
 }
   \item{exclude}{
 Numeric, lines of the model to exclude (see Details).

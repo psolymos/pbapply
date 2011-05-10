@@ -1,10 +1,10 @@
 write.jags.model <-
-function(model, filename="model.bug", dir=getwd())
+function(model, filename="model.bug", dir=getwd(), overwrite=FALSE)
 {
     old.dir <- getwd()
     setwd(dir)
     on.exit(setwd(old.dir))
-    if (file.exists(filename)) {
+    if (!overwrite && file.exists(filename)) {
         sn <- unlist(strsplit(filename, "\\."))
         if (length(sn) > 2) {
             sn[(length(sn) - 1)] <- paste(sn[-length(sn)], collapse=".")
