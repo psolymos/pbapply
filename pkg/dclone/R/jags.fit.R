@@ -15,9 +15,9 @@ updated.model=TRUE, ...)
     }
     ## handling inits arg, model initialization
     m <- if (is.null(inits)) {
-        jags.model(model, data, n.chain=n.chains, n.adapt=n.adapt)
+        jags.model(model, data, n.chains=n.chains, n.adapt=n.adapt)
     } else {
-        jags.model(model, data, inits, n.chain=n.chains, n.adapt=n.adapt)
+        jags.model(model, data, inits, n.chains=n.chains, n.adapt=n.adapt)
     }
     if (is.null(list(...)$progress.bar)) {
         trace <- if (getOption("dcoptions")$verbose)
