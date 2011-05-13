@@ -1,8 +1,7 @@
 dclone package version history
 
 Version 1.3-2, March 2, 2011
-    * Argument names were written in full (NOTE from
-      R CMD CHECK).
+    * Partial argument match fixed (NOTE from R CMD CHECK).
     * write.jags.model got new argument overwrite=FALSE.
     * Typo in rng.type argument of snowWrapper fixed.
     * plotClusterSize: col arg is reordered according to
