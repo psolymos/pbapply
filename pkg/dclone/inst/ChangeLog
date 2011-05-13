@@ -1,5 +1,8 @@
 dclone package version history
 
+Version 1.3-3, May 13, 2011
+    *
+
 Version 1.3-2, March 2, 2011
     * Partial argument match fixed (NOTE from R CMD CHECK).
     * write.jags.model got new argument overwrite=FALSE.
