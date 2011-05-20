@@ -5,8 +5,8 @@ inits, method = "Nelder-Mead", control, ...)
     if (!identical(m, 0))
         stop(paste("\nMatched use-available design is", 
         "not yet available in this package.",
-        "If interested, lease contact",
-        "Subhash Lele <slele@ualberta.ca>\n", sep="\n"))
+        "If interested, please contact",
+        "Subhash Lele <slele@ualberta.ca>\n\n", sep="\n"))
     ## internal function for optim
     nll.fun <- function(parms, boot=id.all) {
 #        if (link == "log")
@@ -54,7 +54,8 @@ inits, method = "Nelder-Mead", control, ...)
 
     ## this might change if matched point definition changes in the future
     if (missing(m))
-        stop("'m' must be provided")
+        m <- 0
+#        stop("'m' must be provided")
     m.avail <- NULL
     if (length(m) == 1) {
         if (m > 0) {
