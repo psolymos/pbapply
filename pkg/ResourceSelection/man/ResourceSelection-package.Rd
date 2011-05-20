@@ -3,11 +3,12 @@
 \alias{ResourceSelection}
 \docType{package}
 \title{
-Resource Selection (Probability) Functions for Presnece-Only Wildlife Data
+Resource Selection (Probability) Functions for Use-Availability Data
 }
 \description{
-Resource Selection (Probability) Functions to presnece-only 
-  wildlife data as described in Lele & Keim (2006, Ecology 87, 3021--3028)
+  Resource Selection (Probability) Functions for 
+  use-availability wildlife data as described in 
+  Lele and Keim (2006, Ecology 87, 3021--3028),
   and Lele (2009, J. Wildlife Management 73, 122--127).
 }
 \details{
@@ -18,7 +19,7 @@ Resource Selection (Probability) Functions to presnece-only
 \author{
 Subhash R. Lele, Jonah L. Keim, Peter Solymos
 
-Maintainer: Peter SOlymos <solymos@ualberta.ca>
+Maintainer: Peter Solymos <solymos@ualberta.ca>
 }
 \references{
 Lele, S.R. (2009) 

@@ -17,6 +17,7 @@ part = c("avail", "used", "all"), se.fit = FALSE, ...){
     if (is.null(newdata)) {
         rval <- fitted(object)[id]
         if (type == "link")
+            ## binomial("probit")$linkfun is qnorm
             rval <- binomial(object$link)$linkfun(rval)
         if (se.fit)
             X <- model.matrix(object)[id,]
@@ -38,4 +39,3 @@ part = c("avail", "used", "all"), se.fit = FALSE, ...){
     }
     rval
 }
-

@@ -136,6 +136,7 @@ inits, method = "Nelder-Mead", control, ...)
         m = m,
         np = np,
         fitted.values = linkinvfun(drop(X %*% cfs)),
+        nobs = N.used,
 #        n = N.used,
 #        df.null = N.used - 1,
 #        df.residual = N.used - np, 

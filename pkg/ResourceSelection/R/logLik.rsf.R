@@ -3,7 +3,7 @@ function (object, ...)
 {
     structure(object$loglik,
         df = object$np,
-        nobs = sum(object$y),
+#        nobs = sum(object$y),
         class = "logLik")
 }
 

@@ -48,8 +48,7 @@ model = TRUE, x = FALSE, ...)
 
     ## return value assembly
     out1$call <- match.call()
-    out2 <- list(y=Y,
-        formula=formula,
+    out2 <- list(formula=formula,
         terms=mt,
         levels=Xlevels,
         contrasts=attr(X, "contrasts"),

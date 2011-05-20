@@ -10,7 +10,9 @@ Scatterplot matrix with 2D kernel density.
 }
 \usage{
 kdepairs(x, ...)
+
 \method{kdepairs}{default}(x, n=25, density=TRUE, contour=TRUE, ...)
+
 \method{kdepairs}{rsf}(x, n=25, density=TRUE, contour=TRUE, ...)
 }
 \arguments{

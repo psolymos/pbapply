@@ -1,14 +1,15 @@
 Package: ResourceSelection
 Type: Package
-Title: Resource Selection (Probability) Functions for Presnece-Only Wildlife Data
+Title: Resource Selection (Probability) Functions for Use-Availability Data
 Version: 0.1-0
 Date: 2011-05-19
 Author: Subhash R. Lele, Jonah L. Keim, Peter Solymos
-Maintainer: Peter SOlymos <solymos@ualberta.ca>
-Description: Resource Selection (Probability) Functions to presnece-only 
-  wildlife data as described in Lele & Keim (2006, Ecology 87, 3021--3028)
+Maintainer: Peter Solymos <solymos@ualberta.ca>
+Description: Resource Selection (Probability) Functions for 
+  use-availability wildlife data as described in 
+  Lele and Keim (2006, Ecology 87, 3021--3028),
   and Lele (2009, J. Wildlife Management 73, 122--127).
-Depends: MASS
+Suggests: MASS, pbapply
 URL: http://r-forge.r-project.org/projects/dcr
 License: GPL-2
 LazyLoad: yes
