@@ -113,6 +113,7 @@ inits, method = "Nelder-Mead", control, ...)
             sapply(id.boot, function(z) optim(cfs, nll.fun, 
                 hessian = FALSE, method = method, control = control, boot = z)$par)
         }
+        boot.out <- cbind(cfs, boot.out)
     } else boot.out <- NULL
 
     ## return value assembly
@@ -120,6 +121,7 @@ inits, method = "Nelder-Mead", control, ...)
         cfs2 <- cfs[-1]
         ses2 <- ses[-1]
         np <- np - 1
+        boot.out <- boot.out[-1,]
     } else {
         cfs2 <- cfs
         ses2 <- ses
