@@ -1,7 +1,7 @@
 snowWrapper <-
 function(cl, seq, fun, cldata, name="cldata", lib=NULL, evalq=NULL,
 size = 1, balancing=c("none", "load", "size", "both"), dir = getwd(), 
-rng.type=c("none", "RNGstream", "SPRNG"), ...)
+rng.type=c("none", "RNGstream", "SPRNG"), cleanup=TRUE, ...)
 {
     balancing <- match.arg(balancing)
     ## if object name exists in global env, make a copy as tmp, and put back in the end
@@ -36,5 +36,7 @@ rng.type=c("none", "RNGstream", "SPRNG"), ...)
         "load" = clusterApplyLB(cl, seq, fun, ...),
         "size" = parLapplySB(cl, seq, size=size, fun, ...),
         "both" = parLapplySLB(cl, seq, size=size, fun, ...))
+    if (cleanup)
+        eval(parse(text=paste("clusterEvalQ(cl, rm(", name, "))")))
     res
 }

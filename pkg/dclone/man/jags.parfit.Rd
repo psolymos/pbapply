@@ -41,6 +41,8 @@ Other arguments passed to \code{\link[dclone]{jags.fit}}.
 }
 \details{
 Chains are run on parallel workers, and the results are combined in the end.
+
+No update method is available for parallel \code{mcmc.list} objects.
 }
 \value{
 An \code{mcmc.list} object.

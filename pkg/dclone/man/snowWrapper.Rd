@@ -11,7 +11,7 @@ designed to work closely with MCMC fitting functions (can be called from inside 
 \usage{
 snowWrapper(cl, seq, fun, cldata, name = "cldata", lib = NULL, evalq=NULL,
 size = 1, balancing = c("none", "load", "size", "both"), dir = getwd(), 
-rng.type = c("none", "RNGstream", "SPRNG"), ...)
+rng.type = c("none", "RNGstream", "SPRNG"), cleanup = TRUE, ...)
 }
 \arguments{
   \item{cl}{
@@ -50,6 +50,9 @@ Working directory to use.
 }
   \item{rng.type}{
 Character, \code{"none"} or the type of RNG on the workers (see \code{\link[snow]{clusterSetupRNG}}).
+}
+  \item{cleanup}{
+logical, if \code{cldata} should be removed from the workers after applying \code{fun}.
 }
   \item{\dots}{
 Other arguments of \code{fun}, that are simple values and not objects. (Arguments passed as objects should be specified in \code{cldata}, otherwise not exported to the cluster.)
