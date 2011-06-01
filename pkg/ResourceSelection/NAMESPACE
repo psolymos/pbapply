@@ -1,5 +1,5 @@
 export(rsf.fit, rsf, rspf, hoslem.test)
-export(kdepairs, makeUSedAvail)
+export(kdepairs, makeUsedAvail)
 importFrom(stats, BIC,
     logLik, model.matrix, model.frame, 
     update.formula, update, vcov, confint,
@@ -17,5 +17,5 @@ S3method(predict, rsf)
 S3method(vcov, rsf)
 S3method(kdepairs, default)
 S3method(kdepairs, rsf)
-S3method(makeUSedAvail, default)
-S3method(makeUSedAvail, formula)
+S3method(makeUsedAvail, default)
+S3method(makeUsedAvail, formula)

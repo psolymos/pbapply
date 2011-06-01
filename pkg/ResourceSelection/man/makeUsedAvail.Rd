@@ -22,9 +22,6 @@ a matrix or data frame.
   \item{y}{
 a vector with 0/1 entries, 1s are taken as used observations.
 }
-  \item{density}{
-logical, if shades corresponding to densities should be plotted.
-}
   \item{formula}{
 two sided model formula of the form \code{y ~ x}.
 }

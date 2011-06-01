@@ -139,11 +139,11 @@ x <- data.frame(x1=rnorm(n), x2=runif(n))
 cfs <- c(1.5,-1,0.5)
 ## fitting Exponential RSF model
 dat1 <- fun(n.used, cfs, x, m=m, link="log")
-m1 <- rsf(status ~ .-status, dat1, m=0, B=0)
+m1 <- rsf(status ~ .-status, dat1, B=0)
 summary(m1)
 ## fitting Logistic RSPF model
 dat2 <- fun(n.used, cfs, x, m=m, link="logit")
-m2 <- rspf(status ~ .-status, dat2, m=0, B=0)
+m2 <- rspf(status ~ .-status, dat2, B=0)
 summary(m2)
 }
 \keyword{ htest }
