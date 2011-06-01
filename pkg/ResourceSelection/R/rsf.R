@@ -1,5 +1,5 @@
 rsf <-
-function(formula, data, m, B = 99, 
+function(formula, data, B = 99, 
 inits, method = "Nelder-Mead", control,
 model = TRUE, x = FALSE, ...)
 {
@@ -44,7 +44,9 @@ model = TRUE, x = FALSE, ...)
         stop("provide at least 1 continuous covariate for Exponential RSF")
 
     ## fitting
-    out1 <- rsf.fit(X=X, Y=Y, m=m, link = "log", B = B, 
+#    out1 <- rsf.fit(X=X, Y=Y, m=m, link = "log", B = B, 
+#        inits=inits, method = method, control=control, ...)
+    out1 <- rsf.fit(X=X, Y=Y, link = "log", B = B, 
         inits=inits, method = method, control=control, ...)
 
     ## return value assembly

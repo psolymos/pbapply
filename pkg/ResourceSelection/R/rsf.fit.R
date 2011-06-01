@@ -1,12 +1,7 @@
 rsf.fit <-
-function(X, Y, m, link = "logit", B = 99, 
+function(X, Y, link = "logit", B = 99, 
 inits, method = "Nelder-Mead", control, ...)
 {
-    if (!identical(m, 0))
-        stop(paste("\nMatched use-available design is", 
-        "not yet available in this package.",
-        "If interested, please contact",
-        "Subhash Lele <slele@ualberta.ca>\n\n", sep="\n"))
     ## internal function for optim
     nll.fun <- function(parms, boot=id.all) {
 #        if (link == "log")
@@ -53,9 +48,9 @@ inits, method = "Nelder-Mead", control, ...)
     id.all <- 1:N.used
 
     ## this might change if matched point definition changes in the future
+    m <- 0
     if (missing(m))
-        m <- 0
-#        stop("'m' must be provided")
+        stop("'m' must be provided")
     m.avail <- NULL
     if (length(m) == 1) {
         if (m > 0) {
@@ -87,18 +82,23 @@ inits, method = "Nelder-Mead", control, ...)
     ## point estimates
     cfs <- results$par
     names(cfs) <- nam
+    H <- results$hessian
+    if (link == "log")
+        H <- H[-1,-1]
     ## checking Hessian, producing Std Errors
-    if (rcond(results$hessian) <= 1e-06)
+    if (rcond(H) <= 1e-06)
         ses <- rep(NA, np)
-    if (rcond(results$hessian) > 1e-06) {
+    if (rcond(H) > 1e-06) {
         ## due to negLogLik, we take H^-1 and not -H^-1
-        opvar <- diag(solve(results$hessian))
+        opvar <- diag(solve(H))
         if (any(opvar < 0)) {
             opvar[opvar < 0] <- NA
             warning("negative variance values in optim, NAs produced")
         }
         ses <- sqrt(opvar)
     }
+    if (link == "log")
+        ses <- c(NA, ses)
 #    ses <- sqrt(diag(solve(results$hessian)))
     names(ses) <- nam
     ## optimization with bootstrap (this can be used for boostrap CI)
@@ -149,4 +149,3 @@ inits, method = "Nelder-Mead", control, ...)
         out$fitted <- exp(drop(X %*% c(0, cfs2)))
     out
 }
-

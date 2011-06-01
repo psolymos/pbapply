@@ -11,13 +11,13 @@ Resource Selection (Probability) Functions for Use-Availability Data
   Lele and Keim (2006) and Lele (2009).
 }
 \usage{
-rsf(formula, data, m, B = 99, inits, method = "Nelder-Mead", 
+rsf(formula, data, B = 99, inits, method = "Nelder-Mead", 
 control, model = TRUE, x = FALSE, ...)
 
-rspf(formula, data, m, B = 99, link = "logit", inits, 
+rspf(formula, data, B = 99, link = "logit", inits, 
 method = "Nelder-Mead", control, model = TRUE, x = FALSE, ...)
 
-rsf.fit(X, Y, m, link = "logit", B = 99, 
+rsf.fit(X, Y, link = "logit", B = 99, 
 inits, method = "Nelder-Mead", control, ...)
 }
 \arguments{
@@ -28,10 +28,6 @@ where \code{y} is a vector of observations,
 }
   \item{data}{
 data.
-}
-  \item{m}{
-number of matched points (matched design currently not implemented
-in the package, contact the authors for more information)
 }
   \item{B}{
 number of bootstrap iterations to make.
@@ -96,8 +92,7 @@ containing the following components:
   \item{link}{character, value of the link function used.}
   \item{control}{control parameters for \code{\link{optim}}.}
   \item{inits}{initial values used in optimization.}
-  \item{m}{number of matched points (currently it is not yet used,
-    value is 0)}
+  \item{m}{component for future developmen, currently it takes value 0.}
   \item{np}{number of active parameters.}
   \item{fitted.values}{vector of fitted values. These are relative
     selection values for RSF models, and probability of selection for 
