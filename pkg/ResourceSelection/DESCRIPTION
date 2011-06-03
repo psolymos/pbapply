@@ -11,7 +11,7 @@ Description: Resource Selection (Probability) Functions for
   and Lele (2009, J. Wildlife Management 73, 122--127).
 Depends: R (>= 2.13.0)
 Suggests: MASS, pbapply
-URL: http://r-forge.r-project.org/projects/dcr
+URL: http://cran.r-project.org/package=ResourceSelection
 License: GPL-2
 LazyLoad: yes
 LazyData: true
