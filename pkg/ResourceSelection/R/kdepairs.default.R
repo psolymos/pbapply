@@ -1,5 +1,4 @@
-kdepairs.default <-
-function(x, n=25, density=TRUE, contour=TRUE, ...) {
+kdepairs.default <- function(x, n=25, density=TRUE, contour=TRUE, ...) {
     require(MASS)
     y <- data.frame(x)
     fun.lower <- function(x1, x2, ...) {
@@ -32,7 +31,7 @@ function(x, n=25, density=TRUE, contour=TRUE, ...) {
         lines(lowess(x1,x2), col="darkgreen", lty=1)
         COR <- cor(x1, x2)
         text(mean(range(x1,na.rm=TRUE)), mean(range(x2,na.rm=TRUE)), 
-            round(COR, 3), cex=1+COR)
+            round(COR, 3), cex=1+abs(COR))
     }
     panel.hist <- function(x, ...) {
         usr <- par("usr"); on.exit(par(usr))
@@ -46,4 +45,3 @@ function(x, n=25, density=TRUE, contour=TRUE, ...) {
     pairs.default(y, lower.panel=fun.lower, upper.panel=fun.upper, diag.panel=panel.hist)
     invisible(NULL)
 }
-

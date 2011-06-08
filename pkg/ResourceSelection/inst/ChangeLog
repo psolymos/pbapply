@@ -1,4 +1,7 @@
 ResourceSelection package version history
 
+Version 0.1-1, June 7, 2011
+    * kdepairs plots abs(cor), so negative values can get large.
+
 Version 0.1-0, May 20, 2011
     * initial buch of function released to R-Forge.
