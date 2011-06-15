@@ -1,6 +1,7 @@
 dclone package version history
 
 Version 1.3-3, May 13, 2011
+    * mcmcapply functions simplified, FUN can be missing.
     * jags.parfit help notes that there is no update method
       for parallel mcmc.list objects.
     * snowWrapper got cleanup=TRUE argument to remove

@@ -24,6 +24,9 @@ Other arguments passed to \code{FUN}.
 }
 \details{
 The \code{mcmcapply} returns a certain statistics based on \code{FUN}.
+
+\code{FUN} can be missing, in this case \code{mcmcapply} is equivalent
+to calling \code{as.matrix} on an 'mcmc.list' object.
 }
 \value{
 Returns statistic value based on \code{FUN}, using all values in all chains of the MCMC object.
