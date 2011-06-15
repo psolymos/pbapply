@@ -78,10 +78,8 @@ echo $contents; } ?>
 
 <h2>Infrastructure for dclone</h2>
 
-<p>Because dclone is an R package, installing R is absolutely necessary. 
-The choice of the preferred BUGS program is up to the
-user, but in order to load the dclone package, JAGS has to be installed 
-so that rjags can find it.</p>
+<p>Because <strong>dclone</strong> is an <strong>R</strong> package, installing R is absolutely necessary. 
+The choice of the preferred <strong>BUGS</strong> program is up to the user.</p>
 
 <ul>
 <li><strong>R (>= 2.7.0):</strong> download from 
@@ -101,8 +99,14 @@ R packages are required for using JAGS from within R.</li>
 </ul>
 
 <p>The dclone package itself depends on the <strong>coda</strong> (>= 0.13), <strong>R2WinBUGS</strong>, <strong>snow</strong> and <strong>rlecuyer</strong> R packages (the latter two are for parallel computations) which are all available from CRAN. 
-The dclone package also suggests to have the <strong>rjags</strong>, <strong>BRugs</strong>, <strong>rsprng</strong> R packages (the latter two might not be available for all platforms).
-The easiest way to install the stable release and all required packages 
+The dclone package also suggests to have the <strong>rjags</strong>, <strong>BRugs</strong>, <strong>rsprng</strong> R packages (the latter two might not be available for all platforms).</p>
+
+<p>The <strong>rjags</strong> package is suggested for using <strong>JAGS</strong>. 
+The <strong>rjags</strong> dependency
+of <strong>dclone</strong> was removed so that other functionality of the package
+can be used without JAGS being installed (<strong>rjags</strong> can't load without <strong>JAGS</strong>).</p>
+
+<p>The easiest way to install the stable release and all required packages 
 at once is to type this after opening R:</p>
 
 <p><code>install.packages("dclone")</code></p>
@@ -116,9 +120,15 @@ at once is to type this after opening R:</p>
 <ul>
 <li><strong>pbapply:</strong> a lightweight package that adds 
 progress bar to vectorized R functions ('*apply'). The implenentation can easily be added 
-to functions, where showing the progress is useful for the user (e.g. bootstrap).</li>
+to functions, where showing the progress is useful for the user (e.g. bootstrap).
+[<a href="http://cran.r-project.org/package=pbapply">get it from CRAN</a>]</li>
 <li><strong>sharx:</strong> data sets and SAR, SARX, HSAR and HSARX 
-  models as described in Solymos and Lele (in press).</li>
+  models as described in Solymos and Lele (in press).
+  [<a href="http://cran.r-project.org/package=sharx">get it from CRAN</a>]</li>
+<li><strong>ResourceSelection:</strong> Resource Selection (Probability) Functions 
+for use-availability wildlife data as described in Lele and Keim 
+(2006, Ecology 87, 3021–3028), and Lele (2009, J. Wildlife Management 73, 122–127).
+[<a href="http://cran.r-project.org/package=ResourceSelection">get it from CRAN</a>]</li>
 </ul>
 
 </body>
