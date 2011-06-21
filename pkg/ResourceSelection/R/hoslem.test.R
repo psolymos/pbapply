@@ -4,9 +4,9 @@ function(x, y, g=10) {
     METHOD <- "Hosmer and Lemeshow goodness of fit (GOF) test"
     yhat <- y
     y <- x
+    qq <- unique(quantile(yhat, probs=seq(0, 1, 1/g)))
     cutyhat <- cut(yhat,
-        breaks = quantile(yhat, probs=seq(0,
-        1, 1/g)), include.lowest = TRUE)
+        breaks = qq, include.lowest = TRUE)
     observed <- xtabs(cbind("y0"=1 - y, "y1"=y) ~ cutyhat)
     expected <- xtabs(cbind("yhat0"=1 - yhat, "yhat1"=yhat) ~ cutyhat)
     chisq <- sum((observed - expected)^2 / expected)
