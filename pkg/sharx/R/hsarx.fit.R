@@ -19,7 +19,7 @@ function(Y, X, Z, G, n.clones, cl=NULL, ...)
         dz <- if (q > 1)
             t(dz) else data.matrix(dz)
         ## weighted averaging meta analysis for priors
-        lmmods <- lapply(1:n, function(i) lm(dy[[i]] ~ dx[[i]]-1))
+#        lmmods <- lapply(1:n, function(i) lm(dy[[i]] ~ dx[[i]]-1))
         cfs <- t(sapply(lmmods, coef))
         ses <- t(sapply(lmmods, function(z) coef(summary(z))[,2]))
         lsig <- sapply(lmmods, function(z) log(summary(z)$sigma))
