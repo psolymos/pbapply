@@ -58,9 +58,11 @@ program=c("winbugs", "openbugs"), ...) ## only mcmc.list format is supported
     ## parallel computations
     balancing <- if (getOption("dcoptions")$LB)
         "load" else "none"
+    dir <- if (inherits(cl, "SOCKcluster"))
+        getwd() else NULL
     mcmc <- snowWrapper(cl, 1:n.chains, bugsparallel, cldata, lib="dclone", 
         balancing=balancing, size=1, dir=getwd(), 
-        rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, ...)
+        rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))
 
