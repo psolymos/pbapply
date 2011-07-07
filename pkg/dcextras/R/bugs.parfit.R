@@ -29,8 +29,11 @@ program=c("winbugs", "openbugs"), ...) ## only mcmc.list format is supported
     if (is.function(model) || inherits(model, "custommodel")) {
         if (is.function(model))
             model <- match.fun(model)
-        model <- write.jags.model(model)
-        on.exit(try(clean.jags.model(model)))
+        ## write model only if SOCK cluster (shared memory)
+        if (inherits(cl, "SOCKcluster")) {
+            model <- write.jags.model(model)
+            on.exit(try(clean.jags.model(model)))
+        }
     }
 
     if (is.null(inits))
