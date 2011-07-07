@@ -10,7 +10,7 @@ designed to work closely with MCMC fitting functions (can be called from inside 
 }
 \usage{
 snowWrapper(cl, seq, fun, cldata, name = "cldata", lib = NULL, evalq=NULL,
-size = 1, balancing = c("none", "load", "size", "both"), dir = getwd(), 
+size = 1, balancing = c("none", "load", "size", "both"), dir = NULL, 
 rng.type = c("none", "RNGstream", "SPRNG"), cleanup = TRUE, ...)
 }
 \arguments{
@@ -46,7 +46,7 @@ Character, type of balancing to perform (see Details).
 Vector of problem sizes (or relative performance information) corresponding to elements of \code{seq} (recycled if needed). The default \code{1} indicates equality of problem sizes.
 }
   \item{dir}{
-Working directory to use.
+Working directory to use, if \code{NULL} working directory is not set on workers (default).
 }
   \item{rng.type}{
 Character, \code{"none"} or the type of RNG on the workers (see \code{\link[snow]{clusterSetupRNG}}).

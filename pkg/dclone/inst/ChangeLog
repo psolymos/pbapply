@@ -1,6 +1,9 @@
 dclone package version history
 
 Version 1.3-3, May 13, 2011
+    * *.parfit: write model to hard drive only if
+      cluster type is SOCK (shared memoty)
+    * snowWrapper: dir=NULL is set as the default.
     * mcmcapply functions simplified, FUN can be missing.
     * jags.parfit help notes that there is no update method
       for parallel mcmc.list objects.

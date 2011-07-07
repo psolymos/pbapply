@@ -50,8 +50,11 @@ flavour = c("jags", "bugs"), ...)
     if (is.function(model) || inherits(model, "custommodel")) {
         if (is.function(model))
             model <- match.fun(model)
-        model <- write.jags.model(model)
-        on.exit(try(clean.jags.model(model)))
+        ## write model only if SOCK cluster (shared memory)
+        if (inherits(cl, "SOCKcluster")) {
+            model <- write.jags.model(model)
+            on.exit(try(clean.jags.model(model)))
+        }
     }
 
     ## common data
@@ -63,9 +66,11 @@ flavour = c("jags", "bugs"), ...)
 #    rng <- rep(rng, length(cl))[1:length(cl)]
     balancing <- if (!getOption("dcoptions")$LB)
         "size" else "both"
+    dir <- if (inherits(cl, "SOCKcluster"))
+        getwd() else NULL
     pmod <- snowWrapper(cl, k, dcparallel, cldata, lib="dclone", 
         balancing=balancing, size=k, 
-        rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, ...)
+        rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir)
     mod <- pmod[[times]]
 
     ## dctable

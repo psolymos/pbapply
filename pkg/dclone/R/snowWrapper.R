@@ -1,6 +1,6 @@
 snowWrapper <-
 function(cl, seq, fun, cldata, name="cldata", lib=NULL, evalq=NULL,
-size = 1, balancing=c("none", "load", "size", "both"), dir = getwd(), 
+size = 1, balancing=c("none", "load", "size", "both"), dir = NULL, 
 rng.type=c("none", "RNGstream", "SPRNG"), cleanup=TRUE, ...)
 {
     balancing <- match.arg(balancing)
@@ -21,7 +21,8 @@ rng.type=c("none", "RNGstream", "SPRNG"), cleanup=TRUE, ...)
         clusterSetupRNG(cl, type = rng.type)
     }
     ## sets common working directory
-    eval(parse(text=paste("clusterEvalQ(cl, setwd('", dir, "'))", sep="")))
+    if (!is.null(dir))
+        eval(parse(text=paste("clusterEvalQ(cl, setwd('", dir, "'))", sep="")))
     ## evaluates literal expressions if needed
     if (!is.null(evalq)) {
         for (i in evalq)

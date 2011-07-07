@@ -18,8 +18,11 @@ function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
     if (is.function(model) || inherits(model, "custommodel")) {
         if (is.function(model))
             model <- match.fun(model)
-        model <- write.jags.model(model)
-        on.exit(try(clean.jags.model(model)))
+        ## write model only if SOCK cluster (shared memory)
+        if (inherits(cl, "SOCKcluster")) {
+            model <- write.jags.model(model)
+            on.exit(try(clean.jags.model(model)))
+        }
     }
 
     ## generating initial values and RNGs if needed
@@ -40,9 +43,11 @@ function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
     ## parallel computations
     balancing <- if (getOption("dcoptions")$LB)
         "load" else "none"
+    dir <- if (inherits(cl, "SOCKcluster"))
+        getwd() else NULL
     mcmc <- snowWrapper(cl, 1:n.chains, jagsparallel, cldata, lib="dclone", 
         balancing=balancing, size=1, dir=getwd(), 
-        rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, ...)
+        rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))
     ## attaching attribs and return
