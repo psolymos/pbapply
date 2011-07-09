@@ -46,7 +46,7 @@ function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
     dir <- if (inherits(cl, "SOCKcluster"))
         getwd() else NULL
     mcmc <- snowWrapper(cl, 1:n.chains, jagsparallel, cldata, lib="dclone", 
-        balancing=balancing, size=1, dir=getwd(), 
+        balancing=balancing, size=1, 
         rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))
