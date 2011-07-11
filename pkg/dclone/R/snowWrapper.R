@@ -13,7 +13,7 @@ rng.type=c("none", "RNGstream", "SPRNG"), cleanup=TRUE, ...)
     ## loads lib on each worker
     if (!is.null(lib)) {
         for (i in lib)
-            eval(parse(text=paste("clusterEvalQ(cl, library(", i, "))")))
+            eval(parse(text=paste("clusterEvalQ(cl, library(", i, "))", sep="")))
     }
     ## set seed on each worker
     rng.type <- match.arg(rng.type) 
@@ -21,8 +21,11 @@ rng.type=c("none", "RNGstream", "SPRNG"), cleanup=TRUE, ...)
         clusterSetupRNG(cl, type = rng.type)
     }
     ## sets common working directory
-    if (!is.null(dir))
+    if (!is.null(dir)) {
+        if (cleanup)
+            dirold <- clusterEvalQ(cl, getwd())
         eval(parse(text=paste("clusterEvalQ(cl, setwd('", dir, "'))", sep="")))
+    }
     ## evaluates literal expressions if needed
     if (!is.null(evalq)) {
         for (i in evalq)
@@ -31,13 +34,25 @@ rng.type=c("none", "RNGstream", "SPRNG"), cleanup=TRUE, ...)
     ## place object name into global env (clusterExport can reach it)
     assign(name, cldata, envir = .GlobalEnv)
     clusterExport(cl, name)
-    ## parallel work done here due to balancing
+    ## parallel work done here according to balancing
     res <- switch(balancing,
         "none" = parLapply(cl, seq, fun, ...),
         "load" = clusterApplyLB(cl, seq, fun, ...),
         "size" = parLapplySB(cl, seq, size=size, fun, ...),
         "both" = parLapplySLB(cl, seq, size=size, fun, ...))
-    if (cleanup)
+    if (cleanup) {
+        ## remove cldata
         eval(parse(text=paste("clusterEvalQ(cl, rm(", name, "))")))
+        ## unload libs
+        if (!is.null(lib)) {
+            for (i in lib)
+                eval(parse(text=paste("clusterEvalQ(cl, detach(package:", i, ", unload=TRUE))", sep="")))
+        }
+        ## set old dir
+        if (!is.null(dir)) {
+            dirold <- lapply(dirold, function(z) paste("setwd(\"", z, "\")", sep=""))
+            parLapply(cl, dirold, function(z) eval(parse(text=z)))
+        }
+    }
     res
 }

@@ -1,7 +1,7 @@
 dclone package version history
 
 Version 1.3-4, July 9, 2011
-    * 
+    * snowWrapper: cleanup=TRUE cleans up after lib adn dir args, too.
 
 Version 1.3-3, May 13, 2011
     * *.parfit: write model to hard drive only if

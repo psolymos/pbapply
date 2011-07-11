@@ -53,6 +53,7 @@ Character, \code{"none"} or the type of RNG on the workers (see \code{\link[snow
 }
   \item{cleanup}{
 logical, if \code{cldata} should be removed from the workers after applying \code{fun}.
+If \code(TRUE), effects of \code{lib} and \code{dir} arguments are also cleaned up.
 }
   \item{\dots}{
 Other arguments of \code{fun}, that are simple values and not objects. (Arguments passed as objects should be specified in \code{cldata}, otherwise not exported to the cluster.)
