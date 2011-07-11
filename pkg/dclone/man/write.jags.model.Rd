@@ -12,7 +12,7 @@ Writes or removes a BUGS model file to or from the hard drive.
 }
 \usage{
 write.jags.model(model, filename = "model.bug", dir = getwd(),
-overwrite = FALSE)
+overwrite = getOption("dcoptions")$overwrite)
 clean.jags.model(filename = "model.bug", dir = getwd())
 custommodel(model, exclude = NULL)
 }
@@ -33,7 +33,7 @@ Optional argument for directory where to write or
 look for the file to remove.
 }
   \item{overwrite}{
-Logical, if \code{TRUE} the \code{filename} will be forced and axisting
+Logical, if \code{TRUE} the \code{filename} will be forced and existing
 file with same name will be overwritten.
 }
   \item{exclude}{

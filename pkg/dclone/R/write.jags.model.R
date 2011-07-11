@@ -1,5 +1,6 @@
 write.jags.model <-
-function(model, filename="model.bug", dir=getwd(), overwrite=FALSE)
+function(model, filename="model.bug", dir=getwd(), 
+overwrite=getOption("dcoptions")$overwrite)
 {
     old.dir <- getwd()
     setwd(dir)
