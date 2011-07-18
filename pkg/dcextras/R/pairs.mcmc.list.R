@@ -1,12 +1,14 @@
-pairs.mcmc.list <- function(x, n=25, density=TRUE, contour=TRUE, mean=TRUE, ...) {
+pairs.mcmc.list <- 
+function(x, n=25, col=1:length(x), 
+col.hist="gold", col.image=terrain.colors(50),
+density=TRUE, contour=TRUE, mean=TRUE, ...) {
     require(MASS)
     y <- as.matrix(x)
-    n.chains <- 
-    COL <- rep(1:(nrow(y)/niter(x)), each=niter(x))
+    COL <- rep(col, each=niter(x))
     fun.lower0 <- function(x1, x2, ...) {
         d <- kde2d(x1, x2, n=n)
         if (density)
-            image(d, col=terrain.colors(50), add=TRUE)
+            image(d, col=col.image, add=TRUE)
         if (mean)
             abline(v=mean(x1),h=mean(x2))
         if (contour)
@@ -25,7 +27,7 @@ pairs.mcmc.list <- function(x, n=25, density=TRUE, contour=TRUE, mean=TRUE, ...)
         breaks <- h$breaks
         nB <- length(breaks)
         y <- h$counts; y <- y/max(y)
-        rect(breaks[-nB], 0, breaks[-1], y,col=3, border=NA)
+        rect(breaks[-nB], 0, breaks[-1], y, col=col.hist, border=NA)
         d <- try(density(x,na.rm=TRUE,bw="nrd",adjust=1.2))
         if (!inherits(d, "try-error")) {
             d$y <- d$y/max(d$y)
