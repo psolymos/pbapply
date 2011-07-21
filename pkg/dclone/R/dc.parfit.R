@@ -21,7 +21,7 @@ flavour = c("jags", "bugs"), ...)
     times <- length(k)
     if (times < 2)
         stop("no need for parallel computing")
-    ## globel options
+    ## global options
     rhat.opts <- getOption("dcoptions")$rhat
     trace <- getOption("dcoptions")$verbose
     ## evaluate inits

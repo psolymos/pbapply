@@ -26,12 +26,15 @@ update=NULL, updatefun=NULL, initsfun=NULL, flavour = c("jags", "bugs"), ...)
     if (!is.null(update)) {
         unchanged <- unique(c(unchanged, update))
         updatefun <- match.fun(updatefun)
+        UPARGS <- length(names(as.list(args(updatefun))))-1 < 2
     }
     ## evaluate inits
     if (missing(inits))
         inits <- NULL
-    if (!is.null(initsfun))
+    if (!is.null(initsfun)) {
         initsfun <- match.fun(initsfun)
+        INIARGS <- length(names(as.list(args(initsfun))))-1 < 2
+    }
     ## list for dcdiag results
     dcdr <- list()
     ## iteration starts here
@@ -59,11 +62,15 @@ update=NULL, updatefun=NULL, initsfun=NULL, flavour = c("jags", "bugs"), ...)
             colnames(dcts0) <- c("n.clones", "mean", "sd", names(quantile(0, probs=quantiles)), "r.hat")
             for (j in 1:length(vn))
                 dcts[[vn[j]]] <- dcts0
-        } else {
+        }
+        ## updating
+        if (i < times) {
             if (!is.null(update))
-                jdat[[update]] <- updatefun(mod)
+                jdat[[update]] <- if (UPARGS) 
+                    updatefun(mod) else updatefun(mod, k[i+1])
             if (!is.null(initsfun))
-                inits <- initsfun(mod)
+                inits <- if (INIARGS)
+                    initsfun(mod) else initsfun(mod, k[i+1])
         }
         dctmp <- extractdctable.default(mod)
         dcdr[[i]] <- extractdcdiag.default(mod)

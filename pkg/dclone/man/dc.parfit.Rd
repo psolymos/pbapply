@@ -45,7 +45,7 @@ to be left unchanged.
   If \code{"jags"}, the function \code{\link{jags.fit}} is called. If \code{"bugs"}, the function \code{\link{bugs.fit}} is called.
 }
   \item{\dots}{
-  Other values supplied to \code{\link[dclone]{jags.fit}}, or \code{\link[dclone]{bugs.fit}}, depending on the \code{flavour} argument. (Note, \code{falvour = "bugs"} has not been tested!)
+  Other values supplied to \code{\link[dclone]{jags.fit}}, or \code{\link[dclone]{bugs.fit}}, depending on the \code{flavour} argument.
 }
 }
 \details{
@@ -53,6 +53,9 @@ The \code{dc.parfit} is a parallel computing version of \code{\link[dclone]{dc.f
 The vector \code{n.clones} is used to determine size balancing. If load balancing is also desired 
 besides of size balancing (e.g. due to unequal performance of the workers, the option \code{"dclone.LB"} should be set to \code{TRUE} (by using \code{options("dclone.LB" = TRUE)}). By default, the \code{"dclone.LB"}
 option is \code{FALSE} for reproducibility reasons.
+
+Some arguments from \code{\link{dc.fit}} are not availabe in parallel version 
+(\code{update}, \code{updatefun}, \code{initsfun}).
 }
 \value{
 An object inheriting from the class 'mcmc.list'.

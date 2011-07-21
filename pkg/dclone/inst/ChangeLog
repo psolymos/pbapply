@@ -1,6 +1,10 @@
 dclone package version history
 
 Version 1.3-4, July 9, 2011
+    * dc.fit: updating fixed (only updated after 2nd iteration).
+    * dc.fit: updatefun and initsfun now accepts 2 arguments,
+      1st is model, 2nd is n.clones to allow for cloning
+      latent variable vectors on the go. Example reworked accordingly.
     * snowWrapper: cleanup=TRUE cleans up after lib adn dir args, too.
     * New option 'overwrite' in dcoptions (used by write.jags.model).
 
