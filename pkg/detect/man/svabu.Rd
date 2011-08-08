@@ -19,17 +19,6 @@ link.det = "logit", link.zif = "logit", ...)
 zif(x)
 is.present(object, ...)
 predictMCMC(object, ...)
-
-svabusra(formula, data, zeroinfl = TRUE, area = 1, duration=1, 
-N.max = NULL, inits, link.zif = "logit", pcorrection = 1, 
-model = TRUE, x = FALSE, ...)
-svabusra.fit(Y, X, Z, Q = NULL, zeroinfl = TRUE, area = 1, duration=1, 
-N.max = NULL, inits, link.zif = "logit", pcorrection = 1, ...)
-
-svabudsa(formula, data, zeroinfl=TRUE, pcradius, N.max=NULL, inits,
-link.zif = "logit", pcorrection = 1, model = TRUE, x = FALSE, ...)
-svabudsa.fit(Y, X, Z, Q=NULL, zeroinfl=TRUE, pcradius, N.max=NULL, inits, 
-link.zif = "logit", pcorrection = 1, ...)
 }
 \arguments{
   \item{formula}{
@@ -49,16 +38,6 @@ data
 }
   \item{area}{
 area
-}
-  \item{duration}{
-duration
-}
-  \item{pcradius}{
-point count radius (area is calculated from this).
-}
-  \item{pcorrection}{
-known (estimated) correction for detection probabilities applied
-multiplicatively (e.g. distance effect added on top of singing)
 }
   \item{N.max}{
 maximum of true count values (for calculating the integral)

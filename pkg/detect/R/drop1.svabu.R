@@ -23,9 +23,6 @@ function (object, scope, model, criter = c("AIC", "BIC"), test = FALSE, k = 2, c
         on.exit(options("detect.dc.control"=old.dc.control), add=TRUE)
         on.exit(options("detect.mcmc.control"=old.mcmc.control), add=TRUE)
     }
-    ## if it is singing rate approach
-    sra <- inherits(object, "svabusra")
-
     if (missing(model))
         stop("'model' argument must be supplied")
     model <- match.arg(model, c("sta", "det"))
@@ -80,21 +77,11 @@ function (object, scope, model, criter = c("AIC", "BIC"), test = FALSE, k = 2, c
 #        n.clones <- if (object$method == "dc")
 #            nclones(object$results$mle) else 1000
         if (model == "sta") {
-                if (sra) {
-                    z <- svabusra.fit(y, x[, jj, drop = FALSE], xother, 
-                        N.max=object$N.max, zeroinfl=object$zeroinfl, ...)
-                } else {
-                    z <- svabu.fit(y, x[, jj, drop = FALSE], xother, 
-                        N.max=object$N.max, zeroinfl=object$zeroinfl, ...)
-                }
+                z <- svabu.fit(y, x[, jj, drop = FALSE], xother, 
+                    N.max=object$N.max, zeroinfl=object$zeroinfl, ...)
             } else {
-                if (sra) {
-                    z <- svabu.fit(y, xother, x[, jj, drop = FALSE],
-                        N.max=object$N.max, zeroinfl=object$zeroinfl, ...)
-                } else {
-                    z <- svabu.fit(y, xother, x[, jj, drop = FALSE],
-                        N.max=object$N.max, zeroinfl=object$zeroinfl, ...)
-                }
+                z <- svabu.fit(y, xother, x[, jj, drop = FALSE],
+                    N.max=object$N.max, zeroinfl=object$zeroinfl, ...)
             }
 #            if (inherits(z, "try-error"))
 #                return(z)
