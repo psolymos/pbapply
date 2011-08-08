@@ -1,0 +1,19 @@
+Package: detect
+Type: Package
+Title: Analyzing Data with Detection Error Based on Single Visit
+Version: 1.1-0
+Date: 2011-08-08
+Author: Peter Solymos, Monica Moreno, Subhash R Lele
+Maintainer: Peter Solymos <solymos@ualberta.ca>
+Depends: R (>= 1.7.0)
+Suggests: dclone, pbapply
+Description: The package implements zero inflated Binomial model
+  for single visit site occupancy and Binomial-ZIP mixture model 
+  for single visit count data when the probability of detection
+  is less than one. Provides hands-on formula interface with inferences
+  based on numerical optimization and data cloning.
+  Development was funded by the Alberta Biodiversity Monitoring Institute.
+License: GPL-2
+URL: http://dcr.r-forge.r-project.org/, http://www.abmi.ca/
+LazyLoad: yes
+LazyData: true
