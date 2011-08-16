@@ -1,7 +1,7 @@
 .onAttach <- function(libname, pkgname){
     ver <- read.dcf(file=system.file("DESCRIPTION", package=pkgname), 
                     fields=c("Version", "Date"))
-    cat(paste(pkgname, ver[1], "\t", ver[2], "\n"))
+    packageStartupMessage(paste(pkgname, ver[1], "\t", ver[2], "\n"))
     if (is.null(getOption("rspf.optim.control")))
         options("rspf.optim.control"=list(maxit = 20000))
     if (is.null(getOption("rspf.robust.probit")))
