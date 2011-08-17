@@ -70,7 +70,7 @@ flavour = c("jags", "bugs"), ...)
         getwd() else NULL
     pmod <- snowWrapper(cl, k, dcparallel, cldata, lib="dclone", 
         balancing=balancing, size=k, 
-        rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir)
+        rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, ...)
     mod <- pmod[[times]]
 
     ## dctable
