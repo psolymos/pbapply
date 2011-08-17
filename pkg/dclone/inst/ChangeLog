@@ -8,10 +8,12 @@ Version 1.3-4, July 9, 2011
     * snowWrapper: cleanup=TRUE cleans up after lib and dir args, too.
     * New option 'overwrite' in dcoptions (used by write.jags.model).
     * packageStartupMessage used in zzz.R .onAttach
+    * ... is now passed to snowWrapper in *.parfit (thanks to
+      Emmanuel Charpentier for reporting the bug).
 
 Version 1.3-3, May 13, 2011
     * *.parfit: write model to hard drive only if
-      cluster type is SOCK (shared memoty)
+      cluster type is SOCK (shared memory)
     * snowWrapper: dir=NULL is set as the default.
     * mcmcapply functions simplified, FUN can be missing.
     * jags.parfit help notes that there is no update method
