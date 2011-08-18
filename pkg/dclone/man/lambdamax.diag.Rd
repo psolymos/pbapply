@@ -1,3 +1,4 @@
+\encoding{UTF-8}
 \name{lambdamax.diag}
 \Rdversion{1.1}
 \alias{lambdamax.diag}

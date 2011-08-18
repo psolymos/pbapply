@@ -1,3 +1,4 @@
+\encoding{UTF-8}
 \name{clusterSplitSB}
 \Rdversion{1.1}
 \alias{clusterSplitSB}

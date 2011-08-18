@@ -1,3 +1,4 @@
+\encoding{UTF-8}
 \name{dc.parfit}
 \Rdversion{1.1}
 \alias{dc.parfit}

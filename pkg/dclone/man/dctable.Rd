@@ -1,3 +1,4 @@
+\encoding{UTF-8}
 \name{dctable}
 \Rdversion{1.1}
 \alias{dctable}

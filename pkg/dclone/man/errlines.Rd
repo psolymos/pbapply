@@ -1,3 +1,4 @@
+\encoding{UTF-8}
 \name{errlines}
 \Rdversion{1.1}
 \alias{errlines}

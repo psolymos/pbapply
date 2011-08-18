@@ -1,3 +1,4 @@
+\encoding{UTF-8}
 \name{update.mcmc.list}
 \Rdversion{1.1}
 \alias{update.mcmc.list}

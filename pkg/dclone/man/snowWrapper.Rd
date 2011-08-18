@@ -1,3 +1,4 @@
+\encoding{UTF-8}
 \name{snowWrapper}
 \Rdversion{1.1}
 \alias{snowWrapper}
