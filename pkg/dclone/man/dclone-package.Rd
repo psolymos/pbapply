@@ -12,7 +12,7 @@ Low level functions for implementing
     complex models using data cloning (Lele et al. 2007) and Bayesian
     Markov chain Monte Carlo methods with support 
     for JAGS, WinBUGS and OpenBUGS.
-    Parallel computing with JAGS is supported.
+    With some functions for parallel MCMC computations.
 
 Main functions include:
 
