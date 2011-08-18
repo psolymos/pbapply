@@ -57,7 +57,7 @@ containing scaled data cloning standard errors (scaled by \code{sqrt(n.clones)})
 and \eqn{R_{hat}} values (as returned by \code{\link[coda]{gelman.diag}}).
 }
 \author{
-\enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
+\enc{Péter Sólymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \seealso{
 Underlying functions: \code{\link[rjags]{jags.model}}, \code{\link[rjags]{coda.samples}}

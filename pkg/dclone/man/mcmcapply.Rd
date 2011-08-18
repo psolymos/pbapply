@@ -32,7 +32,7 @@ to calling \code{as.matrix} on an 'mcmc.list' object.
 Returns statistic value based on \code{FUN}, using all values in all chains of the MCMC object.
 }
 \author{
-\enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
+\enc{Péter Sólymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \examples{
 data(regmod)

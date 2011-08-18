@@ -50,7 +50,7 @@ is identical to size balancing. This splitting is non-deterministic (might not b
 \code{parLapplySB} and \code{parLapplySLB} evaluates \code{fun} on elements of \code{x}, and return a result corresponding to \code{x}. Usually a list with results returned by the cluster.
 }
 \author{
-\enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
+\enc{Péter Sólymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \seealso{
 Related functions without size balancing: \code{\link[snow]{clusterSplit}}, \code{\link[snow]{parLapply}}.

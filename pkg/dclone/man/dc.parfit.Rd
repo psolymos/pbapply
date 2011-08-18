@@ -65,9 +65,18 @@ Lele, S.R., B. Dennis and F. Lutscher, 2007.
 Data cloning: easy maximum likelihood estimation for complex 
 ecological models using Bayesian Markov chain Monte Carlo  methods.
 \emph{Ecology Letters} \strong{10}, 551--563.
+
+Lele, S. R., K. Nadeem and B. Schmuland, 2010.
+Estimability and likelihood inference for generalized linear mixed models using data cloning.
+\emph{Journal of the American Statistical Association}
+\strong{105}, 1617--1625.
+
+\enc{Sólymos}{Solymos}, P., 2010. dclone: Data Cloning in R.
+\emph{The R Journal} \strong{2(2)}, 29--37.
+URL: \url{http://journal.r-project.org/archive/2010-2/RJournal_2010-2_Solymos.pdf}
 }
 \author{
-\enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
+\enc{Péter Sólymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \seealso{
 Sequential version: \code{\link[dclone]{dc.fit}}.

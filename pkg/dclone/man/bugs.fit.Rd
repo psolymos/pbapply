@@ -63,7 +63,7 @@ The function \code{as.mcmc.list.bugs} converts a 'bugs' object into 'mcmc.list' 
 data cloning information as well.
 }
 \author{
-\enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
+\enc{Péter Sólymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \seealso{
 Underlying functions: \code{\link[R2WinBUGS]{openbugs}}, \code{\link[R2WinBUGS]{bugs}}

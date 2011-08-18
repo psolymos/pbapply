@@ -59,7 +59,7 @@ Adds error bars to an existing plot as a side effect.
 Returns \code{NULL} invisibly.
 }
 \author{
-Peter Solymos
+\enc{Péter Sólymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \seealso{
 \code{\link{lines}}, \code{\link{arrows}}, \code{\link{segments}}

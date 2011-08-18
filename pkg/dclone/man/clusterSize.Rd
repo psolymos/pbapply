@@ -54,7 +54,7 @@ values in \code{size}.
 its arguments. As a side effect, a plot is produced (if \code{plot = TRUE}).
 }
 \author{
-\enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
+\enc{Péter Sólymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \examples{
 ## determine the number of workers needed

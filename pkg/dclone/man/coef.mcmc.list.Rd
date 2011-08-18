@@ -62,7 +62,7 @@ Some functions only available for the 'mcmc.list.dc' class which inherits from
 class 'mcmc.list'.
 }
 \author{
-\enc{P\'eter S\'olymos}{Peter Solymos}, \email{solymos@ualberta.ca}
+\enc{Péter Sólymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \seealso{
 \code{\link{jags.fit}}, \code{\link{bugs.fit}}
