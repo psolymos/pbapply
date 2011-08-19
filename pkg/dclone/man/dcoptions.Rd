@@ -37,7 +37,7 @@ Tags are the following:
   \item{overwrite}{logical, should existing model file be overwitten, default is \code{FALSE}.}
 }
 \author{
-\enc{Péter Sólymos}{Peter Solymos}, \email{solymos@ualberta.ca}
+\enc{Pe'ter So'lymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \examples{
 getOption("dcoptions")

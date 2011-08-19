@@ -1,5 +1,5 @@
 \encoding{UTF-8}
-\name{coef.mcmc.list}
+\name{mcmc.list-methods}
 \Rdversion{1.1}
 \alias{dcsd}
 \alias{dcsd.mcmc.list}
@@ -62,7 +62,7 @@ Some functions only available for the 'mcmc.list.dc' class which inherits from
 class 'mcmc.list'.
 }
 \author{
-\enc{Péter Sólymos}{Peter Solymos}, \email{solymos@ualberta.ca}
+\enc{Pe'ter So'lymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \seealso{
 \code{\link{jags.fit}}, \code{\link{bugs.fit}}

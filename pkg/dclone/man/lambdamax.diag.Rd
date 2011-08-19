@@ -47,14 +47,14 @@ Estimability and likelihood inference for generalized linear mixed models using 
 \emph{Journal of the American Statistical Association}
 \strong{105}, 1617--1625.
 
-\enc{Sólymos}{Solymos}, P., 2010. dclone: Data Cloning in R.
+\enc{So'lymos}{Solymos}, P., 2010. dclone: Data Cloning in R.
 \emph{The R Journal} \strong{2(2)}, 29--37.
 URL: \url{http://journal.r-project.org/archive/2010-2/RJournal_2010-2_Solymos.pdf}
 }
 \author{
 Khurram Nadeem, \email{knadeem@math.ualberta.ca}
 
-\enc{Péter Sólymos}{Peter Solymos}, \email{solymos@ualberta.ca}
+\enc{Pe'ter So'lymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \seealso{
 Eigen decomposition: \code{\link{eigen}}

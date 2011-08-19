@@ -48,7 +48,7 @@ No update method is available for parallel \code{mcmc.list} objects.
 An \code{mcmc.list} object.
 }
 \author{
-\enc{Péter Sólymos}{Peter Solymos}, \email{solymos@ualberta.ca}
+\enc{Pe'ter So'lymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \seealso{
 \code{\link[dclone]{jags.fit}}

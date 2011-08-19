@@ -28,7 +28,7 @@ A symmetric square matrix.
 The function works for any matrix, even for those not intended to be symmetric.
 }
 \author{
-\enc{Péter Sólymos}{Peter Solymos}, \email{solymos@ualberta.ca}
+\enc{Pe'ter So'lymos}{Peter Solymos}, \email{solymos@ualberta.ca}
 }
 \examples{
 x <- as.matrix(as.dist(matrix(1:25, 5, 5)))
