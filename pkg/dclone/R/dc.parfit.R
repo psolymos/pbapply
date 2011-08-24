@@ -78,8 +78,8 @@ partype=c("balancing", "parchains", "both"), ...)
         jm <- if (flavour == "jags")
             paste("load.module('", list.modules(), "')", sep="") else NULL
         ## load rjags so that modules are cleaned up properly
-        libs <- jm <- if (flavour == "jags")
-            c("dclone", "rjags") else "dclone"
+        libs <- if (flavour == "jags")
+            c("rjags","dclone") else "dclone"
         ## size balancing
         if (partype == "balancing") {
             ## parallel function
@@ -128,7 +128,7 @@ partype=c("balancing", "parchains", "both"), ...)
                 jags.fit(data=jdat, params=cldata$params, model=cldata$model, 
                 inits=cldata$inits[[i]], n.chains=1, updated.model=FALSE, ...)
             }
-            pmod <- snowWrapper(cl, 1:(times*nch), dcparallel, cldata, lib="dclone", 
+            pmod <- snowWrapper(cl, 1:(times*nch), dcparallel, cldata, lib=libs, 
                 balancing=balancing, size=cldata$k, 
                 rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, ...)
             ## binding the chains for each k value
