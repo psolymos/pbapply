@@ -11,8 +11,8 @@ The iterative model fitting in on parallel workers with different number of clon
 \usage{
 dc.parfit(cl, data, params, model, inits, n.clones, 
 multiply=NULL, unchanged=NULL, 
-update = NULL, updatefun = NULL, initsfun = NULL,
-flavour = c("jags", "bugs"), ...)
+update = NULL, updatefun = NULL, initsfun = NULL, flavour = c("jags", "bugs"), 
+partype=c("balancing", "parchains", "both"), ...)
 }
 \arguments{
   \item{cl}{
@@ -70,24 +70,38 @@ ignored when multiple parallel chains are used.
   \item{flavour}{
   If \code{"jags"}, the function \code{\link{jags.fit}} is called. If \code{"bugs"}, the function \code{\link{bugs.fit}} is called.
 }
+  \item{partype}{
+Type of parallel workload distribution, see Details. 
+}
   \item{\dots}{
   Other values supplied to \code{\link[dclone]{jags.fit}}, or \code{\link[dclone]{bugs.fit}}, depending on the \code{flavour} argument.
 }
 }
 \details{
 The \code{dc.parfit} is a parallel computing version of \code{\link[dclone]{dc.fit}}.
+
+\code{partype="balancing"} distributes each model corresponding
+to values in \code{n.clones} as jobs to workers according to size balancing (see
+\code{\link{snowWrapper}}). \code{partype="parchains"} makes repeated calls
+to \code{\link{jags.parfit}} for each value in \code{n.clones}.
+\code{partype="both"} also calls \code{\link{jags.parfit}} but
+each chain of each cloned model is distributed as separate job to the workers.
+
 The vector \code{n.clones} is used to determine size balancing. If load balancing is also desired 
 besides of size balancing (e.g. due to unequal performance of the workers, the option \code{"dclone.LB"} should be set to \code{TRUE} (by using \code{options("dclone.LB" = TRUE)}). By default, the \code{"dclone.LB"}
 option is \code{FALSE} for reproducibility reasons.
 
 Some arguments from \code{\link{dc.fit}} are not availabe in parallel version 
-(\code{update}, \code{updatefun}, \code{initsfun}) when size balancing is used (default).
-However, if the \code{"parchains"} option (see \code{\link{dcoptions}}) is \code{TRUE},
-then multiple parallel chains are used instead of size balancing. In this case,
-these arguments are not ignored. See Examples.
+(\code{update}, \code{updatefun}, \code{initsfun}) when size balancing is used 
+(\code{partype} is \code{"balancing"} or \code{"both"}).
+These arguments are evaluated only when \code{partype="parchains"}.
 
 Size balancing is recommended if \code{n.clones} is a relatively long vector,
 while parallel chains might be more efficient when \code{n.clones} has few elements.
+For efficnecy reasons, a combination of the two (\code{partype="both"}) is preferred 
+if cluster size allows it.
+
+Only \code{partype="balancing"} is available for \code{flavour="bugs"}.
 }
 \value{
 An object inheriting from the class 'mcmc.list'.
@@ -140,13 +154,8 @@ cl <- makeCluster(3, type = "SOCK")
 dcm <- dc.fit(dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np")
 ## parallel version with size balancing (default)
 pdcm <- dc.parfit(cl, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np")
-## multiple parallel chains used
-ov <- dcoptions("parchains"=TRUE)
-pdcm2 <- dc.parfit(cl, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np")
-dcoptions(ov) # restore options
 summary(dcm)
 summary(pdcm)
-summary(pdcm2)
 stopCluster(cl)
 
 ## Using WinBUGS/OpenBUGS

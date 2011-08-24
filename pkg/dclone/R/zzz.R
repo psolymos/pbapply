@@ -6,7 +6,6 @@
             "diag"=0.05,
             "LB"=FALSE,
             "overwrite"=FALSE,
-            "parchains"=FALSE,
             "RNG"="none",
             "rhat"=1.1,
             "verbose"=1))

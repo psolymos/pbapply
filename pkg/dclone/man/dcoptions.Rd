@@ -30,8 +30,6 @@ Tags are the following:
   \item{diag}{critical value to use for data cloning convergence diagnostics, default is 0.05.}
   \item{LB}{logical, should load balancing be used, default is \code{FALSE}.}
   \item{overwrite}{logical, should existing model file be overwitten, default is \code{FALSE}.}
-  \item{parchains}{logical, should \code{\link{dc.parfit}} use size balancing (\code{FALSE}, default)
-    or multiple parallel chains (\code{TRUE}).}
   \item{rhat}{critical value for testing chain convergence, default is 1.1.}
   \item{RNG}{parallel RNG type, either 
     \code{"none"} (default), \code{"RNGstream"} or \code{"SPRNG"},
