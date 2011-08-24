@@ -1,5 +1,8 @@
 ResourceSelection package version history
 
+Version 0.1-3, August 23, 2011
+    * 
+
 Version 0.1-2, July 9, 2011
     * packageStartupMessage used in zzz.R .onAttach
 
