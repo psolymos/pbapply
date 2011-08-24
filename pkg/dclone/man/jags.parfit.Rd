@@ -41,6 +41,11 @@ Other arguments passed to \code{\link[dclone]{jags.fit}}.
 }
 \details{
 Chains are run on parallel workers, and the results are combined in the end.
+The function takes care of loading JAGS modules on the workers.
+After parallel computations, temporary objects passed to workers and
+loaded packages, modules are cleaned up. It is however, not guaranteed
+that objects already on the workers and independently loaded packages, modules
+are not affected. Best to start new instances beforehand.
 
 No update method is available for parallel \code{mcmc.list} objects.
 }

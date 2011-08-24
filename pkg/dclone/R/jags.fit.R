@@ -5,7 +5,7 @@ updated.model=TRUE, ...)
     ## stop if rjags not found
     if (!suppressWarnings(require(rjags)))
         stop("there is no package called 'rjags'")
-    if (n.adapt>0 && n.update=0)
+    if (n.adapt>0 && n.update==0)
         warnings("consider updating for independence after adaptation")
     ## inital steps
     n.clones <- nclones.list(data)

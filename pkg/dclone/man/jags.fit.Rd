@@ -10,7 +10,7 @@ Convenient functions designed to work well with cloned data arguments and JAGS.
 }
 \usage{
 jags.fit(data, params, model, inits = NULL, n.chains = 3, n.adapt = 1000,
-n.update = 0, thin = 1, n.iter = 5000, updated.model=TRUE, ...)
+n.update = 1000, thin = 1, n.iter = 5000, updated.model=TRUE, ...)
 }
 \arguments{
   \item{data}{
@@ -33,7 +33,8 @@ Number of chains to generate.
 Number of steps for adaptation.
 }
   \item{n.update}{
-Number of updates before iterations.
+Number of updates before iterations. It is usually a bad idea to use \code{n.update=0} if \code{n.adapt>0}, so 
+a warning is issued in such cases.
 }
   \item{thin}{
 Thinning value.
