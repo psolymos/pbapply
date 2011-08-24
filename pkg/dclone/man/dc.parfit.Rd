@@ -160,9 +160,16 @@ k <- 1:3
 dcm <- dc.fit(dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np")
 ## parallel version with size balancing (default)
 cl <- makeCluster(3, type = "SOCK")
-pdcm <- dc.parfit(cl, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np")
+pdcm1 <- dc.parfit(cl, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np",
+    partype="balancing")
+pdcm2 <- dc.parfit(cl, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np",
+    partype="parchains")
+pdcm3 <- dc.parfit(cl, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np",
+    partype="both")
 summary(dcm)
-summary(pdcm)
+summary(pdcm1)
+summary(pdcm2)
+summary(pdcm3)
 stopCluster(cl)
 
 ## Using WinBUGS/OpenBUGS

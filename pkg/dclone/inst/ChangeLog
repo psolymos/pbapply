@@ -4,6 +4,9 @@ Version 1.3-5, August 23, 2011
     * n.update=1000 is now the default instead of 0
       to ensure independence after adaptation.
       Warning is issued if n.adapt>0 and n.update=0.
+    * New argument partype added to dc.parfit,
+      possible options (balancing, parchains, both)
+      are described on the help page.
     * dc.parfit gained args (update, updatefun, initsfun)
       which are ignored if type is not "parchains".
     * dc.fit and dc.parfit (with "parchains" type)
@@ -11,11 +14,6 @@ Version 1.3-5, August 23, 2011
       to allow parallel chains via jags.parfit).
       This function is not exported by namespace, thus
       not user visible and undocumented.
-    * New argument partype added to dc.parfit,
-      possible options (balancing, parchains, both)
-      are described on the help page.
-    * No warning about lack of rjags when the package
-      is present but loading produces error (.dll not found, etc).
 
 Version 1.3-4, July 9, 2011
     * dc.fit: updating fixed (only updated after 2nd iteration).
