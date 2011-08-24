@@ -75,8 +75,9 @@ partype=c("balancing", "parchains", "both"), ...)
         dir <- if (inherits(cl, "SOCKcluster"))
             getwd() else NULL
         ## get loaded modules
-        jm <- if (flavour == "jags")
-            paste("load.module('", list.modules(), "')", sep="") else NULL
+#        jm <- if (flavour == "jags")
+#            paste("load.module('", list.modules(), "')", sep="") else NULL
+jm <- NULL
         ## load rjags so that modules are cleaned up properly
         libs <- if (flavour == "jags")
             c("rjags","dclone") else "dclone"

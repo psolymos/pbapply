@@ -46,7 +46,8 @@ function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
     dir <- if (inherits(cl, "SOCKcluster"))
         getwd() else NULL
     ## loaded JAGS modules
-    jm <- paste("load.module('", list.modules(), "')", sep="")
+#    jm <- paste("load.module('", list.modules(), "')", sep="")
+jm <- NULL
     ## do the work
     ## load rjags so that modules are cleaned up properly
     mcmc <- snowWrapper(cl, 1:n.chains, jagsparallel, cldata, lib=c("rjags","dclone"),

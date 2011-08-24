@@ -41,13 +41,15 @@ Other arguments passed to \code{\link[dclone]{jags.fit}}.
 }
 \details{
 Chains are run on parallel workers, and the results are combined in the end.
-The function takes care of loading JAGS modules on the workers.
 After parallel computations, temporary objects passed to workers and
-loaded packages, modules are cleaned up. It is however, not guaranteed
-that objects already on the workers and independently loaded packages, modules
+the dclone package is cleaned up. It is not guaranteed
+that objects already on the workers and independently loaded packages
 are not affected. Best to start new instances beforehand.
 
 No update method is available for parallel \code{mcmc.list} objects.
+
+Additionally loaded JAGS modules (e.g. \code{"glm"}) need to be loaded
+to the workers. See Examples.
 }
 \value{
 An \code{mcmc.list} object.
@@ -77,8 +79,12 @@ glm.model <- function() {
     }
 }
 dat <- list(Y=Y, X=X, n=n, np=ncol(X))
+load.module("glm")
 m <- jags.fit(dat, "beta", glm.model)
 cl <- makeCluster(3, type = "SOCK")
+## load glm module
+tmp <- clusterEvalQ(cl, library(rjags))
+tmp <- clusterEvalQ(cl, load.module("glm"))
 pm <- jags.parfit(cl, dat, "beta", glm.model)
 ## chains are not identical -- this is good
 pm[1:2,]

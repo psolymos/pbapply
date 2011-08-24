@@ -79,10 +79,9 @@ Type of parallel workload distribution, see Details.
 }
 \details{
 The \code{dc.parfit} is a parallel computing version of \code{\link[dclone]{dc.fit}}.
-The function takes care of loading JAGS modules on the workers when \code{flavour="jags"}.
 After parallel computations, temporary objects passed to workers and
-loaded packages, modules are cleaned up. It is however, not guaranteed
-that objects already on the workers and independently loaded packages, modules
+the dclone package is cleaned up. It is not guaranteed
+that objects already on the workers and independently loaded packages
 are not affected. Best to start new instances beforehand.
 
 \code{partype="balancing"} distributes each model corresponding
@@ -107,6 +106,9 @@ For efficnecy reasons, a combination of the two (\code{partype="both"}) is prefe
 if cluster size allows it.
 
 Only \code{partype="balancing"} is available for \code{flavour="bugs"}.
+
+Additionally loaded JAGS modules (e.g. \code{"glm"}) need to be loaded
+to the workers.
 }
 \value{
 An object inheriting from the class 'mcmc.list'.
@@ -154,10 +156,10 @@ glm.model <- function() {
 }
 dat <- list(Y=Y, X=X, n=n, np=ncol(X))
 k <- 1:3
-cl <- makeCluster(3, type = "SOCK")
 ## sequential version
 dcm <- dc.fit(dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np")
 ## parallel version with size balancing (default)
+cl <- makeCluster(3, type = "SOCK")
 pdcm <- dc.parfit(cl, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np")
 summary(dcm)
 summary(pdcm)
