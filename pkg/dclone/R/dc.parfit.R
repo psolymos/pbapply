@@ -82,9 +82,16 @@ update=NULL, updatefun=NULL, initsfun=NULL, flavour = c("jags", "bugs"), ...)
             "size" else "both"
         dir <- if (inherits(cl, "SOCKcluster"))
             getwd() else NULL
-        pmod <- snowWrapper(cl, k, dcparallel, cldata, lib="dclone", 
+        ## get loaded modules
+        jm <- if (flavour == "jags")
+            paste("load.module('", list.modules(), "')", sep="") else NULL
+        ## load rjags so that modules are cleaned up properly
+        libs <- jm <- if (flavour == "jags")
+            c("dclone", "rjags") else "dclone"
+        ## do the work
+        pmod <- snowWrapper(cl, k, dcparallel, cldata, lib=libs, 
             balancing=balancing, size=k, 
-            rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, ...)
+            rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, evalq=jm, ...)
         mod <- pmod[[times]]
         ## dctable
         dct <- lapply(1:(times-1), function(i) pmod[[i]]$dct)
