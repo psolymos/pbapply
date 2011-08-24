@@ -9,10 +9,7 @@
             "RNG"="none",
             "rhat"=1.1,
             "verbose"=1))
-    rj <- suppressWarnings(try(require(rjags), silent=TRUE))
-    ## no need for warning if error is produced (e.g. JAGS .dll not found)
-    rj <- if (inherits(rj, "try-error"))
-        TRUE
+    rj <- suppressWarnings(require(rjags))
     if (!rj)
         cat("Warning message:\n  there is no package called 'rjags'\n")
     ver <- read.dcf(file=system.file("DESCRIPTION", package=pkgname), 
