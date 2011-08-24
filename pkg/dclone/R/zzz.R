@@ -1,13 +1,15 @@
 .onAttach <- function(libname, pkgname){
     ## dcoptions setup
     if (is.null(getOption("dcoptions")))
-        options("dcoptions"=list("rhat"=1.1,
+        options("dcoptions"=list(
             "autoburnin"=TRUE,
             "diag"=0.05,
-            "verbose"=1,
             "LB"=FALSE,
+            "overwrite"=FALSE,
+            "parchains"=FALSE,
             "RNG"="none",
-            "overwrite"=FALSE))
+            "rhat"=1.1,
+            "verbose"=1))
     rj <- suppressWarnings(require(rjags))
     if (!rj)
         cat("Warning message:\n  there is no package called 'rjags'\n")
@@ -22,3 +24,4 @@
     options("dcoptions"=NULL)
     invisible(NULL)
 }
+

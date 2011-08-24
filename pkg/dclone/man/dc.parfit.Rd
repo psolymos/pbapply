@@ -10,7 +10,9 @@ The iterative model fitting in on parallel workers with different number of clon
 }
 \usage{
 dc.parfit(cl, data, params, model, inits, n.clones, 
-multiply=NULL, unchanged=NULL, flavour = c("jags", "bugs"), ...)
+multiply=NULL, unchanged=NULL, 
+update = NULL, updatefun = NULL, initsfun = NULL,
+flavour = c("jags", "bugs"), ...)
 }
 \arguments{
   \item{cl}{
@@ -42,6 +44,29 @@ to be multiplied by the number of clones instead of repetitions.
 Numeric or character index for list element(s) in the \code{data} argument
 to be left unchanged.
 }
+  \item{update}{
+Numeric or character index for list element(s) in the \code{data} argument
+that has to be updated by \code{updatefun} in each iterations. This usually
+is for making priors more informative, and anhancing convergence.
+This argument is ignored if size balancing is used (default), and not
+ignored when multiple parallel chains are used.
+}
+  \item{updatefun}{
+A function to use for updating \code{data[[update]]}. It should take an 'mcmc.list' object as 1st argument,
+2nd argument can be the number of clones.
+This argument is ignored if size balancing is used (default), and not
+ignored when multiple parallel chains are used.
+}
+  \item{initsfun}{
+A function to use for generating initial values, \code{inits} are updated by the object
+returned by this function from the second iteration. If initial values
+are not dependent on the previous iteration, this should be \code{NULL}, otherwise,
+it should take an 'mcmc.list' object as 1st argument, 2nd argument can be the
+number of clones. This feature is useful if latent nodes are provided in \code{inits}
+so it also requires to be cloned for subsequent iterations.
+This argument is ignored if size balancing is used (default), and not
+ignored when multiple parallel chains are used.
+}
   \item{flavour}{
   If \code{"jags"}, the function \code{\link{jags.fit}} is called. If \code{"bugs"}, the function \code{\link{bugs.fit}} is called.
 }
@@ -56,7 +81,13 @@ besides of size balancing (e.g. due to unequal performance of the workers, the o
 option is \code{FALSE} for reproducibility reasons.
 
 Some arguments from \code{\link{dc.fit}} are not availabe in parallel version 
-(\code{update}, \code{updatefun}, \code{initsfun}).
+(\code{update}, \code{updatefun}, \code{initsfun}) when size balancing is used (default).
+However, if the \code{"parchains"} option (see \code{\link{dcoptions}}) is \code{TRUE},
+then multiple parallel chains are used instead of size balancing. In this case,
+these arguments are not ignored. See Examples.
+
+Size balancing is recommended if \code{n.clones} is a relatively long vector,
+while parallel chains might be more efficient when \code{n.clones} has few elements.
 }
 \value{
 An object inheriting from the class 'mcmc.list'.
@@ -104,11 +135,18 @@ glm.model <- function() {
 }
 dat <- list(Y=Y, X=X, n=n, np=ncol(X))
 k <- 1:3
-cl <- makeCluster(2, type = "SOCK")
+cl <- makeCluster(3, type = "SOCK")
+## sequential version
 dcm <- dc.fit(dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np")
+## parallel version with size balancing (default)
 pdcm <- dc.parfit(cl, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np")
+## multiple parallel chains used
+ov <- dcoptions("parchains"=TRUE)
+pdcm2 <- dc.parfit(cl, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np")
+dcoptions(ov) # restore options
 summary(dcm)
 summary(pdcm)
+summary(pdcm2)
 stopCluster(cl)
 
 ## Using WinBUGS/OpenBUGS
