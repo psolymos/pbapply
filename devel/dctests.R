@@ -10,11 +10,6 @@ exampleDontRun <- function(topic) {
     invisible(NULL)
 }
 ff <- gsub(".Rd", "", list.files("c:/svn/dcr/pkg/dclone/man"))
-if (!file.exists("c:/Program Files/WinBUGS14/")) {
-    data(regmod)
-    bugs.fit <- function(...) regmod
-    cat("\n\n## <<<<<<<<<<<<<<    NOTE: noWinBUGS detected    >>>>>>>>>>>>>>>>>\n\n")
-}
 ff
 cat("\n\n## <<<<<<<<<<<<<<    ", date(), "    >>>>>>>>>>>>>>>>>\n\n")
 for (topic in ff) {
@@ -22,3 +17,19 @@ for (topic in ff) {
     exampleDontRun(topic)
     cat("\n## END   <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n\n")
 }
+cat("\n\n## START <<<<<<<<<<<<<<    endmatter    >>>>>>>>>>>>>>>>>\n")
+x <- readLines("c:/svn/dcr/devel/tests/dctests.log")
+err <- c(grep("rror", x), grep("arning", x))
+fal <- grep("d error", x)
+err <- err[!(err %in% fal)]
+if (length(err)) {
+    beg <- c(grep("## START <<<<<<<<<<<<<<", x), length(x))[-1]
+    top <- gsub("     >>>>>>>>>>>>>>>>>", "", gsub("## START <<<<<<<<<<<<<<     ", "", x[beg]))
+    y <- character(length(x))
+    y[1:(beg[1]-1)] <- "begin"
+    for (i in 1:(length(beg)-1))
+        y[beg[i]:(beg[i+1]-1)] <- top[i]
+    y <- y[err]
+    cat("\n\n##       <<<<<<<<<<<<<<    Errors/Warnings found    >>>>>>>>>>>>>>>>>\n\n")
+    data.frame(Line=err, Topic=y, Text=x[err])
+} else cat("\n\n##       <<<<<<<<<<<<<<    OK -- No Errors/Warnings found    >>>>>>>>>>>>>>>>>\n\n")
