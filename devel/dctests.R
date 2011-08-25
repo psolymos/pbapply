@@ -1,5 +1,4 @@
-date()
-setwd("c:/dctests")
+setwd("c:/svn/dcr/devel/tests")
 library(dclone)
 exampleDontRun <- function(topic) {
     ex <- gsub("##D ", "", example(topic, "dclone", 
@@ -11,8 +10,15 @@ exampleDontRun <- function(topic) {
     invisible(NULL)
 }
 ff <- gsub(".Rd", "", list.files("c:/svn/dcr/pkg/dclone/man"))
-if (!file.exists("c:/Program Files/WinBUGS14/"))
-    ff <- ff[!(ff %in% c("dc.fit", "dc.parfit", "bugs.fit"))]
-for (topic in ff)
+if (!file.exists("c:/Program Files/WinBUGS14/")) {
+    data(regmod)
+    bugs.fit <- function(...) regmod
+    cat("\n\n## <<<<<<<<<<<<<<    NOTE: noWinBUGS detected    >>>>>>>>>>>>>>>>>\n\n")
+}
+ff
+cat("\n\n## <<<<<<<<<<<<<<    ", date(), "    >>>>>>>>>>>>>>>>>\n\n")
+for (topic in ff) {
+    cat("\n\n## START <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n")
     exampleDontRun(topic)
-
+    cat("\n## END   <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n\n")
+}

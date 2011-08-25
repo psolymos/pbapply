@@ -14,7 +14,7 @@
 ## Tutorial for dclone and related packages.
 * add general install tutorial (only JAGS?)
 * add examples from www and develop function to retrieve those
-  (or make .rda data files with .Rd pages?)
+  (or make .rda data files with .Rd pages?) --> dclone4
 
 ## *** dctests ***
 ## Package for testing dontrun examples in dclone and related packages.
@@ -22,10 +22,12 @@
 * OK -- dontrun dclone examples (needs regular updating before major release)
 * OK -- dcextras examples
 * dctutor examples
+now in devel dir, can run batch mode
 
 ## *** dcextras ***
 ## New package for not fully supprted and developmental stuff.
 * OK -- bugs.parfit: add to repo with enhanced examples
+* OK -- pairs method for mcmc.list
 
 ## *** dcglm ***
 ## Obsolete, now part of dctutor, retained in repo because of functions.
@@ -34,3 +36,4 @@
 ## dependent packages
 * add verbose text to function
 * OK -- add progress bar to functions
+* implement dclone4
