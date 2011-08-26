@@ -16,7 +16,7 @@ setClassUnion("dcFunction", c("NULL", "function"))
 setClassUnion("dcInits", c("NULL", "list", "function"))
 setClassUnion("dcModel", c("function", "character", "custommodel"))
 
-setClass("dcData", 
+setClass("dcBugs", 
     representation(
         data = "list",
         inits = "dcInits",
@@ -25,7 +25,7 @@ setClass("dcData",
         data = list(),
         inits = NULL,
         model = character(0)))
-setClass("dcFit", 
+setClass("dcFit",
     representation(
         params = "dcArgs",
         multiply = "dcArgs",
@@ -34,6 +34,7 @@ setClass("dcFit",
         updatefun = "dcFunction",
         initsfun = "dcFunction",
         flavour = "character"),
+    contains = "dcBugs",
     prototype = list(
         params = NULL,
         multiply = NULL,
@@ -42,13 +43,6 @@ setClass("dcFit",
         updatefun = NULL,
         initsfun = NULL,
         flavour = "jags"))
-setClass("dcExample", 
-    representation(
-        data = "dcData",
-        fit = "dcFit"),
-    prototype = list(
-        data = new("dcData"),
-        fit = new("dcFit")))
 setClass("dcModel", 
     representation(
         mcmc = "MCMClist",
@@ -117,26 +111,26 @@ names(rats0$data$x) <- paste("week", 1:5, sep=".")
 #mm <- dc.fit(rats$data, c("alpha0", "beta.c"), rats$model, NULL,
 #    n.clones = 1:5, multiply = "N", unchanged = c("T", "x"))
 
-rats <- new("dcExample")
-rats@data@data <- rats0$data
-rats@data@inits <- rats0$inits
-rats@data@model <- custommodel(rats0$model)
+rats <- new("dcFit")
+rats@data <- rats0$data
+rats@inits <- rats0$inits
+rats@model <- custommodel(rats0$model)
 
-rats@fit@params <- c("alpha0", "beta.c", "sigma.c", "sigma.alpha", "sigma.beta")
-rats@fit@multiply <- "N"
-rats@fit@unchanged <- c("T", "x")
-rats@fit@initsfun <- function(model, n.clones) {
-    dclone(rats@data@inits, n.clones,
+rats@params <- c("alpha0", "beta.c", "sigma.c", "sigma.alpha", "sigma.beta")
+rats@multiply <- "N"
+rats@unchanged <- c("T", "x")
+rats@initsfun <- function(model, n.clones) {
+    dclone(rats@inits, n.clones,
         unchanged=c("alpha0", "beta.c", "tau.c", "tau.alpha", "tau.beta"))
 }
 
 dcModel <- function(x, params, n.clones=1, cl=NULL, ...) {
     if (missing(params))
-        params <- x@fit@params
+        params <- x@params
     if (length(n.clones) == 1) {
-        inits <- x@data@inits
-        if (n.clones > 1 && !is.null(x@fit@initsfun)) {
-            initsfun <- match.fun(x@fit@initsfun)
+        inits <- x@inits
+        if (n.clones > 1 && !is.null(x@initsfun)) {
+            initsfun <- match.fun(x@initsfun)
             ARGS <- names(as.list(args(initsfun)))
             ARGS <- ARGS[1:max(2, length(ARGS)-1)]
             if (length(ARGS)==2)
@@ -144,37 +138,34 @@ dcModel <- function(x, params, n.clones=1, cl=NULL, ...) {
                     deparse(substitute(initsfun)), "(", 
                     ARGS[2], "=n.clones)", sep = "")))
         }
-        dat <- dclone(x@data@data, n.clones, x@fit@multiply, x@fit@unchanged)
-        if (x@fit@flavour == "jags" && is.null(cl))
-            out <- jags.fit(dat, params, x@data@model, inits, ...)
-        if (x@fit@flavour == "bugs" && is.null(cl))
-            out <- bugs.fit(dat, params, x@data@model, inits, ...)
-        if (x@fit@flavour == "jags" && !is.null(cl))
-            out <- jags.parfit(cl, dat, params, x@data@model, inits, ...)
-        if (x@fit@flavour == "bugs" && !is.null(cl))
-            stop("'bugs.parfit' not supported")
+        dat <- dclone(x@data, n.clones, x@multiply, x@unchanged)
+        if (x@flavour == "jags" && is.null(cl))
+            out <- jags.fit(dat, params, x@model, inits, ...)
+        if (x@flavour == "bugs" && is.null(cl))
+            out <- bugs.fit(dat, params, x@model, inits, ...)
+        if (x@flavour == "jags" && !is.null(cl))
+            out <- jags.parfit(cl, dat, params, x@model, inits, ...)
+        if (x@flavour == "bugs" && !is.null(cl))
+            stop("parallel chains with flavour='bugs' not supported")
     } else {
         if (is.null(cl)) {
-            out <- dc.fit(x@data@data, params, x@data@model, x@data@inits, 
+            out <- dc.fit(x@data, params, x@model, x@inits, 
                 n.clones = n.clones, 
-                multiply = x@fit@multiply, 
-                unchanged = x@fit@unchanged,
-                update = x@fit@update,
-                updatefun = x@fit@updatefun,
-                initsfun = x@fit@initsfun,
-                flavour = x@fit@flavour, ...)
+                multiply = x@multiply, 
+                unchanged = x@unchanged,
+                update = x@update,
+                updatefun = x@updatefun,
+                initsfun = x@initsfun,
+                flavour = x@flavour, ...)
         } else {
-            if (!is.null(x@fit@update))
-                warning("'update' argument not used in 'dc.parfit'")
-            if (!is.null(x@fit@updatefun))
-                warning("'updatefun' argument not used in 'dc.parfit'")
-            if (!is.null(x@fit@initsfun))
-                warning("'initsfun' argument not used in 'dc.parfit'")
-            out <- dc.parfit(cl, x@data@data, params, x@data@model, x@data@inits, 
+            out <- dc.parfit(cl, x@data, params, x@model, x@inits, 
                 n.clones = n.clones, 
-                multiply = x@fit@multiply, 
-                unchanged = x@fit@unchanged,
-                flavour = x@fit@flavour, ...)
+                multiply = x@multiply, 
+                unchanged = x@unchanged,
+                update = x@update,
+                updatefun = x@updatefun,
+                initsfun = x@initsfun,
+                flavour = x@flavour, ...)
         }
     }
     dcd <- try(dcdiag(out), silent=TRUE)
@@ -200,17 +191,6 @@ dcModel <- function(x, params, n.clones=1, cl=NULL, ...) {
     rval@n.clones <- nclones(out)
     rval
 }
-
-
-rats@fit@initsfun <- NULL
-rats@data@inits <- NULL
-res <- dcModel(rats, n.clones=1:3, n.iter=100)
-res@diag
-res@n.clones
-
-## add here asymptotics
-## plus dcdiag
-## and mcmc settings
 setMethod("show", "dcModel", function(object) {
     k <- object@n.clones
     if (is.null(k)) {
@@ -231,11 +211,20 @@ setMethod("show", "dcModel", function(object) {
     }
     invisible(object)
 })
+## add here asymptotics
+## plus dcdiag
+## and mcmc settings
 #setGeneric("start", function(x) standardGeneric("start"))
 #setMethod("start", "dcModel", function(x) start(x@mcmc))
 #setMethod("vcov", "dcModel", function(object) vcov(object@mcmc))
 #setMethod("confint", "dcModel", function(object) confint(object@mcmc))
 
+
+rats@initsfun <- NULL
+rats@inits <- NULL
+res <- dcModel(rats, n.clones=1:3, n.adapt=0, n.update=0, n.iter=100)
+res@diag
+res@n.clones
 res
 
 dcModel(rats, n.clones=1, n.iter=100)
@@ -245,6 +234,8 @@ dcModel(rats, n.clones=1:3, n.iter=100)
 cl <- makeSOCKcluster(3)
 dcModel(rats, n.clones=2, n.iter=1000, cl=cl)
 dcModel(rats, n.clones=1:3, n.iter=1000, cl=cl)
+dcModel(rats, n.clones=1:3, n.iter=1000, cl=cl, partype="parchains")
+dcModel(rats, n.clones=1:3, n.iter=1000, cl=cl, partype="both")
 stopCluster(cl)
 
 params <- x@params
