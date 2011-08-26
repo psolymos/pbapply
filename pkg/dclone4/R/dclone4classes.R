@@ -20,14 +20,14 @@ setClass("dcBugs",
     representation(
         data = "list",
         inits = "dcInits",
-        model = "dcModel"),
+        model = "dcModel",
+        params = "dcArgs"),
     prototype = list(
         data = list(),
         inits = NULL,
         model = character(0)))
 setClass("dcFit",
     representation(
-        params = "dcArgs",
         multiply = "dcArgs",
         unchanged = "dcArgs",
         update = "dcArgs",
@@ -62,6 +62,116 @@ setClass("dcModel",
         thin = numeric(0),
         n.chains = numeric(0),
         n.clones = NULL))
+setAs(from = "dcBugs", to = "dcFit", def = function(from) {
+    out <- new("dcFit")
+    out@data <- from@data
+    out@model <- from@model
+    out@inits <- from@inits
+    out@params <- from@params
+    out
+})
+setAs(from = "MCMClist", to = "dcModel", def = function(from) {
+    rval <- new("dcModel")
+    rval@mcmc <- from
+    if (!is.null(nclones(from))) {
+        coefs <- coef(from)
+        se <- dcsd(from)
+        zstat <- coefs/se
+        pval <- 2 * pnorm(-abs(zstat))
+        coefs <- cbind(coefs, se, zstat, pval)
+        colnames(coefs) <- c("Estimate", "Std. Error", "z value", "Pr(>|z|)")
+        rval@summary <- coefs
+    }
+    dcd <- try(dcdiag(from), silent=TRUE)
+    if (inherits(dcd, "try-error"))
+        dcd <- NULL
+    rval@diag <- dcd
+    rval@start <- start(from)
+    rval@end <- end(from)
+    rval@thin <- thin(from)
+    rval@n.chains <- length(from)
+    rval@n.clones <- nclones(from)
+    rval
+})
+dcModel <- function(x, params, n.clones=1, cl=NULL, ...) {
+    x <- as(x, "dcFit")
+    if (missing(params))
+        params <- x@params
+    if (length(n.clones) == 1) {
+        inits <- x@inits
+        if (n.clones > 1 && !is.null(x@initsfun)) {
+            initsfun <- match.fun(x@initsfun)
+            ARGS <- names(as.list(args(initsfun)))
+            ARGS <- ARGS[1:max(2, length(ARGS)-1)]
+            if (length(ARGS)==2)
+                eval(parse(text = paste("inits <- ", 
+                    deparse(substitute(initsfun)), "(", 
+                    ARGS[2], "=n.clones)", sep = "")))
+        }
+        dat <- dclone(x@data, n.clones, x@multiply, x@unchanged)
+        if (x@flavour == "jags" && is.null(cl))
+            out <- jags.fit(dat, params, x@model, inits, ...)
+        if (x@flavour == "bugs" && is.null(cl))
+            out <- bugs.fit(dat, params, x@model, inits, ...)
+        if (x@flavour == "jags" && !is.null(cl))
+            out <- jags.parfit(cl, dat, params, x@model, inits, ...)
+        if (x@flavour == "bugs" && !is.null(cl))
+            stop("parallel chains with flavour='bugs' not supported")
+    } else {
+        if (is.null(cl)) {
+            out <- dc.fit(x@data, params, x@model, x@inits, 
+                n.clones = n.clones, 
+                multiply = x@multiply, 
+                unchanged = x@unchanged,
+                update = x@update,
+                updatefun = x@updatefun,
+                initsfun = x@initsfun,
+                flavour = x@flavour, ...)
+        } else {
+            out <- dc.parfit(cl, x@data, params, x@model, x@inits, 
+                n.clones = n.clones, 
+                multiply = x@multiply, 
+                unchanged = x@unchanged,
+                update = x@update,
+                updatefun = x@updatefun,
+                initsfun = x@initsfun,
+                flavour = x@flavour, ...)
+        }
+    }
+    as(out, "dcModel")
+}
+setMethod("show", "dcModel", function(object) {
+    k <- object@n.clones
+    if (is.null(k)) {
+        print(summary(object@mcmc))
+    } else {
+        attributes(k) <- NULL
+        n <- data.frame(start=object@start, end=object@end, thin=object@thin,
+            n.iter=object@end-object@start+1,
+            n.chains=object@n.chains, n.clones=k)
+        digits <- max(3, getOption("digits") - 3)
+        cat("Object of class \"dcModel\"\n\n")
+        print(n, digits=digits, row.names=FALSE)
+        cat("\n")
+        printCoefmat(object@summary, digits = digits, signif.legend = TRUE)
+        cat("\n")
+        print(object@diag, digits=digits, row.names=FALSE)
+        cat("\n")
+    }
+    invisible(object)
+})
+setMethod("quantile", "dcModel", function(x, ...) quantile(x@mcmc, ...))
+setMethod("dctable", "dcModel", function(x, ...) dctable(x@mcmc, ...))
+setMethod("dcdiag", "dcModel", function(x, ...) dcdiag(x@mcmc, ...))
+setMethod("dcsd", "dcModel", function(object, ...) dcsd(object@mcmc, ...))
+setMethod("coef", "dcModel", function(object, ...) coef(object@mcmc, ...))
+setMethod("vcov", "dcModel", function(object, ...) vcov(object@mcmc, ...))
+setMethod("confint", "dcModel", function(object, parm, level = 0.95, ...) {
+    if (!inherits(object@mcmc, "mcmc.list.dc"))
+        stop("'confint' method not defined for k=1")
+    confint(object@mcmc, parm, level, ...)
+})
+
 
 rats0 <- list(
     data = list(N = 30, T = 5, 
@@ -124,100 +234,7 @@ rats@initsfun <- function(model, n.clones) {
         unchanged=c("alpha0", "beta.c", "tau.c", "tau.alpha", "tau.beta"))
 }
 
-dcModel <- function(x, params, n.clones=1, cl=NULL, ...) {
-    if (missing(params))
-        params <- x@params
-    if (length(n.clones) == 1) {
-        inits <- x@inits
-        if (n.clones > 1 && !is.null(x@initsfun)) {
-            initsfun <- match.fun(x@initsfun)
-            ARGS <- names(as.list(args(initsfun)))
-            ARGS <- ARGS[1:max(2, length(ARGS)-1)]
-            if (length(ARGS)==2)
-                eval(parse(text = paste("inits <- ", 
-                    deparse(substitute(initsfun)), "(", 
-                    ARGS[2], "=n.clones)", sep = "")))
-        }
-        dat <- dclone(x@data, n.clones, x@multiply, x@unchanged)
-        if (x@flavour == "jags" && is.null(cl))
-            out <- jags.fit(dat, params, x@model, inits, ...)
-        if (x@flavour == "bugs" && is.null(cl))
-            out <- bugs.fit(dat, params, x@model, inits, ...)
-        if (x@flavour == "jags" && !is.null(cl))
-            out <- jags.parfit(cl, dat, params, x@model, inits, ...)
-        if (x@flavour == "bugs" && !is.null(cl))
-            stop("parallel chains with flavour='bugs' not supported")
-    } else {
-        if (is.null(cl)) {
-            out <- dc.fit(x@data, params, x@model, x@inits, 
-                n.clones = n.clones, 
-                multiply = x@multiply, 
-                unchanged = x@unchanged,
-                update = x@update,
-                updatefun = x@updatefun,
-                initsfun = x@initsfun,
-                flavour = x@flavour, ...)
-        } else {
-            out <- dc.parfit(cl, x@data, params, x@model, x@inits, 
-                n.clones = n.clones, 
-                multiply = x@multiply, 
-                unchanged = x@unchanged,
-                update = x@update,
-                updatefun = x@updatefun,
-                initsfun = x@initsfun,
-                flavour = x@flavour, ...)
-        }
-    }
-    dcd <- try(dcdiag(out), silent=TRUE)
-    if (inherits(dcd, "try-error"))
-        dcd <- NULL
-    if (!identical(n.clones, 1)) {
-        coefs <- coef(out)
-        se <- dcsd(out)
-        zstat <- coefs/se
-        pval <- 2 * pnorm(-abs(zstat))
-        coefs <- cbind(coefs, se, zstat, pval)
-        colnames(coefs) <- c("Estimate", "Std. Error", "z value", "Pr(>|z|)")
-    }
-    rval <- new("dcModel")
-    rval@mcmc <- out
-    if (!identical(n.clones, 1))
-        rval@summary <- coefs
-    rval@diag <- dcd
-    rval@start <- start(out)
-    rval@end <- end(out)
-    rval@thin <- thin(out)
-    rval@n.chains <- length(out)
-    rval@n.clones <- nclones(out)
-    rval
-}
-setMethod("show", "dcModel", function(object) {
-    k <- object@n.clones
-    if (is.null(k)) {
-        print(summary(object@mcmc))
-    } else {
-        attributes(k) <- NULL
-        n <- data.frame(start=object@start, end=object@end, thin=object@thin,
-            n.iter=object@end-object@start+1,
-            n.chains=object@n.chains, n.clones=k)
-        digits <- max(3, getOption("digits") - 3)
-        cat("Object of class \"dcModel\"\n\n")
-        print(n, digits=digits, row.names=FALSE)
-        cat("\n")
-        printCoefmat(object@summary, digits = digits, signif.legend = TRUE)
-        cat("\n")
-        print(object@diag, digits=digits, row.names=FALSE)
-        cat("\n")
-    }
-    invisible(object)
-})
-## add here asymptotics
-## plus dcdiag
-## and mcmc settings
-#setGeneric("start", function(x) standardGeneric("start"))
-#setMethod("start", "dcModel", function(x) start(x@mcmc))
-#setMethod("vcov", "dcModel", function(object) vcov(object@mcmc))
-#setMethod("confint", "dcModel", function(object) confint(object@mcmc))
+
 
 
 rats@initsfun <- NULL
@@ -226,6 +243,8 @@ res <- dcModel(rats, n.clones=1:3, n.adapt=0, n.update=0, n.iter=100)
 res@diag
 res@n.clones
 res
+## this works, but not k>1
+dcModel(as(rats, "dcBugs"), n.adapt=0, n.update=0, n.iter=100)
 
 dcModel(rats, n.clones=1, n.iter=100)
 dcModel(rats, n.clones=2, n.iter=100)
