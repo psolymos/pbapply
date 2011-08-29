@@ -8,7 +8,7 @@ setClass("mcmc.list.dc", representation("VIRTUAL"))
 setClass("dctable", representation("VIRTUAL"))
 setClass("dcdiag", representation("VIRTUAL"))
 
-setClassUnion("n.clones", c("NULL", "numeric"))
+setClassUnion("nClones", c("NULL", "numeric"))
 setClassUnion("dcDiag", c("NULL", "dcdiag"))
 setClassUnion("MCMClist", c("mcmc", "mcmc.list", "mcmc.list.dc"))
 setClassUnion("dcArgs", c("NULL", "character"))
@@ -43,7 +43,7 @@ setClass("dcFit",
         updatefun = NULL,
         initsfun = NULL,
         flavour = "jags"))
-setClass("dcModel", 
+setClass("dcMle", 
     representation(
         mcmc = "MCMClist",
         summary = "matrix",
@@ -52,7 +52,8 @@ setClass("dcModel",
         end = "numeric",
         thin = "numeric",
         n.chains = "numeric",
-        n.clones = "n.clones"),
+        n.clones = "nClones"),
+#        k = "nClones"),
     prototype = list(
         mcmc = as.mcmc(matrix(0,0,0)),
         summary = matrix(0,0,0),
@@ -62,6 +63,7 @@ setClass("dcModel",
         thin = numeric(0),
         n.chains = numeric(0),
         n.clones = NULL))
+#        k = NULL))
 setAs(from = "dcBugs", to = "dcFit", def = function(from) {
     out <- new("dcFit")
     out@data <- from@data
@@ -70,8 +72,8 @@ setAs(from = "dcBugs", to = "dcFit", def = function(from) {
     out@params <- from@params
     out
 })
-setAs(from = "MCMClist", to = "dcModel", def = function(from) {
-    rval <- new("dcModel")
+setAs(from = "MCMClist", to = "dcMle", def = function(from) {
+    rval <- new("dcMle")
     rval@mcmc <- from
     if (!is.null(nclones(from))) {
         coefs <- coef(from)
@@ -91,9 +93,10 @@ setAs(from = "MCMClist", to = "dcModel", def = function(from) {
     rval@thin <- thin(from)
     rval@n.chains <- length(from)
     rval@n.clones <- nclones(from)
+#    rval@k <- nclones(from)
     rval
 })
-dcModel <- function(x, params, n.clones=1, cl=NULL, ...) {
+dcmle <- function(x, params, n.clones=1, cl=NULL, ...) {
     x <- as(x, "dcFit")
     if (missing(params))
         params <- x@params
@@ -138,10 +141,11 @@ dcModel <- function(x, params, n.clones=1, cl=NULL, ...) {
                 flavour = x@flavour, ...)
         }
     }
-    as(out, "dcModel")
+    as(out, "dcMle")
 }
-setMethod("show", "dcModel", function(object) {
+setMethod("show", "dcMle", function(object) {
     k <- object@n.clones
+#    k <- object@k
     if (is.null(k)) {
         print(summary(object@mcmc))
     } else {
@@ -150,7 +154,7 @@ setMethod("show", "dcModel", function(object) {
             n.iter=object@end-object@start+1,
             n.chains=object@n.chains, n.clones=k)
         digits <- max(3, getOption("digits") - 3)
-        cat("Object of class \"dcModel\"\n\n")
+        cat("Object of class \"", class(object)[1L], "\"\n\n", sep="")
         print(n, digits=digits, row.names=FALSE)
         cat("\n")
         printCoefmat(object@summary, digits = digits, signif.legend = TRUE)
@@ -160,17 +164,18 @@ setMethod("show", "dcModel", function(object) {
     }
     invisible(object)
 })
-setMethod("quantile", "dcModel", function(x, ...) quantile(x@mcmc, ...))
-setMethod("dctable", "dcModel", function(x, ...) dctable(x@mcmc, ...))
-setMethod("dcdiag", "dcModel", function(x, ...) dcdiag(x@mcmc, ...))
-setMethod("dcsd", "dcModel", function(object, ...) dcsd(object@mcmc, ...))
-setMethod("coef", "dcModel", function(object, ...) coef(object@mcmc, ...))
-setMethod("vcov", "dcModel", function(object, ...) vcov(object@mcmc, ...))
-setMethod("confint", "dcModel", function(object, parm, level = 0.95, ...) {
+setMethod("quantile", "dcMle", function(x, ...) quantile(x@mcmc, ...))
+setMethod("dctable", "dcMle", function(x, ...) dctable(x@mcmc, ...))
+setMethod("dcdiag", "dcMle", function(x, ...) dcdiag(x@mcmc, ...))
+setMethod("dcsd", "dcMle", function(object, ...) dcsd(object@mcmc, ...))
+setMethod("coef", "dcMle", function(object, ...) coef(object@mcmc, ...))
+setMethod("vcov", "dcMle", function(object, ...) vcov(object@mcmc, ...))
+setMethod("confint", "dcMle", function(object, parm, level = 0.95, ...) {
     if (!inherits(object@mcmc, "mcmc.list.dc"))
         stop("'confint' method not defined for k=1")
     confint(object@mcmc, parm, level, ...)
 })
+setMethod("nclones", "dcMle", function(x, ...) nclones(x@mcmc, ...))
 
 
 rats0 <- list(
@@ -239,9 +244,10 @@ rats@initsfun <- function(model, n.clones) {
 
 rats@initsfun <- NULL
 rats@inits <- NULL
-res <- dcModel(rats, n.clones=1:3, n.adapt=0, n.update=0, n.iter=100)
+res <- dcmle(rats, n.clones=1:3, n.adapt=0, n.update=0, n.iter=100)
 res@diag
 res@n.clones
+#res@k
 res
 ## this works, but not k>1
 dcModel(as(rats, "dcBugs"), n.adapt=0, n.update=0, n.iter=100)
