@@ -18,7 +18,7 @@ seed = NULL, ...)
 }
 \arguments{
   \item{data}{
-A list containing the data.
+A list (or environment) containing the data.
 }
   \item{params}{
 Character vector of parameters to be sampled.

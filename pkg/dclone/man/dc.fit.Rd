@@ -17,7 +17,7 @@ flavour = c("jags", "bugs"), ...)
 }
 \arguments{
   \item{data}{
-A named list (not environment) containing the data.
+A named list (or environment) containing the data.
 }
   \item{params}{
 Character vector of parameters to be sampled.

@@ -4,6 +4,7 @@
 \alias{dclone}
 \alias{dclone.default}
 \alias{dclone.list}
+\alias{dclone.environment}
 \alias{dclone.dcdim}
 \alias{dcdim}
 \title{
@@ -18,6 +19,8 @@ dclone(x, n.clones=1, ...)
 \method{dclone}{default}(x, n.clones = 1, attrib=TRUE, ...)
 \method{dclone}{dcdim}(x, n.clones = 1, attrib=TRUE, ...)
 \method{dclone}{list}(x, n.clones = 1, 
+multiply = NULL, unchanged = NULL, attrib=TRUE, ...)
+\method{dclone}{environment}(x, n.clones = 1, 
 multiply = NULL, unchanged = NULL, attrib=TRUE, ...)
 dcdim(x, drop = TRUE, perm = NULL)
 }
@@ -75,6 +78,9 @@ combination of the original names and an integer for number of clones.
 List (i.e. BUGS data objects) are handled differently to enable element specific
 determination of the mode of cloning. This can be done via the \code{unchanged}
 and \code{multiply} arguments, or by setting the behaviour by the \code{dcdim} function.
+
+Environments are coerced into a list, and return value is identical to
+\code{dclone(as.list(x), ...)}.
 }
 \references{
 Lele, S.R., B. Dennis and F. Lutscher, 2007.
@@ -110,6 +116,7 @@ dclone(dfr, 2)
 ## list
 (l <- list(n = 10, y = 1:10, x = 1:10, p = 1))
 dclone(l, 2)
+dclone(as.environment(l), 2)
 dclone(l, 2, attrib = FALSE)
 dclone(l, 2, multiply = "n", unchanged = "p")
 ## effect of dcdim

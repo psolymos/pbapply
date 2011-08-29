@@ -8,6 +8,10 @@ updated.model=TRUE, ...)
     if (n.adapt>0 && n.update==0)
         warnings("consider updating for independence after adaptation")
     ## inital steps
+    if (is.environment(data)) {
+        warnings("'data' was environment: it was coerced into a list")
+        data <- as.list(data)
+    }
     n.clones <- nclones.list(data)
     if (is.function(model) || inherits(model, "custommodel")) {
         if (is.function(model))

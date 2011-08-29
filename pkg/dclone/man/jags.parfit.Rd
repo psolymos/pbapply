@@ -18,7 +18,8 @@ jags.parfit(cl, data, params, model, inits = NULL, n.chains = 3, ...)
 A cluster object created by \code{\link[snow]{makeCluster}}.
 }
   \item{data}{
-A named list or environment containing the data. If an environment, data cloning might not work properly (has to be done manually).
+A named list or environment containing the data. If an environment, \code{data}
+is coerced into a list so cloning will work properly.
 }
   \item{params}{
 Character vector of parameters to be sampled.

@@ -39,8 +39,12 @@ partype=c("balancing", "parchains", "both"), ...)
             stop("'n.clones' argument must be provided")
         if (identical(n.clones, 1))
             stop("'n.clones = 1' gives the Bayesian answer, no need for DC")
-        if (is.environment(data))
-            stop("'data' should be list, not environment")
+#        if (is.environment(data))
+#            stop("'data' should be list, not environment")
+        if (is.environment(data)) {
+            warnings("'data' was environment: it was coerced into a list")
+            data <- as.list(data)
+        }
         ## determine k
         k <- n.clones[order(n.clones)]
         k <- unique(k)

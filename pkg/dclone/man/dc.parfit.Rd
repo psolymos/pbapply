@@ -19,7 +19,7 @@ partype=c("balancing", "parchains", "both"), ...)
 A cluster object created by \code{\link[snow]{makeCluster}}.
 }
   \item{data}{
-A named list (not environment) containing the data.
+A named list (or environment) containing the data.
 }
   \item{params}{
 Character vector of parameters to be sampled.

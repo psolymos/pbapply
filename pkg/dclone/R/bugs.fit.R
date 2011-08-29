@@ -2,6 +2,10 @@ bugs.fit <-
 function(data, params, model, inits=NULL, format=c("mcmc.list", "bugs"), 
 program=c("winbugs", "openbugs"), seed=NULL, ...)
 {
+    if (is.environment(data)) {
+        warnings("'data' was environment: it was coerced into a list")
+        data <- as.list(data)
+    }
     ## not case sensitive evaluation of program arg
     program <- match.arg(tolower(program), c("winbugs", "openbugs"))
     ## retrieves n.clones
