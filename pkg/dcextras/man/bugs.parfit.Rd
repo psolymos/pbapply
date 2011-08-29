@@ -19,7 +19,7 @@ seed, program=c("winbugs", "openbugs"), ...)
 A cluster object created by \code{\link[snow]{makeCluster}}.
 }
   \item{data}{
-A named list or environment containing the data. If an environment, data cloning might not work properly (has to be done manually).
+A named list or environment containing the data. If an environment, it is coerced to a list.
 }
   \item{params}{
 Character vector of parameters to be sampled.

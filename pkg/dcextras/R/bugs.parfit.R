@@ -3,6 +3,10 @@ function(cl, data, params, model, inits=NULL,
 n.chains = 3, seed,
 program=c("winbugs", "openbugs"), ...) ## only mcmc.list format is supported
 {
+    if (is.environment(data)) {
+        warnings("'data' was environment: it was coerced into a list")
+        data <- as.list(data)
+    }
     if (missing(seed))
         stop("'seed' must be provided")
     ## if all seed are the same
