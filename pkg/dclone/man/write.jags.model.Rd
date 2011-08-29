@@ -66,7 +66,7 @@ Original working directory is then restored.
 \code{custommodel} returns an object of class 'custommodel', which is a character vector.
 }
 \author{
-\enc{Pe'ter So'lymos}{Peter Solymos}, \email{solymos@ualberta.ca}
+Peter Solymos, \email{solymos@ualberta.ca}
 }
 \seealso{
 \code{\link[R2WinBUGS]{write.model}}, \code{\link{file.remove}}

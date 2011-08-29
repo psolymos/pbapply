@@ -44,7 +44,7 @@ Y <- rnorm(N, mean = linpred, sd = sigma)
 jdata <- list(N = N, Y = Y, x = x)
 ## what to monitor
 jpara <- c("alpha", "beta", "sigma")
-#### fit the model with JAGS
+## fit the model with JAGS
 regmod <- jags.fit(jdata, jpara, jfun, n.chains = 3)
 }
 }

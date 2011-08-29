@@ -87,7 +87,7 @@ is identical to size balancing. This splitting is non-deterministic (might not b
 Usually a list with results returned by the cluster.
 }
 \author{
-\enc{Pe'ter So'lymos}{Peter Solymos}, \email{solymos@ualberta.ca}
+Peter Solymos, \email{solymos@ualberta.ca}
 }
 \seealso{
 Size balancing: \code{\link{parLapplySB}}, \code{\link{parLapplySLB}}

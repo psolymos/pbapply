@@ -56,7 +56,7 @@ to the workers. See Examples.
 An \code{mcmc.list} object.
 }
 \author{
-\enc{Pe'ter So'lymos}{Peter Solymos}, \email{solymos@ualberta.ca}
+Peter Solymos, \email{solymos@ualberta.ca}
 }
 \seealso{
 \code{\link[dclone]{jags.fit}}

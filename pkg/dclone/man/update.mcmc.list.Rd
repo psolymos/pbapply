@@ -43,7 +43,7 @@ Other arguments passed to \code{\link[rjags]{coda.samples}}.
 \details{
 \code{updated.model} can be used to retrieve the updated model
 from an MCMC object fitted via the function \code{\link{jags.fit}}.
-The \code{autoupdate} is a wrapper for this purpose, specifically designed
+The \code{update} method is a wrapper for this purpose, specifically designed
 for the case when MCMC convergence is problematic. A function
 is evaluated on the updated model in each iteration of the updating process,
 and an MCMC object is returned when iteration ends, or when the evaluated
@@ -57,10 +57,10 @@ shorter then \code{times}, values are recycled.
 and sampling. This can be further updated by the function \code{\link[rjags]{update.jags}}
 and sampled by \code{\link[rjags]{coda.samples}} if convergence diagnostics were not satisfactory.
 
-\code{autoupdate} returns an MCMC object with \code{"updated.model"} attribute.
+\code{update} returns an MCMC object with \code{"updated.model"} attribute.
 }
 \author{
-\enc{Pe'ter So'lymos}{Peter Solymos}, \email{solymos@ualberta.ca}
+Peter Solymos, \email{solymos@ualberta.ca}
 }
 \seealso{
 \code{\link{jags.fit}}, \code{\link[rjags]{coda.samples}}

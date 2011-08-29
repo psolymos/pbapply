@@ -40,12 +40,12 @@ Main functions include:
 
 }
 \author{
-Author: \enc{Pe'ter So'lymos}{Peter Solymos}
+Author: Peter Solymos
 
-Maintainer: \enc{Pe'ter So'lymos}{Peter Solymos}, \email{solymos@ualberta.ca}
+Maintainer: Peter Solymos, \email{solymos@ualberta.ca}
 }
 \references{
-\enc{So'lymos}{Solymos}, P., 2010. dclone: Data Cloning in R.
+Solymos, P., 2010. dclone: Data Cloning in R.
 \emph{The R Journal} \strong{2(2)}, 29--37.
 URL: \url{http://journal.r-project.org/archive/2010-2/RJournal_2010-2_Solymos.pdf}
 

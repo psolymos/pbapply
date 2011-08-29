@@ -109,12 +109,12 @@ Estimability and likelihood inference for generalized linear mixed models using 
 \emph{Journal of the American Statistical Association}
 \strong{105}, 1617--1625.
 
-\enc{So'lymos}{Solymos}, P., 2010. dclone: Data Cloning in R.
+Solymos, P., 2010. dclone: Data Cloning in R.
 \emph{The R Journal} \strong{2(2)}, 29--37.
 URL: \url{http://journal.r-project.org/archive/2010-2/RJournal_2010-2_Solymos.pdf}
 }
 \author{
-\enc{Pe'ter So'lymos}{Peter Solymos}, \email{solymos@ualberta.ca}, 
+Peter Solymos, \email{solymos@ualberta.ca}, 
 implementation is based on many discussions with Khurram Nadeem and Subhash Lele.
 }
 \seealso{

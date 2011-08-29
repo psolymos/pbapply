@@ -37,7 +37,7 @@ Tags are the following:
   \item{verbose}{numeric, should output be verbose (>0) or not (0), default is 1.}
 }
 \author{
-\enc{Pe'ter So'lymos}{Peter Solymos}, \email{solymos@ualberta.ca}
+Peter Solymos, \email{solymos@ualberta.ca}
 }
 \examples{
 ## set LB option, but store old value
