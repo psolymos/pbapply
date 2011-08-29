@@ -28,7 +28,7 @@ partype=c("balancing", "parchains", "both"), ...)
     }
     ## multiple parallel chains
     if (partype == "parchains") {
-        mod <- dclone:::dcFit(data, params, model, inits, n.clones, 
+        mod <- dclone:::.dcFit(data, params, model, inits, n.clones, 
             multiply=multiply, unchanged=unchanged, 
             update=update, updatefun=updatefun, 
             initsfun=initsfun, flavour = flavour, 

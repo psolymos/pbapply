@@ -1,5 +1,5 @@
 ## stop.if.converged = FALSE arg to break when all dcdiag criteria are met
-dcFit <- 
+.dcFit <- 
 function(data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL, 
 update=NULL, updatefun=NULL, initsfun=NULL, flavour = c("jags", "bugs"), 
 cl=NULL, parchains=FALSE, ...)

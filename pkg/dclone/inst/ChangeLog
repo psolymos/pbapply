@@ -10,15 +10,15 @@ Version 1.3-5, August 23, 2011
     * dc.parfit gained args (update, updatefun, initsfun)
       which are ignored if type is not "parchains".
     * dc.fit and dc.parfit (with "parchains" type)
-      now call new function dcFit (former dc.fit reworked
+      now call new internal function .dcFit (former dc.fit reworked
       to allow parallel chains via jags.parfit).
       This function is not exported by namespace, thus
       not user visible and undocumented.
     * dclone is loaded to workers by snowWrapper
       only if .packages() does not contain it yet.
+    * dclone method for environmet added: it returns a cloned list.
     * data argument can be environment,
       it is coerced to a list for handling n.clones attribute.
-    * dclone method for environmet added: it returns a cloned list.
 
 Version 1.3-4, July 9, 2011
     * dc.fit: updating fixed (only updated after 2nd iteration).
