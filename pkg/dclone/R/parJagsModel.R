@@ -14,13 +14,12 @@ inits, n.chains = 1, n.adapt=1000, quiet=FALSE)
         n.adapt = 0)$state(internal = TRUE)
     cldata <- list(file=file, data=as.list(data), inits=inits,
         n.adapt=n.adapt, name=deparse(substitute(name)), quiet=quiet)
-#    .DcloneEnv <- new.env(hash = FALSE, parent = .GlobalEnv)
     jagsparallel <- function(i) {
-        .DcloneEnv <- get(".DcloneEnv", envir=.GlobalEnv)
-        res <- jags.model(file=.DcloneEnv$file, data=.DcloneEnv$data, 
-            inits=.DcloneEnv$inits[[i]], n.chains=1,
-            n.adapt=.DcloneEnv$n.adapt, quiet=.DcloneEnv$quiet)
-        assign(.DcloneEnv$name, res, envir=.GlobalEnv)
+        cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
+        res <- jags.model(file=cldata$file, data=cldata$data, 
+            inits=cldata$inits[[i]], n.chains=1,
+            n.adapt=cldata$n.adapt, quiet=cldata$quiet)
+        assign(cldata$name, res, envir=.GlobalEnv)
         NULL
     }
     dir <- if (inherits(cl, "SOCKcluster")) 

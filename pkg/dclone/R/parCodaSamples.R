@@ -1,13 +1,13 @@
 parCodaSamples <-
 function(cl, model, variable.names = NULL, n.iter, thin = 1, ...) 
 {
-#    .DcloneEnv <- new.env(hash = FALSE, parent = .GlobalEnv)
     cldata <- list(variable.names=variable.names,
         n.iter=n.iter, thin=thin, name=deparse(substitute(model)))
     jagsparallel <- function(i, ...) {
-        res <- get(.DcloneEnv$name, envir=.GlobalEnv)
-        res <- coda.samples(res, variable.names=.DcloneEnv$variable.names,
-            n.iter=.DcloneEnv$n.iter, thin=.DcloneEnv$thin, ...)
+        cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
+        res <- get(cldata$name, envir=.GlobalEnv)
+        res <- coda.samples(res, variable.names=cldata$variable.names,
+            n.iter=cldata$n.iter, thin=cldata$thin, ...)
         res
     }
     dir <- if (inherits(cl, "SOCKcluster")) 

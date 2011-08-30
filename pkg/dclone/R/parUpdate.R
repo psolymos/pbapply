@@ -1,12 +1,12 @@
 parUpdate <-
 function(cl, object, n.iter = 1, ...) 
 {
-#    .DcloneEnv <- new.env(hash = FALSE, parent = .GlobalEnv)
     cldata <- list(n.iter=n.iter, name=deparse(substitute(object)))
     jagsparallel <- function(i, ...) {
-        res <- get(.DcloneEnv$name, envir=.GlobalEnv)
-        rjags:::update.jags(res, n.iter=.DcloneEnv$n.iter, ...)
-        assign(.DcloneEnv$name, res, envir=.GlobalEnv)
+        cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
+        res <- get(cldata$name, envir=.GlobalEnv)
+        rjags:::update.jags(res, n.iter=cldata$n.iter, ...)
+        assign(cldata$name, res, envir=.GlobalEnv)
         NULL
     }
     dir <- if (inherits(cl, "SOCKcluster"))
