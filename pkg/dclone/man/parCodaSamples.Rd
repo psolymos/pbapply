@@ -50,6 +50,7 @@ Y <- rnorm(N, mean = linpred, sd = sigma)
 jdata <- list(N = N, Y = Y, x = x)
 jpara <- c("alpha", "beta", "sigma")
 #model <- write.jags.model(jfun)
+model <- jfun
 ## jags model on parallel workers
 cl <- makeSOCKcluster(3)
 parJagsModel(cl, name=res, file=model, data=jdata, 

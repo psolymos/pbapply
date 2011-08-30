@@ -6,8 +6,8 @@ inits, n.chains = 1, n.adapt=1000, quiet=FALSE)
         stop("length(cl) must equal n.chains")
     if (is.function(file) || inherits(file, "custommodel")) {
         if (is.function(file))
-            model <- match.fun(file)
-        model <- write.jags.model(file)
+            file <- match.fun(file)
+        file <- write.jags.model(file)
         on.exit(try(clean.jags.model(file)))
     }
     inits <- jags.model(file, data, inits, n.chains, 
@@ -15,17 +15,16 @@ inits, n.chains = 1, n.adapt=1000, quiet=FALSE)
     cldata <- list(file=file, data=as.list(data), inits=inits,
         n.adapt=n.adapt, name=deparse(substitute(name)), quiet=quiet)
     jagsparallel <- function(i) {
-        res <- jags.model(file=cldata$file, data=cldata$data, 
-            inits=cldata$inits[[i]], n.chains=1,
-            n.adapt=cldata$n.adapt, quiet=cldata$quiet)
-        assign(cldata$name, res, envir=.GlobalEnv)
+        res <- jags.model(file=.DcloneEnv$file, data=.DcloneEnv$data, 
+            inits=.DcloneEnv$inits[[i]], n.chains=1,
+            n.adapt=.DcloneEnv$n.adapt, quiet=.DcloneEnv$quiet)
+        assign(.DcloneEnv$name, res, envir=.GlobalEnv)
         NULL
     }
     dir <- if (inherits(cl, "SOCKcluster")) 
         getwd() else NULL
-    snowWrapper(cl, 1:n.chains, jagsparallel, cldata, 
-        lib = "rjags", balancing = "none", size = 1, 
+    snowWrapper(cl, 1:n.chains, jagsparallel, cldata, name=NULL,
+        lib = "dclone", balancing = "none", size = 1, 
         rng.type = getOption("dcoptions")$RNG, 
-        cleanup = FALSE, dir = dir)
+        cleanup = FALSE, dir = dir, unload=FALSE)
 }
-

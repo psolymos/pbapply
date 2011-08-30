@@ -45,12 +45,12 @@ function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
         "load" else "none"
     dir <- if (inherits(cl, "SOCKcluster"))
         getwd() else NULL
-    ## do the work, dclone loaded only if not yet there
-    lib <- if ("dclone" %in% clusterEvalQ(cl, .packages())[[1]])
-        NULL else "dclone"
-    mcmc <- snowWrapper(cl, 1:n.chains, jagsparallel, cldata, lib=lib,
-        balancing=balancing, size=1, 
-        rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, ...)
+    ## do the work, dclone loaded only if not yet there  -- went into snowWrapper
+#    lib <- if ("dclone" %in% clusterEvalQ(cl, .packages())[[1]])
+#        NULL else "dclone"
+    mcmc <- snowWrapper(cl, 1:n.chains, jagsparallel, cldata, name=NULL,
+        lib="dclone", balancing=balancing, size=1, 
+        rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, unload=FALSE, ...)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))
     ## attaching attribs and return

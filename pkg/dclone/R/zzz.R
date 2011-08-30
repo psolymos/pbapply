@@ -15,12 +15,14 @@
     ver <- read.dcf(file=system.file("DESCRIPTION", package=pkgname), 
         fields=c("Version", "Date"))
     packageStartupMessage(paste(pkgname, ver[1], "\t", ver[2], "\n"))
+    .DcloneEnv <- new.env(hash = FALSE, parent = .GlobalEnv)
     invisible(NULL)
 }
 
 .onUnload <- function(libpath){
     ## remove dcoptions
     options("dcoptions"=NULL)
+    rm(.DcloneEnv)
     invisible(NULL)
 }
 

@@ -78,13 +78,10 @@ partype=c("balancing", "parchains", "both"), ...)
             "size" else "both"
         dir <- if (inherits(cl, "SOCKcluster"))
             getwd() else NULL
-        ## dclone loaded only if not yet there
-        lib <- if ("dclone" %in% clusterEvalQ(cl, .packages())[[1]])
-            NULL else "dclone"
-
-## TODO: handle jags.fit arguments to avoid 'matched by multiple actual arguments'
-
-        ## size balancing
+        ## dclone loaded only if not yet there -- went into snowWrapper
+#        lib <- if ("dclone" %in% clusterEvalQ(cl, .packages())[[1]])
+#            NULL else "dclone"
+       ## size balancing
         if (partype == "balancing") {
             ## parallel function
             dcparallel <- function(i, ...) {
@@ -99,9 +96,9 @@ partype=c("balancing", "parchains", "both"), ...)
                     return(mod) else return(list(dct=dclone:::extractdctable(mod), 
                         dcd=dclone:::extractdcdiag(mod)))
             }
-            pmod <- snowWrapper(cl, k, dcparallel, cldata, lib=lib, 
+            pmod <- snowWrapper(cl, k, dcparallel, cldata, name=NULL, lib="dclone", 
                 balancing=balancing, size=k, 
-                rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, ...)
+                rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, unload=FALSE, ...)
             mod <- pmod[[times]]
             ## dctable
             dct <- lapply(1:(times-1), function(i) pmod[[i]]$dct)
@@ -118,9 +115,9 @@ partype=c("balancing", "parchains", "both"), ...)
                     n.adapt=0, n.update=0, n.iter=0)$state(internal=TRUE)
             }
             ## snowWrapper with cleanup (but cldata changes, has to be passed again)
-            pini <- snowWrapper(cl, k, dcinits, cldata, lib=lib, 
+            pini <- snowWrapper(cl, k, dcinits, cldata, name=NULL, lib="dclone", 
                 balancing=balancing, size=k, 
-                rng.type=getOption("dcoptions")$RNG, cleanup=FALSE, dir=dir, ...)
+                rng.type=getOption("dcoptions")$RNG, cleanup=FALSE, dir=dir, unload=FALSE, ...)
             cldata$inits <- do.call("c", pini)
             nch <- list(...)$n.chains
             if (is.null(nch))
@@ -133,9 +130,9 @@ partype=c("balancing", "parchains", "both"), ...)
                     inits=cldata$inits[[i]], n.chains=1, updated.model=FALSE, ...)
             }
             ## no dclone loaded as it is there
-            pmod <- snowWrapper(cl, 1:(times*nch), dcparallel, cldata, lib=NULL, 
+            pmod <- snowWrapper(cl, 1:(times*nch), dcparallel, cldata, name=NULL, lib=NULL, 
                 balancing=balancing, size=cldata$k, 
-                rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, ...)
+                rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, unload=FALSE, ...)
             ## binding the chains for each k value
             assemblyfun <- function(mcmc) {
                 n.clones <- nclones(mcmc)

@@ -28,6 +28,13 @@ Version 1.3-5, August 23, 2011
       parListFactories, parSetFactory, parJagsModel,
       parCodaSamples, parUpdate; with help pages taken and edited from
       rjags package of M Plummer.
+    * .DcloneEnv is created at startup, and removed on unloading 
+      dclone. This is intended to store temporary stuff passed
+      to workers by snowWrapper.
+    * snowWrapper got new argument: unload=FALSE to unload
+      packaged from pkg argument.
+    * snowWrapper: if name=NULL, .DcloneEnv is used to store
+      temporary data.
 
 Version 1.3-4, July 9, 2011
     * dc.fit: updating fixed (only updated after 2nd iteration).
