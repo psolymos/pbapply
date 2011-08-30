@@ -1,5 +1,3 @@
-.DcloneEnv <- new.env(hash = FALSE, parent = .GlobalEnv)
-
 .onAttach <- function(libname, pkgname){
     ## dcoptions setup
     if (is.null(getOption("dcoptions")))
