@@ -19,6 +19,15 @@ Version 1.3-5, August 23, 2011
     * dclone method for environmet added: it returns a cloned list.
     * data argument can be environment,
       it is coerced to a list for handling n.clones attribute.
+    * jags.fit: quiet argument of jags.model used along with
+      verbose dcoption to possibly suppress printout 
+      during compilation.
+    * Parallel functionality added replicating main rjags functions
+      to allow easy updating of jags model objects.
+      FUnctions added: parListModules, parLoadModule, parUnloadModule,
+      parListFactories, parSetFactory, parJagsModel,
+      parCodaSamples, parUpdate; with help pages taken and edited from
+      rjags package of M Plummer.
 
 Version 1.3-4, July 9, 2011
     * dc.fit: updating fixed (only updated after 2nd iteration).
