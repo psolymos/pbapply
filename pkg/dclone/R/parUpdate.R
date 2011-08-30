@@ -1,6 +1,7 @@
 parUpdate <-
 function(cl, object, n.iter = 1, ...) 
 {
+#    .DcloneEnv <- new.env(hash = FALSE, parent = .GlobalEnv)
     cldata <- list(n.iter=n.iter, name=deparse(substitute(object)))
     jagsparallel <- function(i, ...) {
         res <- get(.DcloneEnv$name, envir=.GlobalEnv)

@@ -14,6 +14,7 @@ inits, n.chains = 1, n.adapt=1000, quiet=FALSE)
         n.adapt = 0)$state(internal = TRUE)
     cldata <- list(file=file, data=as.list(data), inits=inits,
         n.adapt=n.adapt, name=deparse(substitute(name)), quiet=quiet)
+#    .DcloneEnv <- new.env(hash = FALSE, parent = .GlobalEnv)
     jagsparallel <- function(i) {
         res <- jags.model(file=.DcloneEnv$file, data=.DcloneEnv$data, 
             inits=.DcloneEnv$inits[[i]], n.chains=1,

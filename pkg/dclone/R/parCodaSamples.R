@@ -1,6 +1,7 @@
 parCodaSamples <-
 function(cl, model, variable.names = NULL, n.iter, thin = 1, ...) 
 {
+#    .DcloneEnv <- new.env(hash = FALSE, parent = .GlobalEnv)
     cldata <- list(variable.names=variable.names,
         n.iter=n.iter, thin=thin, name=deparse(substitute(model)))
     jagsparallel <- function(i, ...) {

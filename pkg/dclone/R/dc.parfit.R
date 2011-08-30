@@ -71,6 +71,7 @@ partype=c("balancing", "parchains", "both"), ...)
             }
         }
         ## common data 
+#        .DcloneEnv <- new.env(hash = FALSE, parent = .GlobalEnv)
         cldata <- list(data=data, params=params, model=model, inits=inits,
             multiply=multiply, unchanged=unchanged, k=k)
         ## parallel computations
@@ -85,11 +86,11 @@ partype=c("balancing", "parchains", "both"), ...)
         if (partype == "balancing") {
             ## parallel function
             dcparallel <- function(i, ...) {
-                jdat <- dclone(cldata$data, i, multiply=cldata$multiply, unchanged=cldata$unchanged)
+                jdat <- dclone(.DcloneEnv$data, i, multiply=.DcloneEnv$multiply, unchanged=.DcloneEnv$unchanged)
                 mod <- if (flavour == "jags") {
-                    jags.fit(data=jdat, params=cldata$params, model=cldata$model, inits=cldata$inits, ...)
+                    jags.fit(data=jdat, params=.DcloneEnv$params, model=.DcloneEnv$model, inits=.DcloneEnv$inits, ...)
                 } else {
-                    bugs.fit(data=jdat, params=cldata$params, model=cldata$model, inits=cldata$inits, 
+                    bugs.fit(data=jdat, params=.DcloneEnv$params, model=.DcloneEnv$model, inits=.DcloneEnv$inits, 
                         format="mcmc.list", ...)
                 }
                 if (i == max(k))
@@ -110,8 +111,8 @@ partype=c("balancing", "parchains", "both"), ...)
         } else {
             ## RNG and initialization
             dcinits <- function(i, ...) {
-                jdat <- dclone(cldata$data, i, multiply=cldata$multiply, unchanged=cldata$unchanged)
-                jags.fit(data=jdat, params=cldata$params, model=cldata$model, inits=cldata$inits,
+                jdat <- dclone(.DcloneEnv$data, i, multiply=.DcloneEnv$multiply, unchanged=.DcloneEnv$unchanged)
+                jags.fit(data=jdat, params=.DcloneEnv$params, model=.DcloneEnv$model, inits=.DcloneEnv$inits,
                     n.adapt=0, n.update=0, n.iter=0)$state(internal=TRUE)
             }
             ## snowWrapper with cleanup (but cldata changes, has to be passed again)
@@ -125,9 +126,9 @@ partype=c("balancing", "parchains", "both"), ...)
             cldata$k <- rep(k, each=nch)
             ## parallel function to evaluate by snowWrapper
             dcparallel <- function(i, ...) {
-                jdat <- dclone(cldata$data, cldata$k[i], multiply=cldata$multiply, unchanged=cldata$unchanged)
-                jags.fit(data=jdat, params=cldata$params, model=cldata$model, 
-                    inits=cldata$inits[[i]], n.chains=1, updated.model=FALSE, ...)
+                jdat <- dclone(.DcloneEnv$data, .DcloneEnv$k[i], multiply=.DcloneEnv$multiply, unchanged=.DcloneEnv$unchanged)
+                jags.fit(data=jdat, params=.DcloneEnv$params, model=.DcloneEnv$model, 
+                    inits=.DcloneEnv$inits[[i]], n.chains=1, updated.model=FALSE, ...)
             }
             ## no dclone loaded as it is there
             pmod <- snowWrapper(cl, 1:(times*nch), dcparallel, cldata, name=NULL, lib=NULL, 

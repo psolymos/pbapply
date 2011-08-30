@@ -29,12 +29,13 @@ function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
     inits <- jags.fit(data, params, model, inits, n.chains,
         n.adapt=0, n.update=0, n.iter=0)$state(internal=TRUE)
     ## common data to cluster
+#    .DcloneEnv <- new.env(hash = FALSE, parent = .GlobalEnv)
     cldata <- list(data=data, params=params, model=model, inits=inits)
     ## parallel function to evaluate by snowWrapper
     jagsparallel <- function(i, ...)   {
-        jags.fit(data=cldata$data, params=cldata$params, 
-            model=cldata$model, 
-            inits=cldata$inits[[i]], n.chains=1, updated.model=FALSE, ...)
+        jags.fit(data=.DcloneEnv$data, params=.DcloneEnv$params, 
+            model=.DcloneEnv$model, 
+            inits=.DcloneEnv$inits[[i]], n.chains=1, updated.model=FALSE, ...)
     }
     if (trace) {
         cat("\nParallel computation in progress\n\n")
