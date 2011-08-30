@@ -10,9 +10,9 @@ Parallel wrapper function to call from within a function
 designed to work closely with MCMC fitting functions (can be called from inside of a function).
 }
 \usage{
-snowWrapper(cl, seq, fun, cldata, name = "cldata", lib = NULL, evalq=NULL,
-size = 1, balancing = c("none", "load", "size", "both"), dir = NULL, 
-rng.type = c("none", "RNGstream", "SPRNG"), cleanup = TRUE, ...)
+snowWrapper(cl, seq, fun, cldata, name = "cldata", lib = NULL, dir = NULL, evalq=NULL,
+size = 1, balancing = c("none", "load", "size", "both"), 
+rng.type = c("none", "RNGstream", "SPRNG"), cleanup = TRUE, unload = FALSE, ...)
 }
 \arguments{
   \item{cl}{
@@ -34,7 +34,11 @@ Data in \code{cldata} can be used by \code{fun}.
 Character, the name of \code{cldata} as to be assigned to the global environment and used in \code{fun}.
 }
   \item{lib}{
-Character, name of package(s). Optionally packages can be loaded onto the cluster. More than one package can be specified as character vector.
+Character, name of package(s). Optionally packages can be loaded onto the cluster. More than one package can be specified as character vector. Packages already loaded are skipped.
+}
+  \item{dir}{
+Working directory to use, if \code{NULL} working directory is not set on workers (default).
+Can be a vector to set different directories on workers.
 }
   \item{evalq}{
 Character, expressions to evaluate, e.g. for changing global options (passed to \code{\link[snow]{clusterEvalQ}}).
@@ -46,15 +50,15 @@ Character, type of balancing to perform (see Details).
   \item{size}{
 Vector of problem sizes (or relative performance information) corresponding to elements of \code{seq} (recycled if needed). The default \code{1} indicates equality of problem sizes.
 }
-  \item{dir}{
-Working directory to use, if \code{NULL} working directory is not set on workers (default).
-}
   \item{rng.type}{
 Character, \code{"none"} or the type of RNG on the workers (see \code{\link[snow]{clusterSetupRNG}}).
 }
   \item{cleanup}{
 logical, if \code{cldata} should be removed from the workers after applying \code{fun}.
-If \code{TRUE}, effects of \code{lib} and \code{dir} arguments are also cleaned up.
+If \code{TRUE}, effects of \code{dir} argument is also cleaned up.
+}
+  \item{unload}{
+logical, if \code{pkg} should be unloaded after applying \code{fun}.
 }
   \item{\dots}{
 Other arguments of \code{fun}, that are simple values and not objects. (Arguments passed as objects should be specified in \code{cldata}, otherwise not exported to the cluster.)
