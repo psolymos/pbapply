@@ -16,7 +16,7 @@ must correspond to \code{n.chains}.}
 \item{file}{the name of the file containing a description of the model in the
 JAGS dialect of the BUGS language.
 Alternatively, \code{file} can be a readable text-mode connection,
-or a complete URL.}
+or a complete URL. It can be also a function or a \code{\link{custommodel}} object.}
 \item{data}{a list or environment containing the data. Any numeric
 objects in \code{data} corresponding to node arrays used in
 \code{file} are taken to represent the values of observed nodes

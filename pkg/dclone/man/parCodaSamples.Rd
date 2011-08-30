@@ -49,14 +49,14 @@ linpred <- model.matrix(~x) \%*\% c(alpha, beta)
 Y <- rnorm(N, mean = linpred, sd = sigma)
 jdata <- list(N = N, Y = Y, x = x)
 jpara <- c("alpha", "beta", "sigma")
-model <- write.jags.model(jfun)
+#model <- write.jags.model(jfun)
 ## jags model on parallel workers
 cl <- makeSOCKcluster(3)
 parJagsModel(cl, name=res, file=model, data=jdata, 
     n.chains = 3, n.adapt=1000)
 parUpdate(cl, res, n.iter=1000)
 m <- parCodaSamples(cl, res, jpara, n.iter=2000)
-clean.jags.model(model)
+#clean.jags.model(model)
 stopCluster(cl)
 }
 }

@@ -4,6 +4,12 @@ inits, n.chains = 1, n.adapt=1000, quiet=FALSE)
 {
     if (length(cl) != n.chains)
         stop("length(cl) must equal n.chains")
+    if (is.function(file) || inherits(file, "custommodel")) {
+        if (is.function(file))
+            model <- match.fun(file)
+        model <- write.jags.model(file)
+        on.exit(try(clean.jags.model(file)))
+    }
     inits <- jags.model(file, data, inits, n.chains, 
         n.adapt = 0)$state(internal = TRUE)
     cldata <- list(file=file, data=as.list(data), inits=inits,
