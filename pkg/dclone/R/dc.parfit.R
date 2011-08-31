@@ -97,8 +97,8 @@ partype=c("balancing", "parchains", "both"), ...)
                     return(mod) else return(list(dct=dclone:::extractdctable(mod), 
                         dcd=dclone:::extractdcdiag(mod)))
             }
-            pmod <- snowWrapper(cl, k, dcparallel, cldata, name=NULL, lib="dclone", 
-                balancing=balancing, size=k, 
+            pmod <- snowWrapper(cl, k, dcparallel, cldata, name=NULL, use.env=TRUE,
+                lib="dclone", balancing=balancing, size=k, 
                 rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, unload=FALSE, ...)
             mod <- pmod[[times]]
             ## dctable
@@ -117,9 +117,9 @@ partype=c("balancing", "parchains", "both"), ...)
                     n.adapt=0, n.update=0, n.iter=0)$state(internal=TRUE)
             }
             ## snowWrapper with cleanup (but cldata changes, has to be passed again)
-            pini <- snowWrapper(cl, k, dcinits, cldata, name=NULL, lib="dclone", 
-                balancing=balancing, size=k, 
-                rng.type=getOption("dcoptions")$RNG, cleanup=FALSE, dir=dir, unload=FALSE, ...)
+            pini <- snowWrapper(cl, k, dcinits, cldata, name=NULL, use.env=TRUE,
+                lib="dclone", balancing=balancing, size=k, 
+                rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, unload=FALSE, ...)
             cldata$inits <- do.call("c", pini)
             nch <- list(...)$n.chains
             if (is.null(nch))
@@ -133,8 +133,8 @@ partype=c("balancing", "parchains", "both"), ...)
                     inits=cldata$inits[[i]], n.chains=1, updated.model=FALSE, ...)
             }
             ## no dclone loaded as it is there
-            pmod <- snowWrapper(cl, 1:(times*nch), dcparallel, cldata, name=NULL, lib=NULL, 
-                balancing=balancing, size=cldata$k, 
+            pmod <- snowWrapper(cl, 1:(times*nch), dcparallel, cldata, name=NULL, use.env=TRUE,
+                lib=NULL, balancing=balancing, size=cldata$k, 
                 rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, unload=FALSE, ...)
             ## binding the chains for each k value
             assemblyfun <- function(mcmc) {

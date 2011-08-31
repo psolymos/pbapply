@@ -11,9 +11,10 @@ function(cl, object, n.iter = 1, ...)
     }
     dir <- if (inherits(cl, "SOCKcluster"))
         getwd() else NULL
-    snowWrapper(cl, 1:length(cl), jagsparallel, cldata, name=NULL,
+    snowWrapper(cl, 1:length(cl), jagsparallel, cldata,
+        name=NULL, use.env=TRUE,
         lib = "dclone", balancing = "none", size = 1, 
         rng.type = getOption("dcoptions")$RNG, 
-        cleanup = FALSE, dir = dir, unload=FALSE, ...)
+        cleanup = TRUE, dir = dir, unload=FALSE, ...)
 }
 

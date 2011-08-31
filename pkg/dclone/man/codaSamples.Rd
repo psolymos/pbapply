@@ -1,17 +1,17 @@
-\name{parCodaSamples}
-\alias{parCodaSamples}
-\title{Generate posterior samples in mcmc.list format on parallel workers}
+\name{codaSamples}
+\alias{codaSamples}
+\title{Generate posterior samples in mcmc.list format}
 \description{
   This is function sets a trace
-  monitor for all requested nodes, updates the model on each
-  workers. Finally, it return the chains to the master and coerces the
+  monitor for all requested nodes, updates the model and coerces the
   output to a single \code{mcmc.list} object.
+  This function uses \code{\link[rjags]{coda.samples}} but keeps track
+  of data cloning information supplied via the \code{model} argument.
 }
 \usage{
-parCodaSamples(cl, model, variable.names, n.iter, thin = 1, ...)
+codaSamples(model, variable.names, n.iter, thin = 1, ...)
 }
 \arguments{
-  \item{cl}{a cluster object created by the \pkg{snow} package.}
   \item{model}{a jags model object}
   \item{variable.names}{a character vector giving the names of variables
     to be monitored}
@@ -21,10 +21,14 @@ parCodaSamples(cl, model, variable.names, n.iter, thin = 1, ...)
              for jags model objects}
 }
 \value{
-  An \code{mcmc.list} object.
+  An \code{mcmc.list} object. An \code{n.clones} attribute is attached to
+  the object, but unlike in \code{\link{jags.fit}} there is no 
+  \code{\link{updated.model}} attribute as it is equivalent to the 
+  input jags model object.
 }
 \author{Peter Solymos, \email{solymos@ualberta.ca}}
-\seealso{\code{\link[rjags]{coda.samples}}}
+\seealso{\code{\link[rjags]{coda.samples}}, \code{\link[rjags]{update.jags}}, 
+\code{\link[rjags]{jags.model}}}
 \examples{
 \dontrun{
 model <- function() {
@@ -47,15 +51,16 @@ sigma <- 0.5
 x <- runif(N)
 linpred <- model.matrix(~x) \%*\% c(alpha, beta)
 Y <- rnorm(N, mean = linpred, sd = sigma)
-jdata <- list(N = N, Y = Y, x = x)
+jdata <- dclone(list(N = N, Y = Y, x = x), 2, multiply="N")
 jpara <- c("alpha", "beta", "sigma")
-## jags model on parallel workers
-cl <- makeSOCKcluster(3)
-parJagsModel(cl, name=res, file=model, data=jdata, 
-    n.chains = 3, n.adapt=1000)
-parUpdate(cl, res, n.iter=1000)
-m <- parCodaSamples(cl, res, jpara, n.iter=2000)
-stopCluster(cl)
+## jags model
+res <- jagsModel(file=model, data=jdata, n.chains = 3, n.adapt=1000)
+nclones(res)
+update(res, n.iter=1000)
+nclones(res)
+m <- codaSamples(res, jpara, n.iter=2000)
+summary(m)
+nclones(m)
 }
 }
 \keyword{models}

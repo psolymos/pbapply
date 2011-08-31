@@ -40,12 +40,12 @@ parSetFactory(cl, name, type, state)
 \examples{
 \dontrun{
 cl <- makeSOCKcluster(3)
-parListFactories("sampler")
-parListFactories("monitor")
-parListFactories("rng")
-parSetFactory("base::Slice", "sampler", FALSE)
-parListFactories("sampler")
-parSetFactory("base::Slice", "sampler", TRUE)
+parListFactories(cl, "sampler")
+parListFactories(cl, "monitor")
+parListFactories(cl, "rng")
+parSetFactory(cl, "base::Slice", "sampler", FALSE)
+parListFactories(cl, "sampler")
+parSetFactory(cl, "base::Slice", "sampler", TRUE)
 stopCluster(cl)
 }
 }

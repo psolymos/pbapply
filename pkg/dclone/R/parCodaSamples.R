@@ -12,10 +12,11 @@ function(cl, model, variable.names = NULL, n.iter, thin = 1, ...)
     }
     dir <- if (inherits(cl, "SOCKcluster")) 
         getwd() else NULL
-    res <- snowWrapper(cl, 1:length(cl), jagsparallel, cldata, name=NULL,
+    res <- snowWrapper(cl, 1:length(cl), jagsparallel, cldata, 
+        name=NULL, use.env=TRUE,
         lib = "dclone", balancing = "none", size = 1, 
         rng.type = getOption("dcoptions")$RNG, 
-        cleanup = FALSE, dir = dir, unload=FALSE, ...)
+        cleanup = TRUE, dir = dir, unload=FALSE, ...)
     as.mcmc.list(lapply(res, as.mcmc))
 }
 

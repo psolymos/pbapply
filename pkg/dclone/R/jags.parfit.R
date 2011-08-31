@@ -49,7 +49,8 @@ function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
     ## do the work, dclone loaded only if not yet there  -- went into snowWrapper
 #    lib <- if ("dclone" %in% clusterEvalQ(cl, .packages())[[1]])
 #        NULL else "dclone"
-    mcmc <- snowWrapper(cl, 1:n.chains, jagsparallel, cldata, name=NULL,
+    mcmc <- snowWrapper(cl, 1:n.chains, jagsparallel, cldata, 
+        name=NULL, use.env=TRUE,
         lib="dclone", balancing=balancing, size=1, 
         rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, unload=FALSE, ...)
     ## binding the chains
@@ -62,4 +63,3 @@ function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
     }
     res
 }
-

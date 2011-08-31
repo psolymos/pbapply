@@ -10,9 +10,11 @@ Parallel wrapper function to call from within a function
 designed to work closely with MCMC fitting functions (can be called from inside of a function).
 }
 \usage{
-snowWrapper(cl, seq, fun, cldata, name = "cldata", lib = NULL, dir = NULL, evalq=NULL,
+snowWrapper(cl, seq, fun, cldata, name = "cldata", use.env=FALSE, 
+lib = NULL, dir = NULL, evalq=NULL,
 size = 1, balancing = c("none", "load", "size", "both"), 
-rng.type = c("none", "RNGstream", "SPRNG"), cleanup = TRUE, unload = FALSE, ...)
+rng.type = c("none", "RNGstream", "SPRNG"), 
+cleanup = TRUE, unload = FALSE, ...)
 }
 \arguments{
   \item{cl}{
@@ -32,6 +34,9 @@ Data in \code{cldata} can be used by \code{fun}.
 }
   \item{name}{
 Character, the name of \code{cldata} as to be assigned to the global environment and used in \code{fun}.
+}
+  \item{use.env}{
+Logical, if \code{name} is to be treated as an object or an environment.
 }
   \item{lib}{
 Character, name of package(s). Optionally packages can be loaded onto the cluster. More than one package can be specified as character vector. Packages already loaded are skipped.

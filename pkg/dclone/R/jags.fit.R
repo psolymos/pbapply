@@ -1,3 +1,4 @@
+## not using jagsModel and codaSamples so updated.model is without attribute
 jags.fit <-
 function(data, params, model, inits=NULL, n.chains=3, n.adapt=1000, n.update=1000, thin=1, n.iter=5000, 
 updated.model=TRUE, ...)
@@ -12,7 +13,7 @@ updated.model=TRUE, ...)
         warnings("'data' was environment: it was coerced into a list")
         data <- as.list(data)
     }
-    n.clones <- nclones.list(data)
+    n.clones <- dclone:::nclones.list(data)
     if (is.function(model) || inherits(model, "custommodel")) {
         if (is.function(model))
             model <- match.fun(model)

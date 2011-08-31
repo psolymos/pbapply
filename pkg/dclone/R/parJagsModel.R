@@ -24,8 +24,9 @@ inits, n.chains = 1, n.adapt=1000, quiet=FALSE)
     }
     dir <- if (inherits(cl, "SOCKcluster")) 
         getwd() else NULL
-    snowWrapper(cl, 1:n.chains, jagsparallel, cldata, name=NULL,
+    snowWrapper(cl, 1:n.chains, jagsparallel, cldata, 
+        name=NULL, use.env=TRUE,
         lib = "dclone", balancing = "none", size = 1, 
         rng.type = getOption("dcoptions")$RNG, 
-        cleanup = FALSE, dir = dir, unload=FALSE)
+        cleanup = TRUE, dir = dir, unload=FALSE)
 }
