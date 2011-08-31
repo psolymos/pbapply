@@ -51,7 +51,7 @@ Diagonal panels are posterior densities with labels and
 rug on the top. Upper panels are paiwise bivariate scatterplots
 with coloring corresponding to chains, thus highlighting mixing properties
 although not as clearly as trace plots. Lower panels
-are two-dimensional kernel density estimates based on \code{\link[MASS{kde2d}} function 
+are two-dimensional kernel density estimates based on \code{\link[MASS]{kde2d}} function 
 of \pkg{MASS} package using \code{\link{image}} and \code{\link{contour}}.
 }
 \value{
@@ -63,7 +63,7 @@ Peter Solymos, \email{solymos@ualberta.ca}
 \seealso{
 \code{\link{pairs}}, \code{\link[coda]{plot.mcmc.list}}
 
-Two-dimensional kernel density estimation: \code{\link[MASS{kde2d}}
+Two-dimensional kernel density estimation: \code{\link[MASS]{kde2d}}
 }
 \examples{
 data(regmod)

@@ -14,7 +14,7 @@ Description: Low level functions for implementing
     and can result in nearly linear speed-up.
 License: GPL-2
 Depends: R (>= 2.7.0), coda (>= 0.13), R2WinBUGS, snow
-Suggests: rjags, rlecuyer, rsprng, BRugs
+Suggests: MASS, rjags, rlecuyer, rsprng, BRugs
 Imports: stats
 SystemRequirements: jags (>= 1.0.3), WinBUGS (>= 1.4)
 URL: http://cran.r-project.org/package=dclone, http://dcr.r-forge.r-project.org/

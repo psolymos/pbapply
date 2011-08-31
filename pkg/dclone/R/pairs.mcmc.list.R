@@ -44,8 +44,5 @@ density=TRUE, contour=TRUE, mean=TRUE, ...) {
         upper.panel=fun.upper, diag.panel=panel.hist.density)
     invisible(NULL)
 }
-library(dclone)
-data(regmod)
-pairs(regmod)
 
 
