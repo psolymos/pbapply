@@ -39,6 +39,9 @@ Version 1.3-5, August 23, 2011
       function added for sequential computations.
       Both functions copied after rjags equivalents,
       jags.model and coda.samples.
+    * New method: pairs for mcmc.list objects. It plots
+      bivariate kernel density estimates and scatterplots
+      in a matrix with univariate densities as diagonal.
 
 Version 1.3-4, July 9, 2011
     * dc.fit: updating fixed (only updated after 2nd iteration).
