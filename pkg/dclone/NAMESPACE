@@ -11,6 +11,8 @@ export("dclone", "dcdim",
        "dcdiag", "extractdcdiag", 
        "lambdamax.diag", "chisq.diag",
        "dcoptions")
+## rjags remakes
+export("jagsModel", "codaSamples")
 
 ## parallel functions
 export("jags.parfit", "dc.parfit",
