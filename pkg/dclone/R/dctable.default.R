@@ -23,6 +23,7 @@ function(x, ...) {
             rval[[i]] <- cbind(n.clones=k, t(sapply(dctmp, function(z) z[i,])))
             if (length(mnam) > 1)
                 rownames(rval[[i]]) <- mnam[ord]
+            else rownames(rval[[i]]) <- deparse(substitute(x))
         }
             rval <- lapply(rval, function(z) as.data.frame(z))
     } else {
