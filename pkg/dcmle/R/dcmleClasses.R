@@ -17,7 +17,7 @@ setClassUnion("dcFunction", c("NULL", "function"))
 setClassUnion("dcInits", c("NULL", "list", "function"))
 setClassUnion("dcModel", c("function", "character", "custommodel"))
 
-setClass("dcBugs", 
+setClass("gsFit", 
     representation(
         data = "list",
         inits = "dcInits",
@@ -35,7 +35,7 @@ setClass("dcFit",
         updatefun = "dcFunction",
         initsfun = "dcFunction",
         flavour = "character"),
-    contains = "dcBugs",
+    contains = "gsFit",
     prototype = list(
         params = NULL,
         multiply = NULL,
@@ -64,7 +64,7 @@ setClass("dcMle",
         thin = numeric(0),
         n.chains = numeric(0),
         n.clones = NULL))
-setAs(from = "dcBugs", to = "dcFit", def = function(from) {
+setAs(from = "gsFit", to = "dcFit", def = function(from) {
     out <- new("dcFit")
     out@data <- from@data
     out@model <- from@model
@@ -274,7 +274,7 @@ res@n.clones
 #res@k
 res
 ## this works, but not k>1
-dcModel(as(rats, "dcBugs"), n.adapt=0, n.update=0, n.iter=100)
+dcModel(as(rats, "gsFit"), n.adapt=0, n.update=0, n.iter=100)
 
 dcmle(rats, n.clones=1, n.iter=100)
 dcmle(rats, n.clones=2, n.iter=100)
