@@ -42,7 +42,12 @@ cl=NULL, parchains=FALSE, ...)
         inits <- NULL
     if (!is.null(initsfun)) {
         initsfun <- match.fun(initsfun)
-        INIARGS <- length(names(as.list(args(initsfun))))-1 < 2
+        ian <- length(names(as.list(args(initsfun))))-1
+        if (ian == 0)
+            stop("'initsfun' must have at least one argument")
+        if (ian > 2)
+            warnings("arguments of 'initsfun' after position 2 are ingnored")
+        INIARGS <- ian < 2
     }
     ## list for dcdiag results
     dcdr <- list()

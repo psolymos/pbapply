@@ -15,11 +15,11 @@ partype=c("balancing", "parchains", "both"), ...)
     ## some arguments are ignored with size balancing
     if (partype != "parchains") {
         if (!is.null(updatefun))
-            warnings("'updatefun' argument is ignored when parchains option is FALSE")
-        if (!is.null(initsfun))
-            warnings("'initsfun' argument is ignored when parchains option is FALSE")
+            warnings("'updatefun' argument is ignored when partype != 'parcains'")
         if (!is.null(update))
-            warnings("'update' argument is ignored when parchains option is FALSE")
+            warnings("'update' argument is ignored when partype != 'parcains'")
+#        if (!is.null(initsfun))
+#            warnings("'initsfun' argument is ignored when partype != 'parcains'")
     }
     if (partype != "balancing" && flavour == "bugs")
         stop("flavour='bugs' supported for 'balancing' type only")
@@ -55,6 +55,16 @@ partype=c("balancing", "parchains", "both"), ...)
         ## evaluate inits
         if (missing(inits))
             inits <- NULL
+        if (!is.null(initsfun)) {
+            initsfun <- match.fun(initsfun)
+            ian <- length(names(as.list(args(initsfun))))-1
+            if (ian == 0)
+                stop("'initsfun' must have at least one argument")
+            else warnings("first (model) argument of 'initsfun' is ignored when partype != 'parcains'")
+            if (ian > 2)
+                warnings("arguments of 'initsfun' after position 2 are ingnored")
+            INIARGS <- ian < 2
+        }
         #### parallel part
         if (trace) {
             cat("\nParallel computation in progress\n\n")
@@ -72,7 +82,8 @@ partype=c("balancing", "parchains", "both"), ...)
         }
         ## common data 
         cldata <- list(data=data, params=params, model=model, inits=inits,
-            multiply=multiply, unchanged=unchanged, k=k)
+            multiply=multiply, unchanged=unchanged, k=k, 
+            INIARGS=INIARGS, initsfun=initsfun)
         ## parallel computations
         balancing <- if (!getOption("dcoptions")$LB)
             "size" else "both"
@@ -87,10 +98,12 @@ partype=c("balancing", "parchains", "both"), ...)
             dcparallel <- function(i, ...) {
                 cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
                 jdat <- dclone(cldata$data, i, multiply=cldata$multiply, unchanged=cldata$unchanged)
+                INITS <- if (!is.null(cldata$initsfun) && !cldata$INIARGS)
+                    initsfun(,i) else cldata$inits
                 mod <- if (flavour == "jags") {
-                    jags.fit(data=jdat, params=cldata$params, model=cldata$model, inits=cldata$inits, ...)
+                    jags.fit(data=jdat, params=cldata$params, model=cldata$model, inits=INITS, ...)
                 } else {
-                    bugs.fit(data=jdat, params=cldata$params, model=cldata$model, inits=cldata$inits, 
+                    bugs.fit(data=jdat, params=cldata$params, model=cldata$model, inits=INITS, 
                         format="mcmc.list", ...)
                 }
                 if (i == max(k))
@@ -113,7 +126,9 @@ partype=c("balancing", "parchains", "both"), ...)
             dcinits <- function(i, ...) {
                 cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
                 jdat <- dclone(cldata$data, i, multiply=cldata$multiply, unchanged=cldata$unchanged)
-                jags.fit(data=jdat, params=cldata$params, model=cldata$model, inits=cldata$inits,
+                INITS <- if (!is.null(cldata$initsfun) && !cldata$INIARGS)
+                    initsfun(,i) else cldata$inits
+                jags.fit(data=jdat, params=cldata$params, model=cldata$model, inits=INITS,
                     n.adapt=0, n.update=0, n.iter=0)$state(internal=TRUE)
             }
             ## snowWrapper with cleanup (but cldata changes, has to be passed again)
@@ -177,4 +192,3 @@ partype=c("balancing", "parchains", "both"), ...)
     }
     mod
 }
-
