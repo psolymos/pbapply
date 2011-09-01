@@ -10,6 +10,7 @@ setClass("dcdiag", representation("VIRTUAL"))
 
 setClassUnion("nClones", c("NULL", "numeric"))
 setClassUnion("dcDiag", c("NULL", "dcdiag"))
+setClassUnion("dcTable", c("NULL", "dctable"))
 setClassUnion("MCMClist", c("mcmc", "mcmc.list", "mcmc.list.dc"))
 setClassUnion("dcArgs", c("NULL", "character"))
 setClassUnion("dcFunction", c("NULL", "function"))
@@ -47,13 +48,13 @@ setClass("dcMle",
     representation(
         mcmc = "MCMClist",
         summary = "matrix",
-        diag = "dcDiag",
+        dctable = "dcTable",
+        dcdiag = "dcDiag",
         start = "numeric",
         end = "numeric",
         thin = "numeric",
         n.chains = "numeric",
         n.clones = "nClones"),
-#        k = "nClones"),
     prototype = list(
         mcmc = as.mcmc(matrix(0,0,0)),
         summary = matrix(0,0,0),
@@ -63,7 +64,6 @@ setClass("dcMle",
         thin = numeric(0),
         n.chains = numeric(0),
         n.clones = NULL))
-#        k = NULL))
 setAs(from = "dcBugs", to = "dcFit", def = function(from) {
     out <- new("dcFit")
     out@data <- from@data
@@ -74,7 +74,6 @@ setAs(from = "dcBugs", to = "dcFit", def = function(from) {
 })
 setAs(from = "MCMClist", to = "dcMle", def = function(from) {
     rval <- new("dcMle")
-    rval@mcmc <- from
     if (!is.null(nclones(from))) {
         coefs <- coef(from)
         se <- dcsd(from)
@@ -85,16 +84,38 @@ setAs(from = "MCMClist", to = "dcMle", def = function(from) {
         rval@summary <- coefs
     }
     dcd <- try(dcdiag(from), silent=TRUE)
-    if (inherits(dcd, "try-error"))
+    if (inherits(dcd, "try-error")) {
         dcd <- NULL
-    rval@diag <- dcd
+    } else {
+        rownames(dcd) <- NULL
+    }
+    dct <- try(dctable(from), silent=TRUE)
+    if (inherits(dct, "try-error")) {
+        dct <- NULL
+    } else {
+        dct <- lapply(dct, function(z) {
+            rownames(z) <- NULL
+            z
+        })
+        class(dct) <- "dctable"
+    }
+    rval@mcmc <- from
+    attr(rval@mcmc, "dcdiag") <- NULL
+    attr(rval@mcmc, "dctable") <- NULL
+    rval@dcdiag <- dcd
+    rval@dctable <- dct
     rval@start <- start(from)
     rval@end <- end(from)
     rval@thin <- thin(from)
     rval@n.chains <- length(from)
     rval@n.clones <- nclones(from)
-#    rval@k <- nclones(from)
     rval
+})
+setAs(from = "dcMle", to = "MCMClist", def = function(from) {
+    out <- from@mcmc
+    attr(out, "dcdiag") <- from@dcdiag
+    attr(out, "dctable") <- from@dctable
+    out
 })
 dcmle <- function(x, params, n.clones=1, cl=NULL, ...) {
     x <- as(x, "dcFit")
@@ -145,7 +166,6 @@ dcmle <- function(x, params, n.clones=1, cl=NULL, ...) {
 }
 setMethod("show", "dcMle", function(object) {
     k <- object@n.clones
-#    k <- object@k
     if (is.null(k)) {
         print(summary(object@mcmc))
     } else {
@@ -159,14 +179,18 @@ setMethod("show", "dcMle", function(object) {
         cat("\n")
         printCoefmat(object@summary, digits = digits, signif.legend = TRUE)
         cat("\n")
-        print(object@diag, digits=digits, row.names=FALSE)
+        print(object@dcdiag, digits=digits, row.names=FALSE)
         cat("\n")
     }
     invisible(object)
 })
 setMethod("quantile", "dcMle", function(x, ...) quantile(x@mcmc, ...))
-setMethod("dctable", "dcMle", function(x, ...) dctable(x@mcmc, ...))
-setMethod("dcdiag", "dcMle", function(x, ...) dcdiag(x@mcmc, ...))
+setMethod("dcdiag", "dcMle", function(x, ...) x@dcdiag)
+setMethod("dctable", "dcMle", function(x, ...) x@dctable)
+#setMethod("dcdiag", "dcMle", function(x, ...) {
+#    assign(deparse(substitute(x)), x@mcmc)
+#    dcdiag(x, ...)
+#})
 setMethod("dcsd", "dcMle", function(object, ...) dcsd(object@mcmc, ...))
 setMethod("coef", "dcMle", function(object, ...) coef(object@mcmc, ...))
 setMethod("vcov", "dcMle", function(object, ...) vcov(object@mcmc, ...))
@@ -175,7 +199,7 @@ setMethod("confint", "dcMle", function(object, parm, level = 0.95, ...) {
         stop("'confint' method not defined for k=1")
     confint(object@mcmc, parm, level, ...)
 })
-setMethod("nclones", "dcMle", function(x, ...) nclones(x@mcmc, ...))
+setMethod("nclones", "dcMle", function(x, ...) x@n.clones)
 
 
 rats0 <- list(
@@ -252,15 +276,15 @@ res
 ## this works, but not k>1
 dcModel(as(rats, "dcBugs"), n.adapt=0, n.update=0, n.iter=100)
 
-dcModel(rats, n.clones=1, n.iter=100)
-dcModel(rats, n.clones=2, n.iter=100)
-dcModel(rats, n.clones=1:3, n.iter=100)
+dcmle(rats, n.clones=1, n.iter=100)
+dcmle(rats, n.clones=2, n.iter=100)
+dcmle(rats, n.clones=1:3, n.iter=100)
 
 cl <- makeSOCKcluster(3)
-dcModel(rats, n.clones=2, n.iter=1000, cl=cl)
-dcModel(rats, n.clones=1:3, n.iter=1000, cl=cl)
-dcModel(rats, n.clones=1:3, n.iter=1000, cl=cl, partype="parchains")
-dcModel(rats, n.clones=1:3, n.iter=1000, cl=cl, partype="both")
+dcmle(rats, n.clones=2, n.iter=1000, cl=cl)
+dcmle(rats, n.clones=1:3, n.iter=1000, cl=cl)
+dcmle(rats, n.clones=1:3, n.iter=1000, cl=cl, partype="parchains")
+dcmle(rats, n.clones=1:3, n.iter=1000, cl=cl, partype="both")
 stopCluster(cl)
 
 params <- x@params
@@ -360,3 +384,68 @@ x@inits <- rats$inits
 x@model <- custommodel(rats$model)
 x@dclone <- list(multiply = "N", unchanged = c("T", "x"))
 x@params <- c("alpha0", "beta.c")
+
+dcexample <- 
+function(topic, n.clones=NULL, ...) 
+{
+#    data(topic)
+#    x <- get(topic)
+    cat("dcexample: \"", deparse(substitute(topic)), "\"\n\n")
+    cat("..@data\n")
+    print(str(topic@data))
+    cat("..@model\n")
+    print(custommodel(topic@model))
+    if (!is.null(n.clones))
+        dcmle(topic, n.clones, ...) else invisible(NULL)
+}
+dcexample(topic)
+
+## time series example
+## data and model taken from Ponciano et al. 2009
+## Ecology 90, 356-362.
+paurelia <- c(17,29,39,63,185,258,267,392,510,570,650,560,575,650,550,480,520,500)
+paramecium <- new("dcFit")
+paramecium@data <- list(ncl=1, n=length(paurelia), Y=dcdim(data.matrix(paurelia)))
+paramecium@model <- custommodel(beverton.holt <- function() {
+    for (k in 1:ncl) {
+        for(i in 2:(n+1)){
+            Y[(i-1), k] ~ dpois(exp(X[i, k])) # observations
+            X[i, k] ~ dnorm(mu[i, k], 1 / sigma^2) # state
+            mu[i, k] <- X[(i-1), k] + log(lambda) - log(1 + beta * exp(X[(i-1), k]))
+        }
+        X[1, k] ~ dnorm(mu0, 1 / sigma^2) # state at t0
+    }
+    beta ~ dlnorm(-1, 1) # Priors on model parameters
+    sigma ~ dlnorm(0, 1)
+    tmp ~ dlnorm(0, 1)
+    lambda <- tmp + 1
+    mu0 <- log(2)  + log(lambda) - log(1 + beta * 2)
+})
+paramecium@multiply <- "ncl"
+paramecium@unchanged <- "n"
+paramecium@params <- c("lambda","beta","sigma")
+m <- dcmle(paramecium, n.clones=2, n.iter=1000)
+
+dcexample <- 
+function(topic, n.clones=NULL, ...) 
+{
+#    data(topic, package="dcexamples")
+    x <- get(deparse(substitute(topic)))
+    cat("dcexample: ", deparse(substitute(topic)), "\n\n")
+    cat("..@data\n")
+    print(str(topic@data))
+    cat("..@model\n")
+    print(custommodel(topic@model))
+    if (!is.null(n.clones))
+        dcmle(topic, n.clones=n.clones, ...) 
+    else invisible(NULL)
+}
+system.time(m1 <- dcmle(paramecium, n.clones=1, n.iter=1000))
+system.time(m2 <- dcmle(paramecium, n.clones=2, n.iter=1000))
+system.time(m2 <- dcmle(paramecium, n.clones=1:3, n.iter=1000))
+cl <- makeSOCKcluster(3)
+system.time(m2 <- dcmle(paramecium, n.clones=2, n.iter=1000, cl=cl))
+system.time(m2 <- dcmle(paramecium, n.clones=1:3, n.iter=1000, cl=cl))
+system.time(m2 <- dcmle(paramecium, n.clones=1:3, n.iter=1000, cl=cl, partype="parchains"))
+system.time(m2 <- dcmle(paramecium, n.clones=1:3, n.iter=1000, cl=cl, partype="both"))
+stopCluster(cl)
