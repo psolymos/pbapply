@@ -35,6 +35,10 @@ Underlying S3 methods:
 \code{\link{quantile.mcmc.list}},
 \code{\link{vcov.mcmc.list.dc}}, \code{\link{confint.mcmc.list.dc}}, 
 \code{\link{dctable}}, \code{\link{dcdiag}}, \code{\link{nclones}}.
+
+Fitting wrapper function: \code{\link{dcmle}}
+
+Object classes: \code{\link{dcmle-classes}}
 }
 \examples{
 ## Data and model taken from Ponciano et al. 2009

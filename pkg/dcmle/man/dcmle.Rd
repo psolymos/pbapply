@@ -60,6 +60,10 @@ Peter Solymos, \email{solymos@ualberta.ca}
 \seealso{
 For additional arguments: \code{\link[dclone]{jags.fit}}, \code{\link[dclone]{jags.parfit}}, 
 \code{\link[dclone]{dc.fit}}, \code{\link[dclone]{dc.parfit}}.
+
+Object classes: \code{\link{dcmle-classes}}
+
+Methods: \code{\link{dcmle-methods}}
 }
 \examples{
 ## Data and model taken from Ponciano et al. 2009
