@@ -10,14 +10,14 @@
 'dcMle' Classes
 }
 \description{
-Basic S4 object classes defined in the package
+Basic S4 object classes defined in the \pkg{dcmle} package.
 }
 \details{
-'gsFit' is a basic object class representing 
+'gsFit' (after BU*GS*/JA*GS*) is a basic object class representing 
 requirements for the Bayesian MCMC model fitting.
 The 'dcFit' object class extends 'gsFit'
 by additional slots that are used to fine tune
-how data cloning is done during fitting the model.
+how data cloning is done during fitting process.
 Both 'gsFit' and 'dcFit' represent prerequisites
 for model fitting, but do not containing any fitted
 parts.

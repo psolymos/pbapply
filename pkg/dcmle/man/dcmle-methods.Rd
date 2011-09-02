@@ -14,16 +14,17 @@
 Methods for 'dcMle' Objects
 }
 \description{
-Methods for 'dcMle' objects
+Methods for \code{\link{dcMle}} objects.
 }
 \details{
 Methods defined in the \pkg{dclone} package 
-can be used on 'dcMle' objects as well.
+can be used on \code{\link{dcMle}} objects as well.
 }
 \value{
 Specific methods return values as described on their original help pages.
 
-The show and summary method displays Wald-type summaries and data cloning diagnostics.
+The show and summary method displays Wald-type summaries 
+and data cloning diagnostics.
 }
 \author{
 Peter Solymos <solymos@ualberta.ca>
@@ -36,8 +37,7 @@ Underlying S3 methods:
 \code{\link{dctable}}, \code{\link{dcdiag}}, \code{\link{nclones}}.
 }
 \examples{
-## time series example
-## data and model taken from Ponciano et al. 2009
+## Data and model taken from Ponciano et al. 2009
 ## Ecology 90, 356-362.
 paurelia <- c(17,29,39,63,185,258,267,392,510,570,650,560,575,650,550,480,520,500)
 paramecium <- new("dcFit")

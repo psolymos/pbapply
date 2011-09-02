@@ -5,22 +5,29 @@
 Hierarchical Models Made Easy with Data Cloning
 }
 \description{
-S4 classes around dclone infrastructure
-to make package development easy as a breeze.
+S4 classes around infrastructure
+provided by the dclone package to make package 
+development with data cloning for hierarchical 
+models easy as a breeze.
 }
 \details{
-The package defines S4 object classes for plain BUGS models ('gsFit'),
-and BUGS models made ready for data cloning ('dcFit').
+The package defines S4 object classes for plain BUGS models 
+(\code{\link{gsFit}}, after BU*GS*/JA*GS*),
+and BUGS models made ready for data cloning (\code{\link{dcFit}}).
 It also defines virtual classes for S3 object classes defined in
-the \pkg{dclone} package. The S4 class 'dcMle' is a fitted 
+the \pkg{dclone} package. 
+
+The S4 class \code{\link{dcMle}} is a fitted 
 model object containing MCMC results as returned by the
 \code{\link{dcmle}} function. Methods are defined
-for 'dcMle' object class. These object classes are easily
+for \code{\link{dcMle}} object class, see \code{\link{dcmle-methods}}. 
+These object classes are easily
 extendable to allow inclusion into functions fitting
-specific models to the data.
+specific models to the data (see Examples).
 
-(Not yet fully implemented: see dcexamples package
-and vignette there on how-to.)
+The \pkg{dcexamples} package is intended to implement
+prototypes for different statistical models via examples
+from various sources (WinBUGS Manual, books, etc.).
 }
 \author{
 Peter Solymos
@@ -32,10 +39,17 @@ Maintainer: Peter Solymos <solymos@ualberta.ca>
 }
 \keyword{ package }
 \seealso{
-\code{\link{dcmle}}
+Fitting wrapper function: \code{\link{dcmle}}
+
+Object classes: \code{\link{dcmle-classes}}
+
+Methods: \code{\link{dcmle-methods}}
 }
 \examples{
-## Function to create the Beverton-Holt model template
+## Data and model taken from Ponciano et al. 2009
+## Ecology 90, 356-362.
+
+## Function to create template object for the Beverton-Holt model
 ## R CMD check will not choke on character representation of model
 bevholtFit <- function(y) {
     x <- new("dcFit")
@@ -44,13 +58,13 @@ bevholtFit <- function(y) {
         c(" model { ",
         "         for (k in 1:ncl) { ",
         "             for(i in 2:(n+1)){ ",
-        "                 Y[(i-1), k] ~ dpois(exp(X[i, k])) # observations ",
-        "                 X[i, k] ~ dnorm(mu[i, k], 1 / sigma^2) # state ",
+        "                 Y[(i-1), k] ~ dpois(exp(X[i, k])) ",
+        "                 X[i, k] ~ dnorm(mu[i, k], 1 / sigma^2) ",
         "                 mu[i, k] <- X[(i-1), k] + log(lambda) - log(1 + beta * exp(X[(i-1), k])) ",
         "             } ",
-        "             X[1, k] ~ dnorm(mu0, 1 / sigma^2) # state at t0 ",
+        "             X[1, k] ~ dnorm(mu0, 1 / sigma^2) ",
         "         } ",
-        "         beta ~ dlnorm(-1, 1) # Priors on model parameters ",
+        "         beta ~ dlnorm(-1, 1) ",
         "         sigma ~ dlnorm(0, 1) ",
         "         tmp ~ dlnorm(0, 1) ",
         "         lambda <- tmp + 1 ",
@@ -63,7 +77,7 @@ bevholtFit <- function(y) {
     x
 }
 ## S4 class 'bevholtMle' extends the 'dcMle' class
-## that can have additional slots
+## it can have additional slots
 setClass("bevholtMle", 
     representation(y="numeric", title="character"), 
     contains = "dcMle")
@@ -74,7 +88,7 @@ bevholt <- function(y, n.clones, ...) {
     x@title <- "Beverton-Holt Model"
     x
 }
-## Show method with appropriate title
+## Show method with appropriate heading
 setMethod("show", "bevholtMle", function(object) {
     summary(as(object, "dcMle"), object@title)
 })

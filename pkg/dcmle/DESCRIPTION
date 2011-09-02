@@ -5,8 +5,10 @@ Version: 0.1-0
 Date: 2011-08-31
 Author: Peter Solymos
 Maintainer: Peter Solymos <solymos@ualberta.ca>
-Description: S4 classes around dclone infrastructure
-  to make package development easy as a breeze.
+Description: S4 classes around infrastructure
+  provided by the dclone package to make package 
+  development with data cloning for hierarchical 
+  models easy as a breeze.
 License: GPL-2
 Depends: methods, stats4, dclone, rjags, snow
 SystemRequirements: jags (>= 1.0.3)

@@ -6,14 +6,16 @@ Asymptotic Maximum Likelihood Estimation with Data Cloning
 \description{
 This function is a wrapper to fit the model to the data
 and obtain MLE point estimates and asymptotic standard errors
-based on the estimate of the Fisher information matrix.
+based on the estimate of the Fisher information matrix
+(theory given by Lele et al. 2007, 2010, software
+implementation is given in Solymos 2010).
 }
 \usage{
 dcmle(x, params, n.clones = 1, cl = NULL, ...)
 }
 \arguments{
   \item{x}{
-an object of class 'gsFit' or 'dcFit'.
+an object of class \code{\link{gsFit}} or \code{\link{dcFit}}.
 }
   \item{params}{
 character, vector of model parameters to monitor.
@@ -35,7 +37,7 @@ and passes them as argumrnts to underlying functions
 \code{\link[dclone]{dc.fit}}, \code{\link[dclone]{dc.parfit}}).
 }
 \value{
-An object of class 'dcMle'.
+An object of class \code{\link{dcMle}}.
 }
 \references{
 Solymos, P., 2010. dclone: Data Cloning in R.
@@ -60,8 +62,7 @@ For additional arguments: \code{\link[dclone]{jags.fit}}, \code{\link[dclone]{ja
 \code{\link[dclone]{dc.fit}}, \code{\link[dclone]{dc.parfit}}.
 }
 \examples{
-## time series example
-## data and model taken from Ponciano et al. 2009
+## Data and model taken from Ponciano et al. 2009
 ## Ecology 90, 356-362.
 paurelia <- c(17,29,39,63,185,258,267,392,510,570,650,560,575,650,550,480,520,500)
 paramecium <- new("dcFit")
