@@ -5,7 +5,10 @@ Version: 0.1-0
 Date: 2011-08-31
 Author: Peter Solymos
 Maintainer: Peter Solymos <solymos@ualberta.ca>
-Description: Hierarchical model examples using data cloning.
+Description: The package contains example data sets
+  that can be used as templates in fitting
+  models to data using data cloning.
+  Examples serve also as tutorial.
 License: GPL-2
 Depends: dclone, rjags, snow, dcmle
 SystemRequirements: jags (>= 1.0.3)

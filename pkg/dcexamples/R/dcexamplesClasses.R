@@ -1,14 +1,24 @@
 dcexample <- 
 function(topic, n.clones=NULL, ...) 
 {
-#    data(topic)
-#    x <- get(topic)
-    cat("dcexample: \"", deparse(substitute(topic)), "\"\n\n")
-    cat("..@data\n")
-    print(str(topic@data))
-    cat("..@model\n")
-    print(custommodel(topic@model))
-    if (!is.null(n.clones))
-        dcmle(topic, n.clones, ...) else invisible(NULL)
+#    data(substitute(topic), package="dcexamples")
+    nam <- deparse(substitute(topic))
+    x <- get(nam, envir=.GlobalEnv)
+    rval <- if (!is.null(n.clones))
+        dcmle(x, n.clones=n.clones, ...) else NULL
+    spacer <- paste(rep("=", nchar(nam) + 32), collapse="")
+    cat("\n", spacer, "\n    Data Cloning Example: \"", 
+        nam, "\"\n", spacer, "\n", sep="")
+    cat("\n\n< Structure of the Data/Model Template >\n\n")
+    str(x)
+    cat("\n")
+    if (!is.null(rval)) {
+        cat("\n< Summary of the Fitted MLE Object >\n\n")
+        summary(rval)
+    }
+    invisible(rval)
 }
-dcexample(topic)
+
+#dcexample(paramecium)
+#dcexample(paramecium,2,n.iter=1000)
+
