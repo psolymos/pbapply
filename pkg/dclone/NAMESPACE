@@ -32,7 +32,29 @@ export("errlines")
 importFrom("stats", "quantile", "update")
 importFrom("coda", "as.mcmc.list")
 
-## methods for main dclone functions/classes
+## export methods for main dclone functions/classes
+export(dcsd.mcmc.list, 
+        coef.mcmc.list, 
+        confint.mcmc.list.dc, 
+        vcov.mcmc.list.dc, 
+        quantile.mcmc.list, 
+        dclone.default, 
+        dclone.list, 
+        dclone.environment, 
+        dclone.dcdim, 
+        dctable.default, 
+        extractdctable.default, 
+        plot.dctable, 
+        dcdiag.default, 
+        extractdcdiag.default, 
+        plot.dcdiag, 
+        errlines.default, 
+        nclones.list, 
+        nclones.default, 
+        pairs.mcmc.list, 
+        update.mcmc.list)
+
+## register methods for main dclone functions/classes
 S3method("nclones", "default")
 S3method("nclones", "list")
 S3method("dclone", "dcdim")
@@ -70,3 +92,4 @@ S3method("print", "custommodel")
 
 ## methods for helper functions/classes
 S3method("errlines", "default")
+

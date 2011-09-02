@@ -45,6 +45,8 @@ Version 1.3-5, August 23, 2011
     * dctable add object name even if length(n.clones)==1.
     * initsfun handling in dc.parfit partly allowed,
       this new feature is undocumented and needs testing.
+    * All documented S3 methods are now exported by NAMESPACE
+      (dependent packages could not import them).
 
 Version 1.3-4, July 9, 2011
     * dc.fit: updating fixed (only updated after 2nd iteration).
