@@ -6,6 +6,7 @@ setClass("mcmc.list.dc", representation("VIRTUAL"))
 setClass("dctable", representation("VIRTUAL"))
 setClass("dcdiag", representation("VIRTUAL"))
 
+## class unions for slots
 setClassUnion("nClones", c("NULL", "numeric"))
 setClassUnion("dcDiag", c("NULL", "dcdiag"))
 setClassUnion("dcTable", c("NULL", "dctable"))
@@ -15,6 +16,7 @@ setClassUnion("dcFunction", c("NULL", "function"))
 setClassUnion("dcInits", c("NULL", "list", "function"))
 setClassUnion("dcModel", c("function", "character", "custommodel"))
 
+## data/model templates
 setClass("gsFit", 
     representation(
         data = "list",
@@ -42,6 +44,18 @@ setClass("dcFit",
         updatefun = NULL,
         initsfun = NULL,
         flavour = "jags"))
+
+## coercion (reverse is automatoc based on inheritence)
+setAs(from = "gsFit", to = "dcFit", def = function(from) {
+    out <- new("dcFit")
+    out@data <- from@data
+    out@model <- from@model
+    out@inits <- from@inits
+    out@params <- from@params
+    out
+})
+
+## fitted model opject
 setClass("dcMle", 
     representation(
         mcmc = "MCMClist",
@@ -62,14 +76,8 @@ setClass("dcMle",
         thin = numeric(0),
         n.chains = numeric(0),
         n.clones = NULL))
-setAs(from = "gsFit", to = "dcFit", def = function(from) {
-    out <- new("dcFit")
-    out@data <- from@data
-    out@model <- from@model
-    out@inits <- from@inits
-    out@params <- from@params
-    out
-})
+
+## coercion from mcmc.list/mcmc.list.dc
 setAs(from = "MCMClist", to = "dcMle", def = function(from) {
     rval <- new("dcMle")
     if (!is.null(nclones(from))) {
@@ -106,15 +114,18 @@ setAs(from = "MCMClist", to = "dcMle", def = function(from) {
     rval@end <- end(from)
     rval@thin <- thin(from)
     rval@n.chains <- length(from)
-    rval@n.clones <- nclones(from)#dclone:::nclones.default(from)
+    rval@n.clones <- nclones(from)
     rval
 })
+## reverse coercion
 setAs(from = "dcMle", to = "MCMClist", def = function(from) {
     out <- from@mcmc
     attr(out, "dcdiag") <- from@dcdiag
     attr(out, "dctable") <- from@dctable
     out
 })
+
+## wrapper function
 dcmle <- function(x, params, n.clones=1, cl=NULL, ...) {
     x <- as(x, "dcFit")
     if (missing(params))
@@ -162,6 +173,8 @@ dcmle <- function(x, params, n.clones=1, cl=NULL, ...) {
     }
     as(out, "dcMle")
 }
+
+## methods
 setMethod("show", "dcMle", function(object) {
     k <- object@n.clones
     if (is.null(k)) {
@@ -172,17 +185,15 @@ setMethod("show", "dcMle", function(object) {
             n.iter=object@end-object@start+1,
             n.chains=object@n.chains, n.clones=k)
         digits <- max(3, getOption("digits") - 3)
-#        cat("Object of class \"", class(object)[1L], "\"\n\n", sep="")
         print(n, digits=digits, row.names=FALSE)
         cat("\n")
         printCoefmat(object@summary, digits = digits, signif.legend = TRUE)
         cat("\n")
         print(object@dcdiag, digits=digits, row.names=FALSE)
-#        cat("\n")
     }
     invisible(object)
 })
-
+## show with title is done here
 setMethod("summary", "dcMle", function(object, title, ...) {
     if (missing(title))
         title <- paste("Object of class \"", class(object)[1L], "\"", sep="")
@@ -190,7 +201,7 @@ setMethod("summary", "dcMle", function(object, title, ...) {
     show(object)
     cat("\n")
 })
-
+## methods with generic defined in stats
 setMethod("coef", "dcMle", function(object, ...) coef(object@mcmc, ...))
 setMethod("vcov", "dcMle", function(object, ...) vcov(object@mcmc, ...))
 setMethod("confint", "dcMle", function(object, parm, level = 0.95, ...) {
@@ -198,13 +209,8 @@ setMethod("confint", "dcMle", function(object, parm, level = 0.95, ...) {
         stop("'confint' method not defined for k=1")
     confint(object@mcmc, parm, level, ...)
 })
-
-#setGeneric("quantile", function(x, ...) standardGeneric("quantile"))
-#setGeneric("dcdiag", function(x, ...) standardGeneric("dcdiag"))
-#setGeneric("dctable", function(x, ...) standardGeneric("dctable"))
-#setGeneric("dcsd", function(object, ...) standardGeneric("dcsd"))
-#setGeneric("nclones", function(x, ...) standardGeneric("nclones"))
 setMethod("quantile", "dcMle", function(x, ...) quantile(x@mcmc, ...))
+## methods with generic defined in dclone
 setMethod("dcdiag", "dcMle", function(x, ...) x@dcdiag)
 setMethod("dctable", "dcMle", function(x, ...) x@dctable)
 setMethod("dcsd", "dcMle", function(object, ...) dcsd(object@mcmc, ...))
