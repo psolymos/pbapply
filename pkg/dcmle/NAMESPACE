@@ -1,5 +1,5 @@
 importFrom(stats, quantile)
-#importFrom(methods, show)
+importFrom(methods, show)
 importFrom(dclone, dcsd, dctable, dcdiag, nclones)
 export(dcmle)
 exportClasses(gsFit, dcFit, dcMle)

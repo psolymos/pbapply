@@ -24,6 +24,7 @@ setMethod("summary", "dcMle", function(object, title, ...) {
     cat(title, "\n\n")
     show(object)
     cat("\n")
+    invisible(object)
 })
 ## methods with generic defined in stats
 setMethod("coef", "dcMle", function(object, ...) coef(object@mcmc, ...))
