@@ -89,8 +89,10 @@ bevholt <- function(y, n.clones, ...) {
     x
 }
 ## Show method with appropriate heading
+## Note: use getMethod to avoid frustration from namespace import/export
+## this way it will work in a package that depends on dcmle
 setMethod("show", "bevholtMle", function(object) {
-    summary(as(object, "dcMle"), object@title)
+    getMethod("summary","dcMle")(as(object, "dcMle"), object@title)
 })
 paurelia <- c(17,29,39,63,185,258,267,392,510,570,650,560,575,650,550,480,520,500)
 \dontrun{
