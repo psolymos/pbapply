@@ -36,8 +36,10 @@ Main function the this package: \code{\link{dcexample}}.
 \dontrun{
 ## index of currently available exampes
 help(package="dcexamples")
-}
 
-## how to use an example as a template
-## paramecium example
+## seeds example, structure only
+dcexample(rats)
+## seeds example, structure and fit
+dcexample(rats, 2, n.iter=1000)
+}
 }

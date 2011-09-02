@@ -13,33 +13,12 @@ function(topic, n.clones=NULL, ...)
     str(x)
     cat("\n")
     if (!is.null(rval)) {
-        showfun <- function(object) {
-            k <- object@n.clones
-            if (is.null(k)) {
-                print(summary(object@mcmc))
-            } else {
-                attributes(k) <- NULL
-                n <- data.frame(start=object@start, end=object@end, thin=object@thin,
-                    n.iter=object@end-object@start+1,
-                    n.chains=object@n.chains, n.clones=k)
-                digits <- max(3, getOption("digits") - 3)
-                title <- paste("Object of class \"", class(object)[1L], "\"", sep="")
-                cat(title, "\n\n")
-                print(n, digits=digits, row.names=FALSE)
-                cat("\n")
-                printCoefmat(object@summary, digits = digits, signif.legend = TRUE)
-                cat("\n")
-                print(object@dcdiag, digits=digits, row.names=FALSE)
-                cat("\n")
-            }
-            invisible(object)
-        }
         cat("\n< Summary of the Fitted MLE Object >\n\n")
-        showfun(rval)
+        heading <- paste("Summary of the \"", nam, "\" Example", sep="")
+        getMethod("summary","dcMle")(rval, heading)
     }
     invisible(rval)
 }
-
 #dcexample(paramecium)
 #dcexample(paramecium,2,n.iter=1000)
 

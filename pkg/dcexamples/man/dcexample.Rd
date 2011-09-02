@@ -40,14 +40,10 @@ Peter Solymos <solymos@ualberta.ca>
 ## index of currently available exampes
 help(package="dcexamples")
 
-## rats example
+## seeds example, structure only
+dcexample(rats)
+## seeds example, structure and fit
 dcexample(rats, 2, n.iter=1000)
-
-## seeds example
-dcexample(rats, 2, n.iter=1000)
-
-## paramecium example
-dcexample(paramecium, 2, n.iter=1000)
 }
 }
 \keyword{ utilities }
