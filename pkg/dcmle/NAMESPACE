@@ -1,7 +1,7 @@
 importFrom(stats, quantile)
 importFrom(methods, show)
 importFrom(dclone, dcsd, dctable, dcdiag, nclones)
-export(dcmle)
+export(dcmle, makeGsFit, makeDcFit)
 exportClasses(gsFit, dcFit, dcMle)
 exportMethods(summary, show, coef, dcsd, confint, vcov, quantile,
     dctable, dcdiag, nclones)

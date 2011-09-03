@@ -62,6 +62,7 @@ For additional arguments: \code{\link[dclone]{jags.fit}}, \code{\link[dclone]{ja
 \code{\link[dclone]{dc.fit}}, \code{\link[dclone]{dc.parfit}}.
 
 Object classes: \code{\link{dcmle-classes}}
+with creator functions \code{\link{makeGsFit}} and \code{\link{makeDcFit}}
 
 Methods: \code{\link{dcmle-methods}}
 }

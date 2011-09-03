@@ -41,7 +41,8 @@ Maintainer: Peter Solymos <solymos@ualberta.ca>
 \seealso{
 Fitting wrapper function: \code{\link{dcmle}}
 
-Object classes: \code{\link{dcmle-classes}}
+Object classes: \code{\link{dcmle-classes}},
+with creator functions \code{\link{makeGsFit}} and \code{\link{makeDcFit}}
 
 Methods: \code{\link{dcmle-methods}}
 }
@@ -51,30 +52,29 @@ Methods: \code{\link{dcmle-methods}}
 
 ## Function to create template object for the Beverton-Holt model
 ## R CMD check will not choke on character representation of model
+## the convenient makeDcFit creator function is used here
 bevholtFit <- function(y) {
-    x <- new("dcFit")
-    x@data <- list(ncl=1, n=length(y), Y=dcdim(data.matrix(y)))
-    x@model <- structure(
-        c(" model { ",
-        "         for (k in 1:ncl) { ",
-        "             for(i in 2:(n+1)){ ",
-        "                 Y[(i-1), k] ~ dpois(exp(X[i, k])) ",
-        "                 X[i, k] ~ dnorm(mu[i, k], 1 / sigma^2) ",
-        "                 mu[i, k] <- X[(i-1), k] + log(lambda) - log(1 + beta * exp(X[(i-1), k])) ",
-        "             } ",
-        "             X[1, k] ~ dnorm(mu0, 1 / sigma^2) ",
-        "         } ",
-        "         beta ~ dlnorm(-1, 1) ",
-        "         sigma ~ dlnorm(0, 1) ",
-        "         tmp ~ dlnorm(0, 1) ",
-        "         lambda <- tmp + 1 ",
-        "         mu0 <- log(2)  + log(lambda) - log(1 + beta * 2) ",
-        "     } "),
-        class = "custommodel")
-    x@multiply <- "ncl"
-    x@unchanged <- "n"
-    x@params <- c("lambda","beta","sigma")
-    x
+    makeDcFit(data = list(ncl=1, n=length(y), Y=dcdim(data.matrix(y))),
+        model = structure(
+            c(" model { ",
+            "         for (k in 1:ncl) { ",
+            "             for(i in 2:(n+1)){ ",
+            "                 Y[(i-1), k] ~ dpois(exp(X[i, k])) ",
+            "                 X[i, k] ~ dnorm(mu[i, k], 1 / sigma^2) ",
+            "                 mu[i, k] <- X[(i-1), k] + log(lambda) - log(1 + beta * exp(X[(i-1), k])) ",
+            "             } ",
+            "             X[1, k] ~ dnorm(mu0, 1 / sigma^2) ",
+            "         } ",
+            "         beta ~ dlnorm(-1, 1) ",
+            "         sigma ~ dlnorm(0, 1) ",
+            "         tmp ~ dlnorm(0, 1) ",
+            "         lambda <- tmp + 1 ",
+            "         mu0 <- log(2)  + log(lambda) - log(1 + beta * 2) ",
+            "     } "),
+            class = "custommodel"),
+        multiply = "ncl",
+        unchanged = "n",
+        params <- c("lambda","beta","sigma"))
 }
 ## S4 class 'bevholtMle' extends the 'dcMle' class
 ## it can have additional slots

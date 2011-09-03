@@ -20,13 +20,14 @@ setClassUnion("dcModel", c("function", "character", "custommodel"))
 setClass("gsFit", 
     representation(
         data = "list",
-        inits = "dcInits",
         model = "dcModel",
-        params = "dcArgs"),
+        params = "dcArgs",
+        inits = "dcInits"),
     prototype = list(
         data = list(),
-        inits = NULL,
-        model = character(0)))
+        model = character(0),
+        params = NULL,
+        inits = NULL))
 setClass("dcFit",
     representation(
         multiply = "dcArgs",
@@ -125,3 +126,30 @@ setAs(from = "dcMle", to = "MCMClist", def = function(from) {
     out
 })
 
+## creator function for gsFit
+makeGsFit <- 
+function(data, model, params=NULL, inits=NULL)
+{
+    x <- new("gsFit")
+    x@data <- data
+    x@model <- custommodel(model)
+    x@params <- params
+    x@inits <- inits
+    x
+}
+## creator function for dcFit
+makeDcFit <- 
+function(data, model, params=NULL, inits=NULL,
+multiply=NULL, unchanged=NULL, update=NULL,
+updatefun=NULL, initsfun=NULL, flavour="jags")
+{
+    x <- makeGsFit(data, model, params, inits)
+    x <- as(x, "dcFit")
+    x@multiply <- multiply
+    x@unchanged <- unchanged
+    x@update <- update
+    x@updatefun <- updatefun
+    x@initsfun <- initsfun
+    x@flavour <- flavour
+    x
+}

@@ -39,6 +39,7 @@ Underlying S3 methods:
 Fitting wrapper function: \code{\link{dcmle}}
 
 Object classes: \code{\link{dcmle-classes}}
+with creator functions \code{\link{makeGsFit}} and \code{\link{makeDcFit}}
 }
 \examples{
 ## Data and model taken from Ponciano et al. 2009
