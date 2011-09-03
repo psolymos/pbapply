@@ -38,7 +38,7 @@ Peter Solymos <solymos@ualberta.ca>
 \examples{
 \dontrun{
 ## index of currently available exampes
-help(package="dcexamples")
+data(package="dcexamples")
 
 ## seeds example, structure only
 dcexample(rats)

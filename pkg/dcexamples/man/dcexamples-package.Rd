@@ -35,7 +35,7 @@ Main function the this package: \code{\link{dcexample}}.
 \examples{
 \dontrun{
 ## index of currently available exampes
-help(package="dcexamples")
+data(package="dcexamples")
 
 ## seeds example, structure only
 dcexample(rats)
