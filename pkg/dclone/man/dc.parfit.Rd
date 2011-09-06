@@ -196,6 +196,49 @@ sim2 <- dc.parfit(cl, dat, param, bugs.model, n.clones=1:2,
 sim3 <- dc.parfit(cl, dat, param, bugs.model, n.clones=1:2, 
     flavour="bugs", program="OpenBUGS", multiply="J")
 stopCluster(cl)
+
+## simulation for Poisson GLMM with inits
+set.seed(1234)
+n <- 5
+beta <- c(2, -1)
+sigma <- 0.1
+alpha <- rnorm(n, 0, sigma)
+x <- runif(n)
+X <- model.matrix(~x)
+linpred <- X \%*\% beta + alpha
+Y <- rpois(n, exp(linpred))
+## JAGS model as a function
+jfun1 <- function() {
+    for (i in 1:n) {
+        Y[i] ~ dpois(lambda[i])
+        log(lambda[i]) <- alpha[i] + inprod(X[i,], beta)
+        alpha[i] ~ dnorm(0, 1/sigma^2)
+    }
+    for (j in 1:np) {
+        beta[j] ~ dnorm(0, 0.001)
+    }
+    sigma ~ dlnorm(0, 0.001)
+}
+## data
+jdata <- list(n = n, Y = Y, X = X, np = NCOL(X))
+## inits with latent variable and parameters
+ini <- list(alpha=rep(0,n), beta=rep(0, NCOL(X)))
+## model arg is necessary as 1st arg,
+## but not used when partype!=parchains
+ifun <-
+function(model, n.clones) {
+    list(alpha=dclone(rep(0,n), n.clones),
+        beta=c(0,0))
+}
+## make cluster
+cl <- makeSOCKcluster(2)
+## pass global n variable used in ifun to workers
+tmp <- clusterExport(cl, "n")
+## fit the model
+jmod2 <- dc.parfit(cl, jdata, c("beta", "sigma"), jfun1, ini,
+    n.clones = 1:2, multiply = "n", unchanged = "np",
+    initsfun=ifun, partype="balancing")
+stopCluster(cl)
 }
 }
 \keyword{ models }
