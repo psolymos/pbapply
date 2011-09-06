@@ -64,7 +64,7 @@ partype=c("balancing", "parchains", "both"), ...)
             if (ian > 2)
                 warnings("arguments of 'initsfun' after position 2 are ingnored")
             INIARGS <- ian < 2
-        }
+        } else INIARGS <- 0
         #### parallel part
         if (trace) {
             cat("\nParallel computation in progress\n\n")
