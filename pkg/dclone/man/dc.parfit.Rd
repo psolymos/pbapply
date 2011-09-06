@@ -64,8 +64,9 @@ are not dependent on the previous iteration, this should be \code{NULL}, otherwi
 it should take an 'mcmc.list' object as 1st argument, 2nd argument can be the
 number of clones. This feature is useful if latent nodes are provided in \code{inits}
 so it also requires to be cloned for subsequent iterations.
-This argument is ignored if size balancing is used (default), and not
-ignored when multiple parallel chains are used.
+The 1st argument of the \code{initsfun} function is ignored if 
+\code{partype != "parchains"} but the function must have a first argument regardless, 
+see Examples.
 }
   \item{flavour}{
   If \code{"jags"}, the function \code{\link{jags.fit}} is called. If \code{"bugs"}, the function \code{\link{bugs.fit}} is called.

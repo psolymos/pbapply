@@ -44,7 +44,7 @@ Version 1.3-5, August 23, 2011
       in a matrix with univariate densities as diagonal.
     * dctable add object name even if length(n.clones)==1.
     * initsfun handling in dc.parfit partly allowed,
-      this new feature is undocumented and needs testing.
+      this new feature is now documented, testing, Example added.
     * All documented S3 methods are now exported by NAMESPACE
       (dependent packages could not import them).
 
