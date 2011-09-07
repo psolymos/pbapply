@@ -1,5 +1,9 @@
 dclone package version history
 
+Version 1.3-6, September 7, 2011
+    * jags.fit return jags model with n.clones
+      attribute.
+
 Version 1.3-5, August 23, 2011
     * n.update=1000 is now the default instead of 0
       to ensure independence after adaptation.

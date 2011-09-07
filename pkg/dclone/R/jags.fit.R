@@ -43,6 +43,9 @@ updated.model=TRUE, ...)
         res <- coda.samples(m, params, n.iter=n.iter, thin=thin, 
             progress.bar=trace, by=byval)
     } else {
+        if (!is.null(n.clones) && n.clones > 1) {
+            attr(m, "n.clones") <- n.clones
+        }
         return(m)
     }
     ## jags.model attribute
@@ -55,4 +58,3 @@ updated.model=TRUE, ...)
     }
     res
 }
-
