@@ -43,6 +43,8 @@ each worker by distributing \code{inits} and single chained models.
 
 An object of class \code{jags} is a list of functions that share a
 common environment, see \code{\link[rjags]{jags.model}} for details.
+Data cloning information is attached to the returned
+object if data argument has \code{n.clones} attribute.
 }
 
 \author{Peter Solymos, \email{solymos@ualberta.ca}}

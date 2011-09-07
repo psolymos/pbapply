@@ -21,7 +21,7 @@ parCodaSamples(cl, model, variable.names, n.iter, thin = 1, ...)
              for jags model objects}
 }
 \value{
-  An \code{mcmc.list} object.
+  An \code{mcmc.list} object with possibly an \code{n.clones} attribute.
 }
 \author{Peter Solymos, \email{solymos@ualberta.ca}}
 \seealso{\code{\link[rjags]{coda.samples}}}
@@ -55,6 +55,14 @@ parJagsModel(cl, name=res, file=model, data=jdata,
     n.chains = 3, n.adapt=1000)
 parUpdate(cl, res, n.iter=1000)
 m <- parCodaSamples(cl, res, jpara, n.iter=2000)
+## with data cloning
+dcdata <- dclone(list(N = N, Y = Y, x = x), 2, multiply="N")
+parJagsModel(cl, name=res2, file=model, data=jdata, 
+    n.chains = 3, n.adapt=1000)
+parUpdate(cl, res2, n.iter=1000)
+m2 <- parCodaSamples(cl, res2, jpara, n.iter=2000)
+nclones(m2)
+clusterEvalQ(cl, nclones(res2))
 stopCluster(cl)
 }
 }
