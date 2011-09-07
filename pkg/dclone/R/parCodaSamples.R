@@ -22,8 +22,11 @@ function(cl, model, variable.names = NULL, n.iter, thin = 1, ...)
         lib = "dclone", balancing = "none", size = 1, 
         rng.type = getOption("dcoptions")$RNG, 
         cleanup = TRUE, dir = dir, unload=FALSE, ...)
-    ## do we need to check if all n.clones are identical???
-    n.clones <- lapply(res, nclones)[[1]]
+    n.clones <- lapply(res, nclones)
+    if (length(unique(unlist(n.clones))) != 1L) {
+        n.clones <- NULL
+        warnings("inconsistent 'n.clones' values, set to NULL")
+    } else n.clones <- n.clones[[1]]
     for (i in 1:length(res)) {
         attr(res, "n.clones") <- NULL
 #        class(res) <- class(res)[class(res) != "mcmc.list.dc"]

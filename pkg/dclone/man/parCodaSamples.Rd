@@ -57,7 +57,7 @@ parUpdate(cl, res, n.iter=1000)
 m <- parCodaSamples(cl, res, jpara, n.iter=2000)
 ## with data cloning
 dcdata <- dclone(list(N = N, Y = Y, x = x), 2, multiply="N")
-parJagsModel(cl, name=res2, file=model, data=jdata, 
+parJagsModel(cl, name=res2, file=model, data=dcdata, 
     n.chains = 3, n.adapt=1000)
 parUpdate(cl, res2, n.iter=1000)
 m2 <- parCodaSamples(cl, res2, jpara, n.iter=2000)
