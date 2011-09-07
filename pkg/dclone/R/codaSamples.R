@@ -10,3 +10,4 @@ function(model, variable.names = NULL, n.iter, thin = 1, ...)
     }
     res
 }
+

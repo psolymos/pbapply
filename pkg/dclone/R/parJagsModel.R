@@ -10,15 +10,20 @@ inits, n.chains = 1, n.adapt=1000, quiet=FALSE)
         file <- write.jags.model(file)
         on.exit(try(clean.jags.model(file)))
     }
+    n.clones <- dclone:::nclones.list(as.list(data))
     inits <- jags.model(file, data, inits, n.chains, 
         n.adapt = 0)$state(internal = TRUE)
     cldata <- list(file=file, data=as.list(data), inits=inits,
-        n.adapt=n.adapt, name=deparse(substitute(name)), quiet=quiet)
+        n.adapt=n.adapt, name=deparse(substitute(name)), quiet=quiet,
+        n.clones=n.clones)
     jagsparallel <- function(i) {
         cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
         res <- jags.model(file=cldata$file, data=cldata$data, 
             inits=cldata$inits[[i]], n.chains=1,
             n.adapt=cldata$n.adapt, quiet=cldata$quiet)
+        if (!is.null(n.clones) && n.clones > 1) {
+            attr(res, "n.clones") <- n.clones
+        }
         assign(cldata$name, res, envir=.GlobalEnv)
         NULL
     }

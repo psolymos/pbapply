@@ -6,8 +6,13 @@ function(cl, model, variable.names = NULL, n.iter, thin = 1, ...)
     jagsparallel <- function(i, ...) {
         cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
         res <- get(cldata$name, envir=.GlobalEnv)
+        n.clones <- nclones(res)
         res <- coda.samples(res, variable.names=cldata$variable.names,
             n.iter=cldata$n.iter, thin=cldata$thin, ...)
+        if (!is.null(n.clones) && n.clones > 1) {
+            attr(res, "n.clones") <- n.clones
+#            class(res) <- c("mcmc.list.dc", class(res))
+        }
         res
     }
     dir <- if (inherits(cl, "SOCKcluster")) 
@@ -17,6 +22,17 @@ function(cl, model, variable.names = NULL, n.iter, thin = 1, ...)
         lib = "dclone", balancing = "none", size = 1, 
         rng.type = getOption("dcoptions")$RNG, 
         cleanup = TRUE, dir = dir, unload=FALSE, ...)
-    as.mcmc.list(lapply(res, as.mcmc))
+    ## do we need to check if all n.clones are identical???
+    n.clones <- lapply(res, nclones)[[1]]
+    for (i in 1:length(res)) {
+        attr(res, "n.clones") <- NULL
+#        class(res) <- class(res)[class(res) != "mcmc.list.dc"]
+    }
+    res <- as.mcmc.list(lapply(res, as.mcmc))
+    if (!is.null(n.clones) && n.clones > 1) {
+        attr(res, "n.clones") <- n.clones
+        class(res) <- c("mcmc.list.dc", class(res))
+    }
+    res
 }
 
