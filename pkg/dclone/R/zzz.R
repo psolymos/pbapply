@@ -1,4 +1,11 @@
 .onAttach <- function(libname, pkgname){
+    ver <- read.dcf(file=system.file("DESCRIPTION", package=pkgname), 
+        fields=c("Version", "Date"))
+    packageStartupMessage(paste(pkgname, ver[1], "\t", ver[2], "\n"))
+    invisible(NULL)
+}
+
+.onLoad <- function(libname, pkgname){
     ## dcoptions setup
     if (is.null(getOption("dcoptions")))
         options("dcoptions"=list(
@@ -12,9 +19,6 @@
     rj <- suppressWarnings(require(rjags))
     if (!rj)
         cat("Warning message:\n  there is no package called 'rjags'\n")
-    ver <- read.dcf(file=system.file("DESCRIPTION", package=pkgname), 
-        fields=c("Version", "Date"))
-    packageStartupMessage(paste(pkgname, ver[1], "\t", ver[2], "\n"))
     invisible(NULL)
 }
 
