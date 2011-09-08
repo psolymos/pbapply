@@ -11,6 +11,7 @@ Version 1.3-6, September 7, 2011
       through data argument and allow custommodel
       specification of model argument (similarly to par* 
       versions of similar functions).
+    * .onLoad added to zzz.R
 
 Version 1.3-5, August 23, 2011
     * n.update=1000 is now the default instead of 0

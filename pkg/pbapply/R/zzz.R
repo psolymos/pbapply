@@ -1,4 +1,4 @@
-.onAttach <- function(libname, pkgname){
+.onLoad <- function(libname, pkgname){
     if (is.null(getOption("pboptions")))
         options("pboptions"=list(type="txt",
             char="+", txt.width=50, gui.width=300, style=3, initial=0,
