@@ -57,7 +57,7 @@ partype=c("balancing", "parchains", "both"), ...)
             inits <- NULL
         if (!is.null(initsfun)) {
             initsfun <- match.fun(initsfun)
-            ian <- length(names(as.list(args(initsfun))))-1
+            ian <- length(names(formals(initsfun)))-1
             if (ian == 0)
                 stop("'initsfun' must have at least one argument")
             else warnings("first (model) argument of 'initsfun' is ignored when partype != 'parcains'")

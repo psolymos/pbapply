@@ -35,7 +35,7 @@ cl=NULL, parchains=FALSE, ...)
     if (!is.null(update)) {
         unchanged <- unique(c(unchanged, update))
         updatefun <- match.fun(updatefun)
-        UPARGS <- length(names(as.list(args(updatefun))))-1 < 2
+        UPARGS <- length(names(formals(updatefun)))-1 < 2
     }
     ## evaluate inits
     if (missing(inits))
