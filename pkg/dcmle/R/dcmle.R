@@ -8,7 +8,7 @@ dcmle <- function(x, params, n.clones=1, cl=NULL, ...) {
         if (n.clones > 1 && !is.null(x@initsfun)) {
             initsfun <- match.fun(x@initsfun)
             ARGS <- names(formals(initsfun))
-            ARGS <- ARGS[1:max(2, length(ARGS)-1)]
+            ARGS <- ARGS[1:max(2, length(ARGS))]
             if (length(ARGS)==2)
                 eval(parse(text = paste("inits <- ", 
                     deparse(substitute(initsfun)), "(", 
