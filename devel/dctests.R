@@ -35,3 +35,4 @@ if (length(err)) {
     cat("\n\n##       <<<<<<<<<<<<<<    Errors/Warnings found    >>>>>>>>>>>>>>>>>\n\n")
     data.frame(Line=err, Topic=y, Text=x[err])
 } else cat("\n\n##       <<<<<<<<<<<<<<    OK -- No Errors/Warnings found    >>>>>>>>>>>>>>>>>\n\n")
+rm(ls())
