@@ -2,6 +2,9 @@ ResourceSelection package version history
 
 Version 0.1-3, August 23, 2011
     * .onLoad added to zzz.R
+    * predict method subsetted the result
+      when newdata was provided. Reported by
+      Rajapandian Kanagaraj (UFZ).
 
 Version 0.1-2, July 9, 2011
     * packageStartupMessage used in zzz.R .onAttach

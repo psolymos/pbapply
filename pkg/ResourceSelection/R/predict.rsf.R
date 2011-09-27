@@ -10,11 +10,11 @@ part = c("avail", "used", "all"), se.fit = FALSE, ...){
         Bp <- ncol(boot)
         nps <- sapply(object$coefficients, length)
     }
-    id <- switch(part,
-        avail = which(object$y == 0),
-        used = which(object$y == 1),
-        all = 1:length(object$y))
     if (is.null(newdata)) {
+        id <- switch(part,
+            avail = which(object$y == 0),
+            used = which(object$y == 1),
+            all = 1:length(object$y))
         rval <- fitted(object)[id]
         if (type == "link")
             ## binomial("probit")$linkfun is qnorm
@@ -23,7 +23,7 @@ part = c("avail", "used", "all"), se.fit = FALSE, ...){
             X <- model.matrix(object)[id,]
     } else {
         rhs <- model.frame(object$formula, newdata)
-        X <- model.matrix(attr(rhs, "terms"), rhs)[id,]
+        X <- model.matrix(attr(rhs, "terms"), rhs)
         rval <- drop(X %*% coef(object))
         if (type == "response") {
             rval <- binomial(object$link)$linkinv(rval)
