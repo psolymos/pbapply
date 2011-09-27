@@ -1,12 +1,11 @@
-## main svisit functions
-export("svocc", "svocc.fit", "svocc.step",
-    "svabu", "svabu.fit", "svabu.step",
-    "jags.engine",
+## exported svocc functions
+export("svocc", "svocc.fit", "svocc.step")
+## exported svabu functions
+export("svabu", "svabu.fit", "svabu.step", "zif")
+## exported helper functions
+export("jags.engine",
     "bootstrap", "extractMLE", "extractBOOT",
-    "predictMCMC",
-    "is.present",
-    "zif")
-
+    "predictMCMC", "is.present")
 ## model selection helper functions
 export("AUC", "rocplot")
 

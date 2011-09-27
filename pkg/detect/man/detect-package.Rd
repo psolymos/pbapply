@@ -3,15 +3,13 @@
 \alias{detect}
 \docType{package}
 \title{
-Analyzing Single Visit Data with Detection Error
+Analyzing Wildlife Data with Detection Error
 }
 \description{
-The package implements zero inflated Binomial model
-  for single visit site occupancy and Binomial-ZIP mixture model 
-  for single visit count data when the probability of detection
-  is less than one. Provides hands-on formula interface with inferences
-  based on numerical optimization and data cloning.
-  Development was funded by the Alberta Biodiversity Monitoring Institute.
+  The package implements models to analyze
+  site occupancy and count data models with detection error.
+  Development was funded by the Alberta Biodiversity Monitoring Institute
+  \url{http://www.abmi.ca/}.
 }
 \details{
 \code{\link{svocc}}: single visit occupancy model.
@@ -19,14 +17,15 @@ The package implements zero inflated Binomial model
 \code{\link{svabu}}: single visit abundance model.
 }
 \author{
-Peter Solymos, Monica Moreno
+Peter Solymos, Monica Moreno, Subhash R Lele
 
 Maintainer: Peter Solymos <solymos@ualberta.ca>
 }
 \references{
-Lele et al.
-
-Solymos et al.
+Lele, S.R., Moreno, M. and Bayne, E. (2011) 
+Dealing with detection error in site occupancy surveys: 
+What can we do with a single survey? 
+\emph{Journal of Plant Ecology} (in press)
 }
 \keyword{ package }
 \examples{

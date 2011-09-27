@@ -4,6 +4,7 @@
 \alias{zif}
 \alias{is.present}
 \alias{predictMCMC}
+\alias{svabu.step}
 \title{
 Binomial-Poisson and Binomial-ZIP models with single visit
 }
@@ -19,6 +20,8 @@ link.det = "logit", link.zif = "logit", ...)
 zif(x)
 is.present(object, ...)
 predictMCMC(object, ...)
+svabu.step(object, model, trace = 1, steps = 1000, 
+criter = c("AIC", "BIC"), test = FALSE, k = 2, control, ...)
 }
 \arguments{
   \item{formula}{
@@ -52,7 +55,8 @@ initial values used by \code{link{optim}}
 link function for the detection and zero inflation parts of the model
 }
   \item{model}{
-a logical value indicating whether model frame should be included as a component of the returned value
+a logical value indicating whether model frame should be included as a component of the returned value,
+or true state or detection model
 }
   \item{x}{
 logical values indicating whether the response vector and model matrix used in the 
@@ -61,6 +65,24 @@ For the function \code{zif} it is any object to be returned.
 }
   \item{object}{
 a fitted object.
+}
+  \item{trace}{
+info returned during the procedure
+}
+  \item{steps}{
+max number of steps
+}
+  \item{criter}{
+criterion to be minimized (cAUC=1-AUC)
+}
+  \item{test}{
+lofical, if decrease in deviance should be tested
+}
+  \item{k}{
+penalty to be used with AIC
+}
+  \item{control}{
+controls for optimization, if missing taken from object
 }
   \item{\dots}{
 other arguments passed to the functions
