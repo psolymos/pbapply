@@ -44,7 +44,8 @@ optimization or data cloning to be used as optimization
 initial values
 }
   \item{model}{
-a logical value indicating whether model frame should be included as a component of the returned value
+a logical value indicating whether model frame should be included as a component of the returned value,
+or true state or detection model
 }
   \item{x}{
 logical values indicating whether the response vector and model matrix used in the 
@@ -58,9 +59,6 @@ logical, if AUC should be calculated
 }
   \item{object}{
 a fitted model object
-}
-  \item{model}{
-true state or detection model
 }
   \item{trace}{
 info returned during the procedure
