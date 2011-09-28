@@ -44,7 +44,7 @@ setClass("dcFit",
         update = NULL,
         updatefun = NULL,
         initsfun = NULL,
-        flavour = "jags"))
+        flavour = getOption("dcmle.flavour")))
 
 ## coercion (reverse is automatoc based on inheritence)
 setAs(from = "gsFit", to = "dcFit", def = function(from) {
@@ -141,8 +141,10 @@ function(data, model, params=NULL, inits=NULL)
 makeDcFit <- 
 function(data, model, params=NULL, inits=NULL,
 multiply=NULL, unchanged=NULL, update=NULL,
-updatefun=NULL, initsfun=NULL, flavour="jags")
+updatefun=NULL, initsfun=NULL, flavour)
 {
+    if (missing(flavour))
+        flavour <- getOption("dcmle.flavour")
     x <- makeGsFit(data, model, params, inits)
     x <- as(x, "dcFit")
     x@multiply <- multiply

@@ -20,7 +20,7 @@ makeGsFit(data, model, params = NULL, inits = NULL)
 
 makeDcFit(data, model, params=NULL, inits = NULL,
 multiply = NULL, unchanged = NULL, update = NULL,
-updatefun = NULL, initsfun = NULL, flavour = "jags")
+updatefun = NULL, initsfun = NULL, flavour)
 }
 \arguments{
   \item{data}{usually a named list with data.}
@@ -60,6 +60,11 @@ that is created based on the model representation
 in 'gsFit' and 'dcFit'. Fitting is done by
 the \code{\link{dcmle}} function and described on
 separate help page.
+
+The default \code{flavour} is stored in 
+\code{getOption("dcmle.flavour")} with value \code{"jags"}.
+It can be changed as \code{options("dcmle.flavour"="bugs")}
+if required.
 }
 \value{
 The class 'gsFit' has the following slots
