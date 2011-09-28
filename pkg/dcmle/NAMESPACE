@@ -1,7 +1,32 @@
-importFrom(stats, quantile)
-importFrom(methods, show)
-importFrom(dclone, dcsd, dctable, dcdiag, nclones)
+## exporting from dcmle
 export(dcmle, makeGsFit, makeDcFit)
 exportClasses(gsFit, dcFit, dcMle)
 exportMethods(summary, show, coef, dcsd, confint, vcov, quantile,
     dctable, dcdiag, nclones)
+
+## imports
+importFrom(stats, quantile, update)
+importFrom(methods, show)
+#importFrom(rjags)
+importFrom(coda, as.mcmc.list)
+
+## dclone imports
+importFrom(dclone,
+       dclone, dcdim, 
+       jags.fit, bugs.fit, dc.fit,
+       clean.jags.model, write.jags.model, custommodel,
+       updated.model,
+       dcsd,
+       nclones,
+       mcmcapply,
+       make.symmetric,
+       dctable, extractdctable,
+       dcdiag, extractdcdiag, 
+       lambdamax.diag, chisq.diag,
+       dcoptions)
+importFrom(dclone,
+       jags.parfit, dc.parfit,
+       snowWrapper, 
+       clusterSize, plotClusterSize,
+       clusterSplitSB, 
+       parLapplySB, parLapplySLB)
