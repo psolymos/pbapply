@@ -1,7 +1,7 @@
 setwd("c:/svn/dcr/devel/tests")
-library(dclone)
+library(dcmle)
 exampleDontRun <- function(topic) {
-    ex <- gsub("##D ", "", example(topic, "dclone", 
+    ex <- gsub("##D ", "", example(topic, "dcmle", 
         character.only=TRUE, echo=FALSE, give.lines=TRUE))
     f <- write.jags.model(structure(ex, class="custommodel"),
         filename=paste(topic, ".bug", sep=""))
@@ -9,16 +9,16 @@ exampleDontRun <- function(topic) {
     clean.jags.model(f)
     invisible(NULL)
 }
-ff <- gsub(".Rd", "", list.files("c:/svn/dcr/pkg/dclone/man"))
+ff <- gsub(".Rd", "", list.files("c:/svn/dcr/pkg/dcmle/man"))
 ff
 cat("\n\n## <<<<<<<<<<<<<<    ", date(), "    >>>>>>>>>>>>>>>>>\n\n")
-for (topic in ff) {
+for (topic in ff[-2]) {
     cat("\n\n## START <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n")
     exampleDontRun(topic)
     cat("\n## END   <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n\n")
 }
 #cat("\n\n## START <<<<<<<<<<<<<<    endmatter    >>>>>>>>>>>>>>>>>\n")
-x <- readLines("c:/svn/dcr/devel/tests/dctests.log")
+x <- readLines("c:/svn/dcr/devel/tests/dcmle_tests.log")
 err <- c(grep("rror", x), grep("arning", x))
 fal <- grep("d error", x)
 err <- err[!(err %in% fal)]

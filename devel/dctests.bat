@@ -6,24 +6,45 @@ cd \svn\dcr\devel\tests
 echo.
 echo build source package
 echo.
-R CMD build "c:/svn/dcr/pkg/dclone"
+::R CMD build "c:/svn/dcr/pkg/dclone"
 echo.
 echo build binary package
 echo.
-R CMD build "c:/svn/dcr/pkg/dclone" --binary
+::R CMD build "c:/svn/dcr/pkg/dclone" --binary
 echo.
 echo install source package
 echo.
-R CMD INSTALL dclone_1.3-6.tar.gz
+::R CMD INSTALL dclone_1.3-6.tar.gz
 echo.
 echo check package
 echo.
-R CMD check "c:/svn/dcr/pkg/dclone" --outdir="c:/svn/dcr/devel/tests/"
+::R CMD check "c:/svn/dcr/pkg/dclone" --outdir="c:/svn/dcr/devel/tests/"
 echo.
+echo run dontrun examples in dclone
 echo.
-echo run dontrun examples
+::R CMD BATCH --vanilla "c:/svn/dcr/devel/dclone_tests.R" "c:/svn/dcr/devel/tests/dclone_tests.log"
 echo.
-R CMD BATCH --vanilla "c:/svn/dcr/devel/dctests.R" "c:/svn/dcr/devel/tests/dctests.log"
+echo dcmle tests
+echo.
+echo build source package
+echo.
+R CMD build "c:/svn/dcr/pkg/dcmle"
+echo.
+echo build binary package
+echo.
+R CMD build "c:/svn/dcr/pkg/dcmle" --binary
+echo.
+echo install source package
+echo.
+R CMD INSTALL dcmle_0.1-0.tar.gz
+echo.
+echo check package
+echo.
+R CMD check "c:/svn/dcr/pkg/dcmle" --outdir="c:/svn/dcr/devel/tests/"
+echo.
+echo run dontrun examples in dcmle
+echo.
+R CMD BATCH --vanilla "c:/svn/dcr/devel/dcmle_tests.R" "c:/svn/dcr/devel/tests/dcmle_tests.log"
 echo.
 echo done
-exit
+::exit

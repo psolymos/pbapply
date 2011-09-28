@@ -44,9 +44,9 @@ setClass("dcFit",
         update = NULL,
         updatefun = NULL,
         initsfun = NULL,
-        flavour = getOption("dcmle.flavour")))
+        flavour = "jags"))
 
-## coercion (reverse is automatoc based on inheritence)
+## coercion (reverse is automatic based on inheritence)
 setAs(from = "gsFit", to = "dcFit", def = function(from) {
     out <- new("dcFit")
     out@data <- from@data
