@@ -1,6 +1,10 @@
 importFrom(Formula)
-importFrom(dclone)
+importFrom(dcmle)
+
 export(hsarx, sie, sieplot)
+exportClasses(hsarxMle)
+exportMethods(show)
+
 S3method("coef", "sie")
 S3method("print", "sie")
 S3method("summary", "sie")

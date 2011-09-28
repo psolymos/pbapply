@@ -1,7 +1,10 @@
 sharx package version history
 
+Version 1.0-2, Sept 28, 2011
+    * dcmle dependency.
+
 Version 1.0-1, July 12, 2011
     * sie model added with methods and example.
 
 Version 1.0-0, December 6, 2010
-    * first release
+    * first release.
