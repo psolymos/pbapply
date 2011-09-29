@@ -1,5 +1,8 @@
 ResourceSelection package version history
 
+Version 0.1-4, Sept 29, 2011
+    *
+
 Version 0.1-3, August 23, 2011
     * .onLoad added to zzz.R
     * predict method subsetted the result

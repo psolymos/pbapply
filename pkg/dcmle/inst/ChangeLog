@@ -1,5 +1,8 @@
 dcmle package version history
 
+Version 0.1-1, Sept 29, 2011
+    *
+
 Version 0.1-0, Sept 27, 2011
     * main functions, classes, methods work
     * dependencies and namespace figured out
