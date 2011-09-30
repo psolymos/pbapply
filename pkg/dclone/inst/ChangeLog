@@ -1,7 +1,8 @@
 dclone package version history
 
 Version 1.4-1, September 28, 2011
-    *
+    * plot.dcdiag: dcdiag colnames from .dcFitwere non standard,
+      so plot failed to select columns. Now fixed.
 
 Version 1.4-0, September 28, 2011
     * Major CRAN release with new parallel features.
