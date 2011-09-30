@@ -48,7 +48,7 @@ object if data argument has \code{n.clones} attribute.
 }
 
 \author{Peter Solymos, \email{solymos@ualberta.ca}}
-\seealso{\code{\link[rjags]{jags.model}}
+\seealso{\code{\link[rjags]{jags.model}}, \code{\link{jagsModel}}
 
 See example on help page of \code{\link{parCodaSamples}}.
 }

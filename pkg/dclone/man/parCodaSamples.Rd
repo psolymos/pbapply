@@ -24,7 +24,7 @@ parCodaSamples(cl, model, variable.names, n.iter, thin = 1, ...)
   An \code{mcmc.list} object with possibly an \code{n.clones} attribute.
 }
 \author{Peter Solymos, \email{solymos@ualberta.ca}}
-\seealso{\code{\link[rjags]{coda.samples}}}
+\seealso{\code{\link[rjags]{coda.samples}}, \code{\link{codaSamples}}}
 \examples{
 \dontrun{
 model <- function() {

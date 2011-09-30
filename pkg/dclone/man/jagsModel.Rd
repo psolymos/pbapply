@@ -22,7 +22,7 @@ objects in \code{data} corresponding to node arrays used in
 \code{file} are taken to represent the values of observed nodes
 in the model}
 \item{inits}{optional specification of initial values in the form of a
-list or a function (see \code{Initialization} below). If omitted,
+list or a function. If omitted,
 initial values will be generated automatically. It is an error to
 supply an initial value for an observed node.}
 \item{n.chains}{the number of parallel chains for the model}
@@ -47,6 +47,8 @@ An \code{n.clones} attribute is attached to the object.
 \seealso{\code{\link[rjags]{jags.model}}, \code{\link[rjags]{update.jags}}
 
 See example on help page of \code{\link{codaSamples}}.
+
+Parallel version: \code{\link{parJagsModel}}
 }
 \keyword{models}
 

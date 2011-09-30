@@ -28,7 +28,9 @@ codaSamples(model, variable.names, n.iter, thin = 1, ...)
 }
 \author{Peter Solymos, \email{solymos@ualberta.ca}}
 \seealso{\code{\link[rjags]{coda.samples}}, \code{\link[rjags]{update.jags}}, 
-\code{\link[rjags]{jags.model}}}
+\code{\link[rjags]{jags.model}}
+
+Parallel version: \code{\link{parCodaSamples}}}
 \examples{
 \dontrun{
 model <- function() {
