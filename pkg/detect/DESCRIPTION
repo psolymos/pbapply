@@ -5,7 +5,7 @@ Version: 0.1-1
 Date: 2011-09-29
 Author: Peter Solymos, Monica Moreno, Subhash R Lele
 Maintainer: Peter Solymos <solymos@ualberta.ca>
-Depends: R (>= 1.7.0)
+Depends: R >= 2.13.0
 Suggests: dclone, pbapply
 Description: The package implements models to analyze
   site occupancy and count data models with detection error.
