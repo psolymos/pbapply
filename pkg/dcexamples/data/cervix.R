@@ -1,4 +1,5 @@
 library(dcmle)
+load.module("glm")
 cervix <- makeDcFit(
     data = list(
         "N" = 2044,

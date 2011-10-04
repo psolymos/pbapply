@@ -1,5 +1,6 @@
 ## Seeds example from BUGS Vol. I.
 library(dcmle)
+load.module("glm")
 seeds <- makeDcFit(
     data = list(N = 21,
         r = c(10, 23, 23, 26, 17, 5, 53, 55, 32, 46, 10, 8, 10, 8, 23, 0, 

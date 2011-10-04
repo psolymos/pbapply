@@ -1,4 +1,5 @@
 library(dcmle)
+load.module("glm")
 epil <- makeDcFit(
     data = list("N" = 59,
         "T" = 4,

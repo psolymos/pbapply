@@ -1,4 +1,5 @@
 library(dcmle)
+load.module("dic")
 jaw <- makeDcFit(
     data = list(
         "M" = 4,
@@ -40,5 +41,5 @@ jaw <- makeDcFit(
       }
       RSS <- sum(resid2[,]);                    # Residual Sum of Squares
     },
-    params = c("beta0.uncentred","beta1","Sigma2","mu","RSS"))
+    params = c("beta0.uncentred","beta1","Sigma2","mu","RSS","deviance"))
 #dcmle(jaw)

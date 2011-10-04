@@ -1,4 +1,5 @@
 library(dcmle)
+load.module("glm")
 oxford <- makeDcFit(
     data = list(
         "K" = 

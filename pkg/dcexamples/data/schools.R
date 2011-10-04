@@ -1,4 +1,5 @@
 library(dcmle)
+load.module("glm")
 schools <- makeDcFit(
     data = list(
         "N" = 1978,
