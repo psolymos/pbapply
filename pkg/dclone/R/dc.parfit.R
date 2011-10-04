@@ -83,7 +83,7 @@ n.chains=3, partype=c("balancing", "parchains", "both"), ...)
         ## common data 
         cldata <- list(data=data, params=params, model=model, inits=inits,
             multiply=multiply, unchanged=unchanged, k=k, 
-            INIARGS=INIARGS, initsfun=initsfun)
+            INIARGS=INIARGS, initsfun=initsfun, n.chains=n.chains)
         ## parallel computations
         balancing <- if (!getOption("dcoptions")$LB)
             "size" else "both"
@@ -129,7 +129,7 @@ n.chains=3, partype=c("balancing", "parchains", "both"), ...)
                 INITS <- if (!is.null(cldata$initsfun) && !cldata$INIARGS)
                     initsfun(,i) else cldata$inits
                 jags.fit(data=jdat, params=cldata$params, model=cldata$model, inits=INITS,
-                    n.adapt=0, n.update=0, n.iter=0, n.chains=n.chains)$state(internal=TRUE)
+                    n.adapt=0, n.update=0, n.iter=0, n.chains=cldata$n.chains)$state(internal=TRUE)
             }
             ## snowWrapper with cleanup (but cldata changes, has to be passed again)
             pini <- snowWrapper(cl, k, dcinits, cldata, name=NULL, use.env=TRUE,
