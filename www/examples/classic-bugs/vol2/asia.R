@@ -1,3 +1,4 @@
+## asia: an expert system (BUGS Examples Vol. 2)
 library(dcmle)
 asia <- makeDcFit(
     data = list(

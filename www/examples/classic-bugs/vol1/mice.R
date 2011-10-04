@@ -1,3 +1,4 @@
+## mice: Weibull regression in censored survival analysis (BUGS Examples Vol. 1)
 library(dcmle)
 mice <- makeDcFit(
     data = list(

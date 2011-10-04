@@ -1,3 +1,4 @@
+##  (BUGS Examples Vol. 1)
 library(dcmle)
 litters <- makeDcFit(
     data = list(

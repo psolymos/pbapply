@@ -1,3 +1,4 @@
+## lsat: latent variable models for item-response data (BUGS Examples Vol. 1)
 library(dcmle)
 lsat <- makeDcFit(
     data = list(

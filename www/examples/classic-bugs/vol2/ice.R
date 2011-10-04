@@ -1,5 +1,6 @@
+## ice: non-parametric smoothing in an age-cohort model (BUGS Examples Vol. 2)
 library(dcmle)
-icear <- makeDcFit(
+ice <- makeDcFit(
     data = list(
         "I" = 77,
         "Nage" = 13,
@@ -57,4 +58,4 @@ icear <- makeDcFit(
        tau   <- 1/(sigma*sigma);
     },
     params = c("sigma", "logRR"))
-#dcmle(icear)
+#dcmle(ice)

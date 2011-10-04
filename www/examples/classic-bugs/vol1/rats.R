@@ -1,4 +1,4 @@
-## rats example from WinBUGS Manual
+## rats: Normal hierarchical model (BUGS Examples Vol. 1)
 library(dcmle)
 rats <- makeDcFit(
     data = list(N = 30, T = 5, 

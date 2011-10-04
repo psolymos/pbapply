@@ -1,3 +1,4 @@
+## blocker: random effects meta-analysis of clinical trials (BUGS Examples Vol. 1)
 library(dcmle)
 blocker <- makeDcFit(
     data = list("rt" =

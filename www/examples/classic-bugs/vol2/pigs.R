@@ -1,3 +1,4 @@
+##  (BUGS Examples Vol. 2)
 library(dcmle)
 pigs <- makeDcFit(
     data = list(

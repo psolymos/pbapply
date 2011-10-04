@@ -1,3 +1,4 @@
+## pump: conjugate gamma-Poisson hierarchical model (BUGS Examples Vol. 1)
 library(dcmle)
 pump <- makeDcFit(
     data = list(

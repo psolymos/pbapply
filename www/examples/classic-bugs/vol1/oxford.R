@@ -1,3 +1,4 @@
+## oxford: smooth fit to log-odds ratios in case control studies (BUGS Examples Vol. 1)
 library(dcmle)
 load.module("glm")
 oxford <- makeDcFit(

@@ -1,3 +1,4 @@
+## alli: multinomial-logistic model (BUGS Examples Vol. 2)
 library(dcmle)
 alli <- makeDcFit(
     data = list(

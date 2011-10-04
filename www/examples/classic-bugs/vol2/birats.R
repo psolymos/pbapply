@@ -1,3 +1,4 @@
+## birats: a bivariate Normal hierarchical model (BUGS Examples Vol. 2)
 library(dcmle)
 birats <- makeDcFit(
     data = list(

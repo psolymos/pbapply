@@ -1,3 +1,4 @@
+## schools: multivariate hierarchical model of examination results (BUGS Examples Vol. 2)
 library(dcmle)
 load.module("glm")
 schools <- makeDcFit(

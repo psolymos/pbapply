@@ -1,3 +1,4 @@
+## dyes: variance components model (BUGS Examples Vol. 1)
 library(dcmle)
 dyes <- makeDcFit(
     data = list("y" =

@@ -1,5 +1,4 @@
-## Error: Error in node y[6,1] -- requires glm module
-## Failure to calculate log density
+## salm: extra-Poisson variation in dose-response study (BUGS Examples Vol. 1)
 library(dcmle)
 load.module("glm")
 salm <- makeDcFit(
