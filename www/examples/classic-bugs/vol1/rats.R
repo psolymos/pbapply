@@ -1,5 +1,6 @@
-## Rats example from BUGS Vol. I.
-rats <- list(
+## rats example from WinBUGS Manual
+library(dcmle)
+rats <- makeDcFit(
     data = list(N = 30, T = 5, 
         Y = structure(c(151, 145, 147, 155, 135, 159, 141, 159, 177, 134, 
         160, 143, 154, 171, 163, 160, 142, 156, 157, 152, 154, 139, 146, 
@@ -39,10 +40,17 @@ rats <- list(
         sigma.beta  <- 1.0/sqrt(tau.beta)
         x.bar    <- mean(x[])
         alpha0   <- alpha.c - beta.c*x.bar
-    })
-rownames(rats$data$Y) <- paste("rat", 1:30, sep=".")
-colnames(rats$data$Y) <- paste("week", 1:5, sep=".")
-names(rats$data$x) <- paste("week", 1:5, sep=".")
-#m <- jags.fit(rats$data, c("alpha0", "beta.c"), rats$model, rats$inits)
-#mm <- dc.fit(rats$data, c("alpha0", "beta.c"), rats$model, NULL,
-#    n.clones = 1:5, multiply = "N", unchanged = c("T", "x"))
+    },
+    params = c("alpha0", "beta.c", "sigma.c", "sigma.alpha", "sigma.beta"),
+    multiply = "N",
+    unchanged = c("T", "x"))
+rownames(rats@data$Y) <- paste("rat", 1:30, sep=".")
+colnames(rats@data$Y) <- paste("week", 1:5, sep=".")
+names(rats@data$x) <- paste("week", 1:5, sep=".")
+rats@inits <- NULL
+#rats@inits <- rats0$inits
+#rats@initsfun <- function(model, n.clones) {
+#    dclone(rats@inits, n.clones,
+#        unchanged=c("alpha0", "beta.c", "tau.c", "tau.alpha", "tau.beta"))
+#}
+#dcmle(rats,n.clones=1:2,n.iter=1000)

@@ -1,5 +1,7 @@
 ## Seeds example from BUGS Vol. I.
-seeds <- list(
+library(dcmle)
+load.module("glm")
+seeds <- makeDcFit(
     data = list(N = 21,
         r = c(10, 23, 23, 26, 17, 5, 53, 55, 32, 46, 10, 8, 10, 8, 23, 0, 
             3, 22, 15, 32, 3),
@@ -21,7 +23,7 @@ seeds <- list(
                           alpha12*x1[i]*x2[i] + b[i];
            r[i]         ~ dbin(p[i],n[i]);
         }
-    })
-#m <- jags.fit(seeds$dat, c("alpha0", "alpha1","alpha2","alpha12","sigma"), seeds$model, seeds$inits)
-#mm <- dc.fit(seeds$dat, c("alpha0", "alpha1","alpha2","alpha12","sigma"), seeds$model, seeds$inits,
-#        n.clones = 1:5, multiply = "N")
+    },
+    multiply = "N",
+    params = c("alpha0", "alpha1", "alpha2", "alpha12", "sigma"))
+#dcmle(seeds,n.clones=1:2,n.iter=1000)
