@@ -15,11 +15,11 @@ partype=c("balancing", "parchains", "both"), ...)
     ## some arguments are ignored with size balancing
     if (partype != "parchains") {
         if (!is.null(updatefun))
-            warnings("'updatefun' argument is ignored when partype != 'parcains'")
+            warnings("'updatefun' argument is ignored when partype != 'parchains'")
         if (!is.null(update))
-            warnings("'update' argument is ignored when partype != 'parcains'")
+            warnings("'update' argument is ignored when partype != 'parchains'")
 #        if (!is.null(initsfun))
-#            warnings("'initsfun' argument is ignored when partype != 'parcains'")
+#            warnings("'initsfun' argument is ignored when partype != 'parchains'")
     }
     if (partype != "balancing" && flavour == "bugs")
         stop("flavour='bugs' supported for 'balancing' type only")
@@ -136,16 +136,28 @@ partype=c("balancing", "parchains", "both"), ...)
                 lib="dclone", balancing=balancing, size=k, 
                 rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, unload=FALSE, ...)
             cldata$inits <- do.call("c", pini)
+
             nch <- list(...)$n.chains
             if (is.null(nch))
                 nch <- 3
+#            dots <- list(...)
+#            nch <- dots$n.chains
+#            nch <- if (is.null(dots$n.chains))
+#                3 else dots$n.chains
+#            dots$n.chains <- NULL
+#            cldata$dots <- dots
+
             cldata$k <- rep(k, each=nch)
             ## parallel function to evaluate by snowWrapper
             dcparallel <- function(i, ...) {
                 cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
                 jdat <- dclone(cldata$data, cldata$k[i], multiply=cldata$multiply, unchanged=cldata$unchanged)
+
                 jags.fit(data=jdat, params=cldata$params, model=cldata$model, 
                     inits=cldata$inits[[i]], n.chains=1, updated.model=FALSE, ...)
+#                do.call(jags.fit, c(data=jdat, params=cldata$params, model=cldata$model, 
+#                    inits=cldata$inits[[i]], n.chains=1, updated.model=FALSE, cldata$dots))
+
             }
             ## no dclone loaded as it is there
             pmod <- snowWrapper(cl, 1:(times*nch), dcparallel, cldata, name=NULL, use.env=TRUE,
