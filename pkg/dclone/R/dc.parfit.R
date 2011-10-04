@@ -1,7 +1,7 @@
 dc.parfit <- 
 function(cl, data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL, 
 update=NULL, updatefun=NULL, initsfun=NULL, flavour = c("jags", "bugs"), 
-partype=c("balancing", "parchains", "both"), ...)
+n.chains=3, partype=c("balancing", "parchains", "both"), ...)
 {
     flavour <- match.arg(flavour)
     ## stop if rjags not found
@@ -129,38 +129,26 @@ partype=c("balancing", "parchains", "both"), ...)
                 INITS <- if (!is.null(cldata$initsfun) && !cldata$INIARGS)
                     initsfun(,i) else cldata$inits
                 jags.fit(data=jdat, params=cldata$params, model=cldata$model, inits=INITS,
-                    n.adapt=0, n.update=0, n.iter=0)$state(internal=TRUE)
+                    n.adapt=0, n.update=0, n.iter=0, n.chains=n.chains)$state(internal=TRUE)
             }
             ## snowWrapper with cleanup (but cldata changes, has to be passed again)
             pini <- snowWrapper(cl, k, dcinits, cldata, name=NULL, use.env=TRUE,
                 lib="dclone", balancing=balancing, size=k, 
                 rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, unload=FALSE, ...)
             cldata$inits <- do.call("c", pini)
-
-            nch <- list(...)$n.chains
-            if (is.null(nch))
-                nch <- 3
-#            dots <- list(...)
-#            nch <- dots$n.chains
-#            nch <- if (is.null(dots$n.chains))
-#                3 else dots$n.chains
-#            dots$n.chains <- NULL
-#            cldata$dots <- dots
-
-            cldata$k <- rep(k, each=nch)
+#            nch <- list(...)$n.chains
+#            if (is.null(nch))
+#                nch <- 3
+            cldata$k <- rep(k, each=n.chains)
             ## parallel function to evaluate by snowWrapper
             dcparallel <- function(i, ...) {
                 cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
                 jdat <- dclone(cldata$data, cldata$k[i], multiply=cldata$multiply, unchanged=cldata$unchanged)
-
                 jags.fit(data=jdat, params=cldata$params, model=cldata$model, 
                     inits=cldata$inits[[i]], n.chains=1, updated.model=FALSE, ...)
-#                do.call(jags.fit, c(data=jdat, params=cldata$params, model=cldata$model, 
-#                    inits=cldata$inits[[i]], n.chains=1, updated.model=FALSE, cldata$dots))
-
             }
             ## no dclone loaded as it is there
-            pmod <- snowWrapper(cl, 1:(times*nch), dcparallel, cldata, name=NULL, use.env=TRUE,
+            pmod <- snowWrapper(cl, 1:(times*n.chains), dcparallel, cldata, name=NULL, use.env=TRUE,
                 lib=NULL, balancing=balancing, size=cldata$k, 
                 rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, unload=FALSE, ...)
             ## binding the chains for each k value
@@ -173,8 +161,8 @@ partype=c("balancing", "parchains", "both"), ...)
                 }
                 res
             }
-            i.end <- 1:times*nch
-            i.start <- i.end+1-nch
+            i.end <- 1:times*n.chains
+            i.start <- i.end+1-n.chains
             pmod <- lapply(1:times, function(i) assemblyfun(pmod[i.start[i]:i.end[i]]))
             mod <- pmod[[times]]
             ## dctable

@@ -2,6 +2,7 @@
 .dcFit <- 
 function(data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL, 
 update=NULL, updatefun=NULL, initsfun=NULL, flavour = c("jags", "bugs"), 
+n.chains=3,
 cl=NULL, parchains=FALSE, ...)
 {
     flavour <- match.arg(flavour)
@@ -61,12 +62,13 @@ cl=NULL, parchains=FALSE, ...)
         jdat <- dclone(data, k[i], multiply=multiply, unchanged=unchanged)
         if (flavour == "jags") {
             if (parchains) {
-                mod <- jags.parfit(cl, jdat, params, model, inits, ...)
+                mod <- jags.parfit(cl, jdat, params, model, inits, n.chains, ...)
             } else {
-                mod <- jags.fit(jdat, params, model, inits, ...)
+                mod <- jags.fit(jdat, params, model, inits, n.chains, ...)
             }
         } else {
-            mod <- bugs.fit(jdat, params, model, inits, format="mcmc.list", ...)
+            mod <- bugs.fit(jdat, params, model, inits, 
+                n.chains=n.chains, format="mcmc.list", ...)
         }
         ## dctable evaluation
         if (i == 1) {

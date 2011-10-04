@@ -11,7 +11,8 @@ The iterative model fitting in on parallel workers with different number of clon
 \usage{
 dc.parfit(cl, data, params, model, inits, n.clones, 
 multiply=NULL, unchanged=NULL, 
-update = NULL, updatefun = NULL, initsfun = NULL, flavour = c("jags", "bugs"), 
+update = NULL, updatefun = NULL, initsfun = NULL, 
+flavour = c("jags", "bugs"), n.chains = 3,
 partype=c("balancing", "parchains", "both"), ...)
 }
 \arguments{
@@ -73,6 +74,9 @@ see Examples.
 }
   \item{partype}{
 Type of parallel workload distribution, see Details. 
+}
+  \item{n.chains}{
+Number of chains to generate.
 }
   \item{\dots}{
   Other values supplied to \code{\link[dclone]{jags.fit}}, or \code{\link[dclone]{bugs.fit}}, depending on the \code{flavour} argument.
