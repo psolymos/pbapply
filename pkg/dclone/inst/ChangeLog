@@ -6,6 +6,8 @@ Version 1.4-1, September 28, 2011
     * dc.fit and dc.parfit: got n.chains argument for clean
       handling in parrallel work. (dc.parfit failed with
       partype="both".)
+    * plotClusterSize: can plot if length(size) < n
+      without error/warnings.
 
 Version 1.4-0, September 28, 2011
     * Major CRAN release with new parallel features.

@@ -40,6 +40,7 @@ function(n, size, balancing=c("none","load","size","both"), plot=TRUE, col=NA, x
     col <- col[unlist(x)]
     coli <- 1
 
+    MAX <- max(sapply(x2, function(z) if (length(z)) max(z) else 0))
     if (plot) {
         if (is.null(xlim))
             xlim <- range(x1,x2)
@@ -55,16 +56,18 @@ function(n, size, balancing=c("none","load","size","both"), plot=TRUE, col=NA, x
             "load" = "Load Balancing",
             "size" = "Size Balancing",
             "both" = "Size and Load Balancing")
+        sub <- paste("Max =", round(MAX, max(3, getOption("digits") - 3)))
         title(main=main, xlab="Approximate Processing Time", ylab="Workers",
-            sub=paste("Max =", round(max(sapply(x2, max)), max(3, getOption("digits") - 3))))
+            sub=sub)
         for (i in 1:n) {
             for (j in 1:length(x[[i]])) {
-                polygon(c(x1[[i]][j], x2[[i]][j], x2[[i]][j], x1[[i]][j]), c(y1[i], y1[i], y2[i], y2[i]), 
-                    col=col[coli], ...)
+                tmp <- try(polygon(c(x1[[i]][j], x2[[i]][j], x2[[i]][j], x1[[i]][j]), c(y1[i], y1[i], y2[i], y2[i]), 
+                    col=col[coli], ...), silent=TRUE)
                 coli <- coli + 1
-                text(mean(c(x1[[i]][j], x2[[i]][j])), y[i], x[[i]][j])
+                if (!inherits(tmp, "try-error"))
+                    text(mean(c(x1[[i]][j], x2[[i]][j])), y[i], x[[i]][j])
             }
         }
     }
-    invisible(max(sapply(x2, max)))
+    invisible(MAX)
 }
