@@ -44,7 +44,7 @@ leuk <- makeDcFit(
     },
     params = "beta")
 
-leuk@data$dN <- leuk@data$Y <- matrix(0, N, T)
+leuk@data$dN <- leuk@data$Y <- matrix(0, leuk@data$N, leuk@data$T)
 for(i in 1:leuk@data$N) {
    for(j in 1:leuk@data$T) {
       ## risk set = 1 if obs.t >= t
