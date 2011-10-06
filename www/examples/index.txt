@@ -28,3 +28,4 @@
 "27" "orange" "Classic BUGS Vol 2" "http://dcr.r-forge.r-project.org/examples/classic-bugs/vol2/orange.R"
 "28" "pigs" "Classic BUGS Vol 2" "http://dcr.r-forge.r-project.org/examples/classic-bugs/vol2/pigs.R"
 "29" "schools" "Classic BUGS Vol 2" "http://dcr.r-forge.r-project.org/examples/classic-bugs/vol2/schools.R"
+"30" "paramecium" "Ecology 90, 356" "http://dcr.r-forge.r-project.org/examples/misc/paramecium.R"
