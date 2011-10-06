@@ -5,9 +5,13 @@ function(x, ...)
     n.clones <- ifelse(is.null(nclones(x)), 1, nclones(x))
     if (nchain(x) > 1) {
         abin <- getOption("dcoptions")$autoburnin
-        rhat <- if (nvar(x) > 1) 
-            gelman.diag(x, autoburnin=abin)$mpsrf
-            else gelman.diag(x, autoburnin=abin)$psrf[,1]
+        if (nvar(x) > 1) {
+            rhat <- try(gelman.diag(x, autoburnin=abin)$mpsrf)
+        } else {
+            rhat <- try(gelman.diag(x, autoburnin=abin)$psrf[,1])
+        }
+        if (inherits(rhat, "try-error"))
+            rhat <- NA
     } else rhat <- NA
     rval <- c(n.clones = n.clones,
 #        n.params = nvar(x),

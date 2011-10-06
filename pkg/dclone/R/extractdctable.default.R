@@ -7,7 +7,9 @@ function(x, ...)
     Sd <- apply(y, 2, sd)
     if (nchain(x) > 1) {
         abin <- getOption("dcoptions")$autoburnin
-        rhat <- gelman.diag(x, autoburnin=abin)$psrf[,1]
+        rhat <- try(gelman.diag(x, autoburnin=abin)$psrf[,1])
+        if (inherits(rhat, "try-error"))
+            rhat <- NA
     } else rhat <- NA
     if (!is.null(quantiles)) {
         Qa <- apply(y, 2, quantile, probs=quantiles)
