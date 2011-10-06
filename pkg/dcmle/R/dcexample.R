@@ -1,7 +1,7 @@
 listDcExamples <- 
 function() 
 {
-    read.table("http://dcr.r-forge.r-project.org/examples/")
+    read.table("http://dcr.r-forge.r-project.org/examples/index.txt")
 }
 
 sourceDcExample <- 
