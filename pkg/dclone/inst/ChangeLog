@@ -8,6 +8,10 @@ Version 1.4-1, September 28, 2011
       partype="both".)
     * plotClusterSize: can plot if length(size) < n
       without error/warnings.
+    * parLoadModule, parUnloadModule, parListModules,
+      parSetFactory, parListFactories: workers returned values as
+      expected, but did not actually made changes, bugs fixed,
+      allowing full control of JAGS settings on workers.
 
 Version 1.4-0, September 28, 2011
     * Major CRAN release with new parallel features.

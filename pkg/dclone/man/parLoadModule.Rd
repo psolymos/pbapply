@@ -17,7 +17,9 @@ parListModules(cl)
   \item{cl}{a cluster object created by the \pkg{snow} package.}
   \item{name}{name of the load module to be loaded}
   \item{path}{file path to the location of the DLL. If omitted,
-    the option \code{jags.moddir} is used to locate the modules}
+    the option \code{jags.moddir} is used to locate the modules.
+    it can be a vector of length \code{length(cl)} to set different
+    DLL locations on each worker}
   \item{quiet}{a logical. If \code{TRUE}, no message will be printed
     about loading the package}
 }

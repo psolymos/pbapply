@@ -1,8 +1,7 @@
 parUnloadModule <-
-function(cl, name, quiet=FALSE) 
+function (cl, name, quiet = FALSE) 
 {
     clusterEvalQ(cl, require(rjags))
-    clusterCall(cl, eval, 
-        unload.module(name, quiet), env = .GlobalEnv)
+    clusterCall(cl, unload.module,
+      name=name, quiet=quiet)
 }
-
