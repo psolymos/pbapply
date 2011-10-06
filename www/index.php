@@ -72,7 +72,7 @@ echo $contents; } ?>
 [<A href="http://dcr.r-forge.r-project.org/publications/RJournal_2010-2_Solymos.pdf">local copy</A>]
 [<A href="http://dcr.r-forge.r-project.org/publications/RJournal_2010-2_Solymos.R">R code</A>]<i> (Official citation)</i>
 </li><li>Reference manual: [<A href="http://cran.r-project.org/web/packages/dclone/dclone.pdf">pdf</A>] <i>(Detailed technical documentation of the package from CRAN)</i></li>
-<li>Additional resources: <a href="http://dcr.r-forge.r-project.org/tutorials/">tutorials</a> (under development).</li>
+<li>Additional resources: <a href="http://dcr.r-forge.r-project.org/tutorials/">tutorials</a> (under development), <a href="http://dcr.r-forge.r-project.org/examples/">worked examples</a>.</li>
 </ul>
 </p>
 

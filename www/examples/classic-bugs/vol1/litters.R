@@ -20,13 +20,10 @@ litters <- makeDcFit(
             r[i,j] ~ dbin(p[i,j], n[i,j]);
             p[i,j] ~ dbeta(a[i], b[i]) %_% T(,0.9999); 
          }
-
          a[i] <- nbar[i] * mu[i] * phi[i];
          b[i] <- nbar[i] * (1 - mu[i]) * phi[i];
-
          mu[i] ~ dunif(0, 1);
          phi[i] <- nbar[i] * theta[i] / (1 - theta[i]);
-
          theta[i] ~ dunif(0, 1);
          nbar[i] <- mean(n[i,]);
       }

@@ -1,6 +1,7 @@
 ## blocker: random effects meta-analysis of clinical trials (BUGS Examples Vol. 1)
 library(dcmle)
 blocker <- makeDcFit(
+    multiply = "Num",
     data = list("rt" =
             c(3, 7, 5, 102, 28, 4, 98, 60, 25, 138, 64, 45, 9, 57, 25, 33, 
             28, 8, 6, 32, 27, 22),
@@ -30,4 +31,4 @@ blocker <- makeDcFit(
        sigma <- 1/sqrt(tau);
     },
     params = c("d","delta.new","sigma"))
-#dcmle(blocker)
+#dcmle(blocker, n.clones=1:2, n.iter=1000)

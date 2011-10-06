@@ -26,4 +26,4 @@ seeds <- makeDcFit(
     },
     multiply = "N",
     params = c("alpha0", "alpha1", "alpha2", "alpha12", "sigma"))
-#dcmle(seeds)
+#dcmle(seeds, n.clones=1:2, n.iter=1000)

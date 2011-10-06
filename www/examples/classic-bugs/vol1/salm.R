@@ -2,6 +2,8 @@
 library(dcmle)
 load.module("glm")
 salm <- makeDcFit(
+    unchanged = "plates",
+    multiply = "doses",
     data = list(
         "doses" = 6,
         "plates" = 3,
@@ -34,4 +36,4 @@ salm <- makeDcFit(
         "beta" = 0,
         "gamma" = 0),
     params = c("alpha","beta","gamma","sigma"))
-#dcmle(salm)
+#dcmle(salm,n.clones=1:2)

@@ -2,6 +2,8 @@
 library(dcmle)
 load.module("glm")
 epil <- makeDcFit(
+    unchanged = c("T", "V4"),
+    multiply = "N",
     data = list("N" = 59,
         "T" = 4,
         "y" =
@@ -63,4 +65,4 @@ epil <- makeDcFit(
     },
     params = c("alpha0", "alpha.Base", "alpha.Trt", "alpha.BT",
                        "alpha.Age", "alpha.V4", "sigma.b1"))
-#dcmle(epil)
+#dcmle(epil, n.clones=1:2, n.iter=1000)
