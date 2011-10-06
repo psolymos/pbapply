@@ -2,14 +2,25 @@
 library(dcmle)
 load.module("glm")
 seeds <- makeDcFit(
-    data = list(N = 21,
-        r = c(10, 23, 23, 26, 17, 5, 53, 55, 32, 46, 10, 8, 10, 8, 23, 0, 
+    multiply = "N",
+    data = list(
+        "N" = 21,
+        "r" = 
+            c(10, 23, 23, 26, 17, 5, 53, 55, 32, 46, 10, 8, 10, 8, 23, 0, 
             3, 22, 15, 32, 3),
-        n = c(39, 62, 81, 51, 39, 6, 74, 72, 51, 79, 13, 16, 30, 28, 45, 
+        "n" = 
+            c(39, 62, 81, 51, 39, 6, 74, 72, 51, 79, 13, 16, 30, 28, 45, 
             4, 12, 41, 30, 51, 7),
-        x1 = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-        x2 = c(0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1)),
-    inits = list(tau = 1, alpha0 = 0, alpha1 = 0, alpha2 = 0, alpha12 = 0),
+        "x1" = 
+            c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+        "x2" = 
+            c(0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1)),
+    inits = list(
+        "tau" = 1, 
+        "alpha0" = 0, 
+        "alpha1" = 0, 
+        "alpha2" = 0, 
+        "alpha12" = 0),
     model = function() {
         alpha0  ~ dnorm(0.0,1.0E-6);     # intercept
         alpha1  ~ dnorm(0.0,1.0E-6);     # seed coeff
@@ -24,6 +35,5 @@ seeds <- makeDcFit(
            r[i]         ~ dbin(p[i],n[i]);
         }
     },
-    multiply = "N",
     params = c("alpha0", "alpha1", "alpha2", "alpha12", "sigma"))
 #dcmle(seeds, n.clones=1:2, n.iter=1000)

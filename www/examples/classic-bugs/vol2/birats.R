@@ -1,6 +1,8 @@
 ## birats: a bivariate Normal hierarchical model (BUGS Examples Vol. 2)
 library(dcmle)
 birats <- makeDcFit(
+    multiply = "N",
+    unchanged = c("T", "x"),
     data = list(
         "N" = 30,
         "T" = 5,
@@ -41,4 +43,4 @@ birats <- makeDcFit(
           mu.beta[2] ~ dnorm(0,.00001);   # `flat' univariate Normal prior on mean
     },
     params = c("mu.beta","sigma.beta","alpha0"))
-#dcmle(birats)
+#dcmle(birats,n.clones=1:2)

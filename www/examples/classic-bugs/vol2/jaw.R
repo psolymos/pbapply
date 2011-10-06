@@ -2,6 +2,8 @@
 library(dcmle)
 load.module("dic")
 jaw <- makeDcFit(
+    unchanged = c("M", "age", "R"),
+    multiply = "N",
     data = list(
         "M" = 4,
         "N" = 20,
@@ -23,15 +25,13 @@ jaw <- makeDcFit(
       for (i in 1:N) {
          Y[i,] ~ dmnorm(mu[], Omega[,]);  # The 4 measurements for each  
       }                                   # boy are multivariate normal
-
       for(j in 1:M) {     # location model for mean bone length at each age
          mu[j] <- beta0 + beta1 * (age[j] - mean(age)); # linear
       }
       beta0.uncentred <- beta0 - beta1 * mean(age);
-
       beta0 ~ dnorm(0.0, 0.001); 
       beta1 ~ dnorm(0.0, 0.001); 
-      Omega[1:M,1:M] ~ dwish(R[,], 4);	# between-child variance in length at each age	
+      Omega[1:M,1:M] ~ dwish(R[,], 4);  # between-child variance in length at each age
       Sigma2[1:M,1:M] <- inverse(Omega[,]);
 
       for (i in 1:N) {
@@ -43,4 +43,4 @@ jaw <- makeDcFit(
       RSS <- sum(resid2[,]);                    # Residual Sum of Squares
     },
     params = c("beta0.uncentred","beta1","Sigma2","mu","RSS","deviance"))
-#dcmle(jaw)
+#dcmle(jaw,n.clones=1:2)

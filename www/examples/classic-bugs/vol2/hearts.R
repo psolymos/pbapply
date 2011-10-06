@@ -1,6 +1,7 @@
 ## hearts: a mixture model for count data (BUGS Examples Vol. 2)
 library(dcmle)
 hearts <- makeDcFit(
+    multiply = "N",
     data = list(
         "N" = 12,
         "y" =
@@ -23,4 +24,4 @@ hearts <- makeDcFit(
        delta ~ dnorm(0,1.0E-4)
     },
     params = c("theta", "beta","p"))
-#dcmle(hearts)
+#dcmle(hearts,n.clones=1:2)

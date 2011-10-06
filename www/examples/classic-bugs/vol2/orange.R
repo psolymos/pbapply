@@ -1,6 +1,8 @@
 ## orange: a hierarchical, nonlinear model (BUGS Examples Vol. 2)
 library(dcmle)
 orange <- makeDcFit(
+    unchanged = "n",
+    multiply = "K",
     data = list(
         "n" = 7,
         "K" = 5,
@@ -33,4 +35,4 @@ orange <- makeDcFit(
        }
     },
     params = c("mu","sigma","sigmaC"))
-#dcmle(orange)
+#dcmle(orange,n.clones=1:2)

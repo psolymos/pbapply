@@ -1,6 +1,16 @@
 ## eyes: Normal mixture model (BUGS Examples Vol. 2)
 library(dcmle)
 eyes <- makeDcFit(
+    unchanged = "Itot",
+    multiply = "N",
+    initsfun = function(x, k) {
+        list(
+            "lambda" = c(535,NA),
+            "theta" = 5,
+            "tau" =  0.1,
+            "T" = dclone(c(1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,
+                1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2), k))
+    },
     data = list(
         "N" = 48,
         "y" = c(529.0,530.0,532.0,533.1,533.4,533.6,533.7,534.1,534.8,535.3,
@@ -37,4 +47,4 @@ eyes <- makeDcFit(
         "T" = c(1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,
             1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2)),
     params = c("P", "lambda","sigma"))
-#dcmle(eyes)
+#dcmle(eyes,n.clones=1:2)

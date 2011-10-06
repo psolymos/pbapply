@@ -1,6 +1,7 @@
 ## dugongs: a nonconjugate, nonlinear model (BUGS Examples Vol. 2)
 library(dcmle)
 dugongs <- makeDcFit(
+    multiply = "N",
     data = list(
         "N" = 27,
         "x" =
@@ -23,4 +24,4 @@ dugongs <- makeDcFit(
        U3 <- logit(gamma)
     },
     params = c("U3","alpha","beta","gamma","sigma"))
-#dcmle(dugongs)
+#dcmle(dugongs,n.clones=1:2)

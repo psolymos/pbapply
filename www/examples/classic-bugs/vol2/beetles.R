@@ -1,6 +1,7 @@
 ## beetles: logistic, probit and extreme value models (BUGS Examples Vol. 2)
 library(dcmle)
 beetles <- makeDcFit(
+    multiply = "N",
     data = list(
     "x" =
         c(1.6907, 1.7242, 1.7552, 1.7842, 1.8113, 1.8369, 1.861, 1.8839),
@@ -25,4 +26,4 @@ beetles <- makeDcFit(
         D <- 2 * (sum(llike.sat[]) - sum(llike[]));
     },
     params = c("alpha","beta","r.hat","D"))
-#dcmle(beetles)
+#dcmle(beetles,n.clones=1:2)
