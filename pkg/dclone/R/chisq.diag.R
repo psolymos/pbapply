@@ -9,7 +9,7 @@ chisq.diag <- function(x)
     ## theoretical quantiles for the Chi-square distribution
     pval <- ((1:nrow(mcmc)) - 0.5) / nrow(mcmc)
     qchi <- qchisq(pval, npar)
-    ## empirical squared generalized diatsnces
+    ## empirical squared generalized distances
     sdsq <- sort(apply(mcmc, 1, function(z) (t(z-mn)) %*% vci %*% (z-mn)))
 #    id <- pval >= min(probs) & pval <= max(probs)
 #    qchi <- qchi[id]
