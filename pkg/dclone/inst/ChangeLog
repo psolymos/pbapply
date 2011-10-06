@@ -12,8 +12,8 @@ Version 1.4-1, September 28, 2011
       parSetFactory, parListFactories: workers returned values as
       expected, but did not actually made changes, bugs fixed,
       allowing full control of JAGS settings on workers.
-    * dcdiag and dctable: returns NA when gelman.diag
-      calculation fails (e.g. due to non positive definitiveness).
+    * dcdiag and dctable: return NA when subroutines fail
+      (gelman.diag, lambdamax.diag, chisq.diag).
 
 Version 1.4-0, September 28, 2011
     * Major CRAN release with new parallel features.
