@@ -56,7 +56,7 @@ Peter Solymos <solymos@ualberta.ca>
 listDcExamples()
 
 ## source paramecium example
-sourceDcExample("paramecioum")
+sourceDcExample("paramecium")
 
 ## seeds example, structure only
 dcExample("seeds")
