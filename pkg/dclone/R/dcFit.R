@@ -99,7 +99,12 @@ cl=NULL, parchains=FALSE, ...)
         }
     }
     ## warning if R.hat < crit
-    if (nchain(mod) > 1 && any(dctmp[,"r.hat"] >= rhat.crit))
+    rhat.problem <- any(dctmp[,"r.hat"] >= rhat.crit)
+    if (any(is.na(rhat.problem))) {
+#        warning("unable to calculate R.hat values")
+        rhat.problem[is.na(rhat.problem)] <- FALSE
+    }
+    if (nchain(mod) > 1 && rhat.problem)
         warning("chains convergence problem, see R.hat values")
     ## finalizing dctable attribute
     dcts <- lapply(dcts, function(z) as.data.frame(z))

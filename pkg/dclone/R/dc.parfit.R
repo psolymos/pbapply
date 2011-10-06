@@ -171,8 +171,15 @@ n.chains=3, partype=c("balancing", "parchains", "both"), ...)
             dcd <- lapply(pmod, extractdcdiag)
         }
         ## warning if R.hat < crit
-        if (nchain(mod) > 1 && any(dct[[times]][,"r.hat"] >= rhat.opts))
+        rhat.problem <- any(dct[[times]][,"r.hat"] >= rhat.opts)
+        if (any(is.na(rhat.problem))) {
+#            warning("unable to calculate R.hat values")
+            rhat.problem[is.na(rhat.problem)] <- FALSE
+        }
+        if (nchain(mod) > 1 && rhat.problem)
             warning("chains convergence problem, see R.hat values")
+#        if (nchain(mod) > 1 && any(dct[[times]][,"r.hat"] >= rhat.opts))
+#            warning("chains convergence problem, see R.hat values")
         ## finalizing dctable attribute
         rnam <- lapply(dct, rownames)
         nam <- rnam[[1]]
