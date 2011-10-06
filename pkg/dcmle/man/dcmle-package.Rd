@@ -25,9 +25,9 @@ These object classes are easily
 extendable to allow inclusion into functions fitting
 specific models to the data (see Examples).
 
-The \pkg{dcexamples} package is intended to implement
-prototypes for different statistical models via examples
-from various sources (WinBUGS Manual, books, etc.).
+\pkg{dcExample} can be used to view and fit lots of
+examples from \url{http://dcr.r-forge.r-project.org/examples}
+gathered from various sources (WinBUGS Manual, books, etc.).
 }
 \author{
 Peter Solymos
