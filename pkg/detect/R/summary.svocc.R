@@ -43,7 +43,7 @@ function (object, type, ...)
     det <- coefs[(ksta + 1):(ksta + kdet), , drop = FALSE]
     out <- list(call = object$call, sta = sta, det = det, loglik = object$loglik, 
         converged = object$converged, penalized = type == "pmle", method = object$method, 
-        link = object$link, control = object$control, n = object$nobs, 
+        link = object$link, control = object$control, nobs = object$nobs, 
         df.residual = object$df.residual, bootstrap=boot, type=type)
     class(out) <- "summary.svocc"
     return(out)

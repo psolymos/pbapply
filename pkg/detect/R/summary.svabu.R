@@ -43,7 +43,7 @@ function (object, type, ...)
 
     out <- list(call = object$call, sta = sta, det = det, zif = zif, loglik = object$loglik, 
         converged = object$converged, zeroinfl = object$zeroinfl, 
-        control = object$control, n = object$nobs, link = object$link, terms = object$terms,
+        control = object$control, nobs = object$nobs, link = object$link, terms = object$terms,
         df.residual = object$df.residual, bootstrap=boot, type=type, area = object$area)
     class(out) <- "summary.svabu"
     return(out)

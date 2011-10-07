@@ -1,7 +1,10 @@
 detect package version history
 
 Version 0.1-1, September 29, 2011
-    * R >= 2.13.0 added to DESCRIPTION
+    * svabu and related functions added.
+    * summary: nobs was returned as NULL,
+      so AIC was not printed. Now fixed.
+    * R (>= 2.13.0) added to DESCRIPTION
       (reported by Uwe Ligges).
 
 Version 0.1-0, September 27, 2011
