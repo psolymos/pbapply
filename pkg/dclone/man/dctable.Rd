@@ -56,7 +56,7 @@ extractdcdiag(x, ...)
   Scaling factor for the interquartile boxes.
 }
   \item{box.bg}{
-  Bacground color for the interquartile boxes.
+  Background color for the interquartile boxes.
 }
 }
 \details{
@@ -88,6 +88,10 @@ if the Normal approximation is adequate. All
 three statistics should converge to zero as the number of clones increases.
 If this happens, different prior specifications are no
 longer influencing the results (Lele et al., 2007, 2010).
+These are conveniently colledted by the \code{dcdiag} function.
+
+\bold{IMPORTANT!}
+Have you checked if different prior specifications lead to the same results?
 }
 \value{
 An object of class 'dctable'.
