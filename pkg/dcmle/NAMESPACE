@@ -2,6 +2,7 @@
 export(dcmle, makeGsFit, makeDcFit,
     listDcExamples, sourceDcExample, dcExample)
 exportClasses(gsFit, dcFit, dcMle)
+#exportClasses(custommodel, dcModel)
 exportMethods(summary, show, coef, dcsd, confint, vcov, quantile,
     dctable, dcdiag, nclones)
 

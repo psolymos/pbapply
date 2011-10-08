@@ -32,6 +32,11 @@ dcop <- dcoptions(verbose=0)
 cat("\n\n## <<<<<<<<<<<<<<    ", date(), "    >>>>>>>>>>>>>>>>>\n\n")
 for (i in topic) {
     cat("\n\n## START <<<<<<<<<<<<<<    ", i, "    >>>>>>>>>>>>>>>>>\n")
+    mod <- write.jags.model(x@model, paste(i, "bug", sep="."))
+    cat("\n## END   <<<<<<<<<<<<<<    ", i, "    >>>>>>>>>>>>>>>>>\n\n")
+}
+for (i in topic) {
+    cat("\n\n## START <<<<<<<<<<<<<<    ", i, "    >>>>>>>>>>>>>>>>>\n")
     jags_example(i, n.clones=1, renv=res1, tenv=timer1, 
         n.adapt=n.adapt, n.update=n.update, n.iter=n.iter, n.chains=n.chains, thin=thin)
     jags_example(i, n.clones=1, cl=cl, renv=res2, tenv=timer2, 
