@@ -1,4 +1,4 @@
-## beetles: logistic, probit and extreme value models (BUGS Examples Vol. 2)
+## beetles: logistic, probit and extreme value models (BUGS Examples Vol. 2)
 library(dcmle)
 beetles <- makeDcFit(
     multiply = "N",

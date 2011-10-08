@@ -1,4 +1,4 @@
-## dugongs: a nonconjugate, nonlinear model (BUGS Examples Vol. 2)
+## dugongs: a nonconjugate, nonlinear model (BUGS Examples Vol. 2)
 library(dcmle)
 dugongs <- makeDcFit(
     multiply = "N",

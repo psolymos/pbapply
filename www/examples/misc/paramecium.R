@@ -1,4 +1,4 @@
-## time series example
+## Beverton-Holt time series example
 ## data and model taken from Ponciano et al. 2009
 ## Ecology 90, 356-362.
 library(dcmle)

@@ -1,4 +1,4 @@
-## rats: Normal hierarchical model (BUGS Examples Vol. 1)
+## rats: Normal hierarchical model (BUGS Examples Vol. 1)
 library(dcmle)
 rats <- makeDcFit(
     multiply = "N",

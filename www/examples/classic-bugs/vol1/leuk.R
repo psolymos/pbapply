@@ -1,4 +1,4 @@
-## leuk: survival analysis using Cox regression (BUGS Examples Vol. 1)
+## leuk: survival analysis using Cox regression (BUGS Examples Vol. 1)
 ## step is JAGS function, needs replacement
 library(dcmle)
 leuk <- makeDcFit(

@@ -1,4 +1,4 @@
-## cervix: case-control study with errors in covariates (BUGS Examples Vol. 2)
+## cervix: case-control study with errors in covariates (BUGS Examples Vol. 2)
 library(dcmle)
 load.module("glm")
 cervix <- makeDcFit(

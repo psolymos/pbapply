@@ -1,4 +1,4 @@
-## orange: a hierarchical, nonlinear model (BUGS Examples Vol. 2)
+## orange: a hierarchical, nonlinear model (BUGS Examples Vol. 2)
 library(dcmle)
 orange <- makeDcFit(
     unchanged = "n",

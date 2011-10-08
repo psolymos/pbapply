@@ -1,4 +1,4 @@
-## hearts: a mixture model for count data (BUGS Examples Vol. 2)
+## hearts: a mixture model for count data (BUGS Examples Vol. 2)
 library(dcmle)
 hearts <- makeDcFit(
     multiply = "N",

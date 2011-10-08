@@ -1,4 +1,4 @@
-## seeds: random effects logistic regression (BUGS Examples Vol. 1)
+## seeds: random effects logistic regression (BUGS Examples Vol. 1)
 library(dcmle)
 load.module("glm")
 seeds <- makeDcFit(

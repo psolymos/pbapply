@@ -1,4 +1,4 @@
-## bones: latent trait model for multiple ordered catagorical responses (BUGS Examples Vol. 1)
+## bones: latent trait model for multiple ordered catagorical responses (BUGS Examples Vol. 1)
 library(dcmle)
 bones <- makeDcFit(
     data = list("nChild" =

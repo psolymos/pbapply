@@ -1,4 +1,4 @@
-## air: covariate measurement error (BUGS Examples Vol. 2)
+## air: covariate measurement error (BUGS Examples Vol. 2)
 library(dcmle)
 air <- makeDcFit(
     data = list("alpha" = 4.48,

@@ -1,4 +1,4 @@
-## jaw: repeated measures analysis of variance (BUGS Examples Vol. 2)
+## jaw: repeated measures analysis of variance (BUGS Examples Vol. 2)
 library(dcmle)
 load.module("dic")
 jaw <- makeDcFit(

@@ -1,4 +1,4 @@
-## ice: non-parametric smoothing in an age-cohort model (BUGS Examples Vol. 2)
+## ice: non-parametric smoothing in an age-cohort model (BUGS Examples Vol. 2)
 library(dcmle)
 ice <- makeDcFit(
     data = list(

@@ -1,4 +1,4 @@
-## pump: conjugate gamma-Poisson hierarchical model (BUGS Examples Vol. 1)
+## pump: conjugate gamma-Poisson hierarchical model (BUGS Examples Vol. 1)
 library(dcmle)
 pump <- makeDcFit(
     multiply = "N",

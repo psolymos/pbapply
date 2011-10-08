@@ -1,4 +1,4 @@
-## biops: latent class model (BUGS Examples Vol. 2)
+## biops: latent class model (BUGS Examples Vol. 2)
 library(dcmle)
 biops <- makeDcFit(
     data = list(

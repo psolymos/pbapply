@@ -1,4 +1,4 @@
-## dyes: variance components model (BUGS Examples Vol. 1)
+## dyes: variance components model (BUGS Examples Vol. 1)
 ## transpose is used for for DC, indexing flipped
 library(dcmle)
 dyes <- makeDcFit(

@@ -1,4 +1,4 @@
-## salm: extra-Poisson variation in dose-response study (BUGS Examples Vol. 1)
+## salm: extra-Poisson variation in dose-response study (BUGS Examples Vol. 1)
 library(dcmle)
 load.module("glm")
 salm <- makeDcFit(

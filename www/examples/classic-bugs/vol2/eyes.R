@@ -1,4 +1,4 @@
-## eyes: Normal mixture model (BUGS Examples Vol. 2)
+## eyes: Normal mixture model (BUGS Examples Vol. 2)
 library(dcmle)
 eyes <- makeDcFit(
     unchanged = "Itot",

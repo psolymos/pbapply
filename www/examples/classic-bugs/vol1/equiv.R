@@ -1,4 +1,4 @@
-## equiv: bioequivalence in a cross-over trial (BUGS Examples Vol. 1)
+## equiv: bioequivalence in a cross-over trial (BUGS Examples Vol. 1)
 library(dcmle)
 equiv <- makeDcFit(
     multiply = "N",
