@@ -22,7 +22,7 @@ R CMD check "c:/svn/dcr/pkg/dcmle" --outdir="c:/svn/dcr/devel/tests/"
 echo.
 echo run dontrun examples in dcmle
 echo.
-::R CMD BATCH --vanilla "c:/svn/dcr/devel/dcmle_tests.R" "c:/svn/dcr/devel/tests/dcmle_tests.log"
+R CMD BATCH --vanilla "c:/svn/dcr/devel/dcmle_tests.R" "c:/svn/dcr/devel/tests/dcmle_tests.log"
 echo.
 echo done
 ::exit

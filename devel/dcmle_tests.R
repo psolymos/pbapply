@@ -1,22 +1,75 @@
 setwd("c:/svn/dcr/devel/tests")
 library(dcmle)
-exampleDontRun <- function(topic) {
-    ex <- gsub("##D ", "", example(topic, "dcmle", 
-        character.only=TRUE, echo=FALSE, give.lines=TRUE))
-    f <- write.jags.model(structure(ex, class="custommodel"),
-        filename=paste(topic, ".bug", sep=""))
-    source(f, echo=TRUE)
-    clean.jags.model(f)
-    invisible(NULL)
+load.module("glm")
+load.module("dic")
+jags_example <- function(topic, renv, tenv, ...) {
+    x <- sourceDcExample(topic, assign.global=FALSE)
+    mod <- write.jags.model(x@model)
+    t0 <- proc.time()
+    out <- dcmle:::dcmle(x, ...)
+    pt <- proc.time() - t0
+    assign(topic, pt, envir=tenv)
+    assign(topic, out, envir=renv)
+    clean.jags.model(mod)
 }
-ff <- gsub(".Rd", "", list.files("c:/svn/dcr/pkg/dcmle/man"))
-ff
+options(dcmle.href="c:/svn/dcr/www/examples")
+n.adapt <- 100
+n.update <- 100
+n.iter <- 100
+n.chains <- 2
+thin <- 1
+## this is for k=1
+(topic <- listDcExamples()$topic)
+timer1 <- new.env(hash=FALSE)
+timer2 <- new.env(hash=FALSE)
+res1 <- new.env(hash=FALSE)
+res2 <- new.env(hash=FALSE)
+cl <- makeSOCKcluster(3)
+clusterEvalQ(cl, library(dcmle))
+parLoadModule(cl, "glm")
+parLoadModule(cl, "dic")
+dcop <- dcoptions(verbose=0)
 cat("\n\n## <<<<<<<<<<<<<<    ", date(), "    >>>>>>>>>>>>>>>>>\n\n")
-for (topic in ff[-2]) {
-    cat("\n\n## START <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n")
-    exampleDontRun(topic)
-    cat("\n## END   <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n\n")
+for (i in topic) {
+    cat("\n\n## START <<<<<<<<<<<<<<    ", i, "    >>>>>>>>>>>>>>>>>\n")
+    jags_example(i, n.clones=1, renv=res1, tenv=timer1, 
+        n.adapt=n.adapt, n.update=n.update, n.iter=n.iter, n.chains=n.chains, thin=thin)
+    jags_example(i, n.clones=1, cl=cl, renv=res2, tenv=timer2, 
+        n.adapt=n.adapt, n.update=n.update, n.iter=n.iter, n.chains=n.chains, thin=thin)
+    cat("\n## END   <<<<<<<<<<<<<<    ", i, "    >>>>>>>>>>>>>>>>>\n\n")
 }
+stopCluster(cl)
+dcoptions(dcop)
+t1 <- matrix(0, length(topic), 3)
+colnames(t1) <- names(timer1[[as.character(topic[1])]])[1:3]
+rownames(t1) <- topic
+t2 <- t1
+for (i in 1:length(topic)) {
+    t1[i,] <- timer1[[as.character(topic[i])]][1:3]
+    t2[i,] <- timer2[[as.character(topic[i])]][1:3]
+}
+summary(t1)
+summary(t2)
+summary(t2/t1)
+#setwd("c:/svn/dcr/devel/tests")
+#library(dcmle)
+#exampleDontRun <- function(topic) {
+#    ex <- gsub("##D ", "", example(topic, "dcmle", 
+#        character.only=TRUE, echo=FALSE, give.lines=TRUE))
+#    f <- write.jags.model(structure(ex, class="custommodel"),
+#        filename=paste(topic, ".bug", sep=""))
+#    source(f, echo=TRUE)
+#    clean.jags.model(f)
+#    invisible(NULL)
+#}
+#ff <- gsub(".Rd", "", list.files("c:/svn/dcr/pkg/dcmle/man"))
+#ff
+#cat("\n\n## <<<<<<<<<<<<<<    ", date(), "    >>>>>>>>>>>>>>>>>\n\n")
+#for (topic in ff[-2]) {
+#    cat("\n\n## START <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n")
+#    exampleDontRun(topic)
+#    cat("\n## END   <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n\n")
+#}
 #cat("\n\n## START <<<<<<<<<<<<<<    endmatter    >>>>>>>>>>>>>>>>>\n")
 x <- readLines("c:/svn/dcr/devel/tests/dcmle_tests.log")
 err <- c(grep("rror", x), grep("arning", x))

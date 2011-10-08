@@ -61,7 +61,7 @@ sourceDcExample("paramecium")
 ## seeds example, structure only
 dcExample("seeds")
 ## seeds example, structure and fit
-dcExample("seeds", 2, n.iter=1000)
+dcExample("seeds", 1:2, n.iter=1000)
 }
 }
 \keyword{ utilities }
