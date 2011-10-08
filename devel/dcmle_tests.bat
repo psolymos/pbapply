@@ -14,7 +14,7 @@ R CMD build "c:/svn/dcr/pkg/dcmle" --binary
 echo.
 echo install source package
 echo.
-R CMD INSTALL dcmle_0.1-0.tar.gz
+R CMD INSTALL dcmle_0.1-1.tar.gz
 echo.
 echo check package
 echo.
