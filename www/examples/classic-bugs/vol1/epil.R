@@ -1,4 +1,4 @@
-## epil: repeated measures on Poisson counts (BUGS Examples Vol. 1)
+## epil: repeated measures on Poisson counts (BUGS Examples Vol. 1)
 library(dcmle)
 load.module("glm")
 epil <- makeDcFit(
