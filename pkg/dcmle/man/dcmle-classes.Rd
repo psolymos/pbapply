@@ -8,6 +8,9 @@
 \alias{dcMle-class}
 \alias{gsFit-class}
 \alias{dcFit-class}
+\alias{show,dcMle-method}
+\alias{show,dcFit-method}
+\alias{show,gsFit-method}
 \title{
 'dcMle' Classes
 }

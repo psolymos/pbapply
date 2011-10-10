@@ -40,3 +40,12 @@ setMethod("dcdiag", "dcMle", function(x, ...) x@dcdiag)
 setMethod("dctable", "dcMle", function(x, ...) x@dctable)
 setMethod("dcsd", "dcMle", function(object, ...) dcsd(object@mcmc, ...))
 setMethod("nclones", "dcMle", function(x, ...) x@n.clones)
+## show for **Fit objects
+setMethod("show", "dcFit", function(object) {
+    str(object)
+    invisible(object)
+})
+setMethod("show", "gsFit", function(object) {
+    str(object)
+    invisible(object)
+})

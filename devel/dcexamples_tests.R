@@ -10,7 +10,7 @@ jags_example <- function(topic, renv, tenv, ...) {
     assign(topic, pt, envir=tenv)
     assign(topic, out, envir=renv)
 }
-options(dcmle.href="c:/svn/dcr/www/examples")
+#options(dcmle.href="c:/svn/dcr/www/examples")
 n.adapt <- 100
 n.update <- 100
 n.iter <- 100
@@ -46,7 +46,7 @@ for (i in topic) {
     cat("\n## END   <<<<<<<<<<<<<<    ", i, "    >>>>>>>>>>>>>>>>>\n\n")
 }
 stopCluster(cl)
-dcoptions(dcop)
+#dcoptions(dcop)
 t1 <- matrix(0, length(topic), 3)
 colnames(t1) <- names(timer1[[as.character(topic[1])]])[1:3]
 rownames(t1) <- topic
@@ -55,9 +55,52 @@ for (i in 1:length(topic)) {
     t1[i,] <- timer1[[as.character(topic[i])]][1:3]
     t2[i,] <- timer2[[as.character(topic[i])]][1:3]
 }
-summary(t1)
-summary(t2)
-summary(t2/t1)
+## this for DC
+timer3 <- new.env(hash=FALSE)
+timer4 <- new.env(hash=FALSE)
+timer5 <- new.env(hash=FALSE)
+timer6 <- new.env(hash=FALSE)
+res3 <- new.env(hash=FALSE)
+res4 <- new.env(hash=FALSE)
+res5 <- new.env(hash=FALSE)
+res6 <- new.env(hash=FALSE)
+k <- 1:2 # c(1,2,4,6)
+cl <- makeSOCKcluster(8)
+clusterEvalQ(cl, library(dcmle))
+parLoadModule(cl, "glm")
+parLoadModule(cl, "dic")
+#dcop <- dcoptions(verbose=0)
+topic <- c("paramecium",                                          # misc
+    "blocker","dyes","epil","equiv","pump","salm","seeds","rats", # vol 1
+    "beetles","birats","dugongs","eyes","hearts","jaw","orange")  # vol 2
+for (i in topic) {
+    cat("\n\n## START <<<<<<<<<<<<<<    ", paste(i, "_DC", sep=""), "    >>>>>>>>>>>>>>>>>\n")
+    jags_example(i, n.clones=k, renv=res3, tenv=timer3, 
+        n.adapt=n.adapt, n.update=n.update, n.iter=n.iter, n.chains=n.chains, thin=thin)
+    jags_example(i, n.clones=k, cl=cl, partype="balancing", renv=res4, tenv=timer4, 
+        n.adapt=n.adapt, n.update=n.update, n.iter=n.iter, n.chains=n.chains, thin=thin)
+    jags_example(i, n.clones=k, cl=cl, partype="parchains", renv=res5, tenv=timer5, 
+        n.adapt=n.adapt, n.update=n.update, n.iter=n.iter, n.chains=n.chains, thin=thin)
+    jags_example(i, n.clones=k, cl=cl, partype="both", renv=res6, tenv=timer6, 
+        n.adapt=n.adapt, n.update=n.update, n.iter=n.iter, n.chains=n.chains, thin=thin)
+    cat("\n## END   <<<<<<<<<<<<<<    ", paste(i, "_DC", sep=""), "    >>>>>>>>>>>>>>>>>\n\n")
+}
+stopCluster(cl)
+dcoptions(dcop)
+t3 <- matrix(0, length(topic), 3)
+colnames(t3) <- names(timer3[[as.character(topic[1])]])[1:3]
+rownames(t3) <- topic
+t6 <- t5 <- t4 <- t3
+for (i in 1:length(topic)) {
+    t3[i,] <- timer3[[as.character(topic[i])]][1:3]
+    t4[i,] <- timer4[[as.character(topic[i])]][1:3]
+    t5[i,] <- timer5[[as.character(topic[i])]][1:3]
+    t6[i,] <- timer6[[as.character(topic[i])]][1:3]
+}
+
+round(cbind(seq=t1[,3], pch=t2[,3]) / t1[,3], 3)
+round(cbind(seq=t3[,3], bal=t4[,3], pch=t5[,3], both=t6[,3]) / t3[,3], 3)
+
 x <- readLines("c:/svn/dcr/devel/tests/dcexamples_tests.log")
 err <- c(grep("rror", x), grep("arning", x))
 fal <- grep("d error", x)

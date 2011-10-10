@@ -1,6 +1,6 @@
 ## exporting from dcmle
 export(dcmle, makeGsFit, makeDcFit,
-    listDcExamples, sourceDcExample, dcExample)
+    listDcExamples, sourceDcExample)
 exportClasses(gsFit, dcFit, dcMle)
 #exportClasses(custommodel, dcModel)
 exportMethods(summary, show, coef, dcsd, confint, vcov, quantile,

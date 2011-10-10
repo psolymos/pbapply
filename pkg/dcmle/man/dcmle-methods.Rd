@@ -1,6 +1,5 @@
 \name{dcmle-methods}
 \alias{dcmle-methods}
-\alias{show,dcMle-method}
 \alias{summary,dcMle-method}
 \alias{vcov,dcMle-method}
 \alias{quantile,dcMle-method}
