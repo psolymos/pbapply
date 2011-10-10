@@ -21,6 +21,7 @@ setClass("gsFit",
     representation(
         data = "list",
         model = "dcModel",
+#        model = "character",
         params = "dcArgs",
         inits = "dcInits"),
     prototype = list(
@@ -132,7 +133,9 @@ function(data, model, params=NULL, inits=NULL)
 {
     x <- new("gsFit")
     x@data <- data
-    x@model <- custommodel(model)
+#    x@model <- unclass(custommodel(model))
+#    x@model <- custommodel(model)
+    x@model <- model
     x@params <- params
     x@inits <- inits
     x
