@@ -12,7 +12,7 @@
             "autoburnin"=TRUE,
             "diag"=0.05,
             "LB"=FALSE,
-            "overwrite"=FALSE,
+            "overwrite"=TRUE,
             "RNG"="none",
             "rhat"=1.1,
             "verbose"=1))

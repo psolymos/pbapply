@@ -16,6 +16,8 @@ Version 1.4-1, September 28, 2011
       (gelman.diag, lambdamax.diag, chisq.diag).
       dc.fit and dc.parfit neglects these NA values
       when issueing warning based on Rhat.
+    * dcoptions()$overwrite changed to TRUE by default,
+      this might spare some headaches when going parallel.
 
 Version 1.4-0, September 28, 2011
     * Major CRAN release with new parallel features.
