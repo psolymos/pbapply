@@ -24,5 +24,8 @@ echo run dontrun examples in dcmle
 echo.
 R CMD BATCH --vanilla "c:/svn/dcr/devel/dcmle_tests.R" "c:/svn/dcr/devel/tests/dcmle_tests.log"
 echo.
+echo run dcExamples test suite
+echo.
+R CMD BATCH --vanilla "c:/svn/dcr/devel/dcexamples_tests.R" "c:/svn/dcr/devel/tests/dcexamples_tests.log"
 echo done
 ::exit

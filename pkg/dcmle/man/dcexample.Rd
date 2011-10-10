@@ -57,6 +57,8 @@ listDcExamples()
 
 ## source paramecium example
 sourceDcExample("paramecium")
+paramecium@model
+custommodel(paramecium@model)
 
 ## seeds example, structure only
 dcExample("seeds")
