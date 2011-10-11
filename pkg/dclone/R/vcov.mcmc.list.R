@@ -1,3 +1,3 @@
 vcov.mcmc.list <-
 function(object, ...)
-    cov(as.matrix(x), ...)
+    cov(as.matrix(object), ...)
