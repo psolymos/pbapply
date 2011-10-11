@@ -22,7 +22,7 @@ R CMD check "c:/svn/dcr/pkg/dclone" --outdir="c:/svn/dcr/devel/tests/"
 echo.
 echo run dontrun examples in dclone
 echo.
-::R CMD BATCH --vanilla "c:/svn/dcr/devel/dclone_tests.R" "c:/svn/dcr/devel/tests/dclone_tests.log"
+R CMD BATCH --vanilla "c:/svn/dcr/devel/dclone_tests.R" "c:/svn/dcr/devel/tests/dclone_tests.log"
 echo.
 echo done
 ::exit

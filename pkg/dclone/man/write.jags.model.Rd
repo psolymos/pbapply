@@ -108,24 +108,26 @@ clean.jags.model(jmodnam)
 summary(regmod)
 }
 ## let's customize this model
-jfun <- function() {
-    for (i in 1:n) {
-        Y[i] ~ dpois(lambda[i])
-        Y[i] <- alpha[i] + inprod(X[i,], beta[1,])
-        log(lambda[i]) <- alpha[i] + inprod(X[i,], beta[1,])
-        alpha[i] ~ dnorm(0, 1/sigma^2)
-    }
-    for (j in 1:np) {
-        beta[1,j] ~ dnorm(0, 0.001)
-    }
-    sigma ~ dlnorm(0, 0.001)
-}
-custommodel(jfun)
+jfun2 <- structure(
+    c(" model { ",
+    "     for (i in 1:n) { ",
+    "         Y[i] ~ dpois(lambda[i]) ",
+    "         Y[i] <- alpha[i] + inprod(X[i,], beta[1,]) ",
+    "         log(lambda[i]) <- alpha[i] + inprod(X[i,], beta[1,]) ",
+    "         alpha[i] ~ dnorm(0, 1/sigma^2) ",
+    "     } ",
+    "     for (j in 1:np) { ",
+    "         beta[1,j] ~ dnorm(0, 0.001) ",
+    "     } ",
+    "     sigma ~ dlnorm(0, 0.001) ",
+    " } "),
+    class = "custommodel")
+custommodel(jfun2)
 ## GLMM
-custommodel(jfun, 4)
+custommodel(jfun2, 4)
 ## LM
-custommodel(jfun, c(3,5))
+custommodel(jfun2, c(3,5))
 ## deparse when print
-print(custommodel(jfun), deparse=TRUE)
+print(custommodel(jfun2), deparse=TRUE)
 }
 \keyword{ IO }
