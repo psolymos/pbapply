@@ -2,9 +2,9 @@ lambdamax.diag <-
 function(x)
 {
     npar <- nvar(x)
-    y <- mcmcapply(x, array)
+    y <- as.matrix(x) # mcmcapply(x, array)
     rval <- if (npar == 1) {
-        sd(y)
+        sd(y)^2
     } else {
         max(eigen(var(y), symmetric=TRUE, only.values=TRUE)$val)
     }

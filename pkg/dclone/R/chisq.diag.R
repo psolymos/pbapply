@@ -1,7 +1,7 @@
 chisq.diag <- function(x)
 {
 #    probs <- c(0, 1)
-    mcmc <- mcmcapply(x, array)
+    mcmc <- as.matrix(x) # mcmcapply(x, array)
     mn <- coef(x)
     npar <- length(mn)
     ## inverse of the var-cov matrix of the posterior

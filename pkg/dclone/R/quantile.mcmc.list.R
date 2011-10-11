@@ -1,3 +1,5 @@
 quantile.mcmc.list <-
 function(x, ...)
-    apply(mcmcapply(x, array), 2, quantile, ...)
+{
+    apply(as.matrix(x), 2, quantile, ...)
+}
