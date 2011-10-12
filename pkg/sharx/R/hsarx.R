@@ -1,9 +1,8 @@
 ## TODO:
-## - model specific title
 ## - coef names to match model frame
 
 setClass("hsarx", 
-    representation(title="character"), 
+    representation(title="character", Y="numeric", X="matrix", Z="matrix", G="integer"), 
     contains = "dcMle")
 
 setMethod("show", "hsarx", function(object) {
@@ -54,7 +53,18 @@ if (ncol(X) > 2)
 #    dcmle(out, n.clones=n.clones, cl=cl, ...)
 #    out <- as(dcmle(sharx:::hsarx.fit(Y, X, Z, G), n.clones=n.clones, cl=cl, ...), "hsarx")
     out <- as(dcmle(hsarx.fit(Y, X, Z, G), n.clones=n.clones, cl=cl, ...), "hsarx")
-    out@title <- "Hierarchical SAR-X Model"
+    title <- if (ncol(X) > 2)
+        "SARX" else "SAR"
+    if (!is.null(Z)) {
+        if (title != "SARX" && NCOL(Z) > 1)
+            title <- paste(title, "X", sep="")
+        title <- paste("H", title, sep="")
+    }
+    out@title <- paste(title, "Model")
+    out@Y <- Y
+    out@X <- X
+    out@Z <- if (is.null(Z)) matrix(0,0,0) else Z
+    out@G <- if (is.null(G)) integer(0) else G
     out
 }
 

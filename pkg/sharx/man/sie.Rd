@@ -1,9 +1,10 @@
 \name{sie}
-\alias{sie-classes}
+\alias{sie-class}
 \alias{sie}
 \alias{sieplot}
+\alias{show,sie-method}
 \title{
-Small Island Effect (SIE) via Breakpoint Rregression
+Small Island Effect (SIE) via Breakpoint Regression
 }
 \description{
 Fit a breakpoint regression model to data to find threshold for
