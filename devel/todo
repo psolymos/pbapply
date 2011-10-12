@@ -45,6 +45,8 @@ now in devel dir, can run batch mode
 * None
 
 ## dependent packages
-* add verbose text to function
 * OK -- add progress bar to functions
-* implement dcmle
+* OK -- implement dcmle to sharx
+* implement dcmle to detect
+* implement dcmle to ResourceSelection
+* add verbose text to function
