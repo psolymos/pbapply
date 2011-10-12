@@ -105,7 +105,7 @@ n.chains=3, cl = NULL, parchains = FALSE, ...)
     dcd <- t(as.data.frame(dcdr))
     rownames(dcd) <- 1:length(dcdr)
     dcd <- data.frame(dcd)
-#    colnames(dcd) <- c("n.clones", "lambda.max", "ms.error", "r.squared", "r.hat") # went to dcdiag.default
+    colnames(dcd) <- c("n.clones", "lambda.max", "ms.error", "r.squared", "r.hat") # went to dcdiag.default
     class(dcd) <- c("dcdiag", class(dcd))
     attr(mod, "dcdiag") <- dcd
     mod

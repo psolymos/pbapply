@@ -84,7 +84,7 @@ The choice of the preferred <strong>BUGS</strong> program is up to the user.</p>
 <ul>
 <li><strong>R (>= 2.7.0):</strong> download from 
 <a href="http://cran.r-project.org/">CRAN</a>.</li>
-<li><strong>WinBUGS:</strong> download 
+<li><strong>WinBUGS (>= 1.4):</strong> download 
 <a href="http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml">from here</a>, don't forget
 the patch and the immortality key, the <strong>R2WinBUGS</strong> and 
 <strong>coda</strong> R packages are required for using WinBUGS from within R.</li>
@@ -92,14 +92,14 @@ the patch and the immortality key, the <strong>R2WinBUGS</strong> and
 <a href="http://www.openbugs.info/w/Downloads">from here</a>, it requires the
 <strong>BRugs (>= 0.3-2)</strong> R package that is 
 available from <a href="http://www.stats.ox.ac.uk/pub/RWin/">CRAN Extras</a>.</li>
-<li><strong>JAGS:</strong> download 
+<li><strong>JAGS (>= 3.0.0):</strong> download 
 <a href="http://sourceforge.net/projects/mcmc-jags/">from here</a>,
 the <strong>rjags</strong> and <strong>coda</strong> 
 R packages are required for using JAGS from within R.</li>
 </ul>
 
 <p>The dclone package itself depends on the <strong>coda</strong> (>= 0.13), <strong>R2WinBUGS</strong>, <strong>snow</strong> and <strong>rlecuyer</strong> R packages (the latter two are for parallel computations) which are all available from CRAN. 
-The dclone package also suggests to have the <strong>rjags</strong>, <strong>BRugs</strong>, <strong>rsprng</strong> R packages (the latter two might not be available for all platforms).</p>
+The dclone package also suggests to have the <strong>rjags (>= 3-2)</strong>, <strong>BRugs</strong>, <strong>rsprng</strong> R packages (the latter two might not be available for all platforms).</p>
 
 <p>The <strong>rjags</strong> package is suggested for using <strong>JAGS</strong>. 
 The <strong>rjags</strong> dependency
@@ -129,6 +129,10 @@ to functions, where showing the progress is useful for the user (e.g. bootstrap)
 for use-availability wildlife data as described in Lele and Keim 
 (2006, Ecology 87, 3021–3028), and Lele (2009, J. Wildlife Management 73, 122–127).
 [<a href="http://cran.r-project.org/package=ResourceSelection">get it from CRAN</a>]</li>
+<li><strong>detect:</strong> Analyzing wildlife data with detection error.
+The package implements models to analyze site occupancy and count data models 
+with detection error.
+[<a href="http://cran.r-project.org/package=detect">get it from CRAN</a>]</li>
 </ul>
 
 </body>
