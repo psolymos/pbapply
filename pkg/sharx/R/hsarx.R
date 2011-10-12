@@ -48,11 +48,7 @@ if (ncol(X) > 2)
         Z <- NULL
         G <- NULL
     }
-#    out <- sharx:::hsarx.fit(Y, X, Z, G)
-#    out <- hsarx.fit(Y, X, Z, G)
-#    dcmle(out, n.clones=n.clones, cl=cl, ...)
-#    out <- as(dcmle(sharx:::hsarx.fit(Y, X, Z, G), n.clones=n.clones, cl=cl, ...), "hsarx")
-    out <- as(dcmle(hsarx.fit(Y, X, Z, G), n.clones=n.clones, cl=cl, ...), "hsarx")
+    out <- as(dcmle(sharx:::hsarx.fit(Y, X, Z, G), n.clones=n.clones, cl=cl, ...), "hsarx")
     title <- if (ncol(X) > 2)
         "SARX" else "SAR"
     if (!is.null(Z)) {
