@@ -57,7 +57,6 @@ of the model. This is handy when there are variations of the same model.
 \value{
 \code{write.jags.model} invisibly returns the name of the file
 that was written eventually (possibly including random string).
-The function tries to avoid overwriting existing files.
 
 \code{clean.jags.model} invisibly returns the result of 
 \code{\link{file.remove}} (logical).
