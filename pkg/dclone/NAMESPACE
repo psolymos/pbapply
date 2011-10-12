@@ -13,7 +13,6 @@ export("dclone", "dcdim",
        "dcoptions")
 ## rjags remakes
 export("jagsModel", "codaSamples")
-
 ## parallel functions
 export("jags.parfit", "dc.parfit",
        "snowWrapper", 
@@ -24,7 +23,6 @@ export("jags.parfit", "dc.parfit",
 export("parListModules", "parLoadModule", "parUnloadModule",
       "parListFactories", "parSetFactory", 
       "parJagsModel", "parUpdate", "parCodaSamples")
-
 ## graphical helper functions
 export("errlines")
 
@@ -92,4 +90,3 @@ S3method("print", "custommodel")
 
 ## methods for helper functions/classes
 S3method("errlines", "default")
-
