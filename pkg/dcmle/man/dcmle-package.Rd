@@ -25,9 +25,9 @@ These object classes are easily
 extendable to allow inclusion into functions fitting
 specific models to the data (see Examples).
 
-\pkg{dcExample} can be used to view and fit lots of
+\code{\link{sourceDcExample}} can be used to get
 examples from \url{http://dcr.r-forge.r-project.org/examples}
-gathered from various sources (WinBUGS Manual, books, etc.).
+gathered from various sources (WinBUGS Manual, articles, books, etc.).
 }
 \author{
 Peter Solymos
@@ -35,7 +35,7 @@ Peter Solymos
 Maintainer: Peter Solymos <solymos@ualberta.ca>
 }
 \references{
-\url{http://dcr.r-forge.r-project.org}
+\url{http://cran.r-project.org/package=dcmle}, \url{http://dcr.r-forge.r-project.org}
 }
 \keyword{ package }
 \seealso{

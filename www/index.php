@@ -72,7 +72,7 @@ echo $contents; } ?>
 [<A href="http://dcr.r-forge.r-project.org/publications/RJournal_2010-2_Solymos.pdf">local copy</A>]
 [<A href="http://dcr.r-forge.r-project.org/publications/RJournal_2010-2_Solymos.R">R code</A>]<i> (Official citation)</i>
 </li><li>Reference manual: [<A href="http://cran.r-project.org/web/packages/dclone/dclone.pdf">pdf</A>] <i>(Detailed technical documentation of the package from CRAN)</i></li>
-<li>Additional resources: <a href="http://dcr.r-forge.r-project.org/tutorials/">tutorials</a> (under development), <a href="http://dcr.r-forge.r-project.org/examples/">worked examples</a>.</li>
+<li>Additional resources: <a href="http://dcr.r-forge.r-project.org/tutorials/">tutorials</a> (under development), <a href="http://dcr.r-forge.r-project.org/examples/">worked examples</a> (also available via the <strong>dcmle</strong> package).</li>
 </ul>
 </p>
 
@@ -118,21 +118,34 @@ at once is to type this after opening R:</p>
 <h2>Specialized packages in this repository</h2>
 
 <ul>
+
+<li><strong>dcmle:</strong> Hierarchical Models Made Easy with Data Cloning.
+S4 classes around infrastructure provided by the dclone package to make package development 
+with data cloning for hierarchical models easy as a breeze.
+[<a href="http://cran.r-project.org/package=dcmle">get it from CRAN</a>]</li>
+
+<li><strong>dcexatras:</strong> extras and not fully supported functions to the dclone package.
+Only developmental version available.</li>
+
 <li><strong>pbapply:</strong> a lightweight package that adds 
 progress bar to vectorized R functions ('*apply'). The implenentation can easily be added 
 to functions, where showing the progress is useful for the user (e.g. bootstrap).
 [<a href="http://cran.r-project.org/package=pbapply">get it from CRAN</a>]</li>
+
 <li><strong>sharx:</strong> data sets and SAR, SARX, HSAR and HSARX 
   models as described in Solymos and Lele (in press).
   [<a href="http://cran.r-project.org/package=sharx">get it from CRAN</a>]</li>
+
 <li><strong>ResourceSelection:</strong> Resource Selection (Probability) Functions 
 for use-availability wildlife data as described in Lele and Keim 
 (2006, Ecology 87, 3021–3028), and Lele (2009, J. Wildlife Management 73, 122–127).
 [<a href="http://cran.r-project.org/package=ResourceSelection">get it from CRAN</a>]</li>
+
 <li><strong>detect:</strong> Analyzing wildlife data with detection error.
 The package implements models to analyze site occupancy and count data models 
 with detection error.
 [<a href="http://cran.r-project.org/package=detect">get it from CRAN</a>]</li>
+
 </ul>
 
 </body>
