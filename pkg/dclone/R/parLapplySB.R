@@ -1,4 +1,6 @@
-parLapplySB <- function(cl, x, size=1, fun, ...) {
+parLapplySB <- 
+function(cl, x, size = 1, fun, ...)
+{
     fun <- match.fun(fun)
     s <- clusterSplitSB(cl, x, size)
     id <- clusterSplitSB(cl, 1:length(x), size)
@@ -7,4 +9,3 @@ parLapplySB <- function(cl, x, size=1, fun, ...) {
     res <- res[order(unlist(id))]
     res
 }
-

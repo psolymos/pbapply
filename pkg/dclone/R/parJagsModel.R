@@ -1,6 +1,6 @@
 parJagsModel <-
-function(cl, name, file, data=sys.frame(sys.parent()), 
-inits, n.chains = 1, n.adapt=1000, quiet=FALSE) 
+function(cl, name, file, data = sys.frame(sys.parent()), 
+inits, n.chains = 1, n.adapt = 1000, quiet = FALSE) 
 {
     if (length(cl) != n.chains)
         stop("length(cl) must equal n.chains")

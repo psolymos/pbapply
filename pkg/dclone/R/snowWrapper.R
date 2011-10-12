@@ -1,9 +1,9 @@
 snowWrapper <-
-function(cl, seq, fun, cldata, name="cldata", use.env=FALSE,
-lib=NULL, dir = NULL, evalq=NULL,
-size = 1, balancing=c("none", "load", "size", "both"), 
-rng.type=c("none", "RNGstream", "SPRNG"), 
-cleanup=TRUE, unload=FALSE, ...)
+function(cl, seq, fun, cldata, name = "cldata", use.env = FALSE,
+lib = NULL, dir = NULL, evalq = NULL,
+size = 1, balancing = c("none", "load", "size", "both"), 
+rng.type = c("none", "RNGstream", "SPRNG"), 
+cleanup = TRUE, unload = FALSE, ...)
 {
     balancing <- match.arg(balancing)
     ## if object name exists in global env, make a copy as tmp, and put back in the end
@@ -55,11 +55,6 @@ cleanup=TRUE, unload=FALSE, ...)
     if (cleanup) {
         ## remove cldata by name
         eval(parse(text=paste("clusterEvalQ(cl, rm(", name, "))")))
-#        if (!use.env) {
-#            eval(parse(text=paste("clusterEvalQ(cl, rm(", name, "))")))
-#        } else {
-#            clusterEvalQ(cl, .DcloneEnv <- new.env(hash = FALSE, parent = .GlobalEnv))
-#        }
         ## set old dir
         if (!is.null(dir)) {
             dirold <- lapply(dirold, function(z) paste("setwd(\"", z, "\")", sep=""))

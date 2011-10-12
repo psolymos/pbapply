@@ -1,7 +1,7 @@
 dclone.dcdim <-
-function(x, n.clones=1, attrib=TRUE, ...)
+function(x, n.clones = 1, attrib = TRUE, ...)
 {
-    if (n.clones==1)
+    if (n.clones == 1)
         return(x)
     DIM <- dim(x)
     clch <- paste("clone", 1:n.clones, sep=".")

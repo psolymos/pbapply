@@ -1,4 +1,5 @@
 extractdcdiag <-
 function(x, ...)
-UseMethod("extractdcdiag")
-
+{
+    UseMethod("extractdcdiag")
+}

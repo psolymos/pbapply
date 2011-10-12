@@ -1,7 +1,8 @@
 pairs.mcmc.list <- 
-function(x, n=25, col=1:length(x), 
-col.hist="gold", col.image=terrain.colors(50),
-density=TRUE, contour=TRUE, mean=TRUE, ...) {
+function(x, n = 25, col = 1:length(x), 
+col.hist = "gold", col.image = terrain.colors(50),
+density = TRUE, contour = TRUE, mean = TRUE, ...) 
+{
     require(MASS)
     ind <- t(matrix(1:(niter(x)*length(x)), niter(x), length(x)))
     dim(ind) <- NULL
@@ -44,5 +45,3 @@ density=TRUE, contour=TRUE, mean=TRUE, ...) {
         upper.panel=fun.upper, diag.panel=panel.hist.density)
     invisible(NULL)
 }
-
-

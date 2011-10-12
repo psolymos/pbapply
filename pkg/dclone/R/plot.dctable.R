@@ -1,5 +1,5 @@
 plot.dctable <-
-function(x, which = 1:length(x), type=c("all", "var", "log.var"),
+function(x, which = 1:length(x), type = c("all", "var", "log.var"),
 position = "topright", box.cex = 0.75, box.bg = NA, ...)
 {
     plotit <- function(param, show.legend, ...) {
@@ -58,8 +58,6 @@ position = "topright", box.cex = 0.75, box.bg = NA, ...)
     xval <- 1:length(k)
     FUN <- function(x) return(x)
     if (type == "log.var") {
-#        k <- log(k)
-#        kmin <- log(kmin)
         xval <- log(k)
         w <- 0
         FUN <- function(x) log(x)

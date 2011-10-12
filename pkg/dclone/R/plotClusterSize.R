@@ -1,5 +1,6 @@
 plotClusterSize <-
-function(n, size, balancing=c("none","load","size","both"), plot=TRUE, col=NA, xlim=NULL, ylim=NULL, ...)
+function(n, size, balancing = c("none","load","size","both"), 
+plot = TRUE, col = NA, xlim = NULL, ylim = NULL, ...)
 {
     clusterSplitLB <- function(cl, seq, size = 1) {
         tmp1 <- tmp2 <- matrix(NA, length(cl), length(seq))
@@ -12,7 +13,7 @@ function(n, size, balancing=c("none","load","size","both"), plot=TRUE, col=NA, x
         }
         lapply(1:length(cl), function(i) tmp2[i,!is.na(tmp2[i,])])
     }
-    if (n==1)
+    if (n == 1)
         stop("'n' > 1 is needed")
     m <- length(size)
     seq <- 1:m
@@ -30,16 +31,13 @@ function(n, size, balancing=c("none","load","size","both"), plot=TRUE, col=NA, x
         "both" = clusterSplitSB(cl, size, size))
     x2 <- lapply(s, cumsum)
     x1 <- lapply(1:n, function(i) x2[[i]] - s[[i]])
-
     offset <- 0.1
     y <- 1:n
     y1 <- y+(0.5-offset)
     y2 <- y-(0.5-offset)
-
     col <- rep(col, m)[1:m]
     col <- col[unlist(x)]
     coli <- 1
-
     MAX <- max(sapply(x2, function(z) if (length(z)) max(z) else 0))
     if (plot) {
         if (is.null(xlim))
@@ -61,8 +59,8 @@ function(n, size, balancing=c("none","load","size","both"), plot=TRUE, col=NA, x
             sub=sub)
         for (i in 1:n) {
             for (j in 1:length(x[[i]])) {
-                tmp <- try(polygon(c(x1[[i]][j], x2[[i]][j], x2[[i]][j], x1[[i]][j]), c(y1[i], y1[i], y2[i], y2[i]), 
-                    col=col[coli], ...), silent=TRUE)
+                tmp <- try(polygon(c(x1[[i]][j], x2[[i]][j], x2[[i]][j], x1[[i]][j]), 
+                    c(y1[i], y1[i], y2[i], y2[i]), col=col[coli], ...), silent=TRUE)
                 coli <- coli + 1
                 if (!inherits(tmp, "try-error"))
                     text(mean(c(x1[[i]][j], x2[[i]][j])), y[i], x[[i]][j])

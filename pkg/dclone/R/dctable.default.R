@@ -1,5 +1,6 @@
 dctable.default <-
-function(x, ...) {
+function(x, ...) 
+{
     dct <- is.null(attr(x, "dctable"))
     ll <- length(list(...))
     if (ll || (!ll && dct)) {

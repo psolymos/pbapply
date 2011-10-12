@@ -1,5 +1,6 @@
 dcdiag.default <-
-function(x, ...) {
+function(x, ...) 
+{
     dct <- is.null(attr(x, "dcdiag"))
     ll <- length(list(...))
     if (ll || (!ll && dct)) {
@@ -21,6 +22,7 @@ function(x, ...) {
     } else {
         rval <- attr(x, "dcdiag")
     }
+    colnames(rval) <- c("n.clones", "lambda.max", "ms.error", "r.squared", "r.hat")
     class(rval) <- c("dcdiag", class(rval))
     rval
 }

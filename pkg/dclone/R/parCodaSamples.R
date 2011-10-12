@@ -11,7 +11,6 @@ function(cl, model, variable.names = NULL, n.iter, thin = 1, ...)
             n.iter=cldata$n.iter, thin=cldata$thin, ...)
         if (!is.null(n.clones) && n.clones > 1) {
             attr(res, "n.clones") <- n.clones
-#            class(res) <- c("mcmc.list.dc", class(res))
         }
         res
     }
@@ -29,7 +28,6 @@ function(cl, model, variable.names = NULL, n.iter, thin = 1, ...)
     } else n.clones <- n.clones[[1]]
     for (i in 1:length(res)) {
         attr(res, "n.clones") <- NULL
-#        class(res) <- class(res)[class(res) != "mcmc.list.dc"]
     }
     res <- as.mcmc.list(lapply(res, as.mcmc))
     if (!is.null(n.clones) && n.clones > 1) {
@@ -38,4 +36,3 @@ function(cl, model, variable.names = NULL, n.iter, thin = 1, ...)
     }
     res
 }
-

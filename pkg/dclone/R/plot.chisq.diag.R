@@ -1,5 +1,5 @@
-plot.chisq.diag <- function(x, 
-    main, sub, xlab, ylab, qqline = TRUE, ...)
+plot.chisq.diag <- 
+function(x, main, sub, xlab, ylab, qqline = TRUE, ...)
 {
     if (missing(main))
         main <- if (is.null(nclones(x)))

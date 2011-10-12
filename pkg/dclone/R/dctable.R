@@ -1,3 +1,5 @@
 dctable <-
 function(x, ...)
-UseMethod("dctable")
+{
+    UseMethod("dctable")
+}

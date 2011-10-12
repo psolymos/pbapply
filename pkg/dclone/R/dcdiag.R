@@ -1,3 +1,5 @@
 dcdiag <-
 function(x, ...)
-UseMethod("dcdiag")
+{
+    UseMethod("dcdiag")
+}

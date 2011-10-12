@@ -1,6 +1,6 @@
 jagsModel <-
-function(file, data=sys.frame(sys.parent()), 
-inits, n.chains = 1, n.adapt=1000, quiet=FALSE) 
+function(file, data = sys.frame(sys.parent()), 
+inits, n.chains = 1, n.adapt = 1000, quiet = FALSE) 
 {
     if (is.function(file) || inherits(file, "custommodel")) {
         if (is.function(file))

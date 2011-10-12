@@ -40,8 +40,6 @@ position = "topright", ...)
     xval <- 1:length(k)
     log.var <- FALSE
     if (which == "log.lambda.max") {
-#        k <- log(k)
-#        kmin <- log(kmin)
         xval <- log(k)
         log.var <- TRUE
     }

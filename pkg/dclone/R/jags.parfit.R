@@ -13,7 +13,6 @@ function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
             stop("'n.iter = 0' is not supported for parallel computations")
     if (n.chains == 1)
         stop("no need for parallel computing with 1 chain")
-
     ## write model
     if (is.function(model) || inherits(model, "custommodel")) {
         if (is.function(model))
@@ -24,7 +23,6 @@ function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
             on.exit(try(clean.jags.model(model)))
         }
     }
-
     ## generating initial values and RNGs if needed
     inits <- jags.fit(data, params, model, inits, n.chains,
         n.adapt=0, n.update=0, n.iter=0)$state(internal=TRUE)
@@ -46,9 +44,6 @@ function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
         "load" else "none"
     dir <- if (inherits(cl, "SOCKcluster"))
         getwd() else NULL
-    ## do the work, dclone loaded only if not yet there  -- went into snowWrapper
-#    lib <- if ("dclone" %in% clusterEvalQ(cl, .packages())[[1]])
-#        NULL else "dclone"
     mcmc <- snowWrapper(cl, 1:n.chains, jagsparallel, cldata, 
         name=NULL, use.env=TRUE,
         lib="dclone", balancing=balancing, size=1, 

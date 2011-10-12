@@ -1,7 +1,7 @@
 dclone.default <-
-function(x, n.clones=1, attrib=TRUE, ...)
+function(x, n.clones = 1, attrib = TRUE, ...)
 {
-    if (n.clones==1)
+    if (n.clones == 1)
         return(x)
     if (!is.null(dim(x)) || is.list(x)) {
         NAMES <- row.names(x)

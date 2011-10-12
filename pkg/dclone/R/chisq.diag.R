@@ -1,30 +1,26 @@
-chisq.diag <- function(x)
+chisq.diag <- 
+function(x)
 {
-#    probs <- c(0, 1)
-    mcmc <- as.matrix(x) # mcmcapply(x, array)
+    mcmc <- as.matrix(x)
     mn <- coef(x)
     npar <- length(mn)
     ## inverse of the var-cov matrix of the posterior
     vci <- solve(var(mcmc))
     ## theoretical quantiles for the Chi-square distribution
-    pval <- ((1:nrow(mcmc)) - 0.5) / nrow(mcmc)
+    n <- nrow(mcmc)
+    pval <- (seq_len(n) - 0.5) / n
     qchi <- qchisq(pval, npar)
     ## empirical squared generalized distances
     sdsq <- sort(apply(mcmc, 1, function(z) (t(z-mn)) %*% vci %*% (z-mn)))
-#    id <- pval >= min(probs) & pval <= max(probs)
-#    qchi <- qchi[id]
-#    sdsq <- sdsq[id]
-    rval <- list(quantiles = list(
+    rval <- list(
+        quantiles = list(
             theoretical=qchi,
             empirical=sdsq),
         statistics = list(
-            ## mean squared error
-            ms.error = mean((sdsq - qchi)^2),
-            ## r^2
-            r.squared = 1 - cor(qchi, sdsq)^2))
+            ms.error = mean((sdsq - qchi)^2), # mean squared error
+            r.squared = 1 - cor(qchi, sdsq)^2)) # r^2
     class(rval) <- "chisq.diag"
     attr(rval, "npar") <- npar
-#    attr(rval, "probs") <- probs
     attr(rval, "n.clones") <- nclones(x)
     rval
 }

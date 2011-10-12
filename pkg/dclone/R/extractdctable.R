@@ -1,4 +1,5 @@
 extractdctable <-
 function(x, ...)
-UseMethod("extractdctable")
-
+{
+    UseMethod("extractdctable")
+}

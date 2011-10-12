@@ -1,7 +1,7 @@
 dc.parfit <- 
-function(cl, data, params, model, inits, n.clones, multiply=NULL, unchanged=NULL, 
-update=NULL, updatefun=NULL, initsfun=NULL, flavour = c("jags", "bugs"), 
-n.chains=3, partype=c("balancing", "parchains", "both"), ...)
+function(cl, data, params, model, inits, n.clones, multiply = NULL, unchanged = NULL, 
+update = NULL, updatefun = NULL, initsfun = NULL, flavour = c("jags", "bugs"), 
+n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
 {
     flavour <- match.arg(flavour)
     ## stop if rjags not found
@@ -18,8 +18,6 @@ n.chains=3, partype=c("balancing", "parchains", "both"), ...)
             warnings("'updatefun' argument is ignored when partype != 'parchains'")
         if (!is.null(update))
             warnings("'update' argument is ignored when partype != 'parchains'")
-#        if (!is.null(initsfun))
-#            warnings("'initsfun' argument is ignored when partype != 'parchains'")
     }
     if (partype != "balancing" && flavour == "bugs")
         stop("flavour='bugs' supported for 'balancing' type only")
@@ -39,8 +37,6 @@ n.chains=3, partype=c("balancing", "parchains", "both"), ...)
             stop("'n.clones' argument must be provided")
         if (identical(n.clones, 1))
             stop("'n.clones = 1' gives the Bayesian answer, no need for DC")
-#        if (is.environment(data))
-#            stop("'data' should be list, not environment")
         if (is.environment(data)) {
             warnings("'data' was environment: it was coerced into a list")
             data <- as.list(data)
@@ -89,9 +85,6 @@ n.chains=3, partype=c("balancing", "parchains", "both"), ...)
             "size" else "both"
         dir <- if (inherits(cl, "SOCKcluster"))
             getwd() else NULL
-        ## dclone loaded only if not yet there -- went into snowWrapper
-#        lib <- if ("dclone" %in% clusterEvalQ(cl, .packages())[[1]])
-#            NULL else "dclone"
        ## size balancing
         if (partype == "balancing") {
             ## parallel function
@@ -136,9 +129,6 @@ n.chains=3, partype=c("balancing", "parchains", "both"), ...)
                 lib="dclone", balancing=balancing, size=k, 
                 rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, unload=FALSE, ...)
             cldata$inits <- do.call("c", pini)
-#            nch <- list(...)$n.chains
-#            if (is.null(nch))
-#                nch <- 3
             cldata$k <- rep(k, each=n.chains)
             ## parallel function to evaluate by snowWrapper
             dcparallel <- function(i, ...) {
@@ -173,13 +163,10 @@ n.chains=3, partype=c("balancing", "parchains", "both"), ...)
         ## warning if R.hat < crit
         rhat.problem <- any(dct[[times]][,"r.hat"] >= rhat.opts)
         if (any(is.na(rhat.problem))) {
-#            warning("unable to calculate R.hat values")
             rhat.problem[is.na(rhat.problem)] <- FALSE
         }
         if (nchain(mod) > 1 && rhat.problem)
             warning("chains convergence problem, see R.hat values")
-#        if (nchain(mod) > 1 && any(dct[[times]][,"r.hat"] >= rhat.opts))
-#            warning("chains convergence problem, see R.hat values")
         ## finalizing dctable attribute
         rnam <- lapply(dct, rownames)
         nam <- rnam[[1]]

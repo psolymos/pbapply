@@ -1,4 +1,6 @@
-clusterSplitSB <- function(cl, seq, size = 1) {
+clusterSplitSB <- 
+function(cl, seq, size = 1) 
+{
     m <- length(seq)
     size <- rep(size, m)[1:m]
     ## equal size

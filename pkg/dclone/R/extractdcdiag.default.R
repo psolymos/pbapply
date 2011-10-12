@@ -23,11 +23,9 @@ function(x, ...)
         if (inherits(rhat, "try-error"))
             rhat <- NA
     } else rhat <- NA
-    rval <- c(n.clones = n.clones,
-#        n.params = nvar(x),
+    c(n.clones = n.clones,
         lambda.max = lmax,
         ms.error = ms.error,
         r.squared = r.squared,
         r.hat = rhat)
-    rval
 }

@@ -15,6 +15,6 @@ function(cl, object, n.iter = 1, ...)
         name=NULL, use.env=TRUE,
         lib = "dclone", balancing = "none", size = 1, 
         rng.type = getOption("dcoptions")$RNG, 
-        cleanup = TRUE, dir = dir, unload=FALSE, ...)
+        cleanup = TRUE, dir = dir, unload = FALSE, ...)
 }
 

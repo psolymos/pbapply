@@ -1,5 +1,5 @@
 parLoadModule <-
-function (cl, name, path, quiet = FALSE) 
+function(cl, name, path, quiet = FALSE) 
 {
     clusterEvalQ(cl, require(rjags))
     if (missing(path)) {

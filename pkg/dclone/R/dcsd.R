@@ -1,1 +1,5 @@
-dcsd <- function (object, ...) UseMethod("dcsd")
+dcsd <- 
+function(object, ...) 
+{
+    UseMethod("dcsd")
+}

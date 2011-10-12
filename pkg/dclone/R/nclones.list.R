@@ -4,7 +4,6 @@ function(x, ...)
     if (!is.null(attr(x, "n.clones"))) {
         nc <- attr(x, "n.clones")
     } else {
-#        nc <- unique(unlist(lapply(x, nclones.default)))
         klist <- lapply(x, nclones.default)
         nc <- unique(unlist(klist))
         if (is.null(nc))
@@ -17,4 +16,3 @@ function(x, ...)
     }
     nc
 }
-

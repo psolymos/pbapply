@@ -14,7 +14,8 @@ function(object, parm, level = 0.95, ...)
     a <- c(a, 1 - a)
     ## scientific formatting
     np <- length(parm)
-    pct <- paste(format(100 * a, trim = TRUE, scientific = FALSE, digits = 3), "%")
+    pct <- paste(format(100 * a, trim = TRUE, 
+        scientific = FALSE, digits = 3), "%")
     ## empty array to fill up with values
     ci <- array(NA, dim = c(np, 2L), dimnames = list(parm, pct))
     ## retrieve posterior means

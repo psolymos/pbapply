@@ -1,5 +1,5 @@
 custommodel <-
-function (model, exclude=NULL)
+function (model, exclude = NULL)
 {
     if (is.function(model)) {
         model.text <- attr(model, "source")

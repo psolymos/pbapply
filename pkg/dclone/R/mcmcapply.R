@@ -7,4 +7,3 @@ function(x, FUN, ...)
     if (missing(FUN))
         y else apply(y, 2, match.fun(FUN), ...)
 }
-

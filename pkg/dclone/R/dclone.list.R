@@ -1,5 +1,6 @@
-dclone.list <- function(x, n.clones=1, 
-multiply=NULL, unchanged=NULL, attrib=TRUE, ...)
+dclone.list <- 
+function(x, n.clones = 1, 
+multiply = NULL, unchanged = NULL, attrib = TRUE, ...)
 {
     if (n.clones == 1)
         return(x)

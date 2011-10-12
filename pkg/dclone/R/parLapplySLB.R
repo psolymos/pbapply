@@ -1,4 +1,6 @@
-parLapplySLB <- function(cl, x, size=1, fun, ...) {
+parLapplySLB <- 
+function(cl, x, size=1, fun, ...) 
+{
     fun <- match.fun(fun)
     m <- length(x)
     size <- rep(size, m)[1:m]
@@ -9,4 +11,3 @@ parLapplySLB <- function(cl, x, size=1, fun, ...) {
     res <- res[order(id)]
     res
 }
-

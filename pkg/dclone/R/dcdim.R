@@ -1,5 +1,5 @@
 dcdim <-
-function(x, drop=TRUE, perm=NULL)
+function(x, drop = TRUE, perm = NULL)
 {
     if (!is.null(perm)) {
         if (!drop)
