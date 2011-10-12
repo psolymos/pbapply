@@ -1,5 +1,7 @@
 \name{hsarx}
 \alias{hsarx}
+\alias{hsarx-classes}
+\alias{show,hsarx-method}
 \title{
 Fit SAR, SARX, HSAR and HSARX models to data
 }

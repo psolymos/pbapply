@@ -1,4 +1,10 @@
-sie <- function(S, A) {
+setClass("sie", 
+    contains = "mle",
+    representation(S="numeric", A="numeric"))
+
+sie <- 
+function(S, A, method = "Nelder-Mead", ...) 
+{
     require(stats4)
     sietfun <- function(T) {
         x <- (log(A)-T) * (log(A) >= T)
@@ -17,51 +23,29 @@ sie <- function(S, A) {
         res <- log(S+0.5) - (logc + (log(A) >= T)*z*(log(A)-T))
         -0.5 * (sum(log(w)) - N * (log(2 * pi) + 1 - log(N) + log(sum(w * res^2))))
     }
-    res <- stats4:::mle(nll, inits)
+    res <- stats4:::mle(nll, start=inits, method=method, nobs=length(S), ...)
     attr(res, "data") <- cbind(A, S)
     res@call <- match.call()
+    res <- as(res, "sie")
+    res@S <- as.numeric(S)
+    res@A <- as.numeric(A)
     res
 }
 
-coef.sie <- function(object, ...) {
-    c(object$coefficients, That=object$That)
-}
-print.sie <- function(x, digits = max(3, getOption("digits") - 3), ...) {
-    cat("\nCall:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"), 
-        "\n\n", sep = "")
-    if (length(coef(x))) {
-        cat("Coefficients:\n")
-        print.default(format(c(x$coefficients, That=x$That), digits = digits), print.gap = 2, 
-            quote = FALSE)
-    }
-    else cat("No coefficients\n")
-    cat("\n")
-    invisible(x)
-}
-summary.sie <- function(object, ...) {
-    n <- nobs(object)
-    x <- stats:::summary.lm(object, ...)
-    r <- x$r.squared
-    x$adj.r.squared <- 1-(1-r*(n-1)/(n-4))
-    x$df <- c(x$df[1]+1, x$df[2]-1, x$df[3])
-    x$That <- object$That
-    class(x) <- c("summary.sie", class(x))
-    x
-}
-print.summary.sie <- function(x, digits = max(3, getOption("digits") - 3), ...) {
-    stats:::print.summary.lm(x, digits, ...)
-    cat("SIE threshold =", round(x$That, digits), "\n\n")
-    invisible(x)
-    ## simplify stuff to hide incorrect df -- or use stats4:::mle ???
-}
-sieplot <- function(x, ...) {
+sieplot <- 
+function(x, add = FALSE, ...) 
+{
     if (!inherits(x, "sie"))
         stop("'sie' class expected")
-    logA <- log(x$data[,1])
-    logS <- log(x$data[,2]+0.5)
+    logA <- log(x@A)
+    logS <- log(x@S + 0.5)
     cfs <- coef(x)
-    xx <- c(min(logA), cfs[3], max(logA))
-    yy <- c(cfs[1], cfs[1], cfs[1]+cfs[2]*(max(logA)-cfs[3]))
-    plot(logA, logS, xlab="log(A)", ylab="log(S+0.5)", ylim=range(logS, yy), ...)
+    xx <- c(min(logA), cfs["T"], max(logA))
+    yy <- c(cfs["logc"], cfs["logc"], cfs["logc"]+cfs["z"]*(max(logA)-cfs["T"]))
+    names(xx) <- names(yy) <- NULL
+    if (!add)
+        plot(logA, logS, xlab="log(A)", ylab="log(S+0.5)", ylim=range(logS, yy), ...)
     lines(xx, yy)
+    invisible(cbind(x=xx,y=yy))
 }
+

@@ -1,4 +1,5 @@
 \name{sie}
+\alias{sie-classes}
 \alias{sie}
 \alias{sieplot}
 \title{
@@ -9,8 +10,8 @@ Fit a breakpoint regression model to data to find threshold for
 the small island effect (SIE) as described in Lomolino...
 }
 \usage{
-sie(S, A)
-sieplot(x, ...)
+sie(S, A, method = "Nelder-Mead", ...)
+sieplot(x, add = FALSE, ...)
 }
 \arguments{
   \item{S}{
@@ -21,6 +22,13 @@ untransformed area, vector.
 }
   \item{x}{
 a fitted model object of class 'sie'.
+}
+  \item{method}{
+optimization mathod.
+}
+  \item{add}{
+logcal, if lines should beadded to existing plot (\code{TRUE}),
+or a new plot is to be drawn (\code{FALSE}, default).
 }
   \item{\dots}{
 graphical arguments passed to \code{\link{plot}}.
@@ -35,10 +43,13 @@ There is a \code{coef}, \code{summary}, \code{print} method for fitted objects.
 \code{sieplot} plots the observed (transformed) data and the fitted line.
 }
 \value{
-An object of class 'sie' inheriting from class 'lm'.
+An S4 object of class 'sie' inheriting from class 'mle'.
 }
 \references{
-Lomolino
+Lomolino, M. V., and M. D. Weiser. 2001. 
+Towards a more general species-area relationship: 
+diversity on all islands, great and small. 
+\emph{Journal of Biogeography}, 28, 431--445.
 }
 \author{
 Peter Solymos

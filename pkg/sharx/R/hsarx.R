@@ -1,3 +1,15 @@
+## TODO:
+## - model specific title
+## - coef names to match model frame
+
+setClass("hsarx", 
+    representation(title="character"), 
+    contains = "dcMle")
+
+setMethod("show", "hsarx", function(object) {
+    getMethod("summary","dcMle")(as(object, "dcMle"), object@title)
+})
+
 hsarx <- 
 function(formula, data, n.clones, cl=NULL, subset, na.action, ...)
 {
@@ -37,9 +49,13 @@ if (ncol(X) > 2)
         Z <- NULL
         G <- NULL
     }
-    out <- sharx:::hsarx.fit(Y, X, Z, G)
+#    out <- sharx:::hsarx.fit(Y, X, Z, G)
 #    out <- hsarx.fit(Y, X, Z, G)
-    dcmle(out, n.clones=n.clones, cl=cl, ...)
+#    dcmle(out, n.clones=n.clones, cl=cl, ...)
+#    out <- as(dcmle(sharx:::hsarx.fit(Y, X, Z, G), n.clones=n.clones, cl=cl, ...), "hsarx")
+    out <- as(dcmle(hsarx.fit(Y, X, Z, G), n.clones=n.clones, cl=cl, ...), "hsarx")
+    out@title <- "Hierarchical SAR-X Model"
+    out
 }
 
 hsarx.fit <- 
