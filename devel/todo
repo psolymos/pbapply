@@ -9,9 +9,10 @@
 * OK -- dc.fit: fails when unable to calculate dctable or dcdiag
   easiest way is to shut it down by an option (arg is not nice)
   try() is used to turn these into NA
-* add NEWS/NEWS.Rd from 1.3-0 on (maybe only to www?)
 * OK -- reduce jags.parfit initialization overhead by seeding inits only
   rjags addition will resolve this by M Plummer -- needs fullow up                      !!!
+* add NEWS/NEWS.Rd from 1.3-0 on (maybe only to www?)
+* deprecate as.mcmc.list.bugs if possible
 
 ## *** dcmle ***
 ## S4 classes for examples and to estimating procedures
