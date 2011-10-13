@@ -6,6 +6,10 @@ function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
         stop("there is no package called 'rjags'")
     if (!inherits(cl, "cluster"))
         stop("'cl' must be a 'cluster' object")
+    if (is.environment(data)) {
+        warnings("'data' was environment: it was coerced into a list")
+        data <- as.list(data)
+    }
     trace <- getOption("dcoptions")$verbose
     ## eval args
     if (!is.null(list(...)$n.iter))
@@ -47,7 +51,8 @@ function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
     mcmc <- snowWrapper(cl, 1:n.chains, jagsparallel, cldata, 
         name=NULL, use.env=TRUE,
         lib="dclone", balancing=balancing, size=1, 
-        rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, unload=FALSE, ...)
+        rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, 
+        unload=FALSE, ...)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))
     ## attaching attribs and return

@@ -19,6 +19,9 @@ program=c("winbugs", "openbugs"), ...) ## only mcmc.list format is supported
         stop("no need for parallel computing with 1 chain")
     if (length(unique(seed)) < n.chains)
         stop("'seed' must have 'n.chains' unique values")
+    if (!is.null(list(...)$format))
+        if (list(...)$format == "bugs")
+            stop("only 'mcmc.list' format is supported for parallel parallel computations")
     ## not case sensitive evaluation of program arg
     program <- match.arg(tolower(program), c("winbugs", "openbugs"))
     ## retrieves n.clones
@@ -49,6 +52,7 @@ program=c("winbugs", "openbugs"), ...) ## only mcmc.list format is supported
         seed=seed, program=program)
     ## parallel function to evaluate by snowWrapper
     bugsparallel <- function(i, ...)   {
+        cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
         bugs.fit(data=cldata$data, params=cldata$params, 
             model=cldata$model, 
             inits=cldata$inits[[i]], n.chains=1, 
@@ -64,17 +68,18 @@ program=c("winbugs", "openbugs"), ...) ## only mcmc.list format is supported
         "load" else "none"
     dir <- if (inherits(cl, "SOCKcluster"))
         getwd() else NULL
-    mcmc <- snowWrapper(cl, 1:n.chains, bugsparallel, cldata, lib="dclone", 
+    mcmc <- snowWrapper(cl, 1:n.chains, bugsparallel, cldata, 
+        name=NULL, use.env=TRUE, lib="dclone", 
         balancing=balancing, size=1, 
-        rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, ...)
+        rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, 
+        unload=FALSE, ...)
     ## binding the chains
     res <- as.mcmc.list(lapply(mcmc, as.mcmc))
 
     ## adding n.clones attribute, and class attr if mcmc.list
     if (!is.null(n.clones) && n.clones > 1) {
         attr(res, "n.clones") <- n.clones
-        if (format == "mcmc.list")
-            class(res) <- c("mcmc.list.dc", class(res))
+        class(res) <- c("mcmc.list.dc", class(res))
     }
     res
 }
