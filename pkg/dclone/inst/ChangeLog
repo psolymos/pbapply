@@ -1,5 +1,12 @@
 dclone package version history
 
+Version 1.5-0, October 17, 2011
+    * Major CRAN release with improved parallel features
+      (double initialization overhead is removed); 
+      with bugfixes from devel versions.
+    * The package also has bee extensively tested using 
+      CLassic BUGS examples (see ChangeLog for dcmle package).
+
 Version 1.4-2, October 16, 2011
     * New function: parallel.inits make use of rjags:::parallelseeds 
       to control RNG settings for initial values in parallel computations.
@@ -11,11 +18,11 @@ Version 1.4-2, October 16, 2011
       as in jags.fit).
 
 Version 1.4-1, September 28, 2011
-    * plot.dcdiag: dcdiag colnames from .dcFitwere non standard,
+    * plot.dcdiag: dcdiag colnames from .dcFit were non standard,
       so plot failed to select columns. Now fixed.
     * dc.fit and dc.parfit: got n.chains argument for clean
       handling in parrallel work. (dc.parfit failed with
-      partype="both".)
+      partype="both" when n.chains was other than 3.)
     * plotClusterSize: can plot if length(size) < n
       without error/warnings.
     * parLoadModule, parUnloadModule, parListModules,
@@ -25,7 +32,7 @@ Version 1.4-1, September 28, 2011
     * dcdiag and dctable: return NA when subroutines fail
       (gelman.diag, lambdamax.diag, chisq.diag).
       dc.fit and dc.parfit neglects these NA values
-      when issueing warning based on Rhat.
+      when issuing warning based on Rhat.
     * dcoptions()$overwrite changed to TRUE by default,
       this might spare some headaches when going parallel.
     * lambdamax.diag returned sd instead of variance for
