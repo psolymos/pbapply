@@ -19,7 +19,8 @@ inits, n.chains = 1, n.adapt = 1000, quiet = FALSE)
                 stop("'lecuyer' module must be loaded on workers")
         }
     }
-    inits <- parallel.inits(inits, n.chains)
+    inits <- if (missing(inits))
+        parallel.inits(n.chains=n.chains) else parallel.inits(inits, n.chains)
 #    inits <- jags.model(file, data, inits, n.chains, 
 #        n.adapt = 0)$state(internal = TRUE)
     cldata <- list(file=file, data=as.list(data), inits=inits,
