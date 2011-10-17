@@ -25,16 +25,18 @@ Asymptotically the posterior distribution of the parameters approaches
 a degenerate multivariate normal distribution. As the distribution
 is getting more degenerate, the maximal eigenvalue (\eqn{\lambda_{max}})
 of the unscaled covariance matrix is decreasing.
-
-If only one parameter is dealt with, the unscaled posterior standard
-error is given.
-
 There is no critical value under which \eqn{\lambda_{max}} is good enough.
 By default, 0.05 is used (see \code{getOption("dclone")$diag}).
+
+Another diagnostic tool is to check if the joint posterior distribution is
+multivariate normal. It is done by \code{chisq.diag} as described by
+Lele et al. (2010).
 }
 \value{
-Returns a single vaue, the maximum of the eigenvalues of the 
+\code{lambdamax.diag} returns a single vaue, the maximum of the eigenvalues of the 
 unscaled variance covariance matrix of the estimated parameters.
+
+\code{chisq.diag} returns 
 }
 \references{
 Lele, S.R., B. Dennis and F. Lutscher, 2007.

@@ -6,6 +6,11 @@ function(x)
     npar <- length(mn)
     ## inverse of the var-cov matrix of the posterior
     vci <- solve(var(mcmc))
+#    vci <- try(solve(var(mcmc)), silent=TRUE)
+#    if (inherits(vci, "try-error")) {
+#        require(corpcor)
+#        vci <- pseudoinverse(var(mcmc))
+#    }
     ## theoretical quantiles for the Chi-square distribution
     n <- nrow(mcmc)
     pval <- (seq_len(n) - 0.5) / n
