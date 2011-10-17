@@ -14,7 +14,7 @@ R CMD build "c:/svn/dcr/pkg/dclone" --binary
 echo.
 echo install source package
 echo.
-R CMD INSTALL dclone_1.4-1.tar.gz
+R CMD INSTALL dclone_1.5-0.tar.gz
 echo.
 echo check package
 echo.

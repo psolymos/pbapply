@@ -10,7 +10,7 @@ exampleDontRun <- function(topic) {
     invisible(NULL)
 }
 ff <- gsub(".Rd", "", list.files("c:/svn/dcr/pkg/dclone/man"))
-#ff <- "write.jags.model"
+#ff <- "parCodaSamples"#"write.jags.model"
 ff
 cat("\n\n## <<<<<<<<<<<<<<    ", date(), "    >>>>>>>>>>>>>>>>>\n\n")
 for (topic in ff) {
