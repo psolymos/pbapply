@@ -1,7 +1,7 @@
 Package: dclone
 Type: Package
 Title: Data Cloning and MCMC Tools for Maximum Likelihood Methods
-Version: 1.4-1
+Version: 1.4-2
 Date: 2011-09-29
 Author: Peter Solymos
 Maintainer: Peter Solymos <solymos@ualberta.ca>
@@ -14,7 +14,7 @@ Description: Low level functions for implementing
     and can result in nearly linear speed-up.
 License: GPL-2
 Depends: R (>= 2.7.0), coda (>= 0.13), R2WinBUGS, snow
-Suggests: MASS, rjags (>= 3-2), rlecuyer, rsprng, BRugs
+Suggests: MASS, rjags (>= 3-5), rlecuyer, rsprng, BRugs
 Imports: stats
 SystemRequirements: jags (>= 3.0.0), WinBUGS (>= 1.4)
 URL: http://cran.r-project.org/package=dclone, http://dcr.r-forge.r-project.org/

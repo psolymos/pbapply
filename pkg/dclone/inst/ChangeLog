@@ -1,5 +1,9 @@
 dclone package version history
 
+Version 1.4-2, October 16, 2011
+    * Make use of rjags:::parallelseeds to control RNG settings for
+      initial values in parallel computations.
+
 Version 1.4-1, September 28, 2011
     * plot.dcdiag: dcdiag colnames from .dcFitwere non standard,
       so plot failed to select columns. Now fixed.
