@@ -18,7 +18,8 @@ export("jags.parfit", "dc.parfit",
        "snowWrapper", 
        "clusterSize", "plotClusterSize",
        "clusterSplitSB", 
-       "parLapplySB", "parLapplySLB")
+       "parLapplySB", "parLapplySLB",
+       "parallel.inits")
 ## parallel rjags functions
 export("parListModules", "parLoadModule", "parUnloadModule",
       "parListFactories", "parSetFactory", 

@@ -105,7 +105,7 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
             }
             pmod <- snowWrapper(cl, k, dcparallel, cldata, name=NULL, use.env=TRUE,
                 lib="dclone", balancing=balancing, size=k, 
-                rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, unload=FALSE, ...)
+                rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, unload=TRUE, ...)
             mod <- pmod[[times]]
             ## dctable
             dct <- lapply(1:(times-1), function(i) pmod[[i]]$dct)
@@ -116,18 +116,28 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
         ## balancing+parchains
         } else {
             ## RNG and initialization
-            dcinits <- function(i, ...) {
-                cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
-                jdat <- dclone(cldata$data, i, multiply=cldata$multiply, unchanged=cldata$unchanged)
+                if ("lecuyer" %in% list.modules()) {
+                    mod <- parListModules(cl)
+                    for (i in 1:length(mod)) {
+                        if (!("lecuyer" %in% mod[[i]]))
+                            stop("'lecuyer' module must be loaded on workers")
+                    }
+                }
+            dcinits <- function(i) {
+#            dcinits <- function(i, ...) {
+#                cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
+#                jdat <- dclone(cldata$data, i, multiply=cldata$multiply, unchanged=cldata$unchanged)
                 INITS <- if (!is.null(cldata$initsfun) && !cldata$INIARGS)
                     initsfun(,i) else cldata$inits
-                jags.fit(data=jdat, params=cldata$params, model=cldata$model, inits=INITS,
-                    n.adapt=0, n.update=0, n.iter=0, n.chains=cldata$n.chains)$state(internal=TRUE)
+                inits <- parallel.inits(INITS, n.chains)
+#                jags.fit(data=jdat, params=cldata$params, model=cldata$model, inits=INITS,
+#                    n.adapt=0, n.update=0, n.iter=0, n.chains=cldata$n.chains)$state(internal=TRUE)
             }
             ## snowWrapper with cleanup (but cldata changes, has to be passed again)
-            pini <- snowWrapper(cl, k, dcinits, cldata, name=NULL, use.env=TRUE,
-                lib="dclone", balancing=balancing, size=k, 
-                rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, unload=FALSE, ...)
+#            pini <- snowWrapper(cl, k, dcinits, cldata, name=NULL, use.env=TRUE,
+#                lib="dclone", balancing=balancing, size=k, 
+#                rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, unload=FALSE, ...)
+            pini <- lapply(k, dcinits)
             cldata$inits <- do.call("c", pini)
             cldata$k <- rep(k, each=n.chains)
             ## parallel function to evaluate by snowWrapper
@@ -139,8 +149,8 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
             }
             ## no dclone loaded as it is there
             pmod <- snowWrapper(cl, 1:(times*n.chains), dcparallel, cldata, name=NULL, use.env=TRUE,
-                lib=NULL, balancing=balancing, size=cldata$k, 
-                rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, unload=FALSE, ...)
+                lib="dclone", balancing=balancing, size=cldata$k, 
+                rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, unload=TRUE, ...)
             ## binding the chains for each k value
             assemblyfun <- function(mcmc) {
                 n.clones <- nclones(mcmc)

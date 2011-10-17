@@ -28,8 +28,16 @@ function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
         }
     }
     ## generating initial values and RNGs if needed
-    inits <- jags.fit(data, params, model, inits, n.chains,
-        n.adapt=0, n.update=0, n.iter=0)$state(internal=TRUE)
+    if ("lecuyer" %in% list.modules()) {
+        mod <- parListModules(cl)
+        for (i in 1:length(mod)) {
+            if (!("lecuyer" %in% mod[[i]]))
+                stop("'lecuyer' module must be loaded on workers")
+        }
+    }
+    inits <- parallel.inits(inits, n.chains)
+#    inits <- jags.fit(data, params, model, inits, n.chains,
+#        n.adapt=0, n.update=0, n.iter=0)$state(internal=TRUE)
     ## common data to cluster
     cldata <- list(data=data, params=params, model=model, inits=inits)
     ## parallel function to evaluate by snowWrapper
