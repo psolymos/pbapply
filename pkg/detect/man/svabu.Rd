@@ -99,12 +99,12 @@ Solymos, P., Lele, S. R and Bayne, E. 2011 (in review).
 Conditional likelihood approach for analyzing single visit
 abundance survey data in the presence of zero inflation and
 detection error. 
-Environmetrics
+\emph{Environmetrics}
 
 Solymos, P., Lele, S. R and Bayne, E. 2011. Abundance estimation in the presence of zero
 inflation and detection error using single visit data. Alberta Biodiversity Monitoring Institute, Alberta, Canada.
 Technical Report No. ABMI-20061, August 24, 2011. Available at: 
-\href{http://www.abmi.ca}{http://www.abmi.ca/FileDownloadServlet?filename=20061_ABMI_2011-08-24_Single_Visit_Abundance.pdf&dir=REPORTS_UPLOAD}
+\href{http://www.abmi.ca/FileDownloadServlet?filename=20061_ABMI_2011-08-24_Single_Visit_Abundance.pdf&dir=REPORTS_UPLOAD}{http://www.abmi.ca}
 }
 \author{
 Peter Solymos and Subhash Lele
@@ -116,7 +116,8 @@ data(databu)
 m00 <- svabu(Y ~ x1 + x5 | x2 + x5, databu[1:200,])
 m01 <- svabu(Y ~ x1 + x5 | x2 + x5, databu[1:200,], zeroinfl=FALSE)
 ## compare estimates (note, zero inflation is on the logit scale!)
-cbind(truth=c(beta, theta, alpha), "B-ZIP"=coef(m00), "B-P"=c(coef(m01), NA))
+cbind(truth=c(2,-0.8,0.5, 1,2,-0.5, plogis(0.3)),
+"B-ZIP"=coef(m00), "B-P"=c(coef(m01), NA))
 
 ## print method
 m00
@@ -168,7 +169,6 @@ simulate(m00, 5)
 m03 <- bootstrap(m00, B=5, type="param")
 extractBOOT(m03)
 summary(m03)
-}
 
 ## Model selection
 
@@ -205,6 +205,7 @@ summary(moven2)
 moven3 <- update(moven2, . ~ . | ., zeroinfl=FALSE)
 summary(moven3)
 BIC(moven, moven2, moven3)
+}
 }
 \keyword{ htest }
 \keyword{ models }

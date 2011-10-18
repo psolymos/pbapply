@@ -1,7 +1,9 @@
 ResourceSelection package version history
 
-Version 0.1-4, Sept 29, 2011
-    *
+Version 0.1-4, Oct 18, 2011
+    * R (>= 2.13.0) dependency added
+      to avoude R CMD check ERROR on old R
+      (reported by Uwe Ligges).
 
 Version 0.1-3, August 23, 2011
     * .onLoad added to zzz.R
