@@ -1,6 +1,6 @@
 detect package version history
 
-Version 0.1-1, September 29, 2011
+Version 0.2-0, October 18, 2011
     * svabu and related functions added.
     * summary: nobs was returned as NULL,
       so AIC was not printed. Now fixed.

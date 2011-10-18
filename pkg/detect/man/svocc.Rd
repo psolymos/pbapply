@@ -97,6 +97,11 @@ What can we do with a single survey?
 Moreno, M. and S.R. Lele (2010) 
 Improved estimation of site occupancy using penalized likelihood. 
 \emph{Ecology} 91, 341--346.
+
+Lele, S. R., Moreno, M. and Bayne, E. 2011. Dealing with detection error in site
+occupancy surveys: What can we do with a single survey? Alberta Biodiversity Monitoring Institute, Alberta,
+Canada. Technical Report No. ABMI-20060, August 24, 2011. Available at: 
+\href{http://www.abmi.ca}{http://www.abmi.ca/FileDownloadServlet?filename=20060_ABMI_2011-08-24__Single_Visit_Occupancy.pdf&dir=REPORTS_UPLOAD}
 }
 \author{
 Peter Solymos and Monica Moreno

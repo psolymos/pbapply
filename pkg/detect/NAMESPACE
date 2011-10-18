@@ -13,7 +13,8 @@ export("AUC", "rocplot")
 importFrom("stats",
     "case.names", "drop.scope", "drop1",
     "logLik", "model.matrix", "model.frame", "terms", "simulate",
-    "update.formula", "update", "vcov", "variable.names")
+    "update.formula", "update", "vcov", "variable.names", 
+    "AIC", "BIC")
 
 ## methods for svocc class
 S3method("print", "svocc")
