@@ -28,7 +28,8 @@ export("parListModules", "parLoadModule", "parUnloadModule",
 export("errlines")
 
 ## import from other packages
-importFrom("stats", "quantile", "update")
+importFrom("stats", "quantile", "update", 
+      "coef", "vcov", "confint")
 importFrom("coda", "as.mcmc.list")
 
 ## export methods for main dclone functions/classes
