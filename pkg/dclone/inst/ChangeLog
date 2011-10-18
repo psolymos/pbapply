@@ -1,11 +1,14 @@
 dclone package version history
 
+Version 1.5-1, October 18, 2011
+    *
+
 Version 1.5-0, October 17, 2011
     * Major CRAN release with improved parallel features
       (double initialization overhead is removed); 
       with bugfixes from devel versions.
     * The package also has bee extensively tested using 
-      CLassic BUGS examples (see ChangeLog for dcmle package).
+      Classic BUGS examples (see ChangeLog for dcmle package).
 
 Version 1.4-2, October 16, 2011
     * New function: parallel.inits make use of rjags:::parallelseeds 

@@ -1,5 +1,8 @@
 dcmle package version history
 
+Version 0.1-2, Oct 18, 2011
+    *
+
 Version 0.1-1, Sept 29, 2011
     * dcExample, sourceDcExample, listDcExample: new
       functions added to deal with examples from R-Forge.
