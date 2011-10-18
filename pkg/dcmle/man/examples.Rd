@@ -23,7 +23,7 @@ the global environment.
 \value{
 \code{listDcExamples} lists the examples available
 at \pkg{dclone} website at \url{http://dcr.r-forge.r-project.org/examples}
-stored in \code{intex.txt}.
+stored in \code{index.txt}.
 
 \code{sourceDcExample} sources the example files
 at \pkg{dclone} website at \url{http://dcr.r-forge.r-project.org/examples}.
