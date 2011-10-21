@@ -1,7 +1,8 @@
 dcmle package version history
 
 Version 0.1-2, Oct 18, 2011
-    *
+    * show/summary mathod for dcMle class got headings:
+      Settings, Coefficients, Convergence.
 
 Version 0.1-1, Sept 29, 2011
     * dcExample, sourceDcExample, listDcExample: new
