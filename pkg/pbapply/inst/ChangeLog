@@ -2,6 +2,7 @@ pbapply package version history
 
 Version 1.0-4, September 8, 2011
     * .onLoad added to zzz.R
+    * Help files a bit reworked
 
 Version 1.0-3, September 9, 2010
     * pboptions.Rd modified: pb type values added

@@ -29,6 +29,3 @@ system.time(x1 <- lapply(1:10, function(i) Sys.sleep(0.2)))
 system.time(x1 <- lapply_pb(1:10, function(i) Sys.sleep(0.2)))
 #system.time(x1 <- l_ply(1:10, function(i) Sys.sleep(0.2), .progress=create_progress_bar(name = "text")))
 system.time(x1 <- pblapply(1:10, function(i) Sys.sleep(0.2)))
-
-#opb <- pboptions(char=c("-\r", "\\\r", "|\r", "/\r"),style=1)
-#system.time(x1 <- pblapply(1:10, function(i) Sys.sleep(0.2)))

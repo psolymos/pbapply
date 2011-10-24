@@ -49,22 +49,17 @@ Expression (language object, usually a call) to evaluate repeatedly.
 }
 }
 \details{
-The behaviour of the progress bar is controlled by the options:
-\code{getOption("pbapply.pb")}, 
-\code{getOption("pbapply.txt")}, 
-and \code{getOption("pbapply.gui")}. 
-
-The \code{"pbapply.pb"} option can take values in
-\code{c("txt", "win", "tk", "none",)} on Windows,
-\code{c("txt", "tk", "none",)} on Unix systems,
-or can be \code{NULL}.
+The behaviour of the progress bar is controlled by the option 
+\code{type} in \code{\link{pboptions}}, 
+it can take values \code{c("txt", "win", "tk", "none",)} on Windows,
+and \code{c("txt", "tk", "none",)} on Unix systems.
 
 Other options have elements that are arguments used in the functions
 \code{\link[utils]{txtProgressBar}} (for \code{"pbapply.txt"} option), 
 #ifdef windows
 \code{\link[utils]{winProgressBar}}, 
 #endif
-and \code{\link[tcltk]{tkProgressBar}} (for \code{"pbapply.gui"} option).
+and \code{\link[tcltk]{tkProgressBar}}.
 
 See \code{\link{pboptions}} for how to conveniently set these.
 }
@@ -94,7 +89,8 @@ Standard \code{*apply} functions:
 Setting the options: \code{\link{pboptions}}
 
 Conveniently add progress bar to \code{for}-like loops:
-\code{\link{startpb}}, \code{\link{setpb}}, \code{\link{getpb}}, \code{\link{closepb}}
+\code{\link{startpb}}, \code{\link{setpb}}, \code{\link{getpb}}, 
+\code{\link{closepb}}
 }
 \examples{
 ## simple linear model simulation
