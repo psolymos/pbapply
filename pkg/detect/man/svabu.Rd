@@ -99,7 +99,7 @@ Solymos, P., Lele, S. R and Bayne, E. 2011 (in review).
 Conditional likelihood approach for analyzing single visit
 abundance survey data in the presence of zero inflation and
 detection error. 
-\emph{Environmetrics}
+\emph{Environmetrics} (env-10-0041, first submitted: Tue, May 11, 2010 at 1:55 PM)
 
 Solymos, P., Lele, S. R and Bayne, E. 2011. Abundance estimation in the presence of zero
 inflation and detection error using single visit data. Alberta Biodiversity Monitoring Institute, Alberta, Canada.
