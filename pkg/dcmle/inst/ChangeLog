@@ -1,8 +1,10 @@
 dcmle package version history
 
 Version 0.1-2, Oct 18, 2011
-    * show/summary mathod for dcMle class got headings:
+    * show/summary method for dcMle class got headings:
       Settings, Coefficients, Convergence.
+    * dcmle failed with initsfun when length(n.clones)==1
+      and n.clones>1: now fixed.
 
 Version 0.1-1, Sept 29, 2011
     * dcExample, sourceDcExample, listDcExample: new

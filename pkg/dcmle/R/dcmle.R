@@ -11,10 +11,12 @@ dcmle <- function(x, params, n.clones=1, cl=NULL, ...) {
             initsfun <- match.fun(x@initsfun)
             ARGS <- names(formals(initsfun))
             ARGS <- ARGS[1:max(2, length(ARGS))]
+            if (length(ARGS)>2)
+                stop("too long argument list for 'initsfun'")
             if (length(ARGS)==2)
-                eval(parse(text = paste("inits <- ", 
+                inits <- eval(local(parse(text = paste("inits <- ", 
                     deparse(substitute(initsfun)), "(", 
-                    ARGS[2], "=n.clones)", sep = "")))
+                    ARGS[2], "=n.clones)", sep = ""))))
         }
         dat <- dclone(x@data, n.clones, x@multiply, x@unchanged)
         if (x@flavour == "jags" && is.null(cl))
