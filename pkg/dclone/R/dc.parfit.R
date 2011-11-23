@@ -61,6 +61,13 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
                 warnings("arguments of 'initsfun' after position 2 are ingnored")
             INIARGS <- ian < 2
         } else INIARGS <- 0
+        ## params to use in jags.fit and in dcdiag
+        if (is.list(params)) {
+            params.diag <- params[[2]]
+            params <- union(params[[1]], params[[2]])
+        } else {
+            params.diag <- params
+        }
         #### parallel part
         if (trace) {
             cat("\nParallel computation in progress\n\n")
@@ -79,7 +86,8 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
         ## common data 
         cldata <- list(data=data, params=params, model=model, inits=inits,
             multiply=multiply, unchanged=unchanged, k=k, 
-            INIARGS=INIARGS, initsfun=initsfun, n.chains=n.chains)
+            INIARGS=INIARGS, initsfun=initsfun, n.chains=n.chains,
+            params.diag=params.diag)
         ## parallel computations
         balancing <- if (!getOption("dcoptions")$LB)
             "size" else "both"
@@ -101,7 +109,7 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
                 }
                 if (i == max(k))
                     return(mod) else return(list(dct=dclone:::extractdctable(mod), 
-                        dcd=dclone:::extractdcdiag(mod)))
+                        dcd=dclone:::extractdcdiag(mod[,params.diag])))
             }
             pmod <- snowWrapper(cl, k, dcparallel, cldata, name=NULL, use.env=TRUE,
                 lib="dclone", balancing=balancing, size=k, 
@@ -112,7 +120,7 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
             dct[[times]] <- extractdctable(mod)
             ## dcdiag
             dcd <- lapply(1:(times-1), function(i) pmod[[i]]$dcd)
-            dcd[[times]] <- extractdcdiag(mod)
+            dcd[[times]] <- extractdcdiag(mod[,params.diag])
         ## balancing+parchains
         } else {
             ## RNG and initialization
@@ -168,7 +176,7 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
             ## dctable
             dct <- lapply(pmod, extractdctable)
             ## dcdiag
-            dcd <- lapply(pmod, extractdcdiag)
+            dcd <- lapply(pmod, function(z) extractdcdiag(z[,params.diag]))
         }
         ## warning if R.hat < crit
         rhat.problem <- any(dct[[times]][,"r.hat"] >= rhat.opts)

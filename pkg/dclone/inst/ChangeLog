@@ -1,7 +1,14 @@
 dclone package version history
 
 Version 1.5-1, October 18, 2011
-    *
+    * params argument in dc.*fit can take a 2 element
+      list. Union of the 2 vectors will be used as
+      parameters to monitor (as in jags.fit),
+      while the 2nd element of the list is used
+      to calculate statistics in dcdiag().
+      This way transformations of nodes or
+      the deviance monitor won't be used in
+      diagnostic tests.
 
 Version 1.5-0, October 17, 2011
     * Major CRAN release with improved parallel features

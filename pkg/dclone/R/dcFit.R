@@ -46,6 +46,13 @@ n.chains=3, cl = NULL, parchains = FALSE, ...)
             warnings("arguments of 'initsfun' after position 2 are ingnored")
         INIARGS <- ian < 2
     }
+    ## params to use in jags.fit and in dcdiag
+    if (is.list(params)) {
+        params.diag <- params[[2]]
+        params <- union(params[[1]], params[[2]])
+    } else {
+        params.diag <- params
+    }
     ## list for dcdiag results
     dcdr <- list()
     ## iteration starts here
@@ -89,7 +96,7 @@ n.chains=3, cl = NULL, parchains = FALSE, ...)
                     initsfun(mod) else initsfun(mod, k[i+1])
         }
         dctmp <- dclone:::extractdctable.default(mod)
-        dcdr[[i]] <- dclone:::extractdcdiag.default(mod)
+        dcdr[[i]] <- dclone:::extractdcdiag.default(mod[,params.diag])
         for (j in 1:length(vn)) {
             dcts[[j]][i,-1] <- dctmp[j,]
         }
