@@ -96,7 +96,8 @@ n.chains=3, cl = NULL, parchains = FALSE, ...)
                     initsfun(mod) else initsfun(mod, k[i+1])
         }
         dctmp <- dclone:::extractdctable.default(mod)
-        dcdr[[i]] <- dclone:::extractdcdiag.default(mod[,params.diag])
+#        dcdr[[i]] <- dclone:::extractdcdiag.default(mod[,params.diag])
+        dcdr[[i]] <- dclone:::extractdcdiag.default(mod)
         for (j in 1:length(vn)) {
             dcts[[j]][i,-1] <- dctmp[j,]
         }
