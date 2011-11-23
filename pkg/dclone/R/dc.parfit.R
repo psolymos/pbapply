@@ -109,7 +109,7 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
                 }
                 if (i == max(k))
                     return(mod) else return(list(dct=dclone:::extractdctable(mod), 
-                        dcd=dclone:::extractdcdiag(mod[,params.diag])))
+                        dcd=dclone:::extractdcdiag(mod[,cldata$params.diag])))
             }
             pmod <- snowWrapper(cl, k, dcparallel, cldata, name=NULL, use.env=TRUE,
                 lib="dclone", balancing=balancing, size=k, 
