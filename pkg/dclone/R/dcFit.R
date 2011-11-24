@@ -49,7 +49,7 @@ n.chains=3, cl = NULL, parchains = FALSE, ...)
     ## params to use in jags.fit and in dcdiag
     if (is.list(params)) {
         params.diag <- params[[2]]
-        params <- union(params[[1]], params[[2]])
+        params <- params[[1]]
     } else {
         params.diag <- params
     }

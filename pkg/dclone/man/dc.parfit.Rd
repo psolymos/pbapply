@@ -24,7 +24,7 @@ A named list (or environment) containing the data.
 }
   \item{params}{
 Character vector of parameters to be sampled.
-It can be a list of 2 vectors, union of them
+It can be a list of 2 vectors, 1st element
 is used as parameters to monitor, the 2nd is used
 as parameters to use in calculating the data cloning
 diagnostics.
