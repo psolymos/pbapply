@@ -68,6 +68,7 @@ S3method("extractdcdiag", "default")
 S3method("updated.model", "mcmc.list")
 S3method("update", "mcmc.list")
 
+S3method("[", "mcmc.list.dc")
 S3method("coef", "mcmc")
 S3method("vcov", "mcmc")
 S3method("quantile", "mcmc")
