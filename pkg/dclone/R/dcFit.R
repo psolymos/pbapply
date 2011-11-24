@@ -96,8 +96,11 @@ n.chains=3, cl = NULL, parchains = FALSE, ...)
                     initsfun(mod) else initsfun(mod, k[i+1])
         }
         dctmp <- dclone:::extractdctable.default(mod)
-#        dcdr[[i]] <- dclone:::extractdcdiag.default(mod[,params.diag])
-        dcdr[[i]] <- dclone:::extractdcdiag.default(mod)
+        ## params.diag needs to subset varnames and not params
+        vn <- varnames(mod)
+        params.diag <- vn[unlist(lapply(params.diag, grep, x=vn))]
+        dcdr[[i]] <- dclone:::extractdcdiag.default(mod[,params.diag])
+#        dcdr[[i]] <- dclone:::extractdcdiag.default(mod)
         for (j in 1:length(vn)) {
             dcts[[j]][i,-1] <- dctmp[j,]
         }
@@ -117,7 +120,8 @@ n.chains=3, cl = NULL, parchains = FALSE, ...)
     dcd <- t(as.data.frame(dcdr))
     rownames(dcd) <- 1:length(dcdr)
     dcd <- data.frame(dcd)
-    colnames(dcd) <- c("n.clones", "lambda.max", "ms.error", "r.squared", "r.hat") # went to dcdiag.default
+    ## this next line went to dcdiag.default, but strange things happen with 1 param case
+    colnames(dcd) <- c("n.clones", "lambda.max", "ms.error", "r.squared", "r.hat")
     class(dcd) <- c("dcdiag", class(dcd))
     attr(mod, "dcdiag") <- dcd
     mod

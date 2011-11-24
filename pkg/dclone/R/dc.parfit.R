@@ -107,10 +107,12 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
                     bugs.fit(data=jdat, params=cldata$params, model=cldata$model, inits=INITS, 
                         format="mcmc.list", ...)
                 }
+                vn <- varnames(mod)
+                params.diag <- vn[unlist(lapply(cldata$params.diag, grep, x=vn))]
                 if (i == max(k))
                     return(mod) else return(list(dct=dclone:::extractdctable(mod), 
-#                        dcd=dclone:::extractdcdiag(mod[,cldata$params.diag])))
-                        dcd=dclone:::extractdcdiag(mod)))
+                        dcd=dclone:::extractdcdiag(mod[,params.diag])))
+#                        dcd=dclone:::extractdcdiag(mod)))
             }
             pmod <- snowWrapper(cl, k, dcparallel, cldata, name=NULL, use.env=TRUE,
                 lib="dclone", balancing=balancing, size=k, 
@@ -121,8 +123,10 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
             dct[[times]] <- extractdctable(mod)
             ## dcdiag
             dcd <- lapply(1:(times-1), function(i) pmod[[i]]$dcd)
-#            dcd[[times]] <- extractdcdiag(mod[,params.diag])
-            dcd[[times]] <- extractdcdiag(mod)
+            vn <- varnames(mod)
+            params.diag <- vn[unlist(lapply(params.diag, grep, x=vn))]
+            dcd[[times]] <- extractdcdiag(mod[,params.diag])
+#            dcd[[times]] <- extractdcdiag(mod)
         ## balancing+parchains
         } else {
             ## RNG and initialization
@@ -178,8 +182,10 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
             ## dctable
             dct <- lapply(pmod, extractdctable)
             ## dcdiag
-#            dcd <- lapply(pmod, function(z) extractdcdiag(z[,params.diag]))
-            dcd <- lapply(pmod, extractdcdiag)
+            vn <- varnames(mod)
+            params.diag <- vn[unlist(lapply(params.diag, grep, x=vn))]
+            dcd <- lapply(pmod, function(z) extractdcdiag(z[,params.diag]))
+#            dcd <- lapply(pmod, extractdcdiag)
         }
         ## warning if R.hat < crit
         rhat.problem <- any(dct[[times]][,"r.hat"] >= rhat.opts)
