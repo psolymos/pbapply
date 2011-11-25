@@ -2,10 +2,10 @@
 \alias{datocc}
 \docType{data}
 \title{
-Simulated example for abundance model
+Simulated example for occupancy model
 }
 \description{
-Simulated example for abundance model, see code below.
+Simulated example for occupancy model, see code below.
 }
 \usage{data(datocc)}
 \format{
