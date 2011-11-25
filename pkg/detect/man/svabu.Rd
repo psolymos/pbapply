@@ -90,16 +90,22 @@ other arguments passed to the functions
 }
 \details{
 See Examples.
+
+The right hand side of the formula must contain at least one
+continuous (i.e. non discrete/categorical) covariate.
+This is the necessary condition for the single-visit
+method to be valid and parameters to be identifiable.
+See References for more detailed description.
 }
 \value{
 An object of class 'svabu'.
 }
 \references{
-Solymos, P., Lele, S. R and Bayne, E. 2011 (in review).
+Solymos, P., Lele, S. R and Bayne, E. 2011.
 Conditional likelihood approach for analyzing single visit
 abundance survey data in the presence of zero inflation and
 detection error. 
-\emph{Environmetrics} (env-10-0041, first submitted: Tue, May 11, 2010 at 1:55 PM)
+\emph{Environmetrics} (in press)
 
 Solymos, P., Lele, S. R and Bayne, E. 2011. Abundance estimation in the presence of zero
 inflation and detection error using single visit data. Alberta Biodiversity Monitoring Institute, Alberta, Canada.

@@ -1,5 +1,8 @@
 detect package version history
 
+Version 0.2-1, November 25, 2011
+    * Help pages edited.
+
 Version 0.2-0, October 18, 2011
     * svabu and related functions added.
     * summary: nobs was returned as NULL,

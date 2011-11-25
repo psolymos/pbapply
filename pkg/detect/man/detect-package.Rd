@@ -22,18 +22,18 @@ Peter Solymos, Monica Moreno, Subhash R Lele
 Maintainer: Peter Solymos <solymos@ualberta.ca>
 }
 \references{
-Lele, S.R., Moreno, M. and Bayne, E. (2011) 
+Lele, S.R., Moreno, M. and Bayne, E. 2011. 
 Dealing with detection error in site occupancy surveys: 
 What can we do with a single survey? 
 \emph{Journal of Plant Ecology} (in press)
 
-Solymos, P., Lele, S. R and Bayne, E. 2011 (in review).
+Solymos, P., Lele, S. R and Bayne, E. 2011.
 Conditional likelihood approach for analyzing single visit
 abundance survey data in the presence of zero inflation and
 detection error. 
-\emph{Environmetrics} (env-10-0041, first submitted: Tue, May 11, 2010 at 1:55 PM)
+\emph{Environmetrics} (in press)
 }
 \keyword{ package }
 \examples{
-## how to open tutorial/vignette ???
+## FIXME!!! how to open tutorial/vignette?
 }
