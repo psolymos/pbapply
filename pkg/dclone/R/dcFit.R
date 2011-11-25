@@ -47,12 +47,12 @@ n.chains=3, cl = NULL, parchains = FALSE, ...)
         INIARGS <- ian < 2
     }
     ## params to use in jags.fit and in dcdiag
-#    if (is.list(params)) {
-#        params.diag <- params[[2]]
-#        params <- params[[1]]
-#    } else {
-#        params.diag <- params
-#    }
+    if (is.list(params)) {
+        params.diag <- params[[2]]
+        params <- params[[1]]
+    } else {
+        params.diag <- params
+    }
     ## list for dcdiag results
     dcdr <- list()
     ## iteration starts here
@@ -97,10 +97,12 @@ n.chains=3, cl = NULL, parchains = FALSE, ...)
         }
         dctmp <- dclone:::extractdctable.default(mod)
         ## params.diag needs to subset varnames and not params
-#        vn <- varnames(mod)
-#        params.diag <- vn[unlist(lapply(params.diag, grep, x=vn))]
-#        dcdr[[i]] <- dclone:::extractdcdiag.default(mod[,params.diag])
-        dcdr[[i]] <- dclone:::extractdcdiag.default(mod)
+        if (i == 1) {
+            vn <- varnames(mod)
+            params.diag <- vn[unlist(lapply(params.diag, grep, x=vn))]
+        }
+        dcdr[[i]] <- dclone:::extractdcdiag.default(mod[,params.diag])
+#        dcdr[[i]] <- dclone:::extractdcdiag.default(mod)
         for (j in 1:length(vn)) {
             dcts[[j]][i,-1] <- dctmp[j,]
         }
