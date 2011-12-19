@@ -12,6 +12,7 @@ setClassUnion("dcDiag", c("NULL", "dcdiag"))
 setClassUnion("dcTable", c("NULL", "dctable"))
 setClassUnion("MCMClist", c("mcmc", "mcmc.list", "mcmc.list.dc"))
 setClassUnion("dcArgs", c("NULL", "character"))
+setClassUnion("dcParams", c("NULL", "character", "list"))
 setClassUnion("dcFunction", c("NULL", "function"))
 setClassUnion("dcInits", c("NULL", "list", "function"))
 setClassUnion("dcModel", c("function", "character", "custommodel"))
@@ -22,7 +23,7 @@ setClass("gsFit",
         data = "list",
         model = "dcModel",
 #        model = "character",
-        params = "dcArgs",
+        params = "dcParams",
         inits = "dcInits"),
     prototype = list(
         data = list(),

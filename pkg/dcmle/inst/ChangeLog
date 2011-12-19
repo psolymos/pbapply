@@ -1,6 +1,7 @@
 dcmle package version history
 
 Version 0.1-2, Oct 18, 2011
+    * params slot can be list (to follow new dclone options).
     * show/summary method for dcMle class got headings:
       Settings, Coefficients, Convergence.
     * dcmle failed with initsfun when length(n.clones)==1
