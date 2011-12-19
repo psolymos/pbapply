@@ -4,8 +4,10 @@ function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
     ## stop if rjags not found
     if (!suppressWarnings(require(rjags)))
         stop("there is no package called 'rjags'")
-    if (!inherits(cl, "cluster"))
-        stop("'cl' must be a 'cluster' object")
+#    if (!inherits(cl, "cluster"))
+#        stop("'cl' must be a 'cluster' object")
+    if (missing(cl) || is.null(cl))
+        cl <- getOption("mc.cores", 1L)
     if (is.environment(data)) {
         warnings("'data' was environment: it was coerced into a list")
         data <- as.list(data)
