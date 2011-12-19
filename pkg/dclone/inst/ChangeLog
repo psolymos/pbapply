@@ -1,5 +1,10 @@
 dclone package version history
 
+Version 1.6-0, December 19, 2011
+    * Depends on parallel and R >= 2.14.0 for multicore type 
+      forking on Linux/Unix machines. Heavy lifting is
+      still done by showWrapper for easy transitioning.
+
 Version 1.5-1, October 18, 2011
     * "[.mcmc.list.dc" addted to extract parts of a fitted object
       and retain its n.clones attribute (no other attributes
