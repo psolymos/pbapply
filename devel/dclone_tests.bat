@@ -8,13 +8,13 @@ echo build source package
 echo.
 R CMD build "c:/svn/dcr/pkg/dclone"
 echo.
-echo build binary package
-echo.
-R CMD build "c:/svn/dcr/pkg/dclone" --binary
+::echo build binary package
+::echo.
+::R CMD build "c:/svn/dcr/pkg/dclone" --binary
 echo.
 echo install source package
 echo.
-R CMD INSTALL dclone_1.5-0.tar.gz
+R CMD INSTALL dclone_1.6-0.tar.gz
 echo.
 echo check package
 echo.

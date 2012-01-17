@@ -13,6 +13,7 @@
   rjags addition will resolve this by M Plummer -- needs fullow up                      !!!
 * add NEWS/NEWS.Rd from 1.3-0 on (maybe only to www?)
 * deprecate as.mcmc.list.bugs if possible
+* error witb WinBUGS (registry is wrong in bugs.update.settings)                        !!!
 
 ## *** dcmle ***
 ## S4 classes for examples and to estimating procedures
