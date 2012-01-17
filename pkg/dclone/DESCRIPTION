@@ -17,7 +17,7 @@ License: GPL-2
 Depends: R (>= 2.14.0), coda (>= 0.13), R2WinBUGS, parallel
 Suggests: MASS, rjags (>= 3-5), snow, rlecuyer, rsprng, BRugs
 Imports: stats
-SystemRequirements: jags (>= 3.0.0), WinBUGS (>= 1.4)
+SystemRequirements: JAGS (>= 3.0.0), WinBUGS (>= 1.4)
 URL: http://cran.r-project.org/package=dclone, http://dcr.r-forge.r-project.org/
 LazyLoad: yes
 LazyData: true
