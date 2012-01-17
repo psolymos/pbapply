@@ -82,7 +82,7 @@ echo $contents; } ?>
 The choice of the preferred <strong>BUGS</strong> program is up to the user.</p>
 
 <ul>
-<li><strong>R (>= 2.7.0):</strong> download from 
+<li><strong>R (>= 2.14.0):</strong> download from 
 <a href="http://cran.r-project.org/">CRAN</a>.</li>
 <li><strong>WinBUGS (>= 1.4):</strong> download 
 <a href="http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml">from here</a>, don't forget
@@ -98,8 +98,11 @@ the <strong>rjags</strong> and <strong>coda</strong>
 R packages are required for using JAGS from within R.</li>
 </ul>
 
-<p>The dclone package itself depends on the <strong>coda</strong> (>= 0.13), <strong>R2WinBUGS</strong>, <strong>snow</strong> and <strong>rlecuyer</strong> R packages (the latter two are for parallel computations) which are all available from CRAN. 
-The dclone package also suggests to have the <strong>rjags (>= 3-2)</strong>, <strong>BRugs</strong>, <strong>rsprng</strong> R packages (the latter two might not be available for all platforms).</p>
+<p>The dclone package itself depends on the <strong>coda</strong> (>= 0.13), <strong>R2WinBUGS</strong>, and <strong>parallel</strong>
+which are all available from CRAN. 
+ <strong>rlecuyer</strong> R packages (the latter two are for parallel computations) 
+The dclone package also suggests to have the <strong>rjags (>= 3-2)</strong>, <strong>snow</strong>, 
+<strong>rlecuyer</strong>, <strong>rsprng</strong>, <strong>BRugs</strong> R packages (the latter two might not be available for all platforms).</p>
 
 <p>The <strong>rjags</strong> package is suggested for using <strong>JAGS</strong>. 
 The <strong>rjags</strong> dependency
