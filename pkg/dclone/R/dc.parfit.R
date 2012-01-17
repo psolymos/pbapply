@@ -215,3 +215,4 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
     }
     mod
 }
+#x=AAdcmle(beetles,n.clones=1:2,cl=cl,partype="both")
