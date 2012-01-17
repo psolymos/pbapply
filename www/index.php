@@ -100,7 +100,6 @@ R packages are required for using JAGS from within R.</li>
 
 <p>The dclone package itself depends on the <strong>coda</strong> (>= 0.13), <strong>R2WinBUGS</strong>, and <strong>parallel</strong>
 which are all available from CRAN. 
- <strong>rlecuyer</strong> R packages (the latter two are for parallel computations) 
 The dclone package also suggests to have the <strong>rjags (>= 3-2)</strong>, <strong>snow</strong>, 
 <strong>rlecuyer</strong>, <strong>rsprng</strong>, <strong>BRugs</strong> R packages (the latter two might not be available for all platforms).</p>
 
