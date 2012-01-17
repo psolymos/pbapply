@@ -70,6 +70,9 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
         } else {
             params.diag <- params
         }
+        ## partype="both" is somehow denies to do it right
+        if (partype == "both" && !identical(params, params.diag))
+            stop("partype='both' cannot handle params as list")
         #### parallel part
         if (trace) {
             cat("\nParallel computation in progress\n\n")
@@ -184,10 +187,11 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
             ## dctable
             dct <- lapply(pmod, extractdctable)
             ## dcdiag
-            vn <- varnames(mod)
-            params.diag <- vn[unlist(lapply(params.diag, grep, x=vn))]
-            dcd <- lapply(pmod, function(z) extractdcdiag(z[,params.diag]))
-#            dcd <- lapply(pmod, extractdcdiag)
+## partype="both" is somehow denies to do it right
+#            vn <- varnames(mod)
+#            params.diag <- vn[unlist(lapply(params.diag, grep, x=vn))]
+#            dcd <- lapply(pmod, function(z) extractdcdiag(z[,params.diag]))
+            dcd <- lapply(pmod, extractdcdiag)
         }
         ## warning if R.hat < crit
         rhat.problem <- any(dct[[times]][,"r.hat"] >= rhat.opts)
@@ -215,4 +219,3 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
     }
     mod
 }
-#x=AAdcmle(beetles,n.clones=1:2,cl=cl,partype="both")

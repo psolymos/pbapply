@@ -4,6 +4,11 @@ Version 1.6-0, December 19, 2011
     * Depends on parallel and R >= 2.14.0 for multicore type 
       forking on Linux/Unix machines. Heavy lifting is
       still done by showWrapper for easy transitioning.
+    * list type declaration of params argument not working
+      with partype="both" in dc.parfit. This option is
+      defunct at the moment.
+    * WinBUGS related testing is halted due to registry
+      problems on my PC.
 
 Version 1.5-1, October 18, 2011
     * "[.mcmc.list.dc" addted to extract parts of a fitted object
