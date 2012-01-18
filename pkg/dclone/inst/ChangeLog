@@ -10,6 +10,9 @@ Version 1.6-0, December 19, 2011
       defunct at the moment.
     * WinBUGS related testing is halted due to registry
       problems on my PC.
+    * Windows specific suggested packages removed from dependency
+      list due to seamless Linux based testing of 
+      forking type parallel features (rsprng, BRugs).
 
 Version 1.5-1, October 18, 2011
     * "[.mcmc.list.dc" addted to extract parts of a fitted object
