@@ -55,6 +55,7 @@ for (i in 1:length(topic)) {
     t1[i,] <- timer1[[as.character(topic[i])]][1:3]
     t2[i,] <- timer2[[as.character(topic[i])]][1:3]
 }
+gs1 <- sapply(as.list(res1), function(z) length(varnames(z@mcmc)))
 ## this for DC
 timer3 <- new.env(hash=FALSE)
 timer4 <- new.env(hash=FALSE)
@@ -97,9 +98,10 @@ for (i in 1:length(topic)) {
     t5[i,] <- timer5[[as.character(topic[i])]][1:3]
     t6[i,] <- timer6[[as.character(topic[i])]][1:3]
 }
+gs2 <- sapply(as.list(res3), function(z) length(varnames(z@mcmc)))
 
-round(cbind(seq=t1[,3], pch=t2[,3]) / t1[,3], 3)
-round(cbind(seq=t3[,3], bal=t4[,3], pch=t5[,3], both=t6[,3]) / t3[,3], 3)
+cbind(round(cbind(seq=t1[,3], pch=t2[,3]) / t1[,3], 3), graph_size=gs1)
+cbind(round(cbind(seq=t3[,3], bal=t4[,3], pch=t5[,3], both=t6[,3]) / t3[,3], 3), graph_size=gs2)
 
 x <- readLines("c:/svn/dcr/devel/tests/dcexamples_tests.log")
 err <- c(grep("rror", x), grep("arning", x))
