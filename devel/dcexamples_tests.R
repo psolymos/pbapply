@@ -16,6 +16,11 @@ n.update <- 100
 n.iter <- 100
 n.chains <- 2
 thin <- 1
+#n.adapt <- 1000
+#n.update <- 4000
+#n.iter <- 5000
+#n.chains <- 3
+#thin <- 1
 ## this is for k=1
 (topic <- listDcExamples()$topic)
 timer1 <- new.env(hash=FALSE)
@@ -100,8 +105,8 @@ for (i in 1:length(topic)) {
 }
 gs2 <- sapply(as.list(res3), function(z) length(varnames(z@mcmc)))
 
-cbind(round(cbind(seq=t1[,3], pch=t2[,3]) / t1[,3], 3), graph_size=gs1)
-cbind(round(cbind(seq=t3[,3], bal=t4[,3], pch=t5[,3], both=t6[,3]) / t3[,3], 3), graph_size=gs2)
+(z1 <- cbind(round(cbind(seq=t1[,3], pch=t2[,3]) / t1[,3], 3), graph_size=gs1))
+(z2 <- cbind(round(cbind(seq=t3[,3], bal=t4[,3], pch=t5[,3], both=t6[,3]) / t3[,3], 3), graph_size=gs2))
 
 x <- readLines("c:/svn/dcr/devel/tests/dcexamples_tests.log")
 err <- c(grep("rror", x), grep("arning", x))
