@@ -8,7 +8,10 @@
 parUpdate(cl, object, n.iter=1, \ldots)
 }
 \arguments{
-  \item{cl}{a cluster object created by the \pkg{snow} package.}
+  \item{cl}{
+    A cluster object created by \code{\link[snow]{makeCluster}}, or
+    an integer. It can also be \code{NULL}, see \code{\link{snowWrapper}}.
+  }
   \item{object}{a \code{jags} model object}
   \item{n.iter}{number of iterations of the Markov chain to run}
   \item{\ldots}{additional arguments to the update method, see

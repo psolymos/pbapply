@@ -18,7 +18,8 @@ cleanup = TRUE, unload = FALSE, ...)
 }
 \arguments{
   \item{cl}{
-A cluster object created by \code{\link[snow]{makeCluster}}.
+A cluster object created by \code{\link[snow]{makeCluster}}, or
+an integer. It can also be \code{NULL}, see Details.
 }
   \item{seq}{
 A vector to split.
@@ -70,6 +71,11 @@ Other arguments of \code{fun}, that are simple values and not objects. (Argument
 }
 }
 \details{
+The function uses 'snow' type clusters when \code{cl} is a cluster object.
+The function uses 'multicore' type forking (shared memory) when \code{cl} is an integer.
+The value from \code{getOption("mc.cores")} is used if the argument is \code{NULL} 
+(it is an error to supply \code{cl = NULL} when \code{"mc.cores"} is 1 or not set).
+
 The function sets the random seeds, loads packages \code{lib} onto the cluster, sets the working directory as \code{dir}, exports \code{cldata} and evaluates \code{fun} on \code{seq}.
 
 No balancing (\code{balancing = "none"}) means, that the problem is splitted into roughly equal

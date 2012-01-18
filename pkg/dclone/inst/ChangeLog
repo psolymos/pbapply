@@ -13,6 +13,11 @@ Version 1.6-0, December 19, 2011
     * Windows specific suggested packages removed from dependency
       list due to seamless Linux based testing of 
       forking type parallel features (rsprng, BRugs).
+    * cl argument in parallelized functions that
+      use snowWrapper can be NULL in which case it 
+      takes the value from the mc.cores glogal option 
+      getOption("mc.cores"). If mc.cores is not set (NULL)
+      of 1, an error is produced.
 
 Version 1.5-1, October 18, 2011
     * "[.mcmc.list.dc" addted to extract parts of a fitted object

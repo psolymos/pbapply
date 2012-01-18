@@ -6,6 +6,13 @@ size = 1, balancing = c("none", "load", "size", "both"),
 rng.type = c("none", "RNGstream", "SPRNG"), 
 cleanup = TRUE, unload = FALSE, ...)
 {
+    if (is.null(cl)) {
+        cl <- getOption("mc.cores")
+        if (is.null(cl))
+            stop("set mc.cores option when cl = NULL")
+        if (!is.null(cl) && cl < 2)
+            stop("use sequential functions or set mc.cores to >1")
+    }
 ## common stuff for snow and multicore
     rng.type <- match.arg(rng.type) 
     ## if object name exists in global env, make a copy as tmp, and put back in the end

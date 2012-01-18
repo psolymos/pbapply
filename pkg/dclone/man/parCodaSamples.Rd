@@ -11,7 +11,10 @@
 parCodaSamples(cl, model, variable.names, n.iter, thin = 1, ...)
 }
 \arguments{
-  \item{cl}{a cluster object created by the \pkg{snow} package.}
+  \item{cl}{
+    A cluster object created by \code{\link[snow]{makeCluster}}, or
+    an integer. It can also be \code{NULL}, see \code{\link{snowWrapper}}.
+  }
   \item{model}{a jags model object}
   \item{variable.names}{a character vector giving the names of variables
     to be monitored}

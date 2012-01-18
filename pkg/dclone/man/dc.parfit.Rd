@@ -17,7 +17,8 @@ partype=c("balancing", "parchains", "both"), ...)
 }
 \arguments{
   \item{cl}{
-A cluster object created by \code{\link[snow]{makeCluster}}.
+A cluster object created by \code{\link[snow]{makeCluster}}, or
+an integer. It can also be \code{NULL}, see \code{\link{snowWrapper}}.
 }
   \item{data}{
 A named list (or environment) containing the data.

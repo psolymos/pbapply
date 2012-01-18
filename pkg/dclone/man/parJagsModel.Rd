@@ -10,8 +10,11 @@ of the prior distribution, and a set of data.
 parJagsModel(cl, name, file, data=sys.frame(sys.parent()), inits, n.chains = 1,
 n.adapt=1000, quiet=FALSE)}
 \arguments{
-\item{cl}{a cluster object created by the \pkg{snow} package. Length
-must correspond to \code{n.chains}.}
+  \item{cl}{
+    A cluster object created by \code{\link[snow]{makeCluster}}, or
+    an integer. It can also be \code{NULL}, see \code{\link{snowWrapper}}.
+    Length/size must correspond to \code{n.chains}.
+  }
 \item{name}{variable name for the model to be assigned on the workers.}
 \item{file}{the name of the file containing a description of the model in the
 JAGS dialect of the BUGS language.
