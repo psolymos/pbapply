@@ -1,5 +1,10 @@
 ## wrapper function
 dcmle <- function(x, params, n.clones=1, cl=NULL, ...) {
+    if (is.null(cl)) {
+        cl <- getOption("mc.cores")
+        if (cl < 2)
+            cl <- NULL
+    }
     x <- as(x, "dcFit")
     if (missing(params))
         params <- x@params
