@@ -1,3 +1,4 @@
+## testing forking type parallelism
 if (.Platform$OS.type == "windows")
     setwd("c:/svn/dcr/devel/tests") else setwd("/home/peter/svn/dcr/devel/tests")
 library(dcmle)
@@ -17,21 +18,23 @@ n.update <- 100
 n.iter <- 100
 n.chains <- 2
 thin <- 1
-#n.adapt <- 1000
-#n.update <- 4000
-#n.iter <- 5000
-#n.chains <- 3
-#thin <- 1
+n.adapt <- 1000
+n.update <- 4000
+n.iter <- 5000
+n.chains <- 3
+thin <- 1
 ## this is for k=1
 (topic <- listDcExamples()$topic)
 timer1 <- new.env(hash=FALSE)
 timer2 <- new.env(hash=FALSE)
 res1 <- new.env(hash=FALSE)
 res2 <- new.env(hash=FALSE)
-cl <- makeSOCKcluster(3)
-clusterEvalQ(cl, library(dcmle))
-parLoadModule(cl, "glm")
-parLoadModule(cl, "dic")
+#options("mc.cores"=3) # - this overwrites NULL
+cl <- 3
+#cl <- makeSOCKcluster(3)
+#clusterEvalQ(cl, library(dcmle))
+#parLoadModule(cl, "glm")
+#parLoadModule(cl, "dic")
 dcop <- dcoptions(verbose=0)
 cat("\n\n## <<<<<<<<<<<<<<    ", date(), "    >>>>>>>>>>>>>>>>>\n\n")
 cat("\n\n## START <<<<<<<<<<<<<<    paramecium    >>>>>>>>>>>>>>>>>\n")
@@ -40,7 +43,7 @@ str(paramecium)
 paramecium@model
 out1 <- dcmle:::dcmle(paramecium, n.clones=1, 
         n.adapt=n.adapt, n.update=n.update, n.iter=n.iter, n.chains=n.chains, thin=thin)
-out2 <- dcmle:::dcmle(paramecium, n.clones=1, cl=cl,
+out2 <- dcmle:::dcmle(paramecium, n.clones=1, cl=3,
         n.adapt=n.adapt, n.update=n.update, n.iter=n.iter, n.chains=n.chains, thin=thin)
 cat("\n## END   <<<<<<<<<<<<<<    paramecium    >>>>>>>>>>>>>>>>>\n\n")
 for (i in topic) {
@@ -51,7 +54,7 @@ for (i in topic) {
         n.adapt=n.adapt, n.update=n.update, n.iter=n.iter, n.chains=n.chains, thin=thin)
     cat("\n## END   <<<<<<<<<<<<<<    ", i, "    >>>>>>>>>>>>>>>>>\n\n")
 }
-stopCluster(cl)
+#stopCluster(cl)
 #dcoptions(dcop)
 t1 <- matrix(0, length(topic), 3)
 colnames(t1) <- names(timer1[[as.character(topic[1])]])[1:3]
@@ -72,10 +75,11 @@ res4 <- new.env(hash=FALSE)
 res5 <- new.env(hash=FALSE)
 res6 <- new.env(hash=FALSE)
 k <- 1:2 # c(1,2,4,6)
-cl <- makeSOCKcluster(8)
-clusterEvalQ(cl, library(dcmle))
-parLoadModule(cl, "glm")
-parLoadModule(cl, "dic")
+cl <- 8
+#cl <- makeSOCKcluster(8)
+#clusterEvalQ(cl, library(dcmle))
+#parLoadModule(cl, "glm")
+#parLoadModule(cl, "dic")
 #dcop <- dcoptions(verbose=0)
 topic <- c("paramecium",                                          # misc
     "blocker","dyes","epil","equiv","pump","salm","seeds","rats", # vol 1
@@ -92,7 +96,7 @@ for (i in topic) {
         n.adapt=n.adapt, n.update=n.update, n.iter=n.iter, n.chains=n.chains, thin=thin)
     cat("\n## END   <<<<<<<<<<<<<<    ", paste(i, "_DC", sep=""), "    >>>>>>>>>>>>>>>>>\n\n")
 }
-stopCluster(cl)
+#stopCluster(cl)
 dcoptions(dcop)
 t3 <- matrix(0, length(topic), 3)
 colnames(t3) <- names(timer3[[as.character(topic[1])]])[1:3]

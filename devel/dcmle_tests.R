@@ -1,4 +1,5 @@
-setwd("c:/svn/dcr/devel/tests")
+if (.Platform$OS.type == "windows")
+    setwd("c:/svn/dcr/devel/tests") else setwd("/home/peter/svn/dcr/devel/tests")
 library(dcmle)
 exampleDontRun <- function(topic) {
     ex <- gsub("##D ", "", example(topic, "dcmle", 
