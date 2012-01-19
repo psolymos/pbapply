@@ -1,4 +1,8 @@
+# R CMD BATCH --vanilla ~/svn/dcr/devel/dcexamples_tests.R ~/svn/dcr/devel/tests/bm_snow_tests.log
+# R CMD BATCH --vanilla ~/svn/dcr/devel/dcexamples_tests_mc.R ~/svn/dcr/devel/tests/bm_mc_tests.log
 ## testing forking type parallelism
+SAVE <- TRUE
+LONG <- FALSE
 if (.Platform$OS.type == "windows")
     setwd("c:/svn/dcr/devel/tests") else setwd("/home/peter/svn/dcr/devel/tests")
 library(dcmle)
@@ -13,16 +17,19 @@ jags_example <- function(topic, renv, tenv, ...) {
     assign(topic, out, envir=renv)
 }
 #options(dcmle.href="c:/svn/dcr/www/examples")
-n.adapt <- 100
-n.update <- 100
-n.iter <- 100
-n.chains <- 2
-thin <- 1
-n.adapt <- 1000
-n.update <- 4000
-n.iter <- 5000
-n.chains <- 3
-thin <- 1
+if (LONG) {
+    n.adapt <- 1000
+    n.update <- 4000
+    n.iter <- 5000
+    n.chains <- 3
+    thin <- 1
+} else {
+    n.adapt <- 100
+    n.update <- 100
+    n.iter <- 100
+    n.chains <- 2
+    thin <- 1
+}
 ## this is for k=1
 (topic <- listDcExamples()$topic)
 timer1 <- new.env(hash=FALSE)
@@ -130,6 +137,8 @@ if (length(err)) {
     cat("\n\n##       <<<<<<<<<<<<<<    Errors/Warnings found    >>>>>>>>>>>>>>>>>\n\n")
     data.frame(Line=err, Topic=y, Text=x[err])
 } else cat("\n\n##       <<<<<<<<<<<<<<    OK -- No Errors/Warnings found    >>>>>>>>>>>>>>>>>\n\n")
+if (SAVE)
+    save(list=ls(), "dcexamples_tests_mc.Rdata")
 rm(list = ls())
 ## EOF
 
