@@ -1,7 +1,7 @@
 # R CMD BATCH --vanilla ~/svn/dcr/devel/dcexamples_tests.R ~/svn/dcr/devel/tests/bm_snow_tests.log
 # R CMD BATCH --vanilla ~/svn/dcr/devel/dcexamples_tests_mc.R ~/svn/dcr/devel/tests/bm_mc_tests.log
 SAVE <- TRUE
-LONG <- TRUE
+LONG <- FALSE
 ## testing snow type parallelism
 if (.Platform$OS.type == "windows")
     setwd("c:/svn/dcr/devel/tests") else setwd("/home/peter/svn/dcr/devel/tests")
@@ -11,10 +11,12 @@ load.module("dic")
 jags_example <- function(topic, renv, tenv, ...) {
     x <- sourceDcExample(topic, assign.global=FALSE)
     t0 <- proc.time()
-    out <- dcmle:::dcmle(x, ...)
+    out <- try(dcmle:::dcmle(x, ...))
     pt <- proc.time() - t0
     assign(topic, pt, envir=tenv)
     assign(topic, out, envir=renv)
+    if (inherits(out, "try-error"))
+        print("attempt failed")
 }
 #options(dcmle.href="c:/svn/dcr/www/examples")
 if (LONG) {
@@ -53,8 +55,10 @@ out2 <- dcmle:::dcmle(paramecium, n.clones=1, cl=cl,
 cat("\n## END   <<<<<<<<<<<<<<    paramecium    >>>>>>>>>>>>>>>>>\n\n")
 for (i in topic) {
     cat("\n\n## START <<<<<<<<<<<<<<    ", i, "    >>>>>>>>>>>>>>>>>\n")
+    cat("\n## -- seq --\n")
     jags_example(i, n.clones=1, renv=res1, tenv=timer1, 
         n.adapt=n.adapt, n.update=n.update, n.iter=n.iter, n.chains=n.chains, thin=thin)
+    cat("\n## -- par --\n")
     jags_example(i, n.clones=1, cl=cl, renv=res2, tenv=timer2, 
         n.adapt=n.adapt, n.update=n.update, n.iter=n.iter, n.chains=n.chains, thin=thin)
     cat("\n## END   <<<<<<<<<<<<<<    ", i, "    >>>>>>>>>>>>>>>>>\n\n")
@@ -91,12 +95,16 @@ topic <- c("paramecium",                                          # misc
     "beetles","birats","dugongs","eyes","hearts","jaw","orange")  # vol 2
 for (i in topic) {
     cat("\n\n## START <<<<<<<<<<<<<<    ", paste(i, "_DC", sep=""), "    >>>>>>>>>>>>>>>>>\n")
+    cat("\n## -- seq --\n")
     jags_example(i, n.clones=k, renv=res3, tenv=timer3, 
         n.adapt=n.adapt, n.update=n.update, n.iter=n.iter, n.chains=n.chains, thin=thin)
+    cat("\n## -- bal --\n")
     jags_example(i, n.clones=k, cl=cl, partype="balancing", renv=res4, tenv=timer4, 
         n.adapt=n.adapt, n.update=n.update, n.iter=n.iter, n.chains=n.chains, thin=thin)
+    cat("\n## -- par --\n")
     jags_example(i, n.clones=k, cl=cl, partype="parchains", renv=res5, tenv=timer5, 
         n.adapt=n.adapt, n.update=n.update, n.iter=n.iter, n.chains=n.chains, thin=thin)
+    cat("\n## -- both --\n")
     jags_example(i, n.clones=k, cl=cl, partype="both", renv=res6, tenv=timer6, 
         n.adapt=n.adapt, n.update=n.update, n.iter=n.iter, n.chains=n.chains, thin=thin)
     cat("\n## END   <<<<<<<<<<<<<<    ", paste(i, "_DC", sep=""), "    >>>>>>>>>>>>>>>>>\n\n")
@@ -118,7 +126,7 @@ gs2 <- sapply(as.list(res3), function(z) length(varnames(z@mcmc)))
 (z1 <- cbind(round(cbind(seq=t1[,3], pch=t2[,3]) / t1[,3], 3), graph_size=gs1))
 (z2 <- cbind(round(cbind(seq=t3[,3], bal=t4[,3], pch=t5[,3], both=t6[,3]) / t3[,3], 3), graph_size=gs2))
 
-x <- readLines("c:/svn/dcr/devel/tests/dcexamples_tests.log")
+x <- readLines("/home/peter/svn/dcr/devel/tests/dcexamples_tests.log")
 err <- c(grep("rror", x), grep("arning", x))
 fal <- grep("d error", x)
 err <- err[!(err %in% fal)]
@@ -136,7 +144,7 @@ if (length(err)) {
     data.frame(Line=err, Topic=y, Text=x[err])
 } else cat("\n\n##       <<<<<<<<<<<<<<    OK -- No Errors/Warnings found    >>>>>>>>>>>>>>>>>\n\n")
 if (SAVE)
-    save(list=ls(), "dcexamples_tests.Rdata")
+    save(list=ls(), "/home/peter/svn/dcr/devel/tests/dcexamples_tests.Rdata")
 rm(list = ls())
 ## EOF
 
