@@ -81,15 +81,19 @@ res3 <- new.env(hash=FALSE)
 res4 <- new.env(hash=FALSE)
 res5 <- new.env(hash=FALSE)
 res6 <- new.env(hash=FALSE)
-k <- 1:2 # c(1,2,4,6)
+k <- if (LONG)
+    c(1,2,4,6) else 1:2
 cl <- 8
 #cl <- makeSOCKcluster(8)
 #clusterEvalQ(cl, library(dcmle))
 #parLoadModule(cl, "glm")
 #parLoadModule(cl, "dic")
 #dcop <- dcoptions(verbose=0)
+#topic <- c("paramecium",                                          # misc
+#    "blocker","dyes","epil","equiv","pump","salm","seeds","rats", # vol 1
+#    "beetles","birats","dugongs","eyes","hearts","jaw","orange")  # vol 2
 topic <- c("paramecium",                                          # misc
-    "blocker","dyes","epil","equiv","pump","salm","seeds","rats", # vol 1
+    "blocker","dyes","epil","pump","salm","seeds","rats", # vol 1 - "equiv"
     "beetles","birats","dugongs","eyes","hearts","jaw","orange")  # vol 2
 for (i in topic) {
     cat("\n\n## START <<<<<<<<<<<<<<    ", paste(i, "_DC", sep=""), "    >>>>>>>>>>>>>>>>>\n")

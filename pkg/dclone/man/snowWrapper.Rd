@@ -58,6 +58,7 @@ Vector of problem sizes (or relative performance information) corresponding to e
 }
   \item{rng.type}{
 Character, \code{"none"} or the type of RNG on the workers (see \code{\link[snow]{clusterSetupRNG}}).
+The logical value \code{!(rng.type == "none")} is used for forking (e.g. when \code{cl} is integer).
 }
   \item{cleanup}{
 logical, if \code{cldata} should be removed from the workers after applying \code{fun}.

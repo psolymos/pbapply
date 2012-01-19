@@ -85,7 +85,7 @@ cleanup = TRUE, unload = FALSE, ...)
 ## multicore
         require(parallel)
         res <- mclapply(seq, fun, ...,
-            mc.set.seed = (rng.type == "none"),
+            mc.set.seed = !(rng.type == "none"),
             mc.silent = as.logical(getOption("dcoptions")$verbose), 
             mc.cores = cl,
             mc.cleanup = cleanup, 
