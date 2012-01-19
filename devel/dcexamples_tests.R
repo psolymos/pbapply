@@ -1,4 +1,3 @@
-gggrrrtttaa
 # R CMD BATCH --vanilla ~/svn/dcr/devel/dcexamples_tests.R ~/svn/dcr/devel/tests/bm_snow_tests.log
 # R CMD BATCH --vanilla ~/svn/dcr/devel/dcexamples_tests_mc.R ~/svn/dcr/devel/tests/bm_mc_tests.log
 SAVE <- TRUE
