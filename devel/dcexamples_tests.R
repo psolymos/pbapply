@@ -1,7 +1,8 @@
 ## testing snow type parallelism
-if (.Platform$OS.type == "windows")
-    setwd("c:/svn/dcr/devel/tests") else setwd("/home/peter/svn/dcr/devel/tests")
-source("global_vars.R")
+DIR <- if (.Platform$OS.type == "windows")
+    "c:/svn/dcr/devel" else "/home/peter/svn/dcr/devel"
+setwd(paste(DIR, "/tests", sep=""))
+source(paste(DIR, "/global_vars.R", sep=""))
 library(dcmle)
 load.module("glm")
 load.module("dic")

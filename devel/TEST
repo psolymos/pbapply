@@ -3,13 +3,21 @@ echo "\n====== START dclone/dcmle testing suite ======\n"
 check=1
 build=1
 install=1
-dcloneexamples=0
-dcmleexamples=0
-snowexamples=0
+dcloneexamples=1
+dcmleexamples=1
+snowexamples=1
 mcexamples=1
 #
-if [ $check -eq 1 ] ; then
+[ -d /home/peter/svn/dcr/devel/tests ] && rm -r /home/peter/svn/dcr/devel/tests
+mkdir /home/peter/svn/dcr/devel/tests
 cd /home/peter/svn/dcr/pkg
+echo "\n-- exporting dclone --\n"
+svn export /home/peter/svn/dcr/pkg/dcmle /home/peter/svn/dcr/devel/tests/dcmle
+echo "\n-- exporting dcmle --\n"
+svn export /home/peter/svn/dcr/pkg/dclone /home/peter/svn/dcr/devel/tests/dclone
+#
+if [ $check -eq 1 ] ; then
+cd /home/peter/svn/dcr/devel/tests
 echo "\n-- check dclone --\n"
 R CMD check dclone
 echo "\n-- check dcmle --\n"
@@ -17,7 +25,7 @@ R CMD check dcmle
 fi
 #
 if [ $build -eq 1 ] ; then
-cd /home/peter/svn/dcr/pkg
+cd /home/peter/svn/dcr/devel/tests
 echo "\n-- build dclone --\n"
 R CMD build dclone
 echo "\n-- build dcmle --\n"
@@ -25,7 +33,7 @@ R CMD build dcmle
 fi
 #
 if [ $install -eq 1 ] ; then
-cd /home/peter/svn/dcr/pkg
+cd /home/peter/svn/dcr/devel/tests
 echo "\n-- install dclone --\n"
 R CMD INSTALL dclone_1.6-0.tar.gz
 echo "\n-- install dcmle --\n"
