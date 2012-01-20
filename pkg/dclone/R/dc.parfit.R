@@ -82,8 +82,8 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
         if (is.function(model) || inherits(model, "custommodel")) {
             if (is.function(model))
                 model <- match.fun(model)
-            ## write model only if SOCK cluster (shared memory)
-            if (inherits(cl, "SOCKcluster")) {
+        ## write model only if SOCK cluster or multicore (shared memory)
+        if (is.numeric(cl) || inherits(cl, "SOCKcluster")) {
                 model <- write.jags.model(model)
                 on.exit(try(clean.jags.model(model)))
             }

@@ -1,4 +1,3 @@
-## set cl = getOption("mc.cores") as default ???
 snowWrapper <-
 function(cl, seq, fun, cldata, name = "cldata", use.env = FALSE,
 lib = NULL, dir = NULL, evalq = NULL,
@@ -6,12 +5,29 @@ size = 1, balancing = c("none", "load", "size", "both"),
 rng.type = c("none", "RNGstream", "SPRNG"), 
 cleanup = TRUE, unload = FALSE, ...)
 {
+    ## get defaults right for cl argument
     if (is.null(cl)) {
-        cl <- getOption("mc.cores")
+        mc <- getOption("mc.cores")
+        dcl <- if (getRversion() >= "2.15.0")
+            get("default", envir = parallel:::.reg) else NULL
+        ## stop if default is ambiguous
+        if (!is.null(mc) && !is.null(dcl))
+            stop("cannot decide default parallel type (cl = NULL)")
+        ## us mc.cores if it is not 1
+        if (is.null(mc) && !is.null(dcl))
+            cl <- if (mc < 2)
+                NULL else mc
+        ## or use default cluster
+        if (!is.null(mc) && is.null(dcl))
+            cl <- dcl
+        ## stop if cl is still NULL
         if (is.null(cl))
-            stop("set mc.cores option when cl = NULL")
-        if (!is.null(cl) && cl < 2)
-            stop("use sequential functions or set mc.cores to >1")
+            stop("ambiguous default parallel type definition")
+    } else {
+        ## sequential if cl=1
+        if (is.numeric(cl))
+            if (cl < 2)
+                stop("use sequential functions or set mc.cores to >1")
     }
 ## common stuff for snow and multicore
     rng.type <- match.arg(rng.type) 
@@ -84,13 +100,21 @@ cleanup = TRUE, unload = FALSE, ...)
     } else {
 ## multicore
         require(parallel)
-        res <- mclapply(seq, fun, ...,
+        if (balancing == "load") {
+            balancing <- "none"
+            warning("forking is used: balancing type was set to 'none'")
+        }
+        if (balancing == "both") {
+            balancing <- "size"
+            warning("forking is used: balancing type was set to 'size'")
+        }
+        res <- mclapplySB(seq, fun, ...,
             mc.set.seed = !(rng.type == "none"),
             mc.silent = as.logical(getOption("dcoptions")$verbose), 
             mc.cores = cl,
             mc.cleanup = cleanup, 
-            mc.preschedule = TRUE, 
-            mc.allow.recursive = TRUE)
+            mc.allow.recursive = FALSE, # no need for recursive forking
+            size = size)
     }
     res
 }
