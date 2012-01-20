@@ -1,7 +1,7 @@
-# R CMD BATCH --vanilla ~/svn/dcr/devel/dcexamples_tests.R ~/svn/dcr/devel/tests/bm_snow_tests.log
-# R CMD BATCH --vanilla ~/svn/dcr/devel/dcexamples_tests_mc.R ~/svn/dcr/devel/tests/bm_mc_tests.log
+# R CMD BATCH --vanilla ~/svn/dcr/devel/dcexamples_tests.R ~/svn/dcr/devel/tests/dcexamples_tests.log
+# R CMD BATCH --vanilla ~/svn/dcr/devel/dcexamples_tests_mc.R ~/svn/dcr/devel/tests/dcexamples_tests_mc.log
 SAVE <- TRUE
-LONG <- FALSE
+LONG <- TRUE
 ## testing snow type parallelism
 if (.Platform$OS.type == "windows")
     setwd("c:/svn/dcr/devel/tests") else setwd("/home/peter/svn/dcr/devel/tests")
@@ -144,7 +144,7 @@ if (length(err)) {
     data.frame(Line=err, Topic=y, Text=x[err])
 } else cat("\n\n##       <<<<<<<<<<<<<<    OK -- No Errors/Warnings found    >>>>>>>>>>>>>>>>>\n\n")
 if (SAVE)
-    save(list=ls(), "/home/peter/svn/dcr/devel/tests/dcexamples_tests.Rdata")
+    save(list=ls(), file="/home/peter/svn/dcr/devel/tests/dcexamples_tests.Rdata")
 rm(list = ls())
 ## EOF
 

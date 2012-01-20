@@ -1,6 +1,7 @@
 parLapplySLB <- 
 function(cl, x, size=1, fun, ...) 
 {
+    require(snow)
     fun <- match.fun(fun)
     m <- length(x)
     size <- rep(size, m)[1:m]

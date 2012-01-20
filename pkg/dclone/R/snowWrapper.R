@@ -109,6 +109,7 @@ cleanup = TRUE, unload = FALSE, ...)
             warning("forking is used: balancing type was set to 'size'")
         }
         res <- mclapplySB(seq, fun, ...,
+	    mc.preschedule = FALSE,
             mc.set.seed = !(rng.type == "none"),
             mc.silent = as.logical(getOption("dcoptions")$verbose), 
             mc.cores = cl,

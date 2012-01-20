@@ -1,8 +1,8 @@
-# R CMD BATCH --vanilla ~/svn/dcr/devel/dcexamples_tests.R ~/svn/dcr/devel/tests/bm_snow_tests.log
-# R CMD BATCH --vanilla ~/svn/dcr/devel/dcexamples_tests_mc.R ~/svn/dcr/devel/tests/bm_mc_tests.log
+# R CMD BATCH --vanilla ~/svn/dcr/devel/dcexamples_tests.R ~/svn/dcr/devel/tests/dcexamples_tests.log
+# R CMD BATCH --vanilla ~/svn/dcr/devel/dcexamples_tests_mc.R ~/svn/dcr/devel/tests/dcexamples_tests_mc.log
 ## testing forking type parallelism
 SAVE <- TRUE
-LONG <- FALSE
+LONG <- TRUE
 if (.Platform$OS.type == "windows")
     setwd("c:/svn/dcr/devel/tests") else setwd("/home/peter/svn/dcr/devel/tests")
 library(dcmle)
@@ -129,7 +129,7 @@ gs2 <- sapply(as.list(res3), function(z) length(varnames(z@mcmc)))
 (z1 <- cbind(round(cbind(seq=t1[,3], pch=t2[,3]) / t1[,3], 3), graph_size=gs1))
 (z2 <- cbind(round(cbind(seq=t3[,3], bal=t4[,3], pch=t5[,3], both=t6[,3]) / t3[,3], 3), graph_size=gs2))
 
-x <- readLines("/home/peter/svn/dcr/devel/tests/dcexamples_tests.log")
+x <- readLines("/home/peter/svn/dcr/devel/tests/dcexamples_tests_mc.log")
 err <- c(grep("rror", x), grep("arning", x))
 fal <- grep("d error", x)
 err <- err[!(err %in% fal)]
@@ -147,7 +147,7 @@ if (length(err)) {
     data.frame(Line=err, Topic=y, Text=x[err])
 } else cat("\n\n##       <<<<<<<<<<<<<<    OK -- No Errors/Warnings found    >>>>>>>>>>>>>>>>>\n\n")
 if (SAVE)
-    save(list=ls(), "/home/peter/svn/dcr/devel/tests/dcexamples_tests_mc.Rdata")
+    save(list=ls(), file="/home/peter/svn/dcr/devel/tests/dcexamples_tests_mc.Rdata")
 rm(list = ls())
 ## EOF
 
