@@ -5,7 +5,7 @@ mc.silent = FALSE, mc.cores = 1L,
 mc.cleanup = TRUE, mc.allow.recursive = TRUE, 
 size = 1)
 {
-    if (length(size == 1)) {
+    if (length(unique(size) == 1)) {
         res <- mclapply(X, 
             FUN, ..., 
             mc.preschedule = mc.preschedule, 
