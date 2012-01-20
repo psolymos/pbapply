@@ -1,0 +1,9 @@
+cd /home/peter/svn/dcr/pkg
+R CMD check dclone
+R CMD check dcmle
+R CMD build dclone
+R CMD build dcmle
+R CMD INSTALL dclone_1.6-0.tar.gz
+R CMD INSTALL dcmle_0.1-2.tar.gz
+
+
