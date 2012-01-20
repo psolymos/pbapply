@@ -169,7 +169,7 @@ k <- 1:3
 ## sequential version
 dcm <- dc.fit(dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np")
 ## parallel version with size balancing (default)
-cl <- makeCluster(3, type = "SOCK")
+cl <- makePSOCKcluster(3)
 pdcm1 <- dc.parfit(cl, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np",
     partype="balancing")
 pdcm2 <- dc.parfit(cl, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np",
@@ -200,7 +200,7 @@ inits <- function(){
          sigma.theta=runif(1, 0, 100))
 }
 param <- c("mu.theta", "sigma.theta")
-cl <- makeCluster(2, type = "SOCK")
+cl <- makePSOCKcluster(2)
 sim2 <- dc.parfit(cl, dat, param, bugs.model, n.clones=1:2, 
     flavour="bugs", program="WinBUGS", multiply="J")
 sim3 <- dc.parfit(cl, dat, param, bugs.model, n.clones=1:2, 
@@ -241,7 +241,7 @@ function(model, n.clones) {
         beta=c(0,0))
 }
 ## make cluster
-cl <- makeSOCKcluster(2)
+cl <- makePSOCKcluster(2)
 ## pass global n variable used in ifun to workers
 tmp <- clusterExport(cl, "n")
 ## fit the model

@@ -78,7 +78,7 @@ bugs.model <- function(){
      }  
 inits <- NULL
 param <- c("mu.theta", "sigma.theta")
-cl <- makeSOCKcluster(3)
+cl <- makePSOCKcluster(3)
 sim <- bugs.parfit(cl, dat, param, bugs.model, inits, seed=1:3)
 sim2 <- bugs.parfit(cl, dat, param, bugs.model, inits, program="openbugs",
     n.thin=1, seed=1:3)

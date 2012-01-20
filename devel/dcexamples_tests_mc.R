@@ -40,7 +40,7 @@ res1 <- new.env(hash=FALSE)
 res2 <- new.env(hash=FALSE)
 #options("mc.cores"=3) # - this overwrites NULL
 cl <- 3
-#cl <- makeSOCKcluster(3)
+#cl <- makePSOCKcluster(3)
 #clusterEvalQ(cl, library(dcmle))
 #parLoadModule(cl, "glm")
 #parLoadModule(cl, "dic")
@@ -88,7 +88,7 @@ res6 <- new.env(hash=FALSE)
 k <- if (LONG)
     c(1,2,4,6) else 1:2
 cl <- 8
-#cl <- makeSOCKcluster(8)
+#cl <- makePSOCKcluster(8)
 #clusterEvalQ(cl, library(dcmle))
 #parLoadModule(cl, "glm")
 #parLoadModule(cl, "dic")

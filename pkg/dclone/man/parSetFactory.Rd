@@ -39,7 +39,7 @@ parSetFactory(cl, name, type, state)
 }
 \examples{
 \dontrun{
-cl <- makeSOCKcluster(3)
+cl <- makePSOCKcluster(3)
 parListFactories(cl, "sampler")
 parListFactories(cl, "monitor")
 parListFactories(cl, "rng")

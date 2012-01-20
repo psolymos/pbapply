@@ -53,7 +53,7 @@ Y <- rnorm(N, mean = linpred, sd = sigma)
 jdata <- list(N = N, Y = Y, x = x)
 jpara <- c("alpha", "beta", "sigma")
 ## jags model on parallel workers
-cl <- makeSOCKcluster(3)
+cl <- makePSOCKcluster(3)
 parJagsModel(cl, name=res, file=model, data=jdata, 
     n.chains = 3, n.adapt=1000)
 parUpdate(cl, res, n.iter=1000)

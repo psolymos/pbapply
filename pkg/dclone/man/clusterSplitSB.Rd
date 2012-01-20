@@ -62,7 +62,7 @@ Optimizing the number of workers: \code{\link{clusterSize}}, \code{\link{plotClu
 }
 \examples{
 \dontrun{
-cl <- makeSOCKcluster(2)
+cl <- makePSOCKcluster(2)
 ## equal sizes, same as clusterSplit(cl, 1:5)
 clusterSplitSB(cl, 1:5)
 ## different sizes

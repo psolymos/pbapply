@@ -114,7 +114,7 @@ Optimizing the number of workers: \code{\link{clusterSize}}, \code{\link{plotClu
 }
 \examples{
 \dontrun{
-cl <- makeSOCKcluster(2)
+cl <- makePSOCKcluster(2)
 ## wrapper
 fun <- function(i) cldata$a * i - cldata$b
 cldata <- list(a=10, b=5)

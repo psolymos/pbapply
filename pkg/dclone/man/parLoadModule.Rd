@@ -28,7 +28,7 @@ parListModules(cl)
 \code{\link[rjags]{load.module}}, \code{\link[rjags]{unload.module}}}
 \examples{
 \dontrun{
-cl <- makeSOCKcluster(3)
+cl <- makePSOCKcluster(3)
 parListModules(cl)
 parLoadModule(cl, "glm")
 parListModules(cl)
