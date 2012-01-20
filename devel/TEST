@@ -1,9 +1,60 @@
+echo "\n====== START dclone/dcmle testing suite ======\n"
+#
+check=1
+build=1
+install=1
+dcloneexamples=0
+dcmleexamples=0
+snowexamples=0
+mcexamples=1
+#
+if [ $check -eq 1 ] ; then
 cd /home/peter/svn/dcr/pkg
+echo "\n-- check dclone --\n"
 R CMD check dclone
+echo "\n-- check dcmle --\n"
 R CMD check dcmle
+fi
+#
+if [ $build -eq 1 ] ; then
+cd /home/peter/svn/dcr/pkg
+echo "\n-- build dclone --\n"
 R CMD build dclone
+echo "\n-- build dcmle --\n"
 R CMD build dcmle
+fi
+#
+if [ $install -eq 1 ] ; then
+cd /home/peter/svn/dcr/pkg
+echo "\n-- install dclone --\n"
 R CMD INSTALL dclone_1.6-0.tar.gz
+echo "\n-- install dcmle --\n"
 R CMD INSTALL dcmle_0.1-2.tar.gz
-
+fi
+#
+if [ $dcloneexamples -eq 1 ] ; then
+cd /home/peter/svn/dcr/devel
+echo "\n-- dontrun: dclone --\n"
+R CMD BATCH --vanilla dclone_tests.R tests/dclone_tests.log
+fi
+#
+if [ $dcmleexamples -eq 1 ] ; then
+cd /home/peter/svn/dcr/devel
+echo "\n-- dontrun: dcmle --\n"
+R CMD BATCH --vanilla dcmle_tests.R tests/dcmle_tests.log
+fi
+#
+if [ $snowexamples -eq 1 ] ; then
+cd /home/peter/svn/dcr/devel
+echo "\n-- parallel: snow --\n"
+R CMD BATCH --vanilla dcexamples_tests.R tests/dcexamples_tests.log
+fi
+#
+if [ $mcexamples -eq 1 ] ; then
+cd /home/peter/svn/dcr/devel
+echo "\n-- parallel: multicore --\n"
+R CMD BATCH --vanilla dcexamples_tests_mc.R tests/dcexamples_tests_mc.log
+fi
+#
+echo "\n====== END dclone/dcmle testing suite ======\n"
 

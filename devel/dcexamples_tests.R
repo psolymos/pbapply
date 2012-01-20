@@ -1,10 +1,7 @@
-# R CMD BATCH --vanilla ~/svn/dcr/devel/dcexamples_tests.R ~/svn/dcr/devel/tests/dcexamples_tests.log
-# R CMD BATCH --vanilla ~/svn/dcr/devel/dcexamples_tests_mc.R ~/svn/dcr/devel/tests/dcexamples_tests_mc.log
-SAVE <- FALSE
-LONG <- FALSE
 ## testing snow type parallelism
 if (.Platform$OS.type == "windows")
     setwd("c:/svn/dcr/devel/tests") else setwd("/home/peter/svn/dcr/devel/tests")
+source("global_vars.R")
 library(dcmle)
 load.module("glm")
 load.module("dic")
