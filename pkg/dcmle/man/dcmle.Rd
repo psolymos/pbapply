@@ -24,7 +24,8 @@ character, vector of model parameters to monitor.
 integer, vector for the number of clones used in fitting.
 }
   \item{cl}{
-cluster object, optinal.
+cluster object (snow type cluster) 
+or number of cores (multicore type forking), optinal.
 }
   \item{\dots}{
 other arguments passed to underlying functions (see Details).

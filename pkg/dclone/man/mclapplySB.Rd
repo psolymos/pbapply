@@ -26,6 +26,10 @@ mclapplySB(X, FUN, ...,
   will be spawned (at most)}
 \item{mc.cleanup}{see \code{\link[parallel]{mclapply}}}
 \item{mc.allow.recursive}{see \code{\link[parallel]{mclapply}}}
+\item{size}{Vector of problem sizes (or relative performance information) 
+  corresponding to elements of \code{X} (recycled if needed). 
+  The default \code{1} indicates equality of problem sizes.
+}
 }
 \value{
  A list.
