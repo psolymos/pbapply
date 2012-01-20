@@ -1,5 +1,6 @@
-if (.Platform$OS.type == "windows")
-    setwd("c:/svn/dcr/devel/tests") else setwd("/home/peter/svn/dcr/devel/tests")
+DIR <- if (.Platform$OS.type == "windows")
+    "c:/svn/dcr/devel" else "/home/peter/svn/dcr/devel"
+setwd(paste(DIR, "/tests", sep=""))
 library(dclone)
 exampleDontRun <- function(topic) {
     ex <- gsub("##D ", "", example(topic, "dclone", 
@@ -10,7 +11,11 @@ exampleDontRun <- function(topic) {
     clean.jags.model(f)
     invisible(NULL)
 }
-ff <- gsub(".Rd", "", list.files("c:/svn/dcr/pkg/dclone/man"))
+ff <- if (.Platform$OS.type == "windows") {
+    gsub(".Rd", "", list.files("c:/svn/dcr/pkg/dclone/man"))
+} else {
+    gsub(".Rd", "", list.files("/home/peter/svn/dcr/devel/tests/dclone/man"))
+}
 #ff <- "parCodaSamples"#"write.jags.model"
 ff
 cat("\n\n## <<<<<<<<<<<<<<    ", date(), "    >>>>>>>>>>>>>>>>>\n\n")
@@ -20,7 +25,7 @@ for (topic in ff) {
     cat("\n## END   <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n\n")
 }
 #cat("\n\n## START <<<<<<<<<<<<<<    endmatter    >>>>>>>>>>>>>>>>>\n")
-x <- readLines("c:/svn/dcr/devel/tests/dclone_tests.log")
+x <- readLines(paste(DIR, "/tests/dclone_tests.log", sep=""))
 err <- c(grep("rror", x), grep("arning", x))
 fal <- grep("d error", x)
 err <- err[!(err %in% fal)]

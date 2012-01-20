@@ -1,19 +1,17 @@
 echo "\n====== START dclone/dcmle testing suite ======\n"
 #
-check=1
-build=1
-install=1
+check=0
+build=0
+install=0
 dcloneexamples=1
 dcmleexamples=1
-snowexamples=1
-mcexamples=1
+snowexamples=0
+mcexamples=0
 #
 [ -d /home/peter/svn/dcr/devel/tests ] && rm -r /home/peter/svn/dcr/devel/tests
 mkdir /home/peter/svn/dcr/devel/tests
 cd /home/peter/svn/dcr/pkg
-echo "\n-- exporting dclone --\n"
 svn export /home/peter/svn/dcr/pkg/dcmle /home/peter/svn/dcr/devel/tests/dcmle
-echo "\n-- exporting dcmle --\n"
 svn export /home/peter/svn/dcr/pkg/dclone /home/peter/svn/dcr/devel/tests/dclone
 #
 if [ $check -eq 1 ] ; then
