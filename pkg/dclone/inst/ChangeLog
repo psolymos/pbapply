@@ -19,6 +19,10 @@ Version 1.6-0, December 19, 2011
       getOption("mc.cores"). If mc.cores is not set (NULL)
       of 1, an error is produced.
     * mclapplySB added to mimic size balancing with forking.
+    * parJagsModel, parUpdate and parCodaSamples works
+      only with snow clusters
+    * mcJagsModel, mcUpdate and mcCodaSamples added
+      to work with multicore.
 
 Version 1.5-1, October 18, 2011
     * "[.mcmc.list.dc" addted to extract parts of a fitted object

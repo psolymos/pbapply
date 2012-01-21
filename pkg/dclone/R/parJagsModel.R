@@ -9,8 +9,10 @@ inits, n.chains = 1, n.adapt = 1000, quiet = FALSE)
     if (is.function(file) || inherits(file, "custommodel")) {
         if (is.function(file))
             file <- match.fun(file)
-        file <- write.jags.model(file)
-        on.exit(try(clean.jags.model(file)))
+        if (inherits(cl, "SOCKcluster")) {
+            file <- write.jags.model(file)
+            on.exit(try(clean.jags.model(file)))
+        }
     }
     n.clones <- dclone:::nclones.list(as.list(data))
     ## inits and RNGs
