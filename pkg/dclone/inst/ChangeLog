@@ -15,12 +15,12 @@ Version 1.6-0, December 19, 2011
       forking type parallel features (rsprng, BRugs).
     * cl argument in parallelized functions that
       use snowWrapper can be NULL in which case it 
-      takes the value from the mc.cores glogal option 
+      takes the value from the mc.cores global option 
       getOption("mc.cores"). If mc.cores is not set (NULL)
       of 1, an error is produced.
     * mclapplySB added to mimic size balancing with forking.
     * parJagsModel, parUpdate and parCodaSamples works
-      only with snow clusters
+      only with snow clusters.
     * mcJagsModel, mcUpdate and mcCodaSamples added
       to work with multicore.
 
