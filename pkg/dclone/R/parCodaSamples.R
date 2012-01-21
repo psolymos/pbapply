@@ -1,6 +1,8 @@
 parCodaSamples <-
 function(cl, model, variable.names = NULL, n.iter, thin = 1, ...) 
 {
+    if (!inherits(cl, "cluster"))
+        stop("cl must be of class 'cluster'")
     cldata <- list(variable.names=variable.names,
         n.iter=n.iter, thin=thin, name=deparse(substitute(model)))
     jagsparallel <- function(i, ...) {

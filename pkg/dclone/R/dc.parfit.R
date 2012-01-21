@@ -7,11 +7,8 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
     ## stop if rjags not found
     if (flavour=="jags" && !suppressWarnings(require(rjags)))
         stop("there is no package called 'rjags'")
-    ## initail evals
-#    if (!inherits(cl, "cluster"))
-#        stop("'cl' must be a 'cluster' object")
-    if (missing(cl) || is.null(cl))
-        cl <- getOption("mc.cores", 1L)
+    if (!is.null(list(...)$updated.model))
+        stop("'updated.model' argument is not available for parallel computations")
     ## get parallel type
     partype <- match.arg(partype)
     ## some arguments are ignored with size balancing

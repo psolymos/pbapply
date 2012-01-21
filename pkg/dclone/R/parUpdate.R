@@ -1,6 +1,8 @@
 parUpdate <-
 function(cl, object, n.iter = 1, ...) 
 {
+    if (!inherits(cl, "cluster"))
+        stop("cl must be of class 'cluster'")
     cldata <- list(n.iter=n.iter, name=deparse(substitute(object)))
     jagsparallel <- function(i, ...) {
         cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))

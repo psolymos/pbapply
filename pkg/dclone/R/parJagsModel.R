@@ -2,6 +2,8 @@ parJagsModel <-
 function(cl, name, file, data = sys.frame(sys.parent()), 
 inits, n.chains = 1, n.adapt = 1000, quiet = FALSE) 
 {
+    if (!inherits(cl, "cluster"))
+        stop("cl must be of class 'cluster'")
     if (length(cl) != n.chains)
         stop("length(cl) must equal n.chains")
     if (is.function(file) || inherits(file, "custommodel")) {
