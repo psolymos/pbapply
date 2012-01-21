@@ -1,3 +1,4 @@
+## need to test this: update works for the list or not
 mcUpdate <-
 function(object, n.iter = 1, ...) 
 {
@@ -18,5 +19,6 @@ function(object, n.iter = 1, ...)
     if (!is.null(n.clones) && n.clones > 1) {
         attr(rval, "n.clones") <- n.clones
     }
-    rval
+    assign(cldata$name, rval, envir=parent.frame())
+    invisible(NULL)
 }

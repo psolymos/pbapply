@@ -19,11 +19,13 @@ export("jags.parfit", "dc.parfit",
        "clusterSize", "plotClusterSize",
        "clusterSplitSB", 
        "parLapplySB", "parLapplySLB",
-       "parallel.inits")
+       "parallel.inits",
+       "mclapplySB")
 ## parallel rjags functions
 export("parListModules", "parLoadModule", "parUnloadModule",
       "parListFactories", "parSetFactory", 
-      "parJagsModel", "parUpdate", "parCodaSamples")
+      "parJagsModel", "parUpdate", "parCodaSamples",
+      "mcJagsModel", "mcUpdate", "mcCodaSamples")
 ## graphical helper functions
 export("errlines")
 
