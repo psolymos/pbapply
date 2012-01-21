@@ -7,18 +7,21 @@ function(model, variable.names = NULL, n.iter, thin = 1, ...)
         cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
         res <- get(cldata$name, envir=.GlobalEnv)
         n.clones <- nclones(res)
-        res <- coda.samples(res[[i]], variable.names=cldata$variable.names,
+        out <- coda.samples(res[[i]], variable.names=cldata$variable.names,
             n.iter=cldata$n.iter, thin=cldata$thin, ...)
         if (!is.null(n.clones) && n.clones > 1) {
             attr(res, "n.clones") <- n.clones
         }
-        res
+        attach(out, "updated.model") <- res
+        out
     }
     res <- snowWrapper(cl, 1:length(cl), jagsparallel, cldata, 
         name=NULL, use.env=TRUE,
         balancing = "none", size = 1, 
         rng.type = getOption("dcoptions")$RNG, 
         cleanup = TRUE, dir = getwd(), ...)
+    um <- lapply(res, updated.model)
+    class(um) <- "mc.jags"
     n.clones <- list(nclones(model), lapply(res, nclones))
     if (length(unique(unlist(n.clones))) != 1L) {
         n.clones <- NULL
@@ -31,6 +34,8 @@ function(model, variable.names = NULL, n.iter, thin = 1, ...)
     if (!is.null(n.clones) && n.clones > 1) {
         attr(res, "n.clones") <- n.clones
         class(res) <- c("mcmc.list.dc", class(res))
+        attr(um, "n.clones") <- n.clones
     }
+    assign(deparse(substitute(model)), um, envir=parent.frame())
     res
 }

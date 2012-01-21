@@ -9,12 +9,13 @@ function(cl, model, variable.names = NULL, n.iter, thin = 1, ...)
         cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
         res <- get(cldata$name, envir=.GlobalEnv)
         n.clones <- nclones(res)
-        res <- coda.samples(res, variable.names=cldata$variable.names,
+        out <- coda.samples(res, variable.names=cldata$variable.names,
             n.iter=cldata$n.iter, thin=cldata$thin, ...)
+        assign(cldata$name, res, envir=.GlobalEnv)
         if (!is.null(n.clones) && n.clones > 1) {
             attr(res, "n.clones") <- n.clones
         }
-        res
+        out
     }
     dir <- if (inherits(cl, "SOCKcluster")) 
         getwd() else NULL
