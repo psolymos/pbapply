@@ -2,7 +2,6 @@ mcJagsModel <-
 function(file, data = sys.frame(sys.parent()), 
 inits, n.chains = 1, n.adapt = 1000, quiet = FALSE) 
 {
-    mc.cores <- n.chains
     if (is.function(file) || inherits(file, "custommodel")) {
         if (is.function(file))
             file <- match.fun(file)
@@ -27,7 +26,7 @@ inits, n.chains = 1, n.adapt = 1000, quiet = FALSE)
         }
         res
     }
-    rval <- snowWrapper(mc.cores, 1:n.chains, jagsparallel, cldata, 
+    rval <- snowWrapper(n.chains, 1:n.chains, jagsparallel, cldata, 
         name=NULL, use.env=TRUE,
         balancing = "none", size = 1, 
         rng.type = getOption("dcoptions")$RNG, 

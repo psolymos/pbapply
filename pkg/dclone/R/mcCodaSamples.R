@@ -1,8 +1,10 @@
 mcCodaSamples <-
 function(model, variable.names = NULL, n.iter, thin = 1, ...) 
 {
+    if (!character(model))
+        model <- deparse(substitute(model))
     cldata <- list(variable.names=variable.names,
-        n.iter=n.iter, thin=thin, name=deparse(substitute(model)))
+        n.iter=n.iter, thin=thin, name=model)
     jagsparallel <- function(i, ...) {
         cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
         res <- get(cldata$name, envir=.GlobalEnv)
@@ -15,7 +17,8 @@ function(model, variable.names = NULL, n.iter, thin = 1, ...)
         attach(out, "updated.model") <- res
         out
     }
-    res <- snowWrapper(cl, 1:length(cl), jagsparallel, cldata, 
+    mc <- length(model)
+    res <- snowWrapper(mc, 1:length(mc), jagsparallel, cldata, 
         name=NULL, use.env=TRUE,
         balancing = "none", size = 1, 
         rng.type = getOption("dcoptions")$RNG, 

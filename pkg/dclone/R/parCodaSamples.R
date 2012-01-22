@@ -3,8 +3,10 @@ function(cl, model, variable.names = NULL, n.iter, thin = 1, ...)
 {
     if (!inherits(cl, "cluster"))
         stop("cl must be of class 'cluster'")
+    if (!character(model))
+        model <- deparse(substitute(model))
     cldata <- list(variable.names=variable.names,
-        n.iter=n.iter, thin=thin, name=deparse(substitute(model)))
+        n.iter=n.iter, thin=thin, name=model)
     jagsparallel <- function(i, ...) {
         cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
         res <- get(cldata$name, envir=.GlobalEnv)

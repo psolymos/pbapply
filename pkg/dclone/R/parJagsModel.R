@@ -27,8 +27,10 @@ inits, n.chains = 1, n.adapt = 1000, quiet = FALSE)
         parallel.inits(n.chains=n.chains) else parallel.inits(inits, n.chains)
 #    inits <- jags.model(file, data, inits, n.chains, 
 #        n.adapt = 0)$state(internal = TRUE)
+    if (!character(name))
+        name <- deparse(substitute(name))
     cldata <- list(file=file, data=as.list(data), inits=inits,
-        n.adapt=n.adapt, name=deparse(substitute(name)), quiet=quiet,
+        n.adapt=n.adapt, name=name, quiet=quiet,
         n.clones=n.clones)
     jagsparallel <- function(i) {
         cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
