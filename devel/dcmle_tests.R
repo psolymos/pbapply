@@ -24,7 +24,7 @@ for (topic in ff[-2]) {
     cat("\n## END   <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n\n")
 }
 cat("\n\n## START <<<<<<<<<<<<<<    endmatter    >>>>>>>>>>>>>>>>>\n")
-x <- readLines(paste(DIR, "/tests/dclone_tests.log", sep=""))
+x <- readLines(paste(DIR, "/tests/dcmle_tests.log", sep=""))
 err <- c(grep("rror", x), grep("arning", x))
 fal <- grep("d error", x)
 err <- err[!(err %in% fal)]

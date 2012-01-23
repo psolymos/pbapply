@@ -74,6 +74,7 @@ Methods: \code{\link{dcsd}}, \code{\link{confint.mcmc.list.dc}},
 \examples{
 \dontrun{
 ## fitting with WinBUGS, bugs example
+if (.Platform$OS.type == "windows") {
 data(schools)
 dat <- list(J = nrow(schools), y = schools$estimate, sigma.y = schools$sd)
 bugs.model <- function(){
@@ -98,6 +99,7 @@ sim2 <- bugs.fit(dat2, param, bugs.model)
 sim3 <- bugs.fit(dat2, param, bugs.model, program="openbugs", n.thin=1)
 ## fitting the model with JAGS
 sim4 <- jags.fit(dat2, param, bugs.model)
+}
 }
 }
 \keyword{ models }
