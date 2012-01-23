@@ -1,26 +1,7 @@
 ## wrapper function
 dcmle <- function(x, params, n.clones=1, cl=NULL, ...) {
     ## get defaults right for cl argument
-    if (is.null(cl)) {
-        mc <- getOption("mc.cores")
-        dcl <- if (getRversion() >= "2.15.0")
-            get("default", envir = parallel:::.reg) else NULL
-        ## stop if default is ambiguous
-        if (!is.null(mc) && !is.null(dcl))
-            stop("cannot decide default parallel type (cl = NULL)")
-        ## us mc.cores if it is not 1
-        if (is.null(mc) && !is.null(dcl))
-            cl <- if (mc < 2)
-                NULL else mc
-        ## or use default cluster
-        if (!is.null(mc) && is.null(dcl))
-            cl <- dcl
-    } else {
-        ## sequential if cl=1
-        if (is.numeric(cl))
-            if (cl < 2)
-                cl <- NULL
-    }
+    cl <- evalParallelArgument(cl)
     ## coerce into dcFit (issue error if it is not possible)
     x <- as(x, "dcFit")
     ## gete params if not defined by argument
