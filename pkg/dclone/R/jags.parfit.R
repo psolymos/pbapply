@@ -1,6 +1,14 @@
 jags.parfit <-
 function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
 {
+    ## get defaults right for cl argument
+    cl <- evalParallelArgument(cl, quit=TRUE)
+    ## sequential evaluation falls back on jags.fit
+    if (is.null(cl)) {
+        return(jags.fit(data, params, model, 
+            inits = inits, n.chains = n.chains, ...))
+    }
+    ## parallel evaluation starts here
     ## stop if rjags not found
     if (!suppressWarnings(require(rjags)))
         stop("there is no package called 'rjags'")

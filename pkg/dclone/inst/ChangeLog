@@ -26,6 +26,9 @@ Version 1.6-0, December 19, 2011
     * updated.model.mcmc.list.dc: keeps n.clones attribute.
     * evalParallelArgument added for consistent handling
       of parallel arguments.
+    * jags.parfit and dc.parfit falls back to sequential
+      evaluation if cl is NULL (and default options for 
+      parallel processing are unset) or 1.
 
 Version 1.5-1, October 18, 2011
     * "[.mcmc.list.dc" addted to extract parts of a fitted object

@@ -3,6 +3,17 @@ function(cl, data, params, model, inits, n.clones, multiply = NULL, unchanged = 
 update = NULL, updatefun = NULL, initsfun = NULL, flavour = c("jags", "bugs"), 
 n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
 {
+    ## get defaults right for cl argument
+    cl <- evalParallelArgument(cl, quit=TRUE)
+    ## sequential evaluation falls back on dc.fit
+    if (is.null(cl)) {
+        return(dc.fit(data, params, model, inits, n.clones, 
+            multiply = multiply, unchanged = unchanged, 
+            update = update, updatefun = updatefun, 
+            initsfun = initsfun, flavour = flavour, 
+            n.chains = n.chains, ...))
+    }
+    ## parallel evaluation starts here
     flavour <- match.arg(flavour)
     ## stop if rjags not found
     if (flavour=="jags" && !suppressWarnings(require(rjags)))
