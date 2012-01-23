@@ -12,7 +12,7 @@ parUpdate(cl, object, n.iter=1, \ldots)
     A cluster object created by \code{\link[snow]{makeCluster}}, or
     an integer. It can also be \code{NULL}, see \code{\link{snowWrapper}}.
   }
-  \item{object}{a \code{jags} model object}
+  \item{object}{character, name of a jags model object}
   \item{n.iter}{number of iterations of the Markov chain to run}
   \item{\ldots}{additional arguments to the update method, see
     \code{\link[rjags]{update.jags}}}

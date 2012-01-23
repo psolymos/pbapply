@@ -183,6 +183,7 @@ summary(pdcm3)
 stopCluster(cl)
 
 ## Using WinBUGS/OpenBUGS
+if (.Platform$OS.type == "windows") {
 data(schools)
 dat <- list(J = nrow(schools), y = schools$estimate, sigma.y = schools$sd)
 bugs.model <- function(){
@@ -206,6 +207,7 @@ sim2 <- dc.parfit(cl, dat, param, bugs.model, n.clones=1:2,
 sim3 <- dc.parfit(cl, dat, param, bugs.model, n.clones=1:2, 
     flavour="bugs", program="OpenBUGS", multiply="J")
 stopCluster(cl)
+}
 
 ## simulation for Poisson GLMM with inits
 set.seed(1234)
