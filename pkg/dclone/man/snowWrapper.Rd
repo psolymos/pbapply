@@ -10,12 +10,12 @@ Parallel wrapper function to call from within a function
 designed to work closely with MCMC fitting functions (can be called from inside of a function).
 }
 \usage{
-snowWrapper(cl, seq, fun, ..., 
+snowWrapper(cl, seq, fun,  
 cldata, name = "cldata", use.env=FALSE, 
 lib = NULL, dir = NULL, evalq=NULL,
 size = 1, balancing = c("none", "load", "size", "both"), 
 rng.type = c("none", "RNGstream", "SPRNG"), 
-cleanup = TRUE, unload = FALSE, envir = .GlobalEnv)
+cleanup = TRUE, unload = FALSE, envir = .GlobalEnv, ...)
 }
 \arguments{
   \item{cl}{

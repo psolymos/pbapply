@@ -1,9 +1,9 @@
 snowWrapper <-
-function(cl, seq, fun, ..., cldata, name = "cldata", use.env = FALSE,
+function(cl, seq, fun, cldata, name = "cldata", use.env = FALSE,
 lib = NULL, dir = NULL, evalq = NULL,
 size = 1, balancing = c("none", "load", "size", "both"), 
 rng.type = c("none", "RNGstream", "SPRNG"), 
-cleanup = TRUE, unload = FALSE, envir = .GlobalEnv)
+cleanup = TRUE, unload = FALSE, envir = .GlobalEnv, ...)
 {
     ## get defaults right for cl argument
     cl <- evalParallelArgument(cl, quit=TRUE)
