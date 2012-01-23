@@ -10,7 +10,7 @@ Description: S4 classes around infrastructure
   development with data cloning for hierarchical 
   models easy as a breeze.
 License: GPL-2
-Depends: methods, stats4, dclone (>= 1.4-1), rjags, coda, R2WinBUGS, parallel
+Depends: methods, stats4, dclone (>= 1.6-0), rjags, coda, R2WinBUGS, parallel
 Suggests: snow
 SystemRequirements: jags (>= 3.0.0)
 URL: http://cran.r-project.org/package=dcmle, http://dcr.r-forge.r-project.org/
