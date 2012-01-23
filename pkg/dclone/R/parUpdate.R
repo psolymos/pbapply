@@ -1,9 +1,10 @@
 parUpdate <-
 function(cl, object, n.iter = 1, ...) 
 {
+    cl <- evalParallelArgument(cl, quit=TRUE)
     if (!inherits(cl, "cluster"))
         stop("cl must be of class 'cluster'")
-    if (!character(object))
+    if (!is.character(object))
         object <- deparse(substitute(object))
     cldata <- list(n.iter=n.iter, name=object)
     jagsparallel <- function(i, ...) {

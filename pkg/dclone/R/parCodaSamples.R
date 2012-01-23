@@ -1,9 +1,10 @@
 parCodaSamples <-
 function(cl, model, variable.names = NULL, n.iter, thin = 1, ...) 
 {
+    cl <- evalParallelArgument(cl, quit=TRUE)
     if (!inherits(cl, "cluster"))
         stop("cl must be of class 'cluster'")
-    if (!character(model))
+    if (!is.character(model))
         model <- deparse(substitute(model))
     cldata <- list(variable.names=variable.names,
         n.iter=n.iter, thin=thin, name=model)

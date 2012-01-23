@@ -2,6 +2,7 @@ parJagsModel <-
 function(cl, name, file, data = sys.frame(sys.parent()), 
 inits, n.chains = 1, n.adapt = 1000, quiet = FALSE) 
 {
+    cl <- evalParallelArgument(cl, quit=TRUE)
     if (!inherits(cl, "cluster"))
         stop("cl must be of class 'cluster'")
     if (length(cl) != n.chains)
@@ -27,7 +28,7 @@ inits, n.chains = 1, n.adapt = 1000, quiet = FALSE)
         parallel.inits(n.chains=n.chains) else parallel.inits(inits, n.chains)
 #    inits <- jags.model(file, data, inits, n.chains, 
 #        n.adapt = 0)$state(internal = TRUE)
-    if (!character(name))
+    if (!is.character(name))
         name <- deparse(substitute(name))
     cldata <- list(file=file, data=as.list(data), inits=inits,
         n.adapt=n.adapt, name=name, quiet=quiet,
