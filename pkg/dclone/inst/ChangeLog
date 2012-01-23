@@ -23,6 +23,9 @@ Version 1.6-0, December 19, 2011
       only with snow clusters.
     * mcJagsModel, mcUpdate and mcCodaSamples added
       to work with multicore.
+    * updated.model.mcmc.list.dc: keeps n.clones attribute.
+    * evalParallelArgument added for consistent handling
+      of parallel arguments.
 
 Version 1.5-1, October 18, 2011
     * "[.mcmc.list.dc" addted to extract parts of a fitted object

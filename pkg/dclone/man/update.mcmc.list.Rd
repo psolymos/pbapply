@@ -51,6 +51,8 @@ function returns \code{TRUE} value.
 
 \code{n.update} and \code{n.iter} can be vectors, if lengths are
 shorter then \code{times}, values are recycled.
+
+Data cloning information is preserved.
 }
 \value{
 \code{updated.model} returns the state of the JAGS model after updating

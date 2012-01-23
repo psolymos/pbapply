@@ -20,7 +20,8 @@ export("jags.parfit", "dc.parfit",
        "clusterSplitSB", 
        "parLapplySB", "parLapplySLB",
        "parallel.inits",
-       "mclapplySB")
+       "mclapplySB",
+       "evalParallelArgument")
 ## parallel rjags functions
 export("parListModules", "parLoadModule", "parUnloadModule",
       "parListFactories", "parSetFactory", 
@@ -68,6 +69,7 @@ S3method("extractdctable", "default")
 S3method("dcdiag", "default")
 S3method("extractdcdiag", "default")
 S3method("updated.model", "mcmc.list")
+S3method("updated.model", "mcmc.list.dc")
 S3method("update", "mcmc.list")
 
 S3method("[", "mcmc.list.dc")

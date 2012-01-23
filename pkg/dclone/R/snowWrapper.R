@@ -1,50 +1,30 @@
 snowWrapper <-
-function(cl, seq, fun, cldata, name = "cldata", use.env = FALSE,
+function(cl, seq, fun, ..., cldata, name = "cldata", use.env = FALSE,
 lib = NULL, dir = NULL, evalq = NULL,
 size = 1, balancing = c("none", "load", "size", "both"), 
 rng.type = c("none", "RNGstream", "SPRNG"), 
-cleanup = TRUE, unload = FALSE, ...)
+cleanup = TRUE, unload = FALSE, envir = .GlobalEnv)
 {
     ## get defaults right for cl argument
-    if (is.null(cl)) {
-        mc <- getOption("mc.cores")
-        dcl <- if (getRversion() >= "2.15.0")
-            get("default", envir = parallel:::.reg) else NULL
-        ## stop if default is ambiguous
-        if (!is.null(mc) && !is.null(dcl))
-            stop("cannot decide default parallel type (cl = NULL)")
-        ## us mc.cores if it is not 1
-        if (is.null(mc) && !is.null(dcl))
-            cl <- if (mc < 2)
-                NULL else mc
-        ## or use default cluster
-        if (!is.null(mc) && is.null(dcl))
-            cl <- dcl
-        ## stop if cl is still NULL
-        if (is.null(cl))
-            stop("ambiguous default parallel type definition")
-    } else {
-        ## sequential if cl=1
-        if (is.numeric(cl))
-            if (cl < 2)
-                stop("use sequential functions or set mc.cores to >1")
-    }
+    cl <- evalParallelArgument(cl, quit=TRUE)
 ## common stuff for snow and multicore
     rng.type <- match.arg(rng.type) 
-    ## if object name exists in global env, make a copy as tmp, and put back in the end
-    if (!use.env && exists(name, envir=.GlobalEnv)) {
-        assign("tmp", get(name, envir=.GlobalEnv))
-        on.exit(rm(list=name, envir = .GlobalEnv), add=TRUE)
-        on.exit(assign(name, tmp, envir = .GlobalEnv), add=TRUE)
+    ## if object name exists in envir, make a copy as tmp, and put back in the end
+    if (!use.env && exists(name, envir=envir)) {
+        assign("tmp", get(name, envir=envir))
+        on.exit(rm(list=name, envir=envir), add=TRUE)
+        on.exit(assign(name, tmp, envir=envir), add=TRUE)
     }
     if (use.env) {
         if (is.null(name))
             name <- ".DcloneEnv"
-        assign(name, as.environment(cldata), envir=.GlobalEnv)
+        assign(name, as.environment(cldata), envir=envir)
     }
-    ## place object name into global env (clusterExport can reach it)
+    ## place object name into envir (clusterExport can reach it)
     if (!use.env)
-        assign(name, cldata, envir = .GlobalEnv)
+        assign(name, cldata, envir=envir)
+    ## from R >= 2.14.1 clusterExport allows other envir than GlobalEnv
+    ## this is a feature that needs to be incorporated at some point
 ## snow cluster
     if (inherits(cl, "cluster")) {
         require(snow)
@@ -73,8 +53,9 @@ cleanup = TRUE, unload = FALSE, ...)
             for (i in evalq)
                 eval(parse(text=paste("clusterEvalQ(cl,", i, ")")))
         }
-        ## grab data list/env from global env
+        ## grab data list/env from envir
         clusterExport(cl, name)
+        #clusterExport(cl, name, envir) # make use of this feature later
         ## parallel work done here according to balancing
         res <- switch(balancing,
             "none" = parLapply(cl, seq, fun, ...),
@@ -109,7 +90,7 @@ cleanup = TRUE, unload = FALSE, ...)
             warning("forking is used: balancing type was set to 'size'")
         }
         res <- mclapplySB(seq, fun, ...,
-    	    mc.preschedule = (balancing == "none"), # no need to preschedule when SB
+            mc.preschedule = (balancing == "none"), # no need to preschedule when SB
             mc.set.seed = !(rng.type == "none"),
             mc.silent = as.logical(getOption("dcoptions")$verbose), 
             mc.cores = cl,

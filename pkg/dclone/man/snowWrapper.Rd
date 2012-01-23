@@ -10,11 +10,12 @@ Parallel wrapper function to call from within a function
 designed to work closely with MCMC fitting functions (can be called from inside of a function).
 }
 \usage{
-snowWrapper(cl, seq, fun, cldata, name = "cldata", use.env=FALSE, 
+snowWrapper(cl, seq, fun, ..., 
+cldata, name = "cldata", use.env=FALSE, 
 lib = NULL, dir = NULL, evalq=NULL,
 size = 1, balancing = c("none", "load", "size", "both"), 
 rng.type = c("none", "RNGstream", "SPRNG"), 
-cleanup = TRUE, unload = FALSE, ...)
+cleanup = TRUE, unload = FALSE, envir = .GlobalEnv)
 }
 \arguments{
   \item{cl}{
@@ -66,6 +67,9 @@ If \code{TRUE}, effects of \code{dir} argument is also cleaned up.
 }
   \item{unload}{
 logical, if \code{pkg} should be unloaded after applying \code{fun}.
+}
+  \item{envir}{
+environment to use when assigning data values.
 }
   \item{\dots}{
 Other arguments of \code{fun}, that are simple values and not objects. (Arguments passed as objects should be specified in \code{cldata}, otherwise not exported to the cluster.)
