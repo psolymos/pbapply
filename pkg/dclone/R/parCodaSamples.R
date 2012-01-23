@@ -1,6 +1,9 @@
 parCodaSamples <-
 function(cl, model, variable.names = NULL, n.iter, thin = 1, ...) 
 {
+    ## stop if rjags not found
+    if (!suppressWarnings(require(rjags)))
+        stop("there is no package called 'rjags'")
     cl <- evalParallelArgument(cl, quit=TRUE)
     if (!inherits(cl, "cluster"))
         stop("cl must be of class 'cluster'")
@@ -16,7 +19,7 @@ function(cl, model, variable.names = NULL, n.iter, thin = 1, ...)
             n.iter=cldata$n.iter, thin=cldata$thin, ...)
         assign(cldata$name, res, envir=.GlobalEnv)
         if (!is.null(n.clones) && n.clones > 1) {
-            attr(res, "n.clones") <- n.clones
+            attr(out, "n.clones") <- n.clones
         }
         out
     }

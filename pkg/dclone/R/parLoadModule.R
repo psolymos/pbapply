@@ -1,6 +1,9 @@
 parLoadModule <-
 function(cl, name, path, quiet = FALSE) 
 {
+    ## stop if rjags not found
+    if (!suppressWarnings(require(rjags)))
+        stop("there is no package called 'rjags'")
     clusterEvalQ(cl, require(rjags))
     if (missing(path)) {
         path <- clusterEvalQ(cl,  getOption("jags.moddir"))

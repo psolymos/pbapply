@@ -2,6 +2,9 @@ parJagsModel <-
 function(cl, name, file, data = sys.frame(sys.parent()), 
 inits, n.chains = 1, n.adapt = 1000, quiet = FALSE) 
 {
+    ## stop if rjags not found
+    if (!suppressWarnings(require(rjags)))
+        stop("there is no package called 'rjags'")
     cl <- evalParallelArgument(cl, quit=TRUE)
     if (!inherits(cl, "cluster"))
         stop("cl must be of class 'cluster'")

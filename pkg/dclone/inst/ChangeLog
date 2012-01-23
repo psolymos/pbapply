@@ -21,8 +21,6 @@ Version 1.6-0, December 19, 2011
     * mclapplySB added to mimic size balancing with forking.
     * parJagsModel, parUpdate and parCodaSamples works
       only with snow clusters.
-    * mcJagsModel, mcUpdate and mcCodaSamples added
-      to work with multicore.
     * updated.model.mcmc.list.dc: keeps n.clones attribute.
     * evalParallelArgument added for consistent handling
       of parallel arguments.

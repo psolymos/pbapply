@@ -25,8 +25,7 @@ export("jags.parfit", "dc.parfit",
 ## parallel rjags functions
 export("parListModules", "parLoadModule", "parUnloadModule",
       "parListFactories", "parSetFactory", 
-      "parJagsModel", "parUpdate", "parCodaSamples",
-      "mcJagsModel", "mcUpdate", "mcCodaSamples")
+      "parJagsModel", "parUpdate", "parCodaSamples")
 ## graphical helper functions
 export("errlines")
 
