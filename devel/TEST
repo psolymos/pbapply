@@ -1,10 +1,10 @@
 echo "\n====== START dclone/dcmle testing suite ======\n"
 #
-check=0
-build=0
-install=0
-dcloneexamples=1
-dcmleexamples=1
+check=1
+build=1
+install=1
+dcloneexamples=0
+dcmleexamples=0
 snowexamples=0
 mcexamples=0
 #

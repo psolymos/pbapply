@@ -14,7 +14,7 @@ function(model, variable.names = NULL, n.iter, thin = 1, ...)
         if (!is.null(n.clones) && n.clones > 1) {
             attr(res, "n.clones") <- n.clones
         }
-        attach(out, "updated.model") <- res
+        attr(out, "updated.model") <- res
         out
     }
     mc <- length(model)

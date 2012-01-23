@@ -25,7 +25,8 @@ importFrom(dclone,
        dctable, extractdctable,
        dcdiag, extractdcdiag, 
        lambdamax.diag, chisq.diag,
-       dcoptions)
+       dcoptions,
+       evalParallelArgument)
 importFrom(dclone,
        jags.parfit, dc.parfit,
        snowWrapper, 
