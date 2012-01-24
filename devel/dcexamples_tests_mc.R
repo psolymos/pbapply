@@ -17,19 +17,6 @@ jags_example <- function(topic, renv, tenv, ...) {
         print("attempt failed")
 }
 #options(dcmle.href="c:/svn/dcr/www/examples")
-if (LONG) {
-    n.adapt <- 1000
-    n.update <- 4000
-    n.iter <- 5000
-    n.chains <- 3
-    thin <- 1
-} else {
-    n.adapt <- 100
-    n.update <- 100
-    n.iter <- 100
-    n.chains <- 2
-    thin <- 1
-}
 ## this is for k=1
 (topic <- listDcExamples()$topic)
 timer1 <- new.env(hash=FALSE)
