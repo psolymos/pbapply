@@ -90,8 +90,7 @@ the patch and the immortality key, the <strong>R2WinBUGS</strong> and
 <strong>coda</strong> R packages are required for using WinBUGS from within R.</li>
 <li><strong>OpenBUGS:</strong> download 
 <a href="http://www.openbugs.info/w/Downloads">from here</a>, it requires the
-<strong>BRugs (>= 0.3-2)</strong> R package that is 
-available from <a href="http://www.stats.ox.ac.uk/pub/RWin/">CRAN Extras</a>.</li>
+<strong>BRugs (>= 0.3-2)</strong> (or the <strong>R2OpenBUGS</strong>) R package .</li>
 <li><strong>JAGS (>= 3.0.0):</strong> download 
 <a href="http://sourceforge.net/projects/mcmc-jags/">from here</a>,
 the <strong>rjags</strong> and <strong>coda</strong> 
@@ -116,6 +115,24 @@ at once is to type this after opening R:</p>
 <p>The development version can be installed as:</p>
 
 <p><code>install.packages("dclone", repos = "http://r-forge.r-project.org")</code></p>
+
+<h2>Parallel computing</h2>
+
+<p>
+Parallel computing is supported via clusters or multiple cores.
+Clusters defined by the <strong>snow</strong> or <strong>parallel</strong>
+packages can be used to run multiple parallel MCMC chains by JAGS.
+Forking type parallelism via the <strong>parallel</strong> package
+is also supported.
+</p>
+
+<p>
+Parallel computing for data cloning is provided either via
+parallel chains, `size balancing' 
+(see <a href="http://dcr.r-forge.r-project.org/tutorials/dcpar3.pdf">this tutorial</a>
+for a general overview), or a combination of the the two. 
+Size balancing is available for WinBUGS/OpenBUGS as well.
+</p>
 
 <h2>Specialized packages in this repository</h2>
 
