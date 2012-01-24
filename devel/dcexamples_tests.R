@@ -129,7 +129,7 @@ if (length(err)) {
     data.frame(Line=err, Topic=y, Text=x[err])
 } else cat("\n\n##       <<<<<<<<<<<<<<    OK -- No Errors/Warnings found    >>>>>>>>>>>>>>>>>\n\n")
 if (SAVE)
-    save(list=ls(), file="/home/peter/svn/dcr/devel/tests/dcexamples_tests.Rdata")
+    save(list=ls(), file="dcexamples_tests.Rdata")
 rm(list = ls())
 ## EOF
 
