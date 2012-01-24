@@ -1,12 +1,12 @@
 echo "\n====== START dclone/dcmle testing suite ======\n"
 #
-check=0
+check=1
 build=1
 install=1
 dcloneexamples=1
-dcmleexamples=0
-snowexamples=0
-mcexamples=0
+dcmleexamples=1
+snowexamples=1
+mcexamples=1
 #
 [ -d /home/peter/svn/dcr/devel/tests ] && rm -r /home/peter/svn/dcr/devel/tests
 mkdir /home/peter/svn/dcr/devel/tests

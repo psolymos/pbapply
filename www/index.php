@@ -110,7 +110,7 @@ can be used without JAGS being installed (<strong>rjags</strong> can't load with
 <p>The easiest way to install the stable release and all required packages 
 at once is to type this after opening R:</p>
 
-<p><code>install.packages("dclone")</code></p>
+<p><code>install.packages(c("dclone", "rjags"))</code></p>
 
 <p>The development version can be installed as:</p>
 
