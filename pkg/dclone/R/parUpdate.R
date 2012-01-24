@@ -8,7 +8,7 @@ function(cl, object, n.iter = 1, ...)
     if (!inherits(cl, "cluster"))
         stop("cl must be of class 'cluster'")
     if (!is.character(object))
-        object <- deparse(substitute(object))
+        object <- as.character(object) # deparse(substitute(object))
     cldata <- list(n.iter=n.iter, name=object)
     jagsparallel <- function(i, ...) {
         cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))

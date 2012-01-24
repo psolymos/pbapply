@@ -168,7 +168,7 @@ dat <- list(Y=Y, X=X, n=n, np=ncol(X))
 k <- 1:3
 ## sequential version
 dcm <- dc.fit(dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np")
-## parallel version with size balancing (default)
+## parallel version with snow
 cl <- makePSOCKcluster(3)
 pdcm1 <- dc.parfit(cl, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np",
     partype="balancing")
@@ -181,6 +181,15 @@ summary(pdcm1)
 summary(pdcm2)
 summary(pdcm3)
 stopCluster(cl)
+## multicore type forking
+if (.Platform$OS.type != "windows") {
+mcdcm1 <- dc.parfit(3, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np",
+    partype="balancing")
+mcdcm2 <- dc.parfit(3, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np",
+    partype="parchains")
+mcdcm3 <- dc.parfit(3, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np",
+    partype="both")
+}
 
 ## Using WinBUGS/OpenBUGS
 if (.Platform$OS.type == "windows") {

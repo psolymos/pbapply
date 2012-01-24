@@ -85,8 +85,8 @@ load.module("glm")
 m <- jags.fit(dat, "beta", glm.model)
 cl <- makeCluster(3, type = "SOCK")
 ## load glm module
-tmp <- clusterEvalQ(cl, library(rjags))
-tmp <- clusterEvalQ(cl, load.module("glm"))
+tmp <- clusterEvalQ(cl, library(dclone))
+parLoadModule(cl, "glm")
 pm <- jags.parfit(cl, dat, "beta", glm.model)
 ## chains are not identical -- this is good
 pm[1:2,]
@@ -111,6 +111,10 @@ inits <- function() fun()
 clusterExport(cl, "fun")
 pm4 <- jags.parfit(cl, dat, "beta", glm.model, inits)
 stopCluster(cl)
+## multicore type forking
+if (.Platform$OS.type != "windows") {
+pm5 <- jags.parfit(3, dat, "beta", glm.model)
+}
 }
 }
 \keyword{ models }

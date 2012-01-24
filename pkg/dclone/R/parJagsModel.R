@@ -32,7 +32,7 @@ inits, n.chains = 1, n.adapt = 1000, quiet = FALSE)
 #    inits <- jags.model(file, data, inits, n.chains, 
 #        n.adapt = 0)$state(internal = TRUE)
     if (!is.character(name))
-        name <- deparse(substitute(name))
+        name <- as.character(name) # deparse(substitute(name))
     cldata <- list(file=file, data=as.list(data), inits=inits,
         n.adapt=n.adapt, name=name, quiet=quiet,
         n.clones=n.clones)
