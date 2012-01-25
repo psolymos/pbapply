@@ -53,6 +53,10 @@ ideally via the \code{\link{on.exit}} function.
 The function \code{custommodel} can be used to exclude some lines
 of the model. This is handy when there are variations of the same model.
 \code{write.jags.model} accepts results returned by \code{custommodel}.
+
+Use the \code{%_%} operator if the model is a function and the model
+contains truncation (\code{I()} in WinBUGS, \code{T()} in JAGS).
+See explanation on help page of \code{\link[R2WinBUGS]{write.model}}.
 }
 \value{
 \code{write.jags.model} invisibly returns the name of the file

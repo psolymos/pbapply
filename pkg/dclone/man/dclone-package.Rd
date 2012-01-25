@@ -42,8 +42,9 @@ Main functions include:
   \item{
     \code{\link{coef.mcmc.list}}, \code{\link{confint.mcmc.list.dc}},
     \code{\link{dcsd.mcmc.list}}, \code{\link{quantile.mcmc.list}},
-    \code{\link{vcov.mcmc.list.dc}}, \code{\link{mcmcapply}}: 
-    convenient functions for \code{mcmc.list} objects.
+    \code{\link{vcov.mcmc.list.dc}}, \code{\link{mcmcapply}},
+    \code{\link{stack.mcmc.list}}: 
+    methods for \code{mcmc.list} objects.
   }
 
   \item{

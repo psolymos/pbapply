@@ -1,5 +1,8 @@
 dclone package version history
 
+Version 1.7-0, January 25, 2012
+    * Preparing for major CRAN release.
+
 Version 1.6-0, December 19, 2011
     * Depends on parallel and R >= 2.14.0 for multicore type 
       forking on Linux/Unix machines. Heavy lifting is
@@ -29,6 +32,10 @@ Version 1.6-0, December 19, 2011
       creating graphics with lattice and ggplot2. 
       Experimental ggplot2 based plotting functions are in 
       dcextras package on R-Forge.
+    * The package was extensively tested on Windows XP and 7
+      (32 and 64 bit) and Ubuntu Linux 11.10 using
+      JAGS, OpenBUGS and WinBUGS (latter only on Windows).
+      For testing suite see /devel on R-Forge.
 
 Version 1.5-1, October 18, 2011
     * "[.mcmc.list.dc" addted to extract parts of a fitted object
