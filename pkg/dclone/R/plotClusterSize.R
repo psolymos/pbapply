@@ -1,6 +1,6 @@
 plotClusterSize <-
 function(n, size, balancing = c("none","load","size","both"), 
-plot = TRUE, col = NA, xlim = NULL, ylim = NULL, ...)
+plot = TRUE, col = NA, xlim = NULL, ylim = NULL, main, ...)
 {
     clusterSplitLB <- function(cl, seq, size = 1) {
         tmp1 <- tmp2 <- matrix(NA, length(cl), length(seq))
@@ -49,11 +49,12 @@ plot = TRUE, col = NA, xlim = NULL, ylim = NULL, ...)
         box()
         axis(side=1)
         axis(side=2, at=y, tick=FALSE, las=1)
-        main <- switch(balancing,
-            "none" = "No Balancing",
-            "load" = "Load Balancing",
-            "size" = "Size Balancing",
-            "both" = "Size and Load Balancing")
+        if (missing(main))
+            main <- switch(balancing,
+                "none" = "No Balancing",
+                "load" = "Load Balancing",
+                "size" = "Size Balancing",
+                "both" = "Size and Load Balancing")
         sub <- paste("Max =", round(MAX, max(3, getOption("digits") - 3)))
         title(main=main, xlab="Approximate Processing Time", ylab="Workers",
             sub=sub)
