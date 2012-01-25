@@ -13,8 +13,6 @@ jags_example <- function(topic, renv, tenv, ...) {
     pt <- proc.time() - t0
     assign(topic, pt, envir=tenv)
     assign(topic, out, envir=renv)
-    if (inherits(out, "try-error"))
-        print("attempt failed")
 }
 #options(dcmle.href="c:/svn/dcr/www/examples")
 ## this is for k=1
@@ -114,7 +112,7 @@ gs2 <- sapply(as.list(res3), function(z) length(varnames(z@mcmc)))
 (z1 <- cbind(round(cbind(seq=t1[,3], pch=t2[,3]) / t1[,3], 3), graph_size=gs1))
 (z2 <- cbind(round(cbind(seq=t3[,3], bal=t4[,3], pch=t5[,3], both=t6[,3]) / t3[,3], 3), graph_size=gs2))
 
-x <- readLines("/home/peter/svn/dcr/devel/tests/dcexamples_tests_mc.log")
+x <- readLines("dcexamples_tests_mc.log")
 err <- c(grep("rror", x), grep("arning", x))
 fal <- grep("d error", x)
 err <- err[!(err %in% fal)]
