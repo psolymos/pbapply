@@ -24,3 +24,8 @@ gg_densplot <- function(x, chains=TRUE, rug=TRUE, ...) {
 
 #mt <- gg_densplot(regmod, main="MCMC density plot with ggplot2")
 #mt + theme_bw()
+
+gg_pairs <- function(x) {
+    plotmatrix(data.frame(as.matrix(x)))
+}
+
