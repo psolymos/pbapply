@@ -25,6 +25,10 @@ Version 1.6-0, December 19, 2011
     * jags.parfit and dc.parfit falls back to sequential
       evaluation if cl is NULL (and default options for 
       parallel processing are unset) or 1.
+    * stack method for mcmc.list objects to facilitate
+      creating graphics with lattice and ggplot2. 
+      Experimental ggplot2 based plotting functions are in 
+      dcextras package on R-Forge.
 
 Version 1.5-1, October 18, 2011
     * "[.mcmc.list.dc" addted to extract parts of a fitted object

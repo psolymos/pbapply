@@ -2,6 +2,7 @@
 \name{mcmcapply}
 \Rdversion{1.1}
 \alias{mcmcapply}
+\alias{stack.mcmc.list}
 \title{
 Calculations on 'mcmc.list' objects
 }
@@ -10,6 +11,7 @@ Conveniently calculates statistics for mcmc.list objects.
 }
 \usage{
 mcmcapply(x, FUN, ...)
+\method{stack}{mcmc.list}(x, ...)
 }
 \arguments{
   \item{x}{
@@ -23,13 +25,21 @@ Other arguments passed to \code{FUN}.
 }
 }
 \details{
-The \code{mcmcapply} returns a certain statistics based on \code{FUN}.
+\code{mcmcapply} returns a certain statistics based on \code{FUN}.
 
 \code{FUN} can be missing, in this case \code{mcmcapply} is equivalent
 to calling \code{as.matrix} on an 'mcmc.list' object.
+
+\code{stack} can be used to concatenates mcmc.list objects into a single vector
+along with index variables indicating where each observation originated
+(e.g. iteration, variable, chain).
 }
 \value{
-Returns statistic value based on \code{FUN}, using all values in all chains of the MCMC object.
+\code{mcmcapply} returns statistic value based on \code{FUN}, 
+using all values in all chains of the MCMC object.
+
+\code{stack} returns a data frame with columns:
+iter, variable, chain, value.
 }
 \author{
 Peter Solymos, \email{solymos@ualberta.ca}
@@ -38,5 +48,12 @@ Peter Solymos, \email{solymos@ualberta.ca}
 data(regmod)
 mcmcapply(regmod, mean)
 mcmcapply(regmod, sd)
+
+x <- stack(regmod)
+head(x)
+summary(x)
+library(lattice)
+xyplot(value ~ iter | variable, data=x,
+    type="l", scales = "free", groups=chain)
 }
 \keyword{ utilities }
