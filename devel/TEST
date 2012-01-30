@@ -33,9 +33,9 @@ fi
 if [ $install -eq 1 ] ; then
 cd /home/peter/svn/dcr/devel/tests
 echo "\n-- install dclone --\n"
-R CMD INSTALL dclone_1.6-0.tar.gz
+R CMD INSTALL dclone_*.tar.gz
 echo "\n-- install dcmle --\n"
-R CMD INSTALL dcmle_0.1-2.tar.gz
+R CMD INSTALL dcmle_*.tar.gz
 fi
 #
 if [ $dcloneexamples -eq 1 ] ; then
