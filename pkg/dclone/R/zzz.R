@@ -16,9 +16,9 @@
             "RNG"="none",
             "rhat"=1.1,
             "verbose"=1))
-    rj <- suppressWarnings(require(rjags))
-    if (!rj)
-        cat("Warning message:\n  there is no package called 'rjags'\n")
+#    rj <- suppressWarnings(require(rjags))
+#    if (!rj)
+#        cat("Warning message:\n  there is no package called 'rjags'\n")
     invisible(NULL)
 }
 
