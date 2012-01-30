@@ -1,6 +1,8 @@
 parallel.inits <- 
 function(inits, n.chains) 
 {
+    if (!suppressWarnings(require(rjags)))
+        stop("there is no package called 'rjags'")
     factory <- if ("lecuyer" %in% list.modules())
         "lecuyer::RngStream" else "base::BaseRNG"
     RNGs <- parallel.seeds(factory, n.chains)

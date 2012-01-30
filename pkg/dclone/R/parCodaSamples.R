@@ -1,6 +1,8 @@
 parCodaSamples <-
 function(cl, model, variable.names = NULL, n.iter, thin = 1, ...) 
 {
+    if (!suppressWarnings(require(rjags)))
+        stop("there is no package called 'rjags'")
     ## stop if rjags not found
     if (!suppressWarnings(require(rjags)))
         stop("there is no package called 'rjags'")

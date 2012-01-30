@@ -2,6 +2,8 @@ jagsModel <-
 function(file, data = sys.frame(sys.parent()), 
 inits, n.chains = 1, n.adapt = 1000, quiet = FALSE) 
 {
+    if (!suppressWarnings(require(rjags)))
+        stop("there is no package called 'rjags'")
     if (is.function(file) || inherits(file, "custommodel")) {
         if (is.function(file))
             file <- match.fun(file)

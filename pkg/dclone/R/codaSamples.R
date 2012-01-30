@@ -1,6 +1,8 @@
 codaSamples <-
 function(model, variable.names = NULL, n.iter, thin = 1, ...) 
 {
+    if (!suppressWarnings(require(rjags)))
+        stop("there is no package called 'rjags'")
     n.clones <- nclones(model)
     res <- coda.samples(model=model, 
         variable.names=variable.names,
