@@ -19,6 +19,10 @@ setMethod("show", "dcMle", function(object) {
     invisible(object)
 })
 ## show with title is done here
+setGeneric("summary",
+    function(object, ...)
+        standardGeneric("summary")
+)
 setMethod("summary", "dcMle", function(object, title, ...) {
     if (missing(title))
         title <- paste("Object of class \"", class(object)[1L], "\"", sep="")
