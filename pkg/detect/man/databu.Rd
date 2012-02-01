@@ -27,7 +27,16 @@ This simulated example corresponds to the Binomial - ZIP model implemented in th
 Simulated example.
 }
 \references{
-Solymos et al.
+Solymos, P., Lele, S. R and Bayne, E. 2011.
+Conditional likelihood approach for analyzing single visit
+abundance survey data in the presence of zero inflation and
+detection error. 
+\emph{Environmetrics} (in press)
+
+Solymos, P., Lele, S. R and Bayne, E. 2011. Abundance estimation in the presence of zero
+inflation and detection error using single visit data. Alberta Biodiversity Monitoring Institute, Alberta, Canada.
+Technical Report No. ABMI-20061, August 24, 2011. Available at: 
+\href{http://www.abmi.ca/FileDownloadServlet?filename=20061_ABMI_2011-08-24_Single_Visit_Abundance.pdf&dir=REPORTS_UPLOAD}{http://www.abmi.ca}
 }
 \examples{
 data(databu)

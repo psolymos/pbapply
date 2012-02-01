@@ -31,7 +31,11 @@ Solymos, P., Lele, S. R and Bayne, E. 2011.
 Conditional likelihood approach for analyzing single visit
 abundance survey data in the presence of zero inflation and
 detection error. 
-\emph{Environmetrics} (in press)
+\emph{Journal of Plant Ecology}, \bold{5(1)}, 22--31.
+
+Moreno, M. and Lele, S. R. 2010.
+Improved estimation of site occupancy using penalized likelihood. 
+\emph{Ecology} 91, 341--346.
 }
 \keyword{ package }
 \examples{
