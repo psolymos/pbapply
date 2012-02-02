@@ -1,7 +1,8 @@
 dcmle package version history
 
 Version 0.1-4, Jan 31, 2012
-    * sourceDcExample: tpic is coerced to character.
+    * sourceDcExample: topic is coerced to character.
+    * Documentation updated.
 
 Version 0.1-3, Jan 25, 2012
     * Preparing for new release.
