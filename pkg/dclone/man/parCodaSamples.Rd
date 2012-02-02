@@ -53,19 +53,23 @@ Y <- rnorm(N, mean = linpred, sd = sigma)
 jdata <- list(N = N, Y = Y, x = x)
 jpara <- c("alpha", "beta", "sigma")
 ## jags model on parallel workers
-cl <- makePSOCKcluster(3)
+## n.chains must be <= no. of workers
+cl <- makePSOCKcluster(4)
 parJagsModel(cl, name="res", file=model, data=jdata, 
-    n.chains = 3, n.adapt=1000)
+    n.chains = 2, n.adapt=1000)
 parUpdate(cl, "res", n.iter=1000)
 m <- parCodaSamples(cl, "res", jpara, n.iter=2000)
+stopifnot(2==nchain(m))
 ## with data cloning
 dcdata <- dclone(list(N = N, Y = Y, x = x), 2, multiply="N")
 parJagsModel(cl, name="res2", file=model, data=dcdata, 
-    n.chains = 3, n.adapt=1000)
+    n.chains = 2, n.adapt=1000)
 parUpdate(cl, "res2", n.iter=1000)
 m2 <- parCodaSamples(cl, "res2", jpara, n.iter=2000)
+stopifnot(2==nchain(m2))
 nclones(m2)
-clusterEvalQ(cl, nclones(res2))
+## note: only 2 chanis were run on 2 workers!
+clusterEvalQ(cl, if (exists("res2")) nclones(res2))
 stopCluster(cl)
 }
 }
