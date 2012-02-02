@@ -1,7 +1,15 @@
 dclone package version history
 
 Version 1.7-1, January 31, 2012
-    *
+    * Now that rjags is only suggested
+      rjags is loaded by snowWrapper if JAGS is used
+      (dc.parfit, jags.parfit, parJagsModel).
+    * n.chains argument was not passed by dc.parfit
+      with partype %in% c("parchains", "balancing").
+      Bug is now fixed, thanks to K. Nadeem (UofA).
+    * length(cl) >= n.chains is required in
+      parJagsModel, parUpdate and parCodaSamples
+      recognizes empty workers accordingly.
 
 Version 1.7-0, January 25, 2012
     * Preparing for major CRAN release.

@@ -13,7 +13,7 @@ n.adapt=1000, quiet=FALSE)}
   \item{cl}{
     A cluster object created by \code{\link[snow]{makeCluster}}, or
     an integer. It can also be \code{NULL}, see \code{\link{snowWrapper}}.
-    Length/size must correspond to \code{n.chains}.
+    Length/size must be equal or larger than \code{n.chains}.
   }
 \item{name}{character, name for the model to be assigned on the workers.}
 \item{file}{the name of the file containing a description of the model in the

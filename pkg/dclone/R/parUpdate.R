@@ -11,10 +11,12 @@ function(cl, object, n.iter = 1, ...)
         object <- as.character(object) # deparse(substitute(object))
     cldata <- list(n.iter=n.iter, name=object)
     jagsparallel <- function(i, ...) {
-        cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
-        res <- get(cldata$name, envir=.GlobalEnv)
-        rjags:::update.jags(res, n.iter=cldata$n.iter, ...)
-        assign(cldata$name, res, envir=.GlobalEnv)
+        if (exists(cldata$name, envir=.GlobalEnv)) {
+            cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
+            res <- get(cldata$name, envir=.GlobalEnv)
+            rjags:::update.jags(res, n.iter=cldata$n.iter, ...)
+            assign(cldata$name, res, envir=.GlobalEnv)
+        }
         NULL
     }
     dir <- if (inherits(cl, "SOCKcluster"))

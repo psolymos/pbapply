@@ -66,7 +66,7 @@ function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
         getwd() else NULL
     mcmc <- snowWrapper(cl, 1:n.chains, jagsparallel, cldata, 
         name=NULL, use.env=TRUE,
-        lib="dclone", balancing=balancing, size=1, 
+        lib=c("dclone","rjags"), balancing=balancing, size=1, 
         rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, 
         unload=FALSE, ...)
     ## binding the chains

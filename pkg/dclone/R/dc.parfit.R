@@ -40,7 +40,7 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
             multiply=multiply, unchanged=unchanged, 
             update=update, updatefun=updatefun, 
             initsfun=initsfun, flavour = flavour, 
-            cl=cl, parchains=TRUE, ...)
+            cl=cl, parchains=TRUE, n.chains=n.chains, ...)
     ## size balancing and balancing+parchains
     } else {
         if (missing(n.clones))
@@ -111,14 +111,16 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
             ## parallel function
             dcparallel <- function(i, ...) {
                 cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
-                jdat <- dclone(cldata$data, i, multiply=cldata$multiply, unchanged=cldata$unchanged)
+                jdat <- dclone(cldata$data, i, multiply=cldata$multiply, 
+                    unchanged=cldata$unchanged)
                 INITS <- if (!is.null(cldata$initsfun) && !cldata$INIARGS)
                     initsfun(,i) else cldata$inits
                 mod <- if (flavour == "jags") {
-                    jags.fit(data=jdat, params=cldata$params, model=cldata$model, inits=INITS, ...)
+                    jags.fit(data=jdat, params=cldata$params, model=cldata$model, 
+                        inits=INITS, n.chains=cldata$n.chains, ...)
                 } else {
-                    bugs.fit(data=jdat, params=cldata$params, model=cldata$model, inits=INITS, 
-                        format="mcmc.list", ...)
+                    bugs.fit(data=jdat, params=cldata$params, model=cldata$model, 
+                        inits=INITS, n.chains=cldata$n.chains, format="mcmc.list", ...)
                 }
                 vn <- varnames(mod)
                 params.diag <- vn[unlist(lapply(cldata$params.diag, grep, x=vn))]
@@ -127,8 +129,10 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
                         dcd=dclone:::extractdcdiag(mod[,params.diag])))
 #                        dcd=dclone:::extractdcdiag(mod)))
             }
+            LIB <- if (flavour == "jags")
+                c("dclone", "rjags") else "dclone"
             pmod <- snowWrapper(cl, k, dcparallel, cldata, name=NULL, use.env=TRUE,
-                lib="dclone", balancing=balancing, size=k, 
+                lib=LIB, balancing=balancing, size=k, 
                 rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, unload=TRUE, ...)
             mod <- pmod[[times]]
             ## dctable
@@ -176,7 +180,7 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
             }
             ## no dclone loaded as it is there
             pmod <- snowWrapper(cl, 1:(times*n.chains), dcparallel, cldata, name=NULL, use.env=TRUE,
-                lib="dclone", balancing=balancing, size=cldata$k, 
+                lib=c("dclone", "rjags"), balancing=balancing, size=cldata$k, 
                 rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, unload=TRUE, ...)
             ## binding the chains for each k value
             assemblyfun <- function(mcmc) {
