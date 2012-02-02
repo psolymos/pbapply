@@ -15,19 +15,21 @@ The package defines S4 object classes for plain BUGS models
 (\code{\link{gsFit}}, after BU*GS*/JA*GS*),
 and BUGS models made ready for data cloning (\code{\link{dcFit}}).
 It also defines virtual classes for S3 object classes defined in
-the \pkg{dclone} package. 
+the \pkg{dclone} and \pkg{coda} packages. 
 
 The S4 class \code{\link{dcMle}} is a fitted 
 model object containing MCMC results as returned by the
 \code{\link{dcmle}} function. Methods are defined
 for \code{\link{dcMle}} object class, see \code{\link{dcmle-methods}}. 
 These object classes are easily
-extendable to allow inclusion into functions fitting
+extensible to allow inclusion into functions fitting
 specific models to the data (see Examples).
 
 \code{\link{sourceDcExample}} can be used to get
 examples from \url{http://dcr.r-forge.r-project.org/examples}
 gathered from various sources (WinBUGS Manual, articles, books, etc.).
+This under continuous development, and used in the testing suite
+of the \pkg{dclone} package. Contributions of examples are welcome.
 }
 \author{
 Peter Solymos

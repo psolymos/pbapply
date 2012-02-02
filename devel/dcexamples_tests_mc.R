@@ -59,6 +59,8 @@ for (i in 1:length(topic)) {
     t2[i,] <- timer2[[as.character(topic[i])]][1:3]
 }
 gs1 <- sapply(as.list(res1), function(z) length(varnames(z@mcmc)))
+nc1 <- sapply(as.list(res1), function(z) nchain(z@mcmc))
+nc2 <- sapply(as.list(res2), function(z) nchain(z@mcmc))
 ## this for DC
 timer3 <- new.env(hash=FALSE)
 timer4 <- new.env(hash=FALSE)
@@ -107,10 +109,17 @@ for (i in 1:length(topic)) {
     t5[i,] <- timer5[[as.character(topic[i])]][1:3]
     t6[i,] <- timer6[[as.character(topic[i])]][1:3]
 }
-gs2 <- sapply(as.list(res3), function(z) length(varnames(z@mcmc)))
+gs3 <- sapply(as.list(res3), function(z) length(varnames(z@mcmc)))
+nc3 <- sapply(as.list(res3), function(z) nchain(z@mcmc))
+nc4 <- sapply(as.list(res4), function(z) nchain(z@mcmc))
+nc5 <- sapply(as.list(res5), function(z) nchain(z@mcmc))
+nc6 <- sapply(as.list(res6), function(z) nchain(z@mcmc))
 
 (z1 <- cbind(round(cbind(seq=t1[,3], pch=t2[,3]) / t1[,3], 3), graph_size=gs1))
-(z2 <- cbind(round(cbind(seq=t3[,3], bal=t4[,3], pch=t5[,3], both=t6[,3]) / t3[,3], 3), graph_size=gs2))
+(z2 <- cbind(round(cbind(seq=t3[,3], bal=t4[,3], pch=t5[,3], both=t6[,3]) / t3[,3], 3), graph_size=gs3))
+
+n.chains
+lapply(list(nc1, nc2, nc3, nc4, nc5, nc6), range)
 
 x <- readLines("dcexamples_tests_mc.log")
 err <- c(grep("rror", x), grep("arning", x))

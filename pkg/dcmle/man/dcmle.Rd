@@ -33,8 +33,9 @@ other arguments passed to underlying functions (see Details).
 }
 \details{
 The function uses slots of the input object
-and passes them as argumrnts to underlying functions 
+and passes them as arguments to underlying functions 
 (\code{\link[dclone]{jags.fit}}, \code{\link[dclone]{jags.parfit}}, 
+\code{\link[dclone]{bugs.fit}},
 \code{\link[dclone]{dc.fit}}, \code{\link[dclone]{dc.parfit}}).
 }
 \value{
@@ -60,6 +61,7 @@ Peter Solymos, \email{solymos@ualberta.ca}
 }
 \seealso{
 For additional arguments: \code{\link[dclone]{jags.fit}}, \code{\link[dclone]{jags.parfit}}, 
+\code{\link[dclone]{bugs.fit}},
 \code{\link[dclone]{dc.fit}}, \code{\link[dclone]{dc.parfit}}.
 
 Object classes: \code{\link{dcmle-classes}}
