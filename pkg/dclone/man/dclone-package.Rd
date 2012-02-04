@@ -13,7 +13,7 @@ Low level functions for implementing
     Markov chain Monte Carlo methods with support 
     for JAGS, WinBUGS and OpenBUGS.
     Parallel MCMC computation is supported
-    and can result in nearly linear speed-up.
+    and can result in considerable speed-up.
 
 Main functions include:
 

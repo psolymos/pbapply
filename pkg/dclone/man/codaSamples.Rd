@@ -2,7 +2,7 @@
 \alias{codaSamples}
 \title{Generate posterior samples in mcmc.list format}
 \description{
-  This is function sets a trace
+  This function sets a trace
   monitor for all requested nodes, updates the model and coerces the
   output to a single \code{mcmc.list} object.
   This function uses \code{\link[rjags]{coda.samples}} but keeps track
@@ -21,13 +21,14 @@ codaSamples(model, variable.names, n.iter, thin = 1, ...)
              for jags model objects}
 }
 \value{
-  An \code{mcmc.list} object. An \code{n.clones} attribute is attached to
-  the object, but unlike in \code{\link{jags.fit}} there is no 
+  An \code{mcmc.list} object. An \code{n.clones} attribute is attached 
+  to the object, but unlike in \code{\link{jags.fit}} there is no 
   \code{\link{updated.model}} attribute as it is equivalent to the 
   input jags model object.
 }
 \author{Peter Solymos, \email{solymos@ualberta.ca}}
-\seealso{\code{\link[rjags]{coda.samples}}, \code{\link[rjags]{update.jags}}, 
+\seealso{\code{\link[rjags]{coda.samples}}, 
+\code{\link[rjags]{update.jags}}, 
 \code{\link[rjags]{jags.model}}
 
 Parallel version: \code{\link{parCodaSamples}}}

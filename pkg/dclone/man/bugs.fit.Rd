@@ -7,13 +7,15 @@
 Fit BUGS models with cloned data
 }
 \description{
-Convenient functions designed to work well with cloned data arguments
+Convenient functions designed to work well with 
+cloned data arguments
 and WinBUGS and OpenBUGS.
 }
 \usage{
 bugs.fit(data, params, model, inits = NULL, 
-format = c("mcmc.list", "bugs"), program = c("winbugs", "openbugs"), 
-seed = NULL, ...)
+    format = c("mcmc.list", "bugs"), 
+    program = c("winbugs", "openbugs"), 
+    seed = NULL, ...)
 \method{as.mcmc.list}{bugs}(x, ...)
 }
 \arguments{
@@ -24,11 +26,14 @@ A list (or environment) containing the data.
 Character vector of parameters to be sampled.
 }
   \item{model}{
-Character string (name of the model file), a function containing the model, or a or \code{\link{custommodel}} object (see Examples).
+Character string (name of the model file), a function containing 
+the model, or a \code{\link{custommodel}} object (see Examples).
 }
   \item{inits}{
-Optional specification of initial values in the form of a list or a function. 
-If \code{NULL}, initial values will be generated automatically.
+Optional specification of initial values in the 
+form of a list or a function. 
+If \code{NULL}, initial values will be 
+generated automatically.
 }
   \item{format}{
 Required output format.
@@ -36,47 +41,58 @@ Required output format.
   \item{program}{
 The program to use, not case sensitive.
 \code{winbugs} calls the function \code{\link[R2WinBUGS]{bugs}},
-\code{openbugs} calls the function \code{\link[R2WinBUGS]{openbugs}} and requires the CRAN package \pkg{BRugs}.
+\code{openbugs} calls the function \code{\link[R2WinBUGS]{openbugs}} 
+and requires the CRAN package \pkg{BRugs}.
 }
   \item{seed}{
-Random seed (\code{bugs.seed} argument for \code{\link{bugs}}, \code{seed} argument for \code{\link{openbugs}}).
+Random seed (\code{bugs.seed} argument for \code{\link{bugs}}, 
+\code{seed} argument for \code{\link{openbugs}}).
 }
   \item{x}{
 A fitted 'bugs' object.
 }
   \item{\dots}{
 Further arguments of the \code{\link[R2WinBUGS]{bugs}} function,
-except for \code{codaPkg} are passed also, most notably the ones to set up burn-in, thin, etc. (see Details).
+except for \code{codaPkg} are passed also, most notably 
+the ones to set up burn-in, thin, etc. (see Details).
 }
 }
 \value{
 By default, an \code{mcmc.list} object. If data cloning is used via the 
 \code{data} argument, \code{summary} returns a modified summary
-containing scaled data cloning standard errors (scaled by \code{sqrt(n.clones)}),
-and \eqn{R_{hat}} values (as returned by \code{\link[coda]{gelman.diag}}).
+containing scaled data cloning standard errors 
+(scaled by \code{sqrt(n.clones)}), and
+\eqn{R_{hat}} values (as returned by \code{\link[coda]{gelman.diag}}).
 
-\code{bugs.fit} can return a \code{bugs} object if \code{format = "bugs"}.
-In this case, printing is not changed, but the number of clones used is attached as attribute
+\code{bugs.fit} can return a \code{bugs} object if 
+\code{format = "bugs"}.
+In this case, summary is not changed, but the number of clones 
+used is attached as attribute
 and can be retrieved by the function \code{\link{nclones}}.
 
-The function \code{as.mcmc.list.bugs} converts a 'bugs' object into 'mcmc.list' and retrieves
+The function \code{as.mcmc.list.bugs} converts a 'bugs' object
+into 'mcmc.list' and retrieves
 data cloning information as well.
 }
 \author{
 Peter Solymos, \email{solymos@ualberta.ca}
 }
 \seealso{
-Underlying functions: \code{\link[R2WinBUGS]{openbugs}}, \code{\link[R2WinBUGS]{bugs}}
+Underlying functions: \code{\link[R2WinBUGS]{openbugs}}, 
+\code{\link[R2WinBUGS]{bugs}}
 
 Methods: \code{\link{dcsd}}, \code{\link{confint.mcmc.list.dc}}, 
-\code{\link{coef.mcmc.list}}, \code{\link{quantile.mcmc.list}}, \code{\link{vcov.mcmc.list.dc}}
+\code{\link{coef.mcmc.list}}, \code{\link{quantile.mcmc.list}}, 
+\code{\link{vcov.mcmc.list.dc}}
 }
 \examples{
 \dontrun{
 ## fitting with WinBUGS, bugs example
 if (.Platform$OS.type == "windows") {
 data(schools)
-dat <- list(J = nrow(schools), y = schools$estimate, sigma.y = schools$sd)
+dat <- list(J = nrow(schools), 
+    y = schools$estimate, 
+    sigma.y = schools$sd)
 bugs.model <- function(){
        for (j in 1:J){
          y[j] ~ dnorm (theta[j], tau.y[j])

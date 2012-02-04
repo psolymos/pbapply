@@ -11,7 +11,7 @@ Description: Low level functions for implementing
     Markov chain Monte Carlo methods with support 
     for JAGS, WinBUGS and OpenBUGS.
     Parallel MCMC computation is supported 
-    and can result in nearly linear speed-up.
+    and can result in considerable speed-up.
 License: GPL-2
 Depends: R (>= 2.14.0), coda (>= 0.13), R2WinBUGS, parallel
 Suggests: MASS, lattice, rjags (>= 3-5), snow, rlecuyer

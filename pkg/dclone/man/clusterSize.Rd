@@ -7,12 +7,15 @@
 Optimizing the number of workers
 }
 \description{
-The functions help in optimizing workload for the workers if problems are of different size.
+These functions help in optimizing workload for the workers 
+if problems are of different size.
 }
 \usage{
 clusterSize(size)
-plotClusterSize(n, size, balancing = c("none", "load", "size", "both"),
-plot = TRUE, col = NA, xlim = NULL, ylim = NULL, main, ...)
+plotClusterSize(n, size, 
+    balancing = c("none", "load", "size", "both"),
+    plot = TRUE, col = NA, xlim = NULL, ylim = NULL, 
+    main, ...)
 }
 \arguments{
   \item{n}{
@@ -23,7 +26,8 @@ Vector of problem sizes (recycled if needed).
 The default \code{1} indicates equality of problem sizes.
 }
   \item{balancing}{
-Character, type of balancing to perform, one of \code{c("none", "load", "size", "both")}.
+Character, type of balancing to perform, one of 
+\code{c("none", "load", "size", "both")}.
 }
   \item{plot}{
 Logical, if a plot should be drawn.
@@ -42,20 +46,27 @@ Other arguments passed to \code{\link{polygon}}.
 }
 }
 \details{
-These functions help determine the optimal number of workers needed for different sized problems
-('size' indicates approximate processing time here). The number of workers needed depends on the
+These functions help determine the optimal number of 
+workers needed for different sized problems
+('size' indicates approximate processing time here). 
+The number of workers needed depends on the
 type of balancing.
 
-For the description of the balancing types, see \code{\link{snowWrapper}}.
+For the description of the balancing types, see 
+\code{\link{snowWrapper}}.
 }
 \value{
-\code{clusterSize} returns a data frame with approximate processing time as the function of
-the number of workers (rows, in \code{1:length(size)}) and the type of balancing
-(\code{c("none", "load", "size", "both")}). Approximate processing time is calculated from 
-values in \code{size}.
+\code{clusterSize} returns a data frame with approximate 
+processing time as the function of
+the number of workers (rows, in \code{1:length(size)}) and 
+the type of balancing (\code{c("none", "load", "size", "both")}). 
+Approximate processing time is calculated from values in \code{size}
+without taking into account any communication overhead.
 
-\code{plotClusterSize} invisibly returns the total processing time needed for a setting given
-its arguments. As a side effect, a plot is produced (if \code{plot = TRUE}).
+\code{plotClusterSize} invisibly returns the total 
+processing time needed for a setting given
+its arguments. As a side effect, a plot is produced 
+(if \code{plot = TRUE}).
 }
 \author{
 Peter Solymos, \email{solymos@ualberta.ca}

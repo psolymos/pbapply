@@ -17,7 +17,8 @@ parLapplySLB(cl, x, size = 1, fun, ...)
 }
 \arguments{
   \item{cl}{
-A cluster object created by \code{\link[snow]{makeCluster}}.
+A cluster object created by \code{\link[parallel]{makeCluster}}
+the the package \pkg{parallel} (or \pkg{snow}).
 }
   \item{x, seq}{
 A vector to split.
@@ -26,39 +27,55 @@ A vector to split.
 A function or character string naming a function.
 }
   \item{size}{
-Vector of problem sizes (approximate processing times) corresponding to elements of \code{seq} 
-(recycled if needed). The default \code{1} indicates equality of problem sizes.
+Vector of problem sizes (approximate processing times) 
+corresponding to elements of \code{seq} 
+(recycled if needed). The default \code{1} indicates 
+equality of problem sizes.
 }
   \item{\dots}{
 Other arguments of \code{fun}.
 }
 }
 \details{
-\code{clusterSplitSB} splits \code{seq} into subsets, with respect to \code{size}.
-In size balancing, the problem is re-ordered from largest to smallest, and then subsets are
+\code{clusterSplitSB} splits \code{seq} into subsets, 
+with respect to \code{size}.
+In size balancing, the problem is re-ordered from 
+largest to smallest, and then subsets are
 determined by minimizing the total approximate processing time.
 This splitting is deterministic (reproducible).
 
-\code{parLapplySB} and \code{parLapplySLB} evaluates \code{fun} on elements of \code{x} in parallel, similarly to \code{\link[snow]{parLapply}}. \code{parLapplySB} uses size balancing (\code{clusterSplitSB}).
-\code{parLapplySLB} uses size and load balancing. This means that the problem 
-is re-ordered from largest to smallest, and then undeterministic load balancing
-is used (see \code{\link[snow]{clusterApplyLB}}). If \code{size} is correct, this
-is identical to size balancing. This splitting is non-deterministic (might not be reproducible).
+\code{parLapplySB} and \code{parLapplySLB} evaluates \code{fun} 
+on elements of \code{x} in parallel, similarly to 
+\code{\link[parallel]{parLapply}}. \code{parLapplySB} 
+uses size balancing (via \code{clusterSplitSB}).
+\code{parLapplySLB} uses size and load balancing. 
+This means that the problem is re-ordered from largest to smallest, 
+and then undeterministic load balancing
+is used (see \code{\link[parallel]{clusterApplyLB}}). If \code{size} is 
+correct, this is identical to size balancing. 
+This splitting is non-deterministic (might not be reproducible).
 }
 \value{
-\code{clusterSplitSB} returns a list of subsets splitted with respect to \code{size}.
+\code{clusterSplitSB} returns a list of subsets 
+splitted with respect to \code{size}.
 
-\code{parLapplySB} and \code{parLapplySLB} evaluates \code{fun} on elements of \code{x}, and return a result corresponding to \code{x}. Usually a list with results returned by the cluster.
+\code{parLapplySB} and \code{parLapplySLB} evaluates 
+\code{fun} on elements of \code{x}, and return a result 
+corresponding to \code{x}. Usually a list with results 
+returned by the cluster.
 }
 \author{
 Peter Solymos, \email{solymos@ualberta.ca}
 }
 \seealso{
-Related functions without size balancing: \code{\link[snow]{clusterSplit}}, \code{\link[snow]{parLapply}}.
+Related functions without size balancing: 
+\code{\link[parallel]{clusterSplit}}, \code{\link[parallel]{parLapply}}.
 
-Underlying function: \code{\link[snow]{clusterApply}}, \code{\link[snow]{clusterApplyLB}}.
+Underlying functions: \code{\link[parallel]{clusterApply}}, 
+\code{\link[parallel]{clusterApplyLB}}.
 
-Optimizing the number of workers: \code{\link{clusterSize}}, \code{\link{plotClusterSize}}.
+Optimizing the number of workers: \code{\link{clusterSize}}, 
+\code{\link{plotClusterSize}}.
 }
 \examples{
 \dontrun{
