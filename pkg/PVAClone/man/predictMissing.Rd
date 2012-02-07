@@ -1,5 +1,5 @@
-\name{predict.missing}
-\alias{predict.missing}
+\name{predictMissing}
+\alias{predictMissing}
 \title{
 Predict missing value
 }
@@ -7,7 +7,7 @@ Predict missing value
 Predict missing value of a time series.
 }
 \usage{
-predict.missing(x, ...)
+predictMissing(x, ...)
 }
 \arguments{
   \item{x}{
@@ -39,7 +39,7 @@ Khurram Nadeem and Peter Solymos
 \examples{
 \dontrun{
 m <- pva(paurelia, gompertz("normal"), 5)
-p <- predict.missing(m, n.chains=1, n.iter=1000)
+p <- predictMissing(m, n.chains=1, n.iter=1000)
 summary(p)
 }
 }

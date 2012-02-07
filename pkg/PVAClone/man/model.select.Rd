@@ -91,7 +91,7 @@ model.select(m2x, m3x)
 
 ## profile likelihood
 m <- pva(songsparrow, gompertz("normal"), 5, n.iter=5000)
-p <- predict.latent(m, n.chains=1, n.iter=10000)
+p <- predictLatent(m, n.chains=1, n.iter=10000)
 m1 <- pva(songsparrow, gompertz("normal", fixed=c(sigma=0.4)), 5, n.iter=5000)
 ## etc for many sigma values
 pva.llr(m1, m, p) # calculate log LR for each

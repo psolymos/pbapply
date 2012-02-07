@@ -1,5 +1,5 @@
-\name{predict.latent}
-\alias{predict.latent}
+\name{predictLatent}
+\alias{predictLatent}
 \title{
 Predict latent variable
 }
@@ -7,7 +7,7 @@ Predict latent variable
 Predict latent variable of a hierarchical PVA model.
 }
 \usage{
-predict.latent(x, ...)
+predictLatent(x, ...)
 }
 \arguments{
   \item{x}{
@@ -38,7 +38,7 @@ Khurram Nadeem and Peter Solymos
 \examples{
 \dontrun{
 m <- pva(paurelia, gompertz("normal"), 5)
-p <- predict.latent(m, n.chains=1, n.iter=1000)
+p <- predictLatent(m, n.chains=1, n.iter=1000)
 summary(p)
 }
 }
