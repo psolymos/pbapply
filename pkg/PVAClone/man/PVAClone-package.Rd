@@ -18,7 +18,7 @@ FIXME
 \author{
 Khurram Nadeem, Peter Solymos
 
-Maintainer: Peter Solymos <solymos@ualberta.ca>
+Maintainer: Peter Solymos, \email{solymos@ualberta.ca}
 }
 \references{
 FIXME

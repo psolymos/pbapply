@@ -25,7 +25,7 @@ the original value of \code{cl} if parallel
 evaluation is meaningful.
 }
 \author{
-Peter Solymos
+Peter Solymos, \email{solymos@ualberta.ca}
 }
 \examples{
 evalParallelArgument()
