@@ -6,14 +6,15 @@
 Iterative model fitting with data cloning
 }
 \description{
-\code{\link{jags.fit}} of \code{\link{bugs.fit}} is iteratively used to fit a model with
+\code{\link{jags.fit}} or \code{\link{bugs.fit}} is 
+iteratively used to fit a model with
 increasing the number of clones.
 }
 \usage{
 dc.fit(data, params, model, inits, n.clones, 
-multiply = NULL, unchanged = NULL, 
-update = NULL, updatefun = NULL, initsfun = NULL,
-flavour = c("jags", "bugs"), n.chains = 3, ...)
+    multiply = NULL, unchanged = NULL, 
+    update = NULL, updatefun = NULL, initsfun = NULL,
+    flavour = c("jags", "bugs"), n.chains = 3, ...)
 }
 \arguments{
   \item{data}{
@@ -27,56 +28,65 @@ as parameters to use in calculating the data cloning
 diagnostics.
 }
   \item{model}{
-Character string (name of the model file), a function containing the model, or a or \code{\link{custommodel}} object (see Examples).
+Character string (name of the model file), a function containing 
+the model, or a \code{\link{custommodel}} object (see Examples).
 }
   \item{inits}{
-Optional specification of initial values in the form of a list or a function (see Initialization at \code{\link[rjags]{jags.model}}). 
-If missing, will be treated as \code{NULL} and initial values will be generated automatically.
+Optional specification of initial values in the form of a list or a 
+function (see Initialization at \code{\link[rjags]{jags.model}}). 
+If missing, will be treated as \code{NULL} and initial values will 
+be generated automatically.
 }
   \item{n.clones}{
 An integer vector containing the numbers of clones to use itaratively.
 }
   \item{multiply}{
-Numeric or character index for list element(s) in the \code{data} argument
-to be multiplied by the number of clones instead of repetitions.
+Numeric or character index for list element(s) in the \code{data} 
+argument to be multiplied by the number of clones instead of repetitions.
 }
   \item{unchanged}{
-Numeric or character index for list element(s) in the \code{data} argument
-to be left unchanged.
+Numeric or character index for list element(s) in the \code{data} 
+argument to be left unchanged.
 }
   \item{update}{
-Numeric or character index for list element(s) in the \code{data} argument
-that has to be updated by \code{updatefun} in each iterations. This usually
-is for making priors more informative, and anhancing convergence.
-See Details and Examples.
+Numeric or character index for list element(s) in the \code{data} 
+argument that has to be updated by \code{updatefun} in each iterations. 
+This usually is for making priors more informative, and enhancing 
+convergence. See Details and Examples.
 }
   \item{updatefun}{
-A function to use for updating \code{data[[update]]}. It should take an 'mcmc.list' object as 1st argument,
+A function to use for updating \code{data[[update]]}. 
+It should take an 'mcmc.list' object as 1st argument,
 2nd argument can be the number of clones.
 See Details and Examples.
 }
   \item{initsfun}{
-A function to use for generating initial values, \code{inits} are updated by the object
+A function to use for generating initial values, \code{inits} are 
+updated by the object
 returned by this function from the second iteration. If initial values
-are not dependent on the previous iteration, this should be \code{NULL}, otherwise,
-it should take an 'mcmc.list' object as 1st argument, 2nd argument can be the
-number of clones. This feature is useful if latent nodes are provided in \code{inits}
+are not dependent on the previous iteration, this should be \code{NULL}, 
+otherwise, it should take an 'mcmc.list' object as 1st argument, 
+2nd argument can be the number of clones. 
+This feature is useful if latent nodes are provided in \code{inits}
 so it also requires to be cloned for subsequent iterations.
 See Details and Examples.
 }
   \item{flavour}{
-  If \code{"jags"}, the function \code{\link{jags.fit}} is called. If \code{"bugs"}, the function \code{\link{bugs.fit}} is called.
+  If \code{"jags"}, the function \code{\link{jags.fit}} is called. 
+  If \code{"bugs"}, the function \code{\link{bugs.fit}} is called.
 }
   \item{n.chains}{
 Number of chains to generate.
 }
   \item{\dots}{
-  Other values supplied to \code{\link{jags.fit}}, or \code{\link{bugs.fit}}, depending on the \code{flavour} argument.
+  Other values supplied to \code{\link{jags.fit}}, or 
+  \code{\link{bugs.fit}}, depending on the \code{flavour} argument.
 }
 }
 \details{
-The function fits a JAGS/BUGS model with increasing numbers of clones, as supplied by
-the argument \code{k}. Data cloning is done by the function \code{dclone} using
+The function fits a JAGS/BUGS model with increasing numbers of clones, 
+as supplied by the argument \code{n.clones}. Data cloning is done by the 
+function \code{dclone} using
 the arguments \code{multiply} and \code{unchanged}.
 An updating function can be provided, see Examples.
 }
@@ -90,7 +100,8 @@ ecological models using Bayesian Markov chain Monte Carlo  methods.
 \emph{Ecology Letters} \strong{10}, 551--563.
 
 Lele, S. R., K. Nadeem and B. Schmuland, 2010.
-Estimability and likelihood inference for generalized linear mixed models using data cloning.
+Estimability and likelihood inference for generalized linear
+mixed models using data cloning.
 \emph{Journal of the American Statistical Association}
 \strong{105}, 1617--1625.
 
@@ -100,7 +111,8 @@ URL: \url{http://journal.r-project.org/archive/2010-2/RJournal_2010-2_Solymos.pd
 }
 \author{
 Peter Solymos, \email{solymos@ualberta.ca}, 
-implementation is based on many discussions with Khurram Nadeem and Subhash Lele.
+implementation is based on many discussions 
+with Khurram Nadeem and Subhash Lele.
 }
 \seealso{
 Data cloning: \code{\link{dclone}}.
@@ -182,7 +194,8 @@ summary(dcmod)
 ## time series example
 ## data and model taken from Ponciano et al. 2009
 ## Ecology 90, 356-362.
-paurelia <- c(17,29,39,63,185,258,267,392,510,570,650,560,575,650,550,480,520,500)
+paurelia <- c(17,29,39,63,185,258,267,392,510,
+    570,650,560,575,650,550,480,520,500)
 dat <- list(ncl=1, n=length(paurelia), Y=dcdim(data.matrix(paurelia)))
 beverton.holt <- function() {
     for (k in 1:ncl) {
@@ -214,7 +227,8 @@ summary(mod)
 ## Using WinBUGS/OpenBUGS
 if (.Platform$OS.type == "windows") {
 data(schools)
-dat <- list(J = nrow(schools), y = schools$estimate, sigma.y = schools$sd)
+dat <- list(J = nrow(schools), y = schools$estimate, 
+    sigma.y = schools$sd)
 bugs.model <- function(){
        for (j in 1:J){
          y[j] ~ dnorm (theta[j], tau.y[j])

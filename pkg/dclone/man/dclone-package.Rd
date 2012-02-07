@@ -19,21 +19,26 @@ Main functions include:
 
 \itemize{
   \item{
-    \code{\link{dclone}}, \code{\link{dcdim}}: cloning R objects in various ways.
+    \code{\link{dclone}}, \code{\link{dcdim}}: 
+    cloning R objects in various ways.
   }
 
   \item{
-    \code{\link{jags.fit}}, \code{\link{bugs.fit}}: conveniently fit BUGS models.
-    (\code{\link{jags.parfit}} fits chains on parallel workers for JAGS.)
+    \code{\link{jags.fit}}, \code{\link{bugs.fit}}: 
+    conveniently fit BUGS models.
+    (\code{\link{jags.parfit}} fits chains on 
+    parallel workers for JAGS.)
   }
 
   \item{
-    \code{\link{dc.fit}}: iterative model fitting by the data cloning algorithm.
+    \code{\link{dc.fit}}: iterative model fitting by 
+    the data cloning algorithm.
     (\code{\link{dc.parfit}} is the parallelized version.)
   }
 
   \item{
-    \code{\link{dctable}}, \code{\link{dcdiag}}: helps evaluating data cloning 
+    \code{\link{dctable}}, \code{\link{dcdiag}}: 
+    helps evaluating data cloning 
     convergence by descriptive statistics and diagnostic tools.
     (These are based on e.g. \code{\link{chisq.diag}} 
     and \code{\link{lambdamax.diag}}.)
@@ -57,8 +62,8 @@ Main functions include:
     \code{\link{jagsModel}}, \code{\link{codaSamples}}: basic functions
     from \pkg{rjags} package rewrote to recognize data cloning
     attributes from data (\code{\link{parJagsModel}}, 
-    \code{\link{parUpdate}}, \code{\link{parCodaSamples}} are the parallel
-    versions).
+    \code{\link{parUpdate}}, \code{\link{parCodaSamples}} 
+    are the parallel versions).
   }
 }
 }
@@ -78,7 +83,8 @@ ecological models using Bayesian Markov chain Monte Carlo  methods.
 \emph{Ecology Letters} \strong{10}, 551--563.
 
 Lele, S. R., K. Nadeem and B. Schmuland, 2010.
-Estimability and likelihood inference for generalized linear mixed models using data cloning.
+Estimability and likelihood inference for generalized 
+linear mixed models using data cloning.
 \emph{Journal of the American Statistical Association}
 \strong{105}, 1617--1625.
 }

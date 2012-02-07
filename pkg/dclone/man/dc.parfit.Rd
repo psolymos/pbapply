@@ -6,14 +6,15 @@
 Parallel model fitting with data cloning
 }
 \description{
-The iterative model fitting in on parallel workers with different number of clones.
+Iterative model fitting on parallel workers with different 
+numbers of clones.
 }
 \usage{
 dc.parfit(cl, data, params, model, inits, n.clones, 
-multiply=NULL, unchanged=NULL, 
-update = NULL, updatefun = NULL, initsfun = NULL, 
-flavour = c("jags", "bugs"), n.chains = 3,
-partype=c("balancing", "parchains", "both"), ...)
+    multiply=NULL, unchanged=NULL, 
+    update = NULL, updatefun = NULL, initsfun = NULL, 
+    flavour = c("jags", "bugs"), n.chains = 3,
+    partype=c("balancing", "parchains", "both"), ...)
 }
 \arguments{
   \item{cl}{
@@ -28,54 +29,68 @@ Character vector of parameters to be sampled.
 It can be a list of 2 vectors, 1st element
 is used as parameters to monitor, the 2nd is used
 as parameters to use in calculating the data cloning
-diagnostics.
+diagnostics. (\code{partype = "both"}
+currently cannot handle \code{params} as list.)
 }
   \item{model}{
-Character string (name of the model file), a function containing the model, or a or \code{\link{custommodel}} object (see Examples).
+Character string (name of the model file), a function containing the 
+model, or a or \code{\link{custommodel}} object (see Examples).
 }
   \item{inits}{
-Optional specification of initial values in the form of a list or a function (see Initialization at \code{\link[rjags]{jags.model}}). 
-If missing, will be treated as \code{NULL} and initial values will be generated automatically.
-If this is a function, it must be self containing, i.e. not having references to R objects outside of the
-function, or the objects should be exported with \code{\link{clusterExport}} before calling \code{dc.parfit}.
+Optional specification of initial values in the form of a list 
+or a function (see Initialization at \code{\link[rjags]{jags.model}}). 
+If missing, will be treated as \code{NULL} and initial values 
+will be generated automatically.
+If this is a function, it must be self containing, i.e. not 
+having references to R objects outside of the
+function, or the objects should be exported with 
+\code{\link{clusterExport}} before calling \code{dc.parfit}.
 }
   \item{n.clones}{
 An integer vector containing the numbers of clones to use itaratively.
 }
   \item{multiply}{
-Numeric or character index for list element(s) in the \code{data} argument
-to be multiplied by the number of clones instead of repetitions.
+Numeric or character index for list element(s) in the \code{data} 
+argument to be multiplied by the number of clones instead of repetitions.
 }
   \item{unchanged}{
-Numeric or character index for list element(s) in the \code{data} argument
-to be left unchanged.
+Numeric or character index for list element(s) in the \code{data} 
+argument to be left unchanged.
 }
   \item{update}{
-Numeric or character index for list element(s) in the \code{data} argument
-that has to be updated by \code{updatefun} in each iterations. This usually
-is for making priors more informative, and anhancing convergence.
+Numeric or character index for list element(s) in the \code{data} 
+argument that has to be updated by \code{updatefun} in each iterations. 
+This usually is for making priors more informative, and anhancing 
+convergence.
 This argument is ignored if size balancing is used (default), and not
 ignored when multiple parallel chains are used.
 }
   \item{updatefun}{
-A function to use for updating \code{data[[update]]}. It should take an 'mcmc.list' object as 1st argument,
+A function to use for updating \code{data[[update]]}. 
+It should take an 'mcmc.list' object as 1st argument,
 2nd argument can be the number of clones.
 This argument is ignored if size balancing is used (default), and not
 ignored when multiple parallel chains are used.
 }
   \item{initsfun}{
-A function to use for generating initial values, \code{inits} are updated by the object
-returned by this function from the second iteration. If initial values
-are not dependent on the previous iteration, this should be \code{NULL}, otherwise,
-it should take an 'mcmc.list' object as 1st argument, 2nd argument can be the
-number of clones. This feature is useful if latent nodes are provided in \code{inits}
+A function to use for generating initial values, \code{inits} 
+are updated by the object returned by this function from the 
+second iteration. If initial values
+are not dependent on the previous iteration, this should be \code{NULL}, 
+otherwise, it should take an 'mcmc.list' object as 1st argument, 
+2nd argument can be the number of clones. This feature is useful if 
+latent nodes are provided in \code{inits}
 so it also requires to be cloned for subsequent iterations.
 The 1st argument of the \code{initsfun} function is ignored if 
-\code{partype != "parchains"} but the function must have a first argument regardless, 
+\code{partype != "parchains"} but the function must have a first 
+argument regardless, 
 see Examples.
 }
   \item{flavour}{
-  If \code{"jags"}, the function \code{\link{jags.fit}} is called. If \code{"bugs"}, the function \code{\link{bugs.fit}} is called.
+  If \code{"jags"}, the function \code{\link{jags.fit}} is called. 
+  If \code{"bugs"}, the function \code{\link{bugs.fit}} is called
+  (available with \code{partype = "balancing"} only).
+  See Details.
 }
   \item{partype}{
 Type of parallel workload distribution, see Details. 
@@ -84,36 +99,47 @@ Type of parallel workload distribution, see Details.
 Number of chains to generate.
 }
   \item{\dots}{
-  Other values supplied to \code{\link[dclone]{jags.fit}}, or \code{\link[dclone]{bugs.fit}}, depending on the \code{flavour} argument.
+  Other values supplied to \code{\link[dclone]{jags.fit}}, or 
+  \code{\link[dclone]{bugs.fit}}, depending on the \code{flavour} 
+  argument.
 }
 }
 \details{
-The \code{dc.parfit} is a parallel computing version of \code{\link[dclone]{dc.fit}}.
+The \code{dc.parfit} is a parallel computing version of 
+\code{\link[dclone]{dc.fit}}.
 After parallel computations, temporary objects passed to workers and
-the dclone package is cleaned up. It is not guaranteed
+the \pkg{dclone} package is cleaned up. It is not guaranteed
 that objects already on the workers and independently loaded packages
 are not affected. Best to start new instances beforehand.
 
 \code{partype="balancing"} distributes each model corresponding
-to values in \code{n.clones} as jobs to workers according to size balancing (see
-\code{\link{snowWrapper}}). \code{partype="parchains"} makes repeated calls
+to values in \code{n.clones} as jobs to workers according to size 
+balancing (see \code{\link{snowWrapper}}). \code{partype="parchains"} 
+makes repeated calls
 to \code{\link{jags.parfit}} for each value in \code{n.clones}.
 \code{partype="both"} also calls \code{\link{jags.parfit}} but
-each chain of each cloned model is distributed as separate job to the workers.
+each chain of each cloned model is distributed as separate job to the 
+workers.
 
-The vector \code{n.clones} is used to determine size balancing. If load balancing is also desired 
-besides of size balancing (e.g. due to unequal performance of the workers, the option \code{"dclone.LB"} should be set to \code{TRUE} (by using \code{options("dclone.LB" = TRUE)}). By default, the \code{"dclone.LB"}
+The vector \code{n.clones} is used to determine size balancing. 
+If load balancing is also desired 
+besides of size balancing (e.g. due to unequal performance of 
+the workers, the option \code{"dclone.LB"} should be set to \code{TRUE} 
+(by using \code{options("dclone.LB" = TRUE)}).
+ By default, the \code{"dclone.LB"}
 option is \code{FALSE} for reproducibility reasons.
 
-Some arguments from \code{\link{dc.fit}} are not availabe in parallel version 
-(\code{update}, \code{updatefun}, \code{initsfun}) when size balancing is used 
+Some arguments from \code{\link{dc.fit}} are not availabe in parallel 
+version (\code{update}, \code{updatefun}, \code{initsfun}) 
+when size balancing is used 
 (\code{partype} is \code{"balancing"} or \code{"both"}).
 These arguments are evaluated only when \code{partype="parchains"}.
 
-Size balancing is recommended if \code{n.clones} is a relatively long vector,
-while parallel chains might be more efficient when \code{n.clones} has few elements.
-For efficnecy reasons, a combination of the two (\code{partype="both"}) is preferred 
-if cluster size allows it.
+Size balancing is recommended if \code{n.clones} is a relatively long 
+vector, while parallel chains might be more efficient when 
+\code{n.clones} has few elements.
+For efficnecy reasons, a combination of the two 
+(\code{partype="both"}) is preferred if cluster size allows it.
 
 Only \code{partype="balancing"} is available for \code{flavour="bugs"}.
 
@@ -130,7 +156,8 @@ ecological models using Bayesian Markov chain Monte Carlo  methods.
 \emph{Ecology Letters} \strong{10}, 551--563.
 
 Lele, S. R., K. Nadeem and B. Schmuland, 2010.
-Estimability and likelihood inference for generalized linear mixed models using data cloning.
+Estimability and likelihood inference for generalized 
+linear mixed models using data cloning.
 \emph{Journal of the American Statistical Association}
 \strong{105}, 1617--1625.
 
@@ -144,7 +171,11 @@ Peter Solymos, \email{solymos@ualberta.ca}
 \seealso{
 Sequential version: \code{\link[dclone]{dc.fit}}.
 
-Optimizing the number of workers: \code{\link{clusterSize}}, \code{\link{plotClusterSize}}.
+Optimizing the number of workers: \code{\link{clusterSize}}, 
+\code{\link{plotClusterSize}}.
+
+Underlying functions: \code{\link[dclone]{jags.fit}},
+\code{\link[dclone]{bugs.fit}}.
 }
 \examples{
 \dontrun{
@@ -167,14 +198,18 @@ glm.model <- function() {
 dat <- list(Y=Y, X=X, n=n, np=ncol(X))
 k <- 1:3
 ## sequential version
-dcm <- dc.fit(dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np")
+dcm <- dc.fit(dat, "beta", glm.model, n.clones=k, multiply="n", 
+    unchanged="np")
 ## parallel version with snow
 cl <- makePSOCKcluster(3)
-pdcm1 <- dc.parfit(cl, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np",
+pdcm1 <- dc.parfit(cl, dat, "beta", glm.model, n.clones=k, 
+    multiply="n", unchanged="np",
     partype="balancing")
-pdcm2 <- dc.parfit(cl, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np",
+pdcm2 <- dc.parfit(cl, dat, "beta", glm.model, n.clones=k, 
+    multiply="n", unchanged="np",
     partype="parchains")
-pdcm3 <- dc.parfit(cl, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np",
+pdcm3 <- dc.parfit(cl, dat, "beta", glm.model, n.clones=k, 
+    multiply="n", unchanged="np",
     partype="both")
 summary(dcm)
 summary(pdcm1)
@@ -183,18 +218,22 @@ summary(pdcm3)
 stopCluster(cl)
 ## multicore type forking
 if (.Platform$OS.type != "windows") {
-mcdcm1 <- dc.parfit(3, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np",
+mcdcm1 <- dc.parfit(3, dat, "beta", glm.model, n.clones=k, 
+    multiply="n", unchanged="np",
     partype="balancing")
-mcdcm2 <- dc.parfit(3, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np",
+mcdcm2 <- dc.parfit(3, dat, "beta", glm.model, n.clones=k, 
+    multiply="n", unchanged="np",
     partype="parchains")
-mcdcm3 <- dc.parfit(3, dat, "beta", glm.model, n.clones=k, multiply="n", unchanged="np",
+mcdcm3 <- dc.parfit(3, dat, "beta", glm.model, n.clones=k, 
+    multiply="n", unchanged="np",
     partype="both")
 }
 
 ## Using WinBUGS/OpenBUGS
 if (.Platform$OS.type == "windows") {
 data(schools)
-dat <- list(J = nrow(schools), y = schools$estimate, sigma.y = schools$sd)
+dat <- list(J = nrow(schools), y = schools$estimate, 
+    sigma.y = schools$sd)
 bugs.model <- function(){
        for (j in 1:J){
          y[j] ~ dnorm (theta[j], tau.y[j])

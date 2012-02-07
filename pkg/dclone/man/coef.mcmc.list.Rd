@@ -27,7 +27,8 @@ dcsd(object, ...)
 }
   \item{parm}{
 A specification of which parameters are to be given confidence intervals, 
-either a vector of numbers or a vector of names. If missing, all parameters are considered.
+either a vector of numbers or a vector of names. 
+If missing, all parameters are considered.
 }
   \item{level}{
 The confidence level required.
@@ -36,30 +37,34 @@ The confidence level required.
 Further arguments passed to functions.
 }
   \item{invfisher}{
-Logical, if the inverse of the Fisher information matrix (\code{TRUE}) should be returned
-instead of the variance-covariance matris of the joint posterior distribution (\code{FALSE}).
+Logical, if the inverse of the Fisher information matrix 
+(\code{TRUE}) should be returned
+instead of the variance-covariance matris of the joint 
+posterior distribution (\code{FALSE}).
 }
 }
 \value{
-\code{dcsd} returns the data cloning standard errors of a posterior MCMC chain
-calculated as standard deviation times the square root of the number of clones.
+\code{dcsd} returns the data cloning standard errors of a posterior 
+MCMC chain calculated as standard deviation times the square root 
+of the number of clones.
 
 The \code{coef} method returns mean of the posterior MCMC chains
 for the monitored parameters.
 
-The \code{confint} method returns Wald-type confidence intervals for the parameters
-assuming asymptotic normality.
+The \code{confint} method returns Wald-type confidence intervals 
+for the parameters assuming asymptotic normality.
 
-The \code{vcov} method returns the inverse of the Fisher information matrix
-(\code{invfisher = TRUE}) or the covariance matrix of the joint posterior distribution
-(\code{invfisher = FALSE}). The \code{invfisher} is valid only for \code{mcmc.list.dc}
+The \code{vcov} method returns the inverse of the Fisher 
+information matrix (\code{invfisher = TRUE}) or the covariance matrix 
+of the joint posterior distribution (\code{invfisher = FALSE}). 
+The \code{invfisher} is valid only for \code{mcmc.list.dc}
 (data cloned) objects.
 
 The \code{quantile} method returns quantiles for each variable.
 }
 \note{
-Some functions only available for the 'mcmc.list.dc' class which inherits from
-class 'mcmc.list'.
+Some functions only available for the 'mcmc.list.dc' class which 
+inherits from class 'mcmc.list'.
 }
 \author{
 Peter Solymos, \email{solymos@ualberta.ca}
@@ -93,7 +98,8 @@ Y <- rnorm(N, mean = linpred, sd = sigma)
 ## data for the model
 dcdata <- dclone(list(N = N, Y = Y, x = x), 5, multiply = "N")
 ## data cloning
-dcmod <- jags.fit(dcdata, c("alpha", "beta", "sigma"), jfun, n.chains = 3)
+dcmod <- jags.fit(dcdata, c("alpha", "beta", "sigma"), jfun, 
+    n.chains = 3)
 summary(dcmod)
 coef(dcmod)
 dcsd(dcmod)
