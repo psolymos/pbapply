@@ -1,0 +1,46 @@
+\name{predict.latent}
+\alias{predict.latent}
+\title{
+Predict latent variable
+}
+\description{
+Predict latent variable of a hierarchical PVA model.
+}
+\usage{
+predict.latent(x, ...)
+}
+\arguments{
+  \item{x}{
+A fitted PVA model object.
+}
+  \item{\dots}{
+Arguments passed to \code{\link{jags.fit}},
+such as \code{n.iter}, \code{n.chains}.
+}
+}
+\details{
+It uses MLE from fitted PVA model
+to generate values for the latent variables.
+}
+\value{
+A marix with \code{n.iter * n.chains} rows and as
+many columns as the length of the time series.
+}
+\references{
+FIXME
+}
+\author{
+Khurram Nadeem and Peter Solymos
+}
+\seealso{
+\code{\link{pva}}
+}
+\examples{
+\dontrun{
+m <- pva(paurelia, gompertz("normal"), 5)
+p <- predict.latent(m, n.chains=1, n.iter=1000)
+summary(p)
+}
+}
+\keyword{ utils }
+\keyword{ models }

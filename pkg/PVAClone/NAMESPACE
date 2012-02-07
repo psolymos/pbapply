@@ -1,0 +1,12 @@
+exportPattern("^[[:alpha:]]+")
+exportMethods(
+    "as.mcmc.list",
+    "coef",
+    "confint",
+    "show",
+    "vcov" 
+)
+exportClasses(
+    "pva",
+     "pvamodel" 
+)

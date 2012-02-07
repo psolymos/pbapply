@@ -1,0 +1,116 @@
+## this is the heart of model selection and
+## profile likelihood
+pva.llr <- 
+function(null, alt, pred)
+{
+    if (!inherits(null, "pva"))
+        stop("'null' must be of class 'pva'")
+    if (!inherits(alt, "pva"))
+        stop("'alt' must be of class 'pva'")
+    err0 <- null@model@obs.error
+    err1 <- alt@model@obs.error
+    if (err0 != "none" && err1 == "none")
+        stop("switch null and alternative model")
+    if (identical(null@model@growth.model, alt@model@growth.model) && 
+        (null@model@p > alt@model@p))
+            warning("Hint: check what is null and alternative ",
+                "if models are nested")
+    obs <- null@observations
+    if (!identical(obs, alt@observations))
+        stop("data in null amd alternative model must be identical")
+    i <- which(is.na(obs))
+    if (length(i) && (err0 == "none" || err1 == "none"))
+        stop("model selection with missing data not yet ",
+            "implmented for models w/o observation error")
+    data0 <- switch(err0,
+        "none" = NULL,
+        "normal" = log(obs),
+        "poisson" = obs)
+    data1 <- switch(err1,
+        "none" = NULL,
+        "normal" = log(obs),
+        "poisson" = obs)
+    ## use here parApply with parallel package
+    if (err1 == "none") { # both null and alt are w/o obs error
+        logd0 <- null@model@logdensity(log(obs),
+            mle=coef(null), data=data0, missing=length(i)>0)
+        logd1 <- alt@model@logdensity(log(obs), 
+            mle=coef(alt), data=data1, missing=length(i)>0)
+## missing data handling required here: TBD
+#        logd0 <- apply(log(obs), 1, null@model@logdensity, 
+#            mle=coef(null), data=data0, missing=length(i)>0)
+#        logd1 <- apply(log(obs), 1, alt@model@logdensity, 
+#            mle=coef(alt), data=data1, missing=length(i)>0)
+    } else {
+        logd0 <- apply(pred, 1, null@model@logdensity, 
+            mle=coef(null), data=data0, missing=FALSE)
+        logd1 <- apply(pred, 1, alt@model@logdensity, 
+            mle=coef(alt), data=data1, missing=FALSE)
+    }
+    log(mean(exp(logd0 - logd1))) ## log likelihood ratio
+}
+## model selection
+model.select <- 
+function(null, alt, B=10^3)
+{
+    if (alt@model@obs.error != "none") {
+        op <- dcoptions("verbose"=0)
+        on.exit(dcoptions(op))
+        pred <- predict.latent(alt, n.chains=1, n.iter=B)
+        llr <- pva.llr(null, alt, pred)
+    } else {
+        llr <- pva.llr(null, alt)
+    }
+    ## neffective can be different (e.g. Ricer vs. Gompertz)
+    n0 <- null@model@neffective(null@observations)
+    n1 <- alt@model@neffective(null@observations)
+    p0 <- null@model@p - length(null@model@fixed)
+    p1 <- alt@model@p - length(alt@model@fixed)
+    rval <- data.frame(log_LR = llr,
+        delta_AIC = -2*llr + 2*(p0-p1),
+        delta_BIC = -2*llr + log(n0)*p0 - log(n1)*p1,
+        delta_AICc= -2*llr + 2*((p0-p1) + 
+            p0*(p0+1)/(n0-p0-1) - p1*(p1+1)/(n0-p1-1)))
+    attr(rval, "fancy") <- list(
+        data=fancyPVAmodel(null, "", part=2),
+        null=fancyPVAmodel(null, "", part=1),
+        alt=fancyPVAmodel(alt,  "", part=1))
+    attr(rval, "models") <- list(
+        null = list(name=substitute(null), n=n0, p=p0,
+            growth.model=null@model@growth.model,
+            obs.error = null@model@obs.error),
+        alt = list(name=substitute(alt), n=n1, p=p1,
+            growth.model=alt@model@growth.model,
+            obs.error = alt@model@obs.error))
+    class(rval) <- c("pvaModelSelect", "data.frame")
+    rval
+}
+print.pvaModelSelect <- 
+function(x, ...)
+{
+    f <- attr(x, "fancy")
+    m <- attr(x, "models")
+    cat("PVA Model Selection:\n")
+    cat(f$data, "\n\n")
+    cat("Null Model:", m$null$name, "\n  ", f$null, "\n\n")
+    cat("Alternative Model:", m$alt$name, "\n  ", f$alt, "\n\n")
+    z <- x
+    class(z) <- "data.frame"
+    print(z, ...)
+    llr <- x$log_LR
+    if (-llr < 0) {
+        good <- "Null Model"
+        bad <- "Alternative Model"
+    } else {
+        good <- "Alternative Model"
+        bad <- "Null Model"
+    }
+    if (abs(llr) < 2) {
+        qualifier <- "slightly better"
+    } else if (abs(llr) < 8) {
+        qualifier <- "better"
+    } else qualifier <- "strongly"
+    cat("\n", good, " is ", qualifier, " supported over the ", 
+        bad, "\n\n", sep="")
+    invisible(x)
+}
