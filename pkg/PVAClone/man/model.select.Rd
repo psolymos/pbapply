@@ -34,7 +34,7 @@ the latent variables.
 }
   \item{pred}{
 A matrix of replicates from the latent variables,
-e.g. es returned by \code{\link{predict.latent}}.
+e.g. es returned by \code{\link{predictLatent}}.
 }
   \item{x}{
 A model selection object to be printed.
@@ -68,6 +68,7 @@ Khurram Nadeem and Peter Solymos
 }
 \examples{
 \dontrun{
+data(songsparrow)
 m1 <- pva(songsparrow, gompertz("none"), 2, n.iter=1000)
 m2 <- pva(songsparrow, gompertz("poisson"), 2, n.iter=1000)
 m3 <- pva(songsparrow, gompertz("normal"), 2, n.iter=1000)

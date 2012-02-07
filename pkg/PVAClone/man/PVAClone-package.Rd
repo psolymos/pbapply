@@ -3,41 +3,33 @@
 \alias{PVAClone}
 \docType{package}
 \title{
-What the package does (short line)
-~~ package title ~~
+Population Viability Analysis with Data Cloning
 }
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
+Likelihood based population viability 
+  analysis in the presence of observation error
+  and missing data. The package fits,
+  predicts, forecasts and compare various
+  growth model types using data cloning.
 }
 \details{
-\tabular{ll}{
-Package: \tab PVAClone\cr
-Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2012-02-07\cr
-License: \tab What license is it under?\cr
-Depends: \tab methods\cr
-}
-~~ An overview of how to use the package, including the most important ~~
-~~ functions ~~
+FIXME
 }
 \author{
-Who wrote it
+Khurram Nadeem, Peter Solymos
 
-Maintainer: Who to complain to <yourfault@somewhere.net>
-~~ The author and/or maintainer of the package ~~
+Maintainer: Peter Solymos <solymos@ualberta.ca>
 }
 \references{
-~~ Literature or other references for background information ~~
+FIXME
 }
-~~ Optionally other standard keywords, one per line, from file KEYWORDS in ~~
-~~ the R documentation directory ~~
 \keyword{ package }
 \seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
+\code{\link{pva}}
 }
 \examples{
-~~ simple examples of the most important functions ~~
+data(songsparrow)
+m1 <- pva(songsparrow, gompertz("none"), 2, n.iter=1000)
+m2 <- pva(songsparrow, gompertz("poisson"), 2, n.iter=1000)
+model.select(m1, m2)
 }

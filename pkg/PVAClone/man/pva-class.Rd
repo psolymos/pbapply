@@ -2,12 +2,6 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{pva-class}
-\alias{as.mcmc.list,pva-method}
-\alias{coef,pva-method}
-\alias{confint,pva-method}
-\alias{show,pva-method}
-\alias{vcov,pva-method}
-
 \title{Class \code{"pva"}}
 \description{
 Model class for fitted PVA objects.

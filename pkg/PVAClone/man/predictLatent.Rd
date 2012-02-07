@@ -14,7 +14,7 @@ predictLatent(x, ...)
 A fitted PVA model object.
 }
   \item{\dots}{
-Arguments passed to \code{\link{jags.fit}},
+Arguments passed to \code{\link[dclone]{jags.fit}},
 such as \code{n.iter}, \code{n.chains}.
 }
 }
@@ -37,6 +37,7 @@ Khurram Nadeem and Peter Solymos
 }
 \examples{
 \dontrun{
+data(paurelia)
 m <- pva(paurelia, gompertz("normal"), 5)
 p <- predictLatent(m, n.chains=1, n.iter=1000)
 summary(p)

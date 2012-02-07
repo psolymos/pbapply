@@ -45,6 +45,9 @@ Khurram Nadeem and Peter Solymos
 }
 \examples{
 \dontrun{
+data(songsparrow)
+data(paurelia)
+
 ## Gompertz
 m1 <- pva(songsparrow, "gompertz", c(5,10))
 m2 <- pva(songsparrow, gompertz("poisson"), c(5,10))
