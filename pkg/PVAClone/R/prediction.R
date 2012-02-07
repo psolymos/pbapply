@@ -1,5 +1,5 @@
 ## how to predict missing value
-predict.missing <- 
+predictMissing <- 
 function(x, ...)
 {
     if (!inherits(x, "pva"))
@@ -17,10 +17,6 @@ function(x, ...)
     f <- jags.fit(dcd@data, 
         params="x", 
         model=dcd@model, ...)
-#    f <- dcmle(dcd, 
-#        params=paste(node, "[",i,",1]",sep=""), 
-#        n.clones=1, ...)
-#    pred <- as.matrix(f@mcmc)
     pred <- as.matrix(f)
     colnames(pred) <- paste("value", i, sep="_")
     if (obs.error != "poisson")
@@ -29,7 +25,7 @@ function(x, ...)
     pred
 }
 ## how to predict latent log abundances
-predict.latent <- 
+predictLatent <- 
 function(x, ...)
 {
     if (!inherits(x, "pva"))
@@ -45,10 +41,6 @@ function(x, ...)
     f <- jags.fit(dcd@data, 
         params="x", 
         model=dcd@model, ...)
-#    f <- dcmle(dcd, 
-#        params="x", 
-#        n.clones=1, ...)
-#    pred <- as.matrix(f@mcmc)
     pred <- as.matrix(f)
     colnames(pred) <- paste("value", 1:ncol(pred), sep="_")
     pred

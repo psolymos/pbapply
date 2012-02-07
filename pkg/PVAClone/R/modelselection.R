@@ -56,7 +56,7 @@ function(null, alt, B=10^3)
     if (alt@model@obs.error != "none") {
         op <- dcoptions("verbose"=0)
         on.exit(dcoptions(op))
-        pred <- predict.latent(alt, n.chains=1, n.iter=B)
+        pred <- predictLatent(alt, n.chains=1, n.iter=B)
         llr <- pva.llr(null, alt, pred)
     } else {
         llr <- pva.llr(null, alt)
