@@ -1,8 +1,9 @@
 \name{parCodaSamples}
 \alias{parCodaSamples}
-\title{Generate posterior samples in mcmc.list format on parallel workers}
+\title{Generate posterior samples in 'mcmc.list' 
+format on parallel workers}
 \description{
-  This is function sets a trace
+  This function sets a trace
   monitor for all requested nodes, updates the model on each
   workers. Finally, it return the chains to the master and coerces the
   output to a single \code{mcmc.list} object.
@@ -13,7 +14,8 @@ parCodaSamples(cl, model, variable.names, n.iter, thin = 1, ...)
 \arguments{
   \item{cl}{
     A cluster object created by \code{\link[snow]{makeCluster}}, or
-    an integer. It can also be \code{NULL}, see \code{\link{snowWrapper}}.
+    an integer. It can also be \code{NULL}, see 
+    \code{\link{snowWrapper}}.
   }
   \item{model}{character, name of a jags model object}
   \item{variable.names}{a character vector giving the names of variables
@@ -27,7 +29,12 @@ parCodaSamples(cl, model, variable.names, n.iter, thin = 1, ...)
   An \code{mcmc.list} object with possibly an \code{n.clones} attribute.
 }
 \author{Peter Solymos, \email{solymos@ualberta.ca}}
-\seealso{\code{\link[rjags]{coda.samples}}, \code{\link{codaSamples}}}
+\seealso{
+Original sequential function in \pkg{rjags}: 
+\code{\link[rjags]{coda.samples}}
+
+Sequential \pkg{dclone}-ified version: \code{\link{codaSamples}}
+}
 \examples{
 \dontrun{
 model <- function() {
