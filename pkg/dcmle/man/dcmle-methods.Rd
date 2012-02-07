@@ -9,6 +9,7 @@
 \alias{dcsd,dcMle-method}
 \alias{confint,dcMle-method}
 \alias{nclones,dcMle-method}
+\alias{as.mcmc.list,dcMle-method}
 \title{
 Methods for 'dcMle' Objects
 }
@@ -33,19 +34,25 @@ Underlying S3 methods:
 \code{\link{coef.mcmc.list}}, \code{\link{dcsd.mcmc.list}}, 
 \code{\link{quantile.mcmc.list}},
 \code{\link{vcov.mcmc.list.dc}}, \code{\link{confint.mcmc.list.dc}}, 
-\code{\link{dctable}}, \code{\link{dcdiag}}, \code{\link{nclones}}.
+\code{\link{dctable}}, \code{\link{dcdiag}}, \code{\link{nclones}},
+\code{\link[coda]{as.mcmc.list}}.
 
 Fitting wrapper function: \code{\link{dcmle}}
 
 Object classes: \code{\link{dcmle-classes}}
-with creator functions \code{\link{makeGsFit}} and \code{\link{makeDcFit}}
+with creator functions \code{\link{makeGsFit}} and 
+\code{\link{makeDcFit}}
 }
 \examples{
 ## Data and model taken from Ponciano et al. 2009
 ## Ecology 90, 356-362.
-paurelia <- c(17,29,39,63,185,258,267,392,510,570,650,560,575,650,550,480,520,500)
+paurelia <- c(17,29,39,63,185,258,267,392,510,570,
+    650,560,575,650,550,480,520,500)
 paramecium <- new("dcFit")
-paramecium@data <- list(ncl=1, n=length(paurelia), Y=dcdim(data.matrix(paurelia)))
+paramecium@data <- list(
+    ncl=1, 
+    n=length(paurelia), 
+    Y=dcdim(data.matrix(paurelia)))
 paramecium@model <- function() {
     for (k in 1:ncl) {
         for(i in 2:(n+1)){
@@ -75,6 +82,9 @@ quantile(m, probs=c(0.05, 0.95))
 dctable(m)
 dcdiag(m)
 nclones(m)
+mm <- as.mcmc.list(m)
+nclones(mm)
+plot(mm)
 }
 }
 \keyword{ methods }

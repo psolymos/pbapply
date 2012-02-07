@@ -22,11 +22,13 @@ the global environment.
 }
 \value{
 \code{listDcExamples} lists the examples available
-at \pkg{dclone} website at \url{http://dcr.r-forge.r-project.org/examples}
+at \pkg{dclone} website at 
+\url{http://dcr.r-forge.r-project.org/examples}
 stored in \code{index.txt}.
 
 \code{sourceDcExample} sources the example files
-at \pkg{dclone} website at \url{http://dcr.r-forge.r-project.org/examples}.
+at \pkg{dclone} website at 
+\url{http://dcr.r-forge.r-project.org/examples}.
 
 The default path to the examples directory is stored by the 
 \code{getOption("dcmle.href")} and can be changed if required.

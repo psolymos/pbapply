@@ -5,6 +5,8 @@ Version 0.1-4, Jan 31, 2012
     * Documentation updated.
     * NAMESPACE updated to export all classes,
       and import new functions from dclone.
+    * S4 summary method is now imported from stats4 and not
+      redefined again.
 
 Version 0.1-3, Jan 25, 2012
     * Preparing for new release.

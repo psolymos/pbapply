@@ -52,7 +52,8 @@ ecological models using Bayesian Markov chain Monte Carlo  methods.
 \emph{Ecology Letters} \strong{10}, 551--563.
 
 Lele, S. R., K. Nadeem and B. Schmuland, 2010.
-Estimability and likelihood inference for generalized linear mixed models using data cloning.
+Estimability and likelihood inference for generalized linear 
+mixed models using data cloning.
 \emph{Journal of the American Statistical Association}
 \strong{105}, 1617--1625.
 }
@@ -60,21 +61,27 @@ Estimability and likelihood inference for generalized linear mixed models using 
 Peter Solymos, \email{solymos@ualberta.ca}
 }
 \seealso{
-For additional arguments: \code{\link[dclone]{jags.fit}}, \code{\link[dclone]{jags.parfit}}, 
+For additional arguments: \code{\link[dclone]{jags.fit}}, 
+\code{\link[dclone]{jags.parfit}}, 
 \code{\link[dclone]{bugs.fit}},
 \code{\link[dclone]{dc.fit}}, \code{\link[dclone]{dc.parfit}}.
 
 Object classes: \code{\link{dcmle-classes}}
-with creator functions \code{\link{makeGsFit}} and \code{\link{makeDcFit}}
+with creator functions \code{\link{makeGsFit}} and 
+\code{\link{makeDcFit}}
 
 Methods: \code{\link{dcmle-methods}}
 }
 \examples{
 ## Data and model taken from Ponciano et al. 2009
 ## Ecology 90, 356-362.
-paurelia <- c(17,29,39,63,185,258,267,392,510,570,650,560,575,650,550,480,520,500)
+paurelia <- c(17,29,39,63,185,258,267,392,510,
+    570,650,560,575,650,550,480,520,500)
 paramecium <- new("dcFit")
-paramecium@data <- list(ncl=1, n=length(paurelia), Y=dcdim(data.matrix(paurelia)))
+paramecium@data <- list(
+    ncl=1, 
+    n=length(paurelia), 
+    Y=dcdim(data.matrix(paurelia)))
 paramecium@model <- function() {
     for (k in 1:ncl) {
         for(i in 2:(n+1)){
@@ -100,8 +107,10 @@ paramecium@params <- c("lambda","beta","sigma")
 cl <- makePSOCKcluster(3)
 (m4 <- dcmle(paramecium, n.clones=2, n.iter=1000, cl=cl))
 (m5 <- dcmle(paramecium, n.clones=1:3, n.iter=1000, cl=cl))
-(m6 <- dcmle(paramecium, n.clones=1:3, n.iter=1000, cl=cl, partype="parchains"))
-(m7 <- dcmle(paramecium, n.clones=1:3, n.iter=1000, cl=cl, partype="both"))
+(m6 <- dcmle(paramecium, n.clones=1:3, n.iter=1000, cl=cl, 
+    partype="parchains"))
+(m7 <- dcmle(paramecium, n.clones=1:3, n.iter=1000, cl=cl, 
+    partype="both"))
 stopCluster(cl)
 }
 }

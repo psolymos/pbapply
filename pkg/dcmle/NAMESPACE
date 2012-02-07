@@ -6,13 +6,14 @@ exportClasses(custommodel, mcmc, mcmc.list, mcmc.list.dc, dctable, dcdiag)
 exportClasses(nClones, dcDiag, dcTable, MCMClist,
     dcArgs, dcParams, dcFunction, dcInits, dcModel)
 exportMethods(summary, show, coef, dcsd, confint, vcov, quantile,
-    dctable, dcdiag, nclones)
+    dctable, dcdiag, nclones, as.mcmc.list)
 
 ## imports
 importFrom(stats, quantile, update)
 importFrom(methods, show)
 #importFrom(rjags)
 importFrom(coda, as.mcmc.list)
+importFrom(stats4, summary)
 
 ## dclone imports
 importFrom(dclone,
@@ -27,8 +28,7 @@ importFrom(dclone,
        dctable, extractdctable,
        dcdiag, extractdcdiag, 
        lambdamax.diag, chisq.diag,
-       dcoptions,
-       evalParallelArgument)
+       dcoptions)
 importFrom(dclone,
        jags.parfit, dc.parfit,
        snowWrapper, 

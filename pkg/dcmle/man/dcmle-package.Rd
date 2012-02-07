@@ -37,14 +37,16 @@ Peter Solymos
 Maintainer: Peter Solymos <solymos@ualberta.ca>
 }
 \references{
-\url{http://cran.r-project.org/package=dcmle}, \url{http://dcr.r-forge.r-project.org}
+\url{http://cran.r-project.org/package=dcmle}, 
+\url{http://dcr.r-forge.r-project.org}
 }
 \keyword{ package }
 \seealso{
 Fitting wrapper function: \code{\link{dcmle}}
 
 Object classes: \code{\link{dcmle-classes}},
-with creator functions \code{\link{makeGsFit}} and \code{\link{makeDcFit}}
+with creator functions \code{\link{makeGsFit}} and 
+\code{\link{makeDcFit}}
 
 Methods: \code{\link{dcmle-methods}}
 }
@@ -96,7 +98,8 @@ bevholt <- function(y, n.clones, ...) {
 setMethod("show", "bevholtMle", function(object) {
     getMethod("summary","dcMle")(as(object, "dcMle"), object@title)
 })
-paurelia <- c(17,29,39,63,185,258,267,392,510,570,650,560,575,650,550,480,520,500)
+paurelia <- c(17,29,39,63,185,258,267,392,510,
+    570,650,560,575,650,550,480,520,500)
 \dontrun{
 (m <- bevholt(paurelia, n.clones=2, n.iter=1000))
 vcov(m)

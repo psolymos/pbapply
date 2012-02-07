@@ -18,11 +18,11 @@ setMethod("show", "dcMle", function(object) {
     }
     invisible(object)
 })
-## show with title is done here
-setGeneric("summary",
-    function(object, ...)
-        standardGeneric("summary")
-)
+## show with title is done here -- imports from stats4
+#setGeneric("summary",
+#    function(object, ...)
+#        standardGeneric("summary")
+#)
 setMethod("summary", "dcMle", function(object, title, ...) {
     if (missing(title))
         title <- paste("Object of class \"", class(object)[1L], "\"", sep="")
@@ -53,4 +53,13 @@ setMethod("show", "dcFit", function(object) {
 setMethod("show", "gsFit", function(object) {
     str(object)
     invisible(object)
+})
+## generic after coda
+setGeneric("as.mcmc.list",
+  function(x, ...)
+    standardGeneric("as.mcmc.list")
+)
+## mcmc coercion for dcMle
+setMethod("as.mcmc.list", "dcMle", function(x, ...) {
+    as(x, "MCMClist")
 })
