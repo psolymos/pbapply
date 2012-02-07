@@ -4,7 +4,8 @@
   Size balancing version of mclapply
 }
 \description{
-  \code{mclapplySB} is a size balancing version of \code{\link[parallel]{mclapply}}.
+  \code{mclapplySB} is a size balancing version of 
+  \code{\link[parallel]{mclapply}}.
 }
 \usage{
 mclapplySB(X, FUN, ..., 
@@ -26,7 +27,8 @@ mclapplySB(X, FUN, ...,
   will be spawned (at most)}
 \item{mc.cleanup}{see \code{\link[parallel]{mclapply}}}
 \item{mc.allow.recursive}{see \code{\link[parallel]{mclapply}}}
-\item{size}{Vector of problem sizes (or relative performance information) 
+\item{size}{Vector of problem sizes 
+(or relative performance information) 
   corresponding to elements of \code{X} (recycled if needed). 
   The default \code{1} indicates equality of problem sizes.
 }

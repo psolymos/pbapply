@@ -19,20 +19,27 @@ A cluster object created by \code{\link[snow]{makeCluster}}, or
 an integer. It can also be \code{NULL}, see \code{\link{snowWrapper}}.
 }
   \item{data}{
-A named list or environment containing the data. If an environment, \code{data}
-is coerced into a list so cloning will work properly.
+A named list or environment containing the data. If an environment, 
+\code{data} is coerced into a list.
 }
   \item{params}{
 Character vector of parameters to be sampled.
 }
   \item{model}{
-Character string (name of the model file), a function containing the model, or a or \code{\link{custommodel}} object (see Examples).
+Character string (name of the model file), a function 
+containing the model, or a or \code{\link{custommodel}} object (see Examples).
 }
   \item{inits}{
-Specification of initial values in the form of a list or a function, can be missing if \code{n.chains <= 4}. 
-\code{inits} must contain RNG seed information, too (see Initialization at \code{\link[rjags]{jags.model}}).
-If this is a function, it must be self containing, i.e. not having references to R objects outside of the
-function, or the objects should be exported with \code{\link{clusterExport}} before calling \code{jags.parfit}.
+Specification of initial values in the form of a 
+list or a function, can be missing.
+Missing value setting can include RNG seed information,
+see Initialization at \code{\link[rjags]{jags.model}}.
+If this is a function and using 'snow' type
+cluster as \code{cl}, the function must be self containing, i.e. 
+not having references to R objects outside of the
+function, or the objects should be exported with 
+\code{\link{clusterExport}} before calling \code{jags.parfit}.
+FOrking type parallelism does not require such attention.
 }
   \item{n.chains}{
 Number of chains to generate, must be higher than 1. Ideally, this is equal to the number of parallel workers in the cluster.
@@ -42,16 +49,27 @@ Other arguments passed to \code{\link[dclone]{jags.fit}}.
 }
 }
 \details{
-Chains are run on parallel workers, and the results are combined in the end.
+Chains are run on parallel workers, 
+and the results are combined in the end.
+
 After parallel computations, temporary objects passed to workers and
 the dclone package is cleaned up. It is not guaranteed
 that objects already on the workers and independently loaded packages
-are not affected. Best to start new instances beforehand.
+are not affected. Best to start new instances beforehand
+if \code{cl} argument is a 'snow' type cluster.
 
 No update method is available for parallel \code{mcmc.list} objects.
+See \code{\link{parUpdate}} and related parallel functions
+(\code{\link{parJagsModel}}, \code{\link{parCodaSamples}}) 
+for such purpose.
 
-Additionally loaded JAGS modules (e.g. \code{"glm"}) need to be loaded
-to the workers. See Examples.
+Additionally loaded JAGS modules (e.g. \code{"glm"}, 
+\code{"lecuyer"}) need to be loaded to the workers
+when using 'snow' type cluster as \code{cl} argument. See Examples.
+
+The use of the \code{"lecuyer"} module is recommended when
+running more than 4 chains. See Examples and 
+\code{\link{parallel.inits}}.
 }
 \value{
 An \code{mcmc.list} object.
@@ -60,7 +78,10 @@ An \code{mcmc.list} object.
 Peter Solymos, \email{solymos@ualberta.ca}
 }
 \seealso{
-\code{\link[dclone]{jags.fit}}
+Sequential version: \code{\link[dclone]{jags.fit}}
+
+Function for stepwise modeling with JAGS: \code{\link{parJagsModel}}, 
+\code{\link{parUpdate}}, \code{\link{parCodaSamples}}
 }
 \examples{
 \dontrun{
@@ -109,7 +130,12 @@ pm4 <- jags.parfit(cl, dat, "beta", glm.model, inits)
 fun <- function() list(beta=matrix(rnorm(2),1,2))
 inits <- function() fun()
 clusterExport(cl, "fun")
-pm4 <- jags.parfit(cl, dat, "beta", glm.model, inits)
+## using the L'Ecuyer module with 6 chains
+load.module("lecuyer")
+parLoadModule(cl,"lecuyer")
+pm4 <- jags.parfit(cl, dat, "beta", glm.model, inits,
+    n.chains=6)
+nchain(pm4)
 stopCluster(cl)
 ## multicore type forking
 if (.Platform$OS.type != "windows") {

@@ -7,8 +7,9 @@ Make a square matrix symmetric by averaging.
 }
 \description{
 Matrix symmetry might depend on numerical precision issues.
-There is a bug in JAGS related to this issue for multivariate
-normal nodes. This simple function can fix the issue.
+The older version of JAGS had a bug related to this issue for 
+multivariate normal nodes. This simple function can fix the issue,
+but new JAGS versions do not require such intervention.
 }
 \usage{
 make.symmetric(x)
@@ -19,13 +20,15 @@ A square matrix.
 }
 }
 \details{
-The function takes the average of \code{(x[i, j] + x[j, i]) / 2} for each off diagonal cells.
+The function takes the average as \code{(x[i, j] + x[j, i]) / 2} 
+for each off diagonal cells.
 }
 \value{
 A symmetric square matrix.
 }
 \note{
-The function works for any matrix, even for those not intended to be symmetric.
+The function works for any matrix, 
+even for those not intended to be symmetric.
 }
 \author{
 Peter Solymos, \email{solymos@ualberta.ca}

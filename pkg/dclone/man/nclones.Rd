@@ -35,5 +35,6 @@ Peter Solymos, \email{solymos@ualberta.ca}
 \examples{
 x <- dclone(1:10, 10)
 nclones(x)
+nclones(1:10) # this is NULL
 }
 \keyword{ manip }

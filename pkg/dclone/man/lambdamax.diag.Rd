@@ -4,10 +4,11 @@
 \alias{lambdamax.diag}
 \alias{chisq.diag}
 \title{
-Maximum Eigenvalue of the Posterior Variance-Covariance Matrix
+Data Cloning Diagnostics
 }
 \description{
-Calculates the maximum eigenvalue of the posterior variance-covariance matrix
+These functions calculates diagnostics for evaluating data cloning 
+convergence.
 }
 \usage{
 lambdamax.diag(x)
@@ -19,24 +20,27 @@ chisq.diag(x)
 }
 }
 \details{
-This diagnostics can be used to test for the data cloning convergence
+These diagnostics can be used to test for the data cloning convergence
 (Lele et al. 2007, 2010).
 Asymptotically the posterior distribution of the parameters approaches
 a degenerate multivariate normal distribution. As the distribution
 is getting more degenerate, the maximal eigenvalue (\eqn{\lambda_{max}})
 of the unscaled covariance matrix is decreasing.
-There is no critical value under which \eqn{\lambda_{max}} is good enough.
-By default, 0.05 is used (see \code{getOption("dclone")$diag}).
+There is no critical value under which \eqn{\lambda_{max}} is good 
+enough. By default, 0.05 is used (see \code{getOption("dclone")$diag}).
 
-Another diagnostic tool is to check if the joint posterior distribution is
-multivariate normal. It is done by \code{chisq.diag} as described by
+Another diagnostic tool is to check if the joint posterior distribution 
+is multivariate normal. It is done by \code{chisq.diag} as described by
 Lele et al. (2010).
 }
 \value{
-\code{lambdamax.diag} returns a single vaue, the maximum of the eigenvalues of the 
+\code{lambdamax.diag} returns a single vaue, the maximum of the 
+eigenvalues of the 
 unscaled variance covariance matrix of the estimated parameters.
 
-\code{chisq.diag} returns 
+\code{chisq.diag} returns two test statistic values
+(mean squared error and r-squared) with empirical and theoretical
+quantiles.
 }
 \references{
 Lele, S.R., B. Dennis and F. Lutscher, 2007.
@@ -45,7 +49,8 @@ ecological models using Bayesian Markov chain Monte Carlo  methods.
 \emph{Ecology Letters} \strong{10}, 551--563.
 
 Lele, S. R., K. Nadeem and B. Schmuland, 2010.
-Estimability and likelihood inference for generalized linear mixed models using data cloning.
+Estimability and likelihood inference for generalized 
+linear mixed models using data cloning.
 \emph{Journal of the American Statistical Association}
 \strong{105}, 1617--1625.
 

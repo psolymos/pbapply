@@ -6,26 +6,33 @@
 Fit JAGS models with cloned data
 }
 \description{
-Convenient functions designed to work well with cloned data arguments and JAGS.
+Convenient functions designed to work well with 
+cloned data arguments and JAGS.
 }
 \usage{
-jags.fit(data, params, model, inits = NULL, n.chains = 3, n.adapt = 1000,
-n.update = 1000, thin = 1, n.iter = 5000, updated.model=TRUE, ...)
+jags.fit(data, params, model, inits = NULL, n.chains = 3, 
+    n.adapt = 1000, n.update = 1000, thin = 1, n.iter = 5000, 
+    updated.model=TRUE, ...)
 }
 \arguments{
   \item{data}{
-A named list or environment containing the data. If an environment, \code{data}
-is coerced into a list so cloning will work properly.
+A named list or environment containing the data. 
+If an environment, \code{data}
+is coerced into a list.
 }
   \item{params}{
 Character vector of parameters to be sampled.
 }
   \item{model}{
-Character string (name of the model file), a function containing the model, or a or \code{\link{custommodel}} object (see Examples).
+Character string (name of the model file), a function containing 
+the model, or a or \code{\link{custommodel}} object (see Examples).
 }
   \item{inits}{
-Optional specification of initial values in the form of a list or a function (see Initialization at \code{\link[rjags]{jags.model}}). 
-If \code{NULL}, initial values will be generated automatically. It is an error to supply an initial value for an observed node.
+Optional specification of initial values in the form of a 
+list or a function (see Initialization at 
+\code{\link[rjags]{jags.model}}). 
+If \code{NULL}, initial values will be generated automatically. 
+It is an error to supply an initial value for an observed node.
 }
   \item{n.chains}{
 Number of chains to generate.
@@ -34,8 +41,9 @@ Number of chains to generate.
 Number of steps for adaptation.
 }
   \item{n.update}{
-Number of updates before iterations. It is usually a bad idea to use \code{n.update=0} if \code{n.adapt>0}, so 
-a warning is issued in such cases.
+Number of updates before iterations. 
+It is usually a bad idea to use \code{n.update=0} if 
+\code{n.adapt>0}, so a warning is issued in such cases.
 }
   \item{thin}{
 Thinning value.
@@ -44,30 +52,38 @@ Thinning value.
 Number of iterations.
 }
   \item{updated.model}{
-Logical, if the updated model should be attached as attribute (this can be used to further update if convergence
-was not satisfactory, see \code{\link{updated.model}} and \code{\link{update.mcmc.list}}).
+Logical, if the updated model should be attached as attribute 
+(this can be used to further update if convergence
+was not satisfactory, see \code{\link{updated.model}} and 
+\code{\link{update.mcmc.list}}).
 }
   \item{\dots}{
-Further arguments passed to \code{\link[rjags]{coda.samples}}, and \code{\link[rjags]{update.jags}}
+Further arguments passed to \code{\link[rjags]{coda.samples}}, 
+and \code{\link[rjags]{update.jags}}
 (e.g. the \code{progress.bar} argument).
 }
 }
 \value{
 An \code{mcmc.list} object. If data cloning is used via the 
 \code{data} argument, \code{summary} returns a modified summary
-containing scaled data cloning standard errors (scaled by \code{sqrt(n.clones)}),
-and \eqn{R_{hat}} values (as returned by \code{\link[coda]{gelman.diag}}).
+containing scaled data cloning standard errors 
+(scaled by \code{sqrt(n.clones)}, see \code{\link{dcsd}}), 
+and \eqn{R_{hat}} values 
+(as returned by \code{\link[coda]{gelman.diag}}).
 }
 \author{
 Peter Solymos, \email{solymos@ualberta.ca}
 }
 \seealso{
-Underlying functions: \code{\link[rjags]{jags.model}}, \code{\link[rjags]{coda.samples}}
+Underlying functions: \code{\link[rjags]{jags.model}}, 
+\code{\link[rjags]{update.jags}}, 
+\code{\link[rjags]{coda.samples}}
 
 Parallel chain computations: \code{\link{jags.parfit}}
 
 Methods: \code{\link{dcsd}}, \code{\link{confint.mcmc.list.dc}}, 
-\code{\link{coef.mcmc.list}}, \code{\link{quantile.mcmc.list}}, \code{\link{vcov.mcmc.list.dc}}
+\code{\link{coef.mcmc.list}}, \code{\link{quantile.mcmc.list}}, 
+\code{\link{vcov.mcmc.list.dc}}
 }
 \examples{
 \dontrun{
