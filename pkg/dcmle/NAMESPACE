@@ -2,7 +2,9 @@
 export(dcmle, makeGsFit, makeDcFit,
     listDcExamples, sourceDcExample)
 exportClasses(gsFit, dcFit, dcMle)
-#exportClasses(custommodel, dcModel)
+exportClasses(custommodel, mcmc, mcmc.list, mcmc.list.dc, dctable, dcdiag)
+exportClasses(nClones, dcDiag, dcTable, MCMClist,
+    dcArgs, dcParams, dcFunction, dcInits, dcModel)
 exportMethods(summary, show, coef, dcsd, confint, vcov, quantile,
     dctable, dcdiag, nclones)
 
@@ -32,4 +34,8 @@ importFrom(dclone,
        snowWrapper, 
        clusterSize, plotClusterSize,
        clusterSplitSB, 
-       parLapplySB, parLapplySLB)
+       parLapplySB, parLapplySLB,
+       parallel.inits,
+       mclapplySB,
+       evalParallelArgument)
+

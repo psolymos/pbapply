@@ -1,3 +1,7 @@
+## see check results
+## move as.mcmc.list generic to dcmle and test
+## separate pva, classes and methods
+
 ## this declares S4 class pvamodel
 setClass("pvamodel", 
     representation(
@@ -57,6 +61,10 @@ setMethod("show", "pva", function(object) {
 
 ## this extracts mcmc info 
 ## and transforms it to original scale if desired
+setGeneric("as.mcmc.list",
+  function(x, ...)
+    standardGeneric("as.mcmc.list")
+)
 setMethod("as.mcmc.list", "pva", 
 function(x, backtransf=FALSE, ...) {
     if (backtransf)

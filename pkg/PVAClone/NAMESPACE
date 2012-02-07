@@ -10,3 +10,9 @@ exportClasses(
     "pva",
      "pvamodel" 
 )
+#importFrom(dcmle, gsFit, dcFit, dcMle)
+importFrom(stats, quantile, update)
+importFrom(methods, show)
+#importFrom(coda, as.mcmc.list)
+importClassesFrom(dcmle, dcMle)
+#importMethodsFrom(coda, as.mcmc.list)
