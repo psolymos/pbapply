@@ -6,7 +6,7 @@
 
 setClass("hsarx", 
     representation(title="character", 
-        Y="numeric", X="matrix", Z="matrix", G="integer",
+        Y="numeric", X="matrix", Z="matrix", G="integer"),
 #        varnames="character",  # human readable variable names
 #        parnames="character"), # internal JAGS node names
     contains = "dcMle")
@@ -54,7 +54,7 @@ if (ncol(X) > 2)
         Z <- NULL
         G <- NULL
     }
-    dcf <- hsarx.fit(Y, X, Z, G)
+    dcf <- sharx:::hsarx.fit(Y, X, Z, G)
     dcm <- dcmle(dcf, n.clones=n.clones, cl=cl, ...)
     out <- as(dcm, "hsarx")
     title <- if (ncol(X) > 2)
