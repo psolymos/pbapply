@@ -1,8 +1,14 @@
 ## TODO:
 ## - coef names to match model frame
+## - include dcFit
+## - include prediction model (estimates, vcov or SE)
+## - include prediction for model selection purposes???
 
 setClass("hsarx", 
-    representation(title="character", Y="numeric", X="matrix", Z="matrix", G="integer"), 
+    representation(title="character", 
+        Y="numeric", X="matrix", Z="matrix", G="integer",
+#        varnames="character",  # human readable variable names
+#        parnames="character"), # internal JAGS node names
     contains = "dcMle")
 
 setMethod("show", "hsarx", function(object) {
@@ -48,7 +54,9 @@ if (ncol(X) > 2)
         Z <- NULL
         G <- NULL
     }
-    out <- as(dcmle(sharx:::hsarx.fit(Y, X, Z, G), n.clones=n.clones, cl=cl, ...), "hsarx")
+    dcf <- hsarx.fit(Y, X, Z, G)
+    dcm <- dcmle(dcf, n.clones=n.clones, cl=cl, ...)
+    out <- as(dcm, "hsarx")
     title <- if (ncol(X) > 2)
         "SARX" else "SAR"
     if (!is.null(Z)) {

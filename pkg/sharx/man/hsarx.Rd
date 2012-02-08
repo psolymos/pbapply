@@ -36,10 +36,12 @@ Other arguments for MCMC.
 }
 }
 \details{
-Fit SAR, SARX, HSAR and HSARX models to data as described in Solymos and Lele
+Fit SAR, SARX, HSAR and HSARX models to data as described in 
+Solymos and Lele (2012).
 }
 \value{
-An mcmc.list object.
+An S4 object object of class 'hsarx'. It inherits from 'dcMle',
+and has additional slots for storing the data.
 }
 \references{
 Solymos, P. and Lele, S. R., 2012. 
