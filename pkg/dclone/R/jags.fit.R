@@ -1,7 +1,7 @@
 ## not using jagsModel and codaSamples so updated.model is without attribute
 jags.fit <-
 function(data, params, model, inits = NULL, n.chains = 3, n.adapt = 1000, 
-n.update = 1000, thin = 1, n.iter = 5000, updated.model=TRUE, ...)
+n.update = 1000, thin = 1, n.iter = 5000, updated.model = TRUE, ...)
 {
     ## stop if rjags not found
     if (!suppressWarnings(require(rjags)))

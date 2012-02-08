@@ -45,7 +45,8 @@ jdata <- list(N = N, Y = Y, x = x)
 ## what to monitor
 jpara <- c("alpha", "beta", "sigma")
 ## fit the model with JAGS
-regmod <- jags.fit(jdata, jpara, jfun, n.chains = 3)
+regmod <- jags.fit(jdata, jpara, jfun, n.chains = 3,
+    updated.model = FALSE)
 }
 }
 \keyword{datasets}

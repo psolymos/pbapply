@@ -12,7 +12,7 @@ cloned data arguments and JAGS.
 \usage{
 jags.fit(data, params, model, inits = NULL, n.chains = 3, 
     n.adapt = 1000, n.update = 1000, thin = 1, n.iter = 5000, 
-    updated.model=TRUE, ...)
+    updated.model = TRUE, ...)
 }
 \arguments{
   \item{data}{
