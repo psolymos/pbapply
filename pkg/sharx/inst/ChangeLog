@@ -1,5 +1,9 @@
 sharx package version history
 
+Version 1.0-3, Feb 8, 2012
+    * Full citation of Solymos and Lele 2012 added.
+    * hsarx uses dcmle.
+
 Version 1.0-2, Sept 28, 2011
     * dcmle dependency for hsarx.
 

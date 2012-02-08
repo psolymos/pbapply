@@ -5,16 +5,14 @@ citEntry(entry = "Article",
   author       = personList(as.person("P\\'{e}ter S\\'{o}lymos"),
                  as.person("Subhash R Lele")),
   journal      = "Global Ecology and Biogeography",
-  year         = "in press",
-  volume       = "",
-  number       = "",
-  pages        = "",
-  note         = "in press",
+  year         = "2012",
+  volume       = "21",
+  pages        = "109--120",
 
   textVersion  =
-  paste("Solymos, P and Lele, S R (in press).",
+  paste("Solymos, P and Lele, S R (2012).",
         "Global pattern and local variation in species-area relationships.",
-        "Global Ecology and Biogeography xx, xx-xx.")
+        "Global Ecology and Biogeography 21, 109-120.")
 )
 
 

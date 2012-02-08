@@ -6,7 +6,8 @@
 Fit SAR, SARX, HSAR and HSARX models to data
 }
 \description{
-Fit SAR, SARX, HSAR and HSARX models to data
+Fit SAR, SARX, HSAR and HSARX models to data as
+described in Solymos and Lele (2012).
 }
 \usage{
 hsarx(formula, data, n.clones, cl = NULL, subset, na.action, ...)
@@ -41,15 +42,15 @@ Fit SAR, SARX, HSAR and HSARX models to data as described in Solymos and Lele
 An mcmc.list object.
 }
 \references{
-Solymos, P. and Lele, S. R. (in press), Global pattern and local variation
-in species-area relationships. 
-Global Ecology and Biogeography, xx: xx--xx.
+Solymos, P. and Lele, S. R., 2012. 
+Global pattern and local variation in species-area relationships. 
+\emph{Global Ecology and Biogeography} 21, 109--120.
 }
 \author{
 Peter Solymos
 }
 \seealso{
-jags.fit, etc.
+\code{\link{sardata}} for data sets.
 }
 \examples{
 \dontrun{
