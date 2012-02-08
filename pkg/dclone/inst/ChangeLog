@@ -10,6 +10,9 @@ Version 1.7-1, January 31, 2012
     * length(cl) >= n.chains is required in
       parJagsModel, parUpdate and parCodaSamples
       recognizes empty workers accordingly.
+    * lecuyer module is checked only for clusters
+      and not for forking.
+    * Rd files cleaned up, documentation is up-to-date.
 
 Version 1.7-0, January 25, 2012
     * Preparing for major CRAN release.

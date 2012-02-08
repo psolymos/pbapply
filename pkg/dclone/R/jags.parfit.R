@@ -36,7 +36,7 @@ function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
         }
     }
     ## generating initial values and RNGs if needed
-    if ("lecuyer" %in% list.modules()) {
+    if (inherits(cl, "cluster") && "lecuyer" %in% list.modules()) {
         mod <- parListModules(cl)
         for (i in 1:length(mod)) {
             if (!("lecuyer" %in% mod[[i]]))

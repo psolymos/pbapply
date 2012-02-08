@@ -147,7 +147,7 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
         ## balancing+parchains
         } else {
             ## RNG and initialization
-                if ("lecuyer" %in% list.modules()) {
+                if (inherits(cl, "cluster") && "lecuyer" %in% list.modules()) {
                     mod <- parListModules(cl)
                     for (i in 1:length(mod)) {
                         if (!("lecuyer" %in% mod[[i]]))
