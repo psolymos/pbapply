@@ -51,7 +51,7 @@ function(null, alt, pred)
 }
 ## model selection
 model.select <- 
-function(null, alt, B=10^3)
+function(null, alt, B=10^4)
 {
     if (alt@model@obs.error != "none") {
         op <- dcoptions("verbose"=0)
