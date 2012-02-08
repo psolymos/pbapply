@@ -13,7 +13,8 @@ parListFactories(cl, type)
 parSetFactory(cl, name, type, state)
 }
 \arguments{
-  \item{cl}{a cluster object created by the \pkg{snow} package.}
+  \item{cl}{a cluster object created by the 
+    \pkg{parallel} (or \pkg{snow}) package.}
   \item{name}{name of the factory to set}
   \item{type}{type of factory to query or set. Possible values are
     \code{"sampler"}, \code{"monitor"}, or \code{"rng"}}
@@ -21,13 +22,14 @@ parSetFactory(cl, name, type, state)
     active, otherwise the factory will become inactive.}
 }
 \value{
-  \code{parListFactories} returns a data frame with two columns per
-  each worker, the first
+  \code{parListFactories} returns a a list of data frame 
+  with two columns per each worker, the first
   column shows the names of the factory objects in the currently loaded
   modules, and the second column is a logical vector indicating whether
   the corresponding factory is active or not.
 
-  \code{sparStFactory} is called to change the future behaviour of factory
+  \code{sparStFactory} is called to change 
+  the future behaviour of factory
   objects. If a factory is set to inactive then it will be skipped.
 } 
 \note{
@@ -35,7 +37,8 @@ parSetFactory(cl, name, type, state)
   is also true if a module is unloaded and then reloaded.
 }
 \author{Peter Solymos, \email{solymos@ualberta.ca}}
-\seealso{\code{\link[rjags]{list.modules}}, \code{\link[rjags]{set.factory}}
+\seealso{\code{\link[rjags]{list.modules}}, 
+\code{\link[rjags]{set.factory}}
 }
 \examples{
 \dontrun{

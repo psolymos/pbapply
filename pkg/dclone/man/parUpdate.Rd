@@ -10,7 +10,8 @@ parUpdate(cl, object, n.iter=1, \ldots)
 \arguments{
   \item{cl}{
     A cluster object created by \code{\link[snow]{makeCluster}}, or
-    an integer. It can also be \code{NULL}, see \code{\link{snowWrapper}}.
+    an integer. It can also be \code{NULL}, 
+    see \code{\link{snowWrapper}}.
   }
   \item{object}{character, name of a jags model object}
   \item{n.iter}{number of iterations of the Markov chain to run}
@@ -19,7 +20,7 @@ parUpdate(cl, object, n.iter=1, \ldots)
 }
 \value{
   The \code{parUpdate} function modifies the
-  original object and returns \code{NULL} on parallel workers.
+  original object on parallel workers and returns \code{NULL}.
 }
 \author{Peter Solymos, \email{solymos@ualberta.ca}}
 \seealso{\code{\link[rjags]{update.jags}}

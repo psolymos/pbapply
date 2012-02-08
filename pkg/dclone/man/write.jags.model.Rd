@@ -12,18 +12,17 @@ Writes or removes a BUGS model file to or from the hard drive.
 }
 \usage{
 write.jags.model(model, filename = "model.bug", dir = getwd(),
-overwrite = getOption("dcoptions")$overwrite)
+    overwrite = getOption("dcoptions")$overwrite)
 clean.jags.model(filename = "model.bug", dir = getwd())
-custommodel(model, exclude = NULL)
+    custommodel(model, exclude = NULL)
 }
 \arguments{
   \item{model}{
 JAGS model to write onto the hard drive (see Example).
 For \code{write.jags.model}, it can be name of a file or a function,
 or it can be an 'custommodel' object returned by \code{custommodel}.
-\code{custommodel} can take its \code{model} argument as function
-or any object type. If \code{model} is not function, its is coerced
-as character.
+\code{custommodel} can take its \code{model} argument as function. 
+If \code{model} is not function, its is coerced as character.
 }
   \item{filename}{
 Character, the name of the file to write/remove.
@@ -46,13 +45,16 @@ Numeric, lines of the model to exclude (see Details).
 
 \code{clean.jags.model} is built upon the function 
 \code{\link{file.remove}}, and 
-intended to be used internally to clean the JAGS 
-model file up after estimating sessions, 
+intended to be used internally to clean up the JAGS 
+model file after estimating sessions, 
 ideally via the \code{\link{on.exit}} function.
 
 The function \code{custommodel} can be used to exclude some lines
 of the model. This is handy when there are variations of the same model.
 \code{write.jags.model} accepts results returned by \code{custommodel}.
+This is also the preferred way of including BUGS models into
+R packages, because the function form often includes 
+undefined functions.
 
 Use the \code{\%_\%} operator if the model is a function and the model
 contains truncation (\code{I()} in WinBUGS, \code{T()} in JAGS).
@@ -64,9 +66,10 @@ that was written eventually (possibly including random string).
 
 \code{clean.jags.model} invisibly returns the result of 
 \code{\link{file.remove}} (logical).
-Original working directory is then restored.
+Original working directory is restored.
 
-\code{custommodel} returns an object of class 'custommodel', which is a character vector.
+\code{custommodel} returns an object of class 'custommodel', 
+which is a character vector.
 }
 \author{
 Peter Solymos, \email{solymos@ualberta.ca}

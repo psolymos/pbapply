@@ -7,7 +7,7 @@
 Exemplary MCMC list object
 }
 \description{
-This data set was done via the code for \code{\link{jags.fit}} function.
+This data set was made via the \code{\link{jags.fit}} function.
 }
 \usage{data(regmod)}
 \source{
