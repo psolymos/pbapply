@@ -97,6 +97,7 @@ bevholt <- function(y, n.clones, ...) {
 ## this way it will work in a package that depends on dcmle
 setMethod("show", "bevholtMle", function(object) {
     getMethod("summary","dcMle")(as(object, "dcMle"), object@title)
+    invisible(object)
 })
 paurelia <- c(17,29,39,63,185,258,267,392,510,
     570,650,560,575,650,550,480,520,500)
