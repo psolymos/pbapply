@@ -217,7 +217,7 @@ beverton.holt <- function() {
     mu0 <- log(2)  + log(lambda) - log(1 + beta * 2)
 }
 mod <- dc.fit(dat, c("lambda","beta","sigma"), beverton.holt,
-    n.clones=c(2, 5, 10), multiply="ncl", unchanged="n")
+    n.clones=c(1, 2, 5, 10), multiply="ncl", unchanged="n")
 ## compare with results from the paper:
 ##   beta   = 0.00235
 ##   lambda = 2.274
