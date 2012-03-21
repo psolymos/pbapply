@@ -11,10 +11,10 @@ Write and remove model file
 Writes or removes a BUGS model file to or from the hard drive.
 }
 \usage{
-write.jags.model(model, filename = "model.bug", dir = getwd(),
-    overwrite = getOption("dcoptions")$overwrite)
+write.jags.model(model, filename = "model.bug", digits = 5,
+    dir = getwd(), overwrite = getOption("dcoptions")$overwrite)
 clean.jags.model(filename = "model.bug", dir = getwd())
-    custommodel(model, exclude = NULL)
+custommodel(model, exclude = NULL, digits = 5)
 }
 \arguments{
   \item{model}{
@@ -24,8 +24,12 @@ or it can be an 'custommodel' object returned by \code{custommodel}.
 \code{custommodel} can take its \code{model} argument as function. 
 If \code{model} is not function, its is coerced as character.
 }
+  \item{digits}{
+Number of significant digits used in the output.
+}
   \item{filename}{
 Character, the name of the file to write/remove.
+It can be a \code{link{connection}}.
 }
   \item{dir}{
 Optional argument for directory where to write or 

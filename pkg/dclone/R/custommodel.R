@@ -1,10 +1,13 @@
 custommodel <-
-function (model, exclude = NULL)
+function (model, exclude = NULL, digits = 5)
 {
     if (is.function(model)) {
-        model.text <- attr(model, "source")
-        model.text <- sub("^\\s*function\\s*\\(\\s*\\)", "model", 
-            model.text)
+        model.text <- c("model", 
+            R2WinBUGS:::replaceScientificNotationR(body(model), 
+            digits=digits))
+#        model.text <- attr(model, "source")
+#        model.text <- sub("^\\s*function\\s*\\(\\s*\\)", "model", 
+#            model.text)
         model.text <- gsub("%_%", "", model.text)
     } else {
         model.text <- as.character(unlist(model))
