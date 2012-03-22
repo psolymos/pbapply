@@ -13,7 +13,7 @@ importFrom(stats, quantile, update)
 importFrom(methods, show)
 #importFrom(rjags)
 importFrom(coda, as.mcmc.list)
-importFrom(stats4, summary)
+importFrom(stats4, coef, confint, summary, vcov)
 
 ## dclone imports
 importFrom(dclone,

@@ -1,6 +1,8 @@
 ## wrapper function
 dcmle <- function(x, params, n.clones=1, cl=NULL, ...) {
     ## get defaults right for cl argument
+    if (cl == 1)
+        cl <- NULL
     cl <- evalParallelArgument(cl)
     ## coerce into dcFit (issue error if it is not possible)
     x <- as(x, "dcFit")

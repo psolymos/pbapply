@@ -1,5 +1,13 @@
 dcmle package version history
 
+Version 0.1-6, March 22, 2012
+    * dcmle: cl=1 is now acceptable (defaults to NULL).
+
+Version 0.1-5, Feb 25, 2012
+    * S4 mthods compliance for R 2.15.0:
+      importFrom(stats4, coef, confint, summary, vcov)
+      added to namespace (reported by B Ripley).
+
 Version 0.1-4, Jan 31, 2012
     * sourceDcExample: topic is coerced to character.
     * Documentation updated.
