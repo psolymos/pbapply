@@ -2,6 +2,7 @@ dcmle package version history
 
 Version 0.1-6, March 22, 2012
     * dcmle: cl=1 is now acceptable (defaults to NULL).
+      Note that this behaviour is different from that is in dclone.
 
 Version 0.1-5, Feb 25, 2012
     * S4 mthods compliance for R 2.15.0:
