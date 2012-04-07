@@ -16,7 +16,8 @@ function(x, ...)
     start <- x$n.burnin+1
     end <- x$n.iter
     thin <- x$n.thin
-    nobs <- floor((end - start)/thin + 1)
+#    nobs <- (end - start + thin) / thin
+    nobs <- floor((end - start) / thin + 1)
     ## some tweaking for OpenBUGS
     if (niter < nobs) {
         start <- start + thin - 1
