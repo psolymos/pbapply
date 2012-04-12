@@ -56,7 +56,9 @@ export(dcsd.mcmc.list,
         nclones.default, 
         pairs.mcmc.list, 
         update.mcmc.list,
-        stack.mcmc.list)
+        stack.mcmc.list,
+        lambdamax.diag.mcmc.list,
+        chisq.diag.mcmc.list)
 
 ## register methods for main dclone functions/classes
 S3method("nclones", "default")
@@ -73,6 +75,8 @@ S3method("updated.model", "mcmc.list")
 S3method("updated.model", "mcmc.list.dc")
 S3method("update", "mcmc.list")
 S3method("stack", "mcmc.list")
+S3method("chisq.diag", "mcmc.list")
+S3method("lambdamax.diag", "mcmc.list")
 
 S3method("[", "mcmc.list.dc")
 S3method("coef", "mcmc")
