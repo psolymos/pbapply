@@ -23,6 +23,9 @@ chisq.diag(x, ...)
   \item{x}{
   An object of class \code{mcmc} or \code{mcmc.list}.
 }
+  \item{\dots}{
+Other arguments to be passed.
+}
 }
 \details{
 These diagnostics can be used to test for the data cloning convergence
