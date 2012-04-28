@@ -5,6 +5,7 @@ Version 1.7-2, March 21, 2012
       These now accept connection as filename argument.
     * lambdamax.diag and chisq.diag are now generics.
       Methods for mcmc.list is defined.
+    * inst/COPYING file removed (standard license).
 
 Version 1.7-1, January 31, 2012
     * Now that rjags is only suggested
