@@ -3,6 +3,7 @@ ResourceSelection package version history
 Version 0.1-5, Oct 20, 2011
     * goats data set added from Lele and Keim 2006.
     * Rd for goats contains an example analysis, too.
+    * inst/COPYING removed.
 
 Version 0.1-4, Oct 18, 2011
     * R (>= 2.13.0) dependency added
