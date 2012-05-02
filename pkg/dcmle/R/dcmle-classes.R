@@ -97,7 +97,8 @@ setAs(from = "MCMClist", to = "dcCodaMCMC", def = function(from) {
     if (is.null(k))
         k <- NA
     dcd <- dcdiag(from)
-    rownames(dcd) <- deparse(substitute(from))
+    if (nrow(dcd) == 1)
+        rownames(dcd) <- deparse(substitute(from))
     new("dcCodaMCMC", 
         as(from, "codaMCMC"),
         dcdiag = dcd,
