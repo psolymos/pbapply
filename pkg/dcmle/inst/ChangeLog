@@ -1,0 +1,47 @@
+dcmle package version history
+
+Version 0.2-0, April 27, 2012
+    * dcmle class replaces dcMle, new classes and methods added.
+      Complete rework of the package internals, no user visible
+      changes (except for coda type methods are now available
+      without extra as.mcmc.list coercion, including plots).
+
+Version 0.1-6, March 22, 2012
+    * dcmle: cl=1 is now acceptable (defaults to NULL).
+      Note that this behaviour is different from that is in dclone.
+
+Version 0.1-5, Feb 25, 2012
+    * S4 mthods compliance for R 2.15.0:
+      importFrom(stats4, coef, confint, summary, vcov)
+      added to namespace (reported by B Ripley).
+
+Version 0.1-4, Jan 31, 2012
+    * sourceDcExample: topic is coerced to character.
+    * Documentation updated.
+    * NAMESPACE updated to export all classes,
+      and import new functions from dclone.
+    * S4 summary method is now imported from stats4 and not
+      redefined again.
+
+Version 0.1-3, Jan 25, 2012
+    * Preparing for new release.
+    * Define S4 generic for 'summary'.
+
+Version 0.1-2, Oct 18, 2011
+    * params slot can be list (to follow new dclone options).
+    * show/summary method for dcMle class got headings:
+      Settings, Coefficients, Convergence.
+    * dcmle failed with initsfun when length(n.clones)==1
+      and n.clones>1: now fixed.
+    * dcmle checks for getOption("mc.cores") and uses it
+      when cl=NULL and mc.cores > 1. This allows
+      forking to happen automatically via the global option.
+
+Version 0.1-1, Sept 29, 2011
+    * dcExample, sourceDcExample, listDcExample: new
+      functions added to deal with examples from R-Forge.
+
+Version 0.1-0, Sept 27, 2011
+    * main functions, classes, methods work
+    * dependencies and namespace figured out
+    * documentation is ready
