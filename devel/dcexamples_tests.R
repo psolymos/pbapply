@@ -56,9 +56,9 @@ for (i in 1:length(topic)) {
     t1[i,] <- timer1[[as.character(topic[i])]][1:3]
     t2[i,] <- timer2[[as.character(topic[i])]][1:3]
 }
-gs1 <- sapply(as.list(res1), function(z) length(varnames(z@mcmc)))
-nc1 <- sapply(as.list(res1), function(z) nchain(z@mcmc))
-nc2 <- sapply(as.list(res2), function(z) nchain(z@mcmc))
+gs1 <- sapply(as.list(res1), nvar)
+nc1 <- sapply(as.list(res1), nchain)
+nc2 <- sapply(as.list(res2), nchain)
 ## this for DC
 timer3 <- new.env(hash=FALSE)
 timer4 <- new.env(hash=FALSE)
@@ -106,11 +106,11 @@ for (i in 1:length(topic)) {
     t5[i,] <- timer5[[as.character(topic[i])]][1:3]
     t6[i,] <- timer6[[as.character(topic[i])]][1:3]
 }
-gs3 <- sapply(as.list(res3), function(z) length(varnames(z@mcmc)))
-nc3 <- sapply(as.list(res3), function(z) nchain(z@mcmc))
-nc4 <- sapply(as.list(res4), function(z) nchain(z@mcmc))
-nc5 <- sapply(as.list(res5), function(z) nchain(z@mcmc))
-nc6 <- sapply(as.list(res6), function(z) nchain(z@mcmc))
+gs3 <- sapply(as.list(res3), nvar)
+nc3 <- sapply(as.list(res3), nchain)
+nc4 <- sapply(as.list(res4), nchain)
+nc5 <- sapply(as.list(res5), nchain)
+nc6 <- sapply(as.list(res6), nchain)
 
 (z1 <- cbind(round(cbind(seq=t1[,3], pch=t2[,3]) / t1[,3], 3), graph_size=gs1))
 (z2 <- cbind(round(cbind(seq=t3[,3], bal=t4[,3], pch=t5[,3], both=t6[,3]) / t3[,3], 3), graph_size=gs3))
