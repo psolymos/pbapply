@@ -1,10 +1,10 @@
 dcmle package version history
 
 Version 0.2-0, April 27, 2012
-    * dcmle class replaces dcMle, new classes and methods added.
-      Complete rework of the package internals, no user visible
+    * Complete rework of the package internals, no user visible
       changes (except for coda type methods are now available
       without extra as.mcmc.list coercion, including plots).
+    * dcmle class replaces dcMle, new classes and methods added.
 
 Version 0.1-6, March 22, 2012
     * dcmle: cl=1 is now acceptable (defaults to NULL).

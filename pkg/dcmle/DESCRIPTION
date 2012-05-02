@@ -1,8 +1,8 @@
 Package: dcmle
 Type: Package
 Title: Hierarchical Models Made Easy with Data Cloning
-Version: 0.1-6
-Date: 2012-03-22
+Version: 0.2-0
+Date: 2012-04-27
 Author: Peter Solymos
 Maintainer: Peter Solymos <solymos@ualberta.ca>
 Description: S4 classes around infrastructure
