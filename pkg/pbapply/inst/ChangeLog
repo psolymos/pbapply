@@ -1,7 +1,7 @@
 pbapply package version history
 
 Version 1.0-5, October 24, 2011
-    * inst/CITATION removed.
+    * inst/COPYING removed.
 
 Version 1.0-4, September 8, 2011
     * .onLoad added to zzz.R
