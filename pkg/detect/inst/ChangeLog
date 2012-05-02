@@ -1,5 +1,8 @@
 detect package version history
 
+Version 0.2-2, May 2, 2012
+    * inst/COPYING file removed (standard license).
+
 Version 0.2-1, November 25, 2011
     * Help pages edited.
 
