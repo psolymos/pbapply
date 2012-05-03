@@ -15,7 +15,9 @@ function(x, ...)
     dcd <- x@dcdata
     dcd@model <- x@model@predmodel
     f <- jags.fit(dcd@data, 
-        params="x", 
+#        params="x", 
+#        params=node,
+        params=paste(node, "[",i,",1]",sep=""),
         model=dcd@model, ...)
     pred <- as.matrix(f)
     colnames(pred) <- paste("value", i, sep="_")
