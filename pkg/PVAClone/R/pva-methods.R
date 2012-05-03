@@ -1,15 +1,15 @@
 ## this prints the summary
 setMethod("show", "pva", function(object) {
-    getMethod("summary","dcMle")(as(object, "dcMle"), 
-        fancyPVAmodel(object))
-    invisible(object)
+    y <- summary(as(object, "dcmle"), fancyPVAmodel(object))
+    y@coef <- object@summary
+    show(y)
 })
 
 ## this extracts mcmc info 
 ## and transforms it to original scale if desired
 setMethod("as.mcmc.list", "pva", 
 function(x, backtransf=FALSE, ...) {
-    m <- as.mcmc.list(x)
+    m <- as.mcmc.list(as(x,"dcmle"))
     if (backtransf) {
         x@model@backtransf(m) 
     } else {

@@ -28,12 +28,13 @@ function(x, model, n.clones, ...)
         dcf@data$y <- dcdim(data.matrix(log(x)))
     if (model@obs.error == "poisson")
         dcf@data$O <- dcdim(data.matrix(x))
-    fit <- dcmle(dcf, n.clones=n.clones, ...)
-    fit0 <- as(model@backtransf(fit@mcmc), "dcMle")
+    fit <- dcmle(dcf, n.clones=n.clones, 
+        nobs=as.integer(length(x)), ...)
+    fit0 <- as(model@backtransf(as.mcmc.list(fit)), "dcmle")
     ## modify summary stats 
     ## summary and vcov is on original scale
     ## mcmc.list and diagnostics are on transformed scale
-    s0 <- fit0@summary
+    s0 <- summary(fit0)@coef
     s <- matrix(NA, length(model@varnames), 4)
     rownames(s) <- model@varnames
     colnames(s) <- colnames(s0)
@@ -44,13 +45,16 @@ function(x, model, n.clones, ...)
             s[i,1] <- model@fixed[i]
         }
     }
-    fit@summary <- s
-#    fit@mcmc <- fit0@mcmc
-    fit <- as(fit, "pva")
-    fit@observations <- x
+    fit@fullcoef <- s[,1]
     fit@vcov <- vcov(fit0)
-    fit@nobs <- as.integer(length(x))
-    fit@model <- model
+    fit@details <- as(fit0, "dcCodaMCMC")
+#    fit@nobs <- as.integer(length(x))
+#    fit@mcmc <- fit0@mcmc
+    fit <- new("pva",
+        fit,
+        summary = s,
+        observations = x,
+        model = model)
     fit@model@predmodel <- eval(call(model@growth.model, 
         obs.error=model@obs.error, fixed=coef(fit)))@model
     fit@dcdata <- dcf

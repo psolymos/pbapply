@@ -20,8 +20,7 @@ setClass("pvamodel",
 setClass("pva", 
     representation(
         observations="numeric", 
-        nobs="integer",
         model="pvamodel",
-        dcdata="dcFit", 
-        vcov="matrix"),
-    contains = c("dcMle"))
+        summary="matrix",
+        dcdata="dcFit"), 
+    contains = c("dcmle"))
