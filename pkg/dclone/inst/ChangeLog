@@ -1,12 +1,12 @@
 dclone package version history
 
 Version 1.8-0, May 14, 2012
-    * dcinla: new function added, it is similar to dcdim.
-      dcinla attaches an attribute to data frames or matrices
+    * dciid: new function added, it is similar to dcdim.
+      dciid attaches an attribute to data frames or matrices
       about columns to be treated as i.i.d. observations
       by dclone(). This aims to facilitates working with the INLA
       package to generate approximate marginals based on DC.
-    * dclone.dcinla: proper cloning of objects with "dcinla"
+    * dclone.dciid: proper cloning of objects with "dciid"
       tag. It respects possible groupings of observations.
 
 Version 1.7-2, March 21, 2012
