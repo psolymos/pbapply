@@ -1,5 +1,5 @@
 ## main dclone functions
-export("dclone", "dcdim", 
+export("dclone", "dcdim", "dcinla",
        "jags.fit", "bugs.fit", "dc.fit",
        "clean.jags.model", "write.jags.model", "custommodel",
        "updated.model",
@@ -45,6 +45,7 @@ export(dcsd.mcmc.list,
         dclone.list, 
         dclone.environment, 
         dclone.dcdim, 
+        dclone.dcinla, 
         dctable.default, 
         extractdctable.default, 
         plot.dctable, 
@@ -64,6 +65,7 @@ export(dcsd.mcmc.list,
 S3method("nclones", "default")
 S3method("nclones", "list")
 S3method("dclone", "dcdim")
+S3method("dclone", "dcinla")
 S3method("dclone", "default")
 S3method("dclone", "list")
 S3method("dclone", "environment")
