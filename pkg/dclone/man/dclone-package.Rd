@@ -19,7 +19,7 @@ Main functions include:
 
 \itemize{
   \item{
-    \code{\link{dclone}}, \code{\link{dcdim}}, \code{\link{dcinla}}: 
+    \code{\link{dclone}}, \code{\link{dcdim}}, \code{\link{dciid}}: 
     cloning R objects in various ways.
   }
 

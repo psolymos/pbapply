@@ -7,7 +7,7 @@
 \alias{dclone.environment}
 \alias{dclone.dcdim}
 \alias{dcdim}
-\alias{dcinla}
+\alias{dciid}
 \title{
 Cloning R objects
 }
@@ -24,7 +24,7 @@ dclone(x, n.clones=1, ...)
 \method{dclone}{environment}(x, n.clones = 1, 
     multiply = NULL, unchanged = NULL, attrib=TRUE, ...)
 dcdim(x, drop = TRUE, perm = NULL)
-dcinla(x, iid=character(0))
+dciid(x, iid=character(0))
 }
 \arguments{
   \item{x}{
@@ -92,7 +92,7 @@ integer for number of clones.
 thus \code{dclone} will clone the object by adding an extra dimension 
 for the clones.
 
-\code{dcinla} sets the class attribute of an object to \code{"dcinla"}, 
+\code{dciid} sets the class attribute of an object to \code{"dciid"}, 
 thus \code{dclone} will clone the object by treating columns
 defined by the \code{iid} argument as i.i.d. observations.
 These columns must be numeric.
@@ -155,11 +155,12 @@ dclone(l, 2, multiply = "n", unchanged = "p")
 ## time series like usage of dcdim
 z <- data.matrix(rnorm(10))
 dclone(dcdim(z), 2)
-## usage if dcinla
-ll <- dcinla(data.frame(x=1:10, y=1:10), iid="y")
+## usage if dciid
+ll <- dciid(data.frame(x=1:10, y=1:10), iid="y")
 dclone(ll, 2)
 ## respecting grouping structure in iid
 ll$y <- rep(1:5, each=2)
-dclone(ll, 2)
+(dci <- dclone(ll, 2))
+nclones(dci)
 }
 \keyword{ manip }

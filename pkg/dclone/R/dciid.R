@@ -1,4 +1,4 @@
-dcinla <-
+dciid <-
 function(x, iid = character(0))
 {
     if (is.null(dim(x)))
@@ -15,6 +15,6 @@ function(x, iid = character(0))
     if (!all(sapply(x, mode)[iid] == "numeric"))
         stop("'iid' columns must be numeric")
     attr(x, "iid") <- cn
-    class(x) <- c("dcinla", class(x))
+    class(x) <- c("dciid", class(x))
     x
 }
