@@ -1,5 +1,8 @@
 dcmle package version history
 
+Version 0.2-1, May 13, 2012
+    * Depends: R (>= 2.15.0).
+
 Version 0.2-0, April 27, 2012
     * Complete rework of the package internals, no user visible
       changes (except for coda type methods are now available
@@ -11,7 +14,7 @@ Version 0.1-6, March 22, 2012
       Note that this behaviour is different from that is in dclone.
 
 Version 0.1-5, Feb 25, 2012
-    * S4 mthods compliance for R 2.15.0:
+    * S4 methods compliance for R 2.15.0:
       importFrom(stats4, coef, confint, summary, vcov)
       added to namespace (reported by B Ripley).
 
