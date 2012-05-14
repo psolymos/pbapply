@@ -1,7 +1,11 @@
 dcmle package version history
 
+Version 0.2-2, May 14, 2012
+    *
+
 Version 0.2-1, May 13, 2012
-    * Depends: R (>= 2.15.0).
+    * Depends: R (>= 2.15.0). Old versions of R filed under MacOS
+      and Windows (reported by Uwe Ligges).
 
 Version 0.2-0, April 27, 2012
     * Complete rework of the package internals, no user visible
