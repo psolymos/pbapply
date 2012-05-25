@@ -28,7 +28,8 @@ many columns as the number of missing values in the
 time series.
 }
 \references{
-FIXME
+Ponciano, J. M. et al. 2009. Hierarchical models in ecology: confidence intervals, hypothesis testing, 
+and model selection using data cloning. Ecology 90, 356-362.
 }
 \author{
 Khurram Nadeem and Peter Solymos

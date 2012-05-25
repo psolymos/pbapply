@@ -9,19 +9,22 @@ Population Viability Analysis with Data Cloning
 Likelihood based population viability 
   analysis in the presence of observation error
   and missing data. The package fits,
-  predicts, forecasts and compare various
+  predicts, forecasts and compares various
   growth model types using data cloning.
 }
 \details{
-FIXME
+The package implements data cloning based population viability analysis 
+methodology developed by Nadeem and Lele (2012). This includes, model estimation, model selection
+and forecasting of future population abundances for estimate the extinction risk of a population of interest.
 }
 \author{
 Khurram Nadeem, Peter Solymos
 
-Maintainer: Peter Solymos, \email{solymos@ualberta.ca}
+Maintainer: Peter Solymos <solymos@ualberta.ca>
 }
 \references{
-FIXME
+Nadeem, K., Lele S. R., 2012.  Likelihood based population viability analysis in the presence of 
+observation error. Oikos. doi: 10.1111/j.1600-0706.2011.20010.x
 }
 \keyword{ package }
 \seealso{

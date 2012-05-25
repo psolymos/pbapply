@@ -13,13 +13,13 @@ Paramecium abundance time series
  num [1:20] 2 NA 17 29 39 63 185 258 267 392 ...
 }
 \details{
-Paramecium abundance time series with missing value.
+Paramecium abundance time series with a missing value.
 }
 \source{
-FIXME
+Gause (1934: Appendix I, Table 3)
 }
 \references{
-FIXME
+Gause, G.F. (1934). The Struggle for Existence. Williams & Wilkins, Baltimore.
 }
 \examples{
 data(paurelia)

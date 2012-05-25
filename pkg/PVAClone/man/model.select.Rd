@@ -16,7 +16,7 @@ if called iteratively (no wrapper presently).
 }
 \usage{
 pva.llr(null, alt, pred)
-model.select(null, alt, B = 10^4)
+model.select(null, alt, B = 10^3)
 \method{print}{pvaModelSelect}(x, ...)
 }
 \arguments{
@@ -26,7 +26,7 @@ Null Hypothesis.
 }
   \item{alt}{
 A fitted 'pva' object representing the
-Alternative Hypothesis (broader model).
+Alternative Hypothesis (usually broader model).				### added comment: usually
 }
   \item{B}{
 Number of replicates to be generated from
@@ -44,7 +44,14 @@ Additional argument fr print method.
 }
 }
 \details{
-FIXME
+
+These functions implement the Ponciano et. al's (2009) data cloned likelihood ratio algorithm (DCLR)
+to compute likelihood ratios for comparing hierarchical (random effect) models. In the population growth 
+models context, these models are (i) with observation error population growth models, and/or 
+(ii) population growth models with missing abundances. The functions can also compute likelihood ratios 
+when both of the population growth models are fixed effect models, e.g. without observation error Gompertz 
+model Vs. without observation error Ricker model. See examples below and in pva.
+
 }
 \value{
 \code{pva.llr} returns a single numeric value, the 
@@ -58,7 +65,13 @@ The print method gives fancy model names and
 a human readable interpretation of the numbers.
 }
 \references{
-FIXME
+
+Ponciano, J. M. et al. 2009. Hierarchical models in ecology: confidence intervals, hypothesis testing, 
+and model selection using data cloning. Ecology 90, 356-362. 
+
+Nadeem, K., Lele S. R., 2012.  Likelihood based population viability analysis in the presence of 
+observation error. Oikos. doi: 10.1111/j.1600-0706.2011.20010.x
+
 }
 \author{
 Khurram Nadeem and Peter Solymos
