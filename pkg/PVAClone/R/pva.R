@@ -1,4 +1,7 @@
 ## here the magic happens
+## covariate case: need a placeholder for extra argument, e.g.
+## covariate = NULL, list(cov1=..., cov2=...) -- and this is to be merged with data
+
 pva <- 
 function(x, model, n.clones, ...)
 {
