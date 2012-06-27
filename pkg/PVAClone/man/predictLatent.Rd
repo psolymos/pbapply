@@ -27,7 +27,8 @@ A marix with \code{n.iter * n.chains} rows and as
 many columns as the length of the time series.
 }
 \references{
-Ponciano, J. M. et al. 2009. Hierarchical models in ecology: confidence intervals, hypothesis testing, 
+Ponciano, J. M. et al. 2009. Hierarchical models in ecology: 
+confidence intervals, hypothesis testing, 
 and model selection using data cloning. Ecology 90, 356-362.
 }
 \author{

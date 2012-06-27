@@ -5,7 +5,7 @@
 Paramecium abundance time series
 }
 \description{
-Paramecium abundance time series
+\emph{Paramecium aurelia} abundance time series
 }
 \usage{data(paurelia)}
 \format{
@@ -13,7 +13,7 @@ Paramecium abundance time series
  num [1:20] 2 NA 17 29 39 63 185 258 267 392 ...
 }
 \details{
-Paramecium abundance time series with a missing value.
+\emph{Paramecium aurelia} abundance time series with a missing value.
 }
 \source{
 Gause (1934: Appendix I, Table 3)
