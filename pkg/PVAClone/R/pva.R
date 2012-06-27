@@ -34,7 +34,7 @@ function(x, model, n.clones, ...)
     if (model@obs.error == "poisson")
         dcf@data$O <- dcdim(data.matrix(x))
     fit <- dcmle(dcf, n.clones=n.clones, 
-        nobs=as.integer(length(x)), ...)
+        nobs=as.integer(sum(is.na(x))), ...)
     fit0 <- as(model@backtransf(as.mcmc.list(fit)), "dcmle")
     ## modify summary stats 
     ## summary and vcov is on original scale
@@ -63,5 +63,6 @@ function(x, model, n.clones, ...)
     fit@model@predmodel <- eval(call(model@growth.model, 
         obs.error=model@obs.error, fixed=coef(fit)))@model
     fit@dcdata <- dcf
+    fit@call <- match.call()
     fit
 }

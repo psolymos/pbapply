@@ -11,7 +11,7 @@ setClass("pvamodel",
         varnames="character",
         fixed="nClones",
         fancy="character",
-#        transf="function",      # original --> diagn
+        transf="function",      # original --> diagn
         backtransf="function",  # diagn --> original
         logdensity="function",
         neffective="function"))

@@ -25,6 +25,6 @@ Integer, \code{1} = model type is printed, \code{2} = data info is printed
 Character with fancy model summary.
 }
 \author{
-Khurram NAdeem and Peter Solymos
+Khurram Nadeem and Peter Solymos
 }
 \keyword{ utils }

@@ -33,6 +33,10 @@ Objects can be created by calls of the form \code{new("pvamodel", ...)}.
       named vactor of fixed parameters.}
     \item{\code{fancy}:}{Object of class \code{"character"},
       fancy model description.}
+    \item{\code{transf}:}{Object of class \code{"function"},
+      function to transform from true parameter scale to diagnodstic 
+      scale (takes care of fixed value which are not part of the 
+      MCMC output.}
     \item{\code{backtransf}:}{Object of class \code{"function"},
       function to transform from diagnodstic scale to true parameter
       scale (takes care of fixed value which are not part of the 
@@ -48,7 +52,7 @@ Objects can be created by calls of the form \code{new("pvamodel", ...)}.
 No methods defined with class "pvamodel" in the signature.
 }
 \author{
-Khurram NAdeem and Peter Solymos
+Khurram Nadeem and Peter Solymos
 }
 \seealso{
 \code{\link{pva}}

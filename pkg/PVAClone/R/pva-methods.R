@@ -19,7 +19,7 @@ function(x, backtransf=FALSE, ...) {
 
 ## coef method (takes into account fixed values)
 setMethod("coef", "pva", function(object) {
-    object@summary[,1]
+    object@fullcoef
 })
 
 ## need to define this as well

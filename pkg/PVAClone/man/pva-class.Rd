@@ -11,54 +11,48 @@ Objects can be created by calls of the form \code{new("pva", ...)}.
 }
 \section{Slots}{
   \describe{
-    \item{\code{observations}:}{Object of class \code{"numeric"}, 
-      population abundances.}
-    \item{\code{nobs}:}{Object of class \code{"integer"}, 
-      number of observations (not effective sample size!).}
+    \item{\code{observations}:}{Object of class \code{"numeric"},
+        vector of observations (must be nonnegative but not necessarily
+        integer), pssibly with missing values (\code{NA}). }
     \item{\code{model}:}{Object of class \code{"pvamodel"},
-      growth and observation error model info.}
-    \item{\code{dcdata}:}{Object of class \code{"dcFit"},
-      data used in model fitting.}
-    \item{\code{vcov}:}{Object of class \code{"matrix"},
-      variance covariance matrix (true parameter scale).}
-    \item{\code{mcmc}:}{Object of class \code{"MCMClist"},
-      fitted mcmc.list (diagnostics scale).}
+        internal representation of the growth model and observation error
+        structure.}
     \item{\code{summary}:}{Object of class \code{"matrix"},
-      anymptotic inference summary (true parameter scale).}
-    \item{\code{dctable}:}{Object of class \code{"dcTable"},
-      data cloning summaries (diagnostics scale).}
-    \item{\code{dcdiag}:}{Object of class \code{"dcDiag"},
-      data cloning diagnostics (diagnostics scale).}
-    \item{\code{start}:}{Object of class \code{"numeric"},
-      start of MCMC samples.}
-    \item{\code{end}:}{Object of class \code{"numeric"},
-      end of MCMC samples.}
-    \item{\code{thin}:}{Object of class \code{"numeric"},
-      thinning value.}
-    \item{\code{n.chains}:}{Object of class \code{"numeric"},
-      number of chains.}
-    \item{\code{n.clones}:}{Object of class \code{"nClones"},
-      number of clones.}
+        asymptotic Wald-type summary on the 'original'
+        scale of the parameters (i.e. not on the scale used
+        for model fitting and diagnostics).}
+    \item{\code{dcdata}:}{Object of class \code{"dcFit"},
+        internal representation of the data and JAGS model.}
+    \item{\code{call}:}{Object of class \code{"language"},
+        the call.}
+    \item{\code{coef}:}{Object of class \code{"numeric"},
+        point estimates of the model parameters.}
+    \item{\code{fullcoef}:}{Object of class \code{"numeric"},
+        vector possibly containing fixed parameter values.}
+    \item{\code{vcov}:}{Object of class \code{"matrix"},
+        variance covariance marix of the estimates.}
+    \item{\code{details}:}{Object of class \code{"dcCodaMCMC"},
+        MCMC output from data cloning.}
+    \item{\code{nobs}:}{Object of class \code{"integer"},
+        number of observations (excluding missing values).}
+    \item{\code{method}:}{Object of class \code{"character"},
+        optimization method (data cloning).}
   }
 }
 \section{Extends}{
-Class \code{"\linkS4class{dcMle}"}, directly.
+Class \code{"\linkS4class{dcmle}"}, directly.
 }
 \section{Methods}{
   \describe{
-    \item{as.mcmc.list}{\code{signature(x = "pva")}: coercion method.}
-    \item{coef}{\code{signature(object = "pva")}: coefficients
-      (including fixed values)}
-    \item{confint}{\code{signature(object = "pva")}: 
-      asyptotic Wald-type confidence intervals.}
-    \item{show}{\code{signature(object = "pva")}: 
-      fancy output.}
-    \item{vcov}{\code{signature(object = "pva")}: 
-      asymptotic variance covariance matrix.}
-	 }
+    \item{as.mcmc.list}{\code{signature(x = "pva")}}
+    \item{coef}{\code{signature(object = "pva")}}
+    \item{confint}{\code{signature(object = "pva")}}
+    \item{show}{\code{signature(object = "pva")}}
+    \item{vcov}{\code{signature(object = "pva")}}
+  }
 }
 \author{
-Khurram NAdeem and Peter Solymos
+Khurram Nadeem and Peter Solymos
 }
 \seealso{
 \code{\link{pva}}
