@@ -34,8 +34,10 @@ observation error. Oikos. doi: 10.1111/j.1600-0706.2011.20010.x
 \code{\link{pva}}
 }
 \examples{
+\dontrun{
 data(songsparrow)
 m1 <- pva(songsparrow, gompertz("none"), 2, n.iter=1000)
 m2 <- pva(songsparrow, gompertz("poisson"), 2, n.iter=1000)
 model.select(m1, m2)
+}
 }

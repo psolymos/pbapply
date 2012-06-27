@@ -16,7 +16,7 @@ if called iteratively (no wrapper presently).
 }
 \usage{
 pva.llr(null, alt, pred)
-model.select(null, alt, B = 10^3)
+model.select(null, alt, B = 10^4)
 \method{print}{pvaModelSelect}(x, ...)
 }
 \arguments{

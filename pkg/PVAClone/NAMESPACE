@@ -10,9 +10,26 @@ exportClasses(
     "pva",
      "pvamodel" 
 )
-#importFrom(dcmle, gsFit, dcFit, dcMle)
-importFrom(stats, quantile, update)
+#importFrom(dcmle, gsFit, dcFit, dcmle)
+importFrom(stats, quantile)
+importFrom(stats4, update, coef, vcov, confint)
+#importFrom(stats, update, coef, vcov, quantile, confint)
 importFrom(methods, show)
 #importFrom(coda, as.mcmc.list)
-importClassesFrom(dcmle, dcMle)
+importClassesFrom(dcmle, dcmle)
 importMethodsFrom(dcmle, as.mcmc.list)
+
+#importFrom(stats, 
+#       quantile, 
+#       start, 
+#       end, 
+#       frequency, 
+#       time, 
+#       window)
+#importFrom(stats4, 
+#       coef, 
+#       confint, 
+#       summary, 
+#       vcov,
+#       update,
+#       plot)
