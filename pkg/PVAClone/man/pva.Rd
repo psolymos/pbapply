@@ -19,7 +19,6 @@ A 'pvamodel' object returned by a function, see Examples.
 }
   \item{n.clones}{
 Numeric, number of clones (possibly a vector).
-If single value, it must be >1.
 }
   \item{\dots}{
 Arguments passed to underlying fitting functions,
@@ -37,7 +36,8 @@ Lele et. al's (2007, 2010) data cloning (DC) algorithm for computing
 the maximum likelihood estimates of model parameters along with the 
 corresponding standrad errors. See Solymos (2010) for 
 an R implementaion of the DC algorithm. The growth models currently 
-available in the package PVAClone are Gompertz, Ricker, 
+available in the package PVAClone are 
+Gompertz (\code{\link{gompertz}}), Ricker (\code{\link{ricker}}), 
 logistic, theta-logistic, Beverton-Holt and the generalized Beverton-Holt. 
 These models can also be fitted assuming 
 the presence of observation error using the general state-space model 
@@ -67,14 +67,16 @@ Likelihood based population viability analysis in the presence of
 observation error. Oikos. doi: 10.1111/j.1600-0706.2011.20010.x
 
 Solymos, P., 2010. dclone: Data Cloning in R. 
-The R Journal 2(2), 29-37. URL: http://journal.
-r-project.org/archive/2010-2/RJournal_2010-2_Solymos.pdf
+The R Journal 2(2), 29-37. URL: 
+\url{http://journal.r-project.org/archive/2010-2/RJournal_2010-2_Solymos.pdf}
 
 }
 \author{
 Khurram Nadeem and Peter Solymos
 }
 \seealso{
+\code{\link{model.select}}
+
 \code{\link{pva-class}}, \code{\link{pvamodel-class}}
 }
 \examples{
@@ -103,11 +105,12 @@ m1x <- pva(songsparrow, ricker("normal"), 5)
 m2x <- pva(songsparrow, ricker("normal", fixed=c(tau=0.1)), 5)
 
 m2x
+summary(m2x)
 coef(m2x)
 vcov(m2x)
 confint(m2x)
-plot(as.mcmc.list(m2x))
-plot(as.mcmc.list(m2x, backtransf=TRUE))
+plot(m2x)
+plot(as.mcmc.list(m2x, diagn_scale=TRUE))
 }
 }
 \keyword{ htest }

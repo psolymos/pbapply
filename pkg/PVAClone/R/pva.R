@@ -60,8 +60,8 @@ function(x, model, n.clones, ...)
         summary = s,
         observations = x,
         model = model)
-    fit@model@predmodel <- eval(call(model@growth.model, 
-        obs.error=model@obs.error, fixed=coef(fit)))@model
+    fit@model@predmodel <- suppressWarnings(eval(call(model@growth.model, 
+        obs.error=model@obs.error, fixed=coef(fit)))@model)
     fit@dcdata <- dcf
     fit@call <- match.call()
     fit

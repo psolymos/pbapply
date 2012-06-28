@@ -166,8 +166,22 @@ function(obs.error="none", fixed)
         mcmc
     }
     ## this scales summaries to the scale of diagnostic parameters
-#    transf <- function(mcmc, obs.error) {
-#    }
+    transf <- function(mcmc, obs.error) {
+        mcmc <- as.mcmc.list(mcmc)
+        vn <- varnames(mcmc)
+        for (i in seq_len(nchain(mcmc))) {
+            if ("sigma" %in% vn)
+                mcmc[[i]][,"sigma"] <- log(mcmc[[i]][,"sigma"])
+            if ("tau" %in% vn)
+                mcmc[[i]][,"tau"] <- log(mcmc[[i]][,"tau"])
+        }
+        if ("sigma" %in% vn)
+            vn[vn=="sigma"] <- "lnsigma"
+        if ("tau" %in% vn)
+            vn[vn=="tau"] <- "lntau"
+        varnames(mcmc) <- vn
+        mcmc
+    }
     dfun <- switch(obs.error,
         ## data on the log scale (logx)
         ## w/o missing data, log is the log data

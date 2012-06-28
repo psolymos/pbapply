@@ -177,8 +177,26 @@ function(obs.error="none", fixed)
         mcmc
     }
     ## this scales summaries to the scale of diagnostic parameters
-#    transf <- function(mcmc, obs.error) {
-#    }
+    transf <- function(mcmc, obs.error) {
+        mcmc <- as.mcmc.list(mcmc)
+        vn <- varnames(mcmc)
+        for (i in seq_len(nchain(mcmc))) {
+            if ("b" %in% vn)
+                mcmc[[i]][,"b"] <- atanh(mcmc[[i]][,"b"] + 1)
+            if ("sigma" %in% vn)
+                mcmc[[i]][,"sigma"] <- log(mcmc[[i]][,"sigma"])
+            if ("tau" %in% vn)
+                mcmc[[i]][,"tau"] <- log(mcmc[[i]][,"tau"])
+        }
+        if ("b" %in% vn)
+            vn[vn=="b"] <- "z"
+        if ("sigma" %in% vn)
+            vn[vn=="sigma"] <- "lnsigma"
+        if ("tau" %in% vn)
+            vn[vn=="tau"] <- "lntau"
+        varnames(mcmc) <- vn
+        mcmc
+    }
     ## log density function arguments:
     ## data: observations (scale depends on model)
     ## mle: vector with estimates as in coef()

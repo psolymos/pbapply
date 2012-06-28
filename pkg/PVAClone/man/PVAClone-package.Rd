@@ -18,6 +18,12 @@ methodology developed by Nadeem and Lele (2012). This includes,
 model estimation, model selection
 and forecasting of future population abundances for estimate 
 the extinction risk of a population of interest.
+
+\code{\link{pva}}: main function for model fitting.
+
+\code{\link{model.select}}: main function for model model selection.
+
+Growth functions: \code{\link{gompertz}}, \code{\link{ricker}}.
 }
 \author{
 Khurram Nadeem, Peter Solymos
@@ -35,9 +41,13 @@ observation error. Oikos. doi: 10.1111/j.1600-0706.2011.20010.x
 }
 \examples{
 \dontrun{
-data(songsparrow)
-m1 <- pva(songsparrow, gompertz("none"), 2, n.iter=1000)
-m2 <- pva(songsparrow, gompertz("poisson"), 2, n.iter=1000)
+## model selection for data with missing observations
+data(paurelia)
+## model without observation error
+m1 <- pva(paurelia, gompertz("none"), 2, n.iter=1000)
+## model with Poisson observation error
+m2 <- pva(paurelia, gompertz("poisson"), 2, n.iter=1000)
+## model with Poisson observation error is strongly supported
 model.select(m1, m2)
 }
 }
