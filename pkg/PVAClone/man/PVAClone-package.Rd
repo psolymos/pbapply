@@ -1,20 +1,22 @@
 \name{PVAClone-package}
 \alias{PVAClone-package}
 \alias{PVAClone}
+\alias{pvaclone}
+\alias{PVA-package}
+\alias{pva-package}
 \docType{package}
 \title{
 Population Viability Analysis with Data Cloning
 }
 \description{
-Likelihood based population viability 
-  analysis in the presence of observation error
-  and missing data. The package fits,
-  predicts, forecasts and compares various
-  growth model types using data cloning.
+Likelihood based population viability analysis in the 
+  presence of observation error and missing data. 
+  The package can be used to fit, compare, predict, 
+  and forecast various growth model types using data cloning.
 }
 \details{
 The package implements data cloning based population viability analysis 
-methodology developed by Nadeem and Lele (2012). This includes, 
+methodology developed by Nadeem and Lele (2012). This includes
 model estimation, model selection
 and forecasting of future population abundances for estimate 
 the extinction risk of a population of interest.
@@ -23,7 +25,7 @@ the extinction risk of a population of interest.
 
 \code{\link{model.select}}: main function for model model selection.
 
-Growth functions: \code{\link{gompertz}}, \code{\link{ricker}}.
+Growth models: \code{\link{gompertz}}, \code{\link{ricker}}.
 }
 \author{
 Khurram Nadeem, Peter Solymos

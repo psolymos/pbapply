@@ -1,0 +1,6 @@
+PVAClone package version history
+
+Version 0.1-0, June 28, 2012
+    * Package with model fitting and model selection capabilities
+      is ready for 1st CRAN submission. Gompertz and Ricker
+      growth models are implemented.
