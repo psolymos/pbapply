@@ -30,25 +30,18 @@ function(null, alt, pred)
         "none" = NULL,
         "normal" = log(obs),
         "poisson" = obs)
+## note: missing data handling do not require extra argument
+## but observation error of alternative model must be
+## supplied for the null (it makes a difference for
+## w/o obs error models, but changes nothing for w/ obs error models)
     ## use here parApply with parallel package
-    if (err1 == "none") { # both null and alt are w/o obs error
         logd0 <- null@model@logdensity(log(obs),
-            mle=coef(null), data=data0, missing=length(i)>0)
+            mle=coef(null), data=data0, alt_obserror=err1 != "none")
         logd1 <- alt@model@logdensity(log(obs), 
-            mle=coef(alt), data=data1, missing=length(i)>0)
-## missing data handling required here: TBD
-#        logd0 <- apply(log(obs), 1, null@model@logdensity, 
-#            mle=coef(null), data=data0, missing=length(i)>0)
-#        logd1 <- apply(log(obs), 1, alt@model@logdensity, 
-#            mle=coef(alt), data=data1, missing=length(i)>0)
-    } else {
-        logd0 <- apply(pred, 1, null@model@logdensity, 
-            mle=coef(null), data=data0, missing=FALSE)
-        logd1 <- apply(pred, 1, alt@model@logdensity, 
-            mle=coef(alt), data=data1, missing=FALSE)
-    }
+            mle=coef(alt), data=data1, alt_obserror=FALSE)
     log(mean(exp(logd0 - logd1))) ## log likelihood ratio
 }
+
 ## model selection
 model.select <- 
 function(null, alt, B=10^4)

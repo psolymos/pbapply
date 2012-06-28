@@ -30,23 +30,28 @@ state-space model formulation (Nadeem and Lele, 2012).
 The Gompertz growth model and the two observation error models are 
 defined as follows:
 
-Gompertz Model: x[t] = a + x[t-1] + bx[t-1] + E[t]
-
-where x[t] is log abundance at time t and E[t] ~ N (0 , sigma^2)
+Gompertz Model: 
+\deqn{x_{t} = a + x_{t-1} + b x_{t-1} + \epsilon_{t}}{%
+x[t] = a + x[t-1] + bx[t-1] + E[t]}
+where \eqn{x_{t}}{x[t]} is log abundance at time \eqn{t} and 
+\eqn{\epsilon_{t} \sim Normal(0, \sigma^2)}{E[t] \~ Normal(0, sigma^2)}.
 
 Normal Observation Error Model: 
-y[t] ~ Normal( mean=x[t] , variance=tau^2), 
-where y[t] is the estimated abundance on the log scale at time t.
+\eqn{y_{t} \sim Normal(x_{t}, \tau^2)}{%
+y[t] \~ Normal(x[t], tau^2)}, 
+where \eqn{y_{t}}{y[t]} is the estimated abundance 
+on the log scale at time \eqn{t}.
 
 Poisson Observation Error Model: 
-O[t] ~ Poisson( mean = e^(x[t]) ), 
-where O[t] is the estimated abundance at time t.
+\eqn{O_{t} \sim Poisson(e^{x_{t}})}{%
+O[t] \~ Poisson(e^x[t])}, 
+where \eqn{O_{t}}{O[t]} is the estimated abundance at time \eqn{t}.
 
 The argument 'fixed' can be used to fit the model assuming 
 a priori values of a subset of the parameters.
-The number of parameters that should be fixed at most is p-1, 
-where p is the dimension of the full model. See examples
-below and in pva and model.select.
+The number of parameters that should be fixed at most is \eqn{p-1}, 
+where \eqn{p} is the dimension of the full model. See examples
+below and in \code{\link{pva}} and \code{\link{model.select}}.
 }
 \value{
 An S4 class of 'pvamodel' (see \code{\link{pvamodel-class}})

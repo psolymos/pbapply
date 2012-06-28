@@ -157,8 +157,9 @@ function(obs.error="none", fixed)
 
     ## this scales diagnostic parameters to the scale of the summaries
     backtransf <- function(mcmc, obs.error) {
+        mcmc <- as.mcmc.list(mcmc)
         vn <- varnames(mcmc)
-        for (i in seq_len(length(mcmc))) {
+        for (i in seq_len(nchain(mcmc))) {
             if ("z" %in% vn)
                 mcmc[[i]][,"z"] <- tanh(mcmc[[i]][,"z"]) - 1
             if ("lnsigma" %in% vn)
@@ -175,6 +176,9 @@ function(obs.error="none", fixed)
         varnames(mcmc) <- vn
         mcmc
     }
+    ## this scales summaries to the scale of diagnostic parameters
+#    transf <- function(mcmc, obs.error) {
+#    }
     ## log density function arguments:
     ## data: observations (scale depends on model)
     ## mle: vector with estimates as in coef()
@@ -186,29 +190,45 @@ function(obs.error="none", fixed)
         ## w/o missing data, log is the log data
         ## w/ missing values both logx (missing) and data should be provided
         ## TBD later
-        "none"    = function(logx, mle, data, missing=FALSE) {
+        "none"    = function(logx, mle, data, alt_obserror=FALSE) {
             T <- length(logx)
-            sum(dnorm(logx[-1],
-                mean = mle["a"] + mle["b"] * logx[-T],
-                sd = mle["sigma"], log=TRUE))
+            y <- data
+            m <- which(is.na(data))
+            y[m] <- logx[m]
+            logd1 <- dnorm(y[-1],
+                mean = mle["a"] + mle["b"] * y[-T],
+                sd = mle["sigma"], log=TRUE)
+            logd2 <- if (alt_obserror) {
+                dnorm(logx[-1],
+                    mean = mle["a"] + mle["b"] * logx[-T],
+                    sd = mle["sigma"], log=TRUE)
+            } else {
+                dnorm((y[-1])[m-1],
+                    mean = mle["a"] + mle["b"] * (y[-T])[m],
+                    sd = mle["sigma"], log=TRUE)
+            }
+            sum(logd1) + sum(logd2)
         },
         ## data on the log scale
-        "poisson" = function(logx, mle, data, missing=FALSE) {
+        "poisson" = function(logx, mle, data, alt_obserror=FALSE) {
             T <- length(data)
-            sum(dnorm(logx[-1],
+            logd1 <- dnorm(logx[-1],
                 mean = mle["a"] + mle["b"] * logx[-T],
-                sd = mle["sigma"], log=TRUE) +
-                dpois(data[-1], exp(logx[-1]), log=TRUE), na.rm=TRUE)
+                sd = mle["sigma"], log=TRUE)
+            logd2 <- dpois(data[-1],
+                exp(logx[-1]), log=TRUE)
+            sum(logd1) + sum(logd2, na.rm=TRUE)
         },
         ## data on the log scale
-        "normal"  = function(logx, mle, data, missing=FALSE) {
+        "normal"  = function(logx, mle, data, alt_obserror=FALSE) {
             T <- length(data)
-            sum(dnorm(logx[-1],
+            logd1 <- dnorm(logx[-1],
                 mean = mle["a"] + mle["b"] * logx[-T],
-                sd = mle["sigma"], log=TRUE) +
-                dnorm(data[-1],
+                sd = mle["sigma"], log=TRUE)
+            logd2 <- dnorm(data[-1],
                 mean = logx[-1],
-                sd = mle["tau"], log=TRUE), na.rm=TRUE)
+                sd = mle["tau"], log=TRUE)
+            sum(logd1) + sum(logd2, na.rm=TRUE)
         })
     neff <- function(obs)
         sum(!is.na(obs))
@@ -223,6 +243,7 @@ function(obs.error="none", fixed)
     out@fixed <- fixed
     out@fancy <- fancy
     out@backtransf <- backtransf
+#    out@transf <- transf
     out@logdensity <- dfun
     out@neffective <- neff
     out
