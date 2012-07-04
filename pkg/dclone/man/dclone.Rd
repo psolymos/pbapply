@@ -52,8 +52,9 @@ an array if that have only one level.
 The subscript permutation value, if the cloning dimension is not the last.
 }
   \item{iid}{
-Character (or optionaly numeroc or logical).
-Column(s) to be treated as i.i.d. observations.
+Character (or optionaly numeric or logical).
+Column(s) to be treated as i.i.d. observations. 
+Ignored when \code{x} is a vector.
 }
   \item{\dots}{
 Other arguments passed to function.
@@ -80,6 +81,12 @@ but othervise repeat the observations (e.g. in case of time series,
 or for addressing special
 indexing conventions in the \code{BUGS} code, see examples 
 \code{dcdim} and \code{dclone.dcdim}).
+
+(5) Repeat pattern (i.i.d.): this is useful for example when
+a grouping variable is considered, and more i.i.d. groups are to be 
+added to the data set. E.g. \code{c(1, 1, 2, 2)} is to be cloned as
+\code{c(1, 1, 2, 2, 3, 3, 4, 4)} instead of 
+\code{c(1, 1, 2, 2, 1, 1, 2, 2)}.
 }
 \value{
 An object with class attributes \code{"dclone"} plus the original 
