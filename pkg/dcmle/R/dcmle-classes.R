@@ -130,7 +130,8 @@ setAs(from = "codaMCMC", to = "MCMClist", def = function(from) {
         mcmc(a[,,i], start=from@start, end=from@end, thin=from@thin)
     })
     out <- as.mcmc.list(m)
-    varnames(out) <- from@varnames
+    if (from@nvar > 1)
+        varnames(out) <- from@varnames
     out
 })
 setAs(from = "dcCodaMCMC", to = "MCMClist", def = function(from) {
@@ -139,7 +140,8 @@ setAs(from = "dcCodaMCMC", to = "MCMClist", def = function(from) {
         mcmc(a[,,i], start=from@start, end=from@end, thin=from@thin)
     })
     out <- as.mcmc.list(m)
-    varnames(out) <- from@varnames
+    if (from@nvar > 1)
+        varnames(out) <- from@varnames
     attr(out, "dcdiag") <- from@dcdiag
     attr(out, "dctable") <- from@dctable
     if (!is.null(from@nclones)) {
