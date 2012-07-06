@@ -1,6 +1,6 @@
 dclone package version history
 
-Version 1.8-0, May 14, 2012
+Version 1.8-0, July 6, 2012
     * dciid: new function added, it is similar to dcdim.
       dciid attaches an attribute to data frames or matrices
       about columns to be treated as i.i.d. observations

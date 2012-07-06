@@ -1,6 +1,6 @@
 dcmle package version history
 
-Version 0.2-2, May 14, 2012
+Version 0.2-2, July 6, 2012
     * Inverse coercion methods (as.mcmc.list) failed with nvar=1 cases,
       it is now fixed.
 
