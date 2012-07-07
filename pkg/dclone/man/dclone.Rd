@@ -6,6 +6,7 @@
 \alias{dclone.list}
 \alias{dclone.environment}
 \alias{dclone.dcdim}
+\alias{dclone.dciid}
 \alias{dcdim}
 \alias{dciid}
 \title{
@@ -19,6 +20,7 @@ leaving the original structure of the object intact (in most of the cases).
 dclone(x, n.clones=1, ...)
 \method{dclone}{default}(x, n.clones = 1, attrib=TRUE, ...)
 \method{dclone}{dcdim}(x, n.clones = 1, attrib=TRUE, ...)
+\method{dclone}{dciid}(x, n.clones = 1, attrib=TRUE, ...)
 \method{dclone}{list}(x, n.clones = 1, 
     multiply = NULL, unchanged = NULL, attrib=TRUE, ...)
 \method{dclone}{environment}(x, n.clones = 1, 
