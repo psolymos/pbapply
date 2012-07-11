@@ -36,7 +36,7 @@ setMethod("vcov", "pva", function(object) {
     rv
 })
 setMethod("confint", "pva", function(object) {
-    ci <- confint(as.mcmc.list(object, backtransf=TRUE))
+    ci <- confint(as.mcmc.list(object, diagn_scale=FALSE))
     fx <- object@model@fixed
     if (is.null(fx))
         return(ci)
