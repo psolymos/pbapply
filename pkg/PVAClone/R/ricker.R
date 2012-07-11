@@ -239,7 +239,7 @@ function(obs.error="none", fixed)
     out@fixed <- fixed
     out@fancy <- fancy
     out@backtransf <- backtransf
-#    out@transf <- transf
+    out@transf <- transf
     out@logdensity <- dfun
     out@neffective <- neff
     out
