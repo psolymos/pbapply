@@ -27,10 +27,7 @@ observation error, either the Normal
 or the Poisson observation error model must be assumed within the 
 state-space model formulation (Nadeem and Lele, 2012).
 
-The Gompertz growth model and the two observation error models are 
-defined as follows:
-
-Gompertz Model: 
+The Gompertz growth model is defined as follows:
 \deqn{x_{t} = a + x_{t-1} + b x_{t-1} + \epsilon_{t}}{%
 x[t] = a + x[t-1] + bx[t-1] + E[t]}
 where \eqn{x_{t}}{x[t]} is log abundance at time \eqn{t} and 

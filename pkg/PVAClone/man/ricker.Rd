@@ -27,10 +27,8 @@ with and without observation error. When assuming the presence of
 observation error, either the Normal 
 or the Poisson observation error model must be assumed within the 
 state-space model formulation (Nadeem and Lele, 2012). 
-The Ricker growth model and the two observation error models are 
-defined as follows:
 
-Ricker Model: 
+The Ricker growth model is defined as follows:
 \deqn{x_{t} = x_{t-1} + a + b e^{x_{t-1}} + \epsilon_{t}}{%
 x[t] = x[t-1] + a + be^(x[t-1]) + E[t]}
 where \eqn{x_{t}}{x[t]} is log abundance at time 
