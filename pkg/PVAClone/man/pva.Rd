@@ -1,5 +1,7 @@
 \name{pva}
 \alias{pva}
+\alias{PVA}
+\alias{Pva}
 \title{
 Population Viability Analysis
 }
@@ -39,9 +41,23 @@ an R implementaion of the DC algorithm. The growth models currently
 available in the package PVAClone are 
 Gompertz (\code{\link{gompertz}}), Ricker (\code{\link{ricker}}), 
 logistic, theta-logistic, Beverton-Holt and the generalized Beverton-Holt. 
+
 These models can also be fitted assuming 
 the presence of observation error using the general state-space model 
-formulation (Nadeem and Lele, 2012). 
+formulation (Nadeem and Lele, 2012). Currently the Normal and Poisson
+observation error models are supported.
+
+Normal observation error model: 
+\eqn{y_{t} \sim Normal(x_{t}, \tau^2)}{%
+y[t] \~ Normal(x[t], tau^2)}, 
+where \eqn{y_{t}}{y[t]} is the estimated abundance 
+on the log scale at time \eqn{t}.
+
+Poisson observation error model: 
+\eqn{O_{t} \sim Poisson(e^{x_{t}})}{%
+O[t] \~ Poisson(e^x[t])}, 
+where \eqn{O_{t}}{O[t]} is the estimated abundance at time \eqn{t}.
+
 In addition, missing observations can be accommodated in both with or 
 without observation error cases.
 

@@ -36,16 +36,8 @@ x[t] = a + x[t-1] + bx[t-1] + E[t]}
 where \eqn{x_{t}}{x[t]} is log abundance at time \eqn{t} and 
 \eqn{\epsilon_{t} \sim Normal(0, \sigma^2)}{E[t] \~ Normal(0, sigma^2)}.
 
-Normal Observation Error Model: 
-\eqn{y_{t} \sim Normal(x_{t}, \tau^2)}{%
-y[t] \~ Normal(x[t], tau^2)}, 
-where \eqn{y_{t}}{y[t]} is the estimated abundance 
-on the log scale at time \eqn{t}.
-
-Poisson Observation Error Model: 
-\eqn{O_{t} \sim Poisson(e^{x_{t}})}{%
-O[t] \~ Poisson(e^x[t])}, 
-where \eqn{O_{t}}{O[t]} is the estimated abundance at time \eqn{t}.
+Observation error models are described in the help page of 
+\code{\link{pva}}.
 
 The argument 'fixed' can be used to fit the model assuming 
 a priori values of a subset of the parameters.

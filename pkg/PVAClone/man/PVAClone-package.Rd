@@ -4,6 +4,7 @@
 \alias{pvaclone}
 \alias{PVA-package}
 \alias{pva-package}
+\alias{Pva-package}
 \docType{package}
 \title{
 Population Viability Analysis with Data Cloning
