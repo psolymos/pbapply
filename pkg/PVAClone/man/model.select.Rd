@@ -34,18 +34,18 @@ the latent variables.
 }
   \item{pred}{
 A matrix of replicates from the latent variables,
-e.g. es returned by \code{\link{predictLatent}}.
+e.g. as returned by \code{\link{predictLatent}}.
 }
   \item{x}{
 A model selection object to be printed.
 }
   \item{\dots}{
-Additional argument fr print method.
+Additional argument for print method.
 }
 }
 \details{
 
-These functions implement the Ponciano et. al's (2009) data cloned 
+These functions implement Ponciano et. al.'s (2009) data cloning
 likelihood ratio algorithm (DCLR)
 to compute likelihood ratios for comparing hierarchical 
 (random effect) models. In the population growth 
