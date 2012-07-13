@@ -27,7 +27,7 @@ function(null, alt, pred)
         "normal" = log(obs),
         "poisson" = obs)
     data1 <- switch(err1,
-        "none" = (obs),           ## is this OK?
+        "none" = log(obs),           ## is this OK?
         "normal" = log(obs),
         "poisson" = obs)
 ## note: missing data handling do not require extra argument
@@ -37,12 +37,13 @@ function(null, alt, pred)
     if (err0 == "none" && err1 == "none" && sum(is.na(obs)) == 0) {
         pred <- matrix(data1, nrow=1)
     }
-    ## use here parApply with parallel package
-        logd0 <- apply(pred, 1, null@model@logdensity, 
-            mle=coef(null), data=data0, alt_obserror=err1 != "none")
-        logd1 <- apply(pred, 1, alt@model@logdensity, 
-            mle=coef(alt), data=data1, alt_obserror=FALSE)
-    log(mean(exp(logd0 - logd1))) ## log likelihood ratio
+    ## use here parApply with parallel package -- future stuff
+    logd0 <- apply(pred, 1, null@model@logdensity, 
+        mle=coef(null), data=data0, alt_obserror=err1 != "none")
+    logd1 <- apply(pred, 1, alt@model@logdensity, 
+        mle=coef(alt), data=data1, alt_obserror=FALSE)
+    ## log likelihood ratio
+    log(mean(exp(logd0 - logd1)))
 }
 
 ## model selection
