@@ -30,7 +30,7 @@ function(x, ...)
 {
     if (!inherits(x, "pva"))
         stop("'x' must be of class 'pva'")
-    if (!any(is.na(x@observations)) && @model@obs.error == "none") {
+    if (!any(is.na(x@observations)) && x@model@obs.error == "none") {
         warning("no latent variable in model")
         pred <- matrix(log(x@observations), nrow=1)
     } else {
