@@ -34,7 +34,7 @@ the latent variables.
 }
   \item{pred}{
 A matrix of replicates from the latent variables,
-e.g. as returned by \code{\link{predictLatent}}.
+e.g. as returned by \code{\link{generateLatent}}.
 }
   \item{x}{
 A model selection object to be printed.
@@ -94,7 +94,7 @@ data(redstart)
 m1 <- pva(redstart, gompertz("none"), 2, n.iter=1000)
 m2 <- pva(redstart, gompertz("poisson"), 2, n.iter=1000)
 m3 <- pva(redstart, gompertz("normal"), 2, n.iter=1000)
-p <- predictLatent(m2, n.chains=1, n.iter=10000)
+p <- generateLatent(m2, n.chains=1, n.iter=10000)
 pva.llr(m1, m2, p)
 model.select(m1, m2)
 model.select(m1, m3)
@@ -120,7 +120,7 @@ model.select(m2z, m3z)
 
 ## profile likelihood
 m <- pva(redstart, gompertz("normal"), 5, n.iter=5000)
-p <- predictLatent(m, n.chains=1, n.iter=10000)
+p <- generateLatent(m, n.chains=1, n.iter=10000)
 m1 <- pva(redstart, gompertz("normal", 
     fixed=c(sigma=0.4)), 5, n.iter=5000)
 ## etc for many sigma values
