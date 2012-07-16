@@ -1,9 +1,4 @@
 ## here the magic happens
-## covariate case: need a placeholder for extra argument, e.g.
-## covariate = NULL, list(cov1=..., cov2=...) -- and this is to be merged with data
-
-## this line is to test SVN for Khurram
-
 pva <- 
 function(x, model, n.clones, ...)
 {
@@ -20,7 +15,6 @@ function(x, model, n.clones, ...)
         model <- eval(as.name(model))
     if (is.function(model))
         model <- model()
-#    x <- as.integer(x)
     dcf <- makeDcFit(
         data = list(T=length(x), kk = 1),
         params = model@params,
@@ -34,10 +28,9 @@ function(x, model, n.clones, ...)
     if (model@obs.error == "poisson")
         dcf@data$O <- dcdim(data.matrix(x))
     fit <- dcmle(dcf, n.clones=n.clones, 
-        nobs=as.integer(sum(is.na(x))), ...)
+        nobs=as.integer(sum(!is.na(x))), ...)
     fit0 <- as(model@backtransf(as.mcmc.list(fit)), "dcmle")
-    ## modify summary stats 
-    ## summary and vcov is on original scale
+    ## summary (coef/fullcoef) and vcov is on original scale
     ## mcmc.list and diagnostics are on transformed scale
     s0 <- summary(fit0)@coef
     s <- matrix(NA, length(model@varnames), 4)
@@ -51,10 +44,9 @@ function(x, model, n.clones, ...)
         }
     }
     fit@fullcoef <- s[,1]
+    fit@coef <- coef(fit0)
     fit@vcov <- vcov(fit0)
     fit@details <- as(fit0, "dcCodaMCMC")
-#    fit@nobs <- as.integer(length(x))
-#    fit@mcmc <- fit0@mcmc
     fit <- new("pva",
         fit,
         summary = s,

@@ -12,7 +12,7 @@ function(null, alt, pred)
     if (err0 != "none" && err1 == "none")
         stop("switch null and alternative model")
     if (identical(null@model@growth.model, alt@model@growth.model) && 
-        (null@model@p > alt@model@p))
+        (length(null@coef) > length(alt@coef)))
             warning("Hint: check what is null and alternative ",
                 "if models are nested")
     obs <- null@observations
