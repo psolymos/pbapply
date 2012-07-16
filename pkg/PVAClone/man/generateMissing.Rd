@@ -1,13 +1,13 @@
-\name{predictMissing}
-\alias{predictMissing}
+\name{generateMissing}
+\alias{generateMissing}
 \title{
-Predict missing value
+Generate missing value
 }
 \description{
-Predict missing value of a time series.
+Generate missing value of a time series.
 }
 \usage{
-predictMissing(x, ...)
+generateMissing(x, ...)
 }
 \arguments{
   \item{x}{
@@ -42,7 +42,7 @@ Khurram Nadeem and Peter Solymos
 \dontrun{
 data(paurelia)
 m <- pva(paurelia, gompertz("normal"), 5)
-p <- predictMissing(m, n.chains=1, n.iter=1000)
+p <- generateMissing(m, n.chains=1, n.iter=1000)
 summary(p)
 }
 }

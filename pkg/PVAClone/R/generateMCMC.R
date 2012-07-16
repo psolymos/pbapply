@@ -1,5 +1,5 @@
-## how to predict missing value
-predictMissing <- 
+## how to generate missing values
+generateMissing <- 
 function(x, ...)
 {
     if (!inherits(x, "pva"))
@@ -26,8 +26,8 @@ function(x, ...)
     attr(pred, "index") <- i
     pred
 }
-## how to predict latent log abundances
-predictLatent <- 
+## how to generate latent log abundances
+generateLatent <- 
 function(x, ...)
 {
     if (!inherits(x, "pva"))
@@ -35,7 +35,7 @@ function(x, ...)
     if (x@model@obs.error == "none") {
         if (any(is.na(x@observations)))
             stop("no latent variable in model,",
-                " try 'predict.missing' for missing values")
+                " try 'generateMissing' for missing values")
         stop("no latent variable in model")
     }
     dcd <- x@dcdata

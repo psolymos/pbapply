@@ -1,13 +1,13 @@
-\name{predictLatent}
-\alias{predictLatent}
+\name{generateLatent}
+\alias{generateLatent}
 \title{
-Predict latent variable
+Generate latent variable
 }
 \description{
-Predict latent variable of a hierarchical PVA model.
+Generate latent variable of a hierarchical PVA model.
 }
 \usage{
-predictLatent(x, ...)
+generateLatent(x, ...)
 }
 \arguments{
   \item{x}{
@@ -41,7 +41,7 @@ Khurram Nadeem and Peter Solymos
 \dontrun{
 data(paurelia)
 m <- pva(paurelia, gompertz("normal"), 5)
-p <- predictLatent(m, n.chains=1, n.iter=1000)
+p <- generateLatent(m, n.chains=1, n.iter=1000)
 summary(p)
 }
 }

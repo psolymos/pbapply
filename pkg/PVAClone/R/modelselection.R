@@ -54,7 +54,7 @@ function(null, alt, B=10^4)
     (alt@model@obs.error == "none" && sum(is.na(alt@observations))>0)) {
         op <- dcoptions("verbose"=0)
         on.exit(dcoptions(op))
-        pred <- predictLatent(alt, n.chains=1, n.iter=B)
+        pred <- generateLatent(alt, n.chains=1, n.iter=B)
         llr <- pva.llr(null, alt, pred)
     } else {
         llr <- pva.llr(null, alt)
