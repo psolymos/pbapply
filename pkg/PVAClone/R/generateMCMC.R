@@ -15,8 +15,6 @@ function(x, ...)
     dcd <- x@dcdata
     dcd@model <- x@model@predmodel
     f <- jags.fit(dcd@data, 
-#        params="x", 
-#        params=node,
         params=paste(node, "[",i,",1]",sep=""),
         model=dcd@model, ...)
     pred <- as.matrix(f)
@@ -32,19 +30,19 @@ function(x, ...)
 {
     if (!inherits(x, "pva"))
         stop("'x' must be of class 'pva'")
-    if (x@model@obs.error == "none") {
-        if (any(is.na(x@observations)))
-            stop("no latent variable in model,",
-                " try 'generateMissing' for missing values")
-        stop("no latent variable in model")
+    if (!any(is.na(x@observations)) && @model@obs.error == "none") {
+        warning("no latent variable in model")
+        pred <- matrix(log(x@observations), nrow=1)
+    } else {
+        if (x@model@obs.error == "none")
+            warning("no latent variable in model")
+        dcd <- x@dcdata
+        dcd@model <- x@model@predmodel
+        f <- jags.fit(dcd@data, 
+            params="x", 
+            model=dcd@model, ...)
+        pred <- as.matrix(f)
     }
-    dcd <- x@dcdata
-    dcd@model <- x@model@predmodel
-    f <- jags.fit(dcd@data, 
-        params="x", 
-        model=dcd@model, ...)
-    pred <- as.matrix(f)
     colnames(pred) <- paste("value", 1:ncol(pred), sep="_")
     pred
 }
-

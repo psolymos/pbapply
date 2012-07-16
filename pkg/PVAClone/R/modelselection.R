@@ -18,25 +18,14 @@ function(null, alt, pred)
     obs <- null@observations
     if (!identical(obs, alt@observations))
         stop("data in null amd alternative model must be identical")
-#    i <- which(is.na(obs))
-#    if (length(i) && (err0 == "none" || err1 == "none"))
-#        stop("model selection with missing data not yet ",
-#            "implmented for models w/o observation error")
     data0 <- switch(err0,
-        "none" = log(obs),           ## is this OK?
+        "none" = log(obs),
         "normal" = log(obs),
         "poisson" = obs)
     data1 <- switch(err1,
-        "none" = log(obs),           ## is this OK?
+        "none" = log(obs),
         "normal" = log(obs),
         "poisson" = obs)
-## note: missing data handling do not require extra argument
-## but observation error of alternative model must be
-## supplied for the null (it makes a difference for
-## w/o obs error models, but changes nothing for w/ obs error models)
-    if (err0 == "none" && err1 == "none" && sum(is.na(obs)) == 0) {
-        pred <- matrix(data1, nrow=1)
-    }
     ## use here parApply with parallel package -- future stuff
     logd0 <- apply(pred, 1, null@model@logdensity, 
         mle=coef(null), data=data0, alt_obserror=err1 != "none")
@@ -50,15 +39,11 @@ function(null, alt, pred)
 model.select <- 
 function(null, alt, B=10^4)
 {
-    if (alt@model@obs.error != "none" ||
-    (alt@model@obs.error == "none" && sum(is.na(alt@observations))>0)) {
-        op <- dcoptions("verbose"=0)
-        on.exit(dcoptions(op))
-        pred <- generateLatent(alt, n.chains=1, n.iter=B)
-        llr <- pva.llr(null, alt, pred)
-    } else {
-        llr <- pva.llr(null, alt)
-    }
+    ## generateLatent takes care of the non-obs.err and
+    ## missing value cases
+    pred <- suppressWarnings(generateLatent(alt, 
+        n.chains=1, n.iter=B))
+    llr <- pva.llr(null, alt, pred)
     ## neffective can be different (e.g. Ricer vs. Gompertz)
     n0 <- null@model@neffective(null@observations)
     n1 <- alt@model@neffective(null@observations)
