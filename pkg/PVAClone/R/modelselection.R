@@ -9,15 +9,17 @@ function(null, alt, pred)
         stop("'alt' must be of class 'pva'")
     err0 <- null@model@obs.error
     err1 <- alt@model@obs.error
-    if (err0 != "none" && err1 == "none")
-        stop("switch null and alternative model")
-    if (identical(null@model@growth.model, alt@model@growth.model) && 
-        (length(null@coef) > length(alt@coef)))
-            warning("Hint: check what is null and alternative ",
-                "if models are nested")
     obs <- null@observations
     if (!identical(obs, alt@observations))
         stop("data in null amd alternative model must be identical")
+#    if (!any(is.na(obs)) && err0 != "none" && err1 == "none")
+    if (err0 != "none" && err1 == "none")
+        stop("switch null and alternative model")
+    if (identical(null@model@growth.model, alt@model@growth.model) && 
+        identical(null@model@obs.error, alt@model@obs.error) && 
+        (length(null@coef) > length(alt@coef)))
+            warning("Hint: check what is null and alternative ",
+                "if models are nested")
     data0 <- switch(err0,
         "none" = log(obs),
         "normal" = log(obs),
@@ -82,19 +84,24 @@ function(x, ...)
     class(z) <- "data.frame"
     print(z, ...)
     llr <- x$log_LR
-    if (-llr < 0) {
-        good <- "Null Model"
-        bad <- "Alternative Model"
+    if (abs(llr) < 10^-6) {
+        cat("\nNull and Alternative models are",
+            "equally well supported\n\n")
     } else {
-        good <- "Alternative Model"
-        bad <- "Null Model"
+        if (-llr < 0) {
+            good <- "Null Model"
+            bad <- "Alternative Model"
+        } else {
+            good <- "Alternative Model"
+            bad <- "Null Model"
+        }
+        if (abs(llr) < 2) {
+            qualifier <- "slightly better"
+        } else if (abs(llr) < 8) {
+            qualifier <- "better"
+        } else qualifier <- "strongly"
+        cat("\n", good, " is ", qualifier, " supported over the ", 
+            bad, "\n\n", sep="")
     }
-    if (abs(llr) < 2) {
-        qualifier <- "slightly better"
-    } else if (abs(llr) < 8) {
-        qualifier <- "better"
-    } else qualifier <- "strongly"
-    cat("\n", good, " is ", qualifier, " supported over the ", 
-        bad, "\n\n", sep="")
     invisible(x)
 }

@@ -1,19 +1,19 @@
-\name{redstrat}
-\alias{redstrat}
+\name{redstart}
+\alias{redstart}
 \docType{data}
 \title{
-redstrat abundance time series
+redstart abundance time series
 }
 \description{
-redstrat abundance time series
+redstart abundance time series
 }
-\usage{data(redstrat)}
+\usage{data(redstart)}
 \format{
   The format is:
  num [1:30] 18 10 9 14 17 14 5 10 9 5 ...
 }
 \details{
-redstrat abundance time series
+redstart abundance time series
 }
 \source{
 Peter Arcese kindly provided the song sparrow population counts data.
@@ -33,8 +33,8 @@ observation error. Oikos. doi: 10.1111/j.1600-0706.2011.20010.x
 
 }
 \examples{
-data(redstrat)
-redstrat
-plot(redstrat)
+data(redstart)
+redstart
+plot(redstart)
 }
 \keyword{datasets}
