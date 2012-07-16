@@ -90,19 +90,19 @@ Khurram Nadeem and Peter Solymos
 }
 \examples{
 \dontrun{
-data(songsparrow)
-m1 <- pva(songsparrow, gompertz("none"), 2, n.iter=1000)
-m2 <- pva(songsparrow, gompertz("poisson"), 2, n.iter=1000)
-m3 <- pva(songsparrow, gompertz("normal"), 2, n.iter=1000)
+data(redstart)
+m1 <- pva(redstart, gompertz("none"), 2, n.iter=1000)
+m2 <- pva(redstart, gompertz("poisson"), 2, n.iter=1000)
+m3 <- pva(redstart, gompertz("normal"), 2, n.iter=1000)
 p <- predictLatent(m2, n.chains=1, n.iter=10000)
 pva.llr(m1, m2, p)
 model.select(m1, m2)
 model.select(m1, m3)
 model.select(m2, m3)
 
-m1x <- pva(songsparrow, ricker("none"), 2, n.iter=1000)
-m2x <- pva(songsparrow, ricker("poisson"), 2, n.iter=1000)
-m3x <- pva(songsparrow, ricker("normal"), 2, n.iter=1000)
+m1x <- pva(redstart, ricker("none"), 2, n.iter=1000)
+m2x <- pva(redstart, ricker("poisson"), 2, n.iter=1000)
+m3x <- pva(redstart, ricker("normal"), 2, n.iter=1000)
 
 model.select(m1, m1x)
 model.select(m2, m2x)
@@ -119,9 +119,9 @@ model.select(m1z, m3z)
 model.select(m2z, m3z)
 
 ## profile likelihood
-m <- pva(songsparrow, gompertz("normal"), 5, n.iter=5000)
+m <- pva(redstart, gompertz("normal"), 5, n.iter=5000)
 p <- predictLatent(m, n.chains=1, n.iter=10000)
-m1 <- pva(songsparrow, gompertz("normal", 
+m1 <- pva(redstart, gompertz("normal", 
     fixed=c(sigma=0.4)), 5, n.iter=5000)
 ## etc for many sigma values
 pva.llr(m1, m, p) # calculate log LR for each

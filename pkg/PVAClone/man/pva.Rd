@@ -97,28 +97,28 @@ Khurram Nadeem and Peter Solymos
 }
 \examples{
 \dontrun{
-data(songsparrow)
+data(redstart)
 data(paurelia)
 
 ## Gompertz
-m1 <- pva(songsparrow, "gompertz", c(5,10))
-m2 <- pva(songsparrow, gompertz("poisson"), c(5,10))
-m3 <- pva(songsparrow, gompertz("normal"), c(5,10))
+m1 <- pva(redstart, "gompertz", c(5,10))
+m2 <- pva(redstart, gompertz("poisson"), c(5,10))
+m3 <- pva(redstart, gompertz("normal"), c(5,10))
 m1na <- pva(paurelia, "gompertz", c(5,10))
 m2na <- pva(paurelia, gompertz("poisson"), c(5,10))
 m3na <- pva(paurelia, gompertz("normal"), c(5,10))
-m1x <- pva(songsparrow, gompertz("normal"), 5)
-m2x <- pva(songsparrow, gompertz("normal", fixed=c(tau=0.1)), 5)
+m1x <- pva(redstart, gompertz("normal"), 5)
+m2x <- pva(redstart, gompertz("normal", fixed=c(tau=0.1)), 5)
 
 ## Ricker
-m1 <- pva(songsparrow, "ricker", c(5,10))
-m2 <- pva(songsparrow, ricker("poisson"), c(5,10))
-m3 <- pva(songsparrow, ricker("normal"), c(5,10))
+m1 <- pva(redstart, "ricker", c(5,10))
+m2 <- pva(redstart, ricker("poisson"), c(5,10))
+m3 <- pva(redstart, ricker("normal"), c(5,10))
 m1na <- pva(paurelia, "ricker", c(5,10))
 m2na <- pva(paurelia, ricker("poisson"), c(5,10))
 m3na <- pva(paurelia, ricker("normal"), c(5,10))
-m1x <- pva(songsparrow, ricker("normal"), 5)
-m2x <- pva(songsparrow, ricker("normal", fixed=c(tau=0.1)), 5)
+m1x <- pva(redstart, ricker("normal"), 5)
+m2x <- pva(redstart, ricker("normal", fixed=c(tau=0.1)), 5)
 
 m2x
 summary(m2x)

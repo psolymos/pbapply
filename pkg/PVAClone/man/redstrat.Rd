@@ -1,24 +1,26 @@
-\name{songsparrow}
-\alias{songsparrow}
+\name{redstrat}
+\alias{redstrat}
 \docType{data}
 \title{
-Songsparrow abundance time series
+redstrat abundance time series
 }
 \description{
-Songsparrow abundance time series
+redstrat abundance time series
 }
-\usage{data(songsparrow)}
+\usage{data(redstrat)}
 \format{
   The format is:
  num [1:30] 18 10 9 14 17 14 5 10 9 5 ...
 }
 \details{
-Songsparrow abundance time series
+redstrat abundance time series
 }
 \source{
 Peter Arcese kindly provided the song sparrow population counts data.
 }
 \references{
+
+FIXME --- KHURRAM --- to check references for redstart
 
 Saether, B-E., Engen, S., Lande, R., Acrese, P. and Smith, J.N.M., 2000. 
 Estimating the time to extinction in an island population 
@@ -31,8 +33,8 @@ observation error. Oikos. doi: 10.1111/j.1600-0706.2011.20010.x
 
 }
 \examples{
-data(songsparrow)
-songsparrow
-plot(songsparrow)
+data(redstrat)
+redstrat
+plot(redstrat)
 }
 \keyword{datasets}
