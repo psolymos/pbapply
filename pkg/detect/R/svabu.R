@@ -38,6 +38,8 @@ function (formula, data, zeroinfl=TRUE, area=1, N.max=NULL, inits,
         stop("invalid dependent variable, negative counts")
     if (length(Y) != NROW(X)) 
         stop("invalid dependent variable, not a vector")
+    if (setequal(colnames(Z), colnames(X))) 
+        stop("at least one covariate should be separate for occupancy and detection parts of the formula")
     ## link functions
     links <- c("logit", "probit", "cloglog")
     link.det <- match.arg(link.det, links)
