@@ -6,13 +6,11 @@
 
 setClass("hsarx", 
     representation(title="character", 
-        Y="numeric", X="matrix", Z="matrix", G="integer"),
-#        varnames="character",  # human readable variable names
-#        parnames="character"), # internal JAGS node names
-    contains = "dcMle")
+        data="dcFit"),
+    contains = "dcmle")
 
 setMethod("show", "hsarx", function(object) {
-    getMethod("summary","dcMle")(as(object, "dcMle"), object@title)
+    show(summary(as(object, "dcmle"), object@title))
 })
 
 hsarx <- 
@@ -47,15 +45,15 @@ function(formula, data, n.clones, cl=NULL, subset, na.action, ...)
         if (length(unique(G)) == 1)
             stop("grouping variable must have at least 2 levels")
 
-if (ncol(X) > 2)
-    stop("multiple focal covariates not supported")
+#if (ncol(X) > 2)
+#    stop("multiple focal covariates not supported")
 
     } else {
         Z <- NULL
         G <- NULL
     }
-    dcf <- sharx:::hsarx.fit(Y, X, Z, G)
-    dcm <- dcmle(dcf, n.clones=n.clones, cl=cl, ...)
+    dcf <- hsarx.fit(Y, X, Z, G)
+    dcm <- dcmle(dcf, n.clones=n.clones, cl=cl, nobs=length(Y), ...)
     out <- as(dcm, "hsarx")
     title <- if (ncol(X) > 2)
         "SARX" else "SAR"
@@ -65,10 +63,7 @@ if (ncol(X) > 2)
         title <- paste("H", title, sep="")
     }
     out@title <- paste(title, "Model")
-    out@Y <- Y
-    out@X <- X
-    out@Z <- if (is.null(Z)) matrix(0,0,0) else Z
-    out@G <- if (is.null(G)) integer(0) else G
+    out@data <- dcf
     out
 }
 
