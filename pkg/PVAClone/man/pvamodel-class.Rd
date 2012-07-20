@@ -19,7 +19,7 @@ Objects can be created by calls of the form \code{new("pvamodel", ...)}.
       \code{"poisson"}, \code{"normal"}).}
     \item{\code{model}:}{Object of class \code{"dcModel"},
       BUGS model for estimation.}
-    \item{\code{predmodel}:}{Object of class \code{"dcModel"},
+    \item{\code{genmodel}:}{Object of class \code{"dcModel"},
       BUGS model for prediction.}
     \item{\code{p}:}{Object of class \code{"integer"},
       number of parameters in model (including fixed parameters!).}
