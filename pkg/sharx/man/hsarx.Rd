@@ -10,7 +10,7 @@ Fit SAR, SARX, HSAR and HSARX models to data as
 described in Solymos and Lele (2012).
 }
 \usage{
-hsarx(formula, data, n.clones, cl = NULL, subset, na.action, ...)
+hsarx(formula, data, n.clones, cl = NULL, ...)
 }
 \arguments{
   \item{formula}{
@@ -24,12 +24,6 @@ Number of clones to be used.
 }
   \item{cl}{
 Cluster object for parallel computations.
-}
-  \item{subset}{
-Subset to data argument.
-}
-  \item{na.action}{
-Handling of NA values.
 }
   \item{\dots}{
 Other arguments for MCMC.

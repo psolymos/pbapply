@@ -4,22 +4,23 @@
 ## - include prediction model (estimates, vcov or SE)
 ## - include prediction for model selection purposes???
 
+## class definition
 setClass("hsarx", 
     representation(title="character", 
         data="dcFit"),
     contains = "dcmle")
 
+## basic show method
 setMethod("show", "hsarx", function(object) {
     show(summary(as(object, "dcmle"), object@title))
 })
 
-hsarx <- 
-function(formula, data, n.clones, cl=NULL, subset, na.action, ...)
+## interpreting formula, returning design matrices
+parse_hsarx <- 
+function(formula, data)
 {
-    if (missing(n.clones))
-        stop("'n.clones' argument missing")
     mf <- match.call(expand.dots = FALSE)
-    m <- match(c("formula", "data", "subset", "na.action"), names(mf), 0)
+    m <- match(c("formula", "data"), names(mf), 0)
     mf <- mf[c(1, m)]
     f <- Formula(formula)
     st <- length(f)
@@ -52,22 +53,11 @@ function(formula, data, n.clones, cl=NULL, subset, na.action, ...)
         Z <- NULL
         G <- NULL
     }
-    dcf <- hsarx.fit(Y, X, Z, G)
-    dcm <- dcmle(dcf, n.clones=n.clones, cl=cl, nobs=length(Y), ...)
-    out <- as(dcm, "hsarx")
-    title <- if (ncol(X) > 2)
-        "SARX" else "SAR"
-    if (!is.null(Z)) {
-        if (title != "SARX" && NCOL(Z) > 1)
-            title <- paste(title, "X", sep="")
-        title <- paste("H", title, sep="")
-    }
-    out@title <- paste(title, "Model")
-    out@data <- dcf
-    out
+    list(Y=Y, X=X, Z=Z, G=G)
 }
 
-hsarx.fit <- 
+## returning all the treats dcmle needs
+make_hsarx <- 
 function(Y, X, Z, G)
 {
     m <- length(Y) # no. of islands
@@ -114,6 +104,9 @@ function(Y, X, Z, G)
         pr.tau <- rbind(c(log(sqrt(tau2)), 0), rep(0.1, p+1))
         ZG <- Z[sapply(1:n, function(i) min(which(G == unique(G)[i]))),]
         ZG <- data.matrix(ZG)
+        pr.cfs[is.na(pr.cfs)] <- 0
+        pr.ses[is.na(pr.ses)] <- 0.1
+        pr.tau[is.na(pr.tau)] <- 0.1
         res <- makeDcFit(
             dat <- list(logY=dcdim(data.matrix(Y)), 
                 X=X, 
@@ -193,3 +186,26 @@ function(Y, X, Z, G)
     res
 }
 
+## this is where the magic happens
+hsarx <- 
+function(formula, data, n.clones, cl=NULL, ...)
+{
+    if (missing(n.clones))
+        stop("'n.clones' argument missing")
+    if (missing(data))
+        data <- parent.frame()
+    tmp <- parse_hsarx(formula, data)
+    dcf <- make_hsarx(tmp$Y, tmp$X, tmp$Z, tmp$G)
+    dcm <- dcmle(dcf, n.clones=n.clones, cl=cl, nobs=length(tmp$Y), ...)
+    out <- as(dcm, "hsarx")
+    title <- if (ncol(tmp$X) > 2)
+        "SARX" else "SAR"
+    if (!is.null(tmp$Z)) {
+        if (title != "SARX" && NCOL(tmp$Z) > 1)
+            title <- paste(title, "X", sep="")
+        title <- paste("H", title, sep="")
+    }
+    out@title <- paste(title, "Model")
+    out@data <- dcf
+    out
+}
