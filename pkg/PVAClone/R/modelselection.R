@@ -12,6 +12,10 @@ function(null, alt, pred)
     obs <- null@observations
     if (!identical(obs, alt@observations))
         stop("data in null amd alternative model must be identical")
+
+if (any(is.na(obs)))
+    stop("missing values not yet fully supported in model comparison")
+
 #    if (!any(is.na(obs)) && err0 != "none" && err1 == "none")
     if (err0 != "none" && err1 == "none")
         stop("switch null and alternative model")

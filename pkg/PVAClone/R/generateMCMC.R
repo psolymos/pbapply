@@ -14,10 +14,13 @@ function(x, ...)
         "poisson" = "O")
     dcd <- x@dcdata
     dcd@model <- x@model@predmodel
+    Params <- paste(node, "[",i,",1]",sep="")
     f <- jags.fit(dcd@data, 
-        params=paste(node, "[",i,",1]",sep=""),
+        params=Params,
         model=dcd@model, ...)
     pred <- as.matrix(f)
+    if (length(i) > 1)
+        pred <- pred[,match(Params, colnames(pred))]
     colnames(pred) <- paste("value", i, sep="_")
     if (obs.error != "poisson")
         pred <- exp(pred)
