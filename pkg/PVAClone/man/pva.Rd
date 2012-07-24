@@ -14,7 +14,8 @@ pva(x, model, n.clones, ...)
 \arguments{
   \item{x}{
 Numeric, a time series. Values must be non-negative,
-missing values are allowed.
+missing values are allowed (but first and last observation
+must not be missing).
 }
   \item{model}{
 A 'pvamodel' object returned by a function, see Examples.

@@ -4,6 +4,8 @@ function(x, model, n.clones, ...)
 {
     if (all(n.clones <= 1))
         stop("data cloning is required, set n.clones properly")
+    if (any(is.na(x[c(1, length(x))])))
+        stop("first and last observation must not be NA")
     xx <- x[!is.na(x)] # do not use NA in checks
     if (sum(is.na(x)))
         warning("missing values found in data")
