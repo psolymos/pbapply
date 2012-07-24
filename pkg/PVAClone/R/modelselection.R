@@ -1,3 +1,14 @@
+## this returns some TS related indices
+ts_index <- 
+function(x, with.na=FALSE)
+{
+    i <- which(is.na(x))
+    as.integer(setdiff(i[-length(i)]+1, i))
+}
+#x <- 1:20
+#x[c(3,4, 6, 10, 13:15, 20)] <- NA
+#ts_index(x)
+
 ## this is the heart of model selection and
 ## profile likelihood
 pva.llr <- 
@@ -13,8 +24,8 @@ function(null, alt, pred)
     if (!identical(obs, alt@observations))
         stop("data in null amd alternative model must be identical")
 
-if (any(is.na(obs)))
-    stop("missing values not yet fully supported in model comparison")
+#if (any(is.na(obs)))
+#    stop("missing values not yet fully supported in model comparison")
 
 #    if (!any(is.na(obs)) && err0 != "none" && err1 == "none")
     if (err0 != "none" && err1 == "none")
@@ -34,11 +45,19 @@ if (any(is.na(obs)))
         "poisson" = obs)
     ## use here parApply with parallel package -- future stuff
     logd0 <- apply(pred, 1, null@model@logdensity, 
-        mle=coef(null), data=data0, alt_obserror=err1 != "none")
+        mle=coef(null), data=data0, 
+        null_obserror=err0 != "none", alt_obserror=err1 != "none")
     logd1 <- apply(pred, 1, alt@model@logdensity, 
-        mle=coef(alt), data=data1, alt_obserror=FALSE)
+        mle=coef(alt), data=data1, 
+        null_obserror=err0 != "none", alt_obserror=err1 != "none")
     ## log likelihood ratio
-    log(mean(exp(logd0 - logd1)))
+    if (err0 == "none" && err1 != "none" && any(is.na(obs))) {
+        (1 / (mean(1 / exp(logd0)))) / (1 / (mean(1 / exp(logd1)))) ## --------------check this
+        out <- log(mean())
+    } else {
+        out <- log(mean(exp(logd0 - logd1)))
+    }
+    out
 }
 
 ## model selection

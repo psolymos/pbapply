@@ -204,49 +204,88 @@ function(obs.error="none", fixed)
     ##       this includes w/o error models with missing data
     ## missing: logical, used for w/o error model (see logx)
     dfun <- switch(obs.error,
-        ## data on the log scale (logx)
-        ## w/o missing data, log is the log data
-        ## w/ missing values both logx (missing) and data should be provided
-        ## TBD later
-        "none"    = function(logx, mle, data, alt_obserror=FALSE) {
+        ## logx: log obs (w/0 obs error) or latent variable (w/ obs error)
+        ## mle: vector of point estimates
+        ## data: data on original scale (this is used to check missing values)
+        ## null_obserror: logical, if the null model has obs error
+        ## alt_obserror: logical, if the alternative model has obs error
+        "none"    = function(logx, mle, data, 
+        null_obserror=FALSE, alt_obserror=FALSE) {
             T <- length(logx)
-            y <- data
             m <- which(is.na(data))
-            y[m] <- logx[m]
-            logd1 <- dnorm(y[-1],
-                mean = mle["a"] + mle["b"] * y[-T],
-                sd = mle["sigma"], log=TRUE)
-            logd2 <- if (alt_obserror) {
-                dnorm(logx[-1],
+            if (length(m) > 0) {
+                if (alt_obserror) {
+                    ## null is NOE, alt is OE, NA present (II.a)
+                    ii <- ts_index(data)
+                    jj <- setdiff(which(!is.na(data)), ii)
+                    do <- exp(sum(dnorm(data[jj][-1], 
+                        mean= mle["a"] + mle["b"] * data[jj-1][-length(jj)],
+                        sd = mle["sigma"], log=TRUE)))
+                    expect <- mean(dnorm(data[ii], 
+                        mean= mle["a"] + mle["b"] * logx[ii-1],
+                        sd = mle["sigma"], log=FALSE))
+                    rval <- log(do*expect)
+                } else {
+                    ## null is NOE, alt is NOE, NA present (II.b)
+                    y <- data # data is on log scale for "none"
+                    y[is.na(data)] <- logx[is.na(data)]
+                    rval <- sum(dnorm(y[-1],
+                        mean = mle["a"] + mle["b"] * data[-T],
+                        sd = mle["sigma"], log=TRUE))
+                }
+            } else {
+                logd1 <- dnorm(data[-1],
+                    mean = mle["a"] + mle["b"] * data[-T],
+                    sd = mle["sigma"], log=TRUE)
+                ## null is NOE, alt is OE, NA absent (III.a)
+                logd2 <- if (alt_obserror) {
+                    dnorm(logx[-1],
+                        mean = mle["a"] + mle["b"] * logx[-T],
+                        sd = mle["sigma"], log=TRUE)
+                ## null is NOE, alt is NOE, NA absent (III.b)
+                } else {
+                    dnorm((data[-1])[m-1],
+                        mean = mle["a"] + mle["b"] * (data[-T])[m],
+                        sd = mle["sigma"], log=TRUE)
+                }
+            rval <- sum(logd1) + sum(logd2)
+            }
+            rval
+        },
+        ## data on the log scale
+        "poisson" = function(logx, mle, data, 
+        null_obserror=FALSE, alt_obserror=FALSE) {
+            T <- length(data)
+            if (null_obserror) {
+                logd1 <- dnorm(logx[-1],
                     mean = mle["a"] + mle["b"] * logx[-T],
                     sd = mle["sigma"], log=TRUE)
+                logd2 <- dpois(data[-1],
+                    exp(logx[-1]), log=TRUE)
+                rval <- sum(logd1) + sum(logd2, na.rm=TRUE)
             } else {
-                dnorm((y[-1])[m-1],
-                    mean = mle["a"] + mle["b"] * (y[-T])[m],
-                    sd = mle["sigma"], log=TRUE)
+                rval <- sum(dpois(data, exp(logx), log=TRUE), na.rm=TRUE)
             }
-            sum(logd1) + sum(logd2)
+            rval
         },
         ## data on the log scale
-        "poisson" = function(logx, mle, data, alt_obserror=FALSE) {
+        "normal"  = function(logx, mle, data, 
+        null_obserror=FALSE, alt_obserror=FALSE) {
             T <- length(data)
-            logd1 <- dnorm(logx[-1],
-                mean = mle["a"] + mle["b"] * logx[-T],
-                sd = mle["sigma"], log=TRUE)
-            logd2 <- dpois(data[-1],
-                exp(logx[-1]), log=TRUE)
-            sum(logd1) + sum(logd2, na.rm=TRUE)
-        },
-        ## data on the log scale
-        "normal"  = function(logx, mle, data, alt_obserror=FALSE) {
-            T <- length(data)
-            logd1 <- dnorm(logx[-1],
-                mean = mle["a"] + mle["b"] * logx[-T],
-                sd = mle["sigma"], log=TRUE)
-            logd2 <- dnorm(data[-1],
-                mean = logx[-1],
-                sd = mle["tau"], log=TRUE)
-            sum(logd1) + sum(logd2, na.rm=TRUE)
+            if (null_obserror) {
+                logd1 <- dnorm(logx[-1],
+                    mean = mle["a"] + mle["b"] * logx[-T],
+                    sd = mle["sigma"], log=TRUE)
+                logd2 <- dnorm(data[-1],
+                    mean = logx[-1],
+                    sd = mle["tau"], log=TRUE)
+                rval <- sum(logd1) + sum(logd2, na.rm=TRUE)
+            } else {
+                rval <- sum(dnorm(data, 
+                    mean=logx, 
+                    sd=mle["sigma"], log=TRUE), na.rm=TRUE)
+            }
+            rval
         })
     neff <- function(obs)
         sum(!is.na(obs))
