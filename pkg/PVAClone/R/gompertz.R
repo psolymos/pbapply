@@ -218,19 +218,19 @@ function(obs.error="none", fixed)
                     ## null is NOE, alt is OE, NA present (II.a)
                     ii <- ts_index(data)
                     jj <- setdiff(which(!is.na(data)), ii)
-                    do <- exp(sum(dnorm(data[jj][-1], 
+                    do <- sum(dnorm(data[jj][-1], 
                         mean= mle["a"] + mle["b"] * data[jj-1][-length(jj)],
-                        sd = mle["sigma"], log=TRUE)))
-                    expect <- mean(dnorm(data[ii], 
+                        sd = mle["sigma"], log=TRUE))
+                    expect <- log(mean(dnorm(data[ii], 
                         mean= mle["a"] + mle["b"] * logx[ii-1],
-                        sd = mle["sigma"], log=FALSE))
-                    rval <- log(do*expect)
+                        sd = mle["sigma"], log=FALSE)))
+                    rval <- do + expect
                 } else {
                     ## null is NOE, alt is NOE, NA present (II.b)
                     y <- data # data is on log scale for "none"
                     y[is.na(data)] <- logx[is.na(data)]
                     rval <- sum(dnorm(y[-1],
-                        mean = mle["a"] + mle["b"] * data[-T],
+                        mean = mle["a"] + mle["b"] * y[-T],
                         sd = mle["sigma"], log=TRUE))
                 }
             } else {
@@ -311,3 +311,7 @@ function(obs.error="none", fixed)
 #gompertz("normal")
 #gompertz("normal", fixed=c(a=5, sigma=0.5))
 
+m1z <- pva(paurelia, gompertz("none"), 2, n.iter=1000)
+m2z <- pva(paurelia, gompertz("poisson"), 2, n.iter=1000)
+m3z <- pva(paurelia, gompertz("normal"), 2, n.iter=1000)
+model.select(m1z, m2z)

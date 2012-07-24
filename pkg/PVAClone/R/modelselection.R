@@ -41,8 +41,7 @@ function(null, alt, pred)
         null_obserror=err0 != "none", alt_obserror=err1 != "none")
     ## log likelihood ratio
     if (err0 == "none" && err1 != "none" && any(is.na(obs))) {
-        (1 / (mean(1 / exp(logd0)))) / (1 / (mean(1 / exp(logd1)))) ## --------------check this
-        out <- log(mean())
+        out <- log((1/(mean(1/exp(logd0)))) / (1/(mean(1/exp(logd1))))) ## --------------check this
     } else {
         out <- log(mean(exp(logd0 - logd1)))
     }
