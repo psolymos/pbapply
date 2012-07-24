@@ -1,14 +1,3 @@
-## this returns some TS related indices
-ts_index <- 
-function(x, with.na=FALSE)
-{
-    i <- which(is.na(x))
-    as.integer(setdiff(i[-length(i)]+1, i))
-}
-#x <- 1:20
-#x[c(3,4, 6, 10, 13:15, 20)] <- NA
-#ts_index(x)
-
 ## this is the heart of model selection and
 ## profile likelihood
 pva.llr <- 
