@@ -1,7 +1,5 @@
 \name{pva}
 \alias{pva}
-\alias{PVA}
-\alias{Pva}
 \title{
 Population Viability Analysis
 }

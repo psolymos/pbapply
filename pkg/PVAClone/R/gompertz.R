@@ -257,7 +257,7 @@ function(obs.error="none", fixed)
         "poisson" = function(logx, mle, data, 
         null_obserror=FALSE, alt_obserror=FALSE) {
             T <- length(data)
-            if (null_obserror) {
+            if (!(!null_obserror && any(is.na(data)))) {
                 logd1 <- dnorm(logx[-1],
                     mean = mle["a"] + mle["b"] * logx[-T],
                     sd = mle["sigma"], log=TRUE)
@@ -274,7 +274,7 @@ function(obs.error="none", fixed)
         "normal"  = function(logx, mle, data, 
         null_obserror=FALSE, alt_obserror=FALSE) {
             T <- length(data)
-            if (null_obserror) {
+            if (!(!null_obserror && any(is.na(data)))) {
                 logd1 <- dnorm(logx[-1],
                     mean = mle["a"] + mle["b"] * logx[-T],
                     sd = mle["sigma"], log=TRUE)

@@ -114,8 +114,8 @@ m1z <- pva(paurelia, ricker("none"), 2, n.iter=1000)
 m2z <- pva(paurelia, ricker("poisson"), 2, n.iter=1000)
 m3z <- pva(paurelia, ricker("normal"), 2, n.iter=1000)
 
-model.select(m1z, m2z)
-model.select(m1z, m3z)
+#model.select(m1z, m2z) # not yet implemented
+#model.select(m1z, m3z) # not yet implemented
 model.select(m2z, m3z)
 
 ## profile likelihood
