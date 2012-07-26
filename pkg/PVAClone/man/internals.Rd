@@ -44,7 +44,7 @@ calculating log densities for model selection.
 \code{ts_index} returns an integer vector.
 }
 \author{
-Peter SOlymos and Khurram Nadeem
+Peter Solymos and Khurram Nadeem
 }
 \examples{
 ## ts_index
