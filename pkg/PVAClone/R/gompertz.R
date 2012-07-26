@@ -215,20 +215,21 @@ function(obs.error="none", fixed)
             m <- which(is.na(data))
             if (length(m) > 0) {
                 if (alt_obserror) {
+                    stop("not yet implemented")
                     ## null is NOE, alt is OE, NA present (II.a)
-                    ii <- ts_index(data)
-                    jj <- setdiff(which(!is.na(data)), ii)
-                    do <- sum(dnorm(data[jj][-1], 
-                        mean= mle["a"] + mle["b"] * data[jj-1][-length(jj)],
-                        sd = mle["sigma"], log=TRUE))
-                    expect <- log(mean(dnorm(data[ii], 
-                        mean= mle["a"] + mle["b"] * logx[ii-1],
-                        sd = mle["sigma"], log=FALSE)))
-                    rval <- do + expect
+#                    ii <- ts_index(data)
+#                    jj <- setdiff(which(!is.na(data)), ii)
+#                    do <- sum(dnorm(data[jj][-1], 
+#                        mean= mle["a"] + mle["b"] * data[jj-1][-length(jj)],
+#                        sd = mle["sigma"], log=TRUE))
+#                    expect <- log(mean(dnorm(data[ii], 
+#                        mean= mle["a"] + mle["b"] * logx[ii-1],
+#                        sd = mle["sigma"], log=FALSE)))
+#                    rval <- do + expect
                 } else {
                     ## null is NOE, alt is NOE, NA present (II.b)
                     y <- data # data is on log scale for "none"
-                    y[is.na(data)] <- logx[is.na(data)]
+                    y[m] <- logx[m]
                     rval <- sum(dnorm(y[-1],
                         mean = mle["a"] + mle["b"] * y[-T],
                         sd = mle["sigma"], log=TRUE))
@@ -248,7 +249,7 @@ function(obs.error="none", fixed)
                         mean = mle["a"] + mle["b"] * (data[-T])[m],
                         sd = mle["sigma"], log=TRUE)
                 }
-            rval <- sum(logd1) + sum(logd2)
+                rval <- sum(logd1) + sum(logd2)
             }
             rval
         },
@@ -264,7 +265,8 @@ function(obs.error="none", fixed)
                     exp(logx[-1]), log=TRUE)
                 rval <- sum(logd1) + sum(logd2, na.rm=TRUE)
             } else {
-                rval <- sum(dpois(data, exp(logx), log=TRUE), na.rm=TRUE)
+                stop("not yet implemented")
+#                rval <- sum(dpois(data, exp(logx), log=TRUE), na.rm=TRUE)
             }
             rval
         },
@@ -281,9 +283,10 @@ function(obs.error="none", fixed)
                     sd = mle["tau"], log=TRUE)
                 rval <- sum(logd1) + sum(logd2, na.rm=TRUE)
             } else {
-                rval <- sum(dnorm(data, 
-                    mean=logx, 
-                    sd=mle["sigma"], log=TRUE), na.rm=TRUE)
+                stop("not yet implemented")
+#                rval <- sum(dnorm(data, 
+#                    mean=logx, 
+#                    sd=mle["sigma"], log=TRUE), na.rm=TRUE)
             }
             rval
         })
