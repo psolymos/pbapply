@@ -2,10 +2,13 @@
 \alias{redstart}
 \docType{data}
 \title{
-redstart abundance time series
+Abundance time series of American Redstart
 }
 \description{
-redstart abundance time series
+Counts for American Redstart (\emph{Setophaga ruticilla}) at a 
+survey location in the North American Breeding Bird Survey 
+(BBS; Robbins et al. 1986, Peterjohn 1994).
+BBS record number 0214332808636 observed from 1966 to 1995.
 }
 \usage{data(redstart)}
 \format{
@@ -16,21 +19,23 @@ redstart abundance time series
 redstart abundance time series
 }
 \source{
-Peter Arcese kindly provided the song sparrow population counts data.
+Data reported in B. Dennis,
+J. M. Ponciano, S. R. Lele, M. L. Taper, and D. F.
+Staples (unpublished manuscript, see Lele 2006).
 }
 \references{
+Lele, S.R. 2006. Sampling variability and estimates of density 
+dependence: a composite-likelihood approach.
+Ecology 87, 189--202.
 
-FIXME --- KHURRAM --- to check references for redstart
+Peterjohn, B.G. 1994. 
+The North American Breeding Bird Survey. Birding 26, 386--398.
 
-Saether, B-E., Engen, S., Lande, R., Acrese, P. and Smith, J.N.M., 2000. 
-Estimating the time to extinction in an island population 
-of song sparrows. Proc. R. Soc. Lond. B 267, 621-626.
-
-Nadeem, K., Lele S. R., 2012.  Likelihood based population 
-viability analysis in the presence of 
-observation error. Oikos. doi: 10.1111/j.1600-0706.2011.20010.x
-
-
+Robbins, C.S., D. Bystrak, and P.H. Geissler. 1986. 
+The breeding bird survey: its first
+fifteen years, 1965--1979. U.S. Fish and Wildl. Serv. 
+Resource Publ. 157. Washington, D.C.
+196 pp.
 }
 \examples{
 data(redstart)
