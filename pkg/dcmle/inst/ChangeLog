@@ -5,7 +5,7 @@ Version 0.2-2, July 6, 2012
       it is now fixed.
 
 Version 0.2-1, May 13, 2012
-    * Depends: R (>= 2.15.0). Old versions of R filed under MacOS
+    * Depends: R (>= 2.15.0). Old versions of R failed under MacOS
       and Windows (reported by Uwe Ligges).
 
 Version 0.2-0, April 27, 2012

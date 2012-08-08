@@ -72,7 +72,9 @@ echo $contents; } ?>
 [<A href="http://dcr.r-forge.r-project.org/publications/RJournal_2010-2_Solymos.pdf">local copy</A>]
 [<A href="http://dcr.r-forge.r-project.org/publications/RJournal_2010-2_Solymos.R">R code</A>]<i> (Official citation)</i>
 </li><li>Reference manual: [<A href="http://cran.r-project.org/web/packages/dclone/dclone.pdf">pdf</A>] <i>(Detailed technical documentation of the package from CRAN)</i></li>
-<li>Additional resources: <a href="http://dcr.r-forge.r-project.org/tutorials/">tutorials</a> (under development), <a href="http://dcr.r-forge.r-project.org/examples/">worked examples</a> (also available via the <strong>dcmle</strong> package).</li>
+<li>Additional resources: <a href="http://dcr.r-forge.r-project.org/tutorials/">tutorials</a> (under development), 
+<a href="http://dcr.r-forge.r-project.org/examples/">worked examples</a> (also available via the <strong>dcmle</strong> package), <a href="http://dcr.r-forge.r-project.org/extras/">extras</a> 
+(not fully supported and experimental features).</li>
 </ul>
 </p>
 
@@ -143,9 +145,6 @@ S4 classes around infrastructure provided by the dclone package to make package 
 with data cloning for hierarchical models easy as a breeze.
 [<a href="http://cran.r-project.org/package=dcmle">get it from CRAN</a>]</li>
 
-<li><strong>dcexatras:</strong> extras and not fully supported functions to the dclone package.
-Only developmental version available.</li>
-
 <li><strong>pbapply:</strong> a lightweight package that adds 
 progress bar to vectorized R functions ('*apply'). The implenentation can easily be added 
 to functions, where showing the progress is useful for the user (e.g. bootstrap).
@@ -164,6 +163,12 @@ for use-availability wildlife data as described in Lele and Keim
 The package implements models to analyze site occupancy and count data models 
 with detection error.
 [<a href="http://cran.r-project.org/package=detect">get it from CRAN</a>]</li>
+
+<li><strong>PVAClone:</strong> Likelihood based population viability 
+analysis in the presence of observation error and missing data. 
+The package can be used to fit, compare, predict, and forecast 
+various growth model types using data cloning.
+[<a href="http://cran.r-project.org/package=PVAClone">get it from CRAN</a>]</li>
 
 </ul>
 
