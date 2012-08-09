@@ -1,6 +1,6 @@
 sharx package version history
 
-Version 1.0-3, Feb 8, 2012
+Version 1.0-3, Aug 9, 2012
     * Full citation of Solymos and Lele 2012 added.
     * hsarx uses dcmle.
     * inst/COPYING removed.
