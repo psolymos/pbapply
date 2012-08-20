@@ -63,6 +63,13 @@ n.chains=3, cl = NULL, parchains = FALSE, ...)
             flush.console()
         }
         jdat <- dclone(data, k[i], multiply=multiply, unchanged=unchanged)
+
+        ## it is problematic when k>1 at 1st iteration
+        ## user should fall back on jags.fit???
+#        if (!is.null(initsfun) && k[i]>1 && !INIARGS) {
+#            inits <- initsfun(, k[i])
+#        }
+
         if (flavour == "jags") {
             if (parchains) {
                 mod <- jags.parfit(cl, jdat, params, model, inits, n.chains, ...)
