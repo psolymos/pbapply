@@ -245,9 +245,10 @@ function(obs.error="none", fixed)
                         sd = mle["sigma"], log=TRUE)
                 ## null is NOE, alt is NOE, NA absent (III.b)
                 } else {
-                    dnorm((data[-1])[m-1],
-                        mean = mle["a"] + mle["b"] * (data[-T])[m],
-                        sd = mle["sigma"], log=TRUE)
+#                    dnorm((data[-1])[m-1],
+#                        mean = mle["a"] + mle["b"] * (data[-T])[m],
+#                        sd = mle["sigma"], log=TRUE)
+                    0
                 }
                 rval <- sum(logd1) + sum(logd2)
             }

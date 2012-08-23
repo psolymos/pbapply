@@ -19,6 +19,12 @@ function(null, alt, pred)
         (length(null@coef) > length(alt@coef)))
             warning("Hint: check what is null and alternative ",
                 "if models are nested")
+
+    if (!any(is.na(obs)) && err1 == "none" && !missing(pred)) {
+#        warning("no latent variable in models: 'pred' is ignored")
+        pred <- matrix(log(obs), nrow=1)
+    }
+
     data0 <- switch(err0,
         "none" = log(obs),
         "normal" = log(obs),

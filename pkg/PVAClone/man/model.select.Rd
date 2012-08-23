@@ -35,6 +35,11 @@ the latent variables.
   \item{pred}{
 A matrix of replicates from the latent variables,
 e.g. as returned by \code{\link{generateLatent}}.
+When there are no missing values and both the model objects
+for the null and alternative hypotheses are without observation error,
+\code{pred} can be missing. 
+The log observations are used when \code{pred} is missing, and any user 
+supplied values for \code{pred} are used if provided.
 }
   \item{x}{
 A model selection object to be printed.
@@ -58,7 +63,6 @@ when both of the population growth models are fixed effect models,
 e.g. without observation error Gompertz 
 model Vs. without observation error Ricker model. 
 See examples below and in \code{\link{pva}}.
-
 }
 \value{
 \code{pva.llr} returns a single numeric value, the 
