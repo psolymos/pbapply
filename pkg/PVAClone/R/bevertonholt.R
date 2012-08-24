@@ -14,14 +14,13 @@ function(obs.error="none", fixed)
             "     for (i in 1:kk) {",
             "         for (j in 2:T) {",
             "             x[j,i] ~ dnorm(mu[j,i],prcx)",
-			"             mu[j,i] <- x[j-1,i] + r - log(1 + (exp(x[j-1,i])/K)^theta)",
-			
+            "             mu[j,i] <- x[j-1,i] + r - log(1 + (exp(x[j-1,i])/K)^theta)",
             "         }",
             "     }")
     cm_end_0 <- c(
             r=      "     r ~ dnorm(0,4)",
             K=      "     K ~ dexp(0.005)",
-			theta=  "     theta ~ dnorm(3,1)",
+            theta=  "     theta ~ dnorm(3,1)",
             sigma=  "     sigma <- exp(lnsigma)",
             lnsigma="     lnsigma ~ dnorm(0, 1)",
             prcx=   "     prcx <- 1/sigma^2",
@@ -39,18 +38,18 @@ function(obs.error="none", fixed)
             "         for (j in 2:T) {",
             "             x[j,i] ~ dnorm(mu[j,i],prcx)",
             "             mu[j,i] <- x[j-1,i] + r - log(1 + (N[j-1,i]/K)^theta)",
-			"             N[j,i] <- max(exp(x[j,i]) , 1)",
+            "             N[j,i] <- max(exp(x[j,i]) , 1)",
             "             y[j,i]~dnorm(x[j,i],prcy)",
             "         }",
             "     }")
     cm_end_N <- c(
             r=      "     r ~ dnorm(0,4)",
             K=      "     K ~ dexp(0.01)",
-			theta=  "     theta ~ dnorm(3,2.25)",
+            theta=  "     theta ~ dnorm(3,2.25)",
             sigma=  "     sigma <- exp(lnsigma)",
             lnsigma="     lnsigma ~ dnorm(0, 1)",
             prcx=   "     prcx <- 1/sigma^2",
-			tau=    "     tau <- exp(lntau)",
+            tau=    "     tau <- exp(lntau)",
             lntau="     lntau ~ dnorm(0, 1)",
             prcy=   "     prcy <- 1/tau^2",
             "}")
@@ -61,13 +60,13 @@ function(obs.error="none", fixed)
     ## parameters to monitor for convergence: (r , K , theta, lnsigma)
     cm_lik_P <- c(
             "model {",
-			"     for (i in 1:kk) {",
+            "     for (i in 1:kk) {",
             "         N[1,i] <- O[1,i]",
             "         x[1,i] <- log(O[1,i])",
             "         for (j in 2:T) {",
             "             x[j,i] ~ dnorm(mu[j,i],prcx)",
             "             mu[j,i] <- x[j-1,i] + r - log(1 + (N[j-1,i]/K)^theta)",
-			"             N[j,i] <- max(exp(x[j,i]) , 1)",
+            "             N[j,i] <- max(exp(x[j,i]) , 1)",
             "             O[j,i]~dpois(N[j,i])",
             "         }",
             "     }")
@@ -119,7 +118,7 @@ function(obs.error="none", fixed)
                 stop("support for fixed parameter 'b' ill-defined")
             cm_end["K"] <- paste("     K <-", round(fixed[["K"]], 4))
         }
-		if ("theta" %in% names(fixed)) {
+        if ("theta" %in% names(fixed)) {
             if (fixed[["theta"]] < support["theta","Min"] || fixed[["theta"]] > support["theta","Max"])
                 stop("support for fixed parameter 'b' ill-defined")
             cm_end["theta"] <- paste("     theta <-", round(fixed[["theta"]], 4))
@@ -208,7 +207,6 @@ function(obs.error="none", fixed)
         ## data: data on original scale (this is used to check missing values)
         ## null_obserror: logical, if the null model has obs error
         ## alt_obserror: logical, if the alternative model has obs error
-		
         "none"    = function(logx, mle, data, 
         null_obserror=FALSE, alt_obserror=FALSE) {
             T <- length(logx)
@@ -241,14 +239,14 @@ function(obs.error="none", fixed)
                 ## null is NOE, alt is OE, NA absent (III.a)
                 logd2 <- if (alt_obserror) {
                     dnorm(logx[-1],
-					mean = logx[-T]+ mle["r"]+log( 1+(exp(logx[-T])/mle["K"])^mle["theta"] ),
+                    mean = logx[-T]+ mle["r"]+log( 1+(exp(logx[-T])/mle["K"])^mle["theta"] ),
                         sd = mle["sigma"], log=TRUE)
                 ## null is NOE, alt is NOE, NA absent (III.b)
                 } else {
                     ###dnorm((data[-1])[m-1],
                         ###mean = data[-T]+ mle["r"]+log( 1+(exp(data[-T])/mle["K"])^mle["theta"] ),
                         ###sd = mle["sigma"], log=TRUE)
-						0
+                    0
                 }
                 rval <- sum(logd1) + sum(logd2)
             }

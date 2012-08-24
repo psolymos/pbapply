@@ -20,7 +20,7 @@ function(obs.error="none", fixed)
     cm_end_0 <- c(
             r=      "     r ~ dnorm(0,1)",
             K=      "     K ~ dexp(0.005)",
-			theta=  "     theta ~ dnorm(3,1)",
+            theta=  "     theta ~ dnorm(3,1)",
             sigma=  "     sigma <- exp(lnsigma)",
             lnsigma="     lnsigma ~ dnorm(0, 1)",
             prcx=   "     prcx <- 1/sigma^2",
@@ -38,18 +38,18 @@ function(obs.error="none", fixed)
             "         for (j in 2:T) {",
             "             x[j,i] ~ dnorm(mu[j,i],prcx)",
             "             mu[j,i] <- x[j-1,i] + r*( 1- (N[j-1,i]/K)^theta )",
-			"             N[j,i] <- max(exp(x[j,i]) , 1)",
+            "             N[j,i] <- max(exp(x[j,i]) , 1)",
             "             y[j,i]~dnorm(x[j,i],prcy)",
             "         }",
             "     }")
     cm_end_N <- c(
             r=      "     r ~ dnorm(0,4)",
             K=      "     K ~ dexp(0.01)",
-			theta=  "     theta ~ dnorm(3,2.25)",
+            theta=  "     theta ~ dnorm(3,2.25)",
             sigma=  "     sigma <- exp(lnsigma)",
             lnsigma="     lnsigma ~ dnorm(0, 1)",
             prcx=   "     prcx <- 1/sigma^2",
-			tau=    "     tau <- exp(lntau)",
+            tau=    "     tau <- exp(lntau)",
             lntau="     lntau ~ dnorm(0, 1)",
             prcy=   "     prcy <- 1/tau^2",
             "}")
@@ -60,13 +60,13 @@ function(obs.error="none", fixed)
     ## parameters to monitor for convergence: (r , K , theta, lnsigma)
     cm_lik_P <- c(
             "model {",
-			"     for (i in 1:kk) {",
+            "     for (i in 1:kk) {",
             "         N[1,i] <- O[1,i]",
             "         x[1,i] <- log(O[1,i])",
             "         for (j in 2:T) {",
             "             x[j,i] ~ dnorm(mu[j,i],prcx)",
             "             mu[j,i] <- x[j-1,i] + r*( 1- (N[j-1,i]/K)^theta )",
-			"             N[j,i] <- max(exp(x[j,i]) , 1)",
+            "             N[j,i] <- max(exp(x[j,i]) , 1)",
             "             O[j,i]~dpois(N[j,i])",
             "         }",
             "     }")
@@ -96,7 +96,8 @@ function(obs.error="none", fixed)
         "poisson" = rbind(r=c(-Inf, Inf), K=c(.Machine$double.eps, Inf), 
             theta=c( -Inf, Inf), sigma=c(.Machine$double.eps, Inf)),
         "normal"  = rbind(r=c(-Inf, Inf), K=c(.Machine$double.eps, Inf), 
-            theta=c( -Inf, Inf), sigma=c(.Machine$double.eps, Inf),tau=c(.Machine$double.eps, Inf)))
+            theta=c( -Inf, Inf), sigma=c(.Machine$double.eps, Inf),
+            tau=c(.Machine$double.eps, Inf)))
     colnames(support) <- c("Min", "Max")
     ## check range of support and put in fixed values
     if (!missing(fixed)) {
@@ -118,7 +119,7 @@ function(obs.error="none", fixed)
                 stop("support for fixed parameter 'b' ill-defined")
             cm_end["K"] <- paste("     K <-", round(fixed[["K"]], 4))
         }
-		if ("theta" %in% names(fixed)) {
+        if ("theta" %in% names(fixed)) {
             if (fixed[["theta"]] < support["theta","Min"] || fixed[["theta"]] > support["theta","Max"])
                 stop("support for fixed parameter 'b' ill-defined")
             cm_end["theta"] <- paste("     theta <-", round(fixed[["theta"]], 4))
@@ -207,7 +208,6 @@ function(obs.error="none", fixed)
         ## data: data on original scale (this is used to check missing values)
         ## null_obserror: logical, if the null model has obs error
         ## alt_obserror: logical, if the alternative model has obs error
-		
         "none"    = function(logx, mle, data, 
         null_obserror=FALSE, alt_obserror=FALSE) {
             T <- length(logx)
@@ -240,14 +240,14 @@ function(obs.error="none", fixed)
                 ## null is NOE, alt is OE, NA absent (III.a)
                 logd2 <- if (alt_obserror) {
                     dnorm(logx[-1],
-					mean = logx[-T]+mle["r"]*( 1- (exp(logx[-T])/mle["K"])^mle["theta"] ),
+                    mean = logx[-T]+mle["r"]*( 1- (exp(logx[-T])/mle["K"])^mle["theta"] ),
                         sd = mle["sigma"], log=TRUE)
                 ## null is NOE, alt is NOE, NA absent (III.b)
                 } else {
                     ##dnorm((data[-1])[m-1],
                         ###mean = data[-T]+mle["r"]*( 1- (exp(data[-T])/mle["K"])^mle["theta"] ),
                         ###sd = mle["sigma"], log=TRUE)
-						0
+                    0
                 }
                 rval <- sum(logd1) + sum(logd2)
             }
@@ -308,13 +308,3 @@ function(obs.error="none", fixed)
     out@neffective <- neff
     out
 }
-## make this as an S4 class??? use contains???
-#thetaLogistic()
-#thetaLogistic("Pois")
-#thetaLogistic("normal")
-#thetaLogistic("normal", fixed=c(a=5, sigma=0.5))
-
-#m1z <- pva(paurelia, thetaLogistic("none"), 2, n.iter=1000)
-#m2z <- pva(paurelia, thetaLogistic("poisson"), 2, n.iter=1000)
-#m3z <- pva(paurelia, thetaLogistic("normal"), 2, n.iter=1000)
-#model.select(m1z, m2z)

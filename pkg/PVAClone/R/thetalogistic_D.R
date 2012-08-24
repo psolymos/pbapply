@@ -7,9 +7,8 @@ function(obs.error="none", fixed)
 
     if (!("sigma2.d" %in% names(fixed)))
         return(thetalogistic(obs.error, fixed))
-    if (("sigma2.d" %in% names(fixed)) && fixed["sigma2.d"]==0) {
+    if (("sigma2.d" %in% names(fixed)) && fixed["sigma2.d"]==0)
         return(thetalogistic(obs.error, fixed[names(fixed) != "sigma2.d"]))
-    }
 
     ## Theta Logistic.D model w/o obs. error
     ## p = 4
@@ -21,16 +20,16 @@ function(obs.error="none", fixed)
             "         for (j in 2:T) {",
             "             x[j,i] ~ dnorm(mu[j,i],prcx[j,i])",
             "             mu[j,i] <- x[j-1,i] + r*( 1- (exp(x[j-1,i])/K)^theta )",
-			"             prcx[j,i] <- 1/(sigma2.e + sigma2.d/exp(x[j-1,i]))",
+            "             prcx[j,i] <- 1/(sigma2.e + sigma2.d/exp(x[j-1,i]))",
             "         }",
             "     }")
     cm_end_0 <- c(
             r=      "     r ~ dnorm(0,1)",
             K=      "     K ~ dexp(0.005)",
-			theta=  "     theta ~ dnorm(3,1)",
+            theta=  "     theta ~ dnorm(3,1)",
             sigma=  "     sigma <- exp(lnsigma)",
-			sigma2.e=  "  sigma2.e <- sigma^2",
-			sigma2.d=  "  sigma2.d <- 0",						
+            sigma2.e=  "  sigma2.e <- sigma^2",
+            sigma2.d=  "  sigma2.d <- 0",
             lnsigma="     lnsigma ~ dnorm(0, 1)",
             "}")
 
@@ -46,20 +45,20 @@ function(obs.error="none", fixed)
             "         for (j in 2:T) {",
             "             x[j,i] ~ dnorm(mu[j,i],prcx[j,i])",
             "             mu[j,i] <- x[j-1,i] + r*( 1- (N[j-1,i]/K)^theta )",
-			"             prcx[j,i] <- 1/(sigma2.e + sigma2.d/N[j-1,i])",
-			"             N[j,i] <- max(exp(x[j,i]) , 1)",
+            "             prcx[j,i] <- 1/(sigma2.e + sigma2.d/N[j-1,i])",
+            "             N[j,i] <- max(exp(x[j,i]) , 1)",
             "             y[j,i]~dnorm(x[j,i],prcy)",
             "         }",
             "     }")
     cm_end_N <- c(
             r=      "     r ~ dnorm(0,4)",
             K=      "     K ~ dnorm(50,1)",
-			theta=  "     theta ~ dnorm(3,2.25)",
+            theta=  "     theta ~ dnorm(3,2.25)",
             sigma=  "     sigma <- exp(lnsigma)",
-			sigma2.e=  "  sigma2.e <- sigma^2",
-			sigma2.d=  "  sigma2.d <- 0",	
+            sigma2.e=  "  sigma2.e <- sigma^2",
+            sigma2.d=  "  sigma2.d <- 0",
             lnsigma="     lnsigma ~ dnorm(0, 1)",
-			tau=    "     tau <- exp(lntau)",
+            tau=    "     tau <- exp(lntau)",
             lntau="     lntau ~ dnorm(0, 1)",
             prcy=   "     prcy <- 1/tau^2",
             "}")
@@ -70,14 +69,14 @@ function(obs.error="none", fixed)
     ## parameters to monitor for convergence: (r , K , theta, lnsigma)
     cm_lik_P <- c(
             "model {",
-			"     for (i in 1:kk) {",
+            "     for (i in 1:kk) {",
             "         N[1,i] <- O[1,i]",
             "         x[1,i] <- log(O[1,i])",
             "         for (j in 2:T) {",
             "             x[j,i] ~ dnorm(mu[j,i],prcx[j,i])",
             "             mu[j,i] <- x[j-1,i] + r*( 1- (N[j-1,i]/K)^theta )",
-			"             prcx[j,i] <- 1/(sigma2.e + sigma2.d/N[j-1,i])",
-			"             N[j,i] <- max(exp(x[j,i]) , 1)",
+            "             prcx[j,i] <- 1/(sigma2.e + sigma2.d/N[j-1,i])",
+            "             N[j,i] <- max(exp(x[j,i]) , 1)",
             "             O[j,i]~dpois(N[j,i])",
             "         }",
             "     }")
@@ -103,11 +102,15 @@ function(obs.error="none", fixed)
     ## range of support for parameters
     support <- switch(obs.error,
         "none"    = rbind(r=c(-Inf, Inf), K=c(.Machine$double.eps, Inf), 
-            theta=c( -Inf, Inf), sigma=c(.Machine$double.eps, Inf),sigma2.d=c(.Machine$double.eps, Inf)),
+            theta=c( -Inf, Inf), sigma=c(.Machine$double.eps, Inf),
+            sigma2.d=c(.Machine$double.eps, Inf)),
         "poisson" = rbind(r=c(-Inf, Inf), K=c(.Machine$double.eps, Inf), 
-            theta=c( -Inf, Inf), sigma=c(.Machine$double.eps, Inf),sigma2.d=c(.Machine$double.eps, Inf)),
+            theta=c( -Inf, Inf), sigma=c(.Machine$double.eps, Inf),
+            sigma2.d=c(.Machine$double.eps, Inf)),
         "normal"  = rbind(r=c(-Inf, Inf), K=c(.Machine$double.eps, Inf), 
-            theta=c( -Inf, Inf), sigma=c(.Machine$double.eps, Inf),tau=c(.Machine$double.eps, Inf),sigma2.d=c(.Machine$double.eps, Inf)))
+            theta=c( -Inf, Inf), sigma=c(.Machine$double.eps, Inf),
+            tau=c(.Machine$double.eps, Inf),
+            sigma2.d=c(.Machine$double.eps, Inf)))
     colnames(support) <- c("Min", "Max")
     ## check range of support and put in fixed values
     if (!missing(fixed)) {
@@ -129,7 +132,7 @@ function(obs.error="none", fixed)
                 stop("support for fixed parameter 'b' ill-defined")
             cm_end["K"] <- paste("     K <-", round(fixed[["K"]], 4))
         }
-		if ("theta" %in% names(fixed)) {
+        if ("theta" %in% names(fixed)) {
             if (fixed[["theta"]] < support["theta","Min"] || fixed[["theta"]] > support["theta","Max"])
                 stop("support for fixed parameter 'b' ill-defined")
             cm_end["theta"] <- paste("     theta <-", round(fixed[["theta"]], 4))
@@ -146,7 +149,7 @@ function(obs.error="none", fixed)
             cm_end["tau"] <- paste("     tau <-", round(fixed[["tau"]], 4))
             cm_end["lntau"] <- "     lntau <- log(tau)"
         }
-		if ("sigma2.d" %in% names(fixed)) {
+        if ("sigma2.d" %in% names(fixed)) {
             if (fixed[["sigma2.d"]] < support["sigma2.d","Min"] || fixed[["sigma2.d"]] > support["sigma2.d","Max"])
                 stop("support for fixed parameter 'sigma2.d' ill-defined")
             cm_end["sigma2.d"] <- paste("     sigma2.d <-", round(fixed[["sigma2.d"]], 4))
@@ -223,7 +226,6 @@ function(obs.error="none", fixed)
         ## data: data on original scale (this is used to check missing values)
         ## null_obserror: logical, if the null model has obs error
         ## alt_obserror: logical, if the alternative model has obs error
-		
         "none"    = function(logx, mle, data, 
         null_obserror=FALSE, alt_obserror=FALSE) {
             T <- length(logx)
@@ -256,14 +258,14 @@ function(obs.error="none", fixed)
                 ## null is NOE, alt is OE, NA absent (III.a)
                 logd2 <- if (alt_obserror) {
                     dnorm(logx[-1],
-					mean = logx[-T]+mle["r"]*( 1- (exp(logx[-T])/mle["K"])^mle["theta"] ),
+                    mean = logx[-T]+mle["r"]*( 1- (exp(logx[-T])/mle["K"])^mle["theta"] ),
                         sd = sqrt( mle["sigma"]^2 + mle["sigma2.d"]/exp(logx[-T]) ), log=TRUE)
                 ## null is NOE, alt is NOE, NA absent (III.b)
                 } else {
                     ##dnorm((logx[-1])[m-1],
                         ##mean = logx[-T]+mle["r"]*( 1- (exp(logx[-T])/mle["K"])^mle["theta"] ),
                         ##sd = sqrt( mle["sigma"]^2 + mle["sigma2.d"]/exp(logx[-T]) ), log=TRUE)
-						0
+                    0
                 }
                 rval <- sum(logd1) + sum(logd2)
             }
@@ -324,14 +326,3 @@ function(obs.error="none", fixed)
     out@neffective <- neff
     out
 }
-## make this as an S4 class??? use contains???
-#thetaLogistic.D()
-#thetaLogistic.D("Pois")
-#thetaLogistic.D("normal")
-#thetaLogistic.D("normal", fixed=c(theta=1, sigma2.d=0.66))
-
-#m1z <- pva(song, thetaLogistic.D("none",fixed=c(sigma2.d=0.66)), 2, n.iter=1000)
-#m2z <- pva(song, thetaLogistic.D("poisson",fixed=c(sigma2.d=0.66)), 2, n.iter=1000)
-#m3z <- pva(song, thetaLogistic.D("normal",fixed=c(sigma2.d=0.66)), 2, n.iter=1000)
-#model.select(m1z, m2z)
-

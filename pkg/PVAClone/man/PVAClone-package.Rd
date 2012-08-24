@@ -28,7 +28,9 @@ the extinction risk of a population of interest.
 
 \code{\link{model.select}}: main function for model model selection.
 
-Growth models: \code{\link{gompertz}}, \code{\link{ricker}}.
+Growth models: \code{\link{gompertz}}, \code{\link{ricker}},
+\code{\link{bevertonholt}}, 
+\code{\link{thetalogistic}}, \code{\link{thetalogistic_D}}.
 }
 \author{
 Khurram Nadeem, Peter Solymos

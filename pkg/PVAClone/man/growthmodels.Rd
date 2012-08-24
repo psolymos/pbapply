@@ -77,7 +77,7 @@ E[t] ~ Normal(0, sigma^2)}.
 Observation error models are described in the help page of 
 \code{\link{pva}}.
 
-The argument 'fixed' can be used to fit the model assuming 
+The argument \code{fixed} can be used to fit the model assuming 
 a priori values of a subset of the parameters. For instance,
 fixing theta equal to one reduces Theta-Logistic and 
 Gnerelized Beverton-Holt models to Logistic and Beverton-Holt 
