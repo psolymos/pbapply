@@ -98,6 +98,7 @@ Khurram Nadeem and Peter Solymos
 \dontrun{
 data(redstart)
 data(paurelia)
+data(songsparrow)
 
 ## Gompertz
 m1 <- pva(redstart, "gompertz", c(5,10))
@@ -118,6 +119,13 @@ m2na <- pva(paurelia, ricker("poisson"), c(5,10))
 m3na <- pva(paurelia, ricker("normal"), c(5,10))
 m1x <- pva(redstart, ricker("normal"), 5)
 m2x <- pva(redstart, ricker("normal", fixed=c(tau=0.1)), 5)
+
+## Theta-Logistic
+m1 <- pva(songsparrow, "thetalogistic", c(5,10))
+m2 <- pva(songsparrow, thetalogistic("poisson"), c(2,5))
+m3 <- pva(songsparrow, thetalogistic("normal"), c(2,5))
+m1x <- pva(songsparrow, thetalogistic.D("normal", fixed=c(sigma2.d=0.66)), 5)
+m2x <- pva(songsparrow, thetalogistic.D("none", fixed=c(theta=1, sigma2.d=0.66)), 10)
 
 m2x
 summary(m2x)

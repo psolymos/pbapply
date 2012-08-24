@@ -122,6 +122,22 @@ m3z <- pva(paurelia, ricker("normal"), 2, n.iter=1000)
 #model.select(m1z, m3z) # not yet implemented
 model.select(m2z, m3z)
 
+## Analysis of song sparrow data in Nadeem and Lele (2012)
+## use about 100 clones to get MLE's repoted in the paper.
+data(songsparrow)
+m1z <- pva(songsparrow, thetaLogistic.D("normal",fixed=c(sigma2.d=0.66)), 
+    n.clones=5, n.adapt=3000, n.iter=1000)
+m2z <- pva(songsparrow, thetaLogistic.D("normal",fixed=c(theta=1, sigma2.d=0.66)), 
+    n.clones=5, n.adapt=3000,n.iter=1000)
+m3z <- pva(songsparrow, thetaLogistic.D("none",fixed=c(sigma2.d=0.66)), 
+    n.clones=5, n.adapt=3000,n.iter=1000)
+m4z <- pva(songsparrow, thetaLogistic.D("none",fixed=c(theta=1,sigma2.d=0.66)), 
+    n.clones=5, n.adapt=3000,n.iter=1000)
+
+model.select(m2z, m1z) 
+model.select(m3z, m1z) 
+model.select(m4z, m1z)
+
 ## profile likelihood
 m <- pva(redstart, gompertz("normal"), 5, n.iter=5000)
 p <- generateLatent(m, n.chains=1, n.iter=10000)
