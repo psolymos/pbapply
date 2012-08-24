@@ -6,9 +6,9 @@ function(obs.error="none", fixed)
 {
 
     if (!("sigma2.d" %in% names(fixed)))
-        return(thetaLogistic(obs.error, fixed))
+        return(thetalogistic(obs.error, fixed))
     if (("sigma2.d" %in% names(fixed)) && fixed$sigma2.d==0)
-        return(thetaLogistic(obs.error, fixed))
+        return(thetalogistic(obs.error, fixed))
 
     ## Theta Logistic.D model w/o obs. error
     ## p = 4
@@ -251,7 +251,7 @@ function(obs.error="none", fixed)
             } else {
                 logd1 <- dnorm(data[-1],
                     mean = data[-T]+mle["r"]*( 1- (exp(data[-T])/mle["K"])^mle["theta"] ),
-                    sd = sqrt( mle["sigma"]^2 + mle["sigma2.d"]/exp(data[-T]) , log=TRUE)
+                    sd = sqrt( mle["sigma"]^2 + mle["sigma2.d"]/exp(data[-T])), log=TRUE)
                 ## null is NOE, alt is OE, NA absent (III.a)
                 logd2 <- if (alt_obserror) {
                     dnorm(logx[-1],
