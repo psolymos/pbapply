@@ -125,13 +125,17 @@ model.select(m2z, m3z)
 ## Analysis of song sparrow data in Nadeem and Lele (2012)
 ## use about 100 clones to get MLE's repoted in the paper.
 data(songsparrow)
-m1z <- pva(songsparrow, thetaLogistic.D("normal",fixed=c(sigma2.d=0.66)), 
+m1z <- pva(songsparrow, 
+    thetalogistic_D("normal",fixed=c(sigma2.d=0.66)), 
     n.clones=5, n.adapt=3000, n.iter=1000)
-m2z <- pva(songsparrow, thetaLogistic.D("normal",fixed=c(theta=1, sigma2.d=0.66)), 
+m2z <- pva(songsparrow, 
+    thetalogistic_D("normal",fixed=c(theta=1, sigma2.d=0.66)), 
     n.clones=5, n.adapt=3000,n.iter=1000)
-m3z <- pva(songsparrow, thetaLogistic.D("none",fixed=c(sigma2.d=0.66)), 
+m3z <- pva(songsparrow, 
+    thetalogistic_D("none",fixed=c(sigma2.d=0.66)), 
     n.clones=5, n.adapt=3000,n.iter=1000)
-m4z <- pva(songsparrow, thetaLogistic.D("none",fixed=c(theta=1,sigma2.d=0.66)), 
+m4z <- pva(songsparrow, 
+    thetalogistic_D("none",fixed=c(theta=1,sigma2.d=0.66)), 
     n.clones=5, n.adapt=3000,n.iter=1000)
 
 model.select(m2z, m1z) 

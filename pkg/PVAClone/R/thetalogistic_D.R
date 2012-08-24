@@ -7,8 +7,9 @@ function(obs.error="none", fixed)
 
     if (!("sigma2.d" %in% names(fixed)))
         return(thetalogistic(obs.error, fixed))
-    if (("sigma2.d" %in% names(fixed)) && fixed$sigma2.d==0)
-        return(thetalogistic(obs.error, fixed))
+    if (("sigma2.d" %in% names(fixed)) && fixed["sigma2.d"]==0) {
+        return(thetalogistic(obs.error, fixed[names(fixed) != "sigma2.d"]))
+    }
 
     ## Theta Logistic.D model w/o obs. error
     ## p = 4

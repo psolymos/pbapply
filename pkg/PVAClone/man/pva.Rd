@@ -124,8 +124,10 @@ m2x <- pva(redstart, ricker("normal", fixed=c(tau=0.1)), 5)
 m1 <- pva(songsparrow, "thetalogistic", c(5,10))
 m2 <- pva(songsparrow, thetalogistic("poisson"), c(2,5))
 m3 <- pva(songsparrow, thetalogistic("normal"), c(2,5))
-m1x <- pva(songsparrow, thetalogistic.D("normal", fixed=c(sigma2.d=0.66)), 5)
-m2x <- pva(songsparrow, thetalogistic.D("none", fixed=c(theta=1, sigma2.d=0.66)), 10)
+m1x <- pva(songsparrow, 
+    thetalogistic_D("normal", fixed=c(sigma2.d=0.66)), 5)
+m2x <- pva(songsparrow, 
+    thetalogistic_D("none", fixed=c(theta=1, sigma2.d=0.66)), 10)
 
 m2x
 summary(m2x)
