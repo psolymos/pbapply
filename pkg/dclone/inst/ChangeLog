@@ -1,7 +1,10 @@
 dclone package version history
 
-Version 1.8-1, August 20, 2012
-    * 
+Version 1.8-1, September 3, 2012
+    * clusterSplit now checks inheritence of its cl argument in
+      R-devel (2.16.0 to be), as a result plotClusterSize
+      threw an error when supplying a simple vector to clusterSplit
+      (reported by B Ripley), this is now fixed.
 
 Version 1.8-0, July 6, 2012
     * dciid: new function added, it is similar to dcdim.

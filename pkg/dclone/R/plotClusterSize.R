@@ -18,7 +18,7 @@ plot = TRUE, col = NA, xlim = NULL, ylim = NULL, main, ...)
     m <- length(size)
     seq <- 1:m
     balancing <- match.arg(balancing)
-    cl <- 1:n
+    cl <- structure(c(1:n), class="cluster")
     x <- switch(balancing,
         "none" = clusterSplit(cl, seq),
         "load" = clusterSplitLB(cl, seq, size),
