@@ -1,6 +1,8 @@
 ResourceSelection package version history
 
-Version 0.1-5, Oct 20, 2011
+Version 0.1-5, Sept 13 20, 2011
+    * new argument 'm' in rsf(), rspf() for allowing
+      local availability (matched use-avalable design).
     * goats data set added from Lele and Keim 2006.
     * Rd for goats contains an example analysis, too.
     * inst/COPYING removed.

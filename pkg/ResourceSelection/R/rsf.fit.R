@@ -1,5 +1,5 @@
 rsf.fit <-
-function(X, Y, link = "logit", B = 99, 
+function(X, Y, m, link = "logit", B = 99, 
 inits, method = "Nelder-Mead", control, ...)
 {
     ## internal function for optim
@@ -48,7 +48,7 @@ inits, method = "Nelder-Mead", control, ...)
     id.all <- 1:N.used
 
     ## this might change if matched point definition changes in the future
-    m <- 0
+#    m <- 0
     if (missing(m))
         stop("'m' must be provided")
     m.avail <- NULL
