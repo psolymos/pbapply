@@ -33,9 +33,10 @@ a data frame similar to what is returned by
 if there are more than one input objects.
 }
 \references{
-Taper 2004
-
-etc
+Bozdogan, H. 1987. 
+Model selection and Akaike’s information criterion (AIC): 
+the general theory and its analytical extensions. 
+Psychometrika, 52, 345-370.
 }
 \author{
 Subhash Lele and Peter Solymos

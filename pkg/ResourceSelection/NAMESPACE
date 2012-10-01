@@ -1,5 +1,5 @@
 export(rsf.fit, rsf, rspf, hoslem.test, CAIC)
-export(kdepairs, makeUsedAvail)
+export(kdepairs, makeUsedAvail, simulateUsedAvail)
 importFrom(stats, BIC,
     logLik, model.matrix, model.frame, 
     update.formula, update, vcov, confint,
