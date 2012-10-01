@@ -100,6 +100,7 @@ function(obs.error="none", fixed)
     colnames(support) <- c("Min", "Max")
     ## check range of support and put in fixed values
     if (!missing(fixed)) {
+        fixed <- unlist(fixed)
         pp <- c("a","b","sigma")
         if (all(pp %in% names(fixed)))
             warning("Fixing all parameters can be a bad idea, think twice!")

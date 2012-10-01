@@ -25,7 +25,7 @@ Character, describing the observation error.
 Can be \code{"none"}, \code{"poisson"}, or \code{"normal"}.
 }
   \item{fixed}{
-Named numeric vector with fixed parameter names and values.
+Named numeric vector or list with fixed parameter names and values.
 }
 }
 \details{
