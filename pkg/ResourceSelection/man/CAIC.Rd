@@ -34,7 +34,7 @@ if there are more than one input objects.
 }
 \references{
 Bozdogan, H. 1987. 
-Model selection and Akaike’s information criterion (AIC): 
+Model selection and Akaike's information criterion (AIC): 
 the general theory and its analytical extensions. 
 Psychometrika, 52, 345-370.
 }
