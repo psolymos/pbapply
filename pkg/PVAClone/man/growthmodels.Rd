@@ -26,6 +26,8 @@ Can be \code{"none"}, \code{"poisson"}, or \code{"normal"}.
 }
   \item{fixed}{
 Named numeric vector or list with fixed parameter names and values.
+Can be used for providing alternative prior specifications,
+se Details and Examples.
 }
 }
 \details{
@@ -85,6 +87,15 @@ models respectively. The number of parameters that should be
 fixed at most is \eqn{p-1}, where \eqn{p} is the dimension of 
 the full model. See examples below and in \code{\link{pva}} 
 and \code{\link{model.select}}.
+
+The \code{fixed} argument can be used to provide alternative
+prior specifcation using the BUGS language.
+In this case, valus in \code{fixed} must be numeric.
+Use a list when real fixed values (numeric) and priors (character)
+are provided at the same time (see Examples). 
+Alternative priors can be useful
+for testing insensitivity to priors, which is
+a diagnostic sign of data cloning convergence.
 }
 \value{
 An S4 class of 'pvamodel' (see \code{\link{pvamodel-class}})
@@ -107,6 +118,10 @@ ricker("normal")
 ricker("normal", fixed=c(a=5, sigma=0.5))
 thetalogistic("none", fixed=c(theta=1))
 bevertonholt("normal", fixed=c(theta=1))
+
+## alternative priors
+ricker("normal", fixed=c(a="a ~ dnorm(2, 1)"))@model
+ricker("normal", fixed=list(a="a ~ dnorm(2, 1)", sigma=0.5))@model
 }
 \keyword{ utils }
 \keyword{ models }

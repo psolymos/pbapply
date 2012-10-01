@@ -30,7 +30,7 @@ Objects can be created by calls of the form \code{new("pvamodel", ...)}.
     \item{\code{varnames}:}{Object of class \code{"character"},
       parameter names (true parameter scale).}
     \item{\code{fixed}:}{Object of class \code{"nClones"},
-      named vactor of fixed parameters.}
+      named vector of fixed parameters.}
     \item{\code{fancy}:}{Object of class \code{"character"},
       fancy model description.}
     \item{\code{transf}:}{Object of class \code{"function"},

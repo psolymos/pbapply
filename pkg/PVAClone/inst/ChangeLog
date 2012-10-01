@@ -2,6 +2,8 @@ PVAClone package version history
 
 Version 0.1-2, September 30, 2012
     * fixed argument in growth model functions can be a list.
+    * Alternative prior specifications can be supplied via
+      the fixed argument (but only numeric values stored in @fixed).
 
 Version 0.1-1, August 23, 2012
     * Songsparrow data added.

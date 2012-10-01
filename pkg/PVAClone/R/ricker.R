@@ -100,7 +100,9 @@ function(obs.error="none", fixed)
     colnames(support) <- c("Min", "Max")
     ## check range of support and put in fixed values
     if (!missing(fixed)) {
-        fixed <- unlist(fixed)
+        if (!is.list(fixed) && is.character(fixed) && length(fixed)>1)
+            stop("non-numeric vector provided for fixed")
+        fixed <- lapply(fixed, function(z) z[1])
         pp <- c("a","b","sigma")
         if (all(pp %in% names(fixed)))
             warning("Fixing all parameters can be a bad idea, think twice!")
@@ -110,27 +112,48 @@ function(obs.error="none", fixed)
         if (length(tmp))
             stop("fixed parameter ", tmp, " not found in model")
         if ("a" %in% names(fixed)) {
-            if (fixed[["a"]] < support["a","Min"] || fixed[["a"]] > support["a","Max"])
-                stop("support for fixed parameter 'a' ill-defined")
-            cm_end["a"] <- paste("     a <-", round(fixed[["a"]], 4))
+            if (is.character(fixed[["a"]])) {
+                cm_end["a"] <- fixed[["a"]]
+            } else {
+                if (fixed[["a"]] < support["a","Min"] || fixed[["a"]] > support["a","Max"])
+                    stop("support for fixed parameter 'a' ill-defined")
+                cm_end["a"] <- paste("     a <-", round(fixed[["a"]], 4))
+            }
         }
         if ("b" %in% names(fixed)) {
-            if (fixed[["b"]] < support["b","Min"] || fixed[["b"]] > support["b","Max"])
-                stop("support for fixed parameter 'b' ill-defined")
-            cm_end["b"] <- paste("     b <-", round(fixed[["b"]], 4))
+            if (is.character(fixed[["b"]])) {
+                cm_end["b"] <- fixed[["b"]]
+            } else {
+                if (fixed[["b"]] < support["b","Min"] || fixed[["b"]] > support["b","Max"])
+                    stop("support for fixed parameter 'b' ill-defined")
+                cm_end["b"] <- paste("     b <-", round(fixed[["b"]], 4))
+            }
         }
         if ("sigma" %in% names(fixed)) {
-            if (fixed[["sigma"]] < support["sigma","Min"] || fixed[["sigma"]] > support["sigma","Max"])
-                stop("support for fixed parameter 'sigma' ill-defined")
-            cm_end["sigma"] <- paste("     sigma <-", round(fixed[["sigma"]], 4))
-            cm_end["lnsigma"] <- "     lnsigma <- log(sigma)"
+            if (is.character(fixed[["sigma"]])) {
+                cm_end["sigma"] <- fixed[["sigma"]]
+            } else {
+                if (fixed[["sigma"]] < support["sigma","Min"] || fixed[["sigma"]] > support["sigma","Max"])
+                    stop("support for fixed parameter 'sigma' ill-defined")
+                cm_end["sigma"] <- paste("     sigma <-", round(fixed[["sigma"]], 4))
+                cm_end["lnsigma"] <- "     lnsigma <- log(sigma)"
+            }
         }
         if ("tau" %in% names(fixed)) {
-            if (fixed[["tau"]] < support["tau","Min"] || fixed[["tau"]] > support["tau","Max"])
-                stop("support for fixed parameter 'tau' ill-defined")
-            cm_end["tau"] <- paste("     tau <-", round(fixed[["tau"]], 4))
-            cm_end["lntau"] <- "     lntau <- log(tau)"
+            if (is.character(fixed[["tau"]])) {
+                cm_end["tau"] <- fixed[["tau"]]
+            } else {
+                if (fixed[["tau"]] < support["tau","Min"] || fixed[["tau"]] > support["tau","Max"])
+                    stop("support for fixed parameter 'tau' ill-defined")
+                cm_end["tau"] <- paste("     tau <-", round(fixed[["tau"]], 4))
+                cm_end["lntau"] <- "     lntau <- log(tau)"
+            }
         }
+        fixed <- unlist(lapply(fixed, function(z) 
+            ifelse(is.numeric(z), z, NA)))
+        fixed <- fixed[!is.na(fixed)]
+        if (!length(fixed))
+            fixed <- NULL
     } else fixed <- NULL
     ## put together stuff
     model <- structure(c(cm_lik, unname(cm_end)),
