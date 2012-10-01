@@ -1,5 +1,8 @@
 ResourceSelection package version history
 
+Version 0.2-0, Sept 13 20, 2011
+    * Generic and default method for CAIC added.
+
 Version 0.1-5, Sept 13 20, 2011
     * new argument 'm' in rsf(), rspf() for allowing
       local availability (matched use-avalable design).

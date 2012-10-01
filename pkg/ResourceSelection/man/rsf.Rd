@@ -26,7 +26,8 @@ two sided model formula of the form \code{y ~ x},
 where \code{y} is a vector of observations,
 \code{x} is the set of covariates.
 }
-\code{m} argument describing the matching of use and available points.
+  \item{m}{
+argument describing the matching of use and available points.
 All available points are used for each use points if \code{m=0}
 (global availability). If \code{m} is a single value, e.g. \code{m=5},
 it is assumed that available data points are grouped in batches of 5,
@@ -132,16 +133,6 @@ Ecology 87, 3021--3028.
 Subhash R. Lele, Jonah L. Keim, Peter Solymos
 }
 \examples{
-fun <- function(n.used, parms, data, m, link="logit") {
-    X <- model.matrix(~., data)
-    n.sites <- nrow(X)
-    n.avail <- n.used * m
-    linkinvfun <- binomial(link=make.link(link))$linkinv
-    p <- drop(linkinvfun(X \%*\% parms))
-    id1 <- sample.int(n.sites, n.used, replace = TRUE, prob = p)
-    id2 = sample(n.sites, n.avail, replace = TRUE)
-    data.frame(status=c(rep(1, n.used), rep(0, n.avail)), data[c(id1, id2),])
-}
 ## settings
 n.used <- 1000
 m <- 10
@@ -150,12 +141,12 @@ set.seed(1234)
 x <- data.frame(x1=rnorm(n), x2=runif(n))
 cfs <- c(1.5,-1,0.5)
 ## fitting Exponential RSF model
-dat1 <- fun(n.used, cfs, x, m=m, link="log")
-m1 <- rsf(status ~ .-status, dat1, B=0)
+dat1 <- simulateUsedAvail(x, cfs, n.used, m, link="log")
+m1 <- rsf(status ~ .-status, dat1, m=0, B=0)
 summary(m1)
 ## fitting Logistic RSPF model
-dat2 <- fun(n.used, cfs, x, m=m, link="logit")
-m2 <- rspf(status ~ .-status, dat2, B=0)
+dat2 <- simulateUsedAvail(x, cfs, n.used, m, link="logit")
+m2 <- rspf(status ~ .-status, dat2, m=0, B=0)
 summary(m2)
 }
 \keyword{ htest }

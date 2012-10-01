@@ -1,5 +1,5 @@
 rsf <-
-function(formula, data, B = 99, 
+function(formula, data, m, B = 99, 
 inits, method = "Nelder-Mead", control,
 model = TRUE, x = FALSE, ...)
 {
