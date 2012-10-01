@@ -84,7 +84,7 @@ inits, method = "Nelder-Mead", control, ...)
     names(cfs) <- nam
     H <- results$hessian
     if (link == "log")
-        H <- H[-1,-1]
+        H <- H[-1,-1,drop=FALSE]
     ## checking Hessian, producing Std Errors
     if (rcond(H) <= 1e-06)
         ses <- rep(NA, np)
