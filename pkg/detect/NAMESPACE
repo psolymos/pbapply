@@ -3,8 +3,7 @@ export("svocc", "svocc.fit", "svocc.step")
 ## exported svabu functions
 export("svabu", "svabu.fit", "svabu.step", "zif")
 ## exported helper functions
-export("jags.engine",
-    "bootstrap", "extractMLE", "extractBOOT",
+export("bootstrap", "extractMLE", "extractBOOT",
     "predictMCMC", "is.present")
 ## model selection helper functions
 export("AUC", "rocplot")

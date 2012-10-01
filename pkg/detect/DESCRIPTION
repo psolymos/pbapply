@@ -1,12 +1,12 @@
 Package: detect
 Type: Package
 Title: Analyzing Wildlife Data with Detection Error
-Version: 0.2-2
-Date: 2012-05-02
+Version: 0.3-0
+Date: 2012-10-01
 Author: Peter Solymos, Monica Moreno, Subhash R Lele
 Maintainer: Peter Solymos <solymos@ualberta.ca>
 Depends: R (>= 2.13.0)
-Suggests: dclone, pbapply
+Suggests: dclone, dcmle, pbapply
 Description: The package implements models to analyze
   site occupancy and count data models with detection error.
   Development was funded by the Alberta Biodiversity Monitoring Institute.

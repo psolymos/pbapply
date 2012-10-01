@@ -20,6 +20,7 @@ function (formula, data, zeroinfl=TRUE, area=1, N.max=NULL, inits,
     X <- out$x$sta
     Z <- out$x$det
     Q <- out$x$zif
+    Xlevels <- out$levels
     if (!zeroinfl && !is.null(Q)) {
         warning("'zeroinfl = FALSE': zero inflation part in formula ignored")
         Q <- NULL
@@ -40,6 +41,8 @@ function (formula, data, zeroinfl=TRUE, area=1, N.max=NULL, inits,
         stop("invalid dependent variable, not a vector")
     if (setequal(colnames(Z), colnames(X))) 
         stop("at least one covariate should be separate for occupancy and detection parts of the formula")
+    if (all(union(colnames(X), colnames(Z))[-1] %in% names(unlist(Xlevels))))
+        stop("model must include at least one continuous covariate")
     ## link functions
     links <- c("logit", "probit", "cloglog")
     link.det <- match.arg(link.det, links)

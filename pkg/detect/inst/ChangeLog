@@ -1,5 +1,8 @@
 detect package version history
 
+Version 0.3-0, Oct 1, 2012
+    * jags.engine removed, replaced by dcmle dependency.
+
 Version 0.2-2, May 2, 2012
     * inst/COPYING file removed (standard license).
 

@@ -1,6 +1,6 @@
 svocc.fit <-
 function(Y, X, Z, link.sta = "cloglog", link.det = "logit", penalized = FALSE, auc = FALSE,
-method = c("optim", "dc"), inits, cl=NULL, ...)
+method = c("optim", "dc"), inits, ...)
 {
     obs <- Y
     occ <- X
@@ -146,14 +146,19 @@ method = c("optim", "dc"), inits, cl=NULL, ...)
             "probit"=c(5,9),
             "cloglog"=c(5,7))
         model <- dclone:::custommodel(mcmcSS.all, c(excl.occ, excl.det))
-        dat <- list(Y=obs, X=occ, Z=det, k=n.clones,
+        dat <- list(Y=obs, X=occ, Z=det, k=1,
             N.sites=N.sites, num.cov.occ=num.cov.occ, num.cov.det=num.cov.det,
             prior.occ=prior.occ, prior.det=prior.det)
-        dat <- dclone(dat, n.clones, multiply=c("Y","k"), unchanged=names(dat)[-c(1,4)])
+#        dat <- dclone(dat, n.clones, multiply=c("Y","k"), unchanged=names(dat)[-c(1,4)])
         ## old specification, depending on options
         ## new specification
-        mle.res <- jags.engine(dat, c("beta", "theta"), model, inits=NULL, cl=cl, ...)
+#        mle.res <- jags.engine(dat, c("beta", "theta"), model, inits=NULL, cl=cl, ...)
 #        mle.res <- jags.fit(dat, c("beta", "theta"), model, inits, ...)
+        ## latest preference is that it depends on dcmle
+        require(dcmle)
+        dcd <- makeDcFit(model=model, data=dat, params=c("beta", "theta"),
+            multiply=c("Y","k"), unchanged=names(dat)[-c(1,4)])
+        mle.res <- dcmle(dcd, nclones=n.clones, ...)
     }
     ## MLE from optim
     if (method=="optim") {

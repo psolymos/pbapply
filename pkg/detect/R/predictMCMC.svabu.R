@@ -24,7 +24,6 @@ raw = FALSE, vcov.type, ...)
         lambda=fitted(object), p=object$detection.probabilities,
         np1=nps[1], np2=nps[2],
         param = param, prec = prec)
-    ## use jags.engine???
     prval <- jags.fit(prdat, "N", predfun, inits, 
         n.chains=1, n.iter=n.iter, ...)
     rval <- if (se.fit) {

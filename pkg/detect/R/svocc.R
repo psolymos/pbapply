@@ -1,7 +1,7 @@
 svocc <-
 function (formula, data, link.sta = "cloglog", link.det = "logit", penalized = FALSE,
     method = c("optim", "dc"), inits,
-    model = TRUE, x = FALSE, cl=NULL, ...)
+    model = TRUE, x = FALSE, ...)
 {
     ## parsing the formula
     if (missing(data))
@@ -43,7 +43,7 @@ function (formula, data, link.sta = "cloglog", link.det = "logit", penalized = F
     method <- match.arg(method)
     ## fit
     fit <- svocc.fit(Y, X, Z, link.sta, link.det, penalized = penalized, auc = FALSE, 
-        method=method, inits=inits, cl=cl, ...)
+        method=method, inits=inits, ...)
     ## return value
     out <- c(fit, out)
     if (!model) 

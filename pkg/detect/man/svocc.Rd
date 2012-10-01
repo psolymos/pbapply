@@ -12,9 +12,9 @@ ZI Binomial model with single visit
 \usage{
 svocc(formula, data, link.sta = "cloglog", link.det = "logit", penalized = FALSE, 
 method = c("optim", "dc"), inits, 
-model = TRUE, x = FALSE, cl = NULL, ...)
+model = TRUE, x = FALSE, ...)
 svocc.fit(Y, X, Z, link.sta = "cloglog", link.det = "logit", penalized = FALSE, 
-auc = FALSE, method = c("optim", "dc"), inits, cl = NULL, ...)
+auc = FALSE, method = c("optim", "dc"), inits, ...)
 extractMLE(object, ...)
 svocc.step(object, model, trace = 1, steps = 1000, 
 criter = c("AIC", "BIC", "cAUC"), test = FALSE, k = 2, control, ...)
@@ -50,9 +50,6 @@ or true state or detection model
   \item{x}{
 logical values indicating whether the response vector and model matrix used in the 
 fitting process should be returned as components of the returned value
-}
-  \item{cl}{
-a cluster object for parallel MCMC calculations if method is data cloning
 }
   \item{auc}{
 logical, if AUC should be calculated
