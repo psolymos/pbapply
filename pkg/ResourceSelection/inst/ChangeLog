@@ -2,6 +2,10 @@ ResourceSelection package version history
 
 Version 0.2-0, Oct 1, 2012
     * Generic and default method for CAIC added.
+    * Bugfix: SE in RSF case was wrong (subsetting the Hessian
+      before inverting) -- now fixed.
+    * predict method for RSF could not deal with newdata
+      due to missing intercept -- now fixed.
 
 Version 0.1-5, Sept 13 20, 2012
     * new argument 'm' in rsf(), rspf() for allowing

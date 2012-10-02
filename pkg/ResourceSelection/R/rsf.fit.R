@@ -83,8 +83,6 @@ inits, method = "Nelder-Mead", control, ...)
     cfs <- results$par
     names(cfs) <- nam
     H <- results$hessian
-    if (link == "log")
-        H <- H[-1,-1,drop=FALSE]
     ## checking Hessian, producing Std Errors
     if (rcond(H) <= 1e-06)
         ses <- rep(NA, np)
@@ -97,8 +95,6 @@ inits, method = "Nelder-Mead", control, ...)
         }
         ses <- sqrt(opvar)
     }
-    if (link == "log")
-        ses <- c(NA, ses)
 #    ses <- sqrt(diag(solve(results$hessian)))
     names(ses) <- nam
     ## optimization with bootstrap (this can be used for boostrap CI)
@@ -121,12 +117,11 @@ inits, method = "Nelder-Mead", control, ...)
         cfs2 <- cfs[-1]
         ses2 <- ses[-1]
         np <- np - 1
-        boot.out <- boot.out[-1,]
+        boot.out <- boot.out[-1,,drop=FALSE]
     } else {
         cfs2 <- cfs
         ses2 <- ses
     }
-#        c(0, cfs) else cfs
     out <- list(call = match.call(),
         y = Y,
         coefficients = cfs2,
@@ -140,7 +135,6 @@ inits, method = "Nelder-Mead", control, ...)
         np = np,
         fitted.values = linkinvfun(drop(X %*% cfs)),
         nobs = N.used,
-#        n = N.used,
 #        df.null = N.used - 1,
 #        df.residual = N.used - np, 
         bootstrap = boot.out,

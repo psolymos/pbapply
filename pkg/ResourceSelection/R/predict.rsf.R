@@ -24,7 +24,9 @@ part = c("avail", "used", "all"), se.fit = FALSE, ...){
     } else {
         rhs <- model.frame(object$formula, newdata)
         X <- model.matrix(attr(rhs, "terms"), rhs)
-        rval <- drop(X %*% coef(object))
+        cfs <- if (object$link == "log")
+            c(0, coef(object)) else coef(object)
+        rval <- drop(X %*% cfs)
         if (type == "response") {
             rval <- binomial(object$link)$linkinv(rval)
         }

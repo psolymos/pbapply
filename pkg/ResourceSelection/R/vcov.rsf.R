@@ -15,7 +15,7 @@ function (object, type, ...)
     } else {
         rval <- matrix(NA, np, np)
         h <- if (object$link == "log") {
-            data.matrix(object$results$hessian[-1,-1])
+            data.matrix(object$results$hessian[-1,-1,drop=FALSE])
         } else {
             object$results$hessian
         }
