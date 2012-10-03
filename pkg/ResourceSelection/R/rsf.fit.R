@@ -4,8 +4,8 @@ inits, method = "Nelder-Mead", control, ...)
 {
     ## internal function for optim
     nll.fun <- function(parms, boot=id.all) {
-#        if (link == "log")
-#            parms <- c(0, parms)
+        if (link == "log")
+            parms <- c(0, parms)
         P.used <- drop(linkinvfun(X.used %*% parms))
         P.avail1 <- drop(linkinvfun(X.avail %*% parms))
         if (is.null(m.avail)) {
@@ -35,10 +35,10 @@ inits, method = "Nelder-Mead", control, ...)
     }
     ## handling Exponential case
     np <- ncol(X)
-#    if (link == "log" && length(inits) == np)
-#        inits <- inits[-1]
-#    if (link == "log")
-#        np <- np - 1
+    if (link == "log" && length(inits) > np-1)
+        inits <- inits[-1]
+    if (link == "log")
+        np <- np - 1
     nam <- colnames(X)[(ncol(X)+1-np):ncol(X)]
     ## objects needed for optim
     X.used <- data.matrix(X[Y==1,])
@@ -113,19 +113,19 @@ inits, method = "Nelder-Mead", control, ...)
     } else boot.out <- NULL
 
     ## return value assembly
-    if (link=="log") {
-        cfs2 <- cfs[-1]
-        ses2 <- ses[-1]
-        np <- np - 1
-        boot.out <- boot.out[-1,,drop=FALSE]
-    } else {
-        cfs2 <- cfs
-        ses2 <- ses
-    }
+#    if (link=="log") {
+#        cfs2 <- cfs[-1]
+#        ses2 <- ses[-1]
+#        np <- np - 1
+#        boot.out <- boot.out[-1,,drop=FALSE]
+#    } else {
+#        cfs2 <- cfs
+#        ses2 <- ses
+#    }
     out <- list(call = match.call(),
         y = Y,
-        coefficients = cfs2,
-        std.error = ses2,
+        coefficients = cfs,
+        std.error = ses,
         loglik = ll,
         results = results,
         link = link,
@@ -133,13 +133,12 @@ inits, method = "Nelder-Mead", control, ...)
         inits = inits,
         m = m,
         np = np,
-        fitted.values = linkinvfun(drop(X %*% cfs)),
         nobs = N.used,
 #        df.null = N.used - 1,
 #        df.residual = N.used - np, 
         bootstrap = boot.out,
         converged = results$convergence == 0)
-    if (link == "log")
-        out$fitted <- exp(drop(X %*% c(0, cfs2)))
+    out$fitted.values <- if (link == "log")
+        exp(drop(X %*% c(0, cfs))) else linkinvfun(drop(X %*% cfs))
     out
 }

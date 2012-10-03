@@ -1,5 +1,9 @@
 ResourceSelection package version history
 
+Version 0.2-1, Oct 3, 2012
+    * rsf estimation: intercept is now fixed at 0, and not
+      part of the optim result.
+
 Version 0.2-0, Oct 1, 2012
     * Generic and default method for CAIC added.
     * Bugfix: SE in RSF case was wrong (subsetting the Hessian
