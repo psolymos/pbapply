@@ -5,6 +5,8 @@ Version 0.3-0, Oct 1, 2012
     * dFormula and checkDesign added with Formula dependency,
       this will replace the old svisitFormula interface
       to allow handling of more complex designs.
+    * logdmultinom: simplified version of dmultinom.
+    * bymethod: collapses (pools) observations by methodology.
 
 Version 0.2-2, May 2, 2012
     * inst/COPYING file removed (standard license).
