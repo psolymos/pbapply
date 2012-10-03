@@ -2,6 +2,9 @@ detect package version history
 
 Version 0.3-0, Oct 1, 2012
     * jags.engine removed, replaced by dcmle dependency.
+    * dFormula and checkDesign added with Formula dependency,
+      this will replace the old svisitFormula interface
+      to allow handling of more complex designs.
 
 Version 0.2-2, May 2, 2012
     * inst/COPYING file removed (standard license).
