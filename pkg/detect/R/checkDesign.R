@@ -1,3 +1,4 @@
+## this checks the data if that looks as expected
 checkDesign <- function(Y, D, X, Z, Q) {
     if (length(Y) < 1)
         stop("empty model")
@@ -27,8 +28,9 @@ checkDesign <- function(Y, D, X, Z, Q) {
                   stop("all non NA values must be left to NAs")
         if (any(is.na(X)))
             stop("NA values found in abundance part")
-        if (any(is.na(Z)))
-            stop("NA values found in detection part")
+        if (!is.null(Z))
+            if (any(is.na(Z)))
+                stop("NA values found in detection part")
         if (!is.null(Q))
             if (any(is.na(Q)))
                 stop("NA values found in zero-inflation part")

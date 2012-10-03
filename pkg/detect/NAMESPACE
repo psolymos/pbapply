@@ -2,6 +2,8 @@
 export("svocc", "svocc.fit", "svocc.step")
 ## exported svabu functions
 export("svabu", "svabu.fit", "svabu.step", "zif")
+## exported cmulti functions
+export("cmulti", "cmulti.fit")
 ## exported helper functions
 export("bootstrap", "extractMLE", "extractBOOT",
     "predictMCMC", "is.present")
@@ -60,4 +62,11 @@ S3method("update.formula", "svisit")
 S3method("update", "svisit")
 S3method("variable.names", "svisit")
 S3method("extractAIC", "svisit")
+
+## cmulti methods
+S3method("print", "cmulti")
+S3method("vcov", "cmulti")
+S3method("summary", "cmulti")
+S3method("print", "summary.cmulti")
+S3method("logLik", "cmulti")
 
