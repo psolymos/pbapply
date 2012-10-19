@@ -49,11 +49,11 @@ observation error. Oikos. doi: 10.1111/j.1600-0706.2011.20010.x
 \examples{
 \dontrun{
 ## model selection for data with missing observations
-data(paurelia)
+data(songsparrow)
 ## model without observation error
-m1 <- pva(paurelia, gompertz("none"), 2, n.iter=1000)
+m1 <- pva(songsparrow, gompertz("none"), 2, n.iter=1000)
 ## model with Poisson observation error
-m2 <- pva(paurelia, gompertz("poisson"), 2, n.iter=1000)
+m2 <- pva(songsparrow, gompertz("poisson"), 2, n.iter=1000)
 ## model with Poisson observation error is strongly supported
 model.select(m1, m2)
 }
