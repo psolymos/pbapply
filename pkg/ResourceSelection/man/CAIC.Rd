@@ -37,6 +37,12 @@ Bozdogan, H. 1987.
 Model selection and Akaike's information criterion (AIC): 
 the general theory and its analytical extensions. 
 Psychometrika, 52, 345-370.
+
+Taper, M. 2004. Model identification from many candidates.
+In: Taper, M. and Lele, S. R. (eds),
+The Nature of Scientific Evidence: Statistical, Philosophical, 
+and Empirical Considerations.
+The University of Chicago Press, Chicago, IL, 567 pp.
 }
 \author{
 Subhash Lele and Peter Solymos
