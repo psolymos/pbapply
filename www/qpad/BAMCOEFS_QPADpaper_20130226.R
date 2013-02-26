@@ -1,5 +1,5 @@
 .BAMCOEFS <-
-as.environment(structure(list(version = "2", sra_estimates = structure(list(
+list2env(structure(list(version = "2", sra_estimates = structure(list(
     ALFL = structure(list(`0` = structure(list(coef = -0.984835379880574, 
         vcov = structure(0.000675904363058161, .Dim = c(1L, 1L
         )), loglik = -1523.81642828672, p = 1, names = "INTERCEPT"), .Names = c("coef", 
