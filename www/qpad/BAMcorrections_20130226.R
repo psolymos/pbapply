@@ -1,5 +1,6 @@
 ## -- BAMcorrections -------------------------------
 ## (Febr 2013)
+cat("BAM QPAD access functions loaded, version 20130226\n")
 
 ## utility functions for accessing BAMcorrections from BAMCOEFS
 
