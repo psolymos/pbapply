@@ -8,7 +8,7 @@ Data object creators
 Creator functions for data types used in the \pkg{dcmle} package.
 }
 \usage{
-makeGsFit(data, model, params = NULL, inits = NULL)
+makeGsFit(data, model, params = NULL, inits = NULL, flavour)
 
 makeDcFit(data, model, params=NULL, inits = NULL,
     multiply = NULL, unchanged = NULL, update = NULL,

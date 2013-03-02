@@ -14,12 +14,14 @@ setClass("gsFit",
         data = "list",
         model = "dcModel",
         params = "dcParams",
-        inits = "dcInits"),
+        inits = "dcInits",
+        flavour = "character"),
     prototype = list(
         data = list(),
         model = character(0),
         params = NULL,
-        inits = NULL))
+        inits = NULL,
+        flavour = "jags"))
 
 setClass("dcFit",
     representation(
@@ -27,8 +29,7 @@ setClass("dcFit",
         unchanged = "dcArgs",
         update = "dcArgs",
         updatefun = "dcFunction",
-        initsfun = "dcFunction",
-        flavour = "character"),
+        initsfun = "dcFunction"),
     contains = "gsFit",
     prototype = list(
         params = NULL,
@@ -36,8 +37,7 @@ setClass("dcFit",
         unchanged = NULL,
         update = NULL,
         updatefun = NULL,
-        initsfun = NULL,
-        flavour = "jags"))
+        initsfun = NULL))
 
 ## coercion (reverse is automatic based on inheritence)
 #setAs(from = "gsFit", to = "dcFit", def = function(from) {
@@ -46,13 +46,14 @@ setClass("dcFit",
 
 ## creator function for gsFit
 makeGsFit <- 
-function(data, model, params=NULL, inits=NULL)
+function(data, model, params=NULL, inits=NULL, flavour)
 {
     new("gsFit",
         data = data,
         model = model,
         params = params,
-        inits = inits)
+        inits = inits,
+        flavour = flavour)
 }
 ## creator function for dcFit
 makeDcFit <- 

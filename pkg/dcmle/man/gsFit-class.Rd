@@ -25,6 +25,9 @@ Objects can be created by calls of the form \code{new("gsFit", ...)}.
     \item{\code{inits}:}{Object of class \code{"dcInits"},
         same as corresponding \code{\link[dclone]{jags.fit}} 
         \code{\link[dclone]{bugs.fit}} or argument.}
+    \item{\code{flavour}:}{Object of class \code{"character"},
+        same as corresponding \code{\link[dclone]{dc.fit}} argument,
+        default is \code{"jags"}.}
   }
 }
 \section{Methods}{

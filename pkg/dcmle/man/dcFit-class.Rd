@@ -24,7 +24,8 @@ Objects can be created by calls of the form \code{new("dcFit", ...)}.
     \item{\code{initsfun}:}{Object of class \code{"dcFunction"},
         same as corresponding \code{\link[dclone]{dc.fit}} argument.}
     \item{\code{flavour}:}{Object of class \code{"character"},
-        same as corresponding \code{\link[dclone]{dc.fit}} argument.}
+        same as corresponding \code{\link[dclone]{dc.fit}} argument,
+        default is \code{"jags"}.}
     \item{\code{data}:}{Object of class \code{"list"},
         same as corresponding \code{\link[dclone]{dc.fit}} argument.}
     \item{\code{model}:}{Object of class \code{"dcModel"},
