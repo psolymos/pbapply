@@ -1,5 +1,8 @@
 dclone package version history
 
+Version 1.8-2, March 4, 2013
+    * custommodel: splits length 1 character model by '\n'.
+
 Version 1.8-1, September 3, 2012
     * clusterSplit now checks inheritence of its cl argument in
       R-devel (2.16.0 to be), as a result plotClusterSize
