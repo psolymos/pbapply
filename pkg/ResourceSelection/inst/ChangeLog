@@ -1,5 +1,9 @@
 ResourceSelection package version history
 
+Version 0.2-2, Mar 5, 2013
+    * predict.rsf: se.fit=TRUE produced error with bootstrapped
+      model. Bug reported by Clement Calenge.
+
 Version 0.2-1, Oct 3, 2012
     * rsf estimation: intercept is now fixed at 0, and not
       part of the optim result.

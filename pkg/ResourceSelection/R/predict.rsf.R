@@ -4,7 +4,7 @@ part = c("avail", "used", "all"), se.fit = FALSE, ...){
     type <- match.arg(type)
     part <- match.arg(part)
     if (se.fit) {
-        boot <- attr(object, "bootstrap")
+        boot <- object$bootstrap
         if (is.null(boot))
             stop("cannot provide prediction Std Error without Bootstrap")
         Bp <- ncol(boot)
