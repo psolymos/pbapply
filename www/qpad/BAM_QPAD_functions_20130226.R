@@ -158,6 +158,12 @@ function(species, model.sra, model.edr) {
     out$edr$dAIC <- out$edr$AIC-min(out$edr$AIC)
     out$sra$dBIC <- out$sra$BIC-min(out$sra$BIC)
     out$edr$dBIC <- out$edr$BIC-min(out$edr$BIC)
+    wfun <- function(dAIC) {
+        w <- exp(-dAIC/2)
+        w/sum(w)
+    }
+    out$sra$weights <- wfun(out$sra$dAIC)
+    out$edr$weights <- wfun(out$edr$dAIC)
     out
 }
 #selectmodelBAMspecies("OVEN")
@@ -169,14 +175,10 @@ function(species, model.sra, model.edr, type=c("AIC", "BIC", "multi")) {
     type <- match.arg(type)
     x <- selectmodelBAMspecies(species, model.sra, model.edr)
     if (type=="multi") {
-        wfun <- function(dAIC) {
-            w <- exp(-dAIC/2)
-            w/sum(w)
-        }
         out <- list(sra=as.character(sample(x$sra$model, 1, 
-                prob=wfun(x$sra$dAIC))),
+                prob=x$sra$weights)),
             edr=as.character(sample(x$edr$model, 1, 
-                prob=wfun(x$edr$dAIC))))
+                prob=x$edr$weights)))
     } else {
         if (type=="AIC") {
             out <- list(sra=as.character(x$sra$model[which.min(x$sra$AIC)]),
