@@ -163,16 +163,28 @@ function(species, model.sra, model.edr) {
 #selectmodelBAMspecies("OVEN")
 
 ## model ID for best supported model
-bestmodelBAMspecies <-
-function(species, model.sra, model.edr, type=c("AIC", "BIC")) {
+## multi: best model randomly chosen based on model weights
+bestmodelBAMspecies <- 
+function(species, model.sra, model.edr, type=c("AIC", "BIC", "multi")) {
     type <- match.arg(type)
     x <- selectmodelBAMspecies(species, model.sra, model.edr)
-    out <- if (type=="AIC") {
-        list(sra=as.character(x$sra$model[which.min(x$sra$AIC)]),
-            edr=as.character(x$edr$model[which.min(x$edr$AIC)]))
+    if (type=="multi") {
+        wfun <- function(dAIC) {
+            w <- exp(-dAIC/2)
+            w/sum(w)
+        }
+        out <- list(sra=as.character(sample(x$sra$model, 1, 
+                prob=wfun(x$sra$dAIC))),
+            edr=as.character(sample(x$edr$model, 1, 
+                prob=wfun(x$edr$dAIC))))
     } else {
-        list(sra=as.character(x$sra$model[which.min(x$sra$BIC)]),
-            edr=as.character(x$edr$model[which.min(x$edr$BIC)]))
+        if (type=="AIC") {
+            out <- list(sra=as.character(x$sra$model[which.min(x$sra$AIC)]),
+                edr=as.character(x$edr$model[which.min(x$edr$AIC)]))
+        } else {
+            out <- list(sra=as.character(x$sra$model[which.min(x$sra$BIC)]),
+                edr=as.character(x$edr$model[which.min(x$edr$BIC)]))
+        }
     }
     out
 }
