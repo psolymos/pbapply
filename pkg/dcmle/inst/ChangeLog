@@ -2,6 +2,7 @@ dcmle package version history
 
 Version 0.2-3, March 1, 2013
     * gsFit: gained flavour argument.
+    * gelman.plot: now implemented for dcmle classes as generic.
 
 Version 0.2-2, July 6, 2012
     * Inverse coercion methods (as.mcmc.list) failed with nvar=1 cases,

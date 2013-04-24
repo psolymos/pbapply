@@ -24,6 +24,7 @@ exportMethods(
     "end",
     "frequency",
     "gelman.diag",
+    "gelman.plot",
     "geweke.diag",
     "head",
     "heidel.diag",
