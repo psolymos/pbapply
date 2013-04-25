@@ -1,10 +1,10 @@
 ## this checks the data if that looks as expected
-checkDesign <- function(Y, D, X, Z, Q) {
+checkDesign <- function(Y, D, X, Z, Q, count=TRUE) {
     if (length(Y) < 1)
         stop("empty model")
     if (all(Y > 0, na.rm=TRUE) && !is.null(Q))
         warning("dependent variable has no 0 value, zero-inflated model might not be adequate")
-    if (!any(Y > 1, na.rm=TRUE))
+    if (!any(Y > 1, na.rm=TRUE) && count)
         warning("dependent variable does not contain any count > 1")
     if (!isTRUE(all.equal(as.vector(Y), as.integer(round(Y + 0.001)))))
         stop("invalid dependent variable, non-integer values")

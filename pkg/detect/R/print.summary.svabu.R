@@ -9,7 +9,7 @@ function (x, digits, ...)
         width.cutoff = floor(getOption("width") * 0.85)), "", sep = "\n")
     modt <- if (x$zeroinfl)
         "Zero Inflated " else ""
-    cat(paste("Single visit Binomial - ", modt, "Poisson model", sep = ""))
+    cat(paste("Single visit Binomial - ", modt, x$distr, " model", sep = ""))
     cat(paste("\nConditional Maximum Likelihood estimates\n", sep = ""))
     if (!is.null(x$bootstrap)) {
         btype <- switch(x$bootstrap$type,
@@ -32,6 +32,15 @@ function (x, digits, ...)
     if (Stars) {
         if (getOption("show.signif.stars") & any(rbind(x$sta, x$det, x$zif)[,4] < 0.1))
             cat("---\nSignif. codes: ", "0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1", "\n")
+    }
+    if (x$distr == "Negative Binomial") {
+        SEinfo <- if (is.na(x$var$se)) {
+            " (Std. Error: NA)"
+        } else {
+            paste(" (Std. Error: ", formatC(x$var$se, digits = digits), ")", sep="")
+        }
+        cat("\nLog Sigma Estimate: ", formatC(x$var$est, digits = digits),
+            SEinfo, "\n", sep="")
     }
     cat("\nLog-likelihood:", formatC(x$loglik, digits = digits), 
         "on", x$nobs - x$df.residual, "Df\nAIC =",

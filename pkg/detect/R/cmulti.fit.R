@@ -2,12 +2,18 @@ cmulti.fit <-
 function(Y, D, X=NULL, type=c("rem", "mix", "dis"), 
 inits=NULL, method="Nelder-Mead", ...)
 {
+    Ysum <- rowSums(Y, na.rm=TRUE)
+    Y <- Y[Ysum > 0,,drop=FALSE]
+    D <- D[Ysum > 0,,drop=FALSE]
+    if (!is.null(X))
+        X <- X[Ysum > 0,,drop=FALSE]
+    Ysum <- Ysum[Ysum > 0]
+
     type <- match.arg(type)
     pifun <- switch(type,
-            "dis" = function(r, sigma) 1-exp(-(r/sigma)^2),
+            "dis" = function(r, tau) 1-exp(-(r/tau)^2),
             "rem"  = function(t, phi) 1-exp(-t*phi),
             "mix"  = function(t, phi, c) 1-c*exp(-t*phi))
-    Ysum <- rowSums(Y, na.rm=TRUE)
     Yok <- !is.na(Y)
     n <- nrow(Y)
     k <- ncol(Y)

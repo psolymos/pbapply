@@ -9,7 +9,9 @@ function (x, digits, ...)
         width.cutoff = floor(getOption("width") * 0.85)), "", sep = "\n")
     modt <- if (x$zeroinfl)
         "Zero Inflated " else ""
-    cat(paste("Single visit Binomial - ", modt, "Poisson model", sep = ""))
+    modd <- if (inherits(x, "svabu_p"))
+        "Poisson model" else "Negative Binomial model"
+    cat(paste("Single visit Binomial - ", modt, modd, sep = ""))
     cat(paste("\nConditional Maximum Likelihood estimates\n\n", sep = ""))
 
     cat(paste("Coefficients for ", statename," (", x$link$sta, " link):\n", sep = ""))

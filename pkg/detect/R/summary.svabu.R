@@ -44,7 +44,8 @@ function (object, type, ...)
     out <- list(call = object$call, sta = sta, det = det, zif = zif, loglik = object$loglik, 
         converged = object$converged, zeroinfl = object$zeroinfl, 
         control = object$control, nobs = object$nobs, link = object$link, terms = object$terms,
-        df.residual = object$df.residual, bootstrap=boot, type=type, area = object$area)
+        df.residual = object$df.residual, bootstrap=boot, type=type, area = object$area,
+        distr=ifelse(inherits(object, "svabu_p"), "Poisson", "Negative Binomial"), var=object$var)
     class(out) <- "summary.svabu"
     return(out)
 }

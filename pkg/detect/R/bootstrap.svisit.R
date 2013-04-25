@@ -30,7 +30,8 @@ function(object, B, type=c("nonpar", "param"), seed=NULL, ...) {
             assign("mfi", mf[i,], envir=parent.frame())
             mod <- eval(CALL, envir=parent.frame())
             ## here add more params
-            coef(mod)
+            if (inherits(object, "svabu_nb"))
+                c(coef(mod), log.sigma=mod$var$est) else coef(mod)
         }
     } else {
         mfi <- mf
@@ -42,7 +43,8 @@ function(object, B, type=c("nonpar", "param"), seed=NULL, ...) {
             assign("mfi", mf, envir=parent.frame())
             mod <- eval(CALL, envir=parent.frame())
             ## here add more params
-            coef(mod)
+            if (inherits(object, "svabu_nb"))
+                c(coef(mod), log.sigma=mod$var$est) else coef(mod)
         }
     }
     ## doing bootstrap
@@ -51,7 +53,9 @@ function(object, B, type=c("nonpar", "param"), seed=NULL, ...) {
     rm(list="ini", envir=parent.frame())
     ## making rval
     rval <- matrix(unlist(rval), length(rval[[1]]), B)
-    rval <- cbind(coef(object), rval)
+    cfs <- if (inherits(object, "svabu_nb"))
+        c(coef(object), log.sigma=object$var$est) else coef(object)
+    rval <- cbind(cfs, rval)
     attr(rval, "type") <- type
     attr(rval, "ini") <- ini
     attr(object, "bootstrap") <- rval

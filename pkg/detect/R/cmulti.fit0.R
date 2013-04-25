@@ -5,7 +5,7 @@ function(Y, D, type=c("rem", "mix", "dis"), interval=c(-25, 25), ...)
 {
     type <- match.arg(type)
     pifun <- switch(type,
-            "dis" = function(r, sigma) 1-exp(-(r/sigma)^2),
+            "dis" = function(r, tau) 1-exp(-(r/tau)^2),
             "rem"  = function(t, phi) 1-exp(-t*phi),
             "mix"  = function(t, phi, c) 1-c*exp(-t*phi))
     nll.fun <- if (type == "mix")
@@ -38,6 +38,11 @@ function(Y, D, type=c("rem", "mix", "dis"), interval=c(-25, 25), ...)
     Y0 <- tmp$Y
     D0 <- tmp$D
     Y0sum <- rowSums(Y0, na.rm=TRUE)
+
+    Y0 <- Y0[Y0sum > 0,,drop=FALSE]
+    D0 <- D0[Y0sum > 0,,drop=FALSE]
+    Y0sum <- Y0sum[Y0sum > 0]
+
     Y0ok <- !is.na(Y0)
     n <- nrow(Y0)
     k <- ncol(Y0)

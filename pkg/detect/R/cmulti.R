@@ -19,7 +19,7 @@ inits=NULL, method="Nelder-Mead", ...)
     rv$call <- match.call()
     rv$type <- type
     names(rv$coefficients) <- switch(type,
-        "dis" = paste("log.sigma", NAM, sep="_"),
+        "dis" = paste("log.tau", NAM, sep="_"),
         "mix" = c("log.phi", paste("logit.c", NAM, sep="_")),
         "rem" = paste("log.phi", NAM, sep="_"))
     class(rv) <- c("cmulti")

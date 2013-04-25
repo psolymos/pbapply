@@ -1,6 +1,7 @@
 ## this creates the model matrices from formula
+## Y | D ~ Q | X | Z
 dFormula <- 
-function(formula, data, drop=TRUE, ...)
+function(formula, data, drop=TRUE, count=TRUE, ...)
 {
     require(Formula)
     mf <- match.call(expand.dots = FALSE)
@@ -49,7 +50,7 @@ function(formula, data, drop=TRUE, ...)
         Z <- model.matrix(f, data = mf, rhs = 3)
 #        st[2] <- 1
     }
-    checkDesign(Y, D, X, Z, Q)
+    checkDesign(Y, D, X, Z, Q, count)
     if (!drop && is.null(dim(Y))) {
         Y <- data.matrix(Y)
         if (!is.null(D))
