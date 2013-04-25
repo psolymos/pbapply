@@ -2,7 +2,7 @@ Package: detect
 Type: Package
 Title: Analyzing Wildlife Data with Detection Error
 Version: 0.3-0
-Date: 2012-10-01
+Date: 2013-02-26
 Author: Peter Solymos, Monica Moreno, Subhash R Lele
 Maintainer: Peter Solymos <solymos@ualberta.ca>
 Depends: R (>= 2.13.0), Formula, stats4
