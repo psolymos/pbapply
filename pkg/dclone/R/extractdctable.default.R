@@ -19,6 +19,6 @@ function(x, ...)
     }
     rval <- t(rval)
     if (nrow(rval) == 1)
-        rownames(rval) <- varnames(x)
+        rownames(rval) <- varnames(x, allow.null=FALSE)
     rval
 }
