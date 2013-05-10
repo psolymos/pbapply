@@ -7,8 +7,10 @@
 \alias{dclone.environment}
 \alias{dclone.dcdim}
 \alias{dclone.dciid}
+\alias{dclone.dctr}
 \alias{dcdim}
 \alias{dciid}
+\alias{dctr}
 \title{
 Cloning R objects
 }
@@ -21,12 +23,14 @@ dclone(x, n.clones=1, ...)
 \method{dclone}{default}(x, n.clones = 1, attrib=TRUE, ...)
 \method{dclone}{dcdim}(x, n.clones = 1, attrib=TRUE, ...)
 \method{dclone}{dciid}(x, n.clones = 1, attrib=TRUE, ...)
+\method{dclone}{dctr}(x, n.clones = 1, attrib=TRUE, ...)
 \method{dclone}{list}(x, n.clones = 1, 
     multiply = NULL, unchanged = NULL, attrib=TRUE, ...)
 \method{dclone}{environment}(x, n.clones = 1, 
     multiply = NULL, unchanged = NULL, attrib=TRUE, ...)
 dcdim(x, drop = TRUE, perm = NULL)
 dciid(x, iid=character(0))
+dctr(x)
 }
 \arguments{
   \item{x}{
@@ -71,8 +75,9 @@ because there are different ways of cloning, depending on the
 (1) Unchanged: no cloning at all (fo e.g. constants).
 
 (2) Repeat: this is the most often used cloning method, 
-repeating the observations as if there
-were more samples.
+repeating the observations row-wise as if there
+were more samples. The \code{dctr} option allows repeating
+the data column-wise.
 
 (3) Multiply: sometimes it is enough to multiply the numbers 
 (e.g. for Binomial distribution).
@@ -171,5 +176,7 @@ dclone(ll, 2)
 ll$y <- rep(1:5, each=2)
 (dci <- dclone(ll, 2))
 nclones(dci)
+## repeating the data column-wise
+dclone(dctr(m), 2)
 }
 \keyword{ manip }

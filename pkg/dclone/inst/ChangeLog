@@ -2,6 +2,11 @@ dclone package version history
 
 Version 1.8-2, March 4, 2013
     * custommodel: splits length 1 character model by '\n'.
+      This is the type of model specification that is used
+      in STAN related examples.
+    * New cloning option added: dctr, allows cloning column-wise.
+      This change was motivated by some STAN related data specification
+      difficulties.
 
 Version 1.8-1, September 3, 2012
     * clusterSplit now checks inheritence of its cl argument in
