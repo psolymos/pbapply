@@ -1,21 +1,7 @@
-## stan.fit for dclone
-library(dclone)
+stopifnot(require(rstan))
+stopifnot(require(dclone))
 
-as.mcmc.list.stanfit <- function(x, ...) {
-    a <- extract(x, permuted=FALSE, inc_warmup=FALSE)
-    a <- a[,,dimnames(a)[[3]] != "lp__"]
-    res <- as.mcmc.list(lapply(seq_len(dim(a)[2]), function(i) {
-        mcmc(a[,i,], 
-            start = x@sim$iter - x@sim$warmup + x@sim$thin, 
-            thin = x@sim$thin)
-    }))
-    n.clones <- nclones(x)
-    if (!is.null(n.clones) && n.clones > 1) {
-        attr(res, "n.clones") <- n.clones
-        class(res) <- c("mcmc.list.dc", class(res))
-    }
-    res
-}
+## stan.fit for dclone
 
 stan.fit <- 
 function(data, params, model, inits = NULL, 
@@ -76,7 +62,9 @@ function(data, params, model, inits = NULL,
     }
     ## dc info stuff
     if (format == "mcmc.list") {
-        res <- as.mcmc.list(fit0)
+        res <- rstan:::as.mcmc.list.stanfit(fit0)
+        ## get rid of  'lp__'
+        res <- res[,which(varnames(res) != "lp__")]
         if (stan.model)
             attr(res, "stan.model") <- get_stanmodel(fit0)
         if (!is.null(n.clones) && n.clones > 1) {
@@ -197,7 +185,9 @@ function(cl, data, params, model, inits = NULL,
     fit0 <- sflist2stanfit(mcmc)
     ## dc info stuff
     if (format == "mcmc.list") {
-        res <- as.mcmc.list(fit0)
+        res <- rstan:::as.mcmc.list.stanfit(fit0)
+        ## get rid of  'lp__'
+        res <- res[,which(varnames(res) != "lp__")]
         if (stan.model)
             attr(res, "stan.model") <- get_stanmodel(fit0)
         if (!is.null(n.clones) && n.clones > 1) {
@@ -213,3 +203,101 @@ function(cl, data, params, model, inits = NULL,
     res
 }
 
+## -- dclone extension
+
+dctr <-
+function(x)
+{
+    class(x) <- c("dctr", class(x))
+    x
+}
+
+dclone.dctr <-
+function(x, n.clones = 1, attrib = TRUE, ...)
+{
+    rval <- t(dclone:::dclone.default(t(x), n.clones, attrib, ...))
+    attr(attr(rval, "n.clones"), "method") <- "tr"
+    rval
+}
+
+#(dd <- matrix(1:12,3,4))
+#dctr(dd)
+#dclone(dd, 2)
+#dclone(dctr(dd), 2)
+
+## ---- STAN example: seeds
+## based on http://www.openbugs.info/Examples/Seeds.html
+
+if (FALSE) {
+
+## data
+x1 <- c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+x2 <- c(0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1)
+dat <- list(
+    "I" =  21,
+    "n" = c(10, 23, 23, 26, 17, 5, 53, 55, 32, 46, 10, 8, 10, 8, 23, 0, 
+        3, 22, 15, 32, 3),
+    "N" = c(39, 62, 81, 51, 39, 6, 74, 72, 51, 79, 13, 16, 30, 28, 45, 
+        4, 12, 41, 30, 51, 7),
+    "X" = cbind(1, x1, x2, x1*x2),
+    "P"=4)
+
+## model
+seeds_code <- '
+data {
+    int<lower=0> P;
+    int<lower=0> I;
+    int<lower=0> n[I];
+    int<lower=0> N[I];
+    matrix[I,P] X;
+}
+parameters {
+    vector[P] beta;
+    real logsig;
+    real b[I];
+}
+transformed parameters {
+    real<lower=0> sigma;
+    sigma  <- exp(logsig);
+}
+model {
+   for (p in 1:P) {
+     beta[p] ~ normal(0.0,1.0E3);
+   }
+   logsig ~ normal(0.0,1.0E3);
+   b ~ normal(0.0, sigma);
+   for (i in 1:I) {
+      n[i] ~ binomial(N[i], inv_logit(dot_product(X[i], beta) + b[i]));
+   }
+}
+'
+seedsmod <- custommodel(seeds_code)
+
+## Bayesian modeling
+
+fit0 <- stan.fit(data=dat, params=c("beta","sigma"), model=seedsmod)
+## reusing compiled code
+fit1 <- stan.fit(data=dat, params=c("beta","sigma"), model=seedsmod, 
+    fit=stan.model(fit0))
+fit2 <- stan.fit(data=dat, params=c("beta","sigma"), model=seedsmod, 
+    fit="fit0")
+fit2 <- stan.fit(data=dat, params=c("beta","sigma"), model=seedsmod, 
+    fit=fit0)
+
+## parallel computation
+cl <- makeCluster(3)
+clusterEvalQ(cl, library(rstan))
+clusterExport(cl, "stan.fit")
+fit2 <- stan.parfit(cl,
+    data=dat2, params=c("beta","sigma"), model=seedsmod, 
+    fit=ff)
+fit3 <- stan.parfit(cl,
+    data=dat2, params=c("beta","sigma"), model=seedsmod, 
+    fit=NA)
+stopCluster(cl)
+
+## data cloning example
+
+## DC with parallel
+
+}
