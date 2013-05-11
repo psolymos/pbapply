@@ -1,3 +1,12 @@
+## stan.fit is the dclone compatible version of rstan:::stan
+## that can return coda-like mcmc.list results with n.clones
+## attribute. Most of the original stan arguments are retained
+## as part of ...
+##
+## stan.parfit is the parallel implementation.
+##
+## These will be part of dclone once rstan finds its way to CRAN.
+
 stopifnot(require(rstan))
 stopifnot(require(dclone))
 
@@ -27,7 +36,6 @@ function(data, params, model, inits = NULL,
     }
     n.clones <- dclone:::nclones.list(data)
 
-    # ignored: model_name = "anon_model", model_code = ""
     if (is.function(model) || inherits(model, "custommodel")) {
         if (is.function(model)) 
             model <- match.fun(model)
@@ -203,32 +211,8 @@ function(cl, data, params, model, inits = NULL,
     res
 }
 
-## -- dclone extension
-
-dctr <-
-function(x)
-{
-    class(x) <- c("dctr", class(x))
-    x
-}
-
-dclone.dctr <-
-function(x, n.clones = 1, attrib = TRUE, ...)
-{
-    rval <- t(dclone:::dclone.default(t(x), n.clones, attrib, ...))
-    attr(attr(rval, "n.clones"), "method") <- "tr"
-    rval
-}
-
-#(dd <- matrix(1:12,3,4))
-#dctr(dd)
-#dclone(dd, 2)
-#dclone(dctr(dd), 2)
-
 ## ---- STAN example: seeds
-## based on http://www.openbugs.info/Examples/Seeds.html
-
-if (FALSE) {
+if (FALSE) { 
 
 ## data
 x1 <- c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
@@ -281,23 +265,35 @@ fit1 <- stan.fit(data=dat, params=c("beta","sigma"), model=seedsmod,
     fit=stan.model(fit0))
 fit2 <- stan.fit(data=dat, params=c("beta","sigma"), model=seedsmod, 
     fit="fit0")
-fit2 <- stan.fit(data=dat, params=c("beta","sigma"), model=seedsmod, 
+fit3 <- stan.fit(data=dat, params=c("beta","sigma"), model=seedsmod, 
     fit=fit0)
+summary(fit0)
+
+## data cloning
+
+K <- 10
+datK  <- dclone(dat, K, multiply="I", unchanged="P")
+fit4 <- stan.fit(data=datK, params=c("beta","sigma"), model=seedsmod, 
+    fit=fit0)
+summary(fit6)
 
 ## parallel computation
+
+library(parallel)
 cl <- makeCluster(3)
-clusterEvalQ(cl, library(rstan))
-clusterExport(cl, "stan.fit")
-fit2 <- stan.parfit(cl,
-    data=dat2, params=c("beta","sigma"), model=seedsmod, 
-    fit=ff)
-fit3 <- stan.parfit(cl,
-    data=dat2, params=c("beta","sigma"), model=seedsmod, 
+clusterEvalQ(cl, 
+    source("http://dcr.r-forge.r-project.org/extras/stan.fit.R"))
+fit5 <- stan.parfit(cl,
+    data=dat, params=c("beta","sigma"), model=seedsmod, 
     fit=NA)
+fit6 <- stan.parfit(cl,
+    data=dat, params=c("beta","sigma"), model=seedsmod, 
+    fit=fit0)
+
+## parallel computing and data cloning
+
+fit7 <- stan.parfit(cl, data=datK, params=c("beta","sigma"), model=seedsmod, 
+    fit=fit0)
 stopCluster(cl)
-
-## data cloning example
-
-## DC with parallel
 
 }
