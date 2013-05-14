@@ -10,7 +10,7 @@ export("bootstrap", "extractMLE", "extractBOOT",
 ## model selection helper functions
 export("AUC", "rocplot")
 ## QPAD
-export(load_BAM_QPAD, hbootindex)
+export(load_BAM_QPAD, hbootindex, convertEDR)
 
 ## import from other packages
 importFrom("stats",
@@ -71,4 +71,5 @@ S3method("vcov", "cmulti")
 S3method("summary", "cmulti")
 S3method("print", "summary.cmulti")
 S3method("logLik", "cmulti")
+S3method("fitted", "cmulti")
 

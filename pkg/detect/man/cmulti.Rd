@@ -2,6 +2,7 @@
 \alias{cmulti}
 \alias{cmulti.fit}
 \alias{cmulti2.fit}
+\alias{fitted.cmulti}
 \title{
 Conditional Multinomial Maximum Likelihood Estimation
 }
@@ -16,6 +17,7 @@ cmulti.fit(Y, D, X=NULL, type=c("rem", "mix", "dis"),
 inits=NULL, method="Nelder-Mead", ...)
 cmulti2.fit(Y, D1, D2, X1=NULL, X2=NULL, 
 inits=NULL, method="Nelder-Mead", ...)
+\method{fitted}{cmulti}(object, ...)
 }
 \arguments{
   \item{formula}{
@@ -57,6 +59,9 @@ optional initial values.
 }
   \item{method}{
 method for \code{\link{optim}}.
+}
+  \item{object}{
+fitted model object.
 }
   \item{\dots}{
 additional options for \code{\link{optim}}.
@@ -142,6 +147,9 @@ vcov(m3)
 AIC(m3)
 confint(m3)
 logLik(m3)
+
+## fitted values
+plot(exp(log.tau), fitted(m3))
 
 ## joint removal-distance estimation
 ## is not different from 2 orthogonal estimations
