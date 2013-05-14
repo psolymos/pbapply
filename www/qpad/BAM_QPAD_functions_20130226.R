@@ -199,6 +199,17 @@ sra_fun <- function(t, phi) {
     1-exp(-t*phi)
 }
 
+## shorthand for custom phi/tau
+customBAMcorrections <-
+function(r, t, phi, tau)
+{
+    out <- globalBAMcorrections("OVEN", r, t, boot=FALSE,
+        phi=phi, tau=tau)
+    class(out) <- c("customBAMcorrections", "BAMcorrections", "data.frame")
+    attr(out, "species") <- NA
+    out
+}
+
 ## this makes GLOBAL correction data frame
 ## species = 4 letter acronym for species
 ## r = point count radius in 100 m (1 unit is 100 m)
