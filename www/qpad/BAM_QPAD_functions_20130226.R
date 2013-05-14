@@ -222,7 +222,7 @@ function(species, r, t, labels, boot=FALSE, ...)
 #        1-exp(-tt*phi)
 #    }
     phi0 <- list(...)$phi
-    sigma0 <- list(...)$sigma
+    sigma0 <- list(...)$tau
     if (is.null(phi0)) {
         model.sra <- 0
         if (boot) {
@@ -340,7 +340,7 @@ model.sra=0, model.edr=0, labels, ver=1, boot=FALSE, ...)
 #        1-exp(-tt*phi)
 #    }
     phi0 <- list(...)$phi
-    sigma0 <- list(...)$sigma
+    sigma0 <- list(...)$tau
     ## sra
     if (is.null(phi0)) {
         ltssr <- names(getBAMmodellist()$sra)[grep("TSSR", getBAMmodellist()$sra)]
