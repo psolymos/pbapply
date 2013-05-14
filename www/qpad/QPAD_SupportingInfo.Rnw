@@ -45,12 +45,6 @@ opts_chunk$set(comment=NA, prompt=FALSE, highlight=TRUE,
   size='small',
 #  background=c(11,11,11),
   tidy.opts=list(keep.blank.line=TRUE, width.cutoff=60))
-## delete these when final
-#path <- "c:/Dropbox/bam/DApq3/ms/revision2/"
-#setwd(path)
-#source("BAM_QPAD_coefs_20130226.R")
-#source("BAM_QPAD_functions_20130226.R")
-#load_BAM_QPAD <- function(version) invisible(NULL)
 @
 
 \chapter{Introduction}
