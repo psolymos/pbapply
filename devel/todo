@@ -24,7 +24,7 @@
 ## *** dctutor ***
 ## Tutorial for dclone and related packages.
 * add general install tutorial (only JAGS?)
-* add examples from www and develop function to retrieve those (dcmle)
+* OK -- add examples from www and develop function to retrieve those (dcmle)
 * OK -- currently in www/tutorials
 
 ## *** dctests ***
@@ -40,6 +40,7 @@ now in devel dir, can run batch mode
 ## New package for not fully supprted and developmental stuff.
 * OK -- bugs.parfit: add to repo with enhanced examples
 * OK -- pairs method for mcmc.list --> went to dclone
+* OK -- STAN support (parallel with snow and forking)
 
 ## *** dcglm ***
 ## Obsolete, now part of www/tutorials
