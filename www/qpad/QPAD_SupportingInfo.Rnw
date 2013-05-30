@@ -45,6 +45,12 @@ opts_chunk$set(comment=NA, prompt=FALSE, highlight=TRUE,
   size='small',
 #  background=c(11,11,11),
   tidy.opts=list(keep.blank.line=TRUE, width.cutoff=60))
+## delete these when final
+#path <- "c:/Dropbox/bam/DApq3/ms/revision2/"
+#setwd(path)
+#source("BAM_QPAD_coefs_20130226.R")
+#source("BAM_QPAD_functions_20130226.R")
+#load_BAM_QPAD <- function(version) invisible(NULL)
 @
 
 \chapter{Introduction}
@@ -500,27 +506,55 @@ round(cbind(Pois=c(coef(mod), "ZI"=NA), NegBin=c(coef(modNB), NA),
 
 This is how a CART model
 can be specified using the offset approach using the \pkg{rpart} package
-\citep{pkg-rpart} (Fig.~\ref{fig:rpart}):
-<<rpart,fig.keep='none'>>=
+\citep{pkg-rpart}. Note that the specification
+has the linear predictor for the Poisson rate on the response scale
+($\lambda = f(x)$ when \code{method = "poisson"}, 
+see package vignette), which needs to be
+standardized by the correction, and not via offsets
+(Fig.~\ref{fig:rpart}):
+<<rpartpois>>=
 library(rpart)
-(cart <- rpart(count ~ pforest + xlong + offset(corrections2offset(bc)),
+oven$C <- corrections(bc)
+(cart <- rpart((count/C) ~ pforest + xlong,
     data=oven,
     method="poisson"))
-opar <- par(xpd=NA)
+@
+
+Alternatively, one can use the \code{"anova"} with a log transformed
+response variable.
+Note that predicted values need to be back-transformed 
+(Fig.~\ref{fig:rpart}):
+<<rpartanova,fig.keep='none'>>=
+(cart2 <- rpart(log(count+0.5) ~ pforest + xlong + offset(corrections2offset(bc)),
+    data=oven,
+    method="anova"))
+opar <- par(mfrow=c(2,1), xpd=NA)
 plot(cart)
 text(cart)
+title(main="poisson")
+plot(cart2)
+text(cart2)
+title(main="anova")
 par(opar)
 @
 \begin{figure}
-<<rpartfig,fig.show='asis',echo=FALSE>>=
-opar <- par(xpd=NA)
+<<rpartfig,fig.show='asis',echo=FALSE,fig.height=8>>=
+opar <- par(mfrow=c(2,1), xpd=NA)
 plot(cart)
-text(cart)
+text(cart, all=TRUE, cex=0.6)
+title(main="poisson")
+plot(cart2)
+text(cart2, all=TRUE, cex=0.6)
+title(main="anova")
 par(opar)
 @
 \caption{Regression tree analysis of the Ovenbird 
 data set using QPAD offsets.\label{fig:rpart}}
 \end{figure}
+
+The \pkg{rpart} based tree model has issues with handling
+zero observations, therefore its use is not highly recommended for sparse counts.
+
 
 \subsection{Boosted regression trees} 
 
@@ -528,7 +562,11 @@ This code snipped demonstrates how the offsets can
 be specified using the \pkg{gbm} \R\ package \citep{pkg-gbm} (Fig.~\ref{fig:brtfig}). 
 Of course one might want to
 use more covariates in such cases, and more advanced settings for determining learning
-rate e.g. through the \pkg{dismo} \R\ package \citep{pkg-dismo}:
+rate e.g. through the \pkg{dismo} \R\ package \citep{pkg-dismo}.
+Note the use of Poisson distribution, where the 
+gradient function is calculated on the log scale (($\lambda = e^{f(x)}$), see package
+vignette for specifications), therefore the use of the additive offset
+is justified:
 <<brt,fig.keep='none'>>=
 library(gbm)
 oven$off <- corrections2offset(bc)
