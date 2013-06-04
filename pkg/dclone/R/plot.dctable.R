@@ -70,10 +70,12 @@ position = "topright", box.cex = 0.75, box.bg = NA, ...)
         nr <- min(4, ceiling(m/2))
         nc <- 2
     }
-    opar <- par(mfrow=c(nr, nc))
+    if (m > 1)
+        opar <- par(mfrow=c(nr, nc))
     for (i in 1:m) {
         plotit(nam[i], nam[i] == nam[m], ...)
     }
-    par(opar)
+    if (m > 1)
+        par(opar)
     invisible(NULL)
 }
