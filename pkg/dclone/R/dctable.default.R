@@ -1,4 +1,4 @@
-adctable.default <-
+dctable.default <-
 function (x, ...) 
 {
     dct <- is.null(attr(x, "dctable"))

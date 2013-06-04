@@ -1,5 +1,5 @@
 ## main dclone functions
-export("dclone", "dcdim", "dciid",
+export("dclone", "dcdim", "dciid", "dctr",
        "jags.fit", "bugs.fit", "dc.fit",
        "clean.jags.model", "write.jags.model", "custommodel",
        "updated.model",
