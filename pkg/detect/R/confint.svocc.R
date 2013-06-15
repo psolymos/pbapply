@@ -39,7 +39,7 @@ function (object, parm, level = 0.95, model = c("full", "sta", "det"), type, ...
             "det" = (length(coef(object, "sta")) + 1):length(coef(object, "full")))
         cii <- t(apply(data.matrix(boot[ip, ]), 1, quantile, probs=a))
         rownames(cii) <- pnames
-        ci[] <- cii[parm,]
+        ci[] <- cii[parm,,drop=FALSE]
     }
     return(ci)
 }

@@ -31,7 +31,7 @@ function (object, parm, level = 0.95, type, ...)
     } else {
         cii <- t(apply(boot, 1, quantile, probs=a))
         rownames(cii) <- pnames
-        ci[] <- cii[parm,]
+        ci[] <- cii[parm,,drop=FALSE]
     }
     return(ci)
 }

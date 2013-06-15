@@ -52,7 +52,7 @@ function (object, parm, level = 0.95, model = c("full", "sta", "det", "zif"), ty
             "zif" = (nps[1] + nps[2] + 1):sum(nps))
         cii <- t(apply(matrix(boot[ip, ], nrow=length(ip)), 1, quantile, probs=a))
         rownames(cii) <- pnames
-        ci[] <- cii[parm,]
+        ci[] <- cii[parm,,drop=FALSE]
     }
     return(ci)
 }
