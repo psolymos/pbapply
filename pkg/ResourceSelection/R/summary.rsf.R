@@ -24,14 +24,18 @@ function (object, type, ...)
 #    colnames(coefs) <- c("Estimate", "Std. Error", "t value", "Pr(>|t|)")
     colnames(coefs) <- c("Estimate", "Std. Error", "z value", "Pr(>|z|)")
     coefs <- coefs[1:k, , drop = FALSE]
-    rownames(coefs) <- names(coef(object, "sta"))
+    rownames(coefs) <- names(coef(object))
 
     if (identical(object$m, 0)) {
         omega <- sum(object$y)/length(object$y)
         alpha <- mean(fitted(object, "avail"))
         fit <- fitted(object, "all")
         p <- (omega * fit) / (omega * fit + (1-omega)*alpha)
-        hl <- hoslem.test(object$y, p)
+        hl <- try(hoslem.test(object$y, p))
+        if (inherits(hl, "try-error")) {
+            warning("Hosmer and Lemeshow test cannot be calculated")
+            hl <- NULL
+        }
     } else hl <- NULL
 
     out <- list(call = object$call, coefficients=coefs, loglik = object$loglik,

@@ -1,5 +1,9 @@
 ResourceSelection package version history
 
+Version 0.2-3, June 18, 2013
+    * Summary threw an error when H-L test failed.
+      Now this is a warning. Reported by Tyler Muhly (AITF).
+
 Version 0.2-2, Mar 5, 2013
     * predict.rsf: se.fit=TRUE produced error with bootstrapped
       model. Bug reported by Clement Calenge.
