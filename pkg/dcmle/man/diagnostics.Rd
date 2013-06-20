@@ -1,5 +1,6 @@
 \name{diagnostics}
 \alias{gelman.diag}
+\alias{gelman.plot}
 \alias{geweke.diag}
 \alias{heidel.diag}
 \alias{raftery.diag}
@@ -14,6 +15,8 @@ gelman.diag(x, ...)
 geweke.diag(x, ...)
 heidel.diag(x, ...)
 raftery.diag(x, ...)
+
+gelman.plot(x, ...)
 }
 \arguments{
   \item{x}{
@@ -28,7 +31,7 @@ Diagnostic functions from \pkg{coda} package are defined
 as generics for extensibility.
 }
 \value{
-Diagnostics summaries.
+Diagnostics summaries, and plot.
 }
 \references{
 See relevant help pages.
@@ -41,5 +44,7 @@ Peter Solymos
 \code{\link[coda]{geweke.diag}}
 \code{\link[coda]{heidel.diag}}
 \code{\link[coda]{raftery.diag}}
+
+\code{\link[coda]{gelman.plot}}
 }
 \keyword{utils}

@@ -13,6 +13,7 @@
 \alias{densplot,MCMClist-method}
 \alias{frequency,MCMClist-method}
 \alias{gelman.diag,MCMClist-method}
+\alias{gelman.plot,MCMClist-method}
 \alias{geweke.diag,MCMClist-method}
 \alias{heidel.diag,MCMClist-method}
 \alias{lambdamax.diag,MCMClist-method}
@@ -54,6 +55,7 @@ Virtual class for S3 mcmc.list object from \pkg{coda} package.
     \item{densplot}{\code{signature(x = "MCMClist")}: ... }
     \item{frequency}{\code{signature(x = "MCMClist")}: ... }
     \item{gelman.diag}{\code{signature(x = "MCMClist")}: ... }
+    \item{gelman.plot}{\code{signature(x = "MCMClist")}: ... }
     \item{geweke.diag}{\code{signature(x = "MCMClist")}: ... }
     \item{heidel.diag}{\code{signature(x = "MCMClist")}: ... }
     \item{lambdamax.diag}{\code{signature(x = "MCMClist")}: ... }

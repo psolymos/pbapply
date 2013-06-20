@@ -26,6 +26,7 @@
 \alias{end,codaMCMC-method}
 \alias{frequency,codaMCMC-method}
 \alias{gelman.diag,codaMCMC-method}
+\alias{gelman.plot,codaMCMC-method}
 \alias{geweke.diag,codaMCMC-method}
 \alias{head,codaMCMC-method}
 \alias{heidel.diag,codaMCMC-method}
@@ -108,6 +109,7 @@ Objects can be created by calls of the form \code{new("codaMCMC", ...)}.
     \item{end}{\code{signature(x = "codaMCMC")}: ... }
     \item{frequency}{\code{signature(x = "codaMCMC")}: ... }
     \item{gelman.diag}{\code{signature(x = "codaMCMC")}: ... }
+    \item{gelman.plot}{\code{signature(x = "codaMCMC")}: ... }
     \item{geweke.diag}{\code{signature(x = "codaMCMC")}: ... }
     \item{head}{\code{signature(x = "codaMCMC")}: ... }
     \item{heidel.diag}{\code{signature(x = "codaMCMC")}: ... }

@@ -27,6 +27,7 @@
 \alias{end,dcmle-method}
 \alias{frequency,dcmle-method}
 \alias{gelman.diag,dcmle-method}
+\alias{gelman.plot,dcmle-method}
 \alias{geweke.diag,dcmle-method}
 \alias{head,dcmle-method}
 \alias{heidel.diag,dcmle-method}
@@ -109,6 +110,7 @@ Objects can be created by calls of the form \code{new("dcmle", ...)}.
     \item{end}{\code{signature(x = "dcmle")}: ... }
     \item{frequency}{\code{signature(x = "dcmle")}: ... }
     \item{gelman.diag}{\code{signature(x = "dcmle")}: ... }
+    \item{gelman.plot}{\code{signature(x = "dcmle")}: ... }
     \item{geweke.diag}{\code{signature(x = "dcmle")}: ... }
     \item{head}{\code{signature(x = "dcmle")}: ... }
     \item{heidel.diag}{\code{signature(x = "dcmle")}: ... }
