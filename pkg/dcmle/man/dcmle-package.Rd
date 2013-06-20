@@ -13,7 +13,8 @@ models easy as a breeze.
 \details{
 The package defines S4 object classes for plain BUGS models 
 (\code{"\linkS4class{gsFit}"}, after BU*GS*/JA*GS*),
-and BUGS models made ready for data cloning (\code{"\linkS4class{dcFit}"}).
+and BUGS models made ready for data cloning 
+(\code{"\linkS4class{dcFit}"}).
 It also defines virtual classes for S3 object classes defined in
 the \pkg{dclone} and \pkg{coda} packages. 
 
@@ -56,28 +57,30 @@ Creator functions \code{\link{makeGsFit}} and
 ## Function to create template object for the Beverton-Holt model
 ## R CMD check will not choke on character representation of model
 ## the convenient makeDcFit creator function is used here
-bevholtFit <- function(y) {
-    makeDcFit(data = list(ncl=1, n=length(y), Y=dcdim(data.matrix(y))),
-        model = structure(
-            c(" model { ",
-            "         for (k in 1:ncl) { ",
-            "             for(i in 2:(n+1)){ ",
-            "                 Y[(i-1), k] ~ dpois(exp(X[i, k])) ",
-            "                 X[i, k] ~ dnorm(mu[i, k], 1 / sigma^2) ",
-            "                 mu[i, k] <- X[(i-1), k] + log(lambda) - log(1 + beta * exp(X[(i-1), k])) ",
-            "             } ",
-            "             X[1, k] ~ dnorm(mu0, 1 / sigma^2) ",
-            "         } ",
-            "         beta ~ dlnorm(-1, 1) ",
-            "         sigma ~ dlnorm(0, 1) ",
-            "         tmp ~ dlnorm(0, 1) ",
-            "         lambda <- tmp + 1 ",
-            "         mu0 <- log(2)  + log(lambda) - log(1 + beta * 2) ",
-            "     } "),
-            class = "custommodel"),
-        multiply = "ncl",
-        unchanged = "n",
-        params <- c("lambda","beta","sigma"))
+bevholtFit <- 
+function(y) {
+makeDcFit(
+  data = list(ncl=1, n=length(y), Y=dcdim(data.matrix(y))),
+  model = structure(
+    c("model {",
+      "  for (k in 1:ncl) {",
+      "    for(i in 2:(n+1)) {",
+      "      Y[(i-1), k] ~ dpois(exp(X[i, k]))",
+      "      X[i, k] ~ dnorm(mu[i, k], 1 / sigma^2)",
+      "      mu[i,k] <- X[(i-1),k]+log(lambda)-log(1+beta*exp(X[(i-1),k]))",
+      "    }",
+      "    X[1, k] ~ dnorm(mu0, 1 / sigma^2)",
+      "  }",
+      "  beta ~ dlnorm(-1, 1)",
+      "  sigma ~ dlnorm(0, 1)",
+      "  tmp ~ dlnorm(0, 1)",
+      "  lambda <- tmp + 1",
+      "  mu0 <- log(2)  + log(lambda) - log(1 + beta * 2)",
+      "}"),
+      class = "custommodel"),
+  multiply = "ncl",
+  unchanged = "n",
+  params <- c("lambda","beta","sigma"))
 }
 ## S4 class 'bevholtMle' extends the 'dcMle' class
 ## it can have additional slots
