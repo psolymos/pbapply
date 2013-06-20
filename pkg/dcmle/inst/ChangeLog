@@ -1,5 +1,9 @@
 dcmle package version history
 
+Version 0.2-4, June 19, 2013
+    * Reference for .GlobalEnv replaced by parent.frame() in
+      sourceDcExample.
+
 Version 0.2-3, March 1, 2013
     * gsFit: gained flavour argument.
     * gelman.plot: now implemented for dcmle classes as generic.

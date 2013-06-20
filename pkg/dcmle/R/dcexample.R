@@ -16,6 +16,6 @@ function(topic, assign.global=TRUE)
     e <- new.env()
     eval(parse(href[TOPIC==as.character(topic)]), e)
     if (assign.global)
-        assign(topic, e[[topic]], envir=.GlobalEnv)
+        assign(topic, e[[topic]], envir=parent.frame())
     invisible(e[[as.character(topic)]])
 }
