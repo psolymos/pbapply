@@ -2,7 +2,9 @@ dcmle package version history
 
 Version 0.2-4, June 19, 2013
     * Reference for .GlobalEnv replaced by parent.frame() in
-      sourceDcExample.
+      sourceDcExample, also the assign.global argument is no
+      longer used. The envir argument can be set instead.
+      No assignement is made when envir=NULL.
 
 Version 0.2-3, March 1, 2013
     * gsFit: gained flavour argument.

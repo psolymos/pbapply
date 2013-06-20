@@ -5,7 +5,7 @@ function()
 }
 
 sourceDcExample <- 
-function(topic, assign.global=TRUE) 
+function(topic, envir=parent.frame()) 
 {
     dcel <- listDcExamples()
     href <- paste(getOption("dcmle.href"), "/",
@@ -15,7 +15,7 @@ function(topic, assign.global=TRUE)
         return(TOPIC)
     e <- new.env()
     eval(parse(href[TOPIC==as.character(topic)]), e)
-    if (assign.global)
-        assign(topic, e[[topic]], envir=parent.frame())
+    if (!is.null(envir))
+        assign(topic, e[[topic]], envir=envir)
     invisible(e[[as.character(topic)]])
 }
