@@ -1,6 +1,7 @@
 dclone package version history
 
 Version 1.8-2, March 4, 2013
+    * References to .GlobalEnv were changed to globalenv().
     * custommodel: splits length 1 character model by '\n'.
       This is the type of model specification that is used
       in STAN related examples.
