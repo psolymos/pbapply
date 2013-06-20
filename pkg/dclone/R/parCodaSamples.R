@@ -12,14 +12,18 @@ function(cl, model, variable.names = NULL, n.iter, thin = 1, ...)
     cldata <- list(variable.names=variable.names,
         n.iter=n.iter, thin=thin, name=model)
     jagsparallel <- function(i, ...) {
-        if (!exists(cldata$name, envir=.GlobalEnv))
+#        if (!exists(cldata$name, envir=.GlobalEnv))
+        if (!exists(cldata$name, envir=globalenv()))
             return(NULL)
-        cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
-        res <- get(cldata$name, envir=.GlobalEnv)
+#        cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
+        cldata <- as.list(get(".DcloneEnv", envir=globalenv()))
+#        res <- get(cldata$name, envir=.GlobalEnv)
+        res <- get(cldata$name, envir=globalenv())
         n.clones <- nclones(res)
         out <- coda.samples(res, variable.names=cldata$variable.names,
             n.iter=cldata$n.iter, thin=cldata$thin, ...)
-        assign(cldata$name, res, envir=.GlobalEnv)
+#        assign(cldata$name, res, envir=.GlobalEnv)
+        assign(cldata$name, res, envir=globalenv())
         if (!is.null(n.clones) && n.clones > 1) {
             attr(out, "n.clones") <- n.clones
         }

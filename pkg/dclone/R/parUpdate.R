@@ -11,11 +11,15 @@ function(cl, object, n.iter = 1, ...)
         object <- as.character(object) # deparse(substitute(object))
     cldata <- list(n.iter=n.iter, name=object)
     jagsparallel <- function(i, ...) {
-        if (exists(cldata$name, envir=.GlobalEnv)) {
-            cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
-            res <- get(cldata$name, envir=.GlobalEnv)
+#        if (exists(cldata$name, envir=.GlobalEnv)) {
+        if (exists(cldata$name, envir=globalenv())) {
+#            cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
+            cldata <- as.list(get(".DcloneEnv", envir=globalenv()))
+#            res <- get(cldata$name, envir=.GlobalEnv)
+            res <- get(cldata$name, envir=globalenv())
             rjags:::update.jags(res, n.iter=cldata$n.iter, ...)
-            assign(cldata$name, res, envir=.GlobalEnv)
+#            assign(cldata$name, res, envir=.GlobalEnv)
+            assign(cldata$name, res, envir=globalenv())
         }
         NULL
     }
