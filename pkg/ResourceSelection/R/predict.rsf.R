@@ -22,7 +22,9 @@ part = c("avail", "used", "all"), se.fit = FALSE, ...){
         if (se.fit)
             X <- model.matrix(object)[id,]
     } else {
-        rhs <- model.frame(object$formula, newdata)
+#        rhs <- model.frame(object$formula, newdata)
+        ## response is not needed -- get rid of it
+        rhs <- model.frame(delete.response(terms(object)), newdata)
         X <- model.matrix(attr(rhs, "terms"), rhs)
         cfs <- if (object$link == "log")
             c(0, coef(object)) else coef(object)

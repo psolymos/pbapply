@@ -3,6 +3,9 @@ ResourceSelection package version history
 Version 0.2-3, June 18, 2013
     * Summary threw an error when H-L test failed.
       Now this is a warning. Reported by Tyler Muhly (AITF).
+    * predict.rsf: response is not required when newdata
+      is provided. Bug reported and patch provided by
+      Clement Calenge (3/7/2013).
 
 Version 0.2-2, Mar 5, 2013
     * predict.rsf: se.fit=TRUE produced error with bootstrapped
