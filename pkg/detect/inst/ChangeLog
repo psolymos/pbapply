@@ -8,6 +8,17 @@ Version 0.3-0, Oct 1, 2012
     * logdmultinom: simplified version of dmultinom.
     * bymethod: collapses (pools) observations by methodology.
     * cmulti: new function for conditional multinomial estimation.
+    * svabu_nb.fit: new function to fit B-ZINB models,
+    * svabu function gained distr = c("P","NB") argument for
+      fittong B-ZIP and B-ZINB models.
+    * load_BAM_QPAD: new function to load BAM QPAD parameter
+      estimates and support functions.
+    * hbootindex: new function to sample indices with replacement
+      for grouped/stratified data.
+    * fitted.cmulti added: get estimated singing rate or distance model
+      parameter (not available for type="mix")
+    * predict methods: response (lhs) is dropped from formula
+      when newdata is provided.
 
 Version 0.2-2, May 2, 2012
     * inst/COPYING file removed (standard license).

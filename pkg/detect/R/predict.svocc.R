@@ -22,7 +22,10 @@ model = c("sta", "det"), se.fit = FALSE, ...){
         if (se.fit)
             X <- model.matrix(object, model)
     } else {
-        rhs <- model.frame(object$formula[[model]], newdata)
+        ff <- object$formula[[model]]
+        if (model == "sta")
+            ff[[2]] <- NULL
+        rhs <- model.frame(ff, newdata)
         X <- model.matrix(attr(rhs, "terms"), rhs)
         rval <- drop(X %*% coef(object, model))
         if (type == "response")
