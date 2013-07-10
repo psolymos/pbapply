@@ -35,9 +35,9 @@ inits, n.chains = 1, n.adapt = 1000, quiet = FALSE)
         name <- as.character(name) # deparse(substitute(name))
     cldata <- list(file=file, data=as.list(data), inits=inits,
         n.adapt=n.adapt, name=name, quiet=quiet,
+        n.adapt=n.adapt, quiet=quiet,
         n.clones=n.clones)
     jagsparallel <- function(i) {
-#        cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
         cldata <- as.list(get(".DcloneEnv", envir=globalenv()))
         res <- jags.model(file=cldata$file, data=cldata$data, 
             inits=cldata$inits[[i]], n.chains=1,
@@ -45,8 +45,7 @@ inits, n.chains = 1, n.adapt = 1000, quiet = FALSE)
         if (!is.null(n.clones) && n.clones > 1) {
             attr(res, "n.clones") <- n.clones
         }
-#        assign(cldata$name, res, envir=.GlobalEnv)
-        assign(cldata$name, res, envir=globalenv())
+        assign(name, res, envir=.parDcloneEnv)
         NULL
     }
     dir <- if (inherits(cl, "SOCKcluster")) 

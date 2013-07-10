@@ -1,7 +1,6 @@
 dclone package version history
 
 Version 1.8-2, March 4, 2013
-    * References to .GlobalEnv were changed to globalenv().
     * custommodel: splits length 1 character model by '\n'.
       This is the type of model specification that is used
       in STAN related examples.
@@ -10,6 +9,11 @@ Version 1.8-2, March 4, 2013
       difficulties.
     * dctable: failed when mcmc.list had 1 parameter.
       This is now fixed by using varnames(x, allow.null=FALSE).
+    * Parallel functions (parJagsModel, parUpdate, parCodaSamples)
+      triggered a Note by R CMD check for modifying the global 
+      environment. This is now resolved. Changes affected zzz.R, too,
+      by declaring .parDcloneEnv as global variable. This is where
+      interim results are stored.
 
 Version 1.8-1, September 3, 2012
     * clusterSplit now checks inheritence of its cl argument in

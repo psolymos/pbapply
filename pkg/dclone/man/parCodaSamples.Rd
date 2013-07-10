@@ -75,8 +75,6 @@ parUpdate(cl, "res2", n.iter=1000)
 m2 <- parCodaSamples(cl, "res2", jpara, n.iter=2000)
 stopifnot(2==nchain(m2))
 nclones(m2)
-## note: only 2 chanis were run on 2 workers!
-clusterEvalQ(cl, if (exists("res2")) nclones(res2))
 stopCluster(cl)
 }
 }

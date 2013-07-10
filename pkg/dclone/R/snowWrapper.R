@@ -65,6 +65,8 @@ cleanup = TRUE, unload = FALSE, envir = .GlobalEnv, ...)
         if (cleanup) {
             ## remove cldata by name
             eval(parse(text=paste("clusterEvalQ(cl, rm(", name, "))")))
+#            if (!use.env)
+#                eval(parse(text=paste("clusterEvalQ(cl, rm(", name, "))")))
             ## set old dir
             if (!is.null(dir)) {
                 dirold <- lapply(dirold, function(z) paste("setwd(\"", z, "\")", sep=""))
