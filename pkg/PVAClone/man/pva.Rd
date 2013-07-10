@@ -37,9 +37,9 @@ Lele et. al's (2007, 2010) data cloning (DC) algorithm for computing
 the maximum likelihood estimates of model parameters along with the 
 corresponding standrad errors. See Solymos (2010) for 
 an R implementaion of the DC algorithm. The growth models currently 
-available in the package PVAClone are 
-Gompertz (\code{\link{gompertz}}), Ricker (\code{\link{ricker}}), 
-logistic, theta-logistic, Beverton-Holt and the generalized Beverton-Holt. 
+available in the package PVAClone are listed on 
+the \link{growthmodels} page.
+
 
 These models can also be fitted assuming 
 the presence of observation error using the general state-space model 
@@ -90,9 +90,11 @@ The R Journal 2(2), 29-37. URL:
 Khurram Nadeem and Peter Solymos
 }
 \seealso{
-\code{\link{model.select}}
+Model selection: \code{\link{model.select}}
 
-\code{\link{pva-class}}, \code{\link{pvamodel-class}}
+Growth models: \link{growthmodels}
+
+Class definitions: \code{\link{pva-class}}, \code{\link{pvamodel-class}}
 }
 \examples{
 \dontrun{
