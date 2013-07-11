@@ -6,10 +6,7 @@
 Parallel wrapper function to call from within a function
 }
 \description{
-\code{snowWrapper} is a wrapper function around many
-functionalities of the \pkg{parallel} and \pkg{snow} packages.
-It is designed to work closely with MCMC fitting functions, 
-e.g. can easily be called from inside of a function.
+This function is now replaced by \code{\link{parDosa}}.
 }
 \usage{
 snowWrapper(cl, seq, fun,  
@@ -93,46 +90,6 @@ Other arguments of \code{fun}, that are simple values and not objects.
 otherwise those are not exported to the cluster by this function.)
 }
 }
-\details{
-The function uses 'snow' type clusters when \code{cl} is a cluster 
-object. The function uses 'multicore' type forking (shared memory) 
-when \code{cl} is an integer.
-The value from \code{getOption("mc.cores")} is used if the 
-argument is \code{NULL}.
-
-The function sets the random seeds, loads packages \code{lib} 
-onto the cluster, sets the working directory as \code{dir}, 
-exports \code{cldata} and evaluates \code{fun} on \code{seq}.
-
-No balancing (\code{balancing = "none"}) means, that the problem 
-is splitted into roughly equal
-subsets, without respect to \code{size} 
-(see \code{\link[snow]{clusterSplit}}). This splitting
-is deterministic (reproducible).
-
-Load balancing (\code{balancing = "load"}) means, 
-that the problem is not splitted into subsets 
-\emph{a priori}, but subsequent items are placed on the 
-worker which is empty 
-(see \code{\link[snow]{clusterApplyLB}} for load balancing). 
-This splitting is non-deterministic (might not be reproducible).
-
-Size balancing (\code{balancing = "size"}) means, 
-that the problem is splitted into 
-subsets, with respect to \code{size} 
-(see \code{\link{clusterSplitSB}} and \code{\link{parLapplySB}}).
-In size balancing, the problem is re-ordered from 
-largest to smallest, and then subsets are
-determined by minimizing the total approximate processing time.
-This splitting is deterministic (reproducible). 
-
-Size and load balancing (\code{balancing = "both"}) means, 
-that the problem is re-ordered from largest to smallest, 
-and then undeterministic load balancing
-is used (see \code{\link{parLapplySLB}}). 
-If \code{size} is correct, this is identical to size balancing. 
-This splitting is non-deterministic (might not be reproducible).
-}
 \value{
 Usually a list with results returned by the cluster.
 }
@@ -140,26 +97,7 @@ Usually a list with results returned by the cluster.
 Peter Solymos, \email{solymos@ualberta.ca}
 }
 \seealso{
-Size balancing: \code{\link{parLapplySB}}, \code{\link{parLapplySLB}},
-\code{\link{mclapplySB}}
-
-Optimizing the number of workers: 
-\code{\link{clusterSize}}, \code{\link{plotClusterSize}}.
-
-\code{snowWrapper} is used internally by parallel \pkg{dclone}
-functions: \code{\link{jags.parfit}}, \code{\link{dc.parfit}},
-\code{\link{parJagsModel}}, \code{\link{parUpdate}}, 
-\code{\link{parCodaSamples}}.
-}
-\examples{
-\dontrun{
-cl <- makePSOCKcluster(2)
-## wrapper
-fun <- function(i) cldata$a * i - cldata$b
-cldata <- list(a=10, b=5)
-snowWrapper(cl, 1:5, fun, cldata)
-stopCluster(cl)
-}
+This function is now replaced by \code{\link{parDosa}}.
 }
 \keyword{ utilities }
 \keyword{ connection }
