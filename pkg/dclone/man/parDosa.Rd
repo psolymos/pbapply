@@ -15,11 +15,11 @@ This function is replacing the \code{\link{snowWrapper}}
 function which is temporarily retained for compatibility.
 }
 \usage{
-snowWrapper(cl, seq, fun, cldata,
+parDosa(cl, seq, fun, cldata,
     lib = NULL, dir = NULL, evalq=NULL,
     size = 1, balancing = c("none", "load", "size", "both"), 
     rng.type = c("none", "RNGstream", "SPRNG"), 
-    cleanup = TRUE, unload = FALSE, envir = .GlobalEnv, ...)
+    cleanup = TRUE, unload = FALSE, ...)
 }
 \arguments{
   \item{cl}{
@@ -75,9 +75,6 @@ If \code{TRUE}, effects of \code{dir} argument is also cleaned up.
 }
   \item{unload}{
 logical, if \code{pkg} should be unloaded after applying \code{fun}.
-}
-  \item{envir}{
-environment to use when assigning data values.
 }
   \item{\dots}{
 Other arguments of \code{fun}, that are simple values and not objects. 
