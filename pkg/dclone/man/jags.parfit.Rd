@@ -133,13 +133,13 @@ clusterExport(cl, "fun")
 ## using the L'Ecuyer module with 6 chains
 load.module("lecuyer")
 parLoadModule(cl,"lecuyer")
-pm4 <- jags.parfit(cl, dat, "beta", glm.model, inits,
+pm5 <- jags.parfit(cl, dat, "beta", glm.model, inits,
     n.chains=6)
-nchain(pm4)
+nchain(pm5)
 stopCluster(cl)
 ## multicore type forking
 if (.Platform$OS.type != "windows") {
-pm5 <- jags.parfit(3, dat, "beta", glm.model)
+pm6 <- jags.parfit(3, dat, "beta", glm.model)
 }
 }
 }
