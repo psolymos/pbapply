@@ -136,6 +136,8 @@ parLoadModule(cl,"lecuyer")
 pm5 <- jags.parfit(cl, dat, "beta", glm.model, inits,
     n.chains=6)
 nchain(pm5)
+unload.module("lecuyer")
+parUnloadModule(cl,"lecuyer")
 stopCluster(cl)
 ## multicore type forking
 if (.Platform$OS.type != "windows") {

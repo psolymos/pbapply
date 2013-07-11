@@ -1,9 +1,3 @@
-## environments for parallel computing
-#.DcloneEnv <- new.env(parent=emptyenv())
-.parDcloneEnv <- new.env(parent=emptyenv())
-if(getRversion() >= "2.15.1")
-    utils::globalVariables(c(".parDcloneEnv"))
-
 .onAttach <- function(libname, pkgname){
     ver <- read.dcf(file=system.file("DESCRIPTION", package=pkgname), 
         fields=c("Version", "Date"))
