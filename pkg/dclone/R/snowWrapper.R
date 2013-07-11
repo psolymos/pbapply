@@ -5,6 +5,8 @@ size = 1, balancing = c("none", "load", "size", "both"),
 rng.type = c("none", "RNGstream", "SPRNG"), 
 cleanup = TRUE, unload = FALSE, envir = .GlobalEnv, ...)
 {
+    warning("'snowWrapper' IS DEPRECATED. USE 'parDosa' INSTEAD!")
+
     ## get defaults right for cl argument
     cl <- evalParallelArgument(cl, quit=TRUE)
 ## common stuff for snow and multicore
