@@ -10,10 +10,9 @@
   easiest way is to shut it down by an option (arg is not nice)
   try() is used to turn these into NA
 * OK -- reduce jags.parfit initialization overhead by seeding inits only
-  rjags addition will resolve this by M Plummer -- needs fullow up                      !!!
 * add NEWS/NEWS.Rd from 1.3-0 on (maybe only to www?)
 * deprecate as.mcmc.list.bugs if possible
-* error witb WinBUGS (registry is wrong in bugs.update.settings)                        !!!
+* error with WinBUGS (registry is wrong in bugs.update.settings)                        !!!
 
 ## *** dcmle ***
 ## S4 classes for examples and to estimating procedures
@@ -38,6 +37,9 @@ now in devel dir, can run batch mode
 
 ## *** dcextras ***
 ## New package for not fully supprted and developmental stuff.
+## this won`t become a package, but rather a sourcable directory,
+## an example is QPAD results for detect.
+## Need to figure out dcmle compatibility w.r.t. STAN etc.
 * OK -- bugs.parfit: add to repo with enhanced examples
 * OK -- pairs method for mcmc.list --> went to dclone
 * OK -- STAN support (parallel with snow and forking)
@@ -49,7 +51,7 @@ now in devel dir, can run batch mode
 ## dependent packages
 * OK -- add progress bar to functions
 * OK -- implement dcmle to sharx
-* implement dcmle to detect
+* OK -- implement dcmle to detect
 * implement dcmle to ResourceSelection
 * add verbose text to function
 
