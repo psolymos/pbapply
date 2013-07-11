@@ -38,20 +38,19 @@ inits, n.chains = 1, n.adapt = 1000, quiet = FALSE)
         n.adapt=n.adapt, quiet=quiet,
         n.clones=n.clones)
     jagsparallel <- function(i) {
-        cldata <- as.list(get(".DcloneEnv", envir=globalenv()))
+        cldata <- dclone:::.pullDcloneEnv("cldata", type = "model")
         res <- jags.model(file=cldata$file, data=cldata$data, 
             inits=cldata$inits[[i]], n.chains=1,
             n.adapt=cldata$n.adapt, quiet=cldata$quiet)
         if (!is.null(n.clones) && n.clones > 1) {
             attr(res, "n.clones") <- n.clones
         }
-        assign(name, res, envir=.parDcloneEnv)
+        dclone:::.pushDcloneEnv(cldata$name, res, type = "results")
         NULL
     }
     dir <- if (inherits(cl, "SOCKcluster")) 
         getwd() else NULL
-    snowWrapper(cl, 1:n.chains, jagsparallel, cldata, 
-        name=NULL, use.env=TRUE,
+    dclone:::parDosa(cl, 1:n.chains, jagsparallel, cldata, 
         lib = c("dclone", "rjags"), balancing = "none", size = 1, 
         rng.type = getOption("dcoptions")$RNG, 
         cleanup = TRUE, dir = dir, unload=FALSE)

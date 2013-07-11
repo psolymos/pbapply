@@ -11,20 +11,20 @@ function(cl, object, n.iter = 1, ...)
         object <- as.character(object) # deparse(substitute(object))
     cldata <- list(n.iter=n.iter, name=object)
     jagsparallel <- function(i, ...) {
-        if (exists(cldata$name, envir=.parDcloneEnv)) {
-            cldata <- as.list(get(".DcloneEnv", envir=globalenv()))
-            res <- get(cldata$name, envir=.parDcloneEnv)
+        ## cldata is pushed by parDosa
+        cldata <- dclone:::.pullDcloneEnv("cldata", type = "model")
+        if (dclone:::.existsDcloneEnv(cldata$name, type = "results")) {
+            res <- dclone:::.pullDcloneEnv(cldata$name,
+                type = "results")
             rjags:::update.jags(res, n.iter=cldata$n.iter, ...)
-            assign(cldata$name, res, envir=.parDcloneEnv)
+            dclone:::.pushDcloneEnv(cldata$name, res, type = "results")
         }
         NULL
     }
     dir <- if (inherits(cl, "SOCKcluster"))
         getwd() else NULL
-    snowWrapper(cl, 1:length(cl), jagsparallel, cldata,
-        name=NULL, use.env=TRUE,
-        lib = "dclone", balancing = "none", size = 1, 
+    dclone:::parDosa(cl, 1:length(cl), jagsparallel, cldata,
+        lib = c("dclone", "rjags"), balancing = "none", size = 1, 
         rng.type = getOption("dcoptions")$RNG, 
         cleanup = TRUE, dir = dir, unload = FALSE, ...)
 }
-
