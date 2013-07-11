@@ -52,7 +52,7 @@ program=c("winbugs", "openbugs"), ...) ## only mcmc.list format is supported
         seed=seed, program=program)
     ## parallel function to evaluate by snowWrapper
     bugsparallel <- function(i, ...)   {
-        cldata <- as.list(get(".DcloneEnv", envir=.GlobalEnv))
+        cldata <- dclone:::.pullDcloneEnv("cldata", type = "model")
         bugs.fit(data=cldata$data, params=cldata$params, 
             model=cldata$model, 
             inits=cldata$inits[[i]], n.chains=1, 
@@ -68,8 +68,8 @@ program=c("winbugs", "openbugs"), ...) ## only mcmc.list format is supported
         "load" else "none"
     dir <- if (inherits(cl, "SOCKcluster"))
         getwd() else NULL
-    mcmc <- snowWrapper(cl, 1:n.chains, bugsparallel, cldata, 
-        name=NULL, use.env=TRUE, lib="dclone", 
+    mcmc <- dclone:::parDosa(cl, 1:n.chains, bugsparallel, cldata, 
+        lib="dclone", 
         balancing=balancing, size=1, 
         rng.type=getOption("dcoptions")$RNG, cleanup=TRUE, dir=dir, 
         unload=FALSE, ...)
