@@ -2,6 +2,8 @@ DIR <- if (.Platform$OS.type == "windows")
     "c:/svn/dcr/devel" else "/home/peter/svn/dcr/devel"
 setwd(paste(DIR, "/tests", sep=""))
 
+op <- options("R2WinBUGS.bugs.directory"="c:/p/WinBUGS14")
+
 exampleDontRun <- function(topic, try_catch=TRUE) {
     ex <- gsub("##D ", "", example(topic, "dclone", 
         character.only=TRUE, echo=FALSE, give.lines=TRUE))

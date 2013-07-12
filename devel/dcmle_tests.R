@@ -19,7 +19,7 @@ cat("\n\n## <<<<<<<<<<<<<<    ", date(), "    >>>>>>>>>>>>>>>>>\n\n")
 for (topic in ff[-2]) {
     rm(list = ls()[setdiff(ls(), keep)])
     cat("\n\n## START <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n")
-    res[[topic]] <- exampleDontRun(topic, try_catch=FALSE)
+    res[[topic]] <- exampleDontRun(topic, try_catch=TRUE)
     cat("\n## END   <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n\n")
 }
 cat("\n\n## START <<<<<<<<<<<<<<    endmatter    >>>>>>>>>>>>>>>>>\n")
@@ -42,5 +42,6 @@ if (length(err)) {
     cat("\n\n##       <<<<<<<<<<<<<<    Errors/Warnings found    >>>>>>>>>>>>>>>>>\n\n")
     data.frame(Line=err, Topic=y, Text=x[err])
 } else cat("\n\n##       <<<<<<<<<<<<<<    OK -- No Errors/Warnings found    >>>>>>>>>>>>>>>>>\n\n")
+options(op)
 rm(list = ls())
 ## EOF
