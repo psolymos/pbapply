@@ -5,7 +5,7 @@ svn export c:\svn\dcr\pkg\ c:\svn\dcr\devel\pkg_check\tests\
 ::svn export c:\svn\mefa\pkg\mefa c:\svn\dcr\devel\pkg_check\tests\mefa
 ::svn export c:\svn\mefa\pkg\mefa4 c:\svn\dcr\devel\pkg_check\tests\mefa4
 :: update R packages
-R CMD BATCH --vanilla c:\svn\dcr\devel\pkg_check\updates.R c:\svn\dcr\devel\pkg_check\tests\updates.Rout
+R CMD BATCH --vanilla c:\svn\dcr\devel\updates.R c:\svn\dcr\devel\pkg_check\tests\updates.Rout
 :: change dir to test
 cd c:\svn\dcr\devel\pkg_check\tests\
 :: export pkg dirs from svn

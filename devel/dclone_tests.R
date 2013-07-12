@@ -13,19 +13,17 @@ ff <- if (.Platform$OS.type == "windows") {
 #ff <- "parCodaSamples"#"write.jags.model"
 ff
 
-res <- list()
 keep <- unique(c("keep", "topic", ls()))
 
 cat("\n\n## <<<<<<<<<<<<<<    ", date(), "    >>>>>>>>>>>>>>>>>\n\n")
 for (topic in ff) {
     rm(list = ls()[setdiff(ls(), keep)])
     cat("\n\n## START <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n")
-    res[[topic]] <- exampleDontRun(topic, try_catch=FALSE)
+    exampleDontRun(topic, try_catch=FALSE)
     cat("\n## END   <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n\n")
 }
 cat("\n\n## START <<<<<<<<<<<<<<    endmatter    >>>>>>>>>>>>>>>>>\n")
 
-save(res, file="dclone_tests_res.Rdata")
 x <- readLines(paste(DIR, "/tests/dclone_tests.log", sep=""))
 err <- c(grep("rror", x), grep("arning", x))
 fal <- grep("d error", x)

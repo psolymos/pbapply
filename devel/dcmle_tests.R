@@ -12,19 +12,17 @@ ff <- if (.Platform$OS.type == "windows") {
 }
 ff
 
-res <- list()
 keep <- unique(c("keep", "topic", ls()))
 
 cat("\n\n## <<<<<<<<<<<<<<    ", date(), "    >>>>>>>>>>>>>>>>>\n\n")
 for (topic in ff[-2]) {
     rm(list = ls()[setdiff(ls(), keep)])
     cat("\n\n## START <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n")
-    res[[topic]] <- exampleDontRun(topic, try_catch=FALSE)
+    exampleDontRun(topic, try_catch=FALSE)
     cat("\n## END   <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n\n")
 }
 cat("\n\n## START <<<<<<<<<<<<<<    endmatter    >>>>>>>>>>>>>>>>>\n")
 
-save(res, file="dcmle_tests_res.Rdata")
 x <- readLines(paste(DIR, "/tests/dcmle_tests.log", sep=""))
 err <- c(grep("rror", x), grep("arning", x))
 fal <- grep("d error", x)
