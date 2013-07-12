@@ -1,8 +1,9 @@
 write.jags.model <-
-function(model, filename = "model.bug", 
+function(model, filename = "model.txt", 
 digits = 5, dir = getwd(), 
 overwrite = getOption("dcoptions")$overwrite)
 {
+    ext <- "txt"
     old.dir <- getwd()
     setwd(dir)
     on.exit(setwd(old.dir))
@@ -13,11 +14,11 @@ overwrite = getOption("dcoptions")$overwrite)
             sn <- sn[-c(1:(length(sn) - 2))]
         }
         ff <- tempfile("model","")
-        filename2 <- paste(substr(ff, 2, nchar(ff)), "bug", sep=".")
+        filename2 <- paste(substr(ff, 2, nchar(ff)), ext, sep=".")
         if (file.exists(filename2)) {
             while (!file.exists(filename2)) {
                 ff <- tempfile("model","")
-                filename2 <- paste(substr(ff, 2, nchar(ff)), "bug", sep=".")
+                filename2 <- paste(substr(ff, 2, nchar(ff)), ext, sep=".")
             }
         }
     } else {
@@ -26,7 +27,7 @@ overwrite = getOption("dcoptions")$overwrite)
     if (inherits(model, "custommodel")) {
         writeLines(model, filename2)
     } else {
-        write.model(model, filename2, digits = digits)
+        R2WinBUGS:::write.model(model, filename2, digits = digits)
     }
     invisible(filename2)
 }

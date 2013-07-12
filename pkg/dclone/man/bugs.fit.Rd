@@ -12,10 +12,10 @@ cloned data arguments
 and WinBUGS and OpenBUGS.
 }
 \usage{
-bugs.fit(data, params, model, inits = NULL, 
+bugs.fit(data, params, model, inits = NULL, n.chains = 3,
     format = c("mcmc.list", "bugs"), 
-    program = c("winbugs", "openbugs"), 
-    seed = NULL, ...)
+    program = c("winbugs", "openbugs", "brugs"), 
+    seed, ...)
 \method{as.mcmc.list}{bugs}(x, ...)
 }
 \arguments{
@@ -35,18 +35,31 @@ form of a list or a function.
 If \code{NULL}, initial values will be 
 generated automatically.
 }
+  \item{n.chains}{
+number of Markov chains.
+}
   \item{format}{
 Required output format.
 }
   \item{program}{
 The program to use, not case sensitive.
-\code{winbugs} calls the function \code{\link[R2WinBUGS]{bugs}},
-\code{openbugs} calls the function \code{\link[R2WinBUGS]{openbugs}} 
-and requires the CRAN package \pkg{BRugs}.
+\code{winbugs} calls the function \code{\link[R2WinBUGS]{bugs}} from
+package \pkg{R2WinBUGS},
+\code{openbugs} calls the function \code{\link[R2OpenBUGS]{bugs}} 
+from package \pkg{R2OpenBUGS} (this has changed since \pkg{dclone}
+version 1.8-1, this is now the preferred OpenBUGS interface).
+\code{brugs} calls the function \code{\link[R2WinBUGS]{openbugs}} 
+from package \pkg{R2WinBUGS} and requires the CRAN package \pkg{BRugs}
+(this is provided for back compatibility purposes, but gives a warning
+because it is not the preferred interface to R2OpenBUGS).
 }
   \item{seed}{
-Random seed (\code{bugs.seed} argument for \code{\link{bugs}}, 
-\code{seed} argument for \code{\link{openbugs}}).
+Random seed (\code{bugs.seed} argument for 
+\code{\link[R2WinBUGS]{bugs}} in package \pkg{R2WinBUGS} or 
+\code{\link[R2OpenBUGS]{bugs}} in package \pkg{R2OpenBUGS}, 
+\code{seed} argument for \code{\link[R2WinBUGS]{openbugs}}).
+It takes the corresponding default values (\code{NULL} or \code{1})
+when missing.
 }
   \item{x}{
 A fitted 'bugs' object.
@@ -78,8 +91,10 @@ data cloning information as well.
 Peter Solymos, \email{solymos@ualberta.ca}
 }
 \seealso{
-Underlying functions: \code{\link[R2WinBUGS]{openbugs}}, 
-\code{\link[R2WinBUGS]{bugs}}
+Underlying functions: 
+\code{\link[R2WinBUGS]{bugs}} in package \pkg{R2WinBUGS},
+\code{\link[R2WinBUGS]{openbugs}} in package \pkg{R2WinBUGS},
+\code{\link[R2OpenBUGS]{bugs}} in package \pkg{R2OpenBUGS}
 
 Methods: \code{\link{dcsd}}, \code{\link{confint.mcmc.list.dc}}, 
 \code{\link{coef.mcmc.list}}, \code{\link{quantile.mcmc.list}}, 
@@ -88,7 +103,7 @@ Methods: \code{\link{dcsd}}, \code{\link{confint.mcmc.list.dc}},
 \examples{
 \dontrun{
 ## fitting with WinBUGS, bugs example
-if (.Platform$OS.type == "windows") {
+library(R2WinBUGS)
 data(schools)
 dat <- list(J = nrow(schools), 
     y = schools$estimate, 
@@ -108,15 +123,28 @@ inits <- function(){
          sigma.theta=runif(1, 0, 100))
 }
 param <- c("mu.theta", "sigma.theta")
-sim <- try(bugs.fit(dat, param, bugs.model, inits))
+if (.Platform$OS.type == "windows") {
+sim <- bugs.fit(dat, param, bugs.model, inits)
+summary(sim)
 dat2 <- dclone(dat, 2, multiply="J")
-sim2 <- try(bugs.fit(dat2, param, bugs.model))
-## fitting the model with OpenBUGS
-sim3 <- try(bugs.fit(dat2, param, bugs.model, 
-    program="openbugs", n.thin=1))
-## fitting the model with JAGS
-sim4 <- jags.fit(dat2, param, bugs.model)
+sim2 <- bugs.fit(dat2, param, bugs.model, 
+    program="winbugs", n.iter=2000, n.thin=1)
+summary(sim2)
 }
+## fitting the model with OpenBUGS
+## using the less preferred BRugs interface
+sim3 <- bugs.fit(dat2, param, bugs.model, 
+    program="brugs", n.iter=2000, n.thin=1)
+summary(sim3)
+library(R2OpenBUGS)
+## fitting the model with OpenBUGS
+## using the preferred R2OpenBUGS interface
+sim4 <- bugs.fit(dat2, param, bugs.model, 
+    program="openbugs", n.iter=2000, n.thin=1)
+summary(sim4)
+## fitting the model with JAGS
+sim5 <- jags.fit(dat2, param, bugs.model)
+summary(sim5)
 }
 }
 \keyword{ models }

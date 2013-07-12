@@ -1,13 +1,15 @@
 bugs.fit <-
-function(data, params, model, inits=NULL, format=c("mcmc.list", "bugs"), 
-program=c("winbugs", "openbugs"), seed=NULL, ...)
+function(data, params, model, inits=NULL, n.chains = 3,
+format=c("mcmc.list", "bugs"), 
+program=c("winbugs", "openbugs", "brugs"), seed, ...)
 {
     if (is.environment(data)) {
         warnings("'data' was environment: it was coerced into a list")
         data <- as.list(data)
     }
     ## not case sensitive evaluation of program arg
-    program <- match.arg(tolower(program), c("winbugs", "openbugs"))
+    program <- match.arg(tolower(program), 
+        c("winbugs", "openbugs", "brugs"))
     ## retrieves n.clones
     n.clones <- dclone:::nclones.list(data)
     ## removes n.clones attr from each element of data
@@ -25,11 +27,38 @@ program=c("winbugs", "openbugs"), seed=NULL, ...)
     ## WinBUGS evaluation is simple
     ## only default behavour is changed for args
     if (program == "winbugs") {
-        res <- bugs(data, inits, params, model, codaPkg=FALSE, bugs.seed=seed, ...)
-    } else {
+        if (missing(seed))
+            seed <- NULL
+        res <- R2WinBUGS:::bugs(data=data, 
+            inits=inits, 
+            parameters.to.save=params, 
+            model.file=model, 
+            n.chains=n.chains, 
+            codaPkg=FALSE, 
+            bugs.seed=seed, ...)
+    }
     ## OpenBUGS needs model file, and can't provide mcmc.list as output
     ## thin != 1 can cause problems in conversion -- not anymore, fixed
-        res <- openbugs(data, inits, params, model, seed=seed, ...)
+    if (program == "brugs") {
+        warnings("program = 'openbugs' is the preferred interface")
+        if (missing(seed))
+            seed <- NULL
+        res <- R2WinBUGS:::openbugs(data=data, 
+            inits=inits, 
+            parameters.to.save=params, 
+            model.file=model, 
+            n.chains=n.chains, seed=seed, ...)
+    }
+    if (program == "openbugs") {
+        if (missing(seed))
+            seed <- 1
+        res <- R2OpenBUGS:::bugs(data=data, 
+            inits=inits, 
+            parameters.to.save=params, 
+            model.file=model,
+            n.chains=n.chains, 
+            codaPkg=FALSE, 
+            bugs.seed=seed, ...)
     }
     ## converting bugs objects into mcmc.list
     format <- match.arg(format)

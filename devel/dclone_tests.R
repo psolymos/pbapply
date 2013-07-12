@@ -14,13 +14,13 @@ ff <- if (.Platform$OS.type == "windows") {
 ff
 
 res <- list()
-keep <- c("keep", ls())
+keep <- unique(c("keep", "topic", ls()))
 
 cat("\n\n## <<<<<<<<<<<<<<    ", date(), "    >>>>>>>>>>>>>>>>>\n\n")
 for (topic in ff) {
     rm(list = ls()[setdiff(ls(), keep)])
     cat("\n\n## START <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n")
-    res[[topic]] <- exampleDontRun(topic, try_catch=TRUE)
+    res[[topic]] <- exampleDontRun(topic, try_catch=FALSE)
     cat("\n## END   <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n\n")
 }
 cat("\n\n## START <<<<<<<<<<<<<<    endmatter    >>>>>>>>>>>>>>>>>\n")

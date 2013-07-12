@@ -230,7 +230,7 @@ mcdcm3 <- dc.parfit(3, dat, "beta", glm.model, n.clones=k,
 }
 
 ## Using WinBUGS/OpenBUGS
-if (.Platform$OS.type == "windows") {
+library(R2WinBUGS)
 data(schools)
 dat <- list(J = nrow(schools), y = schools$estimate, 
     sigma.y = schools$sd)
@@ -250,12 +250,22 @@ inits <- function(){
 }
 param <- c("mu.theta", "sigma.theta")
 cl <- makePSOCKcluster(2)
+if (.Platform$OS.type == "windows") {
 sim2 <- dc.parfit(cl, dat, param, bugs.model, n.clones=1:2, 
-    flavour="bugs", program="WinBUGS", multiply="J")
-sim3 <- dc.parfit(cl, dat, param, bugs.model, n.clones=1:2, 
-    flavour="bugs", program="OpenBUGS", multiply="J")
-stopCluster(cl)
+    flavour="bugs", program="WinBUGS", multiply="J",
+    n.iter=2000, n.thin=1)
+summary(sim2)
 }
+sim3 <- dc.parfit(cl, dat, param, bugs.model, n.clones=1:2, 
+    flavour="bugs", program="brugs", multiply="J",
+    n.iter=2000, n.thin=1)
+summary(sim3)
+library(R2OpenBUGS)
+sim4 <- dc.parfit(cl, dat, param, bugs.model, n.clones=1:2, 
+    flavour="bugs", program="openbugs", multiply="J",
+    n.iter=2000, n.thin=1)
+summary(sim4)
+stopCluster(cl)
 
 ## simulation for Poisson GLMM with inits
 set.seed(1234)

@@ -1,7 +1,7 @@
 Package: dclone
 Type: Package
 Title: Data Cloning and MCMC Tools for Maximum Likelihood Methods
-Version: 1.9-0
+Version: 2.0-0
 Date: 2013-07-10
 Author: Peter Solymos
 Maintainer: Peter Solymos <solymos@ualberta.ca>
@@ -13,10 +13,13 @@ Description: Low level functions for implementing
     Parallel MCMC computation is supported 
     and can result in considerable speed-up.
 License: GPL-2
-Depends: R (>= 2.14.0), coda (>= 0.13), R2WinBUGS, parallel
-Suggests: MASS, lattice, rjags (>= 3-5), snow, rlecuyer
+Depends: R (>= 2.14.0), coda (>= 0.13), parallel
+Suggests: MASS, lattice, rjags (>= 3-5), R2WinBUGS, 
+    R2OpenBUGS, snow, rlecuyer
 Imports: stats
-SystemRequirements: JAGS (>= 3.0.0), WinBUGS (>= 1.4)
-URL: http://cran.r-project.org/package=dclone, http://dcr.r-forge.r-project.org/
+SystemRequirements: JAGS (>= 3.0.0), WinBUGS (>= 1.4), 
+    OpenBUGS (>= 3.2.2)
+URL: http://cran.r-project.org/package=dclone, 
+    http://dcr.r-forge.r-project.org/
 LazyLoad: yes
 LazyData: true
