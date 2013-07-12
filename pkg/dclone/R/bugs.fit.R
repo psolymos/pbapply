@@ -10,6 +10,14 @@ program=c("winbugs", "openbugs", "brugs"), seed, ...)
     ## not case sensitive evaluation of program arg
     program <- match.arg(tolower(program), 
         c("winbugs", "openbugs", "brugs"))
+
+    if (program %in% c("winbugs", "brugs") && !suppressWarnings(require(R2WinBUGS)))
+        stop("there is no package called 'R2WinBUGS'")
+    if (program == "brugs" && !suppressWarnings(require(BRugs)))
+        stop("there is no package called 'BRugs'")
+    if (program == "openbugs" && !suppressWarnings(require(R2OpenBUGS)))
+        stop("there is no package called 'R2OpenBUGS'")
+
     ## retrieves n.clones
     n.clones <- dclone:::nclones.list(data)
     ## removes n.clones attr from each element of data
@@ -40,7 +48,6 @@ program=c("winbugs", "openbugs", "brugs"), seed, ...)
     ## OpenBUGS needs model file, and can't provide mcmc.list as output
     ## thin != 1 can cause problems in conversion -- not anymore, fixed
     if (program == "brugs") {
-        warnings("program = 'openbugs' is the preferred interface")
         if (missing(seed))
             seed <- NULL
         res <- R2WinBUGS:::openbugs(data=data, 
@@ -70,5 +77,7 @@ program=c("winbugs", "openbugs", "brugs"), seed, ...)
         if (format == "mcmc.list")
             class(res) <- c("mcmc.list.dc", class(res))
     }
+    if (program == "brugs")
+        warning("program = 'openbugs' is the preferred interface")
     res
 }
