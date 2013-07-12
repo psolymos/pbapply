@@ -18,7 +18,7 @@ cat("\n\n## <<<<<<<<<<<<<<    ", date(), "    >>>>>>>>>>>>>>>>>\n\n")
 for (topic in ff[-2]) {
     rm(list = ls()[setdiff(ls(), keep)])
     cat("\n\n## START <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n")
-    exampleDontRun(topic, try_catch=FALSE)
+    exampleDontRun(topic)
     cat("\n## END   <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n\n")
 }
 cat("\n\n## START <<<<<<<<<<<<<<    endmatter    >>>>>>>>>>>>>>>>>\n")
