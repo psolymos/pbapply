@@ -11,8 +11,12 @@
   try() is used to turn these into NA
 * OK -- reduce jags.parfit initialization overhead by seeding inits only
 * add NEWS/NEWS.Rd from 1.3-0 on (maybe only to www?)
-* deprecate as.mcmc.list.bugs if possible
+* deprecate as.mcmc.list.bugs if possible, explore different coercion 
+  options in various packages for consistency
 * error with WinBUGS (registry is wrong in bugs.update.settings)                        !!!
+  fixing this by introducing dclone option that takes precedent
+* add R2OpenBUGS functionality (flavour="openbugs", openbugs.fit)
+* allow parchains options for "openbugs" (but not for BRugs)
 
 ## *** dcmle ***
 ## S4 classes for examples and to estimating procedures
@@ -28,12 +32,13 @@
 
 ## *** dctests ***
 ## Package for testing dontrun examples in dclone and related packages.
-now in devel dir, can run batch mode
+## now in devel dir, can run batch mode -- not going to be a pkg
 * OK -- dclone dontrun examples
 * OK -- dcmle dontrun examples
 * OK -- dcexamples test suite
 * dcextras examples
 * dctutor examples
+* STAN examples and unit tests
 
 ## *** dcextras ***
 ## New package for not fully supprted and developmental stuff.
@@ -43,6 +48,7 @@ now in devel dir, can run batch mode
 * OK -- bugs.parfit: add to repo with enhanced examples
 * OK -- pairs method for mcmc.list --> went to dclone
 * OK -- STAN support (parallel with snow and forking)
+* dcmle coercion for STAN
 
 ## *** dcglm ***
 ## Obsolete, now part of www/tutorials
