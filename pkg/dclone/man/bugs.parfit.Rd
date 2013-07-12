@@ -50,6 +50,9 @@ this is equal to the number of parallel workers in the cluster.
 Vector of random seeds, must have \code{n.chains} unique values.
 See Details.
 }
+  \item{program}{
+The program to use, not case sensitive. See \code{\link{bugs.fit}}.
+}
   \item{...}{
 Other arguments passed to \code{\link[dclone]{bugs.fit}}.
 }
