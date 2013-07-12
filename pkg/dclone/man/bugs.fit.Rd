@@ -126,7 +126,9 @@ param <- c("mu.theta", "sigma.theta")
 if (.Platform$OS.type == "windows") {
 sim <- bugs.fit(dat, param, bugs.model, inits)
 summary(sim)
+}
 dat2 <- dclone(dat, 2, multiply="J")
+if (.Platform$OS.type == "windows") {
 sim2 <- bugs.fit(dat2, param, bugs.model, 
     program="winbugs", n.iter=2000, n.thin=1)
 summary(sim2)
