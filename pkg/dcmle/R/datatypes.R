@@ -48,6 +48,8 @@ setClass("dcFit",
 makeGsFit <- 
 function(data, model, params=NULL, inits=NULL, flavour)
 {
+    if (missing(flavour))
+        flavour <- getOption("dcmle.flavour")
     new("gsFit",
         data = data,
         model = model,
