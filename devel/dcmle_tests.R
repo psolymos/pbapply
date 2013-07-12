@@ -1,29 +1,30 @@
-DIR <- if (.Platform$OS.type == "windows")
-    "c:/svn/dcr/devel" else "/home/peter/svn/dcr/devel"
-setwd(paste(DIR, "/tests", sep=""))
 library(dcmle)
-exampleDontRun <- function(topic) {
-    ex <- gsub("##D ", "", example(topic, "dcmle", 
-        character.only=TRUE, echo=FALSE, give.lines=TRUE))
-    f <- write.jags.model(structure(ex, class="custommodel"),
-        filename=paste(topic, ".bug", sep=""))
-    source(f, echo=TRUE)
-    clean.jags.model(f)
-    invisible(NULL)
+if (.Platform$OS.type == "windows") {
+    source("c:/svn/dcr/devel/common.R")
+} else {
+    source("/home/peter/svn/dcr/devel/common.R")
 }
+
 ff <- if (.Platform$OS.type == "windows") {
     gsub(".Rd", "", list.files("c:/svn/dcr/pkg/dcmle/man"))
 } else {
     gsub(".Rd", "", list.files("/home/peter/svn/dcr/devel/tests/dcmle/man"))
 }
 ff
+
+res <- list()
+keep <- c("keep", ls())
+
 cat("\n\n## <<<<<<<<<<<<<<    ", date(), "    >>>>>>>>>>>>>>>>>\n\n")
 for (topic in ff[-2]) {
+    rm(list = ls()[setdiff(ls(), keep)])
     cat("\n\n## START <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n")
-    exampleDontRun(topic)
+    res[[topic]] <- exampleDontRun(topic, try_catch=FALSE)
     cat("\n## END   <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n\n")
 }
 cat("\n\n## START <<<<<<<<<<<<<<    endmatter    >>>>>>>>>>>>>>>>>\n")
+
+save(res, file="dcmle_tests_res.Rdata")
 x <- readLines(paste(DIR, "/tests/dcmle_tests.log", sep=""))
 err <- c(grep("rror", x), grep("arning", x))
 fal <- grep("d error", x)

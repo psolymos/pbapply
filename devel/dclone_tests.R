@@ -1,41 +1,30 @@
-DIR <- if (.Platform$OS.type == "windows")
-    "c:/svn/dcr/devel" else "/home/peter/svn/dcr/devel"
-setwd(paste(DIR, "/tests", sep=""))
 library(dclone)
-exampleDontRun <- function(topic, try_catch=TRUE) {
-    ex <- gsub("##D ", "", example(topic, "dclone", 
-        character.only=TRUE, echo=FALSE, give.lines=TRUE))
-    f <- write.jags.model(structure(ex, class="custommodel"),
-        filename=paste(topic, ".bug", sep=""))
-    on.exit(clean.jags.model(f))
-    out <- NULL
-    if (try_catch) {
-        ee <- new.env()
-        ff <- try(source(f, echo=TRUE, local=ee))
-        if (inherits(ff, "try-error"))
-           out <- ff
-    } else {
-        source(f, echo=TRUE)
-    }
-    invisible(out)
+if (.Platform$OS.type == "windows") {
+    source("c:/svn/dcr/devel/common.R")
+} else {
+    source("/home/peter/svn/dcr/devel/common.R")
 }
+
 ff <- if (.Platform$OS.type == "windows") {
     gsub(".Rd", "", list.files("c:/svn/dcr/pkg/dclone/man"))
 } else {
     gsub(".Rd", "", list.files("/home/peter/svn/dcr/devel/tests/dclone/man"))
 }
-#if (.Platform$OS.type == "windows")
-#    ff <- ff[!(ff %in% c("dc.fit", "bugs.fit"))] ## problems !!!
 #ff <- "parCodaSamples"#"write.jags.model"
 ff
+
 res <- list()
+keep <- c("keep", ls())
+
 cat("\n\n## <<<<<<<<<<<<<<    ", date(), "    >>>>>>>>>>>>>>>>>\n\n")
 for (topic in ff) {
+    rm(list = ls()[setdiff(ls(), keep)])
     cat("\n\n## START <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n")
     res[[topic]] <- exampleDontRun(topic, try_catch=FALSE)
     cat("\n## END   <<<<<<<<<<<<<<    ", topic, "    >>>>>>>>>>>>>>>>>\n\n")
 }
-#cat("\n\n## START <<<<<<<<<<<<<<    endmatter    >>>>>>>>>>>>>>>>>\n")
+cat("\n\n## START <<<<<<<<<<<<<<    endmatter    >>>>>>>>>>>>>>>>>\n")
+
 save(res, file="dclone_tests_res.Rdata")
 x <- readLines(paste(DIR, "/tests/dclone_tests.log", sep=""))
 err <- c(grep("rror", x), grep("arning", x))
