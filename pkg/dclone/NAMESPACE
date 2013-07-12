@@ -14,7 +14,7 @@ export("dclone", "dcdim", "dciid", "dctr",
 ## rjags remakes
 export("jagsModel", "codaSamples")
 ## parallel functions
-export("jags.parfit", "dc.parfit",
+export("jags.parfit", "dc.parfit", "bugs.parfit",
        "snowWrapper", 
        "parDosa",
        "clusterSize", "plotClusterSize",
