@@ -15,7 +15,7 @@ jags.parfit(cl, data, params, model, inits = NULL, n.chains = 3, ...)
 }
 \arguments{
   \item{cl}{
-A cluster object created by \code{\link[snow]{makeCluster}}, or
+A cluster object created by \code{\link[parallel]{makeCluster}}, or
 an integer, see \code{\link{parDosa}} and 
 \code{\link{evalParallelArgument}}.
 }
@@ -101,7 +101,7 @@ glm.model <- function() {
 dat <- list(Y=Y, X=X, n=n, np=ncol(X))
 load.module("glm")
 m <- jags.fit(dat, "beta", glm.model)
-cl <- makeCluster(3, type = "SOCK")
+cl <- makePSOCKcluster(3)
 ## load glm module
 tmp <- clusterEvalQ(cl, library(dclone))
 parLoadModule(cl, "glm")

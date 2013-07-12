@@ -18,7 +18,7 @@ dc.parfit(cl, data, params, model, inits, n.clones,
 }
 \arguments{
   \item{cl}{
-A cluster object created by \code{\link[snow]{makeCluster}}, or
+A cluster object created by \code{\link[parallel]{makeCluster}}, or
 an integer, see \code{\link{parDosa}} and 
 \code{\link{evalParallelArgument}}.
 }
