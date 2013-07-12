@@ -244,10 +244,10 @@ inits <- function(){
          sigma.theta=runif(1, 0, 100))
 }
 param <- c("mu.theta", "sigma.theta")
-sim2 <- dc.fit(dat, param, bugs.model, n.clones=1:2, 
-    flavour="bugs", program="WinBUGS", multiply="J")
-sim3 <- dc.fit(dat, param, bugs.model, n.clones=1:2, 
-    flavour="bugs", program="OpenBUGS", multiply="J")
+sim2 <- try(dc.fit(dat, param, bugs.model, n.clones=1:2, 
+    flavour="bugs", program="WinBUGS", multiply="J"))
+sim3 <- try(dc.fit(dat, param, bugs.model, n.clones=1:2, 
+    flavour="bugs", program="OpenBUGS", multiply="J"))
 }
 }
 }

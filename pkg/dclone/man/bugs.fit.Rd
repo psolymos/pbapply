@@ -108,11 +108,12 @@ inits <- function(){
          sigma.theta=runif(1, 0, 100))
 }
 param <- c("mu.theta", "sigma.theta")
-sim <- bugs.fit(dat, param, bugs.model, inits)
+sim <- try(bugs.fit(dat, param, bugs.model, inits))
 dat2 <- dclone(dat, 2, multiply="J")
-sim2 <- bugs.fit(dat2, param, bugs.model)
+sim2 <- try(bugs.fit(dat2, param, bugs.model))
 ## fitting the model with OpenBUGS
-sim3 <- bugs.fit(dat2, param, bugs.model, program="openbugs", n.thin=1)
+sim3 <- try(bugs.fit(dat2, param, bugs.model, 
+    program="openbugs", n.thin=1))
 ## fitting the model with JAGS
 sim4 <- jags.fit(dat2, param, bugs.model)
 }
