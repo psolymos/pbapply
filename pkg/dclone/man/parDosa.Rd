@@ -139,6 +139,9 @@ Optimizing the number of workers:
 functions: \code{\link{jags.parfit}}, \code{\link{dc.parfit}},
 \code{\link{parJagsModel}}, \code{\link{parUpdate}}, 
 \code{\link{parCodaSamples}}.
+
+\code{parDosa} manipulates specific environments
+described on the help page \code{\link{DcloneEnv}}.
 }
 \examples{
 \dontrun{

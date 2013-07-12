@@ -12,18 +12,18 @@ function(cl, object, n.iter = 1, ...)
     cldata <- list(n.iter=n.iter, name=object)
     jagsparallel <- function(i, ...) {
         ## cldata is pushed by parDosa
-        cldata <- dclone:::.pullDcloneEnv("cldata", type = "model")
-        if (dclone:::.existsDcloneEnv(cldata$name, type = "results")) {
-            res <- dclone:::.pullDcloneEnv(cldata$name,
+        cldata <- pullDcloneEnv("cldata", type = "model")
+        if (existsDcloneEnv(cldata$name, type = "results")) {
+            res <- pullDcloneEnv(cldata$name,
                 type = "results")
             rjags:::update.jags(res, n.iter=cldata$n.iter, ...)
-            dclone:::.pushDcloneEnv(cldata$name, res, type = "results")
+            pushDcloneEnv(cldata$name, res, type = "results")
         }
         NULL
     }
     dir <- if (inherits(cl, "SOCKcluster"))
         getwd() else NULL
-    dclone:::parDosa(cl, 1:length(cl), jagsparallel, cldata,
+    parDosa(cl, 1:length(cl), jagsparallel, cldata,
         lib = c("dclone", "rjags"), balancing = "none", size = 1, 
         rng.type = getOption("dcoptions")$RNG, 
         cleanup = TRUE, dir = dir, unload = FALSE, ...)

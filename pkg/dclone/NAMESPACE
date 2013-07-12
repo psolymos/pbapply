@@ -16,6 +16,7 @@ export("jagsModel", "codaSamples")
 ## parallel functions
 export("jags.parfit", "dc.parfit",
        "snowWrapper", 
+       "parDosa",
        "clusterSize", "plotClusterSize",
        "clusterSplitSB", 
        "parLapplySB", "parLapplySLB",
@@ -26,6 +27,12 @@ export("jags.parfit", "dc.parfit",
 export("parListModules", "parLoadModule", "parUnloadModule",
       "parListFactories", "parSetFactory", 
       "parJagsModel", "parUpdate", "parCodaSamples")
+## DcloneEnv
+export(pullDcloneEnv,
+    pushDcloneEnv,
+    clearDcloneEnv,
+    listDcloneEnv,
+    existsDcloneEnv)
 ## graphical helper functions
 export("errlines")
 

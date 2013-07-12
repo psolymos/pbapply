@@ -163,7 +163,7 @@ function(cl, data, params, model, inits = NULL,
     cldata <- list(data = data, params = params, model = model, 
         inits = inits, fit = fit, chain_id = chain_id, seed = seed)
     stanparallel <- function(i, ...) {
-        cldata <- dclone:::.pullDcloneEnv("cldata", type = "model")
+        cldata <- pullDcloneEnv("cldata", type = "model")
         ## here one have to do stuff
         ini <- cldata$inits[[i]]
         stan.fit(data = cldata$data, 
@@ -186,7 +186,7 @@ function(cl, data, params, model, inits = NULL,
     else "none"
     dir <- if (inherits(cl, "SOCKcluster")) 
         getwd() else NULL
-    mcmc <- dclone:::parDosa(cl, 1:n.chains, stanparallel, cldata, 
+    mcmc <- parDosa(cl, 1:n.chains, stanparallel, cldata, 
         lib = c("dclone", "rstan"), 
         balancing = balancing, size = 1, 
         rng.type = getOption("dcoptions")$RNG, 

@@ -1,6 +1,7 @@
 \name{svabu}
 \alias{svabu}
 \alias{svabu.fit}
+\alias{svabu_nb.fit}
 \alias{zif}
 \alias{is.present}
 \alias{predictMCMC}
@@ -14,9 +15,13 @@ Binomial-Poisson and Binomial-ZIP models with single visit
 \usage{
 svabu(formula, data, zeroinfl = TRUE, area = 1, N.max = NULL, inits, 
 link.det = "logit", link.zif = "logit", 
-model = TRUE, x = FALSE, ...)
+model = TRUE, x = FALSE, distr=c("P", "NB"), ...)
+
 svabu.fit(Y, X, Z, Q = NULL, zeroinfl = TRUE, area = 1, N.max = NULL, inits, 
 link.det = "logit", link.zif = "logit", ...)
+svabu_nb.fit(Y, X, Z, Q=NULL, zeroinfl=TRUE, area=1, N.max=NULL, inits, 
+link.det = "logit", link.zif = "logit", ...)
+
 zif(x)
 is.present(object, ...)
 predictMCMC(object, ...)
@@ -83,6 +88,10 @@ penalty to be used with AIC
 }
   \item{control}{
 controls for optimization, if missing taken from object
+}
+  \item{distr}{
+character, the count distribution can be Poisson (\code{"P"})
+or Negative Binomial (\code{"NB"}).
 }
   \item{\dots}{
 other arguments passed to the functions
@@ -205,7 +214,7 @@ m08$control ## but original optim method is retained during model selection and 
 options("detect.optim.method"="Nelder-Mead")
 m09 <- svabu(Y ~ x1 + x5 | x2 + x5, databu[1:100,], inits=coef(m08))
 
-## OVenbirds dataset
+## Ovenbirds dataset
 
 data(oven)
 ovenc <- oven

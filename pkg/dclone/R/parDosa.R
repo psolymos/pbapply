@@ -20,8 +20,7 @@ function(cl, seq, fun, cldata,
         TMPNAM <- substr(TMPNAM, 2, nchar(TMPNAM))
         ## use TMPNAM to avoid overwiting object on workers
         dclone:::.pushDcloneEnv(TMPNAM, cldata, type = "model")
-        on.exit(dclone:::.clearDcloneEnv(
-            list=dclone:::.listDcloneEnv(type = "model"), 
+        on.exit(clearDcloneEnv(list=listDcloneEnv(type = "model"), 
             type = "model"))
 
         require(snow)
@@ -53,7 +52,7 @@ function(cl, seq, fun, cldata,
         ## export TMPNAM to workers
         clusterExport(cl, TMPNAM, envir = dclone:::.DcloneEnvModel)
         ## push TMPNAM into .env as TRUENAM
-        eval(parse(text=paste("clusterEvalQ(cl, dclone:::.pushDcloneEnv(\"",
+        eval(parse(text=paste("clusterEvalQ(cl, pushDcloneEnv(\"",
             TRUENAM, "\", ", TMPNAM, ", type = \"model\"))", sep="")))
         ## remove TMPNAM
         eval(parse(text=paste("clusterEvalQ(cl, rm(list=\"",
@@ -67,9 +66,8 @@ function(cl, seq, fun, cldata,
         if (cleanup) {
             ## remove all objects from .env
             clusterEvalQ(cl, 
-                dclone:::.clearDcloneEnv(
-                    list=dclone:::.listDcloneEnv(type = "model"), 
-                    type = "model"))
+                clearDcloneEnv(list=listDcloneEnv(type = "model"), 
+                type = "model"))
             ## set old dir
             if (!is.null(dir)) {
                 dirold <- lapply(dirold, function(z) paste("setwd(\"", z, "\")", sep=""))
@@ -86,7 +84,7 @@ function(cl, seq, fun, cldata,
     } else {
 ## multicore
         ## TMPNAM is TRUENAM
-        dclone:::.pushDcloneEnv(TMPNAM, cldata, type = "model")
+        pushDcloneEnv(TMPNAM, cldata, type = "model")
 
         require(parallel)
         if (balancing == "load") {

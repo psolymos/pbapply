@@ -9,11 +9,11 @@ Version 1.9-0, July 10, 2013
       (.DcloneEnvModel, .DcloneEnvResults) defined as global variables.
       The .DcloneEnvModel is meant to store temporary objects
       for model fitting, and swiped clean after use.
-      The .DcloneEnvResults is meant to store objects on the workers.
-      It also comes with some internal functions for manipulating these 
-      environments (not yet documented): .pullDcloneEnv,
-      .pushDcloneEnv, .clearDcloneEnv, .listDcloneEnv,
-      .existsDcloneEnv.
+      The .DcloneEnvResults is meant to store result objects on the 
+      workers.
+    * These environments come with functions for manipulating them: 
+      pullDcloneEnv, pushDcloneEnv, clearDcloneEnv, listDcloneEnv,
+      existsDcloneEnv.
     * snowWraper is now deprecated with a warning.
 
 Version 1.8-2, March 4, 2013

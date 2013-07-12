@@ -4,21 +4,24 @@
 if(getRversion() >= "2.15.1")
     utils::globalVariables(c(".DcloneEnvModel", ".DcloneEnvResults"))
 
-.pullDcloneEnv <- function (x, type = c("model", "results"))
+pullDcloneEnv <- 
+function (x, type = c("model", "results"))
 {
     switch(match.arg(type),
         "model" = get(x, envir = .DcloneEnvModel),
         "results" = get(x, envir = .DcloneEnvResults))
 }
 
-.pushDcloneEnv <- function (x, value, type = c("model", "results"))
+pushDcloneEnv <- 
+function (x, value, type = c("model", "results"))
 {
     switch(match.arg(type),
         "model" = assign(x, value, envir = .DcloneEnvModel),
         "results" = assign(x, value, envir = .DcloneEnvResults))
 }
 
-.clearDcloneEnv <- function(..., list = character(), 
+clearDcloneEnv <- 
+function(..., list = character(), 
     type = c("model", "results"))
 {
     switch(match.arg(type),
@@ -26,19 +29,22 @@ if(getRversion() >= "2.15.1")
         "results" = rm(..., list = list, envir = .DcloneEnvResults))
 }
 
-.listDcloneEnv <- function (type = c("model", "results"))
+listDcloneEnv <- 
+function (type = c("model", "results"))
 {
     switch(match.arg(type),
         "model" = ls(envir = .DcloneEnvModel),
         "results" = ls(envir = .DcloneEnvResults))
-    
 }
 
-.existsDcloneEnv <- function (x, type = c("model", "results"))
+existsDcloneEnv <- 
+function (x, type = c("model", "results"),
+    mode = "any", inherits = TRUE)
 {
     switch(match.arg(type),
-        "model" = exists(x, envir = .DcloneEnvModel),
-        "results" = exists(x, envir = .DcloneEnvResults))
-    
+        "model" = exists(x, envir = .DcloneEnvModel, 
+            mode = mode, inherits = inherits),
+        "results" = exists(x, envir = .DcloneEnvResults,
+            mode = mode, inherits = inherits))
 }
 

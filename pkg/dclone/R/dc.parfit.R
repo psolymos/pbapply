@@ -110,7 +110,7 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
         if (partype == "balancing") {
             ## parallel function
             dcparallel <- function(i, ...) {
-                cldata <- dclone:::.pullDcloneEnv("cldata", type = "model")
+                cldata <- pullDcloneEnv("cldata", type = "model")
                 jdat <- dclone(cldata$data, i, multiply=cldata$multiply, 
                     unchanged=cldata$unchanged)
                 INITS <- if (!is.null(cldata$initsfun) && !cldata$INIARGS)
@@ -131,7 +131,7 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
             }
             LIB <- if (flavour == "jags")
                 c("dclone", "rjags") else "dclone"
-            pmod <- dclone:::parDosa(cl, k, dcparallel, cldata, 
+            pmod <- parDosa(cl, k, dcparallel, cldata, 
                 lib=LIB, balancing=balancing, size=k, 
                 rng.type=getOption("dcoptions")$RNG, 
                 cleanup=TRUE, dir=dir, unload=FALSE, ...)
@@ -166,12 +166,12 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
             cldata$k <- rep(k, each=n.chains)
             ## parallel function to evaluate by snowWrapper
             dcparallel <- function(i, ...) {
-                cldata <- dclone:::.pullDcloneEnv("cldata", type = "model")
+                cldata <- pullDcloneEnv("cldata", type = "model")
                 jdat <- dclone(cldata$data, cldata$k[i], multiply=cldata$multiply, unchanged=cldata$unchanged)
                 jags.fit(data=jdat, params=cldata$params, model=cldata$model, 
                     inits=cldata$inits[[i]], n.chains=1, updated.model=FALSE, ...)
             }
-            pmod <- dclone:::parDosa(cl, 1:(times*n.chains), dcparallel, cldata, 
+            pmod <- parDosa(cl, 1:(times*n.chains), dcparallel, cldata, 
                 lib=c("dclone", "rjags"), balancing=balancing, size=cldata$k, 
                 rng.type=getOption("dcoptions")$RNG, 
                 cleanup=TRUE, dir=dir, unload=FALSE, ...)
