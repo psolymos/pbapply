@@ -143,15 +143,5 @@ functions: \code{\link{jags.parfit}}, \code{\link{dc.parfit}},
 \code{parDosa} manipulates specific environments
 described on the help page \code{\link{DcloneEnv}}.
 }
-\examples{
-\dontrun{
-cl <- makePSOCKcluster(2)
-## wrapper
-fun <- function(i) cldata$a * i - cldata$b
-cldata <- list(a=10, b=5)
-parDosa(cl, 1:5, fun, cldata)
-stopCluster(cl)
-}
-}
 \keyword{ utilities }
 \keyword{ connection }

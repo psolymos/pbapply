@@ -1,32 +1,8 @@
-@echo off
-echo.
-echo dcmle tests
-echo.
-cd \svn\dcr\devel\tests
-echo.
-echo build source package
-echo.
-R CMD build "c:/svn/dcr/pkg/dcmle"
-echo.
-::echo build binary package
-::echo.
-::R CMD build "c:/svn/dcr/pkg/dcmle" --binary
-echo.
-echo install source package
-echo.
-R CMD INSTALL dcmle_0.1-2.tar.gz
-echo.
-echo check package
-echo.
-R CMD check "c:/svn/dcr/pkg/dcmle" --outdir="c:/svn/dcr/devel/tests/"
-echo.
-echo run dontrun examples in dcmle
-echo.
+::mkdir c:\svn\dcr\devel\tests\
+svn export c:\svn\dcr\pkg\dcmle c:\svn\dcr\devel\tests\dcmle
+cd c:\svn\dcr\devel\tests\
+R CMD build dcmle --compact-vignettes
+::R CMD check dcmle_*.tar.gz --as-cran
+R CMD INSTALL dcmle_*.tar.gz
 R CMD BATCH --vanilla "c:/svn/dcr/devel/dcmle_tests.R" "c:/svn/dcr/devel/tests/dcmle_tests.log"
-echo.
-echo run dcexamples
-echo.
-R CMD BATCH --vanilla "c:/svn/dcr/devel/dcexamples_tests.R" "c:/svn/dcr/devel/tests/dcexamples_tests.log"
-echo.
-echo done
-::exit
+::R CMD BATCH --vanilla "c:/svn/dcr/devel/dcexamples_tests.R" "c:/svn/dcr/devel/tests/dcexamples_tests.log"
