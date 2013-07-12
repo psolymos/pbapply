@@ -7,7 +7,7 @@ library(dcmle)
 load.module("glm")
 load.module("dic")
 jags_example <- function(topic, renv, tenv, ...) {
-    x <- sourceDcExample(topic, assign.global=FALSE)
+    x <- sourceDcExample(topic, envir=NULL)
     t0 <- proc.time()
     out <- try(dcmle:::dcmle(x, ...))
     pt <- proc.time() - t0
@@ -30,7 +30,7 @@ cl <- 3
 dcop <- dcoptions(verbose=0)
 cat("\n\n## <<<<<<<<<<<<<<    ", date(), "    >>>>>>>>>>>>>>>>>\n\n")
 cat("\n\n## START <<<<<<<<<<<<<<    paramecium    >>>>>>>>>>>>>>>>>\n")
-sourceDcExample("paramecium", assign.global=TRUE)
+sourceDcExample("paramecium")
 str(paramecium)
 paramecium@model
 out1 <- dcmle:::dcmle(paramecium, n.clones=1, 
