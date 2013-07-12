@@ -19,7 +19,7 @@ function(cl, seq, fun, cldata,
         TMPNAM <- tempfile("cldata", "")
         TMPNAM <- substr(TMPNAM, 2, nchar(TMPNAM))
         ## use TMPNAM to avoid overwiting object on workers
-        dclone:::.pushDcloneEnv(TMPNAM, cldata, type = "model")
+        pushDcloneEnv(TMPNAM, cldata, type = "model")
         on.exit(clearDcloneEnv(list=listDcloneEnv(type = "model"), 
             type = "model"))
 
