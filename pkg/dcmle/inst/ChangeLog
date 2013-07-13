@@ -6,6 +6,11 @@ Version 0.2-4, June 19, 2013
       longer used. The envir argument can be set instead.
       No assignement is made when envir=NULL.
     * gelman.plot generic documentation added.
+    * dcmle: reflects changes in dclone due to addition of
+      bugs.parfit and all partypes in dc.parfit.
+    * flavour slot can be 'jags', 'bugs', or any of
+      'winbugs', 'openbugs', 'brugs' referring to the
+      program argument in bugs.*fit.
 
 Version 0.2-3, March 1, 2013
     * gsFit: gained flavour argument.
