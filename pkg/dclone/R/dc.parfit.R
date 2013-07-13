@@ -16,10 +16,13 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
     ## parallel evaluation starts here
     flavour <- match.arg(flavour)
     ## stop if rjags not found
-    if (flavour=="jags" && !suppressWarnings(require(rjags)))
-        stop("there is no package called 'rjags'")
-    if (!is.null(list(...)$updated.model))
+#    if (flavour=="jags" && !suppressWarnings(require(rjags)))
+#        stop("there is no package called 'rjags'")
+    if (flavour=="jags" && !is.null(list(...)$updated.model))
         stop("'updated.model' argument is not available for parallel computations")
+    if (flavour=="bugs" && !is.null(list(...)$format))
+        if (list(...)$format == "bugs")
+            stop("format='bugs' is not available for parallel computations")
     ## get parallel type
     partype <- match.arg(partype)
     ## some arguments are ignored with size balancing
@@ -29,8 +32,13 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
         if (!is.null(update))
             warnings("'update' argument is ignored when partype != 'parchains'")
     }
-    if (partype != "balancing" && flavour == "bugs")
-        stop("flavour='bugs' supported for 'balancing' type only")
+
+#    if (partype != "balancing" && flavour == "bugs")
+#        stop("flavour='bugs' supported for 'balancing' type only")
+
+    ## this is bugs.fit/parfit argument
+    PROGRAM <- list(...)$program
+
     if (length(n.clones) < 2 && partype=="balancing") {
         warnings("no need for parallel computing with 'balancing'")
     }
@@ -129,8 +137,19 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
                         dcd=dclone:::extractdcdiag(mod[,params.diag])))
 #                        dcd=dclone:::extractdcdiag(mod)))
             }
-            LIB <- if (flavour == "jags")
-                c("dclone", "rjags") else "dclone"
+            if (flavour == "jags") {
+                LIB <- c("dclone", "rjags") 
+            } else {
+                LIB <- "dclone"
+                if (is.null(PROGRAM))
+                    PROGRAM <- "winbugs"
+                if (PROGRAM == "winbugs")
+                    LIB <- c(LIB, "R2WinBUGS")
+                if (PROGRAM == "brugs")
+                    LIB <- c(LIB, "R2WinBUGS", "BRugs")
+                if (PROGRAM == "openbugs")
+                    LIB <- c(LIB, "R2OpenBUGS")
+            }
             pmod <- parDosa(cl, k, dcparallel, cldata, 
                 lib=LIB, balancing=balancing, size=k, 
                 rng.type=getOption("dcoptions")$RNG, 
@@ -167,9 +186,17 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
             ## parallel function to evaluate by snowWrapper
             dcparallel <- function(i, ...) {
                 cldata <- pullDcloneEnv("cldata", type = "model")
-                jdat <- dclone(cldata$data, cldata$k[i], multiply=cldata$multiply, unchanged=cldata$unchanged)
-                jags.fit(data=jdat, params=cldata$params, model=cldata$model, 
-                    inits=cldata$inits[[i]], n.chains=1, updated.model=FALSE, ...)
+                jdat <- dclone(cldata$data, cldata$k[i], 
+                    multiply=cldata$multiply, unchanged=cldata$unchanged)
+                mod <- if (flavour == "jags") {
+                    jags.fit(data=jdat, params=cldata$params, 
+                        model=cldata$model, inits=cldata$inits[[i]], 
+                        n.chains=1, updated.model=FALSE, ...)
+                } else {
+                    bugs.fit(data=jdat, params=cldata$params, 
+                        model=cldata$model, inits=cldata$inits[[i]], 
+                        n.chains=1, format="mcmc.list", ...)
+                }
             }
             pmod <- parDosa(cl, 1:(times*n.chains), dcparallel, cldata, 
                 lib=c("dclone", "rjags"), balancing=balancing, size=cldata$k, 

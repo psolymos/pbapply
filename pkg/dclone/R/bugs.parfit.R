@@ -90,7 +90,7 @@ program=c("winbugs", "openbugs", "brugs"), ...) ## only mcmc.list format is supp
         "load" else "none"
     dir <- if (inherits(cl, "SOCKcluster"))
         getwd() else NULL
-    LIB <- c("dclone")
+    LIB <- "dclone"
     if (program == "winbugs")
         LIB <- c(LIB, "R2WinBUGS")
     if (program == "brugs")

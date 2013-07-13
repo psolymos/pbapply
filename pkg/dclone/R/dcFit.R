@@ -4,13 +4,6 @@ update = NULL, updatefun = NULL, initsfun = NULL, flavour = c("jags", "bugs"),
 n.chains=3, cl = NULL, parchains = FALSE, ...)
 {
     flavour <- match.arg(flavour)
-    ## stop if rjags not found
-    if (flavour=="jags" && !suppressWarnings(require(rjags)))
-        stop("there is no package called 'rjags'")
-    if (parchains && flavour=="bugs")
-        stop("flavour='bugs' not supported with parallel chains")
-#    if (parchains && is.null(cl))
-#        stop("cl cannot be NULL with parchains=TRUE")
     ## initail evals
     if (missing(n.clones))
         stop("'n.clones' argument must be provided")
@@ -77,8 +70,13 @@ n.chains=3, cl = NULL, parchains = FALSE, ...)
                 mod <- jags.fit(jdat, params, model, inits, n.chains, ...)
             }
         } else {
-            mod <- bugs.fit(jdat, params, model, inits, 
-                n.chains=n.chains, format="mcmc.list", ...)
+            if (parchains) {
+                mod <- bugs.parfit(cl, jdat, params, model, inits, 
+                    n.chains=n.chains, format="mcmc.list", ...)
+            } else {
+                mod <- bugs.fit(jdat, params, model, inits, 
+                    n.chains=n.chains, format="mcmc.list", ...)
+            }
         }
         ## dctable evaluation
         if (i == 1) {
