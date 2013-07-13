@@ -8,10 +8,9 @@ Maintainer: Peter Solymos <solymos@ualberta.ca>
 Description: Low level functions for implementing
     maximum likelihood estimating procedures for 
     complex models using data cloning and Bayesian
-    Markov chain Monte Carlo methods with support 
+    Markov chain Monte Carlo methods. 
+    Sequential and parallel MCMC support 
     for JAGS, WinBUGS and OpenBUGS.
-    Parallel MCMC computation is supported 
-    and can result in considerable speed-up.
 License: GPL-2
 Depends: R (>= 2.14.0), coda (>= 0.13), parallel
 Suggests: MASS, lattice, rjags (>= 3-5), R2WinBUGS, 
