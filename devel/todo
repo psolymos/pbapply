@@ -10,13 +10,19 @@
   easiest way is to shut it down by an option (arg is not nice)
   try() is used to turn these into NA
 * OK -- reduce jags.parfit initialization overhead by seeding inits only
-* add NEWS/NEWS.Rd from 1.3-0 on (maybe only to www?)
-* deprecate as.mcmc.list.bugs if possible, explore different coercion 
+* no -- deprecate as.mcmc.list.bugs if possible, explore different coercion 
   options in various packages for consistency
-* error with WinBUGS (registry is wrong in bugs.update.settings)                        !!!
+  >>> safest is to keep dclone's version, it is consistent with
+  R2OpenBUGS and R2WinBUGS, plus it handles BRugs issues
+  without an error, and produces a warning that BRug is not preferred.
+* OK -- error with WinBUGS (registry is wrong in bugs.update.settings)
   fixing this by introducing dclone option that takes precedent
-* add R2OpenBUGS functionality (flavour="openbugs", openbugs.fit)
-* allow parchains options for "openbugs" (but not for BRugs)
+  >>> there is an option for R2WinBUGS for this
+  which is now used in testing without error.
+* OK -- add R2OpenBUGS functionality (flavour="openbugs")
+  old openbugs support with BRugs via program="brugs"
+* OK -- allow parchains options for "openbugs"
+* add NEWS/NEWS.Rd from 1.3-0 on (maybe only to www?)
 
 ## *** dcmle ***
 ## S4 classes for examples and to estimating procedures
@@ -39,9 +45,11 @@
 * dcextras examples
 * dctutor examples
 * STAN examples and unit tests
+* test parchains options with flavour="bugs"
+* possibly set up a BUGS examples suite for openbugs
 
 ## *** dcextras ***
-## New package for not fully supprted and developmental stuff.
+## New package for not fully supported and developmental stuff.
 ## this won`t become a package, but rather a sourcable directory,
 ## an example is QPAD results for detect.
 ## Need to figure out dcmle compatibility w.r.t. STAN etc.
