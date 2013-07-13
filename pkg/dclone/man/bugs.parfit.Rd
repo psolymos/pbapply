@@ -106,15 +106,12 @@ bugs.model <- function(){
        tau.theta <- pow(sigma.theta, -2)
        sigma.theta ~ dunif (0, 1000)
      }  
-inits <- function(){
-    list(theta=rnorm(nrow(schools), 0, 100), mu.theta=rnorm(1, 0, 100),
-         sigma.theta=runif(1, 0, 100))
-}
 param <- c("mu.theta", "sigma.theta")
-SEED <- floor(runif(3, 10000, 99999))
+SEED <- floor(runif(3, 100000, 999999))
+cl <- makePSOCKcluster(3)
 if (.Platform$OS.type == "windows") {
-sim <- bugs.parfit(cl, dat, param, bugs.model, inits, seed=SEED)
-summary(sim)
+sim <- bugs.parfit(cl, dat, param, bugs.model, seed=SEED)
+summary(sim)    
 }
 dat2 <- dclone(dat, 2, multiply="J")
 if (.Platform$OS.type == "windows") {
@@ -133,6 +130,13 @@ library(R2OpenBUGS)
 sim4 <- bugs.parfit(cl, dat2, param, bugs.model, 
     program="openbugs", n.iter=2000, n.thin=1, seed=1:3)
 summary(sim4)
+stopCluster(cl)
+## multicore type forking
+if (.Platform$OS.type != "windows") {
+sim7 <- bugs.parfit(3, dat2, param, bugs.model, 
+    program="openbugs", n.iter=2000, n.thin=1, seed=1:3)
+summary(sim7)
+}
 }
 }
 \keyword{ models }
