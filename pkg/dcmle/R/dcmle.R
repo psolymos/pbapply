@@ -53,7 +53,7 @@ dcmle <- function(x, params, n.clones=1, cl=NULL, nobs, ...) {
         ## clone the data
         dat <- dclone(x@data, n.clones, x@multiply, x@unchanged)
         ## fit the model according to input flavour and cl argument
-        if (FALVOUR == "jags") {
+        if (FLAVOUR == "jags") {
             out <- if (is.null(cl)) {
                 jags.fit(dat, params, model, inits, ...)
             } else {
@@ -80,7 +80,7 @@ dcmle <- function(x, params, n.clones=1, cl=NULL, nobs, ...) {
                     update = x@update,
                     updatefun = x@updatefun,
                     initsfun = x@initsfun,
-                    flavour = FALVOUR, ...)
+                    flavour = FLAVOUR, ...)
             ## parallel execution
             } else {
                 out <- dc.parfit(cl, x@data, params, model, x@inits, 
@@ -90,7 +90,7 @@ dcmle <- function(x, params, n.clones=1, cl=NULL, nobs, ...) {
                     update = x@update,
                     updatefun = x@updatefun,
                     initsfun = x@initsfun,
-                    flavour = FALVOUR, ...)
+                    flavour = FLAVOUR, ...)
             }
         } else {
             ## sequential execution
@@ -102,7 +102,7 @@ dcmle <- function(x, params, n.clones=1, cl=NULL, nobs, ...) {
                     update = x@update,
                     updatefun = x@updatefun,
                     initsfun = x@initsfun,
-                    flavour = FALVOUR, 
+                    flavour = FLAVOUR, 
                     program = PROGRAM, ...)
             ## parallel execution
             } else {
@@ -113,7 +113,7 @@ dcmle <- function(x, params, n.clones=1, cl=NULL, nobs, ...) {
                     update = x@update,
                     updatefun = x@updatefun,
                     initsfun = x@initsfun,
-                    flavour = FALVOUR, 
+                    flavour = FLAVOUR, 
                     program = PROGRAM, ...)
             }
         }
