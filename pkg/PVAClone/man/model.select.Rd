@@ -79,11 +79,11 @@ a human readable interpretation of the numbers.
 
 Ponciano, J. M. et al. 2009. Hierarchical models in ecology: 
 confidence intervals, hypothesis testing, 
-and model selection using data cloning. Ecology 90, 356-362. 
+and model selection using data cloning. Ecology 90, 356--362. 
 
-Nadeem, K., Lele S. R., 2012.  Likelihood based population 
-viability analysis in the presence of 
-observation error. Oikos. doi: 10.1111/j.1600-0706.2011.20010.x
+Nadeem, K., Lele S. R., 2012.  
+Likelihood based population viability analysis in the presence of 
+observation error. Oikos 121, 1656--1664.
 
 }
 \author{

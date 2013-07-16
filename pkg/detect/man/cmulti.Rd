@@ -28,8 +28,8 @@ RHS is either \code{1} or some covariates, see Examples.
 data.
 }
   \item{type}{
-character, one of \code{"rem"} (removal sampling, homogenerous 
-singing rates), \code{"mix"} (removal sampling, heterogenerous 
+character, one of \code{"rem"} (removal sampling, homogeneous 
+singing rates), \code{"mix"} (removal sampling, heterogeneous 
 singing rates), \code{"dis"} (distance sampling, half-normal detection 
 function for point counts, circular area)
 }
@@ -39,7 +39,7 @@ this contains the cell counts.
 that \code{Y} is a matrix (observations x intervals), 
 dimensions and pattern in \code{NA}s must match that of \code{D}.
 \code{cmulti2.fit} requires that \code{Y} is a 3-dimensional array
-(observations x time intervals x distane intervals), 
+(observations x time intervals x distance intervals), 
 dimensions and pattern in \code{NA}s must match that of 
 \code{D1} and \code{D2}.
 }

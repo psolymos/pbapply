@@ -46,7 +46,7 @@ data.
 number of bootstrap iterations to make.
 }
   \item{link}{
-character, lype of link function to be used.
+character, type of link function to be used.
 }
   \item{inits}{
 initial values, optional.
@@ -105,7 +105,8 @@ containing the following components:
   \item{link}{character, value of the link function used.}
   \item{control}{control parameters for \code{\link{optim}}.}
   \item{inits}{initial values used in optimization.}
-  \item{m}{component for future developmen, currently it takes value 0.}
+  \item{m}{value of the \code{m} argument with possibly matched
+    use-available design.}
   \item{np}{number of active parameters.}
   \item{fitted.values}{vector of fitted values. These are relative
     selection values for RSF models, and probability of selection for 

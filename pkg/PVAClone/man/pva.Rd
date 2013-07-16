@@ -4,7 +4,7 @@
 Population Viability Analysis
 }
 \description{
-Populatio Viability Analysis (PVA).
+Population Viability Analysis (PVA).
 }
 \usage{
 pva(x, model, n.clones, ...)
@@ -35,8 +35,8 @@ given growth model to a population time series
 data (Nadeem and Lele, 2012). The function employs 
 Lele et. al's (2007, 2010) data cloning (DC) algorithm for computing 
 the maximum likelihood estimates of model parameters along with the 
-corresponding standrad errors. See Solymos (2010) for 
-an R implementaion of the DC algorithm. The growth models currently 
+corresponding standard errors. See Solymos (2010) for 
+an R implementation of the DC algorithm. The growth models currently 
 available in the package PVAClone are listed on 
 the \link{growthmodels} page.
 
@@ -69,20 +69,20 @@ An object of class 'pva', see \code{\link{pva-class}}.
 Lele, S.R., B. Dennis and F. Lutscher, 2007. 
 Data cloning: easy maximum likelihood estimation for
 complex ecological models using Bayesian Markov 
-chain Monte Carlo methods. Ecology Letters 10, 551-563.
+chain Monte Carlo methods. Ecology Letters 10, 551--563.
 
 Lele, S. R., K. Nadeem and B. Schmuland, 2010. 
 Estimability and likelihood inference for generalized
 linear mixed models using data cloning. 
 Journal of the American Statistical Association 105,
-1617-1625.
+1617--1625.
 
 Nadeem, K., Lele S. R., 2012.  
 Likelihood based population viability analysis in the presence of 
-observation error. Oikos. doi: 10.1111/j.1600-0706.2011.20010.x
+observation error. Oikos 121, 1656--1664.
 
 Solymos, P., 2010. dclone: Data Cloning in R. 
-The R Journal 2(2), 29-37. URL: 
+The R Journal 2(2), 29--37. URL: 
 \url{http://journal.r-project.org/archive/2010-2/RJournal_2010-2_Solymos.pdf}
 
 }

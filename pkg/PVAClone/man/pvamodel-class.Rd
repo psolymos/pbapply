@@ -34,11 +34,11 @@ Objects can be created by calls of the form \code{new("pvamodel", ...)}.
     \item{\code{fancy}:}{Object of class \code{"character"},
       fancy model description.}
     \item{\code{transf}:}{Object of class \code{"function"},
-      function to transform from true parameter scale to diagnodstic 
+      function to transform from true parameter scale to diagnostic 
       scale (takes care of fixed value which are not part of the 
       MCMC output.}
     \item{\code{backtransf}:}{Object of class \code{"function"},
-      function to transform from diagnodstic scale to true parameter
+      function to transform from diagnostic scale to true parameter
       scale (takes care of fixed value which are not part of the 
       MCMC output.}
     \item{\code{logdensity}:}{Object of class \code{"function"},

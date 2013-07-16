@@ -12,8 +12,8 @@ Objects can be created by calls of the form \code{new("pva", ...)}.
 \section{Slots}{
   \describe{
     \item{\code{observations}:}{Object of class \code{"numeric"},
-        vector of observations (must be nonnegative but not necessarily
-        integer), pssibly with missing values (\code{NA}). }
+        vector of observations (must be non-negative but not necessarily
+        integer), possibly with missing values (\code{NA}). }
     \item{\code{model}:}{Object of class \code{"pvamodel"},
         internal representation of the growth model and observation error
         structure.}
@@ -30,7 +30,7 @@ Objects can be created by calls of the form \code{new("pva", ...)}.
     \item{\code{fullcoef}:}{Object of class \code{"numeric"},
         vector possibly containing fixed parameter values.}
     \item{\code{vcov}:}{Object of class \code{"matrix"},
-        variance covariance marix of the estimates.}
+        variance covariance matrix of the estimates.}
     \item{\code{details}:}{Object of class \code{"dcCodaMCMC"},
         MCMC output from data cloning.}
     \item{\code{nobs}:}{Object of class \code{"integer"},

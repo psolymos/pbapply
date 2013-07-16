@@ -27,7 +27,7 @@ Can be \code{"none"}, \code{"poisson"}, or \code{"normal"}.
   \item{fixed}{
 Named numeric vector or list with fixed parameter names and values.
 Can be used for providing alternative prior specifications,
-se Details and Examples.
+see Details and Examples.
 }
 }
 \details{
@@ -80,7 +80,7 @@ Observation error models are described in the help page of
 \code{\link{pva}}.
 
 The argument \code{fixed} can be used to fit the model assuming 
-a priori values of a subset of the parameters. For instance,
+\emph{a priori} values of a subset of the parameters. For instance,
 fixing theta equal to one reduces Theta-Logistic and 
 Gnerelized Beverton-Holt models to Logistic and Beverton-Holt 
 models respectively. The number of parameters that should be 
@@ -89,8 +89,8 @@ the full model. See examples below and in \code{\link{pva}}
 and \code{\link{model.select}}.
 
 The \code{fixed} argument can be used to provide alternative
-prior specifcation using the BUGS language.
-In this case, valus in \code{fixed} must be numeric.
+prior specification using the BUGS language.
+In this case, values in \code{fixed} must be numeric.
 Use a list when real fixed values (numeric) and priors (character)
 are provided at the same time (see Examples). 
 Alternative priors can be useful
@@ -103,7 +103,7 @@ An S4 class of 'pvamodel' (see \code{\link{pvamodel-class}})
 \references{
 Nadeem, K., Lele S. R., 2012.  
 Likelihood based population viability analysis in the presence of 
-observation error. Oikos. doi: 10.1111/j.1600-0706.2011.20010.x
+observation error. Oikos 121, 1656--1664.
 }
 \author{
 Khurram Nadeem and Peter Solymos

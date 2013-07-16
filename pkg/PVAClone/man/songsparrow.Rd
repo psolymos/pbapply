@@ -24,7 +24,7 @@ counts data.
 \references{
 Nadeem, K., Lele S. R., 2012.  
 Likelihood based population viability analysis in the presence of 
-observation error. Oikos. doi: 10.1111/j.1600-0706.2011.20010.x
+observation error. Oikos 121, 1656--1664.
 
 Saether, B. et al. 2000. 
 Estimating the time to extinction in an island population 

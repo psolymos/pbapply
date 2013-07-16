@@ -32,10 +32,10 @@ it is not selected, else, all the observations following the
 last \code{NA} are selected;
 (3) if there is only one observation present between two 
 consecutive \code{NA}s, it is not selected, else, all the 
-observations falling between two consecutive NAs are selected.
+observations falling between two consecutive \code{NA}s are selected.
 \code{ts_index} calculates positional indices of elements of a vector
 that immediately follow a missing (\code{NA}) value if 
-\code{type = "expectation"}. The reson for this
+\code{type = "expectation"}. The reason for this
 is that these elements depend on missing data given a first order
 Markov process. As a result, these need different treatment in 
 calculating log densities for model selection.

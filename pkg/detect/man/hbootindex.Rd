@@ -32,7 +32,7 @@ Values of \code{groups} within levels (unique values) of \code{strata}
 are resampled independently of other \code{strata} levels.
 }
 \value{
-A list with gootstrapped indices, list length is \code{B} + 1.
+A list with bootstrapped indices, list length is \code{B} + 1.
 The first element has \code{1:length(groups)} samples without 
 replacement (random subsets can be selected without further
 reshuffling). Other elements contain indices according to rules
