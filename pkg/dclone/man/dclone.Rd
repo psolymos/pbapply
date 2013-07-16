@@ -58,7 +58,7 @@ an array if that have only one level.
 The subscript permutation value, if the cloning dimension is not the last.
 }
   \item{iid}{
-Character (or optionaly numeric or logical).
+Character (or optionally numeric or logical).
 Column(s) to be treated as i.i.d. observations. 
 Ignored when \code{x} is a vector.
 }
@@ -84,7 +84,7 @@ the data column-wise.
 
 (4) Add dimension: under specific circumstances, it is easier to 
 add another dimension for clones,
-but othervise repeat the observations (e.g. in case of time series, 
+but otherwise repeat the observations (e.g. in case of time series, 
 or for addressing special
 indexing conventions in the \code{BUGS} code, see examples 
 \code{dcdim} and \code{dclone.dcdim}).

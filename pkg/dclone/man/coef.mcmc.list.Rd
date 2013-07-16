@@ -39,7 +39,7 @@ Further arguments passed to functions.
   \item{invfisher}{
 Logical, if the inverse of the Fisher information matrix 
 (\code{TRUE}) should be returned
-instead of the variance-covariance matris of the joint 
+instead of the variance-covariance matrix of the joint 
 posterior distribution (\code{FALSE}).
 }
 }

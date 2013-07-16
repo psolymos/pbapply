@@ -18,7 +18,7 @@ evaluate convergence
 \description{
 The function is used to retrieve descriptive statistics 
 from fitted objects on order to evaluate
-convergence of the data cloning algorithm. This is bestdone 
+convergence of the data cloning algorithm. This is best done 
 via visual display of the results,
 separately for each parameters of interest.
 }
@@ -77,7 +77,7 @@ representation of the descriptive statistics.
 \code{type = "all"} results in plotting means, 
 standard deviations and quantiles
 against the number of clones as boxplot. \code{type = "var"} 
-reults in plotting the scaled variances
+results in plotting the scaled variances
 against the number of clones. In this case variances are 
 divided by the variance of the
 model with smallest number of clones, \code{min(n.clones)}. 
@@ -85,7 +85,7 @@ model with smallest number of clones, \code{min(n.clones)}.
 but on the log scale. Along with the values, the 
 \code{min(n.clones) / n.clones} line is plotted for reference.
 
-Lele et al. (2010) itroduced diagnostic measures
+Lele et al. (2010) introduced diagnostic measures
 for checking the convergence of the data cloning algorithm
 which are based on the joint posterior distribution
 and not only on single parameters. These
@@ -102,7 +102,7 @@ if the Normal approximation is adequate. All
 three statistics should converge to zero as the number of clones 
 increases. If this happens, different prior specifications are no
 longer influencing the results (Lele et al., 2007, 2010).
-These are conveniently colledted by the \code{dcdiag} function.
+These are conveniently collected by the \code{dcdiag} function.
 
 \bold{IMPORTANT!}
 Have you checked if different prior specifications 

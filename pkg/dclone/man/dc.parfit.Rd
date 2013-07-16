@@ -48,7 +48,7 @@ function, or the objects should be exported with
 \code{\link{clusterExport}} before calling \code{dc.parfit}.
 }
   \item{n.clones}{
-An integer vector containing the numbers of clones to use itaratively.
+An integer vector containing the numbers of clones to use iteratively.
 }
   \item{multiply}{
 Numeric or character index for list element(s) in the \code{data} 
@@ -61,7 +61,7 @@ argument to be left unchanged.
   \item{update}{
 Numeric or character index for list element(s) in the \code{data} 
 argument that has to be updated by \code{updatefun} in each iterations. 
-This usually is for making priors more informative, and anhancing 
+This usually is for making priors more informative, and enhancing 
 convergence.
 This argument is ignored if size balancing is used (default), and not
 ignored when multiple parallel chains are used.
@@ -130,7 +130,7 @@ the workers, the option \code{"dclone.LB"} should be set to \code{TRUE}
  By default, the \code{"dclone.LB"}
 option is \code{FALSE} for reproducibility reasons.
 
-Some arguments from \code{\link{dc.fit}} are not availabe in parallel 
+Some arguments from \code{\link{dc.fit}} are not available in parallel 
 version (\code{update}, \code{updatefun}, \code{initsfun}) 
 when size balancing is used 
 (\code{partype} is \code{"balancing"} or \code{"both"}).
@@ -139,7 +139,7 @@ These arguments are evaluated only when \code{partype="parchains"}.
 Size balancing is recommended if \code{n.clones} is a relatively long 
 vector, while parallel chains might be more efficient when 
 \code{n.clones} has few elements.
-For efficnecy reasons, a combination of the two 
+For efficiency reasons, a combination of the two 
 (\code{partype="both"}) is preferred if cluster size allows it.
 
 Only \code{partype="balancing"} is available for \code{flavour="bugs"}.

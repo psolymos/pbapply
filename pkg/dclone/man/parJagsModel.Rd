@@ -67,7 +67,7 @@ object if data argument has \code{n.clones} attribute.
 
 \author{Peter Solymos, \email{solymos@ualberta.ca}}
 \seealso{
-Originla sequential function in \pkg{rjags}: 
+Original sequential function in \pkg{rjags}: 
 \code{\link[rjags]{jags.model}}
 
 Sequential \pkg{dclone}-ified version: \code{\link{jagsModel}}

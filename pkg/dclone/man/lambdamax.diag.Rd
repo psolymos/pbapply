@@ -42,7 +42,7 @@ is multivariate normal. It is done by \code{chisq.diag} as described by
 Lele et al. (2010).
 }
 \value{
-\code{lambdamax.diag} returns a single vaue, the maximum of the 
+\code{lambdamax.diag} returns a single value, the maximum of the 
 eigenvalues of the 
 unscaled variance covariance matrix of the estimated parameters.
 

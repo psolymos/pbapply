@@ -38,7 +38,7 @@ If missing, will be treated as \code{NULL} and initial values will
 be generated automatically.
 }
   \item{n.clones}{
-An integer vector containing the numbers of clones to use itaratively.
+An integer vector containing the numbers of clones to use iteratively.
 }
   \item{multiply}{
 Numeric or character index for list element(s) in the \code{data} 

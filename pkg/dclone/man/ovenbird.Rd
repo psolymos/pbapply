@@ -15,19 +15,19 @@ Alberta Biodiversity Monitoring Institute.
 \code{site, year}: numeric, site number and year of data collection.
 
 \code{ecosite}: factor with 5 levels, 
-ecological categorisation of the sites.
+ecological categorization of the sites.
 
 \code{uplow}: factor with 2 levels, ecological 
-categorisation of the sites
+categorization of the sites
 (same es ecosite but levels are grouped into 
 \code{upland} and \code{lowland}).
 
 \code{dsucc, dalien, thd}: numeric, percentage of successional, 
-alienating and total humab disturbance
+alienating and total human disturbance
 based on interpreted 3 x 7 km photoplots centered on each site.
 
 \code{long, lat}: numeric, public 
-longitute/latitude coordinates of the sites.
+longitude/latitude coordinates of the sites.
 }
 \usage{data(ovenbird)}
 \source{

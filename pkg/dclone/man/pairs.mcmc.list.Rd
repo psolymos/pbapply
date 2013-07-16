@@ -48,7 +48,7 @@ additional graphical parameters/arguments.
 \details{
 The function produces a scatterplot matrix for 'mcmc.list' objects.
 Diagonal panels are posterior densities with labels and
-rug on the top. Upper panels are paiwise bivariate scatterplots
+rug on the top. Upper panels are pairwise bivariate scatterplots
 with coloring corresponding to chains, thus highlighting mixing properties
 although not as clearly as trace plots. Lower panels
 are two-dimensional kernel density estimates based on 

@@ -32,7 +32,7 @@ Tags are the following:
     diagnostics, default is 0.05.}
   \item{LB}{logical, should load balancing be used, 
     default is \code{FALSE}.}
-  \item{overwrite}{logical, should existing model file be overwitten, 
+  \item{overwrite}{logical, should existing model file be overwritten, 
     default is \code{TRUE}.}
   \item{rhat}{critical value for testing chain convergence,  
     default is 1.1.}

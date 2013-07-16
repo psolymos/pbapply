@@ -38,10 +38,10 @@ width of the boxes (if \code{type = "b"}).
 Logical, if errorbars should be plotted vertically or horizontally.
 }
   \item{col}{
-Color of the error lines to be drawn, recicled if needed.
+Color of the error lines to be drawn, recycled if needed.
 }
   \item{bg}{
-If \code{type = "b"} the bacground color of the boxes. 
+If \code{type = "b"} the background color of the boxes. 
 By default, no background color used.
 }
   \item{\dots}{
