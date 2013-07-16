@@ -6,8 +6,9 @@ check_spelling <- function(dir, pattern="*.Rd", ...) {
 
 if (.Platform$OS.type != "windows") {
 
-res1 <- check_spelling("c:/svn/dcr/*/*/man")
-res1 <- check_spelling("c:/svn/mefa/*/*/man")
-res1 <- check_spelling("c:/svn/vegan/pkg/vegan/man")
+res1 <- check_spelling("/home/peter/svn/dcr/*/*/man")
+res2 <- check_spelling("/home/peter/svn/mefa/*/*/man")
+res3 <- check_spelling("/home/peter/svn/vegan/pkg/vegan/man")
+## apply built-in filters "R" and "Rd", maybe "Sweave"?
 
 }
