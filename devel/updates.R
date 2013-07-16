@@ -2,9 +2,10 @@
 pkglist <- c("mefa", "mefa4", "vegan", "rgl", "mgcv", "scatterplot3d", 
     "permute", "rjags", "dclone", "dcmle", "detect", "sharx", "ade4",
     "ResourceSelection", "PVAClone", "pbapply", "coda", "snow", 
-    "R2WinBUGS", "rlecuyer", "Formula", "maptools", "BRugs",
+    "R2WinBUGS", "rlecuyer", "Formula", "maptools", "BRugs", "lme4",
     "R2OpenBUGS", "RODBC", "rgdal", "raster", "sp", "epiR", "plotrix",
-    "reshape", "simba", "labdsv", "Hmisc", "untb", "ggplot2")
+    "reshape", "simba", "labdsv", "Hmisc", "untb", "ggplot2",
+    "ineq")
 
 (toInst <- setdiff(pkglist, rownames(installed.packages())))
 
