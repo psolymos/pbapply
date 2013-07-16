@@ -1,14 +1,29 @@
-#dir <- "c:/svn/dcr/pkg/dclone/man/"
-check_spelling <- function(dir, pattern="*.Rd", ...) {
-    files <- Sys.glob(file.path(dir, pattern))
-    x <- utils:::aspell(files, ...)
-}
-
 if (.Platform$OS.type != "windows") {
 
-res1 <- check_spelling("/home/peter/svn/dcr/*/*/man")
-res2 <- check_spelling("/home/peter/svn/mefa/*/*/man")
-res3 <- check_spelling("/home/peter/svn/vegan/pkg/vegan/man")
-## apply built-in filters "R" and "Rd", maybe "Sweave"?
+aspell_pkg <- 
+  function(pkg,
+           path = "/home/peter/svn/dcr/pkg",
+           outdir = "/home/peter/svn/dcr/devel/tests",
+           prog = "hunspell") 
+{
+    f_R <- Sys.glob(file.path(path, pkg, "R/*.R"))
+    f_Rd <- Sys.glob(file.path(path, pkg, "man/*.Rd"))
+    x_R <- utils:::aspell(f_R, program=prog, filter="R")
+    x_Rd <- utils:::aspell(f_Rd, program=prog, filter="Rd")
+    save(x_R, x_Rd, file=file.path(outdir, paste(pkg, "Rdata", sep=".")))
+    invisible(NULL)
+}
+
+aspell_pkg("dclone")
+aspell_pkg("dcmle")
+aspell_pkg("detect")
+aspell_pkg("pbapply")
+aspell_pkg("PVAClone")
+aspell_pkg("ResourceSelection")
+aspell_pkg("sharx")
+aspell_pkg("mefa", path="/home/peter/svn/mefa/pkg")
+aspell_pkg("mefa4", path="/home/peter/svn/mefa/pkg")
+aspell_pkg("vegan", path="/home/peter/svn/vegan/pkg")
 
 }
+

@@ -12,4 +12,7 @@ pkglist <- c("mefa", "mefa4", "vegan", "rgl", "mgcv", "scatterplot3d",
 if (length(toInst) > 0)
     install.packages(toInst, repos="http://cran.at.r-project.org/")
 
+#if (.Platform$OS.type != "windows")
+#    install.packages("Aspell", repos = "http://www.omegahat.org/R")
+
 update.packages(repos="http://cran.at.r-project.org/", ask=FALSE)
