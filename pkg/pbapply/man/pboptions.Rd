@@ -60,16 +60,16 @@ Tags are the following:
     \code{getOption("width")}.
     Default value is \code{50}.}
   \item{gui.width}{The width of the GUI based progress bar in pixels: 
-    the dialog box will be 40 pixels wider (plus frame). 
+    the dialogue box will be 40 pixels wider (plus frame). 
     Default value is \code{300}.}
   \item{style}{The style of the bar, see 
     \code{\link[utils]{txtProgressBar}}. Default value is \code{3}.}
   \item{initial}{Initial value for the progress bar. Default value is 
     \code{0}.}
   \item{title}{Character string giving the window title 
-    on the GUI dialog box. Default value is \code{"R progress bar"}.}
+    on the GUI dialogue box. Default value is \code{"R progress bar"}.}
   \item{label}{Character string giving the window label
-    on the GUI dialog box. Default value is \code{""}.}
+    on the GUI dialogue box. Default value is \code{""}.}
 
 For \code{startpb} a progress bar object.
 

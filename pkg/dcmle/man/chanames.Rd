@@ -20,7 +20,7 @@ Other arguments.
 }
 }
 \value{
-See corrsponding help pages.
+See corresponding help pages.
 }
 \author{
 Peter Solymos

@@ -25,10 +25,10 @@ untransformed area, vector.
 a fitted model object of class 'sie'.
 }
   \item{method}{
-optimization mathod.
+optimization method.
 }
   \item{add}{
-logcal, if lines should beadded to existing plot (\code{TRUE}),
+logical, if lines should be added to existing plot (\code{TRUE}),
 or a new plot is to be drawn (\code{FALSE}, default).
 }
   \item{\dots}{
@@ -39,9 +39,11 @@ graphical arguments passed to \code{\link{plot}}.
 \code{sie} fits the breakpoint regression to the data,
 richness is \code{log(S+0.5)} transformed, area is \code{log(A)}
 transformed before analysis.
-There is a \code{coef}, \code{summary}, \code{print} method for fitted objects.
+There is a \code{coef}, \code{summary}, \code{print} 
+method for fitted objects.
 
-\code{sieplot} plots the observed (transformed) data and the fitted line.
+\code{sieplot} plots the observed (transformed) 
+data and the fitted line.
 }
 \value{
 An S4 object of class 'sie' inheriting from class 'mle'.

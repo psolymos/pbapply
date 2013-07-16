@@ -17,7 +17,7 @@ Objects can be created by calls of the form
     \item{\code{title}:}{Object of class \code{"character"},
         title to print, optional.}
     \item{\code{call}:}{Object of class \code{"language"},
-        tha call.}
+        the call.}
     \item{\code{settings}:}{Object of class \code{"integer"},
         MCMC settings.}
     \item{\code{coef}:}{Object of class \code{"matrix"},
@@ -37,7 +37,7 @@ by class "summary.dcCodaMCMC", distance 2.
 	 }
 }
 \author{
-Peter Solymo
+Peter Solymos
 }
 \seealso{
 \code{\link[dclone]{jags.fit}}, \code{\link[dclone]{dcdiag}}, 
