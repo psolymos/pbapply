@@ -59,7 +59,7 @@ This document provides Supporting Information for the manuscript entitled
 ``Calibrating indices of avian density from 
   non-standardized survey data: making the most of a messy situation''
 by S\'{o}lymos et al. submitted to the journal
-\emph{Methods in Ecology and Evolution} (ID MEE-12-11-472).
+\emph{Methods in Ecology and Evolution} (ID MEE-13-02-103.R1).
 
 The purpose of this document is to describe:
 \begin{enumerate}
@@ -87,10 +87,10 @@ The purpose of this document is to describe:
 
 \begin{itemize}
   \item \code{BAM\_QPAD\_coefs\_20130226.R}: 
-    sourceable text file with estimated model parameters (available from
+    \code{source}-able text file with estimated model parameters (available from
     \href{http://dcr.r-forge.r-project.org/qpad/BAM_QPAD_coefs_20130226.R}{%
     http://dcr.r-forge.r-project.org/\-qpad/\-BAM\_QPAD\_coefs\_20130226.R});
-  \item \code{BAM\_QPAD\_functions\_20130226.R}: sourceable text file with 
+  \item \code{BAM\_QPAD\_functions\_20130226.R}: \code{source}-able text file with 
     \R\ functions for retrieving the information from the binary \R\ data file
     (available from 
     \href{http://dcr.r-forge.r-project.org/qpad/BAM_QPAD_functions_20130226.R}{%
@@ -156,7 +156,7 @@ singing rate \code{phi}. The count matrix \code{Y} contains the
 number of unique individuals first observed in time intervals defined in the
 design matrix \code{D} which contains the enpoints of the corresponding
 time intervals in minutes. 
-Note that patterns in \code{NA} values muxt match between
+Note that patterns in \code{NA} values must match between
 the two matrices:
 <<sim2,cache=TRUE>>=
 vv <- simfun1(n=n, phi=exp(-1.5))
@@ -456,7 +456,7 @@ library(MASS)
 round(cbind(Pois=coef(mod), NegBin=coef(modNB)), 3)
 @
 
-\subsection{Poisson--Lognormal mixed effects model} 
+\subsection{Poisson--Log-Normal mixed effects model} 
 
 Poisson mixed effects models can be fitted for example via the \pkg{lme4} package 
 \citep{pkg-lme4} using random intercept for routes:
@@ -696,7 +696,7 @@ offsets used.
 
 \subsection{Bayesian and frequentist approach to hierarchical modeling}
 
-In the next example we consider a Poisson-Lognormal generalized linear mixed 
+In the next example we consider a Poisson-Log-Normal generalized linear mixed 
 model with a random intercept for routes, which also incorporates 
 detectability related uncertainty. 
 
@@ -913,3 +913,10 @@ habitat associations}, and more) are available at the
 \bibliography{qpad}
 
 \end{document}
+
+%% Spell checking:
+%% xx <- utils:::aspell("QPAD_SupportingInfo.Rnw", filter="Sweave")
+%% xx$Suggestions <- sapply(xx$Suggestions, paste, collapse=" ")
+%% xx <- as.data.frame(xx)
+%% write.csv(xx, file="aspell.csv")
+
