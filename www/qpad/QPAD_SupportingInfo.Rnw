@@ -35,6 +35,7 @@
 \date{\today}
 
 \begin{document}
+%\SweaveOpts{concordance=TRUE}
 \maketitle
 \tableofcontents
 <<settings,echo=FALSE,results= 'hide', message = FALSE>>=
