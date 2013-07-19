@@ -1,5 +1,8 @@
 ResourceSelection package version history
 
+Version 0.2-4, July 18, 2013
+    *
+
 Version 0.2-3, June 18, 2013
     * Summary threw an error when H-L test failed.
       Now this is a warning. Reported by Tyler Muhly (AITF).
