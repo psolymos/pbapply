@@ -12,9 +12,17 @@ Analyzing Wildlife Data with Detection Error
   \url{http://www.abmi.ca/}.
 }
 \details{
-\code{\link{svocc}}: single visit occupancy model.
+\code{\link{svocc}}: single visit occupancy model
+(Lele et al. 2011, Moreno et al. 2010).
 
-\code{\link{svabu}}: single visit abundance model.
+\code{\link{svabu}}: single visit abundance model
+based on conditional maximum likelihood
+(Solymos et al. 2012).
+
+\code{\link{cmulti}}: conditional multinomial maximum likelihood 
+estimation for removal and (point count) distance sampling,
+efficient and flexible setup for varying methodologies
+(Solymos et al. 2013).
 }
 \author{
 Peter Solymos, Monica Moreno, Subhash R Lele
@@ -22,6 +30,10 @@ Peter Solymos, Monica Moreno, Subhash R Lele
 Maintainer: Peter Solymos <solymos@ualberta.ca>
 }
 \references{
+Moreno, M. and Lele, S. R. 2010.
+Improved estimation of site occupancy using penalized likelihood. 
+\emph{Ecology} 91, 341--346.
+
 Lele, S.R., Moreno, M. and Bayne, E. 2011. 
 Dealing with detection error in site occupancy surveys: 
 What can we do with a single survey? 
@@ -33,9 +45,14 @@ abundance survey data in the presence of zero inflation and
 detection error. 
 \emph{Environmetrics} \bold{23}, 197--205.
 
-Moreno, M. and Lele, S. R. 2010.
-Improved estimation of site occupancy using penalized likelihood. 
-\emph{Ecology} 91, 341--346.
+Solymos, P., Matsuoka, S. M., Bayne, E. M., Lele, S. R., Fontaine, P., 
+Cumming, S. G., Stralberg, D., Schmiegelow, F. K. A. & Song, S. J., 2013.
+Calibrating indices of avian density from non-standardized survey data: 
+making the most of a messy situation. 
+\emph{Methods in Ecology and Evolution}, in press.
+
+Supporting info, including a tutorial for the above paper:
+\url{http://dcr.r-forge.r-project.org/qpad/}
 }
 \keyword{ package }
 \examples{
