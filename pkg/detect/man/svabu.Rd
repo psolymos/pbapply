@@ -1,7 +1,6 @@
 \name{svabu}
 \alias{svabu}
 \alias{svabu.fit}
-\alias{svabu_nb.fit}
 \alias{zif}
 \alias{is.present}
 \alias{predictMCMC}
@@ -13,20 +12,18 @@ Binomial-Poisson and Binomial-ZIP models with single visit
 Binomial-Poisson and Binomial-ZIP models with single visit
 }
 \usage{
-svabu(formula, data, zeroinfl = TRUE, area = 1, N.max = NULL, inits, 
-link.det = "logit", link.zif = "logit", 
-model = TRUE, x = FALSE, distr=c("P", "NB"), ...)
+svabu(formula, data, zeroinfl = TRUE, area = 1, N.max = NULL, 
+    inits, link.det = "logit", link.zif = "logit", 
+    model = TRUE, x = FALSE, ...)
 
-svabu.fit(Y, X, Z, Q = NULL, zeroinfl = TRUE, area = 1, N.max = NULL, inits, 
-link.det = "logit", link.zif = "logit", ...)
-svabu_nb.fit(Y, X, Z, Q=NULL, zeroinfl=TRUE, area=1, N.max=NULL, inits, 
-link.det = "logit", link.zif = "logit", ...)
+svabu.fit(Y, X, Z, Q = NULL, zeroinfl = TRUE, area = 1, N.max = NULL, 
+    inits, link.det = "logit", link.zif = "logit", ...)
 
 zif(x)
 is.present(object, ...)
 predictMCMC(object, ...)
 svabu.step(object, model, trace = 1, steps = 1000, 
-criter = c("AIC", "BIC"), test = FALSE, k = 2, control, ...)
+    criter = c("AIC", "BIC"), test = FALSE, k = 2, control, ...)
 }
 \arguments{
   \item{formula}{
@@ -81,17 +78,13 @@ max number of steps
 criterion to be minimized (cAUC=1-AUC)
 }
   \item{test}{
-lofical, if decrease in deviance should be tested
+logical, if decrease in deviance should be tested
 }
   \item{k}{
 penalty to be used with AIC
 }
   \item{control}{
 controls for optimization, if missing taken from object
-}
-  \item{distr}{
-character, the count distribution can be Poisson (\code{"P"})
-or Negative Binomial (\code{"NB"}).
 }
   \item{\dots}{
 other arguments passed to the functions

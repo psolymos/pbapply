@@ -31,7 +31,20 @@ EDR given \code{r}, and the function returns the unlimited EDR.
 A numeric vector with converted EDR values.
 }
 \references{
-Solymos et al. QPAD paper in MEE (under review)
+Solymos, P., Matsuoka, S. M., Bayne, E. M., Lele, S. R., Fontaine, P., 
+Cumming, S. G., Stralberg, D., Schmiegelow, F. K. A. & Song, S. J., 2013.
+Calibrating indices of avian density from non-standardized survey data: 
+making the most of a messy situation. 
+\emph{Methods in Ecology and Evolution}, in press.
+
+Supporting info, including a tutorial for the above paper:
+\url{http://dcr.r-forge.r-project.org/qpad/}
+
+Matsuoka, S. M., Bayne, E. M., Sólymos, P., Fontaine, P., 
+Cumming, S. G., Schmiegelow, F. K. A., & Song, S. A., 2012.
+Using binomial distance-sampling models to estimate the effective 
+detection radius of point-counts surveys across boreal Canada. 
+\emph{Auk}, 129: 268--282.
 }
 \author{
 Peter Solymos

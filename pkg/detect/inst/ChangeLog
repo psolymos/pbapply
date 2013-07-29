@@ -1,6 +1,6 @@
 detect package version history
 
-Version 0.3-0, Oct 1, 2012
+Version 0.3-0, July 29, 2013
     * jags.engine removed, replaced by dcmle dependency.
     * dFormula and checkDesign added with Formula dependency,
       this will replace the old svisitFormula interface
@@ -8,9 +8,6 @@ Version 0.3-0, Oct 1, 2012
     * logdmultinom: simplified version of dmultinom.
     * bymethod: collapses (pools) observations by methodology.
     * cmulti: new function for conditional multinomial estimation.
-    * svabu_nb.fit: new function to fit B-ZINB models,
-    * svabu function gained distr = c("P","NB") argument for
-      fittong B-ZIP and B-ZINB models.
     * load_BAM_QPAD: new function to load BAM QPAD parameter
       estimates and support functions.
     * hbootindex: new function to sample indices with replacement

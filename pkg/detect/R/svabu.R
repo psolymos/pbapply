@@ -1,9 +1,11 @@
 svabu <-
 function (formula, data, zeroinfl=TRUE, area=1, N.max=NULL, inits,
     link.det = "logit", link.zif = "logit",
-    model = TRUE, x = FALSE, distr = c("P", "NB"), ...)
+    model = TRUE, x = FALSE, 
+#    distr = c("P", "NB"), 
+    ...)
 {
-    distr <- match.arg(distr)
+#    distr <- match.arg(distr)
     ## parsing the formula
     if (missing(data))
         data <- NULL
@@ -57,17 +59,17 @@ function (formula, data, zeroinfl=TRUE, area=1, N.max=NULL, inits,
 #return(list(Y=Y,X=X,Z=Z,Q=Q))
 
     ## fit
-    if (distr == "P") {
+#    if (distr == "P") {
         fit <- svabu.fit(Y, X, Z, Q, zeroinfl=zeroinfl, area, N.max, inits, 
             link.det, link.zif, ...)
         sclass <- "svabu_p"
-    }
-    if (distr == "NB") {
-        stop("NB not yet implemented")
+#    }
+#    if (distr == "NB") {
+#        stop("NB not yet implemented")
 #        fit <- svabu_nb.fit(Y, X, Z, Q, zeroinfl=zeroinfl, area, N.max, inits, 
 #            link.det, link.zif, ...)
 #        sclass <- "svabu_nb"
-    }
+#    }
     ## return value
     out <- c(fit, out)
     if (!model) 
