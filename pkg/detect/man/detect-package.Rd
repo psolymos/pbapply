@@ -8,8 +8,10 @@ Analyzing Wildlife Data with Detection Error
 \description{
   The package implements models to analyze
   site occupancy and count data models with detection error.
-  Development was funded by the Alberta Biodiversity Monitoring Institute
-  \url{http://www.abmi.ca/}.
+  The package development was supported by the 
+  Alberta Biodiversity Monitoring Institute (\url{http://www.abmi.ca/}) 
+  and the Boreal Avian Modelling (BAM) Project
+  (\url{http://www.borealbirds.ca/}).
 }
 \details{
 \code{\link{svocc}}: single visit occupancy model

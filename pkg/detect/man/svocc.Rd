@@ -110,7 +110,6 @@ Canada. Technical Report No. ABMI-20060, August 24, 2011. Available at:
 Peter Solymos and Monica Moreno
 }
 \examples{
-\dontrun{
 data(datocc)
 ## MLE
 m00 <- svocc(W ~ x1 | x1 + x3, datocc)
@@ -157,6 +156,7 @@ summary(m00$occurrence.probabilities)
 ## probability of detection (delta)
 summary(m00$detection.probabilities)
 
+\dontrun{
 ## model selection
 m02 <- svocc(W ~ x1 | x3 + x4, datocc)
 m03 <- drop1(m02, model="det")

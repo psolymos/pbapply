@@ -125,32 +125,32 @@ Technical Report No. ABMI-20061, August 24, 2011. Available at:
 Peter Solymos and Subhash Lele
 }
 \examples{
-\dontrun{
 data(databu)
 
 ## fit BZIP and BP models
 m00 <- svabu(Y ~ x1 + x5 | x2 + x5, databu[1:200,])
-m01 <- svabu(Y ~ x1 + x5 | x2 + x5, databu[1:200,], zeroinfl=FALSE)
-## compare estimates (note, zero inflation is on the logit scale!)
-cbind(truth=c(2,-0.8,0.5, 1,2,-0.5, plogis(0.3)),
-"B-ZIP"=coef(m00), "B-P"=c(coef(m01), NA))
 
 ## print method
 m00
-m01
 ## summary: CMLE
 summary(m00)
-summary(m01)
 ## coef
 coef(m00)
 coef(m00, model="sta") ## state (abundance)
 coef(m00, model="det") ## detection
 coef(m00, model="zif") ## zero inflation (this is part of the 'true state'!)
+
+\dontrun{
+## Diagnostics and model comparison
+
+m01 <- svabu(Y ~ x1 + x5 | x2 + x5, databu[1:200,], zeroinfl=FALSE)
+## compare estimates (note, zero inflation is on the logit scale!)
+cbind(truth=c(2,-0.8,0.5, 1,2,-0.5, plogis(0.3)),
+"B-ZIP"=coef(m00), "B-P"=c(coef(m01), NA))
+
 ## fitted
 plot(fitted(m00), fitted(m01))
 abline(0,1)
-
-## Diagnostics and model comparison
 
 ## compare models
 AIC(m00, m01)

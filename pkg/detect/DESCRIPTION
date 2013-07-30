@@ -9,7 +9,9 @@ Depends: R (>= 2.13.0), Formula, stats4
 Suggests: dclone, dcmle, pbapply
 Description: The package implements models to analyze
   site occupancy and count data models with detection error.
-  Development was funded by the Alberta Biodiversity Monitoring Institute.
+  The package development was supported by the 
+  Alberta Biodiversity Monitoring Institute
+  and the Boreal Avian Modelling (BAM) Project.
 License: GPL-2
 URL: http://dcr.r-forge.r-project.org/, http://www.abmi.ca/
 LazyLoad: yes

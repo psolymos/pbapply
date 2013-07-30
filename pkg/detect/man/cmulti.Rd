@@ -88,7 +88,6 @@ Supporting info, including a tutorial for the above paper:
 Peter Solymos
 }
 \examples{
-\dontrun{
 simfun1 <- function(n = 10, phi = 0.1, c=1, tau=0.8, type="rem") {
     if (type=="dis") {
         Dparts <- matrix(c(0.5, 1, NA,
@@ -116,7 +115,7 @@ simfun1 <- function(n = 10, phi = 0.1, c=1, tau=0.8, type="rem") {
     list(Y=Y, D=D)
 }
 
-n <- 1000
+n <- 200
 x <- rnorm(n)
 X <- cbind(1, x)
 
@@ -239,6 +238,5 @@ cbind(res$coef, c(res1$coef, res2$coef))
 ## standard errors are identical
 cbind(sqrt(diag(res$vcov)), 
     c(sqrt(diag(res1$vcov)),sqrt(diag(res2$vcov))))
-}
 }
 \keyword{ htest }
