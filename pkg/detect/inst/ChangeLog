@@ -1,5 +1,8 @@
 detect package version history
 
+Version 0.3-1, July 30, 2013
+    *
+
 Version 0.3-0, July 29, 2013
     * jags.engine removed, replaced by dcmle dependency.
     * dFormula and checkDesign added with Formula dependency,
