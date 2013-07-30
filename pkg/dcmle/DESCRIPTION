@@ -11,8 +11,8 @@ Description: S4 classes around infrastructure
   models easy as a breeze.
 License: GPL-2
 Depends: R (>= 2.15.0), methods, stats4, dclone (>= 2.0-0), rjags, 
-  coda, R2WinBUGS, parallel, lattice
-Suggests: snow
+  coda, lattice
+Suggests: parallel, snow
 SystemRequirements: JAGS (>= 3.0.0)
 URL: http://cran.r-project.org/package=dcmle, http://dcr.r-forge.r-project.org/
 LazyLoad: yes
