@@ -125,6 +125,7 @@ Technical Report No. ABMI-20061, August 24, 2011. Available at:
 Peter Solymos and Subhash Lele
 }
 \examples{
+\dontrun{
 data(databu)
 
 ## fit BZIP and BP models
@@ -162,7 +163,6 @@ plot(m01)
 
 ## Bootstrap
 
-\dontrun{
 ## non parametric bootstrap
 ## - initial values are the estimates
 m02 <- bootstrap(m00, B=25)
