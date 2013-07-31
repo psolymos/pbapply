@@ -59,8 +59,8 @@ opts_chunk$set(comment=NA, prompt=FALSE, highlight=TRUE,
 This document provides Supporting Information for the manuscript entitled
 ``Calibrating indices of avian density from 
   non-standardized survey data: making the most of a messy situation''
-by S\'{o}lymos et al. submitted to the journal
-\emph{Methods in Ecology and Evolution} (ID MEE-13-02-103.R1).
+by S\'{o}lymos et al. (accepted for publication in the journal
+\emph{Methods in Ecology and Evolution}, DOI: 10.1111/2041-210X.12106).
 
 The purpose of this document is to describe:
 \begin{enumerate}
@@ -73,7 +73,7 @@ The purpose of this document is to describe:
 
 \begin{itemize}
   \item \R\ for most of the calculations 
-    (\citep{Rcore}, downloadable from 
+    (\citealp{Rcore}, downloadable from 
     \href{http://www.r-project.org/}{http://www.r-project.org/});
   \item \proglang{JAGS} for prediction interval calculations using Markov chain
     Monte Carlo (MCMC)
@@ -99,7 +99,7 @@ The purpose of this document is to describe:
 \end{itemize}
 
 These files can be sourced by using the \code{load\_BAM\_QPAD()} function
-of the \pkg{detect} \R\ package. This function allows the user to select
+of the \pkg{detect} \R\ package (version 0.3). This function allows the user to select
 versions of the estimates interactively, this way updates to these
 files are available upon request. Using \code{load\_BAM\_QPAD(version=1)}
 loads the version used in this document.
@@ -124,7 +124,7 @@ X <- cbind(1, x)
 @
 The function \code{simfun1} is used to simulate count data (value for
 \code{tau} (Effective Detection Radius; EDR) is in units of 100 m:
-<<sim1,cache=TRUE>>=
+<<sim1>>=
 simfun1 <- function(n = 10, phi = 0.1, c=1, tau=0.8, type="rem") {
     if (type=="dis") {
         Dparts <- matrix(c(0.5, 1, NA,
@@ -159,7 +159,7 @@ design matrix \code{D} which contains the enpoints of the corresponding
 time intervals in minutes. 
 Note that patterns in \code{NA} values must match between
 the two matrices:
-<<sim2,cache=TRUE>>=
+<<sim2>>=
 vv <- simfun1(n=n, phi=exp(-1.5))
 head(vv$Y)
 head(vv$D)
@@ -173,12 +173,12 @@ where \code{count} is a matrix with cell counts, \code{design}
 is the matrix describing the interval endpoints for the cells.
 The right hand side is \code{1} because we use a constant model,
 \code{type="rem"} stands for removal sampling:
-<<sim3,cache=TRUE>>=
+<<sim3>>=
 m1 <- cmulti(vv$Y | vv$D ~ 1, type="rem")
 coef(m1)
 @
 When covariate \code{x} affects singing rate, the estimation is as follows:
-<<sim4,cache=TRUE>>=
+<<sim4>>=
 log.phi <- X %*% c(-2,-1) # log singing rate
 vv <- simfun1(n=n, phi=exp(cbind(log.phi, log.phi, log.phi)))
 m2 <- cmulti(vv$Y | vv$D ~ x, type="rem")
@@ -190,7 +190,7 @@ coef(m2)
 Simulation and estimation for the distance sampling model with half-normal
 detection function is similar. We use constant \code{tau} parameter
 (EDR, 100 m units, use\code{Inf} for unlimited distance):
-<<sim5,cache=TRUE>>=
+<<sim5>>=
 vv <- simfun1(n=n, tau=exp(-0.2), type="dis")
 head(vv$Y)
 head(vv$D)
@@ -198,7 +198,7 @@ m3 <- cmulti(vv$Y | vv$D ~ 1, type="dis")
 coef(m3)
 @
 Effect of covariate \code{x} is estimated as:
-<<sim6,cache=TRUE>>=
+<<sim6>>=
 log.tau <- X %*% c(-0.5,-0.2) # log EDR
 vv <- simfun1(n=n, tau=exp(cbind(log.tau, log.tau, log.tau)), type="dis")
 m4 <- cmulti(vv$Y | vv$D ~ x, type="dis")
@@ -223,7 +223,7 @@ logLik(m4)
 
 The following function simulates counts for the joint estimation of
 singing rate and distance parameters:
-<<sim7,cache=TRUE>>=
+<<sim7>>=
 simfun12 <- function(n = 10, phi = 0.1, c=1, tau=0.8, type="rem") {
     Flat <- function(x, DIM, dur=TRUE) {
         x <- array(x, DIM)
@@ -278,7 +278,7 @@ simfun12 <- function(n = 10, phi = 0.1, c=1, tau=0.8, type="rem") {
 }
 @
 Joint and independent estimation of constant singing rate and EDR:
-<<sim8,cache=TRUE>>=
+<<sim8>>=
 vv <- simfun12(n=n, phi=exp(-1.5), tau=exp(-0.2))
 res <- cmulti2.fit(vv$Y, vv$D1, vv$D2)
 res1 <- cmulti.fit(vv$Y1, vv$D1, NULL, "rem")
@@ -296,7 +296,7 @@ ifelse(cov2cor(res$vcov) < 10^-10, 0, cov2cor(res$vcov))
 @
 
 Joint and independent estimation of covariate specific singing rate and EDR:
-<<sim9,cache=TRUE>>=
+<<sim9>>=
 vv <- simfun12(n=n, 
                phi=exp(cbind(log.phi, log.phi, log.phi)),
                tau=exp(cbind(log.tau, log.tau, log.tau)))
@@ -616,7 +616,7 @@ bootstrap for Poisson GLM using fixed offset.
 The \code{hbootindex} function creates indices for the bootstrap
 iterations by taking into account the grouped nature of the data set.
 It resamples routes first, then resamples stops within the resampled routes.
-<<boot0,cache=TRUE>>=
+<<boot0>>=
 set.seed(1234)
 Bi <- hbootindex(oven$route, B=199)
 modB <- t(sapply(1:length(Bi), function(i) {
@@ -642,7 +642,7 @@ estimates, so the error can be propagated through the GLM.
 For this, we can use the \code{boot} argument in the 
 functions \code{globalBAMcorrections} and 
 \code{localBAMcorrections} making the call \code{B} times:
-<<boot1,cache=TRUE>>=
+<<boot1>>=
 modB1 <- t(sapply(1:length(Bi), function(i) {
     bc <- with(oven, localBAMcorrections("OVEN", t=dur, r=dist,
         jday=JDAY, tssr=TSSR, tree=pforest, lcc=LCC,
@@ -666,7 +666,7 @@ in the QPAD estimates by randomly choosing among the possible
 singing rate and distance models based on model weights
 (with and without the parametric bootstrap procedure
 in the offsets switched by the \code{boot} argument):
-<<boot2,cache=TRUE>>=
+<<boot2>>=
 modB2 <- t(sapply(1:length(Bi), function(i) {
     mm <- bestmodelBAMspecies("OVEN", type="multi")
     bc <- with(oven, localBAMcorrections("OVEN", t=dur, r=dist,
@@ -707,7 +707,7 @@ advantage of Bayesian MCMC techniques for maximum likelihood estimation.
 The software implementation is described in \citet{Solymos2010}. 
 Note that using a single clone is identical to the Bayesian hierarchical
 modeling.
-<<dcmle,cache=TRUE>>=
+<<dcmle>>=
 library(dcmle) # load dcmle package
 load.module("glm") # load glm module for JAGS
 model <- function() {
@@ -748,7 +748,8 @@ dcf <- makeDcFit(model=model,
 cl <- makePSOCKcluster(3) # parallel computing for speed up
 K <- c(1,2) # sequence for the number of clones to use
 parLoadModule(cl, "glm") # load glm module for JAGS on workers
-dcm <- dcmle(dcf, n.clones=K, n.iter=1000, cl=cl, partype="parchains")
+dcm <- dcmle(dcf, n.clones=K, n.update=2000,
+    n.iter=2000, cl=cl, partype="parchains")
 stopCluster(cl) # close cluster
 dcm
 @
@@ -756,12 +757,13 @@ The model reveals results similar to the GLM example above,
 Proportion of forest cover around points had a significant 
 positive effect on density, while longitude had a negative 
 non-significant effect. The estimate of the route level random 
-effect was 0.56 (SE 0.1).
+effect was $\hat{\sigma}$ = \Sexpr{round(exp(coef(dcm)["log.sigma"]), 2)}
+(SE \Sexpr{round(sd(exp(as.matrix(dcm)[,"log.sigma"])) * sqrt(nclones(dcm)), 2)}).
 
 \section{Prediction}
 
 Point predictions (unconditional on the observations) and associated prediction intervals can be calculated by the same MCMC technique:
-<<pmodel,cache=TRUE,fig.keep='none'>>=
+<<pmodel,fig.keep='none'>>=
 pmodel <- function() {
     for (i in 1:n) {
         Y[i] ~ dpois(lam[i])
@@ -834,7 +836,7 @@ based on territory mapping in the same region (Fig.~\ref{fig:plot1}).
 
 Point predictions conditional on the observations and associated prediction intervals given the observations can be calculated in a similar manner (Fig.~\ref{fig:plot2}).
 
-<<dat2,cache=TRUE,fig.keep='none'>>=
+<<dat2,fig.keep='none'>>=
 dat2 <- list(Y=dat$Y, X=dat$X,
     np=3, n=nrow(dat$X),
     cf=coef(dcm),
@@ -871,21 +873,21 @@ with the QPAD approach.
 
 One can create a table with corrections using independently derived point
 estimates for singing rates (\code{phi}) and distance parameter (\code{tau}):
-<<custom1,cache=TRUE>>=
+<<custom1>>=
 customBAMcorrections(r=rep(c(0.5, 1), 2), t=rep(c(5, 10), each=2),
     phi=seq(0.5, 0.8, len=4), tau=seq(0.5, 0.8, len=4))
 @
 
 Similarly, one can supply a vector of values for 
 \code{phi} and \code{tau}:
-<<custom2,cache=TRUE>>=
+<<custom2>>=
 customBAMcorrections(r=rep(c(0.5, 1), 2), t=rep(c(5, 10), each=2),
     phi=seq(0.5, 0.8, len=4), tau=seq(0.5, 0.8, len=4))
 @
 
 Custom values can be derived from fitted models based on
 the conditional likelihood estimating procedure:
-<<custom3,cache=TRUE>>=
+<<custom3>>=
 head(customBAMcorrections(r=rep(1, n), t=rep(10, n),
     phi=fitted(m2), tau=fitted(m4)))
 @
