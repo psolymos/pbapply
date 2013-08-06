@@ -21,26 +21,18 @@ hbootindex(groups, strata, B = 199)
 }
 }
 \details{
-Resampling with replacement is done at two levels. The first level
-is the group ID level: group IDs (unique values in \code{groups})
-are resampled with replacement.
-
-The second level is observations within resampled group ID levels:
-observations within these levels are resampled with replacement.
+Resampling with replacement with weights proportional to the number of 
+observations in each of the group level (unique values in \code{groups}).
 
 Values of \code{groups} within levels (unique values) of \code{strata}
 are resampled independently of other \code{strata} levels.
 }
 \value{
-A list with bootstrapped indices, list length is \code{B} + 1.
-The first element has \code{1:length(groups)} samples without 
+A matrix with bootstrapped indices, number of columns is \code{B} + 1.
+The column is a resample without 
 replacement (random subsets can be selected without further
 reshuffling). Other elements contain indices according to rules
-described in Details section (these are also randomly reshuffled
-to facilitate the creation of random subsets).
-
-Length of resampled vectors are of different lengths when
-group sizes are unequal (due to group level resampling).
+described in Details section (these also randomly reshuffled).
 }
 \author{
 Peter Solymos
