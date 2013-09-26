@@ -1,6 +1,6 @@
 sharx package version history
 
-Version 1.0-4, July 10, 2013
+Version 1.0-4, Sept 25, 2013
     * Namespace and ::: cleanup to satisfy R 3.0.2 check.
 
 Version 1.0-3, Aug 9, 2012
