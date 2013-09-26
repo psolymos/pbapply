@@ -18,7 +18,7 @@ inits=NULL, method="Nelder-Mead", ...)
     n <- nrow(Y)
     k <- ncol(Y)
     if (is.null(inits))
-        v0 <- detect::cmulti.fit0(Y, D, type)$coef
+        v0 <- detect:::cmulti.fit0(Y, D, type)$coef
     nlimit <- c(.Machine$double.xmin, .Machine$double.xmax)^(1/3)
     ## parameter is fixed, removal mixture
     if (is.null(X) && type == "mix") {
