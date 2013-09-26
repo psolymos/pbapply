@@ -1,7 +1,7 @@
 pbapply package version history
 
-Version 1.0-6, July 10, 2013
-    *
+Version 1.1-0, Sept 25, 2013
+    * Removed ::: to satisfy R 3.0.2 check.
 
 Version 1.0-5, July 6, 2012
     * inst/COPYING removed

@@ -6,7 +6,7 @@ function(pb)
         rval <- switch(progress.bar, 
             txt = getTxtProgressBar(pb), 
             win = getWinProgressBar(pb),
-            tk = tcltk:::getTkProgressBar(pb))
+            tk = tcltk::getTkProgressBar(pb))
     } else rval <- NULL
     rval
 }
