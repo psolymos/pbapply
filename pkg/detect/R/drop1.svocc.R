@@ -133,7 +133,7 @@ function (object, scope, model, criter = c("AIC", "BIC", "cAUC"), test = FALSE, 
         nas <- !is.na(dev)
         LRT <- "unscaled dev." # "LRT"
         aod[, LRT] <- dev
-        dev[nas] <- stats:::safe_pchisq(dev[nas], aod$Df[nas], lower.tail = FALSE)
+        dev[nas] <- stats::safe_pchisq(dev[nas], aod$Df[nas], lower.tail = FALSE)
         aod[, "Pr(Chi)"] <- dev
     }
     ## Exclude (make it NA) lines where we should keep covariates

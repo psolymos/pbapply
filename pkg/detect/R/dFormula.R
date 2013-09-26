@@ -3,7 +3,7 @@
 dFormula <- 
 function(formula, data, drop=TRUE, count=TRUE, ...)
 {
-    require(Formula)
+#    require(Formula)
     mf <- match.call(expand.dots = FALSE)
     m <- match(c("formula", "data"), names(mf), 0)
     mf <- mf[c(1, m)]

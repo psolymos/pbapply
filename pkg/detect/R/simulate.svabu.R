@@ -28,7 +28,7 @@ function(object, nsim = 1, seed = NULL, ...)
     } else {
         var <- exp(object$var$est)
         val <- sapply(1:nsim, function(i) rbinom(n, 
-            stats:::rnbinom(n, size=1/var, prob=1/(1+var*lambda*rbinom(n, 1, 1-phi))),
+            stats::rnbinom(n, size=1/var, prob=1/(1+var*lambda*rbinom(n, 1, 1-phi))),
             delta))
     }
 #    val <- if (object$zeroinfl) {

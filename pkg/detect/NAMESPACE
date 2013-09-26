@@ -18,6 +18,8 @@ importFrom("stats",
     "logLik", "model.matrix", "model.frame", "terms", "simulate",
     "update.formula", "update", "vcov", "variable.names", 
     "AIC", "BIC")
+importFrom(Formula)
+importFrom(stats4, mle)
 
 ## methods for svocc class
 S3method("print", "svocc")

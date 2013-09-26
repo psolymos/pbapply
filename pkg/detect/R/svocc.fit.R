@@ -145,7 +145,7 @@ method = c("optim", "dc"), inits, ...)
             "logit"=c(7,9),
             "probit"=c(5,9),
             "cloglog"=c(5,7))
-        model <- dclone:::custommodel(mcmcSS.all, c(excl.occ, excl.det))
+        model <- dclone::custommodel(mcmcSS.all, c(excl.occ, excl.det))
         dat <- list(Y=obs, X=occ, Z=det, k=1,
             N.sites=N.sites, num.cov.occ=num.cov.occ, num.cov.det=num.cov.det,
             prior.occ=prior.occ, prior.det=prior.det)

@@ -18,7 +18,7 @@ inits=NULL, method="Nelder-Mead", ...)
     n <- nrow(Y)
     k <- ncol(Y)
     if (is.null(inits))
-        v0 <- detect:::cmulti.fit0(Y, D, type)$coef
+        v0 <- detect::cmulti.fit0(Y, D, type)$coef
     nlimit <- c(.Machine$double.xmin, .Machine$double.xmax)^(1/3)
     ## parameter is fixed, removal mixture
     if (is.null(X) && type == "mix") {
@@ -36,8 +36,8 @@ inits=NULL, method="Nelder-Mead", ...)
         }
         if (is.null(inits))
             inits <- v0
-        require(stats4)
-        res <- suppressWarnings(stats4:::mle(nll.fun1, 
+#        require(stats4)
+        res <- suppressWarnings(stats4::mle(nll.fun1, 
             list(pv=inits[1], cv=inits[2]), 
             method=method, ...))
         rval <- list(coef=res@coef, 
@@ -82,8 +82,8 @@ inits=NULL, method="Nelder-Mead", ...)
         }
         if (is.null(inits))
             inits <- v0
-        require(stats4)
-        res <- suppressWarnings(stats4:::mle(nll.fun3, list(pv=inits), 
+#        require(stats4)
+        res <- suppressWarnings(stats4::mle(nll.fun3, list(pv=inits), 
             method=method, ...))
         rval <- list(coef=res@coef, 
             vcov=res@vcov, 
