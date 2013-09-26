@@ -26,7 +26,7 @@ inits, method = "Nelder-Mead", control, ...)
     ## inverse link function
     linkinvfun <- binomial(link=make.link(link))$linkinv
     if (link=="probit" && !getOption("rspf.robust.probit"))
-        linkinvfun <- as.function(stats:::pnorm)
+        linkinvfun <- as.function(stats::pnorm)
 
     ## initial values from GLM if not defined in call
     if (missing(inits)) {

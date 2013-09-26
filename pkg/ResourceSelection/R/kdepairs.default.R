@@ -17,7 +17,7 @@ kdepairs.default <- function(x, n=25, density=TRUE, contour=TRUE, ...) {
             if (density)
                 image(d, col=terrain.colors(50), add=TRUE)
             if (contour)
-                graphics:::contour(d,add=TRUE)
+                graphics::contour(d,add=TRUE)
         } else points(x1, x2)
     }
     fun.upper <- function(x1, x2, ...) {
