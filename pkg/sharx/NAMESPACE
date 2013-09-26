@@ -1,5 +1,8 @@
 importFrom(Formula)
 importFrom(dcmle)
+importFrom(dclone)
+importFrom(methods)
+importFrom(stats4, mle)
 
 export(hsarx, sie, sieplot)
 exportClasses(hsarx, sie)

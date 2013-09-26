@@ -5,7 +5,7 @@ setClass("sie",
 sie <- 
 function(S, A, method = "Nelder-Mead", ...) 
 {
-    require(stats4)
+#    require(stats4)
     sietfun <- function(T) {
         x <- (log(A)-T) * (log(A) >= T)
         -logLik(lm(log(S+0.5)~x))
@@ -23,7 +23,7 @@ function(S, A, method = "Nelder-Mead", ...)
         res <- log(S+0.5) - (logc + (log(A) >= T)*z*(log(A)-T))
         -0.5 * (sum(log(w)) - N * (log(2 * pi) + 1 - log(N) + log(sum(w * res^2))))
     }
-    res <- stats4:::mle(nll, start=inits, method=method, nobs=length(S), ...)
+    res <- stats4::mle(nll, start=inits, method=method, nobs=length(S), ...)
     attr(res, "data") <- cbind(A, S)
     res@call <- match.call()
     res <- as(res, "sie")
