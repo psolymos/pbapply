@@ -19,7 +19,7 @@ program=c("winbugs", "openbugs", "brugs"), seed, ...)
         stop("there is no package called 'R2OpenBUGS'")
 
     ## retrieves n.clones
-    n.clones <- dclone:::nclones.list(data)
+    n.clones <- dclone::nclones.list(data)
     ## removes n.clones attr from each element of data
     data <- lapply(data, function(z) {
         attr(z, "n.clones") <- NULL
@@ -37,7 +37,7 @@ program=c("winbugs", "openbugs", "brugs"), seed, ...)
     if (program == "winbugs") {
         if (missing(seed))
             seed <- NULL
-        res <- R2WinBUGS:::bugs(data=data, 
+        res <- R2WinBUGS::bugs(data=data, 
             inits=inits, 
             parameters.to.save=params, 
             model.file=model, 
@@ -50,7 +50,7 @@ program=c("winbugs", "openbugs", "brugs"), seed, ...)
     if (program == "brugs") {
         if (missing(seed))
             seed <- NULL
-        res <- R2WinBUGS:::openbugs(data=data, 
+        res <- R2WinBUGS::openbugs(data=data, 
             inits=inits, 
             parameters.to.save=params, 
             model.file=model, 
@@ -59,7 +59,7 @@ program=c("winbugs", "openbugs", "brugs"), seed, ...)
     if (program == "openbugs") {
         if (missing(seed))
             seed <- 1
-        res <- R2OpenBUGS:::bugs(data=data, 
+        res <- R2OpenBUGS::bugs(data=data, 
             inits=inits, 
             parameters.to.save=params, 
             model.file=model,

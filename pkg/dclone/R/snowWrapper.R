@@ -84,7 +84,7 @@ cleanup = TRUE, unload = FALSE, envir = .GlobalEnv, ...)
         }
     } else {
 ## multicore
-        require(parallel)
+        #require(parallel)
         if (balancing == "load") {
             balancing <- "none"
             warning("forking is used: balancing type was set to 'none'")

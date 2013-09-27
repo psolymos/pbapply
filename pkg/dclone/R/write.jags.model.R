@@ -27,7 +27,7 @@ overwrite = getOption("dcoptions")$overwrite)
     if (inherits(model, "custommodel")) {
         writeLines(model, filename2)
     } else {
-        R2WinBUGS:::write.model(model, filename2, digits = digits)
+        R2WinBUGS::write.model(model, filename2, digits = digits)
     }
     invisible(filename2)
 }

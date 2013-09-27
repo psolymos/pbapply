@@ -101,7 +101,7 @@ Progress bars used in the functions:
 fun1 <- function() {
     pb <- startpb(0, 10)
     for (i in 1:10) {
-        Sys.sleep(0.2)
+        Sys.sleep(0.15)
         setpb(pb, i)
     }
     closepb(pb)
@@ -111,7 +111,7 @@ fun2 <- function() {
     pb <- startpb(0, 10-1)
     i <- 1
     while (i < 10) {
-        Sys.sleep(0.2)
+        Sys.sleep(0.15)
         setpb(pb, i)
         i <- i + 1
     }

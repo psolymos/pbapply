@@ -86,7 +86,7 @@ function(cl, seq, fun, cldata,
         ## TMPNAM is TRUENAM
         pushDcloneEnv(TMPNAM, cldata, type = "model")
 
-        require(parallel)
+        #require(parallel)
         if (balancing == "load") {
             balancing <- "none"
             warning("forking is used: balancing type was set to 'none'")
