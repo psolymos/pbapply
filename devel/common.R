@@ -4,12 +4,19 @@ setwd(paste(DIR, "/tests", sep=""))
 
 op <- options("R2WinBUGS.bugs.directory"="c:/p/WinBUGS14")
 
+topic <- "custommodel"
 exampleDontRun <- function(topic) {
-    ex <- gsub("##D ", "", example(topic, "dclone", 
-        character.only=TRUE, echo=FALSE, give.lines=TRUE))
-    f <- write.jags.model(structure(ex, class="custommodel"),
-        filename=paste(topic, ".bug", sep=""))
-    on.exit(clean.jags.model(f))
-    source(f, echo=TRUE)
-    invisible(NULL)
+    example(topic, "dclone", 
+        character.only=TRUE, echo=TRUE, verbose=FALSE,
+        give.lines=FALSE, run.dontrun = TRUE)
 }
+
+#exampleDontRun <- function(topic) {
+#    ex <- gsub("##D ", "", example(topic, "dclone", 
+#        character.only=TRUE, echo=FALSE, give.lines=TRUE))
+#    f <- write.jags.model(structure(ex, class="custommodel"),
+#        filename=paste(topic, ".bug", sep=""))
+#    on.exit(clean.jags.model(f))
+#    source(f, echo=TRUE)
+#    invisible(NULL)
+#}
