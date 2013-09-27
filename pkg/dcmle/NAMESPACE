@@ -158,4 +158,4 @@ importFrom(coda,
        nchain,
        niter,
        nvar)
-
+importFrom(rjags)
