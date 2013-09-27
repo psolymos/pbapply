@@ -5,8 +5,8 @@ setwd(paste(DIR, "/tests", sep=""))
 op <- options("R2WinBUGS.bugs.directory"="c:/p/WinBUGS14")
 
 topic <- "custommodel"
-exampleDontRun <- function(topic) {
-    example(topic, "dclone", 
+exampleDontRun <- function(topic, pkg) {
+    example(topic, pkg, 
         character.only=TRUE, echo=TRUE, verbose=FALSE,
         give.lines=FALSE, run.dontrun = TRUE)
 }
