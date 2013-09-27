@@ -1,6 +1,6 @@
 dclone package version history
 
-Version 2.0-0, July 10, 2013
+Version 2.0-0, Sept 27, 2013
     * Parallel functions (parJagsModel, parUpdate, parCodaSamples)
       triggered a Note by R CMD check for modifying the global 
       environment. This is now resolved as described below.
