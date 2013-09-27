@@ -11,12 +11,3 @@ exampleDontRun <- function(topic) {
         give.lines=FALSE, run.dontrun = TRUE)
 }
 
-#exampleDontRun <- function(topic) {
-#    ex <- gsub("##D ", "", example(topic, "dclone", 
-#        character.only=TRUE, echo=FALSE, give.lines=TRUE))
-#    f <- write.jags.model(structure(ex, class="custommodel"),
-#        filename=paste(topic, ".bug", sep=""))
-#    on.exit(clean.jags.model(f))
-#    source(f, echo=TRUE)
-#    invisible(NULL)
-#}
