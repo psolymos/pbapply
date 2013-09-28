@@ -15,7 +15,6 @@ This is the workhorse for \code{\link{dc.fit}} and
     update = NULL, updatefun = NULL, initsfun = NULL, 
     flavour = c("jags", "bugs"), 
     n.chains=3, cl = NULL, parchains = FALSE, ...)
-{
 }
 \arguments{
   \item{data}{
