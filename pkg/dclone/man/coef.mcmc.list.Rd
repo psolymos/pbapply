@@ -6,6 +6,7 @@
 \alias{coef.mcmc.list}
 \alias{confint.mcmc.list.dc}
 \alias{vcov.mcmc.list.dc}
+\alias{vcov.mcmc.list}
 \alias{quantile.mcmc.list}
 \title{
 Methods for the 'mcmc.list' class
@@ -18,6 +19,7 @@ dcsd(object, ...)
 \method{dcsd}{mcmc.list}(object, ...)
 \method{coef}{mcmc.list}(object, ...)
 \method{confint}{mcmc.list.dc}(object, parm, level = 0.95, ...)
+\method{vcov}{mcmc.list}(object, ...)
 \method{vcov}{mcmc.list.dc}(object, invfisher = TRUE, ...)
 \method{quantile}{mcmc.list}(x, ...)
 }
@@ -93,7 +95,7 @@ alpha <- 1
 beta <- -1
 sigma <- 0.5
 x <- runif(N)
-linpred <- model.matrix(~x) \%*\% c(alpha, beta)
+linpred <- crossprod(t(model.matrix(~x)), c(alpha, beta))
 Y <- rnorm(N, mean = linpred, sd = sigma)
 ## data for the model
 dcdata <- dclone(list(N = N, Y = Y, x = x), 5, multiply = "N")

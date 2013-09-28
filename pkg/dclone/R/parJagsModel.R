@@ -3,11 +3,11 @@ function(cl, name, file, data = sys.frame(sys.parent()),
 inits, n.chains = 1, n.adapt = 1000, quiet = FALSE) 
 {
     ## stop if rjags not found
-    if (!suppressWarnings(require(rjags)))
-        stop("there is no package called 'rjags'")
+    requireNamespace("rjags")
     cl <- evalParallelArgument(cl, quit=TRUE)
     if (!inherits(cl, "cluster"))
         stop("cl must be of class 'cluster'")
+    clusterEvalQ(cl, requireNamespace("rjags"))
     if (length(cl) < n.chains)
         stop("length(cl) < n.chains")
     if (is.function(file) || inherits(file, "custommodel")) {
@@ -18,7 +18,7 @@ inits, n.chains = 1, n.adapt = 1000, quiet = FALSE)
             on.exit(try(clean.jags.model(file)))
         }
     }
-    n.clones <- dclone:::nclones.list(as.list(data))
+    n.clones <- dclone::nclones.list(as.list(data))
     ## inits and RNGs
     if ("lecuyer" %in% list.modules()) {
         mod <- parListModules(cl)
@@ -39,7 +39,7 @@ inits, n.chains = 1, n.adapt = 1000, quiet = FALSE)
         n.clones=n.clones)
     jagsparallel <- function(i) {
         cldata <- pullDcloneEnv("cldata", type = "model")
-        res <- jags.model(file=cldata$file, data=cldata$data, 
+        res <- rjags::jags.model(file=cldata$file, data=cldata$data, 
             inits=cldata$inits[[i]], n.chains=1,
             n.adapt=cldata$n.adapt, quiet=cldata$quiet)
         if (!is.null(n.clones) && n.clones > 1) {

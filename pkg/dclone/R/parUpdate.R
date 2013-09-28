@@ -2,11 +2,11 @@ parUpdate <-
 function(cl, object, n.iter = 1, ...) 
 {
     ## stop if rjags not found
-    if (!suppressWarnings(require(rjags)))
-        stop("there is no package called 'rjags'")
+    requireNamespace("rjags")
     cl <- evalParallelArgument(cl, quit=TRUE)
     if (!inherits(cl, "cluster"))
         stop("cl must be of class 'cluster'")
+    clusterEvalQ(cl, requireNamespace("rjags"))
     if (!is.character(object))
         object <- as.character(object) # deparse(substitute(object))
     cldata <- list(n.iter=n.iter, name=object)
@@ -16,7 +16,8 @@ function(cl, object, n.iter = 1, ...)
         if (existsDcloneEnv(cldata$name, type = "results")) {
             res <- pullDcloneEnv(cldata$name,
                 type = "results")
-            rjags:::update.jags(res, n.iter=cldata$n.iter, ...)
+            #rjags:::update.jags(res, n.iter=cldata$n.iter, ...)
+            update(object=res, n.iter=cldata$n.iter, ...)
             pushDcloneEnv(cldata$name, res, type = "results")
         }
         NULL

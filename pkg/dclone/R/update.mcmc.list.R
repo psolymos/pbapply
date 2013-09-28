@@ -3,8 +3,7 @@ function(object, fun, times = 1, n.update = 0,
 n.iter, thin, ...)
 {
     ## stop if rjags not found
-    if (!suppressWarnings(require(rjags)))
-        stop("there is no package called 'rjags'")
+    requireNamespace("rjags")
     ## eval of args
     if (is.null(updated.model(object)))
         stop("updated model not found")

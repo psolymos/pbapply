@@ -1,11 +1,10 @@
 parallel.inits <- 
 function(inits, n.chains) 
 {
-    if (!suppressWarnings(require(rjags)))
-        stop("there is no package called 'rjags'")
-    factory <- if ("lecuyer" %in% list.modules())
+    requireNamespace("rjags")
+    factory <- if ("lecuyer" %in% rjags::list.modules())
         "lecuyer::RngStream" else "base::BaseRNG"
-    RNGs <- parallel.seeds(factory, n.chains)
+    RNGs <- rjags::parallel.seeds(factory, n.chains)
     if (missing(inits))
         inits <- NULL
     if (!is.null(inits)) {

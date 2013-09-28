@@ -29,6 +29,7 @@ parListModules(cl)
 \code{\link[rjags]{load.module}}, \code{\link[rjags]{unload.module}}}
 \examples{
 \dontrun{
+if (require(rjags)) {
 cl <- makePSOCKcluster(3)
 parListModules(cl)
 parLoadModule(cl, "glm")
@@ -36,6 +37,7 @@ parListModules(cl)
 parUnloadModule(cl, "glm")
 parListModules(cl)
 stopCluster(cl)
+}
 }
 }
 \keyword{interface}

@@ -4,8 +4,7 @@ function(data, params, model, inits = NULL, n.chains = 3, n.adapt = 1000,
 n.update = 1000, thin = 1, n.iter = 5000, updated.model = TRUE, ...)
 {
     ## stop if rjags not found
-    if (!suppressWarnings(require(rjags)))
-        stop("there is no package called 'rjags'")
+    requireNamespace("rjags")
     if (n.adapt>0 && n.update==0)
         warnings("consider updating for independence after adaptation")
     ## inital steps
@@ -13,7 +12,7 @@ n.update = 1000, thin = 1, n.iter = 5000, updated.model = TRUE, ...)
         warnings("'data' was environment: it was coerced into a list")
         data <- as.list(data)
     }
-    n.clones <- dclone:::nclones.list(data)
+    n.clones <- dclone::nclones.list(data)
     if (is.function(model) || inherits(model, "custommodel")) {
         if (is.function(model))
             model <- match.fun(model)
@@ -22,10 +21,10 @@ n.update = 1000, thin = 1, n.iter = 5000, updated.model = TRUE, ...)
     }
     ## handling inits arg, model initialization
     m <- if (is.null(inits)) {
-        jags.model(model, data, n.chains=n.chains, n.adapt=n.adapt,
+        rjags::jags.model(model, data, n.chains=n.chains, n.adapt=n.adapt,
             quiet=!as.logical(getOption("dcoptions")$verbose))
     } else {
-        jags.model(model, data, inits, n.chains=n.chains, n.adapt=n.adapt,
+        rjags::jags.model(model, data, inits, n.chains=n.chains, n.adapt=n.adapt,
             quiet=!as.logical(getOption("dcoptions")$verbose))
     }
     if (is.null(list(...)$progress.bar)) {
@@ -40,7 +39,7 @@ n.update = 1000, thin = 1, n.iter = 5000, updated.model = TRUE, ...)
     }
     ## coda samples
     if (n.iter > 0) {
-        res <- coda.samples(m, params, n.iter=n.iter, thin=thin, 
+        res <- rjags::coda.samples(m, params, n.iter=n.iter, thin=thin, 
             progress.bar=trace, by=byval)
     } else {
         if (!is.null(n.clones) && n.clones > 1) {

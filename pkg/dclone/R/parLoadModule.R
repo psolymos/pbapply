@@ -2,9 +2,8 @@ parLoadModule <-
 function(cl, name, path, quiet = FALSE) 
 {
     ## stop if rjags not found
-    if (!suppressWarnings(require(rjags)))
-        stop("there is no package called 'rjags'")
-    clusterEvalQ(cl, require(rjags))
+    requireNamespace("rjags")
+    clusterEvalQ(cl, requireNamespace("rjags"))
     if (missing(path)) {
         path <- clusterEvalQ(cl,  getOption("jags.moddir"))
         if (any(sapply(path, is.null))) {
@@ -17,6 +16,6 @@ function(cl, name, path, quiet = FALSE)
             path <- rep(path, length(cl))
     }
     fun <- function(path, name, quiet)
-        load.module(name, path, quiet)
+        rjags::load.module(name, path, quiet)
     parLapply(cl, path, fun, name=name, quiet=quiet)
 }

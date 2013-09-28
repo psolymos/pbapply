@@ -87,6 +87,7 @@ Methods: \code{\link{dcsd}}, \code{\link{confint.mcmc.list.dc}},
 }
 \examples{
 \dontrun{
+if (require(rjags)) {
 ## simple regression example from the JAGS manual
 jfun <- function() {
     for (i in 1:N) {
@@ -106,7 +107,7 @@ alpha <- 1
 beta <- -1
 sigma <- 0.5
 x <- runif(N)
-linpred <- model.matrix(~x) \%*\% c(alpha, beta)
+linpred <- crossprod(t(model.matrix(~x)), c(alpha, beta))
 Y <- rnorm(N, mean = linpred, sd = sigma)
 ## list of data for the model
 jdata <- list(N = N, Y = Y, x = x)
@@ -120,6 +121,7 @@ summary(regmod)
 dcdata <- dclone(jdata, 5, multiply = "N")
 dcmod <- jags.fit(dcdata, jpara, jfun, n.chains = 3)
 summary(dcmod)
+}
 }
 }
 \keyword{ models }

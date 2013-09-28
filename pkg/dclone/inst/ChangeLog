@@ -16,10 +16,10 @@ Version 2.0-0, Sept 27, 2013
       existsDcloneEnv.
     * snowWraper is now deprecated with a warning.
     * R2OpenBUGS added to DESCRIPTION as suggested package.
-    * R2WinBUGS:::* notation explicitly added to avoid clashes
+    * R2WinBUGS::* notation explicitly added to avoid clashes
       with R2OpenBUGS.
-    * The program="openbugs" in bugs.fit now calls R2OpenBUGS:::bugs
-      instead of R2WinBUGS:::openbugs. The latter can be
+    * The program="openbugs" in bugs.fit now calls R2OpenBUGS::bugs
+      instead of R2WinBUGS::openbugs. The latter can be
       achieved by program="brugs" and gives a warning the
       "openbugs" via R2WinBUGS is the preferred interface.
       The reason is that as.mcmc.list.bug coercion produces
@@ -31,6 +31,12 @@ Version 2.0-0, Sept 27, 2013
       This is for parallel computations. See help file for
       details on suggested best practices.
     * dc.parfit: now allows flavour="bugs" for all partypes options.
+    * Removed reference to parallel:::.reg default cluster.
+    * SystemRequirements in DESCRIPTION changed to 'one or more of ...'.
+    * rjags related functions call requireNamespace("rjags")
+      instead of require(rjags).
+    * Depends on R 2.15.1 because of the declaration of global
+      variables .DcloneEnvModel and .DcloneEnvResults.
 
 Version 1.8-2, March 4, 2013
     * custommodel: splits length 1 character model by '\n'.

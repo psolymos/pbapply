@@ -10,30 +10,30 @@ Data Cloning
 Low level functions for implementing
     maximum likelihood estimating procedures for 
     complex models using data cloning and Bayesian
-    Markov chain Monte Carlo methods with support 
+    Markov chain Monte Carlo methods. 
+    Sequential and parallel MCMC support 
     for JAGS, WinBUGS and OpenBUGS.
-    Parallel MCMC computation is supported
-    and can result in considerable speed-up.
 
 Main functions include:
 
 \itemize{
   \item{
-    \code{\link{dclone}}, \code{\link{dcdim}}, \code{\link{dciid}}: 
+    \code{\link{dclone}}, \code{\link{dcdim}}, \code{\link{dciid}},
+    \code{\link{dctr}}: 
     cloning R objects in various ways.
   }
 
   \item{
     \code{\link{jags.fit}}, \code{\link{bugs.fit}}: 
     conveniently fit BUGS models.
-    (\code{\link{jags.parfit}} fits chains on 
-    parallel workers for JAGS.)
+    \code{\link{jags.parfit}} and \code{\link{bugs.parfit}} fits 
+    chains on parallel workers.
   }
 
   \item{
     \code{\link{dc.fit}}: iterative model fitting by 
     the data cloning algorithm.
-    (\code{\link{dc.parfit}} is the parallelized version.)
+    \code{\link{dc.parfit}} is the parallelized version.
   }
 
   \item{

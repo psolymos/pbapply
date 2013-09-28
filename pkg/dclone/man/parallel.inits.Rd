@@ -51,6 +51,7 @@ parallel functions that do initialization:
 \code{\link{dc.parfit}}
 }
 \examples{
+if (require(rjags)) {
 ## "base::BaseRNG" factory.
 parallel.inits(NULL, 2)
 ## "lecuyer::RngStream" factory
@@ -62,5 +63,6 @@ parallel.inits(list(a=0), 2)
 parallel.inits(list(list(a=0), list(a=0)), 2)
 parallel.inits(function() list(a=0), 2)
 parallel.inits(function(chain) list(a=chain), 2)
+}
 }
 \keyword{ utilities }

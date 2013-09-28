@@ -1,6 +1,6 @@
 ## main dclone functions
 export("dclone", "dcdim", "dciid", "dctr",
-       "jags.fit", "bugs.fit", "dc.fit",
+       "jags.fit", "bugs.fit", "dc.fit", ".dcFit",
        "clean.jags.model", "write.jags.model", "custommodel",
        "updated.model",
        "dcsd",
@@ -47,6 +47,7 @@ export(dcsd.mcmc.list,
         coef.mcmc.list, 
         confint.mcmc.list.dc, 
         vcov.mcmc.list.dc, 
+        vcov.mcmc.list, 
         quantile.mcmc.list, 
         dclone.default, 
         dclone.list, 
@@ -66,7 +67,8 @@ export(dcsd.mcmc.list,
         update.mcmc.list,
         stack.mcmc.list,
         lambdamax.diag.mcmc.list,
-        chisq.diag.mcmc.list)
+        chisq.diag.mcmc.list,
+        as.mcmc.list.bugs)
 
 ## register methods for main dclone functions/classes
 S3method("nclones", "default")

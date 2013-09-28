@@ -37,6 +37,7 @@ Sequential \pkg{dclone}-ified version: \code{\link{codaSamples}}
 }
 \examples{
 \dontrun{
+if (require(rjags)) {
 model <- function() {
     for (i in 1:N) {
         Y[i] ~ dnorm(mu[i], tau)
@@ -55,7 +56,7 @@ alpha <- 1
 beta <- -1
 sigma <- 0.5
 x <- runif(N)
-linpred <- model.matrix(~x) \%*\% c(alpha, beta)
+linpred <- crossprod(t(model.matrix(~x)), c(alpha, beta))
 Y <- rnorm(N, mean = linpred, sd = sigma)
 jdata <- list(N = N, Y = Y, x = x)
 jpara <- c("alpha", "beta", "sigma")
@@ -76,6 +77,7 @@ m2 <- parCodaSamples(cl, "res2", jpara, n.iter=2000)
 stopifnot(2==nchain(m2))
 nclones(m2)
 stopCluster(cl)
+}
 }
 }
 \keyword{models}

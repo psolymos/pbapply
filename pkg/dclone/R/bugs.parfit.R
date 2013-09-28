@@ -43,7 +43,7 @@ program=c("winbugs", "openbugs", "brugs"), ...) ## only mcmc.list format is supp
 
     trace <- getOption("dcoptions")$verbose
     ## retrieves n.clones
-    n.clones <- dclone:::nclones.list(data)
+    n.clones <- dclone::nclones.list(data)
     ## removes n.clones attr from each element of data
     data <- lapply(data, function(z) {
         attr(z, "n.clones") <- NULL

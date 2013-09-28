@@ -100,14 +100,13 @@ n.chains=3, cl = NULL, parchains = FALSE, ...)
                 inits <- if (INIARGS)
                     initsfun(mod) else initsfun(mod, k[i+1])
         }
-        dctmp <- dclone:::extractdctable.default(mod)
+        dctmp <- dclone::extractdctable.default(mod)
         ## params.diag needs to subset varnames and not params
         if (i == 1) {
             vn <- varnames(mod)
             params.diag <- vn[unlist(lapply(params.diag, grep, x=vn))]
         }
-        dcdr[[i]] <- dclone:::extractdcdiag.default(mod[,params.diag])
-#        dcdr[[i]] <- dclone:::extractdcdiag.default(mod)
+        dcdr[[i]] <- dclone::extractdcdiag.default(mod[,params.diag])
         for (j in 1:length(vn)) {
             dcts[[j]][i,-1] <- dctmp[j,]
         }

@@ -15,9 +15,6 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
     }
     ## parallel evaluation starts here
     flavour <- match.arg(flavour)
-    ## stop if rjags not found
-#    if (flavour=="jags" && !suppressWarnings(require(rjags)))
-#        stop("there is no package called 'rjags'")
     if (flavour=="jags" && !is.null(list(...)$updated.model))
         stop("'updated.model' argument is not available for parallel computations")
     if (flavour=="bugs" && !is.null(list(...)$format))
@@ -44,7 +41,7 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
     }
     ## multiple parallel chains
     if (partype == "parchains") {
-        mod <- dclone:::.dcFit(data, params, model, inits, n.clones, 
+        mod <- dclone::.dcFit(data, params, model, inits, n.clones, 
             multiply=multiply, unchanged=unchanged, 
             update=update, updatefun=updatefun, 
             initsfun=initsfun, flavour = flavour, 
@@ -133,9 +130,8 @@ n.chains = 3, partype = c("balancing", "parchains", "both"), ...)
                 vn <- varnames(mod)
                 params.diag <- vn[unlist(lapply(cldata$params.diag, grep, x=vn))]
                 if (i == max(k))
-                    return(mod) else return(list(dct=dclone:::extractdctable(mod), 
-                        dcd=dclone:::extractdcdiag(mod[,params.diag])))
-#                        dcd=dclone:::extractdcdiag(mod)))
+                    return(mod) else return(list(dct=dclone::extractdctable(mod), 
+                        dcd=dclone::extractdcdiag(mod[,params.diag])))
             }
             if (flavour == "jags") {
                 LIB <- c("dclone", "rjags") 

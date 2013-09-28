@@ -91,7 +91,7 @@ Sequential version: \code{\link[dclone]{bugs.fit}}
 \examples{
 \dontrun{
 ## fitting with WinBUGS, bugs example
-library(R2WinBUGS)
+if (require(R2WinBUGS)) {
 data(schools)
 dat <- list(J = nrow(schools), 
     y = schools$estimate, 
@@ -119,20 +119,24 @@ sim2 <- bugs.parfit(cl, dat2, param, bugs.model,
     program="winbugs", n.iter=2000, n.thin=1, seed=SEED)
 summary(sim2)
 }
+}
+if (require(BRugs)) {
 ## fitting the model with OpenBUGS
 ## using the less preferred BRugs interface
 sim3 <- bugs.parfit(cl, dat2, param, bugs.model, 
     program="brugs", n.iter=2000, n.thin=1, seed=1:3)
 summary(sim3)
-library(R2OpenBUGS)
+}
+if (require(R2OpenBUGS)) {
 ## fitting the model with OpenBUGS
 ## using the preferred R2OpenBUGS interface
 sim4 <- bugs.parfit(cl, dat2, param, bugs.model, 
     program="openbugs", n.iter=2000, n.thin=1, seed=1:3)
 summary(sim4)
+}
 stopCluster(cl)
 ## multicore type forking
-if (.Platform$OS.type != "windows") {
+if (require(R2OpenBUGS) && .Platform$OS.type != "windows") {
 sim7 <- bugs.parfit(3, dat2, param, bugs.model, 
     program="openbugs", n.iter=2000, n.thin=1, seed=1:3)
 summary(sim7)

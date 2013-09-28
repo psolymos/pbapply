@@ -185,7 +185,7 @@ n <- 20
 x <- runif(n, -1, 1)
 X <- model.matrix(~x)
 beta <- c(2, -1)
-mu <- X \%*\% beta
+mu <- crossprod(t(X), beta)
 Y <- rpois(n, exp(mu))
 glm.model <- function() {
     for (i in 1:n) {
@@ -276,7 +276,7 @@ sigma <- 0.1
 alpha <- rnorm(n, 0, sigma)
 x <- runif(n)
 X <- model.matrix(~x)
-linpred <- X \%*\% beta + alpha
+linpred <- crossprod(t(X), beta) + alpha
 Y <- rpois(n, exp(linpred))
 ## JAGS model as a function
 jfun1 <- function() {

@@ -42,6 +42,7 @@ parSetFactory(cl, name, type, state)
 }
 \examples{
 \dontrun{
+if (require(rjags)) {
 cl <- makePSOCKcluster(3)
 parListFactories(cl, "sampler")
 parListFactories(cl, "monitor")
@@ -50,6 +51,7 @@ parSetFactory(cl, "base::Slice", "sampler", FALSE)
 parListFactories(cl, "sampler")
 parSetFactory(cl, "base::Slice", "sampler", TRUE)
 stopCluster(cl)
+}
 }
 }
 \keyword{models}

@@ -103,7 +103,7 @@ Methods: \code{\link{dcsd}}, \code{\link{confint.mcmc.list.dc}},
 \examples{
 \dontrun{
 ## fitting with WinBUGS, bugs example
-library(R2WinBUGS)
+if (require(R2WinBUGS)) {
 data(schools)
 dat <- list(J = nrow(schools), 
     y = schools$estimate, 
@@ -133,20 +133,26 @@ sim2 <- bugs.fit(dat2, param, bugs.model,
     program="winbugs", n.iter=2000, n.thin=1)
 summary(sim2)
 }
+}
+if (require(BRugs)) {
 ## fitting the model with OpenBUGS
 ## using the less preferred BRugs interface
 sim3 <- bugs.fit(dat2, param, bugs.model, 
     program="brugs", n.iter=2000, n.thin=1)
 summary(sim3)
-library(R2OpenBUGS)
+}
+if (require(R2OpenBUGS)) {
 ## fitting the model with OpenBUGS
 ## using the preferred R2OpenBUGS interface
 sim4 <- bugs.fit(dat2, param, bugs.model, 
     program="openbugs", n.iter=2000, n.thin=1)
 summary(sim4)
+}
+if (require(rjags)) {
 ## fitting the model with JAGS
 sim5 <- jags.fit(dat2, param, bugs.model)
 summary(sim5)
+}
 }
 }
 \keyword{ models }

@@ -2,8 +2,7 @@ parCodaSamples <-
 function(cl, model, variable.names = NULL, n.iter, thin = 1, ...) 
 {
     ## stop if rjags not found
-    if (!suppressWarnings(require(rjags)))
-        stop("there is no package called 'rjags'")
+    requireNamespace("rjags")
     cl <- evalParallelArgument(cl, quit=TRUE)
     if (!inherits(cl, "cluster"))
         stop("cl must be of class 'cluster'")
@@ -17,7 +16,7 @@ function(cl, model, variable.names = NULL, n.iter, thin = 1, ...)
             return(NULL)
         res <- pullDcloneEnv(cldata$name, type = "results")
         n.clones <- nclones(res)
-        out <- coda.samples(res, variable.names=cldata$variable.names,
+        out <- rjags::coda.samples(res, variable.names=cldata$variable.names,
             n.iter=cldata$n.iter, thin=cldata$thin, ...)
         ## jags model is pushed back to .env, mcmc.list is returned
         pushDcloneEnv(cldata$name, res, type = "results")

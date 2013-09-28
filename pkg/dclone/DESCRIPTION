@@ -12,11 +12,11 @@ Description: Low level functions for implementing
     Sequential and parallel MCMC support 
     for JAGS, WinBUGS and OpenBUGS.
 License: GPL-2
-Depends: R (>= 2.14.0), coda (>= 0.13), parallel
+Depends: R (>= 2.15.1), coda (>= 0.13), parallel
 Suggests: MASS, lattice, rjags (>= 3-5), R2WinBUGS, 
     R2OpenBUGS, BRugs, snow, rlecuyer
 Imports: stats
-SystemRequirements: JAGS (>= 3.0.0), WinBUGS (>= 1.4), 
+SystemRequirements: one or more of JAGS (>= 3.0.0), WinBUGS (>= 1.4), 
     OpenBUGS (>= 3.2.2)
 URL: http://cran.r-project.org/package=dclone, 
     http://dcr.r-forge.r-project.org/

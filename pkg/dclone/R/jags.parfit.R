@@ -10,8 +10,9 @@ function(cl, data, params, model, inits = NULL, n.chains = 3, ...)
     }
     ## parallel evaluation starts here
     ## stop if rjags not found
-    if (!suppressWarnings(require(rjags)))
-        stop("there is no package called 'rjags'")
+    requireNamespace("rjags")
+    if (inherits(cl, "cluster"))
+        clusterEvalQ(cl, requireNamespace("rjags"))
     if (is.environment(data)) {
         warnings("'data' was environment: it was coerced into a list")
         data <- as.list(data)

@@ -4,8 +4,9 @@ function(cl, quit=FALSE) {
         cl <- NULL
     if (is.null(cl)) {
         mc <- getOption("mc.cores")
-        dcl <- if (getRversion() >= "2.15.0")
-            get("default", envir = parallel:::.reg) else NULL
+#        dcl <- if (getRversion() >= "2.15.0")
+#            get("default", envir = parallel:::.reg) else NULL
+        dcl <- NULL # CRAN policies prohibit this usage
         ## stop if default is ambiguous
         if (!is.null(mc) && !is.null(dcl))
             if (quit)

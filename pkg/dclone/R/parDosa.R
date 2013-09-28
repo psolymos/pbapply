@@ -50,7 +50,8 @@ function(cl, seq, fun, cldata,
                 eval(parse(text=paste("clusterEvalQ(cl,", i, ")")))
         }
         ## export TMPNAM to workers
-        clusterExport(cl, TMPNAM, envir = dclone:::.DcloneEnvModel)
+        #clusterExport(cl, TMPNAM, envir = dclone:::.DcloneEnvModel)
+        clusterExport(cl, TMPNAM, envir = .DcloneEnvModel)
         ## push TMPNAM into .env as TRUENAM
         eval(parse(text=paste("clusterEvalQ(cl, pushDcloneEnv(\"",
             TRUENAM, "\", ", TMPNAM, ", type = \"model\"))", sep="")))

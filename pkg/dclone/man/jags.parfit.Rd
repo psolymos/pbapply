@@ -82,12 +82,13 @@ Function for stepwise modeling with JAGS: \code{\link{parJagsModel}},
 }
 \examples{
 \dontrun{
+if (require(rjags)) {
 set.seed(1234)
 n <- 20
 x <- runif(n, -1, 1)
 X <- model.matrix(~x)
 beta <- c(2, -1)
-mu <- X \%*\% beta
+mu <- crossprod(t(X), beta)
 Y <- rpois(n, exp(mu))
 glm.model <- function() {
     for (i in 1:n) {
@@ -139,6 +140,7 @@ stopCluster(cl)
 ## multicore type forking
 if (.Platform$OS.type != "windows") {
 pm6 <- jags.parfit(3, dat, "beta", glm.model)
+}
 }
 }
 }
