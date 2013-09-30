@@ -1,4 +1,4 @@
-export(dcmle, makeGsFit, makeDcFit,
+export(dcmle, .dcmle, makeGsFit, makeDcFit,
     listDcExamples, sourceDcExample)
 
 exportMethods(

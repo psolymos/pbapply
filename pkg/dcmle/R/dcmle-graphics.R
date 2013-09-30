@@ -1,11 +1,11 @@
 ## plot methods (coda and lattice)
 
 setMethod("plot", signature(x="MCMClist", y="missing"), function(x, ...) 
-    coda:::plot.mcmc.list(x, ...))
+    plot(as(x, "mcmc.list"), ...))
 setMethod("plot", signature(x="codaMCMC", y="missing"), function(x, ...) 
-    coda:::plot.mcmc.list(as(x, "MCMClist"), ...))
+    plot(as(x, "MCMClist"), ...))
 setMethod("plot", signature(x="dcmle", y="missing"), function(x, ...) 
-    coda:::plot.mcmc.list(as(x, "MCMClist"), ...))
+    plot(as(x, "MCMClist"), ...))
 
 #setGeneric("traceplot", function(x, ...) standardGeneric("traceplot"))
 setMethod("traceplot", "MCMClist", function(x, ...) 
@@ -33,46 +33,46 @@ setMethod("pairs", "dcmle", function(x, ...)
 
 #setGeneric("densityplot", function(x, ...) standardGeneric("densityplot"))
 setMethod("densityplot", "MCMClist", 
-    function(x, ...) 
-        coda:::densityplot.mcmc.list(x, ...))
+    function(x, data, ...) 
+        densityplot(as(x, "mcmc.list"), data, ...))
 setMethod("densityplot", "codaMCMC", 
-    function(x, ...) 
+    function(x, data, ...) 
         densityplot(as(x, "MCMClist"), data, ...))
 setMethod("densityplot", "dcmle", 
-    function(x, ...) 
+    function(x, data, ...) 
         densityplot(as(x, "MCMClist"), data, ...))
 
 #setGeneric("qqmath", function(x, ...) standardGeneric("qqmath"))
 setMethod("qqmath", "MCMClist", 
-    function(x, ...) 
-        coda:::qqmath.mcmc.list(x, ...))
+    function(x, data, ...) 
+        qqmath(as(x, "mcmc.list"), data, ...))
 setMethod("qqmath", "codaMCMC", 
-    function(x, ...) 
+    function(x, data, ...) 
         qqmath(as(x, "MCMClist"), data, ...))
 setMethod("qqmath", "dcmle", 
-    function(x, ...) 
+    function(x, data, ...) 
         qqmath(as(x, "MCMClist"), data, ...))
 
 #setGeneric("xyplot", function(x, ...) standardGeneric("xyplot"))
 setMethod("xyplot", "MCMClist", 
-    function(x, ...) 
-        coda:::xyplot.mcmc.list(x, ...))
+    function(x, data, ...) 
+        xyplot(as(x, "mcmc.list"), data, ...))
 setMethod("xyplot", "codaMCMC", 
-    function(x, ...) 
+    function(x, data, ...) 
         xyplot(as(x, "MCMClist"), data, ...))
 setMethod("xyplot", "dcmle", 
-    function(x, ...) 
+    function(x, data, ...) 
         xyplot(as(x, "MCMClist"), data, ...))
 
 #setGeneric("acfplot", function(x, ...) standardGeneric("acfplot"))
 setMethod("acfplot", "MCMClist", 
-    function(x, ...) 
-        coda:::acfplot.mcmc.list(x, ...))
+    function(x, data, ...) 
+        acfplot(as(x, "mcmc.list"), data, ...))
 setMethod("acfplot", "codaMCMC", 
-    function(x, ...) 
+    function(x, data, ...) 
         acfplot(as(x, "MCMClist"), data, ...))
 setMethod("acfplot", "dcmle", 
-    function(x, ...) 
+    function(x, data, ...) 
         acfplot(as(x, "MCMClist"), data, ...))
 
 ## this plots only mcmc (one chain at a time)

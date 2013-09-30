@@ -1,7 +1,7 @@
 ## wrapper function
 ## calls the interal .dcmle function and coerces to dcmle S4 class
 dcmle <- function(x, params, n.clones=1, cl=NULL, nobs, ...) {
-    out <- as(dcmle:::.dcmle(x=x, params=params, 
+    out <- as(dcmle::.dcmle(x=x, params=params, 
         n.clones=n.clones, cl=cl, nobs=nobs, ...), "dcmle")
     out@call <- match.call()
     if (!missing(nobs))

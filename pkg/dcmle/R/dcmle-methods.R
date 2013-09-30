@@ -161,10 +161,10 @@ setMethod("time", "codaMCMC", function(x, ...) {
 })
 
 setMethod("window", "dcmle", function(x, ...) {
-    as(coda:::window.mcmc.list(as.mcmc.list(x), ...), "dcmle")
+    as(window(as(x, "mcmc.list"), ...), "dcmle")
 })
 setMethod("window", "codaMCMC", function(x, ...) {
-    as(coda:::window.mcmc.list(as.mcmc.list(x), ...), "codaMCMC")
+    as(window(as(x, "mcmc.list"), ...), "codaMCMC")
 })
 
 ## no update for codaMCMC/dcCodaMCMC
@@ -212,18 +212,18 @@ setMethod("stack", "codaMCMC", function(x, ...) {
 ## this displays a compact structure (without detailed dctable)
 #setGeneric("str", function(object, ...) standardGeneric("str"))
 setMethod("str", "dcmle", function(object, max.level=5L, ...) 
-    utils:::str.default(object, max.level=max.level, ...))
+    str(object, max.level=max.level, ...))
 setMethod("str", "dcCodaMCMC", function(object, max.level=3L, ...) 
-    utils:::str.default(object, max.level=max.level, ...))
+    str(object, max.level=max.level, ...))
 
 setMethod("head", "dcmle", function(x, ...) 
-    coda:::head.mcmc.list(as(x, "MCMClist"), ...))
+    head(as(x, "MCMClist"), ...))
 setMethod("tail", "dcmle", function(x, ...) 
-    coda:::tail.mcmc.list(as(x, "MCMClist"), ...))
+    tail(as(x, "MCMClist"), ...))
 setMethod("head", "codaMCMC", function(x, ...) 
-    coda:::head.mcmc.list(as(x, "MCMClist"), ...))
+    head(as(x, "MCMClist"), ...))
 setMethod("tail", "codaMCMC", function(x, ...) 
-    coda:::tail.mcmc.list(as(x, "MCMClist"), ...))
+    tail(as(x, "MCMClist"), ...))
 
 
 ## this is after mle class
@@ -471,7 +471,7 @@ setMethod("heidel.diag", "dcmle", function(x, ...)
 #setGeneric("autocorr.diag", function(mcmc.obj, ...) 
 #    standardGeneric("autocorr.diag"))
 setMethod("autocorr.diag", "MCMClist", function(mcmc.obj, ...) 
-    coda:::autocorr.diag.mcmc.list(mcmc.obj, ...))
+    autocorr.diag(as(mcmc.obj, "mcmc.list"), ...))
 setMethod("autocorr.diag", "codaMCMC", function(mcmc.obj, ...) 
     autocorr.diag(as(mcmc.obj, "MCMClist"), ...))
 setMethod("autocorr.diag", "dcmle", function(mcmc.obj, ...) 
