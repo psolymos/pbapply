@@ -12,7 +12,7 @@ function(object, nsim = 1, seed = NULL, ...)
         on.exit(assign(".Random.seed", R.seed, envir = .GlobalEnv))
     }
 
-#N <- stats:::rnbinom(n, size=1/var, prob=1/(1+var*lambda*A))
+#N <- stats::rnbinom(n, size=1/var, prob=1/(1+var*lambda*A))
 
     phi <- if (object$zeroinfl)
         object$zif.probabilities else rep(0, object$nobs)

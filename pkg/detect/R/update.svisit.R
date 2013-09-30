@@ -35,7 +35,6 @@ function (object, formula., ..., evaluate = TRUE, control)
         stop("need an object with call component")
     extras <- match.call(expand.dots = FALSE)$...
     if (!missing(formula.)) 
-#        call$formula <- detect:::update.formula.svisit(formula(object)$full, formula.)
         call$formula <- update.formula.svisit(formula(object)$full, formula.)
     if (length(extras) > 0) {
         existing <- !is.na(match(names(extras), names(call)))

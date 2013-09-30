@@ -3,7 +3,7 @@ export("svocc", "svocc.fit", "svocc.step")
 ## exported svabu functions
 export("svabu", "svabu.fit", "svabu.step", "zif")
 ## exported cmulti functions
-export("cmulti", "cmulti.fit", "cmulti2.fit")
+export("cmulti", "cmulti.fit", "cmulti.fit0", "cmulti2.fit")
 ## exported helper functions
 export("bootstrap", "extractMLE", "extractBOOT",
     "predictMCMC", "is.present")
