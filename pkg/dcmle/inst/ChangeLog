@@ -12,6 +12,7 @@ Version 0.2-4, Sept 27, 2013
       'winbugs', 'openbugs', 'brugs' referring to the
       program argument in bugs.*fit.
     * Removed ::: to satisfy R 3.0.2 check.
+    * snow is not suggested in DESCRIPTION.
 
 Version 0.2-3, March 1, 2013
     * gsFit: gained flavour argument.
