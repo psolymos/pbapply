@@ -11,7 +11,7 @@ Description: Likelihood based population viability analysis in the
   and forecast various growth model types using data cloning.
 License: GPL-2
 Depends: R (>= 2.15.0), methods, dcmle, dclone, stats4
-Suggests: snow
+Suggests: parallel
 SystemRequirements: JAGS (>= 3.0.0)
 URL: http://cran.r-project.org/package=PVAClone, http://dcr.r-forge.r-project.org/
 LazyLoad: yes
