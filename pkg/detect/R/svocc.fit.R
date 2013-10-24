@@ -158,7 +158,7 @@ method = c("optim", "dc"), inits, ...)
         require(dcmle)
         dcd <- makeDcFit(model=model, data=dat, params=c("beta", "theta"),
             multiply=c("Y","k"), unchanged=names(dat)[-c(1,4)])
-        mle.res <- dcmle(dcd, nclones=n.clones, ...)
+        mle.res <- dcmle(dcd, n.clones=n.clones, ...)
     }
     ## MLE from optim
     if (method=="optim") {
