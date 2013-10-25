@@ -37,7 +37,7 @@ function (object, scope, model, criter = c("AIC", "BIC", "cAUC"), test = FALSE, 
     asgn <- attr(x, "assign")
     tl <- attr(object$terms[[model]], "term.labels")
     if (missing(scope)) {
-        scope <- drop.scope(as(object, "svisit"), model=model)
+        scope <- drop.scope.svisit(object, model=model)
     } else {
         if (!is.character(scope)) {
             scope <- attr(terms(update.formula(object$formula[[model]], scope)), 

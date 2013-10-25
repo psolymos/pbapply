@@ -6,6 +6,9 @@ Version 0.3-1, Sept 25, 2013
     * Cleanup to satisfy R 3.0.2 check: remove :::.
     * Bugfix: svocc returned k=1 object irrespective of the n.clones
       option settings for MLE with method="dc".
+    * Help page added for internal objects (e.g. cmulti.fit0).
+    * drop.scope.svisit is no longer treated as a method because
+      drop.scope is not a generic.
 
 Version 0.3-0, July 29, 2013
     * jags.engine removed, replaced by dcmle dependency.

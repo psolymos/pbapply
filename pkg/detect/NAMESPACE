@@ -6,7 +6,7 @@ export("svabu", "svabu.fit", "svabu.step", "zif")
 export("cmulti", "cmulti.fit", "cmulti.fit0", "cmulti2.fit")
 ## exported helper functions
 export("bootstrap", "extractMLE", "extractBOOT",
-    "predictMCMC", "is.present")
+    "predictMCMC", "is.present", "drop.scope.svisit")
 ## model selection helper functions
 export("AUC", "rocplot")
 ## QPAD
@@ -14,7 +14,7 @@ export(load_BAM_QPAD, hbootindex, convertEDR)
 
 ## import from other packages
 importFrom("stats",
-    "case.names", "drop.scope", "drop1",
+    "case.names", "drop1",
     "logLik", "model.matrix", "model.frame", "terms", "simulate",
     "update.formula", "update", "vcov", "variable.names", 
     "AIC", "BIC")
@@ -59,7 +59,6 @@ S3method("fitted", "svabu")
 S3method("is.present", "svisit")
 S3method("bootstrap", "svisit")
 S3method("case.names", "svisit")
-S3method("drop.scope", "svisit")
 S3method("logLik", "svisit")
 S3method("terms", "svisit")
 S3method("update.formula", "svisit")
