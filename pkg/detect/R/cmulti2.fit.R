@@ -13,6 +13,7 @@ inits=NULL, method="Nelder-Mead", ...)
     }
     if (length(dim(Y)) != 3)
         stop("Y must have 3 dimensions")
+    n <- dim(Y)[1]
     k1 <- dim(Y)[2]
     k2 <- dim(Y)[3]
     Y1 <- t(sapply(1:n, function(i) {

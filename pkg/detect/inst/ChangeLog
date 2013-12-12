@@ -1,5 +1,8 @@
 detect package version history
 
+Version 0.3-2, Dec 12, 2013
+    * Bugfix in cmulti2.fit: n was undefined (reported by Julie Hart).
+
 Version 0.3-1, Sept 25, 2013
     * hbootindex: routine improved, now uses weights proportional
       to groups sizes.
