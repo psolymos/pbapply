@@ -6,7 +6,7 @@ function (X, FUN, ...)
         X <- as.list(X)
     B <- length(X)
     if (!(interactive() && dopb() && B >= 1)) 
-        return(lapply(X, FUN))
+        return(lapply(X, FUN, ...))
     pb <- startpb(0, B)
     rval <- vector("list", B)
     for (i in 1:B) {
