@@ -59,8 +59,8 @@ opts_chunk$set(comment=NA, prompt=FALSE, highlight=TRUE,
 This document provides Supporting Information for the manuscript entitled
 ``Calibrating indices of avian density from 
   non-standardized survey data: making the most of a messy situation''
-by S\'{o}lymos et al. (accepted for publication in the journal
-\emph{Methods in Ecology and Evolution}, DOI: 10.1111/2041-210X.12106).
+by \citep{solymos2013:qpad} (published in the journal
+\emph{Methods in Ecology and Evolution}, 4:1047--1058).
 
 The purpose of this document is to describe:
 \begin{enumerate}
@@ -119,6 +119,7 @@ Let us use 100 survey locations (\code{n}), and generate random values for the
 covariate \code{x}:
 <<rndData>>=
 n <- 100
+set.seed(1234)
 x <- rnorm(n)
 X <- cbind(1, x)
 @
@@ -618,13 +619,13 @@ iterations by taking into account the grouped nature of the data set.
 It resamples routes first, then resamples stops within the resampled routes.
 <<boot0>>=
 set.seed(1234)
-Bi <- hbootindex(oven$route, B=199)
-modB <- t(sapply(1:length(Bi), function(i) {
+Bi <- hbootindex(oven$route, strata=rep(1, nrow(oven)), B=199)
+modB <- t(apply(Bi, 2, function(z) {
     bc <- with(oven, localBAMcorrections("OVEN", t=dur, r=dist,
         jday=JDAY, tssr=TSSR, tree=pforest, lcc=LCC,
         model.sra=bm$sra, model.edr=bm$edr))
-    coef(glm(count ~ pforest + xlong, oven[Bi[[i]],], family="poisson", 
-        offset=corrections2offset(bc)[Bi[[i]]]))
+    coef(glm(count ~ pforest + xlong, oven[z,], family="poisson", 
+        offset=corrections2offset(bc)[z]))
 }))
 @
 See how standard errors compare between Wald-type and bootstrap approach:
@@ -643,13 +644,13 @@ For this, we can use the \code{boot} argument in the
 functions \code{globalBAMcorrections} and 
 \code{localBAMcorrections} making the call \code{B} times:
 <<boot1>>=
-modB1 <- t(sapply(1:length(Bi), function(i) {
+modB1 <- t(apply(Bi, 2, function(z) {
     bc <- with(oven, localBAMcorrections("OVEN", t=dur, r=dist,
         jday=JDAY, tssr=TSSR, tree=pforest, lcc=LCC,
         model.sra=5, model.edr=1,
         boot=TRUE))
-    coef(glm(count ~ pforest + xlong, oven[Bi[[i]],], family="poisson", 
-        offset=corrections2offset(bc)[Bi[[i]]]))
+    coef(glm(count ~ pforest + xlong, oven[z,], family="poisson", 
+        offset=corrections2offset(bc)[z]))
 }))
 @
 We can compare standard errors again:
@@ -667,23 +668,23 @@ singing rate and distance models based on model weights
 (with and without the parametric bootstrap procedure
 in the offsets switched by the \code{boot} argument):
 <<boot2>>=
-modB2 <- t(sapply(1:length(Bi), function(i) {
+modB2 <- t(apply(Bi, 2, function(z) {
     mm <- bestmodelBAMspecies("OVEN", type="multi")
     bc <- with(oven, localBAMcorrections("OVEN", t=dur, r=dist,
         jday=JDAY, tssr=TSSR, tree=pforest, lcc=LCC, 
         model.sra=mm$sra, model.edr=mm$edr,
         boot=FALSE))
-    coef(glm(count ~ pforest + xlong, oven[Bi[[i]],], family="poisson", 
-        offset=corrections2offset(bc)[Bi[[i]]]))
+    coef(glm(count ~ pforest + xlong, oven[z,], family="poisson", 
+        offset=corrections2offset(bc)[z]))
 }))
-modB3 <- t(sapply(1:length(Bi), function(i) {
+modB3 <- t(apply(Bi, 2, function(z) {
     mm <- bestmodelBAMspecies("OVEN", type="multi")
     bc <- with(oven, localBAMcorrections("OVEN", t=dur, r=dist,
         jday=JDAY, tssr=TSSR, tree=pforest, lcc=LCC, 
         model.sra=mm$sra, model.edr=mm$edr,
         boot=TRUE))
-    coef(glm(count ~ pforest + xlong, oven[Bi[[i]],], family="poisson", 
-        offset=corrections2offset(bc)[Bi[[i]]]))
+    coef(glm(count ~ pforest + xlong, oven[z,], family="poisson", 
+        offset=corrections2offset(bc)[z]))
 }))
 round(cbind(wald_fixed=sqrt(diag(vcov(mod))),
     boot_fixed=sqrt(diag(cov(modB))),
@@ -751,7 +752,7 @@ parLoadModule(cl, "glm") # load glm module for JAGS on workers
 dcm <- dcmle(dcf, n.clones=K, n.update=2000,
     n.iter=2000, cl=cl, partype="parchains")
 stopCluster(cl) # close cluster
-dcm
+summary(dcm)
 @
 The model reveals results similar to the GLM example above, 
 Proportion of forest cover around points had a significant 
