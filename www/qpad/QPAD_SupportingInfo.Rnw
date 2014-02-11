@@ -286,7 +286,7 @@ res1 <- cmulti.fit(vv$Y1, vv$D1, NULL, "rem")
 res2 <- cmulti.fit(vv$Y2, vv$D2, NULL, "dis")
 @
 Jointly and independently estimated
-points estimates and standard errors are identical, the two
+point estimates and standard errors are identical, the two
 models are orthogonal (correlation is 0):
 <<res1>>=
 round(cbind(coef.joint=res$coef, 
@@ -306,7 +306,7 @@ res1 <- cmulti.fit(vv$Y1, vv$D1, X, "rem")
 res2 <- cmulti.fit(vv$Y2, vv$D2, X, "dis")
 @
 Jointly and independently estimated
-points estimates and standard errors are identical, the two
+point estimates and standard errors are identical, the two
 models are orthogonal (correlation is 0):
 <<res2>>=
 round(cbind(coef.joint=res$coef, 
