@@ -2,6 +2,7 @@ hbootindex <-
 function(groups, strata, B = 199) 
 {
     groups <- as.integer(as.factor(as.integer(groups)))
+    n <- length(groups)
     if (missing(strata)) {
         strata <- rep(1, n)
     } else {
@@ -9,7 +10,6 @@ function(groups, strata, B = 199)
     }
     if (length(strata) != length(groups))
         stop("lengths must equal")
-    n <- length(groups)
     ni <- seq_len(n)
     ns <- length(unique(strata))
     nsj <- seq_len(ns)
