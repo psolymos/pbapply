@@ -13,7 +13,8 @@ Simulated example for abundance model, see code below.
   \describe{
     \item{\code{N}}{true counts}
     \item{\code{Y}}{observed counts}
-    \item{\code{x1, x2, x3, x4, x5, x6}}{random variables used as covariates}
+    \item{\code{x1}, \code{x2}, \code{x3}, \code{x4}, \code{x5}, \code{x6}}{
+      random variables used as covariates}
     \item{\code{p}}{probability of detection}
     \item{\code{lambda}}{mean of the linear predictor}
     \item{\code{A}}{occupancy}

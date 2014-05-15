@@ -13,7 +13,8 @@ Simulated example for occupancy model, see code below.
   \describe{
     \item{\code{Y}}{true occupancy}
     \item{\code{W}}{observations}
-    \item{\code{x1, x2, x3, x4}}{random variables used as covariates}
+    \item{\code{x1}, \code{x2}, \code{x3}, \code{x4}}{
+      random variables used as covariates}
     \item{\code{p.occ}}{probability of occurrence}
     \item{\code{p.det}}{probability of detection}
   }

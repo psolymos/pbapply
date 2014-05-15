@@ -1,8 +1,10 @@
 detect package version history
 
-Version 0.3-2, Dec 12, 2013
+Version 0.3-2, May 15, 2014
     * Bugfix in cmulti2.fit: n was undefined (reported by Julie Hart).
     * Bugfix in hbootindex: n was not set when strata was missing.
+    * Documentation fixes (comma separated lists of variable 
+      names inside \code).
 
 Version 0.3-1, Sept 25, 2013
     * hbootindex: routine improved, now uses weights proportional

@@ -1,8 +1,8 @@
 Package: detect
 Type: Package
 Title: Analyzing Wildlife Data with Detection Error
-Version: 0.3-1
-Date: 2013-09-25
+Version: 0.3-2
+Date: 2014-05-15
 Author: Peter Solymos, Monica Moreno, Subhash R Lele
 Maintainer: Peter Solymos <solymos@ualberta.ca>
 Depends: R (>= 2.13.0), Formula, stats4
@@ -13,6 +13,6 @@ Description: The package implements models to analyze
   Alberta Biodiversity Monitoring Institute (ABMI)
   and the Boreal Avian Modelling (BAM) Project.
 License: GPL-2
-URL: http://dcr.r-forge.r-project.org/, http://www.abmi.ca/
+URL: http://dcr.r-forge.r-project.org/
 LazyLoad: yes
 LazyData: true
