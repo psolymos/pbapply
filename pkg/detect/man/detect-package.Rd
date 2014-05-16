@@ -35,24 +35,24 @@ Maintainer: Peter Solymos <solymos@ualberta.ca>
 \references{
 Moreno, M. and Lele, S. R. 2010.
 Improved estimation of site occupancy using penalized likelihood. 
-\emph{Ecology} 91, 341--346.
+\emph{Ecology}, \bold{91}, 341--346.
 
 Lele, S.R., Moreno, M. and Bayne, E. 2011. 
 Dealing with detection error in site occupancy surveys: 
 What can we do with a single survey? 
-\emph{Journal of Plant Ecology} \bold{5(1)}, 22--31.
+\emph{Journal of Plant Ecology}, \bold{5(1)}, 22--31.
 
 Solymos, P., Lele, S. R and Bayne, E. 2011.
 Conditional likelihood approach for analyzing single visit
 abundance survey data in the presence of zero inflation and
 detection error. 
-\emph{Environmetrics} \bold{23}, 197--205.
+\emph{Environmetrics}, \bold{23}, 197--205.
 
 Solymos, P., Matsuoka, S. M., Bayne, E. M., Lele, S. R., Fontaine, P., 
 Cumming, S. G., Stralberg, D., Schmiegelow, F. K. A. & Song, S. J., 2013.
 Calibrating indices of avian density from non-standardized survey data: 
 making the most of a messy situation. 
-\emph{Methods in Ecology and Evolution}, 4: 1047--1058.
+\emph{Methods in Ecology and Evolution}, \bold{4}, 1047--1058.
 
 Supporting info, including a tutorial for the above paper:
 \url{http://dcr.r-forge.r-project.org/qpad/}

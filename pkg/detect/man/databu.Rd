@@ -13,8 +13,12 @@ Simulated example for abundance model, see code below.
   \describe{
     \item{\code{N}}{true counts}
     \item{\code{Y}}{observed counts}
-    \item{\code{x1}, \code{x2}, \code{x3}, \code{x4}, \code{x5}, \code{x6}}{
-      random variables used as covariates}
+    \item{\code{x1}}{random variables used as covariates}
+    \item{\code{x2}}{random variables used as covariates}
+    \item{\code{x3}}{random variables used as covariates}
+    \item{\code{x4}}{random variables used as covariates}
+    \item{\code{x5}}{random variables used as covariates}
+    \item{\code{x6}}{random variables used as covariates}
     \item{\code{p}}{probability of detection}
     \item{\code{lambda}}{mean of the linear predictor}
     \item{\code{A}}{occupancy}
@@ -32,7 +36,7 @@ Solymos, P., Lele, S. R and Bayne, E. 2011.
 Conditional likelihood approach for analyzing single visit
 abundance survey data in the presence of zero inflation and
 detection error. 
-\emph{Environmetrics} (in press)
+\emph{Environmetrics}, \bold{23}, 197--205.
 
 Solymos, P., Lele, S. R and Bayne, E. 2011. Abundance estimation in the presence of zero
 inflation and detection error using single visit data. Alberta Biodiversity Monitoring Institute, Alberta, Canada.
