@@ -1,6 +1,6 @@
 ResourceSelection package version history
 
-Version 0.2-4, Sept 25, 2013
+Version 0.2-4, May 19, 2014
     * Cleaning up ::: to satisfy R 3.0.2 check.
     * simulateUsedAvail keeps column name when 1 variable supplied.
 

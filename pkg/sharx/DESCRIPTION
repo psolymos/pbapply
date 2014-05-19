@@ -2,7 +2,7 @@ Package: sharx
 Type: Package
 Title: Models and Data Sets for the Study of Species-Area Relationships
 Version: 1.0-4
-Date: 2013-09-25
+Date: 2014-05-19
 Author: Peter Solymos
 Maintainer: Peter Solymos <solymos@ualberta.ca>
 Description: Data sets and SAR, SARX, HSAR and HSARX 

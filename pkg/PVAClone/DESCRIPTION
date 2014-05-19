@@ -2,7 +2,7 @@ Package: PVAClone
 Type: Package
 Title: Population Viability Analysis with Data Cloning
 Version: 0.1-2
-Date: 2012-09-30
+Date: 2014-05-19
 Author: Khurram Nadeem, Peter Solymos
 Maintainer: Peter Solymos <solymos@ualberta.ca>
 Description: Likelihood based population viability analysis in the 
