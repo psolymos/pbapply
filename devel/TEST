@@ -7,10 +7,15 @@ dcloneexamples=1
 dcmleexamples=1
 snowexamples=1
 mcexamples=1
+rupdate=1
 #
 [ -d /home/peter/svn/dcr/devel/tests ] && rm -r /home/peter/svn/dcr/devel/tests
 mkdir /home/peter/svn/dcr/devel/tests
-# R CMD BATCH --vanilla /home/peter/svn/dcr/devel/updates.R /home/peter/svn/dcr/devel/tests/updates.log
+#
+if [ $rupdate -eq 1 ] ; then
+R CMD BATCH --vanilla /home/peter/svn/dcr/devel/updates.R /home/peter/svn/dcr/devel/tests/updates.Rout
+fi
+#
 cd /home/peter/svn/dcr/pkg
 svn export /home/peter/svn/dcr/pkg/dcmle /home/peter/svn/dcr/devel/tests/dcmle
 svn export /home/peter/svn/dcr/pkg/dclone /home/peter/svn/dcr/devel/tests/dclone
