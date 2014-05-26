@@ -13,6 +13,7 @@ rupdate=1
 mkdir /home/peter/svn/dcr/devel/tests
 #
 if [ $rupdate -eq 1 ] ; then
+echo "\n-- updating R packages --\n"
 R CMD BATCH --vanilla /home/peter/svn/dcr/devel/updates.R /home/peter/svn/dcr/devel/tests/updates.Rout
 fi
 #
