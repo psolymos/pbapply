@@ -1,0 +1,32 @@
+pbapply package version history
+
+Version 1.1-1, Feb 3, 2014
+    * pblapply did not pass ... when not in interactive mode.
+      Bug reported by R. D. Morey (U Groningen).
+
+Version 1.1-0, Sept 25, 2013
+    * Removed ::: to satisfy R 3.0.2 check.
+
+Version 1.0-5, July 6, 2012
+    * inst/COPYING removed
+    * .Internal call removed from pblapply
+
+Version 1.0-4, September 8, 2011
+    * .onLoad added to zzz.R
+    * Help files a bit reworked
+
+Version 1.0-3, September 9, 2010
+    * pboptions.Rd modified: pb type values added
+
+Version 1.0-2, September 4, 2010
+    * pboptions reworked
+    * functions simplified
+
+Version 1.0-1, September 3, 2010
+    * pbreplicate added
+    * tests directory created
+    * check failed on unix systems:
+      man an R directory reworked
+
+Version 1.0-0, September 2, 2010
+    * first release
