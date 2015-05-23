@@ -1,5 +1,8 @@
 pbapply package version history
 
+Version 1.1-2, May 23, 2015
+    * Using on.exit and invisible(NULL) in examples.
+
 Version 1.1-1, Feb 3, 2014
     * pblapply did not pass ... when not in interactive mode.
       Bug reported by R. D. Morey (U Groningen).
