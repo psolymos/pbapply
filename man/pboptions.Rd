@@ -100,22 +100,24 @@ Progress bars used in the functions:
 ## for loop
 fun1 <- function() {
     pb <- startpb(0, 10)
+    on.exit(closepb(pb))
     for (i in 1:10) {
         Sys.sleep(0.15)
         setpb(pb, i)
     }
-    closepb(pb)
+    invisible(NULL)
 }
 ## while loop
 fun2 <- function() {
     pb <- startpb(0, 10-1)
+    on.exit(closepb(pb))
     i <- 1
     while (i < 10) {
         Sys.sleep(0.15)
         setpb(pb, i)
         i <- i + 1
     }
-    closepb(pb)
+    invisible(NULL)
 }
 ## using original settings
 fun1()
