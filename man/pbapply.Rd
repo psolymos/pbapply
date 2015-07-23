@@ -93,7 +93,7 @@ Conveniently add progress bar to \code{for}-like loops:
 \code{\link{closepb}}
 }
 \examples{
-## simple linear model simulation
+## --- simple linear model simulation ---
 n <- 200
 x <- rnorm(n)
 y <- rnorm(n, model.matrix(~x) \%*\% c(0,1), sd=0.5)
@@ -119,29 +119,37 @@ system.time(res4 <- pblapply(1:B, function(i) fun(bid[,i])))
 system.time(res5 <- pbsapply(1:B, function(i) fun(bid[,i])))
 system.time(res6 <- pbapply(bid, 2, fun))
 
-## Examples taken from standard '*apply' functions
+## --- Examples taken from standard '*apply' functions ---
 
-## sapply and lapply
+## --- sapply, lapply, and replicate ---
 
 require(stats); require(graphics)
 
 x <- list(a = 1:10, beta = exp(-3:3), logic = c(TRUE,FALSE,FALSE,TRUE))
 # compute the list mean for each list element
-pblapply(x,mean)
+pblapply(x, mean)
 # median and quartiles for each list element
 pblapply(x, quantile, probs = 1:3/4)
 pbsapply(x, quantile)
-i39 <- pbsapply(3:9, seq) # list of vectors
+i39 <- sapply(3:9, seq) # list of vectors
 pbsapply(i39, fivenum)
 
-## replicate
+## sapply(*, "array") -- artificial example
+(v <- structure(10*(5:8), names = LETTERS[1:4]))
+f2 <- function(x, y) outer(rep(x, length.out = 3), y)
+(a2 <- pbsapply(v, f2, y = 2*(1:5), simplify = "array"))
+stopifnot(dim(a2) == c(3,5,4), all.equal(a2, a.2),
+          identical(dimnames(a2), list(NULL,NULL,LETTERS[1:4])))
 
-foo <- function(x=1, y=2) c(x,y)
+hist(pbreplicate(100, mean(rexp(10))))
+
+## use of replicate() with parameters:
+foo <- function(x = 1, y = 2) c(x, y)
 # does not work: bar <- function(n, ...) replicate(n, foo(...))
-bar <- function(n, x) pbreplicate(n, foo(x=x))
-bar(5, x=3)
+bar <- function(n, x) pbreplicate(n, foo(x = x))
+bar(5, x = 3)
 
-## apply
+## --- apply ---
 
 ## Compute row and column sums for a matrix:
 x <- cbind(x1 = 3, x2 = c(4:1, 2:5))
@@ -156,19 +164,26 @@ stopifnot( pbapply(x, 2, is.vector))
 ## Sort the columns of a matrix
 pbapply(x, 2, sort)
 
+## keeping named dimnames
+names(dimnames(x)) <- c("row", "col")
+x3 <- array(x, dim = c(dim(x),3),
+	    dimnames = c(dimnames(x), list(C = paste0("cop.",1:3))))
+identical(x,  pbapply( x,  2,  identity))
+identical(x3, pbapply(x3, 2:3, identity))
+
 ##- function with extra args:
 cave <- function(x, c1, c2) c(mean(x[c1]), mean(x[c2]))
-pbapply(x,1, cave,  c1="x1", c2=c("x1","x2"))
+pbapply(x, 1, cave,  c1 = "x1", c2 = c("x1","x2"))
 
 ma <- matrix(c(1:4, 1, 6:8), nrow = 2)
 ma
 pbapply(ma, 1, table)  #--> a list of length 2
-pbapply(ma, 1, stats::quantile)# 5 x n matrix with rownames
+pbapply(ma, 1, stats::quantile) # 5 x n matrix with rownames
 
 stopifnot(dim(ma) == dim(pbapply(ma, 1:2, sum)))
 
 ## Example with different lengths for each call
-z <- array(1:24, dim=2:4)
+z <- array(1:24, dim = 2:4)
 zseq <- pbapply(z, 1:2, function(x) seq_len(max(x)))
 zseq         ## a 2 x 3 matrix
 typeof(zseq) ## list
