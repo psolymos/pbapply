@@ -10,9 +10,10 @@ function (X, FUN, ...)
     pb <- startpb(0, B)
     rval <- vector("list", B)
     for (i in 1:B) {
-        rval[[i]] <- FUN(X[[i]], ...)
+        rval[i] <- list(FUN(X[[i]], ...))
         setpb(pb, i)
     }
     close(pb)
+    names(rval) <- names(X)
     rval
 }

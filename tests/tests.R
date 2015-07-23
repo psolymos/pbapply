@@ -29,3 +29,13 @@ system.time(x1 <- lapply(1:10, function(i) Sys.sleep(0.2)))
 system.time(x1 <- lapply_pb(1:10, function(i) Sys.sleep(0.2)))
 #system.time(x1 <- l_ply(1:10, function(i) Sys.sleep(0.2), .progress=create_progress_bar(name = "text")))
 system.time(x1 <- pblapply(1:10, function(i) Sys.sleep(0.2)))
+
+## test for NULL case in lapply
+l <- list(a=1,2,c=-1)
+f <- function(z)  if (z<0) return(NULL) else return(2*z)
+r1 <- lapply(l, f)
+r2 <- pblapply(l, f)
+r1
+r2
+stopifnot(identical(r1, r2))
+
