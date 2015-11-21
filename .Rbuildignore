@@ -1,7 +1,5 @@
-tests
-.Rhistory
-.Rapp.history
 \.md
 .git*
 .DS_Store
 .*~
+.travis.yml
