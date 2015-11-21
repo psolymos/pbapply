@@ -11,5 +11,5 @@ Description: A lightweight package that adds
   to functions, where showing the progress is
   useful for the user (e.g. bootstrap).
 License: GPL-2
-URL: http://cran.r-project.org/package=pbapply, https://github.com/psolymos/pbapply
+URL: https://github.com/psolymos/pbapply
 LazyLoad: yes
