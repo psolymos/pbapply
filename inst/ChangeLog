@@ -1,6 +1,6 @@
 # pbapply package version history
 
-## Version 1.1-2, May 23, 2015
+## Version 1.1-2, Nov 21, 2015
 
 * Using on.exit and invisible(NULL) in examples.
 * pblapply did not return NULL values, reported by
@@ -8,6 +8,7 @@
 * pblapply did not return list names. Now fixed.
 * pbapply, pbsapply, pbreplicate: code follows base original.
 * Examples updated to follow base R examples.
+* Rd file to match code changes.
 
 ## Version 1.1-1, Feb 3, 2014
 
