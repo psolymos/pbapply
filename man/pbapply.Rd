@@ -12,23 +12,23 @@ Adding progress bar to \code{*apply} functions}
 pblapply(X, FUN, ...)
 pbapply(X, MARGIN, FUN, ...)
 pbsapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE)
-pbreplicate(n, expr, simplify = TRUE)
+pbreplicate(n, expr, simplify = "array")
 }
 \arguments{
   \item{X}{
-For \code{pbsapply} and \code{pblapply}, 
-a vector (atomic or list) or an expressions vector 
-(other objects including classed objects will be 
-coerced by \code{\link{as.list}}.) 
+For \code{pbsapply} and \code{pblapply},
+a vector (atomic or list) or an expressions vector
+(other objects including classed objects will be
+coerced by \code{\link{as.list}}.)
 For \code{pbapply} an array, including a matrix.
 }
   \item{MARGIN}{
 A vector giving the subscripts which the function will be applied over.
-\code{1} indicates rows, \code{2} indicates columns, \code{c(1,2)} 
+\code{1} indicates rows, \code{2} indicates columns, \code{c(1,2)}
 indicates rows and columns.
 }
   \item{FUN}{
-The function to be applied to each element of \code{X}: 
+The function to be applied to each element of \code{X}:
 see \code{\link{apply}}, \code{\link{sapply}}, and \code{\link{lapply}}.
 }
   \item{\dots}{
@@ -38,7 +38,7 @@ Optional arguments to \code{FUN}.
 Logical; should the result be simplified to a vector or matrix if possible?
 }
   \item{USE.NAMES}{
-Logical; if \code{TRUE} and if \code{X} is character, 
+Logical; if \code{TRUE} and if \code{X} is character,
 use \code{X} as names for the result unless it had names already.
 }
   \item{n}{
@@ -49,15 +49,15 @@ Expression (language object, usually a call) to evaluate repeatedly.
 }
 }
 \details{
-The behaviour of the progress bar is controlled by the option 
-\code{type} in \code{\link{pboptions}}, 
+The behaviour of the progress bar is controlled by the option
+\code{type} in \code{\link{pboptions}},
 it can take values \code{c("txt", "win", "tk", "none",)} on Windows,
 and \code{c("txt", "tk", "none",)} on Unix systems.
 
 Other options have elements that are arguments used in the functions
-\code{\link[utils]{txtProgressBar}} (for \code{"pbapply.txt"} option), 
+\code{\link[utils]{txtProgressBar}} (for \code{"pbapply.txt"} option),
 #ifdef windows
-\code{\link[utils]{winProgressBar}}, 
+\code{\link[utils]{winProgressBar}},
 #endif
 and \code{\link[tcltk]{tkProgressBar}}.
 
@@ -77,19 +77,19 @@ Progress bar can add an overhead to the computation.
 \seealso{
 Progress bars used in the functions:
 #ifdef windows
-\code{\link[utils]{winProgressBar}}, 
+\code{\link[utils]{winProgressBar}},
 #endif
-\code{\link[utils]{txtProgressBar}}, 
+\code{\link[utils]{txtProgressBar}},
 \code{\link[tcltk]{tkProgressBar}}
 
 Standard \code{*apply} functions:
-\code{\link{apply}}, \code{\link{sapply}}, 
+\code{\link{apply}}, \code{\link{sapply}},
 \code{\link{lapply}}, \code{\link{replicate}}
 
 Setting the options: \code{\link{pboptions}}
 
 Conveniently add progress bar to \code{for}-like loops:
-\code{\link{startpb}}, \code{\link{setpb}}, \code{\link{getpb}}, 
+\code{\link{startpb}}, \code{\link{setpb}}, \code{\link{getpb}},
 \code{\link{closepb}}
 }
 \examples{
@@ -138,8 +138,6 @@ pbsapply(i39, fivenum)
 (v <- structure(10*(5:8), names = LETTERS[1:4]))
 f2 <- function(x, y) outer(rep(x, length.out = 3), y)
 (a2 <- pbsapply(v, f2, y = 2*(1:5), simplify = "array"))
-stopifnot(dim(a2) == c(3,5,4), all.equal(a2, a.2),
-          identical(dimnames(a2), list(NULL,NULL,LETTERS[1:4])))
 
 hist(pbreplicate(100, mean(rexp(10))))
 
