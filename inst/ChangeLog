@@ -1,5 +1,13 @@
 # pbapply package version history
 
+## Version 1.1-3, Nov 24, 2015
+
+* R (>= 3.2.0) dependency added because check
+  failed on R-oldrelease (R-3.1.3) with error
+  'could not find function "forceAndCall"'
+  that is part of the apply() source code.
+  Reported by Uwe Ligges.
+
 ## Version 1.1-2, Nov 21, 2015
 
 * Using on.exit and invisible(NULL) in examples.
