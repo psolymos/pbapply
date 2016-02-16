@@ -33,7 +33,7 @@ ticker = function(n)
     time = proc.time()[["elapsed"]] - start
     i <<- i + 1
     
-    if(i > n) error("Bar is over!")
+    if(i > n) stop("Bar is over!")
     
     time = time / (i/n) - time
     
