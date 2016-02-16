@@ -3,7 +3,7 @@ function()
 {
     progress.bar <- getOption("pboptions")$type
     if (!is.null(progress.bar)) {
-        progress.bar <- match.arg(progress.bar, c("txt", "tk", "none"))
+        progress.bar <- match.arg(progress.bar, c("custom", "txt", "tk", "none"))
         if (progress.bar == "none") 
             progress.bar <- NULL
     }
