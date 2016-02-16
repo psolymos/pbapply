@@ -50,7 +50,7 @@ ticker = function(n)
     
     width = options("width")[[1]]
     
-    minLetters = nchar("%%.%%% ~00h 00m 00s")
+    minLetters = nchar("%%%.%%% ~00h 00m 00s")
     txtWidth = width - minLetters - 4
     text = paste(sprintf("%-2.2f%%",i/n*100), " ~", leftTime, sep = "")
     
