@@ -23,7 +23,7 @@ ticker = function(n)
     
     resTime = ""
     if(hours > 0) resTime = sprintf("%02ih ", hours)
-    if(minutes > 0) resTime = paste(resTime, sprintf("%02im ", minutes), sep = "")
+    if(minutes > 0 | hours > 0) resTime = paste(resTime, sprintf("%02im ", minutes), sep = "")
     resTime = paste(resTime, sprintf("%02is", sec), sep = "")
     resTime
   }
