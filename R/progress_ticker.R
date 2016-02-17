@@ -1,7 +1,7 @@
 ticker <-
 function(n)
 {
-    Start <- proc.time()[["elapsed"]]
+    start <- proc.time()[["elapsed"]]
     n <- force(n)
     i <- (-1)
     get_time_as_string <- function(time) {
