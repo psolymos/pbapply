@@ -33,7 +33,7 @@ function(n)
         stop("Bar is over!")
     time <- time / (i / n) - time
 
-    leftTime <- if (i == 0) {
+    leftTime <- if (i == 0)
         get_time_as_string(NULL) else get_time_as_string(time)
 
     char <- getOption("pboptions")$char
