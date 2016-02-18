@@ -4,11 +4,7 @@ function(min=0, max=1)
     if (dopb()) {
         control <- getOption("pboptions")
         pb <- switch(control$type,
-            timer = {
-                tick <- ticker(max)
-                tick()
-                tick
-            },
+            timer = timerProgressBar(min, max, control$initial),
             txt = txtProgressBar(min, max, initial = control$initial,
                 style = control$style, width = control$txt.width,
                 char = control$char),
