@@ -9,26 +9,7 @@ function(min = 0, max = 1, initial = 0)
 
     getVal <- function()  .i
 
-    getTimeAsString <- function(time) {
-        if (is.null(time)) {
-            return("~calculating")
-        } else {
-            if(is.infinite(time))
-                return("~Inf")
-        }
-        sec <- round(time %% 60)
-        time <- floor(time / 60)
-        minutes <- floor(time %% 60)
-        time <- floor(time / 60)
-        hours <- time
-        resTime <- ""
-        if (hours > 0)
-            resTime <- sprintf("%02ih ", hours)
-        if (minutes > 0 || hours > 0)
-            resTime <- paste(resTime, sprintf("%02im ", minutes), sep = "")
-        resTime <- paste0(resTime, sprintf("%02is", sec))
-        resTime
-    }
+
     ## up function similar to TxtProgressBar
     up <- function(value) {
     time <- proc.time()[["elapsed"]] - .start
@@ -73,4 +54,25 @@ function(min = 0, max = 1, initial = 0)
 setTimerProgressBar <- setTxtProgressBar
 getTimerProgressBar <- getTxtProgressBar
 
+# converts time in seconds into ~HHh MMm SSs format
+getTimeAsString <- function(time) {
+    if (is.null(time)) {
+        return("~calculating")
+    } else {
+        if(is.infinite(time))
+            return("~Inf")
+    }
+    sec <- round(time %% 60)
+    time <- floor(time / 60)
+    minutes <- floor(time %% 60)
+    time <- floor(time / 60)
+    hours <- time
+    resTime <- ""
+    if (hours > 0)
+        resTime <- sprintf("%02ih ", hours)
+    if (minutes > 0 || hours > 0)
+        resTime <- paste(resTime, sprintf("%02im ", minutes), sep = "")
+    resTime <- paste0(resTime, sprintf("%02is", sec))
+    resTime
+}
 
