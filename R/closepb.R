@@ -1,11 +1,7 @@
 closepb <-
 function(pb)
 {
-  if(getOption("pboptions")$type == "custom")
-  {
-    return(invisible())
-  }
-  if (is.null(pb))
+    if (is.null(pb) || getOption("pboptions")$type == "timer")
         invisible(NULL) else close(pb)
 }
 
