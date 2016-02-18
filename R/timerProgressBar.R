@@ -69,3 +69,8 @@ function(min = 0, max = 1, initial = 0)
 
     structure(list(getVal = getVal, up = up, kill = kill), class = c("timerProgressBar","txtProgressBar"))
 }
+
+setTimerProgressBar <- setTxtProgressBar
+getTimerProgressBar <- getTxtProgressBar
+
+
