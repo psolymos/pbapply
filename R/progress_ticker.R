@@ -12,9 +12,9 @@ function(n)
                 return("~Inf")
         }
         sec <- round(time %% 60)
-        time <- round(time / 60)
-        minutes <- round(time %% 60)
-        time <- round(time / 60)
+        time <- floor(time / 60)
+        minutes <- floor(time %% 60)
+        time <- floor(time / 60)
         hours <- time
         resTime <- ""
         if (hours > 0)
