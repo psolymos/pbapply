@@ -1,10 +1,15 @@
-ticker <-
-function(n)
+timerProgressBar <-
+function(min = 0, max = 1, initial = 0)
 {
-    start <- proc.time()[["elapsed"]]
-    n <- force(n)
-    i <- (-1)
-    get_time_as_string <- function(time) {
+    .start <- proc.time()[["elapsed"]]
+    .min   <- force(min)
+    .max   <- force(max)
+    .i     <- force(initial)
+
+
+    getVal <- function()  .i
+
+    getTimeAsString <- function(time) {
         if (is.null(time)) {
             return("~calculating")
         } else {
@@ -24,17 +29,20 @@ function(n)
         resTime <- paste0(resTime, sprintf("%02is", sec))
         resTime
     }
-    ## return value is a function w/o arguments
-    function() {
-    time <- proc.time()[["elapsed"]] - start
-    i <<- i + 1
+    ## up function similar to TxtProgressBar
+    up <- function(value) {
+    time <- proc.time()[["elapsed"]] - .start
+    .i <<- value
 
-    if (i > n)
+    i <- .i - .min
+    n <- .max - .min
+
+    if (.i > .max)
         stop("Bar is over!")
     time <- time / (i / n) - time
 
     leftTime <- if (i == 0)
-        get_time_as_string(NULL) else get_time_as_string(time)
+        getTimeAsString(NULL) else getTimeAsString(time)
 
     char <- getOption("pboptions")$char
     width <- options("width")[[1]]
@@ -56,4 +64,8 @@ function(n)
     if(interactive())
         cat(paste("\r", bar, text))
     } # end of return function
+
+    kill <- function() invisible(NULL)
+
+    structure(list(getVal = getVal, up = up, kill = kill), class = c("timerProgressBar","txtProgressBar"))
 }
