@@ -3,5 +3,6 @@ if (Sys.getenv("R_OSTYPE") == "windows" || .Platform$OS.type == "windows") {
 }
 importFrom(utils, txtProgressBar, getTxtProgressBar, setTxtProgressBar)
 export(pbapply, pbsapply, pblapply, pbreplicate,
-    startpb, setpb, getpb, closepb, dopb, pboptions)
+    startpb, setpb, getpb, closepb, dopb, pboptions,
+    timerProgressBar, setTimerProgressBar, getTimerProgressBar)
 

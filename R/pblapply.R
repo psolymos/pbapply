@@ -13,7 +13,7 @@ function (X, FUN, ...)
         rval[i] <- list(FUN(X[[i]], ...))
         setpb(pb, i)
     }
-    close(pb)
+    closepb(pb)
     names(rval) <- names(X)
     rval
 }

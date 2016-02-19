@@ -3,11 +3,14 @@ function(pb)
 {
     if (dopb()) {
         progress.bar <- getOption("pboptions")$type
-        rval <- switch(progress.bar, 
-            txt = getTxtProgressBar(pb), 
+        rval <- switch(progress.bar,
+            timer = getTxtProgressBar(pb),
+            txt = getTxtProgressBar(pb),
             win = getWinProgressBar(pb),
             tk = tcltk::getTkProgressBar(pb))
-    } else rval <- NULL
+    } else {
+        rval <- NULL
+    }
     rval
 }
 
