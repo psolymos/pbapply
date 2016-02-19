@@ -29,28 +29,28 @@ width = NA, title, label, style = 1, file = "")
         i <- .i - .min
         n <- .max - .min
 
-         time <- time / (i / n) - time
+        time <- time / (i / n) - time
 
         leftTime <- if (i == 0)
             getTimeAsString(NULL) else getTimeAsString(time)
 
-        minLetters <- nchar("%%%.%%% ~00h 00m 00s")
-        txtWidth <- width - minLetters - 4
+        minLetters <- nchar("%%%.%%% ~00h 00m 00s", "w")
+        #txtWidth <- width - minLetters - 4
+        txtWidth <- width
         text <- paste0(sprintf("%-2.2f%%", 100 * i / n), " ~", leftTime)
 
         if(nchar(text) < minLetters)
             text <- paste(text, paste(rep(" ", minLetters - nchar(text)),
                 collapse = ""))
-        if(txtWidth < 0 && interactive())
-            cat("\r ",text)
+        if(txtWidth < 0)
+            cat("\r ", text, file = file)
 
         bb <- paste(rep(char, ceiling(txtWidth * i / n)), collapse = "")
         empty <- paste(rep(" ", floor(txtWidth * (1 - i / n))), collapse = "")
 
         bar <- paste("  |", bb, empty, "|", sep = "")
 
-        #if (interactive())
-        cat(paste("\r", bar, text), ile = file)
+        cat(paste("\r", bar, text), file = file)
         flush.console()
     }
 
