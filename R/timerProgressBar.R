@@ -34,8 +34,10 @@ width = NA, title, label, style = 1, file = "")
         leftTime <- if (i == 0)
             getTimeAsString(NULL) else getTimeAsString(time)
         minLetters <- nchar("%%%.%%% ~00h 00m 00s", "w")
-        #txtWidth <- width - minLetters - 4
-        txtWidth <- width
+
+        ## 79-24=55 > 50
+        txtWidth <- max(width, width - minLetters - 4)
+
         text <- paste0(sprintf("%-2.2f%%", 100 * i / n), " ~", leftTime)
         if(nchar(text) < minLetters)
             text <- paste(text, paste(rep(" ", minLetters - nchar(text)),
