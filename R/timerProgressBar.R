@@ -33,14 +33,16 @@ width = NA, title, label, style = 1, file = "")
         time <- time / (i / n) - time
         leftTime <- if (i == 0)
             getTimeAsString(NULL) else getTimeAsString(time)
-        minLetters <- nchar("%%%.%%% ~00h 00m 00s", "w")
+        #minLetters <- nchar("%%%.%%% ~00h 00m 00s", "w") # 2 decimals too much
+        minLetters <- nchar("%%%% ~00h 00m 00s", "w")
 
         ## 79-24=55 > 50
         txtWidth <- max(width, width - minLetters - 4)
 
-        text <- paste0(sprintf("%-2.2f%%", 100 * i / n), " ~", leftTime)
-        if(nchar(text) < minLetters)
-            text <- paste(text, paste(rep(" ", minLetters - nchar(text)),
+        #text <- paste0(sprintf("%-2.2f%%", 100 * i / n), " ~", leftTime)
+        text <- paste0(sprintf("%-2.0f%%", 100 * i / n), " ~", leftTime)
+        if(nchar(text, "w") < minLetters)
+            text <- paste(text, paste(rep(" ", minLetters - nchar(text, "w")),
                 collapse = ""))
         if(txtWidth < 0)
             cat("\r ", text, file = file)
