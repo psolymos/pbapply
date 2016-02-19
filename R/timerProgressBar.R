@@ -10,6 +10,7 @@ width = NA, title, label, style = 1, file = "")
     .min   <- force(min)
     .max   <- force(max)
     .i     <- force(initial)
+    .killed <- FALSE
 
     getVal <- function()  .i
 
