@@ -21,15 +21,15 @@ width = NA, title, label, style = 1, file = "")
 
     ## up function similar to TxtProgressBar
     up <- function(value) {
+        if (!is.finite(value) || value < min || value > max)
+            return()
         time <- proc.time()[["elapsed"]] - .start
         .i <<- value
 
         i <- .i - .min
         n <- .max - .min
 
-        if (.i > .max)
-            stop("Bar is over!")
-        time <- time / (i / n) - time
+         time <- time / (i / n) - time
 
         leftTime <- if (i == 0)
             getTimeAsString(NULL) else getTimeAsString(time)
