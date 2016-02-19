@@ -1,5 +1,3 @@
-txtProgressBar(min = 0, max = 1, initial = 0, char = "=",
-               width = NA, title, label, style = 1, file = "")
 timerProgressBar <-
 function(min = 0, max = 1, initial = 0, char = "=",
 width = NA, title, label, style = 1, file = "")
