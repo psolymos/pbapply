@@ -72,18 +72,16 @@ The \code{timerProgressBar} implementation
 follows closely the code of \code{\link[utils]{txtProgressBar}}.
 }
 \examples{
-## slow!
-testit <- function(x = sort(runif(20)), ...)
+testit <- function(...)
 {
     pb <- timerProgressBar(...)
-    for(i in c(0, x, 1)) {
-        Sys.sleep(0.5); setTimerProgressBar(pb, i)
+    for(i in seq(0, 1, 0.05)) {
+        Sys.sleep(0.2)
+        setTimerProgressBar(pb, i)
     }
-    Sys.sleep(1)
+    Sys.sleep(0.2)
     close(pb)
 }
 testit()
-testit(runif(10))
-#testit(style = 2) # only for future reference
 }
 \keyword{ utilities }
