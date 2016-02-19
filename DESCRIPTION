@@ -8,8 +8,10 @@ Maintainer: Peter Solymos <solymos@ualberta.ca>
 Description: A lightweight package that adds
   progress bar to vectorized R functions
   ('*apply'). The implementation can easily be added
-  to functions, where showing the progress is
-  useful for the user (e.g. bootstrap).
+  to functions where showing the progress is
+  useful (e.g. bootstrap). The type and style of the 
+  progress bar (with percentages or remaining time)
+  can be set through options.
 Depends: R (>= 3.2.0)
 License: GPL-2
 URL: https://github.com/psolymos/pbapply
