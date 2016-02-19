@@ -28,7 +28,7 @@ The tags must come from the parameters described below.
 A progress bar object created by \code{startpb}.
 }
   \item{min, max}{
-Finite numeric values for the extremes of the progress bar. 
+Finite numeric values for the extremes of the progress bar.
 Must have \code{min < max}.
 }
   \item{value}{
@@ -36,51 +36,52 @@ New value for the progress bar.
 }
 }
 \details{
-\code{pboptions} is a convenient way of handling options 
+\code{pboptions} is a convenient way of handling options
 related to progress bar.
 
-Other functions can be used for conveniently adding progress 
+Other functions can be used for conveniently adding progress
 bar to \code{for}-like loops
 (see Examples).
 }
 \value{
-When parameters are set by \code{pboptions}, their former values are 
-returned in an invisible named list. Such a list can be passed as an 
+When parameters are set by \code{pboptions}, their former values are
+returned in an invisible named list. Such a list can be passed as an
 argument to \code{pboptions} to restore the parameter values.
 Tags are the following:
 
-  \item{type}{Type of the progress bar: custom (\code{"custom"}), text (\code{"txt"}), 
+  \item{type}{Type of the progress bar: timer (\code{"timer"}),
+    text (\code{"txt"}),
     Windows (\code{"win"}), TclTk (\code{"tk"}), or none (\code{"none"}).
-    Default value is \code{"custom"} progress bar with estimated remaining time.}
+    Default value is \code{"timer"} progress bar with estimated remaining time.}
   \item{char}{The character (or character string) to form the progress bar.
     Default value is \code{"+"}.}
-  \item{txt.width}{The width of the text based progress bar, as a multiple 
+  \item{txt.width}{The width of the text based progress bar, as a multiple
     of the width of \code{char}.
-    If \code{NA}, the number of characters is that which fits into 
+    If \code{NA}, the number of characters is that which fits into
     \code{getOption("width")}.
     Default value is \code{50}.}
-  \item{gui.width}{The width of the GUI based progress bar in pixels: 
-    the dialogue box will be 40 pixels wider (plus frame). 
+  \item{gui.width}{The width of the GUI based progress bar in pixels:
+    the dialogue box will be 40 pixels wider (plus frame).
     Default value is \code{300}.}
-  \item{style}{The style of the bar, see 
+  \item{style}{The style of the bar, see
     \code{\link[utils]{txtProgressBar}}. Default value is \code{3}.}
-  \item{initial}{Initial value for the progress bar. Default value is 
+  \item{initial}{Initial value for the progress bar. Default value is
     \code{0}.}
-  \item{title}{Character string giving the window title 
+  \item{title}{Character string giving the window title
     on the GUI dialogue box. Default value is \code{"R progress bar"}.}
   \item{label}{Character string giving the window label
     on the GUI dialogue box. Default value is \code{""}.}
 
 For \code{startpb} a progress bar object.
 
-For \code{getpb} and \code{setpb}, a length-one numeric vector giving 
+For \code{getpb} and \code{setpb}, a length-one numeric vector giving
 the previous value (invisibly for \code{setpb}).
-The return value is \code{NULL} if the progress bar is turned off by 
+The return value is \code{NULL} if the progress bar is turned off by
 \code{getOption("pbapply.pb")} (\code{"none"} or \code{NULL} value).
 
-\code{dopb} returns a logical value if progress bar is to be shown 
-based on the option \code{getOption("pbapply.pb")}. 
-It is \code{FALSE} if the type of progress bar is \code{"none"} or 
+\code{dopb} returns a logical value if progress bar is to be shown
+based on the option \code{getOption("pbapply.pb")}.
+It is \code{FALSE} if the type of progress bar is \code{"none"} or
 \code{NULL}.
 
 For \code{closepb} closes the connection for the progress bar.
@@ -91,9 +92,10 @@ Peter Solymos <solymos@ualberta.ca>
 \seealso{
 Progress bars used in the functions:
 #ifdef windows
-\code{\link[utils]{winProgressBar}}, 
+\code{\link[utils]{winProgressBar}},
 #endif
-\code{\link[utils]{txtProgressBar}}, 
+\code{\link[utils]{timerProgressBar}},
+\code{\link[utils]{txtProgressBar}},
 \code{\link[tcltk]{tkProgressBar}}
 }
 \examples{

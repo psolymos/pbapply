@@ -55,7 +55,7 @@ it can take values \code{c("txt", "win", "tk", "none",)} on Windows,
 and \code{c("txt", "tk", "none",)} on Unix systems.
 
 Other options have elements that are arguments used in the functions
-\code{\link[utils]{txtProgressBar}} (for \code{"pbapply.txt"} option),
+\code{\link{timerProgressBar}}, \code{\link[utils]{txtProgressBar}},
 #ifdef windows
 \code{\link[utils]{winProgressBar}},
 #endif
