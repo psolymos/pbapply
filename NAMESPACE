@@ -1,7 +1,8 @@
 if (Sys.getenv("R_OSTYPE") == "windows" || .Platform$OS.type == "windows") {
     importFrom(utils, winProgressBar, getWinProgressBar, setWinProgressBar)
 }
-importFrom(utils, txtProgressBar, getTxtProgressBar, setTxtProgressBar)
+importFrom(utils, txtProgressBar, getTxtProgressBar, setTxtProgressBar,
+    flush.console)
 export(pbapply, pbsapply, pblapply, pbreplicate,
     startpb, setpb, getpb, closepb, dopb, pboptions,
     timerProgressBar, setTimerProgressBar, getTimerProgressBar)
