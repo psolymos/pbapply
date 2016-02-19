@@ -94,7 +94,7 @@ Progress bars used in the functions:
 #ifdef windows
 \code{\link[utils]{winProgressBar}},
 #endif
-\code{\link[utils]{timerProgressBar}},
+\code{\link{timerProgressBar}},
 \code{\link[utils]{txtProgressBar}},
 \code{\link[tcltk]{tkProgressBar}}
 }
