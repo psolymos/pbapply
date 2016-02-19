@@ -7,6 +7,7 @@ Timer Progress Bar
 }
 \description{
 Text progress bar with timer in the R console.
+}
 \usage{
 timerProgressBar(min = 0, max = 1, initial = 0, char = "=",
     width = NA, title, label, style = 1, file = "")
