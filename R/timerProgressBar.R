@@ -1,54 +1,69 @@
+txtProgressBar(min = 0, max = 1, initial = 0, char = "=",
+               width = NA, title, label, style = 1, file = "")
 timerProgressBar <-
-function(min = 0, max = 1, initial = 0)
+function(min = 0, max = 1, initial = 0, char = "=",
+width = NA, title, label, style = 1, file = "")
 {
+    if (!identical(file, "") && !(inherits(file, "connection") &&
+        isOpen(file)))
+        stop("'file' must be \"\" or an open connection object")
+
     .start <- proc.time()[["elapsed"]]
     .min   <- force(min)
     .max   <- force(max)
     .i     <- force(initial)
 
-
     getVal <- function()  .i
 
+    if (nchar(char, "w") > 1)
+        char <- substr(char, 1, 1)
+    if (is.na(width))
+        width <- options("width")[[1]]
 
     ## up function similar to TxtProgressBar
     up <- function(value) {
-    time <- proc.time()[["elapsed"]] - .start
-    .i <<- value
+        time <- proc.time()[["elapsed"]] - .start
+        .i <<- value
 
-    i <- .i - .min
-    n <- .max - .min
+        i <- .i - .min
+        n <- .max - .min
 
-    if (.i > .max)
-        stop("Bar is over!")
-    time <- time / (i / n) - time
+        if (.i > .max)
+            stop("Bar is over!")
+        time <- time / (i / n) - time
 
-    leftTime <- if (i == 0)
-        getTimeAsString(NULL) else getTimeAsString(time)
+        leftTime <- if (i == 0)
+            getTimeAsString(NULL) else getTimeAsString(time)
 
-    char <- getOption("pboptions")$char
-    width <- options("width")[[1]]
+        minLetters <- nchar("%%%.%%% ~00h 00m 00s")
+        txtWidth <- width - minLetters - 4
+        text <- paste0(sprintf("%-2.2f%%", 100 * i / n), " ~", leftTime)
 
-    minLetters <- nchar("%%%.%%% ~00h 00m 00s")
-    txtWidth <- width - minLetters - 4
-    text <- paste0(sprintf("%-2.2f%%", 100 * i / n), " ~", leftTime)
+        if(nchar(text) < minLetters)
+            text <- paste(text, paste(rep(" ", minLetters - nchar(text)),
+                collapse = ""))
+        if(txtWidth < 0 && interactive())
+            cat("\r ",text)
 
-    if(nchar(text) < minLetters)
-        text <- paste(text, paste(rep(" ",minLetters - nchar(text)), collapse = ""))
-    if(txtWidth < 0 && interactive())
-        cat("\r ",text)
+        bb <- paste(rep(char, ceiling(txtWidth * i / n)), collapse = "")
+        empty <- paste(rep(" ", floor(txtWidth * (1 - i / n))), collapse = "")
 
-    bb <- paste(rep(char, ceiling(txtWidth * i / n)), collapse = "")
-    empty <- paste(rep(" ", floor(txtWidth * (1 - i / n))), collapse = "")
+        bar <- paste("  |", bb, empty, "|", sep = "")
 
-    bar <- paste("  |", bb, empty, "|", sep = "")
+        #if (interactive())
+        cat(paste("\r", bar, text), ile = file)
+        flush.console()
+    }
 
-    if(interactive())
-        cat(paste("\r", bar, text))
-    } # end of return function
+    #kill <- function() invisible(NULL)
+    kill <- function() if (!.killed) {
+        cat("\n", file = file)
+        flush.console()
+        .killed <<- TRUE
+    }
 
-    kill <- function() invisible(NULL)
-
-    structure(list(getVal = getVal, up = up, kill = kill), class = c("timerProgressBar","txtProgressBar"))
+    structure(list(getVal = getVal, up = up, kill = kill),
+        class = c("timerProgressBar","txtProgressBar"))
 }
 
 setTimerProgressBar <- setTxtProgressBar
