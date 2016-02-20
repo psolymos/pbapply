@@ -35,6 +35,7 @@ to report a problem.
 ### Example
 
 ```
+> library(pbapply)
 > set.seed(1234)
 > n <- 2000
 > x <- rnorm(n)
