@@ -71,7 +71,7 @@ to report a problem.
 > ## "none", "txt", "tk", "win", "timer"
 > op <- pboptions(type="timer") # default
 > system.time(res1pb <- pblapply(1:B, function(i) fun(bid[,i])))
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100.00% ~00s         
+   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% ~00s         
    user  system elapsed 
   1.539   0.046   1.599 
 > pboptions(op)
