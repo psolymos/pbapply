@@ -94,6 +94,7 @@ Conveniently add progress bar to \code{for}-like loops:
 }
 \examples{
 ## --- simple linear model simulation ---
+set.seed(1234)
 n <- 200
 x <- rnorm(n)
 y <- rnorm(n, model.matrix(~x) \%*\% c(0,1), sd=0.5)
@@ -104,20 +105,34 @@ ndat <- model.frame(mod)
 B <- 100
 bid <- sapply(1:B, function(i) sample(nrow(ndat), nrow(ndat), TRUE))
 fun <- function(z) {
-    ndat <- ndat[sample(nrow(ndat), nrow(ndat), TRUE),]
+    if (missing(z))
+        z <- sample(nrow(ndat), nrow(ndat), TRUE)
     coef(lm(mod$call$formula, data=ndat[z,]))
 }
 ## standard '*apply' functions
 system.time(res1 <- lapply(1:B, function(i) fun(bid[,i])))
 system.time(res2 <- sapply(1:B, function(i) fun(bid[,i])))
 system.time(res3 <- apply(bid, 2, fun))
+
 ## 'pb*apply' functions
 ## try different settings:
-## "none", "txt", "tk"
-options("pbapply.pb"="txt")
+## "none", "txt", "tk", "win", "timer"
+op <- pboptions(type="timer") # default
 system.time(res4 <- pblapply(1:B, function(i) fun(bid[,i])))
+pboptions(op)
+
+pboptions(type="txt")
 system.time(res5 <- pbsapply(1:B, function(i) fun(bid[,i])))
+pboptions(op)
+
+pboptions(type="txt", style=1, char="=")
 system.time(res6 <- pbapply(bid, 2, fun))
+pboptions(op)
+
+pboptions(type="txt", char=":")
+system.time(res7 <- pbreplicate(B, fun()))
+pboptions(op)
+
 
 ## --- Examples taken from standard '*apply' functions ---
 
