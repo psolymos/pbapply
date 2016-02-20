@@ -12,9 +12,18 @@ useful for the user (e.g. bootstrap).
 
 [![CRAN version](http://www.r-pkg.org/badges/version/pbapply)](http://cran.rstudio.com/web/packages/pbapply/index.html) [![](http://cranlogs.r-pkg.org/badges/grand-total/pbapply)](http://cran.rstudio.com/web/packages/pbapply/index.html)
 
+```
+install.packages("pbapply")
+```
+
 ### Build status for development version
 
 [![Build Status](https://travis-ci.org/psolymos/pbapply.svg?branch=master)](https://travis-ci.org/psolymos/pbapply)
+
+```
+library(devtools)
+install_github("psolymos/pbapply")
+```
 
 ## Report a problem
 
