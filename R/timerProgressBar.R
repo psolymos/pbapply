@@ -69,10 +69,10 @@ getTimerProgressBar <- getTxtProgressBar
 # converts time in seconds into ~HHh MMm SSs format
 getTimeAsString <- function(time) {
     if (is.null(time)) {
-        return("~calculating")
+        return("calculating")
     } else {
         if(is.infinite(time))
-            return("~Inf")
+            return("Inf")
     }
     sec <- round(time %% 60)
     time <- floor(time / 60)

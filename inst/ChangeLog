@@ -1,5 +1,9 @@
 # pbapply package version history
 
+## Version 1.2-1, March 2, 2016
+
+* Double tilde '~' in timerProgressBar cleaned up ('~~calculating').
+
 ## Version 1.2-0, Feb 29, 2016
 
 * New function: timerProgressBar written by Zygmunt Zawadzki.
