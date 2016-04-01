@@ -33,7 +33,12 @@ If \code{NA}, the default, the number of characters is that
 which fits into \code{getOption("width")}.
 }
   \item{style}{
-the style of the bar, currently ignored (for possible future use).
+the style taking values between 1 and 4.
+1: throbber with remaining time,
+2: throbber with elapsed time,
+3: progress bar with remaining time,
+4: progress bar with elapsed time,
+5: throbber with elapsed and remaining time.
 }
   \item{file}{
 an open connection object or \code{""} which indicates the console.
@@ -82,6 +87,9 @@ testit <- function(...)
     Sys.sleep(0.2)
     close(pb)
 }
-testit()
+## progress bar with remaining time
+testit(width = 50, char = ".", style = 3)
+## throbber with elapsed and remaining time
+testit(style = 5)
 }
 \keyword{ utilities }

@@ -64,7 +64,8 @@ Tags are the following:
     the dialogue box will be 40 pixels wider (plus frame).
     Default value is \code{300}.}
   \item{style}{The style of the bar, see
-    \code{\link[utils]{txtProgressBar}}. Default value is \code{3}.}
+    \code{\link[utils]{txtProgressBar}} and \code{\link{timerProgressBar}}.
+    Default value is \code{3}.}
   \item{initial}{Initial value for the progress bar. Default value is
     \code{0}.}
   \item{title}{Character string giving the window title

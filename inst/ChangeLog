@@ -3,6 +3,9 @@
 ## Version 1.2-1, March 2, 2016
 
 * Double tilde '~' in timerProgressBar cleaned up ('~~calculating').
+* timerProgressBar gained 5 styles as documented on the help page.
+  Now can show either elapsed or remaining time,
+  and choose between throbber and bar formats.
 
 ## Version 1.2-0, Feb 29, 2016
 
