@@ -37,7 +37,8 @@ the style taking values between 1 and 4.
 1: throbber with remaining time,
 2: throbber with elapsed time,
 3: progress bar with remaining time,
-4: progress bar with elapsed time.
+4: progress bar with elapsed time,
+5: throbber with elapsed and remaining time.
 }
   \item{file}{
 an open connection object or \code{""} which indicates the console.
@@ -88,7 +89,7 @@ testit <- function(...)
 }
 ## progress bar with remaining time
 testit(width = 50, char = ".", style = 3)
-## throbber with elapsed time
-testit(style = 2)
+## throbber with elapsed and remaining time
+testit(style = 5)
 }
 \keyword{ utilities }
