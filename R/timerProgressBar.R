@@ -5,16 +5,17 @@ width = NA, title, label, style = 1, file = "")
     if (!identical(file, "") && !(inherits(file, "connection") &&
         isOpen(file)))
         stop("'file' must be \"\" or an open connection object")
-   if (max <= min)
+    if (max <= min)
         stop("must have 'max' > 'min'")
-#   if (!style %in% 1L:2L)
-#        style <- 1
+    if (!(style %in% 1:4))
+        style <- 1
+    if (style %in% 1:2)
+        .counter <- force(1)
 
     .start <- proc.time()[["elapsed"]]
     .min   <- force(min)
     .max   <- force(max)
     .i     <- force(initial)
-    .counter <- force(1L)
     .killed <- FALSE
 
     getVal <- function()  .i
@@ -34,7 +35,7 @@ width = NA, title, label, style = 1, file = "")
         n <- .max - .min
         time <- time / (i / n) - time
         if (i != 0)
-            .counter <<- .counter + 1L
+            .counter <<- .counter + 1
         leftTime <- if (i == 0)
             getTimeAsString(NULL) else getTimeAsString(time)
         minLetters <- nchar("%%%% ~00h 00m 00s", "w")
@@ -63,7 +64,7 @@ width = NA, title, label, style = 1, file = "")
         n <- .max - .min
         #time <- time / (i / n) - time
         if (i != 0)
-            .counter <<- .counter + 1L
+            .counter <<- .counter + 1
         leftTime <- if (i == 0)
             getTimeAsString(NULL) else getTimeAsString(time)
         minLetters <- nchar("%%%% ~00h 00m 00s", "w")

@@ -86,6 +86,9 @@ testit <- function(...)
     Sys.sleep(0.2)
     close(pb)
 }
-testit(style = 3)
+## progress bar with remaining time
+testit(width = 50, char = ".", style = 3)
+## throbber with elapsed time
+testit(style = 2)
 }
 \keyword{ utilities }
