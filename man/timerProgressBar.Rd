@@ -33,10 +33,11 @@ If \code{NA}, the default, the number of characters is that
 which fits into \code{getOption("width")}.
 }
   \item{style}{
-the style taking values between 1 and 3.
+the style taking values between 1 and 4.
 1: throbber with remaining time,
 2: progress bar with remaining time,
 3: throbber with elapsed and remaining time.
+4: progress bar with elapsed and remaining time.
 }
   \item{file}{
 an open connection object or \code{""} which indicates the console.

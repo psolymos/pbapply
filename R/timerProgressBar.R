@@ -7,7 +7,7 @@ width = NA, title, label, style = 1, file = "")
         stop("'file' must be \"\" or an open connection object")
     if (max <= min)
         stop("must have 'max' > 'min'")
-    if (!(style %in% 1:3))
+    if (!(style %in% 1:4))
         style <- 1
     if (style %in% c(1, 3))
         .counter <- force(1)
@@ -134,12 +134,44 @@ width = NA, title, label, style = 1, file = "")
         flush.console()
     }
 
+    ## progress bar with elapsed and remaining time
+    up4 <- function(value) {
+        if (!is.finite(value) || value < min || value > max)
+            return()
+        time0 <- proc.time()[["elapsed"]] - .start
+        .i <<- value
+        i <- .i - .min
+        n <- .max - .min
+        time <- time0 / (i / n) - time0
+
+        spentTime <- paste0("  elapsed =", getTimeAsString(time0))
+        leftTime <- if (i == 0)
+            "" else paste0(", remaining ~", getTimeAsString(time))
+        minLetters <- nchar("%%%% ~00h 00m 00s", "w")
+
+        ## 79-24=55 > 50
+        txtWidth <- max(width, width - minLetters - 4)
+
+        text <- paste0(sprintf("%-2.0f%%", 100 * i / n), spentTime, leftTime)
+        if(nchar(text, "w") < minLetters)
+            text <- paste(text, paste(rep(" ", minLetters - nchar(text, "w")),
+                                      collapse = ""))
+        if(txtWidth < 0)
+            cat("\r ", text, file = file)
+
+        bb <- paste(rep(char, ceiling(txtWidth * i / n)), collapse = "")
+        empty <- paste(rep(" ", floor(txtWidth * (1 - i / n))), collapse = "")
+        bar <- paste("  |", bb, empty, "|", sep = "")
+        cat(paste("\r", bar, text), file = file)
+        flush.console()
+    }
+
     kill <- function() if (!.killed) {
         cat("\n", file = file)
         flush.console()
         .killed <<- TRUE
     }
-    up <- switch(style, up1, up2, up3)
+    up <- switch(style, up1, up2, up3, up4)
     up(initial)
     structure(list(getVal = getVal, up = up, kill = kill),
         class = c("timerProgressBar","txtProgressBar"))
