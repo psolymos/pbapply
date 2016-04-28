@@ -99,7 +99,7 @@ width = NA, title, label, style = 1, file = "")
             time <- time / (i / n) - time
             prefix <- " ~"
         } else {
-            prefix <- " Elapsed time: "
+            prefix <- " elapsed = "
         }
 
         leftTime <- if (i == 0)
@@ -135,7 +135,7 @@ width = NA, title, label, style = 1, file = "")
             time <- time / (i / n) - time
             prefix <- " ~"
         } else {
-            prefix <- " Elapsed time: "
+            prefix <- " elapsed = "
         }
 
         if (i != 0)
