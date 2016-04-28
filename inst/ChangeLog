@@ -1,5 +1,7 @@
 # pbapply package version history
 
+## Version 1.2-2, April 28, 2016
+
 ## Version 1.2-1, March 2, 2016
 
 * Double tilde '~' in timerProgressBar cleaned up ('~~calculating').
