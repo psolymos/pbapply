@@ -97,3 +97,10 @@ to report a problem.
   1.427   0.040   1.481 
 > pboptions(op)
 ```
+
+Suppressing the progress bar:
+
+```
+pbo <- pboptions(type = "none")
+on.exit(pboptions(pbo), add = TRUE)
+```
