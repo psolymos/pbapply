@@ -14,11 +14,11 @@ can be set through options.
 
 [![CRAN version](http://www.r-pkg.org/badges/version/pbapply)](http://cran.rstudio.com/web/packages/pbapply/index.html) [![](http://cranlogs.r-pkg.org/badges/grand-total/pbapply)](http://cran.rstudio.com/web/packages/pbapply/index.html)
 
-See user-visible changes in the [NEWS](https://github.com/psolymos/pbapply/blob/master/NEWS.md) file.
-
 ```
 install.packages("pbapply")
 ```
+
+See user-visible changes in the [NEWS](https://github.com/psolymos/pbapply/blob/master/NEWS.md) file.
 
 #### Build status for development version
 
@@ -34,7 +34,11 @@ install_github("psolymos/pbapply")
 Use the [issue tracker](https://github.com/psolymos/pbapply/issues)
 to report a problem.
 
-### Example
+### License
+
+[GPL-2](http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
+
+### Examples
 
 ```
 > library(pbapply)
