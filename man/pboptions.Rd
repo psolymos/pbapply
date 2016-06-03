@@ -52,7 +52,8 @@ Tags are the following:
   \item{type}{Type of the progress bar: timer (\code{"timer"}),
     text (\code{"txt"}),
     Windows (\code{"win"}), TclTk (\code{"tk"}), or none (\code{"none"}).
-    Default value is \code{"timer"} progress bar with estimated remaining time.}
+    Default value is \code{"timer"} progress bar with estimated remaining time
+    when in interactive mode, and \code{"none"} otherwise.}
   \item{char}{The character (or character string) to form the progress bar.
     Default value is \code{"+"}.}
   \item{txt.width}{The width of the text based progress bar, as a multiple

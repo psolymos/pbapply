@@ -1,5 +1,7 @@
 .onLoad <- function(libname, pkgname){
-    if (is.null(getOption("pboptions")))
+    if (is.null(getOption("pboptions"))) {
+        type <- if (interactive())
+            "timer" else "none"
         options("pboptions" = list(
             type = "timer",
             char = "+",
@@ -9,6 +11,7 @@
             initial = 0,
             title = "R progress bar",
             label = ""))
+    }
     invisible(NULL)
 }
 
