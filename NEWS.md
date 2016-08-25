@@ -1,6 +1,6 @@
-# User-visible changes in the pbapply package
+# User-visible changes in the pbapply R package
 
-## Version 1.2-2, June 2, 2016
+## Version 1.2-2, August 25, 2016
 
 * Stylistic changes in printed messages.
 * Default pb type is `'none'` when `!interactive()`.

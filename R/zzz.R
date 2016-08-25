@@ -3,7 +3,7 @@
         type <- if (interactive())
             "timer" else "none"
         options("pboptions" = list(
-            type = "timer",
+            type = type,
             char = "+",
             txt.width = 50,
             gui.width = 300,
