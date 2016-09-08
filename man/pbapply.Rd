@@ -182,9 +182,9 @@ if (.Platform$OS.type != "windows")
 
 ## parallel with  progress bar: multicore type forking
 ## (mc.set.seed = TRUE in parallel::mclapply by default)
-system.time(res1pbcl <- pblapply(1:B, function(i) fun(bid[,i]), cl = 2L))
-system.time(res2pbcl <- pbsapply(1:B, function(i) fun(bid[,i]), cl = 2L))
-system.time(res4pbcl <- pbreplicate(B, fun(), cl = 2L))
+system.time(res1pbmc <- pblapply(1:B, function(i) fun(bid[,i]), cl = 2L))
+system.time(res2pbmc <- pbsapply(1:B, function(i) fun(bid[,i]), cl = 2L))
+system.time(res4pbmc <- pbreplicate(B, fun(), cl = 2L))
 }
 
 ## --- Examples taken from standard '*apply' functions ---
