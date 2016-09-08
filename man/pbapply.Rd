@@ -121,7 +121,7 @@ Conveniently add progress bar to \code{for}-like loops:
 set.seed(1234)
 n <- 200
 x <- rnorm(n)
-y <- rnorm(n, model.matrix(~x) \%*\% c(0,1), sd=0.5)
+y <- rnorm(n, crossprod(t(model.matrix(~x)), c(0,1)), sd=0.5)
 d <- data.frame(y, x)
 ## model fitting and bootstrap
 mod <- lm(y~x, d)
@@ -161,7 +161,7 @@ pboptions(op)
 
 \dontrun{
 ## parallel evaluation using the parallel package
-## (n>5000 will give visible timing differences)
+## (n>5000 and B>500 will give visible timing differences)
 
 library(parallel)
 cl <- makeCluster(2L)
@@ -185,8 +185,7 @@ stopCluster(cl)
 if (.Platform$OS.type != "windows") {
     ## parallel with no progress bar: multicore type forking
     ## (mc.set.seed = TRUE in parallel::mclapply by default)
-    system.time(res2mc <- mclapply(1:B, function(i) fun(bid[,i]),
-        mc.cores = 2L))
+    system.time(res2mc <- mclapply(1:B, function(i) fun(bid[,i]), mc.cores = 2L))
     ## parallel with  progress bar: multicore type forking
     ## (mc.set.seed = TRUE in parallel::mclapply by default)
     system.time(res1pbmc <- pblapply(1:B, function(i) fun(bid[,i]), cl = 2L))
