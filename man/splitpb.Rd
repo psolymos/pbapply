@@ -9,7 +9,7 @@ as a way to allocate tasks to nodes in a cluster repeatedly
 while updating a progress bar.
 }
 \usage{
-splitpb(nx, ncl)
+splitpb(nx, ncl, nout = NULL)
 }
 \arguments{
   \item{nx}{
