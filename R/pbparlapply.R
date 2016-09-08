@@ -71,20 +71,19 @@ fun <- function(z) {
     coef(lm(mod$call$formula, data=ndat[z,]))
 }
 
-## standard '*apply' functions
-system.time(res1 <- pblapply(1:B, function(i) fun(bid[,i])))
-
 cl <- makeCluster(cl)
 clusterExport(cl, c("fun", "mod", "ndat", "bid"))
+system.time(res1 <- pblapply(1:B, function(i) fun(bid[,i])))
 system.time(res2 <- pbparlapply(1:B, function(i) fun(bid[,i]), cl = cl))
+system.time(res3 <- parLapply(cl = cl, 1:B, function(i) fun(bid[,i])))
 stopCluster(cl)
 
 ## todo:
-## - use on.exit(closepb(pb)) in other functions
-## - ise seq_len(B) in for (i in 1:B)
-## - implement this as part of pblappl, but remove auto-detect feature
-## - update examples with this feature
-## - implement mclapply stuff if is.integer(cl)
+## - use on.exit(closepb(pb)) in other functions -- checked/done
+## - ise seq_len(B) in for (i in 1:B) -- checked/done
+## - implement this as part of pblappl, but remove auto-detect feature -- done
+## - implement mclapply stuff if is.integer(cl) -- done, deeds testing on unix
+## - update examples with this feature and add timings (use dontrun{})
 ## - remind folks that auto defined cl might not work (see example)
 ## - remind folks that safe RNG is not set up automagically
 
