@@ -160,9 +160,10 @@ system.time(res4pb <- pbreplicate(B, fun()))
 pboptions(op)
 
 \dontrun{
-## parallel evaluation
+## parallel evaluation using the parallel package
 ## (n>5000 will give visible timing differences)
 
+library(parallel)
 cl <- makeCluster(2L)
 clusterExport(cl, c("fun", "mod", "ndat", "bid"))
 
@@ -181,17 +182,17 @@ system.time(res4pbcl <- pbreplicate(B, fun(), cl = cl))
 
 stopCluster(cl)
 
-## parallel with no progress bar: multicore type forking
-## (mc.set.seed = TRUE in parallel::mclapply by default)
-if (.Platform$OS.type != "windows")
+if (.Platform$OS.type != "windows") {
+    ## parallel with no progress bar: multicore type forking
+    ## (mc.set.seed = TRUE in parallel::mclapply by default)
     system.time(res2mc <- mclapply(1:B, function(i) fun(bid[,i]),
         mc.cores = 2L))
-
-## parallel with  progress bar: multicore type forking
-## (mc.set.seed = TRUE in parallel::mclapply by default)
-system.time(res1pbmc <- pblapply(1:B, function(i) fun(bid[,i]), cl = 2L))
-system.time(res2pbmc <- pbsapply(1:B, function(i) fun(bid[,i]), cl = 2L))
-system.time(res4pbmc <- pbreplicate(B, fun(), cl = 2L))
+    ## parallel with  progress bar: multicore type forking
+    ## (mc.set.seed = TRUE in parallel::mclapply by default)
+    system.time(res1pbmc <- pblapply(1:B, function(i) fun(bid[,i]), cl = 2L))
+    system.time(res2pbmc <- pbsapply(1:B, function(i) fun(bid[,i]), cl = 2L))
+    system.time(res4pbmc <- pbreplicate(B, fun(), cl = 2L))
+}
 }
 
 ## --- Examples taken from standard '*apply' functions ---
