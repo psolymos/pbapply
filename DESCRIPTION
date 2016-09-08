@@ -13,8 +13,7 @@ Description: A lightweight package that adds
   progress bar (with percentages or remaining time)
   can be set through options.
 Depends: R (>= 3.2.0)
-Suggests: parallel
+Imports: parallel
 License: GPL-2
 URL: https://github.com/psolymos/pbapply
 BugReports: https://github.com/psolymos/pbapply/issues
-LazyLoad: yes
