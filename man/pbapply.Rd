@@ -7,7 +7,9 @@
 Adding Progress Bar to '*apply' Functions
 }
 \description{
-Adding progress bar to \code{*apply} functions}
+Adding progress bar to \code{*apply} functions, possibly leveraging
+parallel processing.
+}
 \usage{
 pblapply(X, FUN, ..., cl = NULL)
 pbapply(X, MARGIN, FUN, ...)
@@ -67,6 +69,16 @@ Other options have elements that are arguments used in the functions
 and \code{\link[tcltk]{tkProgressBar}}.
 
 See \code{\link{pboptions}} for how to conveniently set these.
+
+Parallel processing can be enabled through the \code{cl} argument.
+When \code{cl} is a 'cluster' object, \code{\link[parallel]{parLapply}} is called.
+When \code{cl} is a 'cluster' object, \code{\link[parallel]{mclapply}} is called.
+Note that showing the progress bar increases the communication overhead
+between the main process and nodes / child processes compared to the
+native sequential and parallel equivalents of the functions.
+
+When doing parallel processing, other objects might need to pushed to the
+workers, and random numbers must be handled with care (see Examples).
 }
 \value{
 Similar to the value returned by the standard \code{*apply} functions.
@@ -139,6 +151,41 @@ pboptions(op)
 pboptions(type="txt", char=":")
 system.time(res4pb <- pbreplicate(B, fun()))
 pboptions(op)
+
+\dontrun{
+## parallel evaluation
+## (n>5000 will give visible timing differences)
+
+cl <- makeCluster(2L)
+clusterExport(cl, c("fun", "mod", "ndat", "bid"))
+
+## parallel with no progress bar: snow type cluster
+## (RNG is set in the main process to define the object bid)
+system.time(res1cl <- parLapply(cl = cl, 1:B, function(i) fun(bid[,i])))
+system.time(res2cl <- parSapply(cl = cl, 1:B, function(i) fun(bid[,i])))
+
+## parallel with  progress bar: snow type cluster
+## (RNG is set in the main process to define the object bid)
+system.time(res1pbcl <- pblapply(1:B, function(i) fun(bid[,i]), cl = cl))
+system.time(res2pbcl <- pbsapply(1:B, function(i) fun(bid[,i]), cl = cl))
+## (RNG needs to be set when not using bid)
+parallel::clusterSetRNGStream(cl, iseed = 0L)
+system.time(res4pbcl <- pbreplicate(B, fun(), cl = cl))
+
+stopCluster(cl)
+
+## parallel with no progress bar: multicore type forking
+## (mc.set.seed = TRUE in parallel::mclapply by default)
+if (.Platform$OS.type != "windows")
+    system.time(res2mc <- mclapply(1:B, function(i) fun(bid[,i]),
+        mc.cores = 2L))
+
+## parallel with  progress bar: multicore type forking
+## (mc.set.seed = TRUE in parallel::mclapply by default)
+system.time(res1pbcl <- pblapply(1:B, function(i) fun(bid[,i]), cl = 2L))
+system.time(res2pbcl <- pbsapply(1:B, function(i) fun(bid[,i]), cl = 2L))
+system.time(res4pbcl <- pbreplicate(B, fun(), cl = 2L))
+}
 
 ## --- Examples taken from standard '*apply' functions ---
 
