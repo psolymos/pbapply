@@ -67,15 +67,18 @@ Other options have elements that are arguments used in the functions
 \code{\link[utils]{winProgressBar}},
 #endif
 and \code{\link[tcltk]{tkProgressBar}}.
-
 See \code{\link{pboptions}} for how to conveniently set these.
 
 Parallel processing can be enabled through the \code{cl} argument.
-When \code{cl} is a 'cluster' object, \code{\link[parallel]{parLapply}} is called.
-When \code{cl} is a 'cluster' object, \code{\link[parallel]{mclapply}} is called.
-Note that showing the progress bar increases the communication overhead
+\code{\link[parallel]{parLapply}} is called when \code{cl} is a 'cluster' object,
+\code{\link[parallel]{mclapply}} is called when \code{cl} is an integer.
+Showing the progress bar increases the communication overhead
 between the main process and nodes / child processes compared to the
-native sequential and parallel equivalents of the functions.
+parallel equivalents of the functions without the progress bar.
+The functions fall back to their original equivalents when the progress bar is
+disabled (i.e. \code{getOption("pboptions")$type == "none"} or \code{dopb()} is
+\code{FALSE}). This is the default when \code{interactive()} if \code{FALSE}
+(i.e. called from command line R script).
 
 When doing parallel processing, other objects might need to pushed to the
 workers, and random numbers must be handled with care (see Examples).
@@ -99,9 +102,13 @@ Progress bars used in the functions:
 \code{\link[utils]{txtProgressBar}},
 \code{\link[tcltk]{tkProgressBar}}
 
-Standard \code{*apply} functions:
+Sequential \code{*apply} functions:
 \code{\link{apply}}, \code{\link{sapply}},
 \code{\link{lapply}}, \code{\link{replicate}}
+
+Parallel \code{*apply} functions from package 'parallel':
+\code{\link[parallel]{parLapply}},
+\code{\link[parallel]{mclapply}}.
 
 Setting the options: \code{\link{pboptions}}
 
