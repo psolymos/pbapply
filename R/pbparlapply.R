@@ -82,6 +82,9 @@ stopCluster(cl)
 ## todo:
 ## - use on.exit(closepb(pb)) in other functions
 ## - ise seq_len(B) in for (i in 1:B)
+## - implement this as part of pblappl, but remove auto-detect feature
+## - update examples with this feature
+## - implement mclapply stuff if is.integer(cl)
 ## - remind folks that auto defined cl might not work (see example)
 ## - remind folks that safe RNG is not set up automagically
 

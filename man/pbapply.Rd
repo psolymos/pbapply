@@ -9,10 +9,10 @@ Adding Progress Bar to '*apply' Functions
 \description{
 Adding progress bar to \code{*apply} functions}
 \usage{
-pblapply(X, FUN, ...)
+pblapply(X, FUN, ..., cl = NULL)
 pbapply(X, MARGIN, FUN, ...)
-pbsapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE)
-pbreplicate(n, expr, simplify = "array")
+pbsapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE, cl = NULL)
+pbreplicate(n, expr, simplify = "array", cl = NULL)
 }
 \arguments{
   \item{X}{
@@ -46,6 +46,11 @@ Number of replications.
 }
   \item{expr}{
 Expression (language object, usually a call) to evaluate repeatedly.
+}
+  \item{cl}{
+A cluster object created by \code{\link[parallel]{makeCluster}},
+or an integer to indicate number of child-processes
+(integer values are ignored on Windows) for parallel evaluations.
 }
 }
 \details{
