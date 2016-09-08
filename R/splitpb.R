@@ -1,9 +1,11 @@
 splitpb <-
-function(nx, ncl)
+function(nx, ncl, nout = NULL)
 {
     i <- seq_len(nx)
     if (ncl == 0L)
         return(list())
-    if (ncl == 1L || nx == 1L)
-        list(i) else structure(split(i, 1 + (i-1) %/% ncl), names = NULL)
+    k <- if (is.null(nout))
+        1L else i[which.min(abs(ceiling(nx / (i*ncl)) - nout))]
+    g <- 1L + (i - 1L) %/% as.integer(ncl * k)
+    structure(split(i, g), names = NULL)
 }

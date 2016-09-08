@@ -18,10 +18,14 @@ Number of tasks.
   \item{ncl}{
 Number of cluster nodes.
 }
+  \item{nout}{
+Maximum number of partitions in the output.
+}
 }
 \value{
-A list of length \code{ceiling(nx / ncl)}, each element being an integer vector
-of length \code{ncl} or less.
+A list of length \code{min(nout, ceiling(nx / ncl))},
+each element being an integer vector of length \code{ncl * k} or less,
+where \code{k} is a tuning parameter constrained by the vaule of \code{nout}.
 }
 \author{
 Peter Solymos <solymos@ualberta.ca>
@@ -35,5 +39,9 @@ splitpb(10, 4)
 ## compare this to the no-progress-bar split
 ## that defines all the jubs / worker up front
 parallel::splitIndices(10, 4)
+
+## cap the length of the output
+splitpb(20, 2, nout = NULL)
+splitpb(20, 2, nout = 5)
 }
 \keyword{ utilities }
