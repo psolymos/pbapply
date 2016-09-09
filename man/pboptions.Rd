@@ -73,6 +73,10 @@ Tags are the following:
     on the GUI dialogue box. Default value is \code{"R progress bar"}.}
   \item{label}{Character string giving the window label
     on the GUI dialogue box. Default value is \code{""}.}
+  \item{nout}{Integer, the maximum number of times the progress bar is updated.
+    The default value is 100. Smaller value minimizes the
+    running time overhead related to updating the progress bar.
+    This can be especially important for forking type parallel runs.}
 
 For \code{startpb} a progress bar object.
 

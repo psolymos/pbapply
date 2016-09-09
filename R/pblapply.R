@@ -13,16 +13,25 @@ function (X, FUN, ..., cl = NULL)
         if (!inherits(cl, "cluster") && .Platform$OS.type == "windows")
             cl <- NULL
     }
+    nout <- as.integer(getOption("pboptions")$nout)
     ## sequential evaluation
     if (is.null(cl)) {
-        B <- length(X)
-        if (!(interactive() && dopb() && B >= 1))
+        if (!(interactive() && dopb() && length(X) >= 1))
             return(lapply(X, FUN, ...))
+        #pb <- startpb(0, B)
+        #on.exit(closepb(pb), add = TRUE)
+        #rval <- vector("list", B)
+        #for (i in seq_len(B)) {
+        #    rval[i] <- list(FUN(X[[i]], ...))
+        #    setpb(pb, i)
+        #}
+        Split <- splitpb(length(X), 1L, nout = nout)
+        B <- length(Split)
         pb <- startpb(0, B)
         on.exit(closepb(pb), add = TRUE)
         rval <- vector("list", B)
         for (i in seq_len(B)) {
-            rval[i] <- list(FUN(X[[i]], ...))
+            rval[i] <- list(lapply(X[Split[[i]]], FUN, ...))
             setpb(pb, i)
         }
     ## parallel evaluation
@@ -32,7 +41,7 @@ function (X, FUN, ..., cl = NULL)
             if (!(interactive() && dopb() && length(X) >= 1))
                 return(parallel::parLapply(cl, X, FUN, ...))
             ## define split here and use that for counter
-            Split <- splitpb(length(X), length(cl), nout = 50L)
+            Split <- splitpb(length(X), length(cl), nout = nout)
             B <- length(Split)
             pb <- startpb(0, B)
             on.exit(closepb(pb), add = TRUE)
@@ -46,7 +55,7 @@ function (X, FUN, ..., cl = NULL)
             if (!(interactive() && dopb() && length(X) >= 1))
                 return(parallel::mclapply(X, FUN, ..., mc.cores = as.integer(cl)))
             ## define split here and use that for counter
-            Split <- splitpb(length(X), as.integer(cl), nout = 50L)
+            Split <- splitpb(length(X), as.integer(cl), nout = nout)
             B <- length(Split)
             pb <- startpb(0, B)
             on.exit(closepb(pb), add = TRUE)
@@ -57,9 +66,9 @@ function (X, FUN, ..., cl = NULL)
                 setpb(pb, i)
             }
         }
-        ## assemble output list
-        rval <- do.call(c, rval, quote = TRUE)
     }
+    ## assemble output list
+    rval <- do.call(c, rval, quote = TRUE)
     names(rval) <- names(X)
     rval
 }
