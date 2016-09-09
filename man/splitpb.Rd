@@ -26,7 +26,8 @@ Maximum number of partitions in the output.
 A list of length \code{min(nout, ceiling(nx / ncl))},
 each element being an integer vector of length \code{ncl * k} or less,
 where \code{k} is a tuning parameter constrained by the other arguments
-(\code{k = max(1L, ceiling(ceiling(nx / ncl) / nout))}).
+(\code{k = max(1L, ceiling(ceiling(nx / ncl) / nout))} and
+\code{k = 1} if \code{nout = NULL}).
 }
 \author{
 Peter Solymos <solymos@ualberta.ca>
