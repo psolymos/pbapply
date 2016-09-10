@@ -18,13 +18,6 @@ function (X, FUN, ..., cl = NULL)
     if (is.null(cl)) {
         if (!dopb())
             return(lapply(X, FUN, ...))
-        #pb <- startpb(0, B)
-        #on.exit(closepb(pb), add = TRUE)
-        #rval <- vector("list", B)
-        #for (i in seq_len(B)) {
-        #    rval[i] <- list(FUN(X[[i]], ...))
-        #    setpb(pb, i)
-        #}
         Split <- splitpb(length(X), 1L, nout = nout)
         B <- length(Split)
         pb <- startpb(0, B)
