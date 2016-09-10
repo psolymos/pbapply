@@ -121,10 +121,10 @@ Conveniently add progress bar to \code{for}-like loops:
 set.seed(1234)
 n <- 200
 x <- rnorm(n)
-y <- rnorm(n, crossprod(t(model.matrix(~x)), c(0,1)), sd=0.5)
+y <- rnorm(n, crossprod(t(model.matrix(~x)), c(0, 1)), sd = 0.5)
 d <- data.frame(y, x)
 ## model fitting and bootstrap
-mod <- lm(y~x, d)
+mod <- lm(y ~ x, d)
 ndat <- model.frame(mod)
 B <- 100
 bid <- sapply(1:B, function(i) sample(nrow(ndat), nrow(ndat), TRUE))
@@ -143,25 +143,25 @@ system.time(res4 <- replicate(B, fun()))
 ## 'pb*apply' functions
 ## try different settings:
 ## "none", "txt", "tk", "win", "timer"
-op <- pboptions(type="timer") # default
+op <- pboptions(type = "timer") # default
 system.time(res1pb <- pblapply(1:B, function(i) fun(bid[,i])))
 pboptions(op)
 
-pboptions(type="txt")
+pboptions(type = "txt")
 system.time(res2pb <- pbsapply(1:B, function(i) fun(bid[,i])))
 pboptions(op)
 
-pboptions(type="txt", style=1, char="=")
+pboptions(type = "txt", style = 1, char = "=")
 system.time(res3pb <- pbapply(bid, 2, fun))
 pboptions(op)
 
-pboptions(type="txt", char=":")
+pboptions(type = "txt", char = ":")
 system.time(res4pb <- pbreplicate(B, fun()))
 pboptions(op)
 
 \dontrun{
 ## parallel evaluation using the parallel package
-## (n>5000 and B>500 will give visible timing differences)
+## (n = 2000 and B = 1000 will give visible timing differences)
 
 library(parallel)
 cl <- makeCluster(2L)

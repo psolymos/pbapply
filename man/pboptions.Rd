@@ -130,7 +130,7 @@ fun2 <- function() {
 ## using original settings
 fun1()
 ## resetting pboptions
-opb <- pboptions(style=1, char=">")
+opb <- pboptions(style = 1, char = ">")
 ## check new settings
 getOption("pboptions")
 ## running again with new settings

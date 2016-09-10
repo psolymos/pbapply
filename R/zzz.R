@@ -17,7 +17,7 @@
 }
 
 .onUnload <- function(libpath){
-    options("pboptions"=NULL)
+    options("pboptions" = NULL)
     invisible(NULL)
 }
 
