@@ -121,7 +121,7 @@ Conveniently add progress bar to \code{for}-like loops:
 set.seed(1234)
 n <- 200
 x <- rnorm(n)
-y <- rnorm(n, crossprod(t(model.matrix(~x)), c(0, 1)), sd = 0.5)
+y <- rnorm(n, crossprod(t(model.matrix(~ x)), c(0, 1)), sd = 0.5)
 d <- data.frame(y, x)
 ## model fitting and bootstrap
 mod <- lm(y ~ x, d)
