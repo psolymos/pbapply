@@ -1,6 +1,7 @@
 ## --- standard examples ---
 
 library(pbapply)
+pboptions(type = "timer")
 
 example(pboptions)
 example(pbapply, run.dontrun = TRUE)
