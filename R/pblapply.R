@@ -16,7 +16,7 @@ function (X, FUN, ..., cl = NULL)
     nout <- as.integer(getOption("pboptions")$nout)
     ## sequential evaluation
     if (is.null(cl)) {
-        if (!(interactive() && dopb() && length(X) >= 1))
+        if (!dopb())
             return(lapply(X, FUN, ...))
         #pb <- startpb(0, B)
         #on.exit(closepb(pb), add = TRUE)
@@ -38,7 +38,7 @@ function (X, FUN, ..., cl = NULL)
     } else {
         ## snow type cluster
         if (inherits(cl, "cluster")) {
-            if (!(interactive() && dopb() && length(X) >= 1))
+            if (!dopb())
                 return(parallel::parLapply(cl, X, FUN, ...))
             ## define split here and use that for counter
             Split <- splitpb(length(X), length(cl), nout = nout)
@@ -52,7 +52,7 @@ function (X, FUN, ..., cl = NULL)
             }
         ## multicore type forking
         } else {
-            if (!(interactive() && dopb() && length(X) >= 1))
+            if (!dopb())
                 return(parallel::mclapply(X, FUN, ..., mc.cores = as.integer(cl)))
             ## define split here and use that for counter
             Split <- splitpb(length(X), as.integer(cl), nout = nout)
