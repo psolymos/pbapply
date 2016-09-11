@@ -52,7 +52,7 @@ width = NA, title, label, style = 1, file = "")
 
         bb <- paste(rep(char, ceiling(txtWidth * i / n)), collapse = "")
         empty <- paste(rep(" ", floor(txtWidth * (1 - i / n))), collapse = "")
-        bar <- paste("  |", bb, empty, "|", sep = "")
+        bar <- paste(" |", bb, empty, "|", sep = "")
         cat(paste("\r", bar, text), file = file)
         flush.console()
     }
