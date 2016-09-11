@@ -19,7 +19,7 @@ Number of tasks.
 Number of cluster nodes.
 }
   \item{nout}{
-Maximum number of partitions in the output.
+Integer, maximum number of partitions in the output (must be > 0).
 }
 }
 \value{
