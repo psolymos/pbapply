@@ -7,12 +7,14 @@
 Adding Progress Bar to '*apply' Functions
 }
 \description{
-Adding progress bar to \code{*apply} functions}
+Adding progress bar to \code{*apply} functions, possibly leveraging
+parallel processing.
+}
 \usage{
-pblapply(X, FUN, ...)
+pblapply(X, FUN, ..., cl = NULL)
 pbapply(X, MARGIN, FUN, ...)
-pbsapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE)
-pbreplicate(n, expr, simplify = "array")
+pbsapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE, cl = NULL)
+pbreplicate(n, expr, simplify = "array", cl = NULL)
 }
 \arguments{
   \item{X}{
@@ -47,6 +49,11 @@ Number of replications.
   \item{expr}{
 Expression (language object, usually a call) to evaluate repeatedly.
 }
+  \item{cl}{
+A cluster object created by \code{\link[parallel]{makeCluster}},
+or an integer to indicate number of child-processes
+(integer values are ignored on Windows) for parallel evaluations.
+}
 }
 \details{
 The behaviour of the progress bar is controlled by the option
@@ -60,8 +67,21 @@ Other options have elements that are arguments used in the functions
 \code{\link[utils]{winProgressBar}},
 #endif
 and \code{\link[tcltk]{tkProgressBar}}.
-
 See \code{\link{pboptions}} for how to conveniently set these.
+
+Parallel processing can be enabled through the \code{cl} argument.
+\code{\link[parallel]{parLapply}} is called when \code{cl} is a 'cluster' object,
+\code{\link[parallel]{mclapply}} is called when \code{cl} is an integer.
+Showing the progress bar increases the communication overhead
+between the main process and nodes / child processes compared to the
+parallel equivalents of the functions without the progress bar.
+The functions fall back to their original equivalents when the progress bar is
+disabled (i.e. \code{getOption("pboptions")$type == "none"} or \code{dopb()} is
+\code{FALSE}). This is the default when \code{interactive()} if \code{FALSE}
+(i.e. called from command line R script).
+
+When doing parallel processing, other objects might need to pushed to the
+workers, and random numbers must be handled with care (see Examples).
 }
 \value{
 Similar to the value returned by the standard \code{*apply} functions.
@@ -82,9 +102,13 @@ Progress bars used in the functions:
 \code{\link[utils]{txtProgressBar}},
 \code{\link[tcltk]{tkProgressBar}}
 
-Standard \code{*apply} functions:
+Sequential \code{*apply} functions:
 \code{\link{apply}}, \code{\link{sapply}},
 \code{\link{lapply}}, \code{\link{replicate}}
+
+Parallel \code{*apply} functions from package 'parallel':
+\code{\link[parallel]{parLapply}},
+\code{\link[parallel]{mclapply}}.
 
 Setting the options: \code{\link{pboptions}}
 
@@ -97,10 +121,10 @@ Conveniently add progress bar to \code{for}-like loops:
 set.seed(1234)
 n <- 200
 x <- rnorm(n)
-y <- rnorm(n, model.matrix(~x) \%*\% c(0,1), sd=0.5)
+y <- rnorm(n, crossprod(t(model.matrix(~ x)), c(0, 1)), sd = 0.5)
 d <- data.frame(y, x)
 ## model fitting and bootstrap
-mod <- lm(y~x, d)
+mod <- lm(y ~ x, d)
 ndat <- model.frame(mod)
 B <- 100
 bid <- sapply(1:B, function(i) sample(nrow(ndat), nrow(ndat), TRUE))
@@ -119,21 +143,56 @@ system.time(res4 <- replicate(B, fun()))
 ## 'pb*apply' functions
 ## try different settings:
 ## "none", "txt", "tk", "win", "timer"
-op <- pboptions(type="timer") # default
+op <- pboptions(type = "timer") # default
 system.time(res1pb <- pblapply(1:B, function(i) fun(bid[,i])))
 pboptions(op)
 
-pboptions(type="txt")
+pboptions(type = "txt")
 system.time(res2pb <- pbsapply(1:B, function(i) fun(bid[,i])))
 pboptions(op)
 
-pboptions(type="txt", style=1, char="=")
+pboptions(type = "txt", style = 1, char = "=")
 system.time(res3pb <- pbapply(bid, 2, fun))
 pboptions(op)
 
-pboptions(type="txt", char=":")
+pboptions(type = "txt", char = ":")
 system.time(res4pb <- pbreplicate(B, fun()))
 pboptions(op)
+
+\dontrun{
+## parallel evaluation using the parallel package
+## (n = 2000 and B = 1000 will give visible timing differences)
+
+library(parallel)
+cl <- makeCluster(2L)
+clusterExport(cl, c("fun", "mod", "ndat", "bid"))
+
+## parallel with no progress bar: snow type cluster
+## (RNG is set in the main process to define the object bid)
+system.time(res1cl <- parLapply(cl = cl, 1:B, function(i) fun(bid[,i])))
+system.time(res2cl <- parSapply(cl = cl, 1:B, function(i) fun(bid[,i])))
+
+## parallel with  progress bar: snow type cluster
+## (RNG is set in the main process to define the object bid)
+system.time(res1pbcl <- pblapply(1:B, function(i) fun(bid[,i]), cl = cl))
+system.time(res2pbcl <- pbsapply(1:B, function(i) fun(bid[,i]), cl = cl))
+## (RNG needs to be set when not using bid)
+parallel::clusterSetRNGStream(cl, iseed = 0L)
+system.time(res4pbcl <- pbreplicate(B, fun(), cl = cl))
+
+stopCluster(cl)
+
+if (.Platform$OS.type != "windows") {
+    ## parallel with no progress bar: multicore type forking
+    ## (mc.set.seed = TRUE in parallel::mclapply by default)
+    system.time(res2mc <- mclapply(1:B, function(i) fun(bid[,i]), mc.cores = 2L))
+    ## parallel with  progress bar: multicore type forking
+    ## (mc.set.seed = TRUE in parallel::mclapply by default)
+    system.time(res1pbmc <- pblapply(1:B, function(i) fun(bid[,i]), cl = 2L))
+    system.time(res2pbmc <- pbsapply(1:B, function(i) fun(bid[,i]), cl = 2L))
+    system.time(res4pbmc <- pbreplicate(B, fun(), cl = 2L))
+}
+}
 
 ## --- Examples taken from standard '*apply' functions ---
 

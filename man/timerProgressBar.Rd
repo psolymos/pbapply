@@ -78,7 +78,7 @@ The \code{timerProgressBar} implementation
 follows closely the code of \code{\link[utils]{txtProgressBar}}.
 }
 \examples{
-testit <- function(...)
+test_fun <- function(...)
 {
     pb <- timerProgressBar(...)
     for(i in seq(0, 1, 0.05)) {
@@ -89,8 +89,8 @@ testit <- function(...)
     close(pb)
 }
 ## throbber with elapsed and remaining time
-testit(style = 2)
+test_fun(style = 2)
 ## progress bar with remaining time
-testit(width = 50, char = ".", style = 3)
+test_fun(width = 50, char = ".", style = 3)
 }
 \keyword{ utilities }

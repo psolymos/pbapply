@@ -10,13 +10,14 @@
             style = 3,
             initial = 0,
             title = "R progress bar",
-            label = ""))
+            label = "",
+            nout = 100L))
     }
     invisible(NULL)
 }
 
 .onUnload <- function(libpath){
-    options("pboptions"=NULL)
+    options("pboptions" = NULL)
     invisible(NULL)
 }
 

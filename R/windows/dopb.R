@@ -8,6 +8,6 @@ function()
         if (progress.bar == "none")
             progress.bar <- NULL
     }
-    interactive() && !is.null(progress.bar)
+    !is.null(progress.bar)
 }
 
