@@ -8,7 +8,7 @@ useful (e.g. bootstrap). The type and style of the
 progress bar (with percentages or remaining time)
 can be set through options.
 
-### Versions
+## Versions
 
 #### CRAN release version
 
@@ -29,16 +29,16 @@ library(devtools)
 install_github("psolymos/pbapply")
 ```
 
-### Report a problem
+## Report a problem
 
 Use the [issue tracker](https://github.com/psolymos/pbapply/issues)
 to report a problem.
 
-### License
+## License
 
 [GPL-2](http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
 
-### Add it to a package
+## Add it to a package
 
 There are two ways of adding the pbapply package to another package.
 
@@ -46,7 +46,7 @@ There are two ways of adding the pbapply package to another package.
 
 Add pbapply to the Suggests field in the `DESCRIPTION`.
 
-Use a conditional statement in your code:
+Use a conditional statement in your code to fall back on a base function in case of pbapply not installed:
 
 ```
 out <- if (requireNamespace("pbapply")) {
@@ -85,7 +85,17 @@ Specify the progress bar options in the `zzz.R` file of the package:
 
 This will set the options and pbapply will not override when loaded.
 
-### Examples
+#### Suppressing the progress bar
+
+Suppressing the progress bar is sometimes handy. By default, progress bar is suppressed when `!interactive()`.
+In other instances, put this inside a function:
+
+```
+pbo <- pboptions(type = "none")
+on.exit(pboptions(pbo), add = TRUE)
+```
+
+## Examples
 
 ```
 > library(pbapply)
@@ -149,11 +159,4 @@ This will set the options and pbapply will not override when loaded.
    user  system elapsed 
   1.427   0.040   1.481 
 > pboptions(op)
-```
-
-Suppressing the progress bar:
-
-```
-pbo <- pboptions(type = "none")
-on.exit(pboptions(pbo), add = TRUE)
 ```
