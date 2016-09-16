@@ -56,6 +56,8 @@ out <- if (requireNamespace("pbapply")) {
 }
 ```
 
+See a small example package [here](https://github.com/psolymos/pbapplySuggests).
+
 #### 2. Depends/Imports: pbapply
 
 Add pbapply to the Depends or Imports field in the `DESCRIPTION`.
@@ -84,6 +86,8 @@ Specify the progress bar options in the `zzz.R` file of the package:
 ```
 
 This will set the options and pbapply will not override when loaded.
+
+See a small example package [here](https://github.com/psolymos/pbapplyDepends).
 
 #### Suppressing the progress bar
 
