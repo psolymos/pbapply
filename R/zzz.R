@@ -10,9 +10,12 @@
         label = "",
         nout = 100L)
     optsx <- getOption("pboptions")
-    if (!is.null(optsx))
+    if (!is.null(optsx)) {
         for (i in intersect(names(opts), names(optsx)))
             opts[[i]] <- optsx[[i]]
+        for (i in setdiff(names(optsx), names(opts)))
+            opts[[i]] <- optsx[[i]]
+    }
     options("pboptions" = opts)
     invisible(NULL)
 }
