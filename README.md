@@ -7,6 +7,7 @@ to functions where showing the progress is
 useful (e.g. bootstrap). The type and style of the 
 progress bar (with percentages or remaining time)
 can be set through options.
+Functions can exploit parallel processing resources.
 
 ![](https://github.com/psolymos/pbapply/raw/master/images/pbapply-01.gif)
 
