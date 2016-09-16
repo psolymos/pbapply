@@ -8,6 +8,8 @@ useful (e.g. bootstrap). The type and style of the
 progress bar (with percentages or remaining time)
 can be set through options.
 
+![](pbapply/images/pbapply-01.gif)
+
 ## Versions
 
 #### CRAN release version
