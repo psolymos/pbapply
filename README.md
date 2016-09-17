@@ -65,7 +65,7 @@ See a small example package [here](https://github.com/psolymos/pbapplySuggests).
 
 Add pbapply to the Depends or Imports field in the `DESCRIPTION`.
 
-Use a the pbapply functions either as `pbapply::pblapply()` or specify them in the `NAMESPACE` (`importFrom(pbapply, pblapply)`) and
+Use the pbapply functions either as `pbapply::pblapply()` or specify them in the `NAMESPACE` (`importFrom(pbapply, pblapply)`) and
 use it as `pblapply()` (without the `::`).
 
 #### Customizing the progress bar
