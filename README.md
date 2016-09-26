@@ -35,13 +35,13 @@ install_github("psolymos/pbapply")
 ## Report a problem
 
 Use the [issue tracker](https://github.com/psolymos/pbapply/issues)
-to report a problem.
+to report a problem, or to suggest a new feature.
 
 ## License
 
 [GPL-2](http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
 
-## Add it to a package
+## How to add pbapply to a package
 
 There are two ways of adding the pbapply package to another package.
 
