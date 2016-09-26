@@ -2,8 +2,9 @@
 
 ## Version 1.3-0, September 15, 2016
 
-* parallel is now imported.
-* Progress bar is added for parallel (cluster and forking) jobs.
+* Progress bar is added for parallel (cluster and forking) jobs (request #9 from Kendon Bell). 
+  Package parallel is now imported as a result.
+* `timerProgressBar` prints days when job is expected to be >24h (PR #11 from Phil Chalmers).
 
 ## Version 1.2-2, August 25, 2016
 
