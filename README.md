@@ -52,7 +52,7 @@ Add pbapply to the Suggests field in the `DESCRIPTION`.
 Use a conditional statement in your code to fall back on a base function in case of pbapply not installed:
 
 ```
-out <- if (requireNamespace("pbapply")) {
+out <- if (requireNamespace("pbapply", quietly = TRUE)) {
    pbapply::pblapply(X, FUN, ...)
 } else {
    lapply(X, FUN, ...)
