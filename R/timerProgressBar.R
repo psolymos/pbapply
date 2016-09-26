@@ -184,11 +184,15 @@ getTimeAsString <- function(time) {
     time <- floor(time / 60)
     minutes <- floor(time %% 60)
     time <- floor(time / 60)
-    hours <- time
+    days <- floor(time / 24)
+    time <- floor(time %% 24)
+    hours <- floor(time %% 60)
     resTime <- ""
-    if (hours > 0)
-        resTime <- sprintf("%02ih ", hours)
-    if (minutes > 0 || hours > 0)
+    if (days > 0)
+        resTime <- sprintf("%02id ", days)
+    if (hours > 0 || days > 0)
+        resTime <- paste(resTime, sprintf("%02ih ", hours), sep = "")
+    if (minutes > 0 || hours > 0 || days > 0)
         resTime <- paste(resTime, sprintf("%02im ", minutes), sep = "")
     resTime <- paste0(resTime, sprintf("%02is", sec))
     resTime
