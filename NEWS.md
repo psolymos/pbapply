@@ -1,6 +1,6 @@
 # User-visible changes in the pbapply R package
 
-## Version 1.3-0, September 15, 2016
+## Version 1.3-0, September 25, 2016
 
 * Progress bar is added for parallel (cluster and forking) jobs (request #9 from Kendon Bell). 
   Package parallel is now imported as a result.
