@@ -98,6 +98,6 @@ test_fun <- function(...)
 test_fun(style = 2)
 ## progress bar with remaining time
 test_fun(width = 50, char = ".", style = 3)
-test_fun(width = 50, char = ".", style = 6)
+test_fun(width = 50, char = "=", style = 6)
 }
 \keyword{ utilities }
