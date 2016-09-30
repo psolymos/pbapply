@@ -33,13 +33,19 @@ If \code{NA}, the default, the number of characters is that
 which fits into \code{getOption("width")}.
 }
   \item{style}{
-the style taking values between 1 and 4.
-1: progress bar with elapsed and remaining time
+the style taking values between 1 and 6.
+1: progress bar with elapsed and remaining time,
+remaining percentage is indicated by spaces between pipes
 (default for this function),
 2: throbber with elapsed and remaining time,
-3: progress bar with remaining time printing elapsed time at the end
+3: progress bar with remaining time printing elapsed time at the end,
+remaining percentage is indicated by spaces between pipes
 (default for \code{style} option in \code{\link{pboptions}}),
-4: throbber with remaining time printing elapsed time at the end.
+4: throbber with remaining time printing elapsed time at the end,
+5: progress bar with elapsed and remaining time,
+remaining percentage is indicated by dashes between square brackets,
+6: progress bar with remaining time printing elapsed time at the end,
+remaining percentage is indicated by dashes between square brackets.
 }
   \item{file}{
 an open connection object or \code{""} which indicates the console.
@@ -81,16 +87,17 @@ follows closely the code of \code{\link[utils]{txtProgressBar}}.
 test_fun <- function(...)
 {
     pb <- timerProgressBar(...)
+    on.exit(close(pb))
     for(i in seq(0, 1, 0.05)) {
-        Sys.sleep(0.2)
+        Sys.sleep(0.1)
         setTimerProgressBar(pb, i)
     }
-    Sys.sleep(0.2)
-    close(pb)
+    invisible(NULL)
 }
 ## throbber with elapsed and remaining time
 test_fun(style = 2)
 ## progress bar with remaining time
 test_fun(width = 50, char = ".", style = 3)
+test_fun(width = 50, char = ".", style = 6)
 }
 \keyword{ utilities }
