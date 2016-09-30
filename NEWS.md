@@ -1,5 +1,9 @@
 # User-visible changes in the pbapply R package
 
+## Version 1.3-1, September 29, 2016
+
+* `timerProgressBar` gained 2 new styles.
+
 ## Version 1.3-0, September 25, 2016
 
 * Progress bar is added for parallel (cluster and forking) jobs (request #9 from Kendon Bell). 
