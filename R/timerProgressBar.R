@@ -20,8 +20,24 @@ width = NA, title, label, style = 1, file = "")
 
     getVal <- function()  .i
 
-    if (nchar(char, "w") > 1)
+    if (nchar(char, "w") > 1 && style %in% 1:4)
         char <- substr(char, 1, 1)
+    if (nchar(char, "w") > 4 && style %in% 5:6)
+        char <- substr(char, 1, 4)
+    if (style %in% 5:6) {
+        if (nchar(char, "w") == 1)
+            char <- c("|", char, " ", "|")
+        else if (nchar(char, "w") == 2)
+            char <- c(substr(char,1,1), substr(char,2,2), " ", substr(char,1,1))
+        else if (nchar(char, "w") == 3)
+            char <- c(substr(char,1,1), substr(char,2,2),
+                substr(char,3,3), substr(char,1,1))
+        else if (nchar(char, "w") == 4)
+            char <- c(substr(char,1,1), substr(char,2,2),
+                substr(char,3,3), substr(char,4,4))
+        if (char[2] == char[3])
+            char[3] <- " "
+    }
     if (is.na(width))
         width <- options("width")[[1]]
 
@@ -183,9 +199,9 @@ width = NA, title, label, style = 1, file = "")
         if(txtWidth < 0)
             cat("\r ", text, file = file)
 
-        bb <- paste(rep(char, ceiling(txtWidth * i / n)), collapse = "")
-        empty <- paste(rep("-", floor(txtWidth * (1 - i / n))), collapse = "")
-        bar <- paste(" [", bb, empty, "]", sep = "")
+        bb <- paste(rep(char[2], ceiling(txtWidth * i / n)), collapse = "")
+        empty <- paste(rep(char[3], floor(txtWidth * (1 - i / n))), collapse = "")
+        bar <- paste("  ", char[1], bb, empty, char[4], sep = "")
         cat(paste("\r", bar, text), file = file)
         flush.console()
     }
@@ -219,9 +235,9 @@ width = NA, title, label, style = 1, file = "")
                 collapse = ""))
         if(txtWidth < 0)
             cat("\r ", text, file = file)
-        bb <- paste(rep(char, ceiling(txtWidth * i / n)), collapse = "")
-        empty <- paste(rep("-", floor(txtWidth * (1 - i / n))), collapse = "")
-        bar <- paste("  [", bb, empty, "]", sep = "")
+        bb <- paste(rep(char[2], ceiling(txtWidth * i / n)), collapse = "")
+        empty <- paste(rep(char[3], floor(txtWidth * (1 - i / n))), collapse = "")
+        bar <- paste("  ", char[1], bb, empty, char[4], sep = "")
         cat(paste("\r", bar, text), file = file)
         flush.console()
     }
@@ -264,4 +280,3 @@ getTimeAsString <- function(time) {
     resTime <- paste0(resTime, sprintf("%02is", sec))
     resTime
 }
-
