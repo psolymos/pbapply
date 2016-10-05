@@ -255,7 +255,7 @@ width = NA, title, label, style = 1, file = "")
 setTimerProgressBar <- setTxtProgressBar
 getTimerProgressBar <- getTxtProgressBar
 
-# converts time in seconds into ~HHh MMm SSs format
+## converts time in seconds into ~HHh MMm SSs format
 getTimeAsString <- function(time) {
     if (is.null(time)) {
         return("calculating")
