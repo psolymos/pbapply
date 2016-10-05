@@ -2,7 +2,8 @@
 
 ## Version 1.3-1, September 29, 2016
 
-* `timerProgressBar` gained 2 new styles.
+* `timerProgressBar` gained 2 new styles with flexible styling including
+  left/right end and elapsed/remaining components of the progress bar.
 
 ## Version 1.3-0, September 25, 2016
 
