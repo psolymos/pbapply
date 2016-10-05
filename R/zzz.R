@@ -8,7 +8,8 @@
         initial = 0,
         title = "R progress bar",
         label = "",
-        nout = 100L)
+        nout = 100L,
+        min_time = 0)
     optsx <- getOption("pboptions")
     if (!is.null(optsx)) {
         for (i in intersect(names(opts), names(optsx)))

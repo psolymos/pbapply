@@ -77,6 +77,10 @@ Tags are the following:
     The default value is 100. Smaller value minimizes the
     running time overhead related to updating the progress bar.
     This can be especially important for forking type parallel runs.}
+  \item{min_time}{Minimum time in seconds.
+    \code{\link{timerProgressBar}} output is printed only if
+    estimated completion time is higher than this value.
+    The default value is 0.}
 
 For \code{startpb} a progress bar object.
 
