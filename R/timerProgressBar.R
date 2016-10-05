@@ -1,6 +1,6 @@
 timerProgressBar <-
 function(min = 0, max = 1, initial = 0, char = "=",
-width = NA, title, label, style = 1, file = "")
+width = NA, title, label, style = 1, file = "", min_time = 0)
 {
     if (!identical(file, "") && !(inherits(file, "connection") &&
         isOpen(file)))
@@ -17,6 +17,7 @@ width = NA, title, label, style = 1, file = "")
     .max   <- force(max)
     .i     <- force(initial)
     .killed <- FALSE
+    .showpb <- FALSE
 
     getVal <- function()  .i
 
@@ -51,26 +52,30 @@ width = NA, title, label, style = 1, file = "")
         n <- .max - .min
         time <- time0 / (i / n) - time0
 
-        spentTime <- paste0(" elapsed =", getTimeAsString(time0))
-        leftTime <- if (i == 0)
-            "" else paste0(", remaining ~", getTimeAsString(time))
-        minLetters <- nchar("%%%% ~00h 00m 00s", "w")
+        if (.i > .min && sum(time0, time, na.rm=TRUE) > min_time)
+            .showpb <<- TRUE
+        if (.showpb) {
+            spentTime <- paste0(" elapsed =", getTimeAsString(time0))
+            leftTime <- if (i == 0)
+                "" else paste0(", remaining ~", getTimeAsString(time))
+            minLetters <- nchar("%%%% ~00h 00m 00s", "w")
 
-        ## 79-24=55 > 50
-        txtWidth <- max(width, width - minLetters - 4)
+            ## 79-24=55 > 50
+            txtWidth <- max(width, width - minLetters - 4)
 
-        text <- paste0(sprintf("%-2.0f%%", 100 * i / n), spentTime, leftTime)
-        if(nchar(text, "w") < minLetters)
-            text <- paste(text, paste(rep(" ", minLetters - nchar(text, "w")),
-                                      collapse = ""))
-        if(txtWidth < 0)
-            cat("\r ", text, file = file)
+            text <- paste0(sprintf("%-2.0f%%", 100 * i / n), spentTime, leftTime)
+            if(nchar(text, "w") < minLetters)
+                text <- paste(text, paste(rep(" ", minLetters - nchar(text, "w")),
+                                          collapse = ""))
+            if(txtWidth < 0)
+                cat("\r ", text, file = file)
 
-        bb <- paste(rep(char, ceiling(txtWidth * i / n)), collapse = "")
-        empty <- paste(rep(" ", floor(txtWidth * (1 - i / n))), collapse = "")
-        bar <- paste(" |", bb, empty, "|", sep = "")
-        cat(paste("\r", bar, text), file = file)
-        flush.console()
+            bb <- paste(rep(char, ceiling(txtWidth * i / n)), collapse = "")
+            empty <- paste(rep(" ", floor(txtWidth * (1 - i / n))), collapse = "")
+            bar <- paste(" |", bb, empty, "|", sep = "")
+            cat(paste("\r", bar, text), file = file)
+            flush.console()
+        }
     }
     ## throbber with elapsed and remaining time
     up2 <- function(value) {
@@ -83,96 +88,102 @@ width = NA, title, label, style = 1, file = "")
         time <- time0 / (i / n) - time0
         if (i != 0)
             .counter <<- .counter + 1
-        spentTime <- paste0(" elapsed =", getTimeAsString(time0))
-        leftTime <- if (i == 0)
-            "" else paste0(", remaining ~", getTimeAsString(time))
-        minLetters <- nchar("%%%% ~00h 00m 00s", "w")
 
-        ## 79-24=55 > 50
-        txtWidth <- max(width, width - minLetters - 4)
+        if (.i > .min && sum(time0, time, na.rm=TRUE) > min_time)
+            .showpb <<- TRUE
+        if (.showpb) {
+            spentTime <- paste0(" elapsed =", getTimeAsString(time0))
+            leftTime <- if (i == 0)
+                "" else paste0(", remaining ~", getTimeAsString(time))
+            minLetters <- nchar("%%%% ~00h 00m 00s", "w")
 
-        text <- paste0(sprintf("%-2.0f%%", 100 * i / n), spentTime, leftTime)
-        if(nchar(text, "w") < minLetters)
-            text <- paste(text, paste(rep(" ", minLetters - nchar(text, "w")),
-                collapse = ""))
-        if(txtWidth < 0)
-            cat("\r ", text, file = file)
-        bb <- paste(rep(char, ceiling(txtWidth * i / n)), collapse = "")
-        bar <- c("|", "/", "-", "\\")[(.counter %% 4) + 1]
-        cat(paste("\r", bar, text), file = file)
-        flush.console()
+            ## 79-24=55 > 50
+            txtWidth <- max(width, width - minLetters - 4)
+
+            text <- paste0(sprintf("%-2.0f%%", 100 * i / n), spentTime, leftTime)
+            if(nchar(text, "w") < minLetters)
+                text <- paste(text, paste(rep(" ", minLetters - nchar(text, "w")),
+                    collapse = ""))
+            if(txtWidth < 0)
+                cat("\r ", text, file = file)
+            bb <- paste(rep(char, ceiling(txtWidth * i / n)), collapse = "")
+            bar <- c("|", "/", "-", "\\")[(.counter %% 4) + 1]
+            cat(paste("\r", bar, text), file = file)
+            flush.console()
+        }
     }
     ## |= | style progress bar with remaining time
     up3 <- function(value) {
         if (!is.finite(value) || value < min || value > max)
             return()
-        time <- proc.time()[["elapsed"]] - .start
+        time0 <- proc.time()[["elapsed"]] - .start
         .i <<- value
         i <- .i - .min
         n <- .max - .min
+        time <- time0 / (i / n) - time0
 
-        if (i != n) {
-            time <- time / (i / n) - time
-            prefix <- " ~"
-        } else {
-            prefix <- " elapsed = "
+        if (.i > .min && sum(time0, time, na.rm=TRUE) > min_time)
+            .showpb <<- TRUE
+        if (.showpb) {
+            prefix <- if (i != n)
+                " ~" else " elapsed = "
+
+            leftTime <- if (i == 0)
+                getTimeAsString(NULL) else getTimeAsString(time)
+            minLetters <- nchar("%%%% ~00h 00m 00s", "w")
+
+            ## 79-24=55 > 50
+            txtWidth <- max(width, width - minLetters - 4)
+
+            text <- paste0(sprintf("%-2.0f%%", 100 * i / n), prefix, leftTime)
+            if(nchar(text, "w") < minLetters)
+                text <- paste(text, paste(rep(" ", minLetters - nchar(text, "w")),
+                    collapse = ""))
+            if(txtWidth < 0)
+                cat("\r ", text, file = file)
+            bb <- paste(rep(char, ceiling(txtWidth * i / n)), collapse = "")
+            empty <- paste(rep(" ", floor(txtWidth * (1 - i / n))), collapse = "")
+            bar <- paste("  |", bb, empty, "|", sep = "")
+            cat(paste("\r", bar, text), file = file)
+            flush.console()
         }
-
-        leftTime <- if (i == 0)
-            getTimeAsString(NULL) else getTimeAsString(time)
-        #minLetters <- nchar("%%%.%%% ~00h 00m 00s", "w") # 2 decimals too much
-        minLetters <- nchar("%%%% ~00h 00m 00s", "w")
-
-        ## 79-24=55 > 50
-        txtWidth <- max(width, width - minLetters - 4)
-
-        text <- paste0(sprintf("%-2.0f%%", 100 * i / n), prefix, leftTime)
-        if(nchar(text, "w") < minLetters)
-            text <- paste(text, paste(rep(" ", minLetters - nchar(text, "w")),
-                collapse = ""))
-        if(txtWidth < 0)
-            cat("\r ", text, file = file)
-        bb <- paste(rep(char, ceiling(txtWidth * i / n)), collapse = "")
-        empty <- paste(rep(" ", floor(txtWidth * (1 - i / n))), collapse = "")
-        bar <- paste("  |", bb, empty, "|", sep = "")
-        cat(paste("\r", bar, text), file = file)
-        flush.console()
     }
     ## throbber with remaining time
     up4 <- function(value) {
         if (!is.finite(value) || value < min || value > max)
             return()
-        time <- proc.time()[["elapsed"]] - .start
+        time0 <- proc.time()[["elapsed"]] - .start
         .i <<- value
         i <- .i - .min
         n <- .max - .min
-
-        if (i != n) {
-            time <- time / (i / n) - time
-            prefix <- " ~"
-        } else {
-            prefix <- " elapsed = "
-        }
+        time <- time0 / (i / n) - time0
 
         if (i != 0)
             .counter <<- .counter + 1
-        leftTime <- if (i == 0)
-            getTimeAsString(NULL) else getTimeAsString(time)
-        minLetters <- nchar("%%%% ~00h 00m 00s", "w")
 
-        ## 79-24=55 > 50
-        txtWidth <- max(width, width - minLetters - 4)
+        if (.i > .min && sum(time0, time, na.rm=TRUE) > min_time)
+            .showpb <<- TRUE
+        if (.showpb) {
+            prefix <- if (i != n)
+                " ~" else " elapsed = "
+            leftTime <- if (i == 0)
+                getTimeAsString(NULL) else getTimeAsString(time)
+            minLetters <- nchar("%%%% ~00h 00m 00s", "w")
 
-        text <- paste0(sprintf("%-2.0f%%", 100 * i / n), prefix, leftTime)
-        if(nchar(text, "w") < minLetters)
-            text <- paste(text, paste(rep(" ", minLetters - nchar(text, "w")),
-                collapse = ""))
-        if(txtWidth < 0)
-            cat("\r ", text, file = file)
-        bb <- paste(rep(char, ceiling(txtWidth * i / n)), collapse = "")
-        bar <- c("|", "/", "-", "\\")[(.counter %% 4) + 1]
-        cat(paste("\r", bar, text), file = file)
-        flush.console()
+            ## 79-24=55 > 50
+            txtWidth <- max(width, width - minLetters - 4)
+
+            text <- paste0(sprintf("%-2.0f%%", 100 * i / n), prefix, leftTime)
+            if(nchar(text, "w") < minLetters)
+                text <- paste(text, paste(rep(" ", minLetters - nchar(text, "w")),
+                    collapse = ""))
+            if(txtWidth < 0)
+                cat("\r ", text, file = file)
+            bb <- paste(rep(char, ceiling(txtWidth * i / n)), collapse = "")
+            bar <- c("|", "/", "-", "\\")[(.counter %% 4) + 1]
+            cat(paste("\r", bar, text), file = file)
+            flush.console()
+        }
     }
     ## [=-] style progress bar with elapsed and remaining time
     up5 <- function(value) {
@@ -184,66 +195,72 @@ width = NA, title, label, style = 1, file = "")
         n <- .max - .min
         time <- time0 / (i / n) - time0
 
-        spentTime <- paste0(" elapsed =", getTimeAsString(time0))
-        leftTime <- if (i == 0)
-            "" else paste0(", remaining ~", getTimeAsString(time))
-        minLetters <- nchar("%%%% ~00h 00m 00s", "w")
+        if (.i > .min && sum(time0, time, na.rm=TRUE) > min_time)
+            .showpb <<- TRUE
+        if (.showpb) {
+            spentTime <- paste0(" elapsed =", getTimeAsString(time0))
+            leftTime <- if (i == 0)
+                "" else paste0(", remaining ~", getTimeAsString(time))
+            minLetters <- nchar("%%%% ~00h 00m 00s", "w")
 
-        ## 79-24=55 > 50
-        txtWidth <- max(width, width - minLetters - 4)
+            ## 79-24=55 > 50
+            txtWidth <- max(width, width - minLetters - 4)
 
-        text <- paste0(sprintf("%-2.0f%%", 100 * i / n), spentTime, leftTime)
-        if(nchar(text, "w") < minLetters)
-            text <- paste(text, paste(rep(" ", minLetters - nchar(text, "w")),
-                                      collapse = ""))
-        if(txtWidth < 0)
-            cat("\r ", text, file = file)
+            text <- paste0(sprintf("%-2.0f%%", 100 * i / n), spentTime, leftTime)
+            if(nchar(text, "w") < minLetters)
+                text <- paste(text, paste(rep(" ", minLetters - nchar(text, "w")),
+                                          collapse = ""))
+            if(txtWidth < 0)
+                cat("\r ", text, file = file)
 
-        bb <- paste(rep(char[2], ceiling(txtWidth * i / n)), collapse = "")
-        empty <- paste(rep(char[3], floor(txtWidth * (1 - i / n))), collapse = "")
-        bar <- paste("  ", char[1], bb, empty, char[4], sep = "")
-        cat(paste("\r", bar, text), file = file)
-        flush.console()
+            bb <- paste(rep(char[2], ceiling(txtWidth * i / n)), collapse = "")
+            empty <- paste(rep(char[3], floor(txtWidth * (1 - i / n))), collapse = "")
+            bar <- paste("  ", char[1], bb, empty, char[4], sep = "")
+            cat(paste("\r", bar, text), file = file)
+            flush.console()
+        }
     }
     ## [=-] style progress bar with remaining time
     up6 <- function(value) {
         if (!is.finite(value) || value < min || value > max)
             return()
-        time <- proc.time()[["elapsed"]] - .start
+        time0 <- proc.time()[["elapsed"]] - .start
         .i <<- value
         i <- .i - .min
         n <- .max - .min
+        time <- time0 / (i / n) - time0
 
-        if (i != n) {
-            time <- time / (i / n) - time
-            prefix <- " ~"
-        } else {
-            prefix <- " elapsed = "
+        if (.i > .min && sum(time0, time, na.rm=TRUE) > min_time)
+            .showpb <<- TRUE
+        if (.showpb) {
+            prefix <- if (i != n)
+                " ~" else " elapsed = "
+            leftTime <- if (i == 0)
+                getTimeAsString(NULL) else getTimeAsString(time)
+            #minLetters <- nchar("%%%.%%% ~00h 00m 00s", "w") # 2 decimals too much
+            minLetters <- nchar("%%%% ~00h 00m 00s", "w")
+
+            ## 79-24=55 > 50
+            txtWidth <- max(width, width - minLetters - 4)
+
+            text <- paste0(sprintf("%-2.0f%%", 100 * i / n), prefix, leftTime)
+            if(nchar(text, "w") < minLetters)
+                text <- paste(text, paste(rep(" ", minLetters - nchar(text, "w")),
+                    collapse = ""))
+            if(txtWidth < 0)
+                cat("\r ", text, file = file)
+            bb <- paste(rep(char[2], ceiling(txtWidth * i / n)), collapse = "")
+            empty <- paste(rep(char[3], floor(txtWidth * (1 - i / n))), collapse = "")
+            bar <- paste("  ", char[1], bb, empty, char[4], sep = "")
+            cat(paste("\r", bar, text), file = file)
+            flush.console()
         }
-
-        leftTime <- if (i == 0)
-            getTimeAsString(NULL) else getTimeAsString(time)
-        #minLetters <- nchar("%%%.%%% ~00h 00m 00s", "w") # 2 decimals too much
-        minLetters <- nchar("%%%% ~00h 00m 00s", "w")
-
-        ## 79-24=55 > 50
-        txtWidth <- max(width, width - minLetters - 4)
-
-        text <- paste0(sprintf("%-2.0f%%", 100 * i / n), prefix, leftTime)
-        if(nchar(text, "w") < minLetters)
-            text <- paste(text, paste(rep(" ", minLetters - nchar(text, "w")),
-                collapse = ""))
-        if(txtWidth < 0)
-            cat("\r ", text, file = file)
-        bb <- paste(rep(char[2], ceiling(txtWidth * i / n)), collapse = "")
-        empty <- paste(rep(char[3], floor(txtWidth * (1 - i / n))), collapse = "")
-        bar <- paste("  ", char[1], bb, empty, char[4], sep = "")
-        cat(paste("\r", bar, text), file = file)
-        flush.console()
     }
     kill <- function() if (!.killed) {
-        cat("\n", file = file)
-        flush.console()
+        if (.showpb) {
+            cat("\n", file = file)
+            flush.console()
+        }
         .killed <<- TRUE
     }
     up <- switch(style, up1, up2, up3, up4, up5, up6)
