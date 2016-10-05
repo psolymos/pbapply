@@ -10,7 +10,7 @@ Text progress bar with timer in the R console.
 }
 \usage{
 timerProgressBar(min = 0, max = 1, initial = 0, char = "=",
-    width = NA, title, label, style = 1, file = "")
+    width = NA, title, label, style = 1, file = "", min_time = 0)
 getTimerProgressBar(pb)
 setTimerProgressBar(pb, value, title = NULL, label = NULL)
 }
@@ -50,6 +50,9 @@ with more flexible styling (see Details and Examples).
 }
   \item{file}{
 an open connection object or \code{""} which indicates the console.
+}
+  \item{min_time}{
+numeric, minimum processing time (in seconds) required to show a progress bar.
 }
   \item{pb}{
 an object of class \code{"timerProgressBar"}.
@@ -110,5 +113,8 @@ test_fun(style = 2)
 ## progress bar with remaining time
 test_fun(width = 50, char = ".", style = 3)
 test_fun(width = 50, char = "{*.}", style = 6)
+## this should not produce a progress bar based on min_time
+(elapsed <- system.time(test_fun(width = 50))["elapsed"])
+test_fun(min_time = 2 * elapsed)
 }
 \keyword{ utilities }
