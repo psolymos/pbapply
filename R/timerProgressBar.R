@@ -129,7 +129,9 @@ width = NA, title, label, style = 1, file = "", min_time = 0)
                 " ~" else " elapsed = "
 
             leftTime <- if (i == 0)
-                getTimeAsString(NULL) else getTimeAsString(time)
+                getTimeAsString(NULL) else
+                    if (i != n)
+                        getTimeAsString(time) else getTimeAsString(time0)
             minLetters <- nchar("%%%% ~00h 00m 00s", "w")
 
             ## 79-24=55 > 50
@@ -167,7 +169,9 @@ width = NA, title, label, style = 1, file = "", min_time = 0)
             prefix <- if (i != n)
                 " ~" else " elapsed = "
             leftTime <- if (i == 0)
-                getTimeAsString(NULL) else getTimeAsString(time)
+                getTimeAsString(NULL) else
+                    if (i != n)
+                        getTimeAsString(time) else getTimeAsString(time0)
             minLetters <- nchar("%%%% ~00h 00m 00s", "w")
 
             ## 79-24=55 > 50
@@ -236,8 +240,9 @@ width = NA, title, label, style = 1, file = "", min_time = 0)
             prefix <- if (i != n)
                 " ~" else " elapsed = "
             leftTime <- if (i == 0)
-                getTimeAsString(NULL) else getTimeAsString(time)
-            #minLetters <- nchar("%%%.%%% ~00h 00m 00s", "w") # 2 decimals too much
+                getTimeAsString(NULL) else
+                    if (i != n)
+                        getTimeAsString(time) else getTimeAsString(time0)
             minLetters <- nchar("%%%% ~00h 00m 00s", "w")
 
             ## 79-24=55 > 50
