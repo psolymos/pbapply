@@ -1,13 +1,15 @@
 # User-visible changes in the pbapply R package
 
-## Version 1.3-1, September 29, 2016
+## Version 1.3-1, October 5, 2016
 
 * `timerProgressBar` gained 2 new styles with flexible styling including
   left/right end and elapsed/remaining components of the progress bar.
+* `timerProgressBar` gained `min_time` argument for minimum processing time
+  (in seconds) that is required to show a progress bar.
 
 ## Version 1.3-0, September 25, 2016
 
-* Progress bar is added for parallel (cluster and forking) jobs (request #9 from Kendon Bell). 
+* Progress bar is added for parallel (cluster and forking) jobs (request #9 from Kendon Bell).
   Package parallel is now imported as a result.
 * `timerProgressBar` prints days when job is expected to be >24h (PR #11 from Phil Chalmers).
 
