@@ -1,15 +1,17 @@
 ## --- standard examples ---
 
 library(pbapply)
-pboptions(type = "timer")
 
-example(pboptions)
+example(pboptions, run.dontrun = TRUE)
 example(pbapply, run.dontrun = TRUE)
-example(lapply)
-example(apply)
-example(splitpb)
+example(lapply, run.dontrun = TRUE)
+example(apply, run.dontrun = TRUE)
+example(splitpb, run.dontrun = TRUE)
+example(timerProgressBar, run.dontrun = TRUE)
 
 ## --- simple timings ---
+
+if (FALSE) {
 
 #library(plyr)
 ## from http://ryouready.wordpress.com/2010/01/11/progress-bars-in-r-part-ii-a-wrapper-for-apply-functions/#comment-122
@@ -30,10 +32,14 @@ function(X, FUN, ...)
     close(pb)
     res
 }
-system.time(x1 <- lapply(1:10, function(i) Sys.sleep(0.2)))
-system.time(x1 <- lapply_pb(1:10, function(i) Sys.sleep(0.2)))
-#system.time(x1 <- l_ply(1:10, function(i) Sys.sleep(0.2), .progress=create_progress_bar(name = "text")))
-system.time(x1 <- pblapply(1:10, function(i) Sys.sleep(0.2)))
+
+i <- seq_len(100)
+system.time(x1 <- lapply(i, function(i) Sys.sleep(0.1)))
+system.time(x1 <- lapply_pb(i, function(i) Sys.sleep(0.1)))
+#system.time(x1 <- l_ply(i, function(i) Sys.sleep(0.1), .progress="text"))
+system.time(x1 <- pblapply(i, function(i) Sys.sleep(0.1)))
+
+}
 
 ## --- test for NULL case in lapply ---
 
