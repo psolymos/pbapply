@@ -1,6 +1,14 @@
 language: r
 sudo: required
+
 r_packages:
   - covr
+
+r:
+  - release
+  - devel
+  - oldrel
+
+
 after_success:
   - Rscript -e 'library(covr);codecov()'
