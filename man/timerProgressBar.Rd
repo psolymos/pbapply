@@ -103,18 +103,23 @@ test_fun <- function(...)
     pb <- timerProgressBar(...)
     on.exit(close(pb))
     for(i in seq(0, 1, 0.05)) {
-        Sys.sleep(0.1)
+        Sys.sleep(0.05)
         setTimerProgressBar(pb, i)
     }
     invisible(NULL)
 }
-## throbber with elapsed and remaining time
+
+## check the different styles
+test_fun(width = 35, char = "+", style = 1)
 test_fun(style = 2)
-## progress bar with remaining time
 test_fun(width = 50, char = ".", style = 3)
+test_fun(style = 4)
+test_fun(width = 35, char = "[=-]", style = 5)
 test_fun(width = 50, char = "{*.}", style = 6)
+
+## this should produce a progress bar based on min_time
+(elapsed <- system.time(test_fun(width = 35, min_time = 0))["elapsed"])
 ## this should not produce a progress bar based on min_time
-(elapsed <- system.time(test_fun(width = 50))["elapsed"])
-test_fun(min_time = 2 * elapsed)
+system.time(test_fun(min_time = 2 * elapsed))["elapsed"]
 }
 \keyword{ utilities }
