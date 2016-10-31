@@ -1,13 +1,23 @@
 ## --- standard examples ---
 
 library(pbapply)
-pboptions(type = "timer")
 
-example(pboptions)
-example(pbapply, run.dontrun = TRUE)
-example(lapply)
 example(apply)
-example(splitpb)
+example(lapply)
+
+## run examples without progress bar
+pboptions(type = "none")
+example(splitpb, run.dontrun = TRUE)
+example(timerProgressBar, run.dontrun = TRUE)
+example(pbapply, run.dontrun = TRUE)
+example(pboptions, run.dontrun = TRUE)
+
+## run examples with progress bar
+pboptions(type = "timer")
+example(splitpb, run.dontrun = TRUE)
+example(timerProgressBar, run.dontrun = TRUE)
+example(pbapply, run.dontrun = TRUE)
+example(pboptions, run.dontrun = TRUE)
 
 ## --- simple timings ---
 
@@ -44,3 +54,4 @@ r2 <- pblapply(l, f)
 r1
 r2
 stopifnot(identical(r1, r2))
+
