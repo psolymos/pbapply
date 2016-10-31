@@ -6,6 +6,7 @@
   left/right end and elapsed/remaining components of the progress bar.
 * `timerProgressBar` gained `min_time` argument for minimum processing time
   (in seconds) that is required to show a progress bar.
+  The global `min_time` can be set via `pboptions`.
 
 ## Version 1.3-0, September 25, 2016
 
