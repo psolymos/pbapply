@@ -1,5 +1,12 @@
 # pbapply: adding progress bar to '*apply' functions in R
 
+[![CRAN version](http://www.r-pkg.org/badges/version/pbapply)](http://cran.rstudio.com/web/packages/pbapply/index.html)
+[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/pbapply)](http://cran.rstudio.com/web/packages/pbapply/index.html)
+[![Linux build status](https://travis-ci.org/psolymos/pbapply.svg?branch=master)](https://travis-ci.org/psolymos/pbapply)
+[![Windoes build status](https://ci.appveyor.com/api/projects/status/wnr13fj6ybis9jfy?svg=true)](https://ci.appveyor.com/project/psolymos/pbapply)
+[![Code coverage status](https://codecov.io/gh/psolymos/pbapply/branch/master/graph/badge.svg)](https://codecov.io/gh/psolymos/pbapply)
+
+
 A lightweight package that adds progress bar to vectorized R functions
 (`*apply`). The implementation can easily be added to functions where showing the progress is
 useful (e.g. bootstrap). The type and style of the progress bar (with percentages or remaining time) can be set through options.
@@ -10,24 +17,20 @@ The package supports snow-type clusters and multicore-type forking
 
 ## Versions
 
-#### CRAN release version
-
-[![CRAN version](http://www.r-pkg.org/badges/version/pbapply)](http://cran.rstudio.com/web/packages/pbapply/index.html) [![](http://cranlogs.r-pkg.org/badges/grand-total/pbapply)](http://cran.rstudio.com/web/packages/pbapply/index.html)
+Install CRAN release version (recommended):
 
 ```
 install.packages("pbapply")
 ```
 
-See user-visible changes in the [NEWS](https://github.com/psolymos/pbapply/blob/master/NEWS.md) file.
-
-#### Build status for development version
-
-[![Build Status](https://travis-ci.org/psolymos/pbapply.svg?branch=master)](https://travis-ci.org/psolymos/pbapply) [![codecov](https://codecov.io/gh/psolymos/pbapply/branch/master/graph/badge.svg)](https://codecov.io/gh/psolymos/pbapply)
+Development version:
 
 ```
 library(devtools)
 install_github("psolymos/pbapply")
 ```
+
+See user-visible changes in the [NEWS](https://github.com/psolymos/pbapply/blob/master/NEWS.md) file.
 
 ## Report a problem
 
@@ -80,7 +83,8 @@ Specify the progress bar options in the `zzz.R` file of the package:
         initial = 0,
         title = "R progress bar",
         label = "",
-        nout = 100L))
+        nout = 100L,
+        min_time = 2))
     invisible(NULL)
 }
 ```
