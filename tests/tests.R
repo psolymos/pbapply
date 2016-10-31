@@ -19,7 +19,19 @@ example(timerProgressBar, run.dontrun = TRUE)
 example(pbapply, run.dontrun = TRUE)
 example(pboptions, run.dontrun = TRUE)
 
-## --- simple timings ---
+## --- test for NULL case in lapply ---
+
+l <- list(a = 1, 2, c = -1)
+f <- function(z) if (z < 0) return(NULL) else return(2 * z)
+r1 <- lapply(l, f)
+r2 <- pblapply(l, f)
+r1
+r2
+stopifnot(identical(r1, r2))
+
+## --- timings ---
+
+if (FALSE) {
 
 #library(plyr)
 ## from http://ryouready.wordpress.com/2010/01/11/progress-bars-in-r-part-ii-a-wrapper-for-apply-functions/#comment-122
@@ -40,18 +52,10 @@ function(X, FUN, ...)
     close(pb)
     res
 }
-system.time(x1 <- lapply(1:10, function(i) Sys.sleep(0.2)))
-system.time(x1 <- lapply_pb(1:10, function(i) Sys.sleep(0.2)))
-#system.time(x1 <- l_ply(1:10, function(i) Sys.sleep(0.2), .progress=create_progress_bar(name = "text")))
-system.time(x1 <- pblapply(1:10, function(i) Sys.sleep(0.2)))
 
-## --- test for NULL case in lapply ---
-
-l <- list(a = 1, 2, c = -1)
-f <- function(z) if (z < 0) return(NULL) else return(2 * z)
-r1 <- lapply(l, f)
-r2 <- pblapply(l, f)
-r1
-r2
-stopifnot(identical(r1, r2))
+i <- seq_len(100)
+t1 <- system.time(lapply(i, function(i) Sys.sleep(0.1)))
+t2 <- system.time(lapply_pb(i, function(i) Sys.sleep(0.1)))
+#t3 <- system.time(l_ply(i, function(i) Sys.sleep(0.1), .progress="text"))
+t4 <- system.time(pblapply(i, function(i) Sys.sleep(0.1)))
 
