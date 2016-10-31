@@ -59,3 +59,4 @@ t2 <- system.time(lapply_pb(i, function(i) Sys.sleep(0.1)))
 #t3 <- system.time(l_ply(i, function(i) Sys.sleep(0.1), .progress="text"))
 t4 <- system.time(pblapply(i, function(i) Sys.sleep(0.1)))
 
+}
