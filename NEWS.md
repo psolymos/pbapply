@@ -1,6 +1,11 @@
 # User-visible changes in the pbapply R package
 
-## Version 1.3-1, October 5, 2016
+## Version 1.3-2, November 1, 2016
+
+* `timerProgressBar` makes sure `char` argument is not empty
+  (`""` is replaced by the default `"="`).
+
+## Version 1.3-1, October 30, 2016
 
 * `timerProgressBar` gained 2 new styles with flexible styling including
   left/right end and elapsed/remaining components of the progress bar.
