@@ -117,6 +117,9 @@ test_fun(style = 4)
 test_fun(width = 35, char = "[=-]", style = 5)
 test_fun(width = 50, char = "{*.}", style = 6)
 
+## no bar only percent and elapsed
+test_fun(width = 0, char = "    ", style = 6)
+
 ## this should produce a progress bar based on min_time
 (elapsed <- system.time(test_fun(width = 35, min_time = 0))["elapsed"])
 ## this should not produce a progress bar based on min_time
