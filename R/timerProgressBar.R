@@ -21,6 +21,8 @@ width = NA, title, label, style = 1, file = "", min_time = 0)
 
     getVal <- function()  .i
 
+    if (nchar(char, "w") < 1)
+        char <- "="
     if (nchar(char, "w") > 1 && style %in% 1:4)
         char <- substr(char, 1, 1)
     if (nchar(char, "w") > 4 && style %in% 5:6)
