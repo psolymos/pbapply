@@ -1,3 +1,5 @@
+#devtools::install_github("psolymos/pbapply")
+
 ## --- standard examples ---
 
 library(pbapply)
@@ -59,4 +61,38 @@ t2 <- system.time(lapply_pb(i, function(i) Sys.sleep(0.1)))
 #t3 <- system.time(l_ply(i, function(i) Sys.sleep(0.1), .progress="text"))
 t4 <- system.time(pblapply(i, function(i) Sys.sleep(0.1)))
 
+}
+
+## --- knitr related tests ---
+
+if (FALSE) {
+
+sink("~/repos/pbapply/tests/pb.Rmd")
+cat("---
+title: \"Test pbapply with knitr\"
+date: \"`r format(Sys.time(), '%B %d, %Y')`\"
+output: pdf_document
+---
+
+# Introduction
+
+Play nice!
+
+```{r setup}
+library(knitr)
+library(pbapply)
+interactive()
+getOption(\"knitr.in.progress\")
+is.null(getOption(\"knitr.in.progress\"))
+pboptions()$type
+```
+
+```{r chunk}
+pbsapply(1:100, function(z) {Sys.sleep(0.01); sqrt(z)})
+```
+")
+sink()
+knitr::knit("~/repos/pbapply/tests/pb.Rmd", "~/repos/pbapply/tests/pb.md")
+unlink("~/repos/pbapply/tests/pb.Rmd")
+unlink("~/repos/pbapply/tests/pb.md")
 }
