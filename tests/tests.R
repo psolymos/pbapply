@@ -92,7 +92,8 @@ pbsapply(1:100, function(z) {Sys.sleep(0.01); sqrt(z)})
 ```
 ")
 sink()
-knitr::knit("~/repos/pbapply/tests/pb.Rmd", "~/repos/pbapply/tests/pb.md")
+#knitr::knit("~/repos/pbapply/tests/pb.Rmd", "~/repos/pbapply/tests/pb.md")
 unlink("~/repos/pbapply/tests/pb.Rmd")
 unlink("~/repos/pbapply/tests/pb.md")
+
 }
