@@ -4,6 +4,10 @@
 
 * `timerProgressBar` makes sure `char` argument is not empty
   (`""` is replaced by the default `"="`).
+* Progress bar is only shown when 
+  `interactive() && is.null(getOption("knitr.in.progress"))`
+  to avoid printing progess bar during interactive knitr rendering 
+  (request #15 from Sergio Oller).
 
 ## Version 1.3-1, October 30, 2016
 
