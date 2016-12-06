@@ -1,5 +1,7 @@
 .onLoad <- function(libname, pkgname){
-    show_pb <- interactive() && is.null(getOption("knitr.in.progress"))
+    show_pb <- interactive()
+    if (is.null(getOption("knitr.in.progress")))
+        show_pb <- FALSE
     opts <- list(
         type = if (show_pb) "timer" else "none",
         char = "+",
