@@ -100,7 +100,8 @@ Progress bars used in the functions:
 \code{\link[utils]{winProgressBar}},
 #endif
 \code{\link[utils]{txtProgressBar}},
-\code{\link[tcltk]{tkProgressBar}}
+\code{\link[tcltk]{tkProgressBar}},
+\code{\link{timerProgressBar}}
 
 Sequential \code{*apply} functions:
 \code{\link{apply}}, \code{\link{sapply}},
