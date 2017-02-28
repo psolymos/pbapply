@@ -6,12 +6,18 @@ function (X, FUN, ..., cl = NULL)
         X <- as.list(X)
     ## catch single node requests and forking on Windows
     if (!is.null(cl)) {
-        if (inherits(cl, "cluster") && length(cl) < 2L)
-            cl <- NULL
-        if (!inherits(cl, "cluster") && cl < 2)
-            cl <- NULL
-        if (!inherits(cl, "cluster") && .Platform$OS.type == "windows")
-            cl <- NULL
+        if (.Platform$OS.type == "windows") {
+            if (!inherits(cl, "cluster"))
+                cl <- NULL
+        } else {
+            if (inherits(cl, "cluster")) {
+                if (length(cl) < 2L)
+                    cl <- NULL
+            } else {
+                if (cl < 2)
+                    cl <- NULL
+            }
+        }
     }
     nout <- as.integer(getOption("pboptions")$nout)
     ## sequential evaluation

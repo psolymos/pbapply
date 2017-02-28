@@ -97,3 +97,14 @@ unlink("~/repos/pbapply/tests/pb.Rmd")
 unlink("~/repos/pbapply/tests/pb.md")
 
 }
+
+## --- tests for issue #17: single core in cl ---
+
+f <- function(i) Sys.sleep(0.1)
+
+library(parallel)
+cl <- makeCluster(1L)
+
+pblapply(1:10, f, cl = cl)
+
+stopCluster(cl)
