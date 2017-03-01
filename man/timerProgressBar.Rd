@@ -98,12 +98,15 @@ The \code{timerProgressBar} implementation
 follows closely the code of \code{\link[utils]{txtProgressBar}}.
 }
 \examples{
+## increase sluggishness to admire the progress bar longer
+sluggishness <- 0.02
+
 test_fun <- function(...)
 {
     pb <- timerProgressBar(...)
     on.exit(close(pb))
     for(i in seq(0, 1, 0.05)) {
-        Sys.sleep(0.05)
+        Sys.sleep(sluggishness)
         setTimerProgressBar(pb, i)
     }
     invisible(NULL)
