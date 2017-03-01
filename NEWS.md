@@ -1,12 +1,16 @@
 # User-visible changes in the pbapply R package
 
+## Version 1.3-3, March 1, 2017
+
+*
+
 ## Version 1.3-2, February 28, 2017
 
 * `timerProgressBar` makes sure `char` argument is not empty
   (`""` is replaced by the default `"="`).
-* Progress bar is only shown when 
+* Progress bar is only shown when
   `interactive() && is.null(getOption("knitr.in.progress"))`
-  to avoid printing progess bar during interactive knitr rendering 
+  to avoid printing progess bar during interactive knitr rendering
   (request #15 from Sergio Oller).
 * Bugfix: functions failed with single cluster `cl` argument (issue #17).
 
@@ -20,10 +24,10 @@
 
 ## Version 1.3-0, September 25, 2016
 
-* Progress bar is added for parallel (cluster and forking) jobs 
+* Progress bar is added for parallel (cluster and forking) jobs
 (request #9 from Kendon Bell).
   Package parallel is now imported as a result.
-* `timerProgressBar` prints days when job is expected to be >24h 
+* `timerProgressBar` prints days when job is expected to be >24h
 (PR #11 from Phil Chalmers).
 
 ## Version 1.2-2, August 25, 2016
