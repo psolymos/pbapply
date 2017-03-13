@@ -17,7 +17,9 @@ width = NA, title, label, style = 1, file = "", min_time = 0)
     .max   <- force(max)
     .i     <- force(initial)
     .killed <- FALSE
-    .showpb <- FALSE
+    ## start showing pb right away when min_time = 0
+    .showpb <- if (min_time > 0)
+        FALSE else TRUE
 
     getVal <- function()  .i
 

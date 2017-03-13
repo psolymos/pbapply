@@ -2,7 +2,10 @@
 
 ## Version 1.3-3, March 1, 2017
 
-*
+* Bar did not show up at start. This could happen if 
+  it was waiting to talculate total time to compare it
+  to `min_time` option. Bar is shown right away if  `min_time=0` 
+  (issue #18).
 
 ## Version 1.3-2, February 28, 2017
 
