@@ -3,8 +3,10 @@ function()
 {
     progress.bar <- getOption("pboptions")$type
     if (!is.null(progress.bar)) {
-        progress.bar <- match.arg(progress.bar,
-            c("timer", "txt", "win", "tk", "none"))
+        TYPE <- c("timer", "txt", "tk", "none")
+        if (.Platform$OS.type == "windows")
+            TYPE <- c(TYPE, "win")
+        progress.bar <- match.arg(progress.bar, TYPE)
         if (progress.bar == "none")
             progress.bar <- NULL
         if (!is.null(getOption("knitr.in.progress")))
@@ -12,4 +14,3 @@ function()
     }
     !is.null(progress.bar)
 }
-
