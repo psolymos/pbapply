@@ -87,10 +87,10 @@ For \code{startpb} a progress bar object.
 For \code{getpb} and \code{setpb}, a length-one numeric vector giving
 the previous value (invisibly for \code{setpb}).
 The return value is \code{NULL} if the progress bar is turned off by
-\code{getOption("pbapply.pb")} (\code{"none"} or \code{NULL} value).
+\code{getOption("pboptions")$type} (\code{"none"} or \code{NULL} value).
 
 \code{dopb} returns a logical value if progress bar is to be shown
-based on the option \code{getOption("pbapply.pb")}.
+based on the option \code{getOption("pboptions")$type}.
 It is \code{FALSE} if the type of progress bar is \code{"none"} or
 \code{NULL}.
 
@@ -144,6 +144,19 @@ pboptions(opb)
 ## check reset
 getOption("pboptions")
 fun1()
+
+## dealing with nested progress bars
+## when only one the 1st one is needed
+f <- function(x) Sys.sleep(0.01)
+g <- function(x) pblapply(1:10, f)
+tmp <- lapply(1:10, g) # undesirable
+## here is the desirable solution
+h <- function(x) {
+    opb <- pboptions(type="none")
+    on.exit(pboptions(opb))
+    pblapply(1:10, f)
+}
+tmp <- pblapply(1:10, h)
 }
 \keyword{ IO }
 \keyword{ utilities }
