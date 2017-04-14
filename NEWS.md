@@ -6,6 +6,8 @@
   it was waiting to calculate total time to compare it
   to `min_time` option. Bar is shown right away if  `min_time=0` 
   (issue #18).
+* `pbapply` gained `cl` argument to be consistent with
+  other parallelized functions with progress bar (issue #24).
 
 ## Version 1.3-2, February 28, 2017
 
