@@ -12,7 +12,7 @@ parallel processing.
 }
 \usage{
 pblapply(X, FUN, ..., cl = NULL)
-pbapply(X, MARGIN, FUN, ...)
+pbapply(X, MARGIN, FUN, ..., cl = NULL)
 pbsapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE, cl = NULL)
 pbreplicate(n, expr, simplify = "array", cl = NULL)
 }
@@ -172,6 +172,7 @@ clusterExport(cl, c("fun", "mod", "ndat", "bid"))
 ## (RNG is set in the main process to define the object bid)
 system.time(res1cl <- parLapply(cl = cl, 1:B, function(i) fun(bid[,i])))
 system.time(res2cl <- parSapply(cl = cl, 1:B, function(i) fun(bid[,i])))
+system.time(res3cl <- parApply(cl, bid, 2, fun))
 
 ## parallel with  progress bar: snow type cluster
 ## (RNG is set in the main process to define the object bid)
@@ -180,6 +181,7 @@ system.time(res2pbcl <- pbsapply(1:B, function(i) fun(bid[,i]), cl = cl))
 ## (RNG needs to be set when not using bid)
 parallel::clusterSetRNGStream(cl, iseed = 0L)
 system.time(res4pbcl <- pbreplicate(B, fun(), cl = cl))
+system.time(res3pbcl <- pbapply(bid, 2, fun, cl = cl))
 
 stopCluster(cl)
 
