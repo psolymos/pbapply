@@ -5,6 +5,7 @@
 [![Linux build status](https://travis-ci.org/psolymos/pbapply.svg?branch=master)](https://travis-ci.org/psolymos/pbapply)
 [![Windows build status](https://ci.appveyor.com/api/projects/status/wnr13fj6ybis9jfy?svg=true)](https://ci.appveyor.com/project/psolymos/pbapply)
 [![Code coverage status](https://codecov.io/gh/psolymos/pbapply/branch/master/graph/badge.svg)](https://codecov.io/gh/psolymos/pbapply)
+[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
 
 A lightweight package that adds progress bar to vectorized R functions
 (`*apply`). The implementation can easily be added to functions where showing the progress is
@@ -35,10 +36,6 @@ See user-visible changes in the [NEWS](https://github.com/psolymos/pbapply/blob/
 
 Use the [issue tracker](https://github.com/psolymos/pbapply/issues)
 to report a problem, or to suggest a new feature.
-
-## License
-
-[GPL-2](http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
 
 ## How to add pbapply to a package
 
