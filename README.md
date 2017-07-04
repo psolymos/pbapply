@@ -26,13 +26,11 @@ install.packages("pbapply")
 Development version:
 
 ```R
-library(devtools)
-install_github("psolymos/pbapply")
+if (!requireNamespace("devtools")) install.packages("devtools")
+devtools::install_github("psolymos/pbapply")
 ```
 
 See user-visible changes in the [NEWS](https://github.com/psolymos/pbapply/blob/master/NEWS.md) file.
-
-## Report a problem
 
 Use the [issue tracker](https://github.com/psolymos/pbapply/issues)
 to report a problem, or to suggest a new feature.

@@ -1,6 +1,6 @@
 # User-visible changes in the pbapply R package
 
-## Version 1.3-3, March 1, 2017
+## Version 1.3-3, July 3, 2017
 
 * Bar did not show up at start. This could happen if 
   it was waiting to calculate total time to compare it
