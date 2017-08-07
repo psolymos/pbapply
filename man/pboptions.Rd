@@ -5,6 +5,7 @@
 \alias{getpb}
 \alias{closepb}
 \alias{dopb}
+\alias{pbtypes}
 \title{
 Creating Progress Bar and Setting Options
 }
@@ -18,6 +19,7 @@ setpb(pb, value)
 getpb(pb)
 closepb(pb)
 dopb()
+pbtypes()
 }
 \arguments{
   \item{\dots}{
@@ -53,7 +55,9 @@ Tags are the following:
     text (\code{"txt"}),
     Windows (\code{"win"}), TclTk (\code{"tk"}), or none (\code{"none"}).
     Default value is \code{"timer"} progress bar with estimated remaining time
-    when in interactive mode, and \code{"none"} otherwise.}
+    when in interactive mode, and \code{"none"} otherwise.
+    See \code{pbtypes()} for available progress bar types
+    depending on operating system.}
   \item{char}{The character (or character string) to form the progress bar.
     Default value is \code{"+"}.}
   \item{txt.width}{The width of the text based progress bar, as a multiple
@@ -95,6 +99,10 @@ It is \code{FALSE} if the type of progress bar is \code{"none"} or
 \code{NULL}.
 
 For \code{closepb} closes the connection for the progress bar.
+
+\code{pbtypes} prints the available progress bar types
+depending on the operating system (i.e. \code{"win"} available
+on Windows only).
 }
 \author{
 Peter Solymos <solymos@ualberta.ca>
@@ -157,6 +165,9 @@ h <- function(x) {
     pblapply(1:10, f)
 }
 tmp <- pblapply(1:10, h)
+
+## list available pb types
+pbtypes()
 }
 \keyword{ IO }
 \keyword{ utilities }
