@@ -1,5 +1,10 @@
 # User-visible changes in the pbapply R package
 
+## Version 1.3-4, August 7, 2017
+
+* New function `pbtypes()` to print available pb types
+  depending on OS.
+
 ## Version 1.3-3, July 3, 2017
 
 * Bar did not show up at start. This could happen if 
