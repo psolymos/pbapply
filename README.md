@@ -1,7 +1,7 @@
 # pbapply: adding progress bar to '*apply' functions in R
 
 [![CRAN version](http://www.r-pkg.org/badges/version/pbapply)](http://cran.rstudio.com/web/packages/pbapply/index.html)
-[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/pbapply)](http://cran.rstudio.com/web/packages/pbapply/index.html)
+[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/pbapply)](https://www.rdocumentation.org/packages/pbapply/)
 [![Linux build status](https://travis-ci.org/psolymos/pbapply.svg?branch=master)](https://travis-ci.org/psolymos/pbapply)
 [![Windows build status](https://ci.appveyor.com/api/projects/status/wnr13fj6ybis9jfy?svg=true)](https://ci.appveyor.com/project/psolymos/pbapply)
 [![Code coverage status](https://codecov.io/gh/psolymos/pbapply/branch/master/graph/badge.svg)](https://codecov.io/gh/psolymos/pbapply)
