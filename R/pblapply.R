@@ -38,7 +38,7 @@ function (X, FUN, ..., cl = NULL)
         ## snow type cluster
         if (inherits(cl, "cluster")) {
             ## switch on load balancing if needed
-            PAR_FUN <- isTRUE(getOption("pboptions")$use_lb)
+            PAR_FUN <- if (isTRUE(getOption("pboptions")$use_lb))
                 parallel::parLapplyLB else parallel::parLapply
             if (!dopb())
                 return(PAR_FUN(cl, X, FUN, ...))
