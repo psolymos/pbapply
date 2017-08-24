@@ -4,6 +4,8 @@
 
 * New function `pbtypes()` to print available pb types
   depending on OS.
+* New `pboption` `use_lb` to switch on load balancing for parallel clusters,
+  `FALSE` by default (feature request #28).
 
 ## Version 1.3-3, July 3, 2017
 

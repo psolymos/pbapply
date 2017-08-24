@@ -89,6 +89,7 @@ function (X, MARGIN, FUN, ..., cl = NULL)
             dn.call))
         #ans <- parallel::parLapply(cl = cl, X = arglist, fun = FUN, ...)
         ## rely on pblapply for calling parLapply with pb
+        ## this will handle load balancing as well
         ans <- pblapply(X = arglist, FUN = FUN, ..., cl = cl)
         ans.list <- is.recursive(ans[[1L]])
         l.ans <- length(ans[[1L]])

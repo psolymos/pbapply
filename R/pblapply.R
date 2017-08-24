@@ -37,8 +37,11 @@ function (X, FUN, ..., cl = NULL)
     } else {
         ## snow type cluster
         if (inherits(cl, "cluster")) {
+            ## switch on load balancing if needed
+            PAR_FUN <- isTRUE(getOption("pboptions")$use_lb)
+                parallel::parLapplyLB else parallel::parLapply
             if (!dopb())
-                return(parallel::parLapply(cl, X, FUN, ...))
+                return(PAR_FUN(cl, X, FUN, ...))
             ## define split here and use that for counter
             Split <- splitpb(length(X), length(cl), nout = nout)
             B <- length(Split)
@@ -46,7 +49,7 @@ function (X, FUN, ..., cl = NULL)
             on.exit(closepb(pb), add = TRUE)
             rval <- vector("list", B)
             for (i in seq_len(B)) {
-                rval[i] <- list(parallel::parLapply(cl, X[Split[[i]]], FUN, ...))
+                rval[i] <- list(PAR_FUN(cl, X[Split[[i]]], FUN, ...))
                 setpb(pb, i)
             }
         ## multicore type forking

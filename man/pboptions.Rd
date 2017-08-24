@@ -85,6 +85,8 @@ Tags are the following:
     \code{\link{timerProgressBar}} output is printed only if
     estimated completion time is higher than this value.
     The default value is 0.}
+  \item{use_lb}{Switch for using load balancing when running in
+    parallel clusters. The default value is \code{FALSE}.}
 
 For \code{startpb} a progress bar object.
 
