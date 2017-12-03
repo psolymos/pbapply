@@ -6,6 +6,9 @@
 [![Windows build status](https://ci.appveyor.com/api/projects/status/wnr13fj6ybis9jfy?svg=true)](https://ci.appveyor.com/project/psolymos/pbapply)
 [![Code coverage status](https://codecov.io/gh/psolymos/pbapply/branch/master/graph/badge.svg)](https://codecov.io/gh/psolymos/pbapply)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
+[![Research software impact](http://depsy.org/api/package/cran/pbapply/badge.svg)](http://depsy.org/package/r/pbapply)
+[![Github Stars](https://img.shields.io/github/stars/psolymos/pbapply.svg?style=social&label=GitHub)](https://github.com/psolymos/pbapply)
+
 
 A lightweight package that adds progress bar to vectorized R functions
 (`*apply`). The implementation can easily be added to functions where showing the progress is
