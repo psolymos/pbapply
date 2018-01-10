@@ -119,12 +119,15 @@ Progress bars used in the functions:
 \code{\link[tcltk]{tkProgressBar}}
 }
 \examples{
+## increase sluggishness to admire the progress bar longer
+sluggishness <- 0.01
+
 ## for loop
 fun1 <- function() {
     pb <- startpb(0, 10)
     on.exit(closepb(pb))
     for (i in 1:10) {
-        Sys.sleep(0.15)
+        Sys.sleep(sluggishness)
         setpb(pb, i)
     }
     invisible(NULL)
@@ -135,7 +138,7 @@ fun2 <- function() {
     on.exit(closepb(pb))
     i <- 1
     while (i < 10) {
-        Sys.sleep(0.15)
+        Sys.sleep(sluggishness)
         setpb(pb, i)
         i <- i + 1
     }
@@ -157,7 +160,7 @@ fun1()
 
 ## dealing with nested progress bars
 ## when only one the 1st one is needed
-f <- function(x) Sys.sleep(0.01)
+f <- function(x) Sys.sleep(sluggishness)
 g <- function(x) pblapply(1:10, f)
 tmp <- lapply(1:10, g) # undesirable
 ## here is the desirable solution

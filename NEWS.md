@@ -1,9 +1,8 @@
 # User-visible changes in the pbapply R package
 
-## Version 1.3-4, August 7, 2017
+## Version 1.3-4, January 9, 2018
 
-* New function `pbtypes()` to print available pb types
-  depending on OS.
+* New function `pbtypes()` to print available pb types depending on OS.
 * `getTimeAsString` is now exported, with description and examples.
 * New `pboption` `use_lb` to switch on load balancing for parallel clusters,
   `FALSE` by default (feature request #28).
