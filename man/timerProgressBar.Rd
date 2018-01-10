@@ -2,6 +2,7 @@
 \alias{timerProgressBar}
 \alias{setTimerProgressBar}
 \alias{getTimerProgressBar}
+\alias{getTimeAsString}
 \title{
 Timer Progress Bar
 }
