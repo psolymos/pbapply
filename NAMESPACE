@@ -7,5 +7,5 @@ importFrom(parallel, mclapply, parLapply, parLapplyLB)
 export(pbapply, pbsapply, pblapply, pbreplicate,
     startpb, setpb, getpb, closepb, dopb, pboptions, pbtypes,
     timerProgressBar, setTimerProgressBar, getTimerProgressBar,
-    splitpb)
+    splitpb, getTimeAsString)
 

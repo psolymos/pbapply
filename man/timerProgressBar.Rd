@@ -13,6 +13,7 @@ timerProgressBar(min = 0, max = 1, initial = 0, char = "=",
     width = NA, title, label, style = 1, file = "", min_time = 0)
 getTimerProgressBar(pb)
 setTimerProgressBar(pb, value, title = NULL, label = NULL)
+getTimeAsString(time)
 }
 \arguments{
   \item{min, max}{
@@ -60,6 +61,9 @@ an object of class \code{"timerProgressBar"}.
   \item{title, label}{
 ignored, for compatibility with other progress bars.
 }
+  \item{time}{
+numeric of length 1, time in seconds.
+}
 }
 \details{
 \code{timerProgressBar} will display a progress bar on the R console
@@ -79,6 +83,9 @@ If 1 character is defined, it is taken for the elapsed portion.
 If 2-4 characters are defined, those are interpreted in sequence
 (left and right end being the same when 2-3 characters defined),
 see Examples.
+
+\code{getTimeAsString} converts time in seconds into ~HHh MMm SSs format
+to be printed by \code{timerProgressBar}.
 }
 \value{
 For \code{timerProgressBar} an object of class \code{"timerProgressBar"}
@@ -87,6 +94,9 @@ inheriting from \code{"txtProgressBar"}.
 For \code{getTimerProgressBar} and \code{setTimerProgressBar},
 a length-one numeric vector giving the previous
 value (invisibly for \code{setTimerProgressBar}).
+
+\code{getTimeAsString} returns time in ~HHh MMm SSs format as character.
+Returns \code{"calculating"} when \code{time=NULL}.
 }
 \author{
 Zygmunt Zawadzki <zawadzkizygmunt@gmail.com>
@@ -105,7 +115,7 @@ test_fun <- function(...)
 {
     pb <- timerProgressBar(...)
     on.exit(close(pb))
-    for(i in seq(0, 1, 0.05)) {
+    for (i in seq(0, 1, 0.05)) {
         Sys.sleep(sluggishness)
         setTimerProgressBar(pb, i)
     }
@@ -127,5 +137,24 @@ test_fun(width = 0, char = "    ", style = 6)
 (elapsed <- system.time(test_fun(width = 35, min_time = 0))["elapsed"])
 ## this should not produce a progress bar based on min_time
 system.time(test_fun(min_time = 2 * elapsed))["elapsed"]
+
+## time formatting
+getTimeAsString(NULL)
+getTimeAsString(15)
+getTimeAsString(65)
+getTimeAsString(6005)
+
+## example usage of getTimeAsString, use sluggishness <- 1
+n <- 10
+t0 <- proc.time()[3]
+ETA <- NULL
+for (i in seq_len(n)) {
+    cat(i, "/", n, "- ETA:", getTimeAsString(ETA))
+    flush.console()
+    Sys.sleep(sluggishness)
+    dt <- proc.time()[3] - t0
+    cat(" - elapsed:", getTimeAsString(dt), "\n")
+    ETA <- (n - i) * dt / i
+}
 }
 \keyword{ utilities }

@@ -283,6 +283,8 @@ getTimerProgressBar <- getTxtProgressBar
 
 ## converts time in seconds into ~HHh MMm SSs format
 getTimeAsString <- function(time) {
+    if (length(time) > 1L)
+        stop("length of input must be 1")
     if (is.null(time)) {
         return("calculating")
     } else {

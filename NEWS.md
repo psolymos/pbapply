@@ -4,6 +4,7 @@
 
 * New function `pbtypes()` to print available pb types
   depending on OS.
+* `getTimeAsString` is now exported, with description and examples.
 * New `pboption` `use_lb` to switch on load balancing for parallel clusters,
   `FALSE` by default (feature request #28).
 
