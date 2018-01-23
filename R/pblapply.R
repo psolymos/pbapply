@@ -36,37 +36,25 @@ function (X, FUN, ..., cl = NULL)
     ## parallel evaluation
     } else {
         ## snow type cluster
-        if (inherits(cl, "cluster")) {
-            ## switch on load balancing if needed
-            PAR_FUN <- if (isTRUE(getOption("pboptions")$use_lb))
-                parallel::parLapplyLB else parallel::parLapply
-            if (!dopb())
-                return(PAR_FUN(cl, X, FUN, ...))
-            ## define split here and use that for counter
-            Split <- splitpb(length(X), length(cl), nout = nout)
-            B <- length(Split)
-            pb <- startpb(0, B)
-            on.exit(closepb(pb), add = TRUE)
-            rval <- vector("list", B)
-            for (i in seq_len(B)) {
-                rval[i] <- list(PAR_FUN(cl, X[Split[[i]]], FUN, ...))
-                setpb(pb, i)
-            }
-        ## multicore type forking
-        } else {
-            if (!dopb())
-                return(parallel::mclapply(X, FUN, ..., mc.cores = as.integer(cl)))
-            ## define split here and use that for counter
-            Split <- splitpb(length(X), as.integer(cl), nout = nout)
-            B <- length(Split)
-            pb <- startpb(0, B)
-            on.exit(closepb(pb), add = TRUE)
-            rval <- vector("list", B)
-            for (i in seq_len(B)) {
-                rval[i] <- list(parallel::mclapply(X[Split[[i]]], FUN, ...,
-                    mc.cores = as.integer(cl)))
-                setpb(pb, i)
-            }
+        if (!inherits(cl, "cluster")) {
+            ## multicore type forking: exploit Fork cluster instead of mclapply
+            cl <- makeForkCluster(cl)
+            on.exit(stopCluster(cl), add = TRUE)
+        }
+        ## switch on load balancing if needed
+        PAR_FUN <- if (isTRUE(getOption("pboptions")$use_lb))
+            parallel::parLapplyLB else parallel::parLapply
+        if (!dopb())
+            return(PAR_FUN(cl, X, FUN, ...))
+        ## define split here and use that for counter
+        Split <- splitpb(length(X), length(cl), nout = nout)
+        B <- length(Split)
+        pb <- startpb(0, B)
+        on.exit(closepb(pb), add = TRUE)
+        rval <- vector("list", B)
+        for (i in seq_len(B)) {
+            rval[i] <- list(PAR_FUN(cl, X[Split[[i]]], FUN, ...))
+            setpb(pb, i)
         }
     }
     ## assemble output list
