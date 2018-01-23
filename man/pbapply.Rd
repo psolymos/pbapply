@@ -52,7 +52,8 @@ Expression (language object, usually a call) to evaluate repeatedly.
   \item{cl}{
 A cluster object created by \code{\link[parallel]{makeCluster}},
 or an integer to indicate number of child-processes
-(integer values are ignored on Windows) for parallel evaluations.
+(integer values are ignored on Windows) for parallel evaluations
+(see Details on performance).
 }
 }
 \details{
@@ -82,6 +83,11 @@ disabled (i.e. \code{getOption("pboptions")$type == "none"} or \code{dopb()} is
 
 When doing parallel processing, other objects might need to pushed to the
 workers, and random numbers must be handled with care (see Examples).
+
+Updating the progress bar with \code{\link[parallel]{mclapply}}
+can be slightly slower compared to using a Fork cluster
+(i.e. calling \code{\link[parallel]{makeForkCluster}}).
+Care must be taken to set appropriate random numbers in this case.
 }
 \value{
 Similar to the value returned by the standard \code{*apply} functions.
