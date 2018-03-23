@@ -4,6 +4,8 @@ function (X, FUN, ..., cl = NULL)
     FUN <- match.fun(FUN)
     if (!is.vector(X) || is.object(X))
         X <- as.list(X)
+    if (!length(X))
+        return(lapply(X, FUN, ...))
     ## catch single node requests and forking on Windows
     if (!is.null(cl)) {
         if (.Platform$OS.type == "windows") {

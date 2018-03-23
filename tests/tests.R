@@ -108,3 +108,16 @@ cl <- makeCluster(1L)
 pblapply(1:10, f, cl = cl)
 
 stopCluster(cl)
+
+## --- tests for issue #33: return empty list for empty vector ---
+
+tmp1 <- pblapply(character(0), identity)
+tmp2 <- lapply(character(0), identity)
+stopifnot(length(tmp1) == length(tmp2))
+stopifnot(identical(tmp1, tmp2))
+
+tmp1 <- pbsapply(character(0), identity)
+tmp2 <- sapply(character(0), identity)
+stopifnot(length(tmp1) == length(tmp2))
+stopifnot(identical(tmp1, tmp2))
+
