@@ -111,13 +111,23 @@ stopCluster(cl)
 
 ## --- tests for issue #33: return empty list for empty vector ---
 
-tmp1 <- pblapply(character(0), identity)
-tmp2 <- lapply(character(0), identity)
+tmp1 <- lapply(character(0), identity)
+tmp2 <- pblapply(character(0), identity)
 stopifnot(length(tmp1) == length(tmp2))
 stopifnot(identical(tmp1, tmp2))
 
-tmp1 <- pbsapply(character(0), identity)
-tmp2 <- sapply(character(0), identity)
+tmp1 <- sapply(character(0), identity)
+tmp2 <- pbsapply(character(0), identity)
+stopifnot(length(tmp1) == length(tmp2))
+stopifnot(identical(tmp1, tmp2))
+
+tmp1 <- apply(matrix(numeric(0), 0, 0), 1, identity)
+tmp2 <- pbapply(matrix(numeric(0), 0, 0), 1, identity)
+stopifnot(length(tmp1) == length(tmp2))
+stopifnot(identical(tmp1, tmp2))
+
+tmp1 <- apply(matrix(numeric(0), 0, 0), 2, identity)
+tmp2 <- pbapply(matrix(numeric(0), 0, 0), 2, identity)
 stopifnot(length(tmp1) == length(tmp2))
 stopifnot(identical(tmp1, tmp2))
 
