@@ -6,7 +6,7 @@ r_packages:
 
 r:
   - release
-  - devel
+#  - devel
   - oldrel
 
 
