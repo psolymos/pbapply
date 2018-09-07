@@ -5,7 +5,7 @@ pbmapply <- function(FUN, ..., MoreArgs = NULL, SIMPLIFY = TRUE, USE.NAMES = TRU
     .pb_env$FUN <- FUN
     .pb_env$MAX <- max(sapply(list(...), length))
     .pb_env$VALUE <- 0
-    .pb_env$pb <- pbapply::startpb(0, .pb_env$MAX)
+    .pb_env$pb <- startpb(0, .pb_env$MAX)
     on.exit(closepb(.pb_env$pb), add=TRUE)
     on.exit(rm(list=ls(envir=.pb_env), envir=.pb_env), add=TRUE)
 

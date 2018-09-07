@@ -3,6 +3,7 @@
 \alias{pbsapply}
 \alias{pblapply}
 \alias{pbreplicate}
+\alias{pbmapply}
 \title{
 Adding Progress Bar to '*apply' Functions
 }
