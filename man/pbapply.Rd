@@ -3,6 +3,7 @@
 \alias{pbsapply}
 \alias{pblapply}
 \alias{pbreplicate}
+\alias{pbmapply}
 \title{
 Adding Progress Bar to '*apply' Functions
 }
@@ -15,6 +16,7 @@ pblapply(X, FUN, ..., cl = NULL)
 pbapply(X, MARGIN, FUN, ..., cl = NULL)
 pbsapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE, cl = NULL)
 pbreplicate(n, expr, simplify = "array", cl = NULL)
+pbmapply(FUN, ..., MoreArgs = NULL, SIMPLIFY = TRUE, USE.NAMES = TRUE)
 }
 \arguments{
   \item{X}{
@@ -36,7 +38,7 @@ see \code{\link{apply}}, \code{\link{sapply}}, and \code{\link{lapply}}.
   \item{\dots}{
 Optional arguments to \code{FUN}.
 }
-  \item{simplify}{
+  \item{simplify, SIMPLIFY}{
 Logical; should the result be simplified to a vector or matrix if possible?
 }
   \item{USE.NAMES}{
@@ -54,6 +56,9 @@ A cluster object created by \code{\link[parallel]{makeCluster}},
 or an integer to indicate number of child-processes
 (integer values are ignored on Windows) for parallel evaluations
 (see Details on performance).
+}
+  \item{MoreArgs}{
+a list of other arguments to \code{FUN}.
 }
 }
 \details{
@@ -111,7 +116,7 @@ Progress bars used in the functions:
 
 Sequential \code{*apply} functions:
 \code{\link{apply}}, \code{\link{sapply}},
-\code{\link{lapply}}, \code{\link{replicate}}
+\code{\link{lapply}}, \code{\link{replicate}}, \code{\link{mapply}}
 
 Parallel \code{*apply} functions from package 'parallel':
 \code{\link[parallel]{parLapply}},
@@ -273,6 +278,17 @@ dim(zseq) ## 2 3
 zseq[1,]
 pbapply(z, 3, function(x) seq_len(max(x)))
 # a list without a dim attribute
+
+## --- apply ---
+
+pbmapply(rep, 1:4, 4:1)
+pbmapply(rep, times = 1:4, x = 4:1)
+pbmapply(rep, times = 1:4, MoreArgs = list(x = 42))
+pbmapply(function(x, y) seq_len(x) + y,
+       c(a =  1, b = 2, c = 3),  # names from first
+       c(A = 10, B = 0, C = -10))
+word <- function(C, k) paste(rep.int(C, k), collapse = "")
+utils::str(pbmapply(word, LETTERS[1:6], 6:1, SIMPLIFY = FALSE))
 }
 \keyword{ manip }
 \keyword{ utilities }

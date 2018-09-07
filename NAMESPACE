@@ -4,7 +4,7 @@ if (Sys.getenv("R_OSTYPE") == "windows" || .Platform$OS.type == "windows") {
 importFrom(utils, txtProgressBar, getTxtProgressBar, setTxtProgressBar,
     flush.console)
 importFrom(parallel, mclapply, parLapply, parLapplyLB)
-export(pbapply, pbsapply, pblapply, pbreplicate,
+export(pbapply, pbsapply, pblapply, pbreplicate, pbmapply,
     startpb, setpb, getpb, closepb, dopb, pboptions, pbtypes,
     timerProgressBar, setTimerProgressBar, getTimerProgressBar,
     splitpb, getTimeAsString)
