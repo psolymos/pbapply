@@ -10,9 +10,10 @@ pbmapply <- function(FUN, ..., MoreArgs = NULL, SIMPLIFY = TRUE, USE.NAMES = TRU
     on.exit(rm(list=ls(envir=.pb_env), envir=.pb_env), add=TRUE)
 
     suppressMessages(trace(quote(FUN), exit = quote({
+        .pb_env <- environment(pbmapply)$.pb_env
         .pb_env$VALUE <- .pb_env$VALUE + 1
         pbapply::setpb(.pb_env$pb, .pb_env$VALUE)
-    }), where = .pb_env, print = FALSE))
+    }), where = environment(pbmapply)$.pb_env, print = FALSE))
 
     result <- mapply(.pb_env$FUN, ..., MoreArgs = MoreArgs, SIMPLIFY = SIMPLIFY, USE.NAMES = USE.NAMES)
     result
