@@ -1,9 +1,10 @@
 # User-visible changes in the pbapply R package
 
-## Version 1.3-5, March 22, 2018
+## Version 1.3-5, September 7, 2018
 
-* `pblapply` returns empty list for empty vector consistent with 
+* `pblapply` returns empty list for empty vector consistent with
   `lapply` behaviour (#33 by @kendonB); tests also added.
+* `pbmapply` function added (#29) without parallel option.
 
 ## Version 1.3-4, January 9, 2018
 
@@ -14,9 +15,9 @@
 
 ## Version 1.3-3, July 3, 2017
 
-* Bar did not show up at start. This could happen if 
+* Bar did not show up at start. This could happen if
   it was waiting to calculate total time to compare it
-  to `min_time` option. Bar is shown right away if  `min_time=0` 
+  to `min_time` option. Bar is shown right away if  `min_time=0`
   (issue #18).
 * `pbapply` gained `cl` argument to be consistent with
   other parallelized functions with progress bar (issue #24).
