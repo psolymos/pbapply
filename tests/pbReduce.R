@@ -11,10 +11,9 @@ function(f, x, init, right = FALSE, accumulate = FALSE)
     if (!is.vector(x) || is.object(x))
         x <- as.list(x)
     ind <- seq_len(len)
-    .e <- new.env()
-    .e$.j <- 0L
-    .e$pb <- startpb(0, len)
-    on.exit(closepb(.e$pb))
+    pb <- startpb(0, len)
+    on.exit(closepb(pb))
+    j <- 0L
     if (mis) {
         if (right) {
             init <- x[[len]]
@@ -27,16 +26,16 @@ function(f, x, init, right = FALSE, accumulate = FALSE)
     if (!accumulate) {
         if (right) {
             for (i in rev(ind))
-                setpb(.e$pb, .e$.j)
+                #setpb(pb, j)
                 #init <- forceAndCall(2, f, x[[i]], init)
                 init <- f(x[[i]], init)
-                .e$.j <- .e$.j + 1L
+                #j <- j + 1L
         } else {
             for (i in ind)
-                setpb(.e$pb, .e$.j)
+                #setpb(pb, j)
                 #init <- forceAndCall(2, f, init, x[[i]])
                 init <- f(init, x[[i]])
-                .e$.j <- .e$.j + 1L
+                j <- j + 1L
         }
         init
     } else {
@@ -46,39 +45,39 @@ function(f, x, init, right = FALSE, accumulate = FALSE)
             if (right) {
                 out[[len]] <- init
                 for (i in rev(ind)) {
-                    setpb(.e$pb, .e$.j)
+                    #setpb(.e$pb, .e$.j)
                     #init <- forceAndCall(2, f, x[[i]], init)
                     init <- f(x[[i]], init)
                     out[[i]] <- init
-                    .e$.j <- .e$.j + 1L
+                    #.e$.j <- .e$.j + 1L
                 }
             } else {
                 out[[1L]] <- init
                 for (i in ind) {
-                    setpb(.e$pb, .e$.j)
+                    #setpb(.e$pb, .e$.j)
                     #init <- forceAndCall(2, f, init, x[[i]])
                     init <- f(init, x[[i]])
                     out[[i]] <- init
-                    .e$.j <- .e$.j + 1L
+                    #.e$.j <- .e$.j + 1L
                 }
             }
         } else {
             if (right) {
                 out[[len]] <- init
                 for (i in rev(ind)) {
-                    setpb(.e$pb, .e$.j)
+                    #setpb(.e$pb, .e$.j)
                     #init <- forceAndCall(2, f, x[[i]], init)
                     init <- f(x[[i]], init)
                     out[[i]] <- init
-                    .e$.j <- .e$.j + 1L
+                    #.e$.j <- .e$.j + 1L
                 }
             } else {
                 for (i in ind) {
-                    setpb(.e$pb, .e$.j)
+                    #setpb(.e$pb, .e$.j)
                     out[[i]] <- init
                     #init <- forceAndCall(2, f, init, x[[i]])
                     init <- f(init, x[[i]])
-                    .e$.j <- .e$.j + 1L
+                    #.e$.j <- .e$.j + 1L
                 }
                 out[[len]] <- init
             }
@@ -89,8 +88,10 @@ function(f, x, init, right = FALSE, accumulate = FALSE)
     }
 }
 
+library(pbapply)
 sum(1:10^4) # 50005000
 Reduce("+", 1:10^4) # 50005000
+pboptions(type="none")
 pbReduce("+", 1:10^4) # 10001
 
 
