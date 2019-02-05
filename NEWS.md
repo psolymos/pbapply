@@ -1,6 +1,6 @@
 # User-visible changes in the pbapply R package
 
-## Version 1.3-5, September 7, 2018
+## Version 1.4-0, February 5, 2019
 
 * `pblapply` returns empty list for empty vector consistent with
   `lapply` behaviour (#33 by @kendonB); tests also added.
