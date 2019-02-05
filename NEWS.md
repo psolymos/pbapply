@@ -28,7 +28,7 @@
   (`""` is replaced by the default `"="`).
 * Progress bar is only shown when
   `interactive() && is.null(getOption("knitr.in.progress"))`
-  to avoid printing progess bar during interactive knitr rendering
+  to avoid printing progress bar during interactive knitr rendering
   (request #15 from Sergio Oller).
 * Bugfix: functions failed with single cluster `cl` argument (issue #17).
 
