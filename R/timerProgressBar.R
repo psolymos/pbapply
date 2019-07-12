@@ -78,7 +78,8 @@ width = NA, title, label, style = 1, file = "", min_time = 0)
             bb <- strrep(char, done)
             empty <- strrep(" ", txtWidth - done)
             bar <- paste(" |", bb, empty, "|", sep = "")
-            cat(paste("\r", bar, text), file = file)
+            #cat(paste("\r", bar, text), file = file)
+            cat("\r", bar, text, file = file)
             flush.console()
         }
     }
