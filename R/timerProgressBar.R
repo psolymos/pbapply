@@ -71,15 +71,15 @@ width = NA, title, label, style = 1, file = "", min_time = 0)
             if(nchar(text, "w") < minLetters)
                 text <- paste(text, paste(rep(" ", minLetters - nchar(text, "w")),
                                           collapse = ""))
-            if(txtWidth < 0)
+            if(txtWidth <= 0) {
                 cat("\r ", text, file = file)
-
-            done <- ceiling(txtWidth * i / n)
-            bb <- strrep(char, done)
-            empty <- strrep(" ", txtWidth - done)
-            bar <- paste(" |", bb, empty, "|", sep = "")
-            #cat(paste("\r", bar, text), file = file)
-            cat("\r", bar, text, file = file)
+            } else {
+                done <- ceiling(txtWidth * i / n)
+                bb <- strrep(char, done)
+                empty <- strrep(" ", txtWidth - done)
+                bar <- paste(" |", bb, empty, "|", sep = "")
+                cat("\r", bar, text, file = file)
+            }
             flush.console()
         }
     }
@@ -110,11 +110,9 @@ width = NA, title, label, style = 1, file = "", min_time = 0)
             if(nchar(text, "w") < minLetters)
                 text <- paste(text, paste(rep(" ", minLetters - nchar(text, "w")),
                     collapse = ""))
-            if(txtWidth < 0)
-                cat("\r ", text, file = file)
             bb <- strrep(char, ceiling(txtWidth * i / n))
             bar <- c("|", "/", "-", "\\")[(.counter %% 4) + 1]
-            cat(paste("\r", bar, text), file = file)
+            cat("\r", bar, text, file = file)
             flush.console()
         }
     }
@@ -147,14 +145,15 @@ width = NA, title, label, style = 1, file = "", min_time = 0)
             if(nchar(text, "w") < minLetters)
                 text <- paste(text, paste(rep(" ", minLetters - nchar(text, "w")),
                     collapse = ""))
-            if(txtWidth < 0)
+            if(txtWidth <= 0) {
                 cat("\r ", text, file = file)
-
-            done <- ceiling(txtWidth * i / n)
-            bb <- strrep(char, done)
-            empty <- strrep(" ", txtWidth - done)
-            bar <- paste(" |", bb, empty, "|", sep = "")
-            cat(paste("\r", bar, text), file = file)
+            } else {
+                done <- ceiling(txtWidth * i / n)
+                bb <- strrep(char, done)
+                empty <- strrep(" ", txtWidth - done)
+                bar <- paste(" |", bb, empty, "|", sep = "")
+                cat("\r", bar, text, file = file)
+            }
             flush.console()
         }
     }
@@ -189,11 +188,9 @@ width = NA, title, label, style = 1, file = "", min_time = 0)
             if(nchar(text, "w") < minLetters)
                 text <- paste(text, paste(rep(" ", minLetters - nchar(text, "w")),
                     collapse = ""))
-            if(txtWidth < 0)
-                cat("\r ", text, file = file)
             bb <- strrep(char, ceiling(txtWidth * i / n))
             bar <- c("|", "/", "-", "\\")[(.counter %% 4) + 1]
-            cat(paste("\r", bar, text), file = file)
+            cat("\r", bar, text, file = file)
             flush.console()
         }
     }
@@ -222,14 +219,15 @@ width = NA, title, label, style = 1, file = "", min_time = 0)
             if(nchar(text, "w") < minLetters)
                 text <- paste(text, paste(rep(" ", minLetters - nchar(text, "w")),
                                           collapse = ""))
-            if(txtWidth < 0)
+            if(txtWidth <= 0) {
                 cat("\r ", text, file = file)
-
-            done <- ceiling(txtWidth * i / n)
-            bb <- strrep(char[2], done)
-            empty <- strrep(char[3], txtWidth - done)
-            bar <- paste(" ", char[1], bb, empty, char[4], sep = "")
-            cat(paste("\r", bar, text), file = file)
+            } else {
+                done <- ceiling(txtWidth * i / n)
+                bb <- strrep(char[2], done)
+                empty <- strrep(char[3], txtWidth - done)
+                bar <- paste(" ", char[1], bb, empty, char[4], sep = "")
+                cat("\r", bar, text, file = file)
+            }
             flush.console()
         }
     }
@@ -261,14 +259,15 @@ width = NA, title, label, style = 1, file = "", min_time = 0)
             if(nchar(text, "w") < minLetters)
                 text <- paste(text, paste(rep(" ", minLetters - nchar(text, "w")),
                     collapse = ""))
-            if(txtWidth < 0)
+            if(txtWidth <= 0) {
                 cat("\r ", text, file = file)
-
-            done <- ceiling(txtWidth * i / n)
-            bb <- strrep(char[2], done)
-            empty <- strrep(char[3], txtWidth - done)
-            bar <- paste(" ", char[1], bb, empty, char[4], sep = "")
-            cat(paste("\r", bar, text), file = file)
+            } else {
+                done <- ceiling(txtWidth * i / n)
+                bb <- strrep(char[2], done)
+                empty <- strrep(char[3], txtWidth - done)
+                bar <- paste(" ", char[1], bb, empty, char[4], sep = "")
+                cat("\r", bar, text, file = file)
+            }
             flush.console()
         }
     }
