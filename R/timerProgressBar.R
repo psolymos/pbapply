@@ -59,9 +59,9 @@ width = NA, title, label, style = 1, file = "", min_time = 0)
         if (.i > .min && sum(time0, time, na.rm=TRUE) > min_time)
             .showpb <<- TRUE
         if (.showpb) {
-            spentTime <- paste0(" elapsed =", getTimeAsString(time0))
+            spentTime <- paste0(" elapsed=", getTimeAsString(time0))
             leftTime <- if (i == 0)
-                "" else paste0(", remaining ~", getTimeAsString(time))
+                "" else paste0(", remaining~", getTimeAsString(time))
             minLetters <- nchar("%%%% ~00h 00m 00s", "w")
 
             ## 79-24=55 > 50
@@ -96,9 +96,9 @@ width = NA, title, label, style = 1, file = "", min_time = 0)
         if (.i > .min && sum(time0, time, na.rm=TRUE) > min_time)
             .showpb <<- TRUE
         if (.showpb) {
-            spentTime <- paste0(" elapsed =", getTimeAsString(time0))
+            spentTime <- paste0(" elapsed=", getTimeAsString(time0))
             leftTime <- if (i == 0)
-                "" else paste0(", remaining ~", getTimeAsString(time))
+                "" else paste0(", remaining~", getTimeAsString(time))
             minLetters <- nchar("%%%% ~00h 00m 00s", "w")
 
             ## 79-24=55 > 50
@@ -206,9 +206,9 @@ width = NA, title, label, style = 1, file = "", min_time = 0)
         if (.i > .min && sum(time0, time, na.rm=TRUE) > min_time)
             .showpb <<- TRUE
         if (.showpb) {
-            spentTime <- paste0(" elapsed =", getTimeAsString(time0))
+            spentTime <- paste0(" elapsed=", getTimeAsString(time0))
             leftTime <- if (i == 0)
-                "" else paste0(", remaining ~", getTimeAsString(time))
+                "" else paste0(", remaining~", getTimeAsString(time))
             minLetters <- nchar("%%%% ~00h 00m 00s", "w")
 
             ## 79-24=55 > 50
