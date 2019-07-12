@@ -279,7 +279,7 @@ zseq[1,]
 pbapply(z, 3, function(x) seq_len(max(x)))
 # a list without a dim attribute
 
-## --- apply ---
+## --- mapply ---
 
 pbmapply(rep, 1:4, 4:1)
 pbmapply(rep, times = 1:4, x = 4:1)
