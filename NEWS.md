@@ -1,9 +1,9 @@
 # User-visible changes in the pbapply R package
 
-## Version 1.4-1, July 12, 2019
+## Version 1.4-1, July 14, 2019
 
 * Use `base::strrep` instead of `paste(rep(), collapse='')` in `timerProgressBar`.
-* Fixed space printing glitch (due to rounding), related to #37.
+* Fixed space printing glitch (due to rounding), causing issue #37.
 
 ## Version 1.4-0, February 5, 2019
 
