@@ -1,5 +1,9 @@
 # User-visible changes in the pbapply R package
 
+## Version 1.4-2, July 15, 2019
+
+*
+
 ## Version 1.4-1, July 14, 2019
 
 * Use `base::strrep` instead of `paste(rep(), collapse='')` in `timerProgressBar`.
