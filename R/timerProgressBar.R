@@ -130,7 +130,7 @@ width = NA, title, label, style = 1, file = "", min_time = 0)
             .showpb <<- TRUE
         if (.showpb) {
             prefix <- if (i != n)
-                " ~" else " elapsed = "
+                " ~" else " elapsed="
 
             leftTime <- if (i == 0)
                 getTimeAsString(NULL) else
@@ -174,7 +174,7 @@ width = NA, title, label, style = 1, file = "", min_time = 0)
             .showpb <<- TRUE
         if (.showpb) {
             prefix <- if (i != n)
-                " ~" else " elapsed = "
+                " ~" else " elapsed="
             leftTime <- if (i == 0)
                 getTimeAsString(NULL) else
                     if (i != n)
@@ -245,7 +245,7 @@ width = NA, title, label, style = 1, file = "", min_time = 0)
             .showpb <<- TRUE
         if (.showpb) {
             prefix <- if (i != n)
-                " ~" else " elapsed = "
+                " ~" else " elapsed="
             leftTime <- if (i == 0)
                 getTimeAsString(NULL) else
                     if (i != n)
