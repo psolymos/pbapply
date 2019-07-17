@@ -16,7 +16,7 @@ useful (e.g. bootstrap). The type and style of the progress bar (with percentage
 The package supports snow-type clusters and multicore-type forking
 (see overview [here](http://peter.solymos.org/code/2016/09/11/what-is-the-cost-of-a-progress-bar-in-r.html)).
 
-![](https://github.com/psolymos/pbapply/raw/master/images/pbapply-01.gif)
+![](https://github.com/psolymos/pbapply/raw/master/images/pbapply-02.gif)
 
 ## Versions
 
