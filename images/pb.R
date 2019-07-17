@@ -10,7 +10,11 @@ pbo <- pboptions() # store settings
 tmp <- pblapply(seq_len(B), fun)
 
 ## change type, style, and char
-pboptions(type = "txt", style = 1, char = ">")
+pboptions(type = "timer", style = 6, char = "[x-]")
+tmp <- pblapply(seq_len(B), fun)
+
+## change type, style, and char
+pboptions(type = "tk", title="TclTk", label="Progress")
 tmp <- pblapply(seq_len(B), fun)
 
 ## throbber style with timer
