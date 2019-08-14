@@ -14,6 +14,7 @@ function(FUN, ..., MoreArgs = NULL, SIMPLIFY = TRUE, USE.NAMES = TRUE)
     suppressWarnings(suppressMessages(trace(quote(FUN),
         exit = quote({
 #            .pb_env <- environment(pbmapply)$.pb_env
+            .pb_env <- pbapply::.pb_env
             .pb_env$VALUE <- .pb_env$VALUE + 1
             pbapply::setpb(.pb_env$pb, .pb_env$VALUE)
         }),
