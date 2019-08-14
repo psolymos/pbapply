@@ -11,11 +11,16 @@ function(FUN, ..., MoreArgs = NULL, SIMPLIFY = TRUE, USE.NAMES = TRUE)
     on.exit(closepb(.pb_env$pb), add=TRUE)
     on.exit(rm(list=ls(envir=.pb_env), envir=.pb_env), add=TRUE)
     ## setting tracer
-    suppressWarnings(suppressMessages(trace(quote(FUN), exit = quote({
-        .pb_env <- environment(pbmapply)$.pb_env
-        .pb_env$VALUE <- .pb_env$VALUE + 1
-        pbapply::setpb(.pb_env$pb, .pb_env$VALUE)
-    }), where = environment(pbmapply)$.pb_env, print = FALSE)))
+    suppressWarnings(suppressMessages(trace(quote(FUN),
+        exit = quote({
+#            .pb_env <- environment(pbmapply)$.pb_env
+            .pb_env <- pbapply::.pb_env
+            .pb_env$VALUE <- .pb_env$VALUE + 1
+            pbapply::setpb(.pb_env$pb, .pb_env$VALUE)
+        }),
+#        where = environment(pbmapply)$.pb_env,
+        where = .pb_env,
+        print = FALSE)))
     ## piggy back on mapply
     mapply(.pb_env$FUN, ..., MoreArgs = MoreArgs,
         SIMPLIFY = SIMPLIFY, USE.NAMES = USE.NAMES)
