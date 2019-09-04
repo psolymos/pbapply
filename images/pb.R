@@ -33,10 +33,12 @@ dt <- as.POSIXlt(Sys.Date())
 yyyymm <- paste0(dt$year+1900, "-",
     if (dt$mon < 10) "0" else "", dt$mon) # mon is 0-11
 x <- cran_stats(pkg)
-rd <- devtools::revdep(pkg)
+rd <- sapply(c("Depends", "Imports", "Suggests", "LinkingTo"),
+    function(z) devtools::revdep(pkg, z))
+nrd <- length(unlist(rd))
 p <- ggplot(x[x$start < max(x$start),], aes(end, downloads)) +
     geom_line() + geom_smooth() +
-    labs(title=paste0(pkg, " (", length(rd), " revdeps)"))
+    labs(title=paste0(pkg, " (", length(nrd), " revdeps)"))
 ggsave(paste0("images/pbapply-downloads-", yyyymm, ".png"), p)
 
 ## >>> prepare CRAN submission
