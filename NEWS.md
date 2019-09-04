@@ -1,5 +1,9 @@
 # User-visible changes in the pbapply R package
 
+## Version 1.4-3, September 4, 2019
+
+*
+
 ## Version 1.4-2, August 30, 2019
 
 * Fixed environment issue inside the tracer in `pbmapply`
