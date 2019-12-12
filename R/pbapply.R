@@ -19,10 +19,12 @@ function (X, MARGIN, FUN, ..., cl = NULL)
         if (anyNA(MARGIN))
             stop("not all elements of 'MARGIN' are names of dimensions")
     }
-    s.call <- ds[-MARGIN]
-    s.ans <- ds[MARGIN]
     d.call <- d[-MARGIN]
-    d.ans <- d[MARGIN]
+    d.ans  <- d[ MARGIN]
+    if (anyNA(d.call) || anyNA(d.ans))
+        stop("'MARGIN' does not match dim(X)")
+    s.call <- ds[-MARGIN]
+    s.ans  <- ds[ MARGIN]
     dn.call <- dn[-MARGIN]
     dn.ans <- dn[MARGIN]
     d2 <- prod(d.ans)
