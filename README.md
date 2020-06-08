@@ -29,8 +29,8 @@ install.packages("pbapply")
 Development version:
 
 ```R
-if (!requireNamespace("devtools")) install.packages("devtools")
-devtools::install_github("psolymos/pbapply")
+if (!requireNamespace("remotes")) install.packages("remotes")
+remotes::install_github("psolymos/pbapply")
 ```
 
 See user-visible changes in the [NEWS](https://github.com/psolymos/pbapply/blob/master/NEWS.md) file.
