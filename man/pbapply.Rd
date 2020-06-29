@@ -4,6 +4,7 @@
 \alias{pblapply}
 \alias{pbreplicate}
 \alias{pbmapply}
+\alias{pbtapply}
 \title{
 Adding Progress Bar to '*apply' Functions
 }
@@ -13,10 +14,16 @@ parallel processing.
 }
 \usage{
 pblapply(X, FUN, ..., cl = NULL)
+
 pbapply(X, MARGIN, FUN, ..., cl = NULL)
+
 pbsapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE, cl = NULL)
+
 pbreplicate(n, expr, simplify = "array", cl = NULL)
+
 pbmapply(FUN, ..., MoreArgs = NULL, SIMPLIFY = TRUE, USE.NAMES = TRUE)
+
+pbtapply(X, INDEX, FUN = NULL, ..., default = NA, simplify = TRUE, cl = NULL)
 }
 \arguments{
   \item{X}{
@@ -25,6 +32,8 @@ a vector (atomic or list) or an expressions vector
 (other objects including classed objects will be
 coerced by \code{\link{as.list}}.)
 For \code{pbapply} an array, including a matrix.
+For \code{pbtapply} an R object for which a \code{\link{split}} method exists.
+Typically vector-like, allowing subsetting with \code{\link{[}}.
 }
   \item{MARGIN}{
 A vector giving the subscripts which the function will be applied over.
@@ -34,12 +43,20 @@ indicates rows and columns.
   \item{FUN}{
 The function to be applied to each element of \code{X}:
 see \code{\link{apply}}, \code{\link{sapply}}, and \code{\link{lapply}}.
+In the case of functions like \code{+}, \code{\%*\%}, etc.,
+the function name must be backquoted or quoted. If \code{FUN} is \code{NULL},
+\code{pbtapply} returns a vector which can be used to subscript the
+multi-way array \code{pbtapply} normally produces.
 }
   \item{\dots}{
 Optional arguments to \code{FUN}.
 }
   \item{simplify, SIMPLIFY}{
 Logical; should the result be simplified to a vector or matrix if possible?
+\code{pbtapply} returns an array of mode \code{"list"} (in other words,
+a list with a dim attribute) when \code{FALSE}; if \code{TRUE} (the default),
+then if \code{FUN} always returns a scalar, \code{pbtapply} returns an array with
+the mode of the scalar.
 }
   \item{USE.NAMES}{
 Logical; if \code{TRUE} and if \code{X} is character,
@@ -59,6 +76,20 @@ or an integer to indicate number of child-processes
 }
   \item{MoreArgs}{
 a list of other arguments to \code{FUN}.
+}
+  \item{INDEX}{
+a \code{\link{list}} of one or more \code{\link{factor}}s, each of same length
+as \code{X}. The elements are coerced to factors by \code{\link{as.factor}}.
+}
+  \item{default}{
+(only in the case of simplification to an array) the value with which the array
+is initialized as \code{\link{array}}\code{(default, dim = ..)}.
+Before R 3.4.0, this was hard coded to \code{\link{array}}\code{()}'s
+default \code{NA}. If it is \code{NA} (the default), the missing value of the
+answer type, e.g. \code{\link{NA_real_}}, is chosen
+(\code{\link{as.raw}}\code{(0)} for \code{"raw"}). In a numerical case,
+it may be set, e.g., to \code{FUN(integer(0))}, e.g., in the case of
+\code{FUN = sum} to \code{0} or \code{0L}.
 }
 }
 \details{
@@ -116,7 +147,8 @@ Progress bars used in the functions:
 
 Sequential \code{*apply} functions:
 \code{\link{apply}}, \code{\link{sapply}},
-\code{\link{lapply}}, \code{\link{replicate}}, \code{\link{mapply}}
+\code{\link{lapply}}, \code{\link{replicate}},
+\code{\link{mapply}}, \code{\link{tapply}}
 
 Parallel \code{*apply} functions from package 'parallel':
 \code{\link[parallel]{parLapply}},
@@ -289,6 +321,46 @@ pbmapply(function(x, y) seq_len(x) + y,
        c(A = 10, B = 0, C = -10))
 word <- function(C, k) paste(rep.int(C, k), collapse = "")
 utils::str(pbmapply(word, LETTERS[1:6], 6:1, SIMPLIFY = FALSE))
+
+## --- tapply ---
+
+require(stats)
+groups <- as.factor(rbinom(32, n = 5, prob = 0.4))
+pbtapply(groups, groups, length) #- is almost the same as
+table(groups)
+
+## contingency table from data.frame : array with named dimnames
+pbtapply(warpbreaks$breaks, warpbreaks[,-1], sum)
+pbtapply(warpbreaks$breaks, warpbreaks[, 3, drop = FALSE], sum)
+
+n <- 17; fac <- factor(rep_len(1:3, n), levels = 1:5)
+table(fac)
+pbtapply(1:n, fac, sum)
+pbtapply(1:n, fac, sum, default = 0) # maybe more desirable
+pbtapply(1:n, fac, sum, simplify = FALSE)
+pbtapply(1:n, fac, range)
+pbtapply(1:n, fac, quantile)
+pbtapply(1:n, fac, length) ## NA's
+pbtapply(1:n, fac, length, default = 0) # == table(fac)
+
+## example of ... argument: find quarterly means
+pbtapply(presidents, cycle(presidents), mean, na.rm = TRUE)
+
+ind <- list(c(1, 2, 2), c("A", "A", "B"))
+table(ind)
+pbtapply(1:3, ind) #-> the split vector
+pbtapply(1:3, ind, sum)
+
+## Some assertions (not held by all patch propsals):
+nq <- names(quantile(1:5))
+stopifnot(
+  identical(pbtapply(1:3, ind), c(1L, 2L, 4L)),
+  identical(pbtapply(1:3, ind, sum),
+            matrix(c(1L, 2L, NA, 3L), 2, dimnames = list(c("1", "2"), c("A", "B")))),
+  identical(pbtapply(1:n, fac, quantile)[-1],
+            array(list(`2` = structure(c(2, 5.75, 9.5, 13.25, 17), .Names = nq),
+                 `3` = structure(c(3, 6, 9, 12, 15), .Names = nq),
+                 `4` = NULL, `5` = NULL), dim=4, dimnames=list(as.character(2:5)))))
 }
 \keyword{ manip }
 \keyword{ utilities }
