@@ -1,6 +1,6 @@
 # Version 1.4-3, August 11, 2020
 
-* Following R 3.6.2. changes to `apply` (#41).
+* Following R 3.6.2 changes to `apply` (#41).
 * Adding `pbtapply` (#21).
 
 # Version 1.4-2, August 30, 2019
