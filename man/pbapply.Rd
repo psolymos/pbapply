@@ -69,7 +69,7 @@ Number of replications.
 Expression (language object, usually a call) to evaluate repeatedly.
 }
   \item{cl}{
-A cluster object created by \code{\link[parallel]{makeCluster}},
+A cluster object created by \code{\link{makeCluster}},
 or an integer to indicate number of child-processes
 (integer values are ignored on Windows) for parallel evaluations
 (see Details on performance).
@@ -107,8 +107,8 @@ and \code{\link[tcltk]{tkProgressBar}}.
 See \code{\link{pboptions}} for how to conveniently set these.
 
 Parallel processing can be enabled through the \code{cl} argument.
-\code{\link[parallel]{parLapply}} is called when \code{cl} is a 'cluster' object,
-\code{\link[parallel]{mclapply}} is called when \code{cl} is an integer.
+\code{\link{parLapply}} is called when \code{cl} is a 'cluster' object,
+\code{\link{mclapply}} is called when \code{cl} is an integer.
 Showing the progress bar increases the communication overhead
 between the main process and nodes / child processes compared to the
 parallel equivalents of the functions without the progress bar.
@@ -120,9 +120,9 @@ disabled (i.e. \code{getOption("pboptions")$type == "none"} or \code{dopb()} is
 When doing parallel processing, other objects might need to pushed to the
 workers, and random numbers must be handled with care (see Examples).
 
-Updating the progress bar with \code{\link[parallel]{mclapply}}
+Updating the progress bar with \code{\link{mclapply}}
 can be slightly slower compared to using a Fork cluster
-(i.e. calling \code{\link[parallel]{makeForkCluster}}).
+(i.e. calling \code{\link{makeForkCluster}}).
 Care must be taken to set appropriate random numbers in this case.
 }
 \value{
@@ -151,8 +151,8 @@ Sequential \code{*apply} functions:
 \code{\link{mapply}}, \code{\link{tapply}}
 
 Parallel \code{*apply} functions from package 'parallel':
-\code{\link[parallel]{parLapply}},
-\code{\link[parallel]{mclapply}}.
+\code{\link{parLapply}},
+\code{\link{mclapply}}.
 
 Setting the options: \code{\link{pboptions}}
 
