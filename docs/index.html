@@ -86,7 +86,7 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#pbapply-adding-progress-bar-to-apply-functions-in-r" class="anchor"></a>pbapply: adding progress bar to ’*apply’ functions in R</h1></div>
 
-<p>A lightweight package that adds progress bar to vectorized R functions (<code>*apply</code>). The implementation can easily be added to functions where showing the progress is useful (e.g. bootstrap). The type and style of the progress bar (with percentages or remaining time) can be set through options. The package supports snow-type clusters and multicore-type forking (see overview <a href="http://peter.solymos.org/code/2016/09/11/what-is-the-cost-of-a-progress-bar-in-r.html">here</a>).</p>
+<p>A lightweight package that adds progress bar to vectorized R functions (<code>*apply</code>). The implementation can easily be added to functions where showing the progress is useful (e.g. bootstrap). The type and style of the progress bar (with percentages or remaining time) can be set through options. The package supports several parallel processing backends, such as snow-type clusters and multicore-type forking (see overview <a href="http://peter.solymos.org/code/2016/09/11/what-is-the-cost-of-a-progress-bar-in-r.html">here</a>).</p>
 <p><img src="https://github.com/psolymos/pbapply/raw/master/images/pbapply-02.gif"></p>
 <div id="versions" class="section level2">
 <h2 class="hasAnchor">
@@ -98,6 +98,31 @@
 <a class="sourceLine" id="cb2-2" data-line-number="2">remotes<span class="op">::</span><span class="kw"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"psolymos/pbapply"</span>)</a></code></pre></div>
 <p>See user-visible changes in the <a href="https://github.com/psolymos/pbapply/blob/master/NEWS.md">NEWS</a> file.</p>
 <p>Use the <a href="https://github.com/psolymos/pbapply/issues">issue tracker</a> to report a problem, or to suggest a new feature.</p>
+</div>
+<div id="how-to-get-started" class="section level2">
+<h2 class="hasAnchor">
+<a href="#how-to-get-started" class="anchor"></a>How to get started?</h2>
+<div id="you-are-not-yet-an-r-user" class="section level4">
+<h4 class="hasAnchor">
+<a href="#you-are-not-yet-an-r-user" class="anchor"></a>1. You are not yet an R user</h4>
+<p>In this case, start with understaning basic programming concepts, such as data structures (matrices, data frames, indexing these), <code>for</code> loops and functions in R. The online version of Garrett Grolemund’s <a href="https://rstudio-education.github.io/hopr/"><em>Hands-On Programming with R</em></a> walks you through these concepts nicely.</p>
+</div>
+<div id="you-are-an-r-user-but-havent-used-vectorized-functions-yet" class="section level4">
+<h4 class="hasAnchor">
+<a href="#you-are-an-r-user-but-havent-used-vectorized-functions-yet" class="anchor"></a>2. You are an R user but haven’t used vectorized functions yet</h4>
+<p>Learn about vectorized functions designed to replace <code>for</code> loops: <code>lapply</code>, <code>sapply</code>, and <code>apply</code>. Here is a repository called <a href="https://github.com/psolymos/the-road-to-progress"><em>The Road to Progress</em></a> that I created to show how to got from a <code>for</code> loop to <code>lapply</code>/<code>sapply</code>.</p>
+</div>
+<div id="you-are-an-r-user-familiar-with-vectorized-functions" class="section level4">
+<h4 class="hasAnchor">
+<a href="#you-are-an-r-user-familiar-with-vectorized-functions" class="anchor"></a>3. You are an R user familiar with vectorized functions</h4>
+<p>In this case, you can simply add <code>pbapply::pb</code> before your <code>*apply</code> functions, e.g. <code><a href="https://rdrr.io/r/base/apply.html">apply()</a></code> will be <code><a href="reference/pbapply.html">pbapply::pbapply()</a></code>, etc. You can guess what happens. Now if you want to speed things up a little (or a lot), try <code><a href="reference/pbapply.html">pbapply::pbapply(..., cl = 4)</a></code> to use 4 cores instead of 1.</p>
+<p>If you are a Windows user, things get a bit more complicated, but not much. Check how to work with <code><a href="https://rdrr.io/r/parallel/clusterApply.html">parallel::parLapply</a></code> to set up a snow type cluster. Have a look at the <a href="https://github.com/psolymos/the-road-to-progress"><em>The Road to Progress</em></a> repository to see a worked example.</p>
+</div>
+<div id="you-are-a-seasoned-r-developer-writing-your-own-packages" class="section level4">
+<h4 class="hasAnchor">
+<a href="#you-are-a-seasoned-r-developer-writing-your-own-packages" class="anchor"></a>4. You are a seasoned R developer writing your own packages</h4>
+<p>Read on, the next section is for you.</p>
+</div>
 </div>
 <div id="how-to-add-pbapply-to-a-package" class="section level2">
 <h2 class="hasAnchor">
@@ -121,9 +146,9 @@
 <p>Add pbapply to the Depends or Imports field in the <code>DESCRIPTION</code>.</p>
 <p>Use the pbapply functions either as <code><a href="reference/pbapply.html">pbapply::pblapply()</a></code> or specify them in the <code>NAMESPACE</code> (<code>importFrom(pbapply, pblapply)</code>) and use it as <code><a href="reference/pbapply.html">pblapply()</a></code> (without the <code>::</code>).</p>
 </div>
-<div id="customizing-the-progress-bar" class="section level4">
+<div id="customizing-the-progress-bar-in-your-package" class="section level4">
 <h4 class="hasAnchor">
-<a href="#customizing-the-progress-bar" class="anchor"></a>Customizing the progress bar</h4>
+<a href="#customizing-the-progress-bar-in-your-package" class="anchor"></a>Customizing the progress bar in your package</h4>
 <p>Specify the progress bar options in the <code>zzz.R</code> file of the package:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">.onAttach &lt;-<span class="st"> </span><span class="cf">function</span>(libname, pkgname){</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">    <span class="kw"><a href="https://rdrr.io/r/base/options.html">options</a></span>(<span class="st">"pboptions"</span> =<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
@@ -142,9 +167,9 @@
 <p>This will set the options and pbapply will not override when loaded.</p>
 <p>See a small example package <a href="https://github.com/psolymos/pbapplyDepends">here</a>.</p>
 </div>
-<div id="suppressing-the-progress-bar" class="section level4">
+<div id="suppressing-the-progress-bar-in-your-functions" class="section level4">
 <h4 class="hasAnchor">
-<a href="#suppressing-the-progress-bar" class="anchor"></a>Suppressing the progress bar</h4>
+<a href="#suppressing-the-progress-bar-in-your-functions" class="anchor"></a>Suppressing the progress bar in your functions</h4>
 <p>Suppressing the progress bar is sometimes handy. By default, progress bar is suppressed when <code>!interactive()</code>. In other instances, put this inside a function:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">pbo &lt;-<span class="st"> </span><span class="kw"><a href="reference/pboptions.html">pboptions</a></span>(<span class="dt">type =</span> <span class="st">"none"</span>)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/on.exit.html">on.exit</a></span>(<span class="kw"><a href="reference/pboptions.html">pboptions</a></span>(pbo), <span class="dt">add =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
