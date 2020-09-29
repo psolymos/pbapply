@@ -130,7 +130,7 @@ Care must be taken to set appropriate random numbers in this case.
 Note the \code{use_lb} option (see \code{\link{pboptions}})
 for using load balancing when running in parallel clusters.
 If using \code{\link{mclapply}}, the \code{...} passes
-arguments to the underlying for further contol.
+arguments to the underlying function for further contol.
 }
 \value{
 Similar to the value returned by the standard \code{*apply} functions.
