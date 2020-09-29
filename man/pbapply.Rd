@@ -49,7 +49,9 @@ the function name must be backquoted or quoted. If \code{FUN} is \code{NULL},
 multi-way array \code{pbtapply} normally produces.
 }
   \item{\dots}{
-Optional arguments to \code{FUN}.
+Optional arguments to \code{FUN} and also to underlying functions (e.g.
+\code{\link{parLapply}} and \code{\link{mclapply}} when \code{cl}
+is not \code{NULL}).
 }
   \item{simplify, SIMPLIFY}{
 Logical; should the result be simplified to a vector or matrix if possible?
@@ -124,6 +126,11 @@ Updating the progress bar with \code{\link{mclapply}}
 can be slightly slower compared to using a Fork cluster
 (i.e. calling \code{\link{makeForkCluster}}).
 Care must be taken to set appropriate random numbers in this case.
+
+Note the \code{use_lb} option (see \code{\link{pboptions}})
+for using load balancing when running in parallel clusters.
+If using \code{\link{mclapply}}, the \code{...} passes
+arguments to the underlying for further contol.
 }
 \value{
 Similar to the value returned by the standard \code{*apply} functions.
