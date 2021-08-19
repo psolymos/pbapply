@@ -15,7 +15,7 @@ parallel processing.
 \usage{
 pblapply(X, FUN, ..., cl = NULL)
 
-pbapply(X, MARGIN, FUN, ..., cl = NULL)
+pbapply(X, MARGIN, FUN, ..., simplify = TRUE, cl = NULL)
 
 pbsapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE, cl = NULL)
 

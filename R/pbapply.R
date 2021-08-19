@@ -1,7 +1,8 @@
 pbapply <-
-function (X, MARGIN, FUN, ..., cl = NULL)
+function (X, MARGIN, FUN, ..., simplify = TRUE,cl = NULL)
 {
     FUN <- match.fun(FUN)
+    simplify <- isTRUE(simplify)
     dl <- length(dim(X))
     if (!dl)
         stop("dim(X) must have a positive length")
@@ -24,7 +25,7 @@ function (X, MARGIN, FUN, ..., cl = NULL)
     if (anyNA(d.call) || anyNA(d.ans))
         stop("'MARGIN' does not match dim(X)")
     s.call <- ds[-MARGIN]
-    s.ans  <- ds[ MARGIN]
+    s.ans  <- ds[MARGIN]
     dn.call <- dn[-MARGIN]
     dn.ans <- dn[MARGIN]
     d2 <- prod(d.ans)
@@ -68,11 +69,11 @@ function (X, MARGIN, FUN, ..., cl = NULL)
 
         closepb(pb) # pb_specific_code
 
-        ans.list <- is.recursive(ans[[1L]])
+        ans.list <- !simplify || is.recursive(ans[[1L]])
         l.ans <- length(ans[[1L]])
         ans.names <- names(ans[[1L]])
         if (!ans.list)
-            ans.list <- any(unlist(lapply(ans, length)) != l.ans)
+            ans.list <- any(lengths(ans) != l.ans)
         if (!ans.list && length(ans.names)) {
             all.same <- vapply(ans, function(x) identical(names(x),
                 ans.names), NA)
@@ -93,7 +94,7 @@ function (X, MARGIN, FUN, ..., cl = NULL)
         ## rely on pblapply for calling parLapply with pb
         ## this will handle load balancing as well
         ans <- pblapply(X = arglist, FUN = FUN, ..., cl = cl)
-        ans.list <- is.recursive(ans[[1L]])
+        ans.list <- !simplify || is.recursive(ans[[1L]])
         l.ans <- length(ans[[1L]])
         ans.names <- names(ans[[1L]])
         if (!ans.list)
@@ -113,19 +114,21 @@ function (X, MARGIN, FUN, ..., cl = NULL)
     if (length(MARGIN) == 1L && len.a == d2) {
         names(ans) <- if (length(dn.ans[[1L]]))
             dn.ans[[1L]]
-        return(ans)
+        ans
     }
-    if (len.a == d2)
-        return(array(ans, d.ans, dn.ans))
-    if (len.a && len.a%%d2 == 0L) {
+    else if (len.a == d2)
+        array(ans, d.ans, dn.ans)
+    else if (len.a && len.a%%d2 == 0L) {
         if (is.null(dn.ans))
             dn.ans <- vector(mode = "list", length(d.ans))
-        dn1 <- if (length(dn.call) && length(ans.names) == length(dn.call[[1L]]))
-            dn.call[1L]
-        else list(ans.names)
+        dn1 <- list(ans.names)
+        if (length(dn.call) && !is.null(n1 <- names(dn <- dn.call[1])) &&
+            nzchar(n1) && length(ans.names) == length(dn[[1]]))
+            names(dn1) <- n1
         dn.ans <- c(dn1, dn.ans)
-        return(array(ans, c(len.a%/%d2, d.ans), if (!is.null(names(dn.ans)) ||
-            !all(vapply(dn.ans, is.null, NA))) dn.ans))
+        array(ans, c(len.a%/%d2, d.ans), if (!is.null(names(dn.ans)) ||
+            !all(vapply(dn.ans, is.null, NA)))
+            dn.ans)
     }
-    return(ans)
+    else ans
 }
