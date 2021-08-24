@@ -1,6 +1,6 @@
 # Version 1.4-4, August 19, 2021
 
-* Following R changes to `apply`, finxing dimnames issue (#44).
+* Following R changes to `apply`, fixing dimnames issue (#44).
 
 # Version 1.4-3, August 11, 2020
 
