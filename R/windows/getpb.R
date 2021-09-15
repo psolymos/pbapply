@@ -8,6 +8,8 @@ function(pb)
             txt = getTxtProgressBar(pb),
             win = getWinProgressBar(pb),
             tk = tcltk::getTkProgressBar(pb))
+        if (doshiny())
+            rval <- pb$getValue()
     } else {
         rval <- NULL
     }

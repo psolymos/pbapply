@@ -17,6 +17,8 @@ function(min=0, max=1)
                 initial = control$initial,
                 title = control$title, label = control$label,
                 width = control$gui.width))
+        if (doshiny())
+            pb <- shiny::Progress$new(min=min, max=max)
     } else {
         pb <- NULL
     }

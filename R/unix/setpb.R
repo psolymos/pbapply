@@ -7,6 +7,10 @@ function(pb, value)
             timer = setTxtProgressBar(pb, value),
             txt = setTxtProgressBar(pb, value),
             tk = tcltk::setTkProgressBar(pb, value, label = control$label))
+        if (doshiny())
+            rval <- pb$set(value,
+                message = if (control$title == "") NULL else control$title,
+                detail = if (control$label == "") NULL else control$label)
     } else {
         rval <- NULL
     }
