@@ -1,5 +1,6 @@
-# Version 1.4-4, August 19, 2021
+# Version 1.5-0, Sept 15, 2021
 
+* New progress bar type `"shiny"` to show the progress bar in the Shiny UI.
 * Following R changes to `apply`, fixing dimnames issue (#44).
 
 # Version 1.4-3, August 11, 2020

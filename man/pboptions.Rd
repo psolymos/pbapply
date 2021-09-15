@@ -5,6 +5,7 @@
 \alias{getpb}
 \alias{closepb}
 \alias{dopb}
+\alias{doshiny}
 \alias{pbtypes}
 \title{
 Creating Progress Bar and Setting Options
@@ -19,6 +20,7 @@ setpb(pb, value)
 getpb(pb)
 closepb(pb)
 dopb()
+doshiny()
 pbtypes()
 }
 \arguments{
@@ -99,6 +101,11 @@ The return value is \code{NULL} if the progress bar is turned off by
 based on the option \code{getOption("pboptions")$type}.
 It is \code{FALSE} if the type of progress bar is \code{"none"} or
 \code{NULL}.
+
+\code{doshiny} returns a logical value, \code{TRUE} when the shiny
+package namespace is available (i.e. the suggested package is installed),
+the \code{type} option is set to \code{"shiny"}, and a shiny application
+is running.
 
 For \code{closepb} closes the connection for the progress bar.
 
