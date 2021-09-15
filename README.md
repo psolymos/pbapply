@@ -210,10 +210,12 @@ pboptions(op)
 ```R
 library(shiny)
 library(pbapply)
+
 pboptions(
     type = "shiny",
     title = "Shiny progress",
     label = "Almost there ...")
+
 ui <- fluidPage(
     plotOutput("plot")
 )
