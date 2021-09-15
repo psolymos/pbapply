@@ -15,6 +15,7 @@ Description: A lightweight package that adds
   Supports several parallel processing backends.
 Depends: R (>= 3.2.0)
 Imports: parallel
+Suggests: shiny (>= 0.14)
 License: GPL-2
 URL: https://github.com/psolymos/pbapply
 BugReports: https://github.com/psolymos/pbapply/issues

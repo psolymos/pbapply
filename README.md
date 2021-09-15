@@ -139,6 +139,8 @@ on.exit(pboptions(pbo), add = TRUE)
 
 ## Examples
 
+### Command line
+
 ```R
 library(pbapply)
 set.seed(1234)
@@ -202,3 +204,28 @@ system.time(res4pb <- pbreplicate(B, fun()))
 #   1.427   0.040   1.481
 pboptions(op)
 ```
+
+### Shiny
+
+```R
+library(shiny)
+library(pbapply)
+pboptions(
+    type = "shiny",
+    title = "Shiny progress",
+    label = "Almost there ...")
+ui <- fluidPage(
+    plotOutput("plot")
+)
+
+server <- function(input, output, session) {
+    output$plot <- renderPlot({
+        pbsapply(1:15, function(z) Sys.sleep(0.5))
+        plot(cars)
+    })
+}
+
+shinyApp(ui, server)
+```
+
+![Shiny session](https://github.com/psolymos/pbapply/raw/master/images/shiny.png)

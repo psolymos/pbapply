@@ -7,6 +7,8 @@ function(pb)
             timer = getTxtProgressBar(pb),
             txt = getTxtProgressBar(pb),
             tk = tcltk::getTkProgressBar(pb))
+        if (doshiny())
+            rval <- pb$getValue()
     } else {
         rval <- NULL
     }
