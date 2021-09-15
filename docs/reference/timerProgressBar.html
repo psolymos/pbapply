@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -37,7 +41,6 @@
 
 <meta property="og:title" content="Timer Progress Bar — timerProgressBar" />
 <meta property="og:description" content="Text progress bar with timer in the R console." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -65,7 +68,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -79,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pbapply</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4-4</span>
       </span>
     </div>
 
@@ -87,7 +90,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,8 +103,8 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/psolymos/pbapply">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/psolymos/pbapply/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -127,11 +130,11 @@
     <p>Text progress bar with timer in the R console.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>timerProgressBar</span>(<span class='kw'>min</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>initial</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>char</span> <span class='kw'>=</span> <span class='st'>"="</span>,
-    <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='no'>title</span>, <span class='no'>label</span>, <span class='kw'>style</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>min_time</span> <span class='kw'>=</span> <span class='fl'>0</span>)
-<span class='fu'>getTimerProgressBar</span>(<span class='no'>pb</span>)
-<span class='fu'>setTimerProgressBar</span>(<span class='no'>pb</span>, <span class='no'>value</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
-<span class='fu'>getTimeAsString</span>(<span class='no'>time</span>)</pre>
+    <pre class="usage"><span class='fu'>timerProgressBar</span><span class='op'>(</span>min <span class='op'>=</span> <span class='fl'>0</span>, max <span class='op'>=</span> <span class='fl'>1</span>, initial <span class='op'>=</span> <span class='fl'>0</span>, char <span class='op'>=</span> <span class='st'>"="</span>,
+    width <span class='op'>=</span> <span class='cn'>NA</span>, <span class='va'>title</span>, <span class='va'>label</span>, style <span class='op'>=</span> <span class='fl'>1</span>, file <span class='op'>=</span> <span class='st'>""</span>, min_time <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>
+<span class='fu'>getTimerProgressBar</span><span class='op'>(</span><span class='va'>pb</span><span class='op'>)</span>
+<span class='fu'>setTimerProgressBar</span><span class='op'>(</span><span class='va'>pb</span>, <span class='va'>value</span>, title <span class='op'>=</span> <span class='cn'>NULL</span>, label <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+<span class='fu'>getTimeAsString</span><span class='op'>(</span><span class='va'>time</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -223,6 +226,10 @@ a length-one numeric vector giving the previous
 value (invisibly for <code>setTimerProgressBar</code>).</p>
 <p><code>getTimeAsString</code> returns time in ~HHh MMm SSs format as character.
 Returns <code>"calculating"</code> when <code>time=NULL</code>.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Zygmunt Zawadzki &lt;zawadzkizygmunt@gmail.com&gt;</p>
+<p>Peter Solymos &lt;solymos@ualberta.ca&gt;</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>The <code>timerProgressBar</code> implementation
@@ -230,42 +237,56 @@ follows closely the code of <code><a href='https://rdrr.io/r/utils/txtProgressBa
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## increase sluggishness to admire the progress bar longer</span>
-<span class='no'>sluggishness</span> <span class='kw'>&lt;-</span> <span class='fl'>0.02</span>
+<span class='va'>sluggishness</span> <span class='op'>&lt;-</span> <span class='fl'>0.02</span>
 
-<span class='no'>test_fun</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>...</span>)
-{
-    <span class='no'>pb</span> <span class='kw'>&lt;-</span> <span class='fu'>timerProgressBar</span>(<span class='no'>...</span>)
-    <span class='fu'><a href='https://rdrr.io/r/base/on.exit.html'>on.exit</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/connections.html'>close</a></span>(<span class='no'>pb</span>))
-    <span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0.05</span>)) {
-        <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span>(<span class='no'>sluggishness</span>)
-        <span class='fu'>setTimerProgressBar</span>(<span class='no'>pb</span>, <span class='no'>i</span>)
-    }
-    <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span>(<span class='kw'>NULL</span>)
-}
+<span class='va'>test_fun</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
+<span class='op'>{</span>
+    <span class='va'>pb</span> <span class='op'>&lt;-</span> <span class='fu'>timerProgressBar</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/on.exit.html'>on.exit</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/connections.html'>close</a></span><span class='op'>(</span><span class='va'>pb</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>0.05</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+        <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span><span class='op'>(</span><span class='va'>sluggishness</span><span class='op'>)</span>
+        <span class='fu'>setTimerProgressBar</span><span class='op'>(</span><span class='va'>pb</span>, <span class='va'>i</span><span class='op'>)</span>
+    <span class='op'>}</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='cn'>NULL</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 <span class='co'>## check the different styles</span>
-<span class='fu'>test_fun</span>(<span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>35</span>, <span class='kw'>char</span> <span class='kw'>=</span> <span class='st'>"+"</span>, <span class='kw'>style</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt;   |                                   | 0 % elapsed=00s     |                                   | 0 % elapsed=00s     |++                                 | 5 % elapsed=00s, remaining~01s  |++++                               | 10% elapsed=00s, remaining~01s  |++++++                             | 15% elapsed=00s, remaining~01s  |+++++++                            | 20% elapsed=00s, remaining~00s  |+++++++++                          | 25% elapsed=00s, remaining~00s  |+++++++++++                        | 30% elapsed=00s, remaining~00s  |+++++++++++++                      | 35% elapsed=00s, remaining~00s  |++++++++++++++                     | 40% elapsed=00s, remaining~00s  |++++++++++++++++                   | 45% elapsed=00s, remaining~00s  |++++++++++++++++++                 | 50% elapsed=00s, remaining~00s  |++++++++++++++++++++               | 55% elapsed=00s, remaining~00s  |++++++++++++++++++++++             | 60% elapsed=00s, remaining~00s  |+++++++++++++++++++++++            | 65% elapsed=00s, remaining~00s  |+++++++++++++++++++++++++          | 70% elapsed=00s, remaining~00s  |+++++++++++++++++++++++++++        | 75% elapsed=00s, remaining~00s  |++++++++++++++++++++++++++++       | 80% elapsed=00s, remaining~00s  |++++++++++++++++++++++++++++++     | 85% elapsed=00s, remaining~00s  |++++++++++++++++++++++++++++++++   | 90% elapsed=00s, remaining~00s  |++++++++++++++++++++++++++++++++++ | 95% elapsed=00s, remaining~00s  |+++++++++++++++++++++++++++++++++++| 100% elapsed=01s, remaining~00s</div><div class='input'><span class='fu'>test_fun</span>(<span class='kw'>style</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt;  / 0 % elapsed=00s    / 0 % elapsed=00s    - 5 % elapsed=00s, remaining~01s \ 10% elapsed=00s, remaining~01s | 15% elapsed=00s, remaining~01s / 20% elapsed=00s, remaining~00s - 25% elapsed=00s, remaining~00s \ 30% elapsed=00s, remaining~00s | 35% elapsed=00s, remaining~00s / 40% elapsed=00s, remaining~00s - 45% elapsed=00s, remaining~00s \ 50% elapsed=00s, remaining~00s | 55% elapsed=00s, remaining~00s / 60% elapsed=00s, remaining~00s - 65% elapsed=00s, remaining~00s \ 70% elapsed=00s, remaining~00s | 75% elapsed=00s, remaining~00s / 80% elapsed=00s, remaining~00s - 85% elapsed=00s, remaining~00s \ 90% elapsed=00s, remaining~00s | 95% elapsed=00s, remaining~00s / 100% elapsed=00s, remaining~00s</div><div class='input'><span class='fu'>test_fun</span>(<span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>char</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='kw'>style</span> <span class='kw'>=</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating    |                                                  | 0 % ~calculating    |...                                               | 5 % ~01s            |.....                                             | 10% ~01s            |........                                          | 15% ~01s            |..........                                        | 20% ~00s            |.............                                     | 25% ~00s            |................                                  | 30% ~00s            |..................                                | 35% ~00s            |....................                              | 40% ~00s            |.......................                           | 45% ~00s            |.........................                         | 50% ~00s            |............................                      | 55% ~00s            |...............................                   | 60% ~00s            |.................................                 | 65% ~00s            |...................................               | 70% ~00s            |......................................            | 75% ~00s            |........................................          | 80% ~00s            |...........................................       | 85% ~00s            |.............................................     | 90% ~00s            |................................................  | 95% ~00s            |..................................................| 100% elapsed=00s  </div><div class='input'><span class='fu'>test_fun</span>(<span class='kw'>style</span> <span class='kw'>=</span> <span class='fl'>4</span>)</div><div class='output co'>#&gt;  / 0 % ~calculating   / 0 % ~calculating   - 5 % ~01s           \ 10% ~01s           | 15% ~01s           / 20% ~00s           - 25% ~00s           \ 30% ~00s           | 35% ~00s           / 40% ~00s           - 45% ~00s           \ 50% ~00s           | 55% ~00s           / 60% ~00s           - 65% ~00s           \ 70% ~00s           | 75% ~00s           / 80% ~00s           - 85% ~00s           \ 90% ~00s           | 95% ~00s           / 100% elapsed=00s  </div><div class='input'><span class='fu'>test_fun</span>(<span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>35</span>, <span class='kw'>char</span> <span class='kw'>=</span> <span class='st'>"[=-]"</span>, <span class='kw'>style</span> <span class='kw'>=</span> <span class='fl'>5</span>)</div><div class='output co'>#&gt;   [-----------------------------------] 0 % elapsed=00s     [-----------------------------------] 0 % elapsed=00s     [==---------------------------------] 5 % elapsed=00s, remaining~01s  [====-------------------------------] 10% elapsed=00s, remaining~01s  [======-----------------------------] 15% elapsed=00s, remaining~01s  [=======----------------------------] 20% elapsed=00s, remaining~00s  [=========--------------------------] 25% elapsed=00s, remaining~00s  [===========------------------------] 30% elapsed=00s, remaining~00s  [=============----------------------] 35% elapsed=00s, remaining~00s  [==============---------------------] 40% elapsed=00s, remaining~00s  [================-------------------] 45% elapsed=00s, remaining~00s  [==================-----------------] 50% elapsed=00s, remaining~00s  [====================---------------] 55% elapsed=00s, remaining~00s  [======================-------------] 60% elapsed=00s, remaining~00s  [=======================------------] 65% elapsed=00s, remaining~00s  [=========================----------] 70% elapsed=00s, remaining~00s  [===========================--------] 75% elapsed=00s, remaining~00s  [============================-------] 80% elapsed=00s, remaining~00s  [==============================-----] 85% elapsed=00s, remaining~00s  [================================---] 90% elapsed=00s, remaining~00s  [==================================-] 95% elapsed=00s, remaining~00s  [===================================] 100% elapsed=00s, remaining~00s</div><div class='input'><span class='fu'>test_fun</span>(<span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>char</span> <span class='kw'>=</span> <span class='st'>"{*.}"</span>, <span class='kw'>style</span> <span class='kw'>=</span> <span class='fl'>6</span>)</div><div class='output co'>#&gt;   {..................................................} 0 % ~calculating    {..................................................} 0 % ~calculating    {***...............................................} 5 % ~01s            {*****.............................................} 10% ~01s            {********..........................................} 15% ~01s            {**********........................................} 20% ~00s            {*************.....................................} 25% ~00s            {****************..................................} 30% ~00s            {******************................................} 35% ~00s            {********************..............................} 40% ~00s            {***********************...........................} 45% ~00s            {*************************.........................} 50% ~00s            {****************************......................} 55% ~00s            {*******************************...................} 60% ~00s            {*********************************.................} 65% ~00s            {***********************************...............} 70% ~00s            {**************************************............} 75% ~00s            {****************************************..........} 80% ~00s            {*******************************************.......} 85% ~00s            {*********************************************.....} 90% ~00s            {************************************************..} 95% ~00s            {**************************************************} 100% elapsed=00s  </div><div class='input'>
+<span class='fu'>test_fun</span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>35</span>, char <span class='op'>=</span> <span class='st'>"+"</span>, style <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   |                                   | 0 % elapsed=00s     |                                   | 0 % elapsed=00s     |++                                 | 5 % elapsed=00s, remaining~01s  |++++                               | 10% elapsed=00s, remaining~01s  |++++++                             | 15% elapsed=00s, remaining~00s  |+++++++                            | 20% elapsed=00s, remaining~00s  |+++++++++                          | 25% elapsed=00s, remaining~00s  |+++++++++++                        | 30% elapsed=00s, remaining~00s  |+++++++++++++                      | 35% elapsed=00s, remaining~00s  |++++++++++++++                     | 40% elapsed=00s, remaining~00s  |++++++++++++++++                   | 45% elapsed=00s, remaining~00s  |++++++++++++++++++                 | 50% elapsed=00s, remaining~00s  |++++++++++++++++++++               | 55% elapsed=00s, remaining~00s  |++++++++++++++++++++++             | 60% elapsed=00s, remaining~00s  |+++++++++++++++++++++++            | 65% elapsed=00s, remaining~00s  |+++++++++++++++++++++++++          | 70% elapsed=00s, remaining~00s  |+++++++++++++++++++++++++++        | 75% elapsed=00s, remaining~00s  |++++++++++++++++++++++++++++       | 80% elapsed=00s, remaining~00s  |++++++++++++++++++++++++++++++     | 85% elapsed=00s, remaining~00s  |++++++++++++++++++++++++++++++++   | 90% elapsed=00s, remaining~00s  |++++++++++++++++++++++++++++++++++ | 95% elapsed=00s, remaining~00s  |+++++++++++++++++++++++++++++++++++| 100% elapsed=00s, remaining~00s</div><div class='input'><span class='fu'>test_fun</span><span class='op'>(</span>style <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  / 0 % elapsed=00s    / 0 % elapsed=00s    - 5 % elapsed=00s, remaining~01s \ 10% elapsed=00s, remaining~01s | 15% elapsed=00s, remaining~01s / 20% elapsed=00s, remaining~00s - 25% elapsed=00s, remaining~00s \ 30% elapsed=00s, remaining~00s | 35% elapsed=00s, remaining~00s / 40% elapsed=00s, remaining~00s - 45% elapsed=00s, remaining~00s \ 50% elapsed=00s, remaining~00s | 55% elapsed=00s, remaining~00s / 60% elapsed=00s, remaining~00s - 65% elapsed=00s, remaining~00s \ 70% elapsed=00s, remaining~00s | 75% elapsed=00s, remaining~00s / 80% elapsed=00s, remaining~00s - 85% elapsed=00s, remaining~00s \ 90% elapsed=00s, remaining~00s | 95% elapsed=00s, remaining~00s / 100% elapsed=00s, remaining~00s</div><div class='input'><span class='fu'>test_fun</span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>50</span>, char <span class='op'>=</span> <span class='st'>"."</span>, style <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   |                                                  | 0 % ~calculating    |                                                  | 0 % ~calculating    |...                                               | 5 % ~01s            |.....                                             | 10% ~01s            |........                                          | 15% ~01s            |..........                                        | 20% ~00s            |.............                                     | 25% ~00s            |................                                  | 30% ~00s            |..................                                | 35% ~00s            |....................                              | 40% ~00s            |.......................                           | 45% ~00s            |.........................                         | 50% ~00s            |............................                      | 55% ~00s            |...............................                   | 60% ~00s            |.................................                 | 65% ~00s            |...................................               | 70% ~00s            |......................................            | 75% ~00s            |........................................          | 80% ~00s            |...........................................       | 85% ~00s            |.............................................     | 90% ~00s            |................................................  | 95% ~00s            |..................................................| 100% elapsed=00s  </div><div class='input'><span class='fu'>test_fun</span><span class='op'>(</span>style <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  / 0 % ~calculating   / 0 % ~calculating   - 5 % ~01s           \ 10% ~01s           | 15% ~01s           / 20% ~00s           - 25% ~00s           \ 30% ~00s           | 35% ~00s           / 40% ~00s           - 45% ~00s           \ 50% ~00s           | 55% ~00s           / 60% ~00s           - 65% ~00s           \ 70% ~00s           | 75% ~00s           / 80% ~00s           - 85% ~00s           \ 90% ~00s           | 95% ~00s           / 100% elapsed=00s  </div><div class='input'><span class='fu'>test_fun</span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>35</span>, char <span class='op'>=</span> <span class='st'>"[=-]"</span>, style <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   [-----------------------------------] 0 % elapsed=00s     [-----------------------------------] 0 % elapsed=00s     [==---------------------------------] 5 % elapsed=00s, remaining~01s  [====-------------------------------] 10% elapsed=00s, remaining~01s  [======-----------------------------] 15% elapsed=00s, remaining~01s  [=======----------------------------] 20% elapsed=00s, remaining~00s  [=========--------------------------] 25% elapsed=00s, remaining~00s  [===========------------------------] 30% elapsed=00s, remaining~00s  [=============----------------------] 35% elapsed=00s, remaining~00s  [==============---------------------] 40% elapsed=00s, remaining~00s  [================-------------------] 45% elapsed=00s, remaining~00s  [==================-----------------] 50% elapsed=00s, remaining~00s  [====================---------------] 55% elapsed=00s, remaining~00s  [======================-------------] 60% elapsed=00s, remaining~00s  [=======================------------] 65% elapsed=00s, remaining~00s  [=========================----------] 70% elapsed=00s, remaining~00s  [===========================--------] 75% elapsed=00s, remaining~00s  [============================-------] 80% elapsed=00s, remaining~00s  [==============================-----] 85% elapsed=00s, remaining~00s  [================================---] 90% elapsed=00s, remaining~00s  [==================================-] 95% elapsed=00s, remaining~00s  [===================================] 100% elapsed=01s, remaining~00s</div><div class='input'><span class='fu'>test_fun</span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>50</span>, char <span class='op'>=</span> <span class='st'>"{*.}"</span>, style <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   {..................................................} 0 % ~calculating    {..................................................} 0 % ~calculating    {***...............................................} 5 % ~01s            {*****.............................................} 10% ~01s            {********..........................................} 15% ~01s            {**********........................................} 20% ~00s            {*************.....................................} 25% ~00s            {****************..................................} 30% ~00s            {******************................................} 35% ~00s            {********************..............................} 40% ~00s            {***********************...........................} 45% ~00s            {*************************.........................} 50% ~00s            {****************************......................} 55% ~00s            {*******************************...................} 60% ~00s            {*********************************.................} 65% ~00s            {***********************************...............} 70% ~00s            {**************************************............} 75% ~00s            {****************************************..........} 80% ~00s            {*******************************************.......} 85% ~00s            {*********************************************.....} 90% ~00s            {************************************************..} 95% ~00s            {**************************************************} 100% elapsed=00s  </div><div class='input'>
 <span class='co'>## no bar only percent and elapsed</span>
-<span class='fu'>test_fun</span>(<span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>char</span> <span class='kw'>=</span> <span class='st'>"    "</span>, <span class='kw'>style</span> <span class='kw'>=</span> <span class='fl'>6</span>)</div><div class='output co'>#&gt;   0 % ~calculating    0 % ~calculating    5 % ~01s            10% ~01s            15% ~01s            20% ~00s            25% ~00s            30% ~00s            35% ~00s            40% ~00s            45% ~00s            50% ~00s            55% ~00s            60% ~00s            65% ~00s            70% ~00s            75% ~00s            80% ~00s            85% ~00s            90% ~00s            95% ~00s            100% elapsed=01s  </div><div class='input'>
+<span class='fu'>test_fun</span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>0</span>, char <span class='op'>=</span> <span class='st'>"    "</span>, style <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   0 % ~calculating    0 % ~calculating    5 % ~01s            10% ~01s            15% ~01s            20% ~00s            25% ~00s            30% ~00s            35% ~00s            40% ~00s            45% ~00s            50% ~00s            55% ~00s            60% ~00s            65% ~00s            70% ~00s            75% ~00s            80% ~00s            85% ~00s            90% ~00s            95% ~00s            100% elapsed=00s  </div><div class='input'>
 <span class='co'>## this should produce a progress bar based on min_time</span>
-(<span class='no'>elapsed</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'>test_fun</span>(<span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>35</span>, <span class='kw'>min_time</span> <span class='kw'>=</span> <span class='fl'>0</span>))[<span class='st'>"elapsed"</span>])</div><div class='output co'>#&gt;   |                                   | 0 % elapsed=00s     |                                   | 0 % elapsed=00s     |==                                 | 5 % elapsed=00s, remaining~01s  |====                               | 10% elapsed=00s, remaining~01s  |======                             | 15% elapsed=00s, remaining~01s  |=======                            | 20% elapsed=00s, remaining~00s  |=========                          | 25% elapsed=00s, remaining~00s  |===========                        | 30% elapsed=00s, remaining~00s  |=============                      | 35% elapsed=00s, remaining~00s  |==============                     | 40% elapsed=00s, remaining~00s  |================                   | 45% elapsed=00s, remaining~00s  |==================                 | 50% elapsed=00s, remaining~00s  |====================               | 55% elapsed=00s, remaining~00s  |======================             | 60% elapsed=00s, remaining~00s  |=======================            | 65% elapsed=00s, remaining~00s  |=========================          | 70% elapsed=00s, remaining~00s  |===========================        | 75% elapsed=00s, remaining~00s  |============================       | 80% elapsed=00s, remaining~00s  |==============================     | 85% elapsed=00s, remaining~00s  |================================   | 90% elapsed=00s, remaining~00s  |================================== | 95% elapsed=00s, remaining~00s  |===================================| 100% elapsed=00s, remaining~00s</div><div class='output co'>#&gt; elapsed 
-#&gt;   0.495 </div><div class='input'><span class='co'>## this should not produce a progress bar based on min_time</span>
-<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='fu'>test_fun</span>(<span class='kw'>min_time</span> <span class='kw'>=</span> <span class='fl'>2</span> * <span class='no'>elapsed</span>))[<span class='st'>"elapsed"</span>]</div><div class='output co'>#&gt; elapsed 
-#&gt;   0.482 </div><div class='input'>
+<span class='op'>(</span><span class='va'>elapsed</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='fu'>test_fun</span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>35</span>, min_time <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span><span class='op'>[</span><span class='st'>"elapsed"</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   |                                   | 0 % elapsed=00s     |                                   | 0 % elapsed=00s     |==                                 | 5 % elapsed=00s, remaining~01s  |====                               | 10% elapsed=00s, remaining~01s  |======                             | 15% elapsed=00s, remaining~01s  |=======                            | 20% elapsed=00s, remaining~00s  |=========                          | 25% elapsed=00s, remaining~00s  |===========                        | 30% elapsed=00s, remaining~00s  |=============                      | 35% elapsed=00s, remaining~00s  |==============                     | 40% elapsed=00s, remaining~00s  |================                   | 45% elapsed=00s, remaining~00s  |==================                 | 50% elapsed=00s, remaining~00s  |====================               | 55% elapsed=00s, remaining~00s  |======================             | 60% elapsed=00s, remaining~00s  |=======================            | 65% elapsed=00s, remaining~00s  |=========================          | 70% elapsed=00s, remaining~00s  |===========================        | 75% elapsed=00s, remaining~00s  |============================       | 80% elapsed=00s, remaining~00s  |==============================     | 85% elapsed=00s, remaining~00s  |================================   | 90% elapsed=00s, remaining~00s  |================================== | 95% elapsed=00s, remaining~00s  |===================================| 100% elapsed=01s, remaining~00s</div><div class='output co'>#&gt; elapsed 
+#&gt;   0.503 </div><div class='input'><span class='co'>## this should not produce a progress bar based on min_time</span>
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='fu'>test_fun</span><span class='op'>(</span>min_time <span class='op'>=</span> <span class='fl'>2</span> <span class='op'>*</span> <span class='va'>elapsed</span><span class='op'>)</span><span class='op'>)</span><span class='op'>[</span><span class='st'>"elapsed"</span><span class='op'>]</span>
+</div><div class='output co'>#&gt; elapsed 
+#&gt;   0.489 </div><div class='input'>
 <span class='co'>## time formatting</span>
-<span class='fu'>getTimeAsString</span>(<span class='kw'>NULL</span>)</div><div class='output co'>#&gt; [1] "calculating"</div><div class='input'><span class='fu'>getTimeAsString</span>(<span class='fl'>15</span>)</div><div class='output co'>#&gt; [1] "15s"</div><div class='input'><span class='fu'>getTimeAsString</span>(<span class='fl'>65</span>)</div><div class='output co'>#&gt; [1] "01m 05s"</div><div class='input'><span class='fu'>getTimeAsString</span>(<span class='fl'>6005</span>)</div><div class='output co'>#&gt; [1] "01h 40m 05s"</div><div class='input'>
+<span class='fu'>getTimeAsString</span><span class='op'>(</span><span class='cn'>NULL</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "calculating"</div><div class='input'><span class='fu'>getTimeAsString</span><span class='op'>(</span><span class='fl'>15</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "15s"</div><div class='input'><span class='fu'>getTimeAsString</span><span class='op'>(</span><span class='fl'>65</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "01m 05s"</div><div class='input'><span class='fu'>getTimeAsString</span><span class='op'>(</span><span class='fl'>6005</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "01h 40m 05s"</div><div class='input'>
 <span class='co'>## example usage of getTimeAsString, use sluggishness &lt;- 1</span>
-<span class='no'>n</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>
-<span class='no'>t0</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/proc.time.html'>proc.time</a></span>()[<span class='fl'>3</span>]
-<span class='no'>ETA</span> <span class='kw'>&lt;-</span> <span class='kw'>NULL</span>
-<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span>(<span class='no'>n</span>)) {
-    <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='no'>i</span>, <span class='st'>"/"</span>, <span class='no'>n</span>, <span class='st'>"- ETA:"</span>, <span class='fu'>getTimeAsString</span>(<span class='no'>ETA</span>))
-    <span class='fu'><a href='https://rdrr.io/r/utils/flush.console.html'>flush.console</a></span>()
-    <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span>(<span class='no'>sluggishness</span>)
-    <span class='no'>dt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/proc.time.html'>proc.time</a></span>()[<span class='fl'>3</span>] - <span class='no'>t0</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='st'>" - elapsed:"</span>, <span class='fu'>getTimeAsString</span>(<span class='no'>dt</span>), <span class='st'>"\n"</span>)
-    <span class='no'>ETA</span> <span class='kw'>&lt;-</span> (<span class='no'>n</span> - <span class='no'>i</span>) * <span class='no'>dt</span> / <span class='no'>i</span>
-}</div><div class='output co'>#&gt; 1 / 10 - ETA: calculating - elapsed: 00s 
+<span class='va'>n</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
+<span class='va'>t0</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/proc.time.html'>proc.time</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>]</span>
+<span class='va'>ETA</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='va'>i</span>, <span class='st'>"/"</span>, <span class='va'>n</span>, <span class='st'>"- ETA:"</span>, <span class='fu'>getTimeAsString</span><span class='op'>(</span><span class='va'>ETA</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='fu'><a href='https://rdrr.io/r/utils/flush.console.html'>flush.console</a></span><span class='op'>(</span><span class='op'>)</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span><span class='op'>(</span><span class='va'>sluggishness</span><span class='op'>)</span>
+    <span class='va'>dt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/proc.time.html'>proc.time</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>]</span> <span class='op'>-</span> <span class='va'>t0</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>" - elapsed:"</span>, <span class='fu'>getTimeAsString</span><span class='op'>(</span><span class='va'>dt</span><span class='op'>)</span>, <span class='st'>"\n"</span><span class='op'>)</span>
+    <span class='va'>ETA</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>n</span> <span class='op'>-</span> <span class='va'>i</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>dt</span> <span class='op'>/</span> <span class='va'>i</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; 1 / 10 - ETA: calculating - elapsed: 00s 
 #&gt; 2 / 10 - ETA: 00s - elapsed: 00s 
 #&gt; 3 / 10 - ETA: 00s - elapsed: 00s 
 #&gt; 4 / 10 - ETA: 00s - elapsed: 00s 
@@ -276,19 +297,10 @@ follows closely the code of <code><a href='https://rdrr.io/r/utils/txtProgressBa
 #&gt; 9 / 10 - ETA: 00s - elapsed: 00s 
 #&gt; 10 / 10 - ETA: 00s - elapsed: 00s </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Zygmunt Zawadzki &lt;zawadzkizygmunt@gmail.com&gt;</p>
-<p>Peter Solymos &lt;solymos@ualberta.ca&gt;</p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -299,7 +311,7 @@ follows closely the code of <code><a href='https://rdrr.io/r/utils/txtProgressBa
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

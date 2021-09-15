@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -37,7 +41,6 @@
 
 <meta property="og:title" content="Creating Progress Bar and Setting Options — pboptions" />
 <meta property="og:description" content="Creating progress bar and setting options." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -65,7 +68,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -79,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pbapply</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4-4</span>
       </span>
     </div>
 
@@ -87,7 +90,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,8 +103,8 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/psolymos/pbapply">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/psolymos/pbapply/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -127,13 +130,14 @@
     <p>Creating progress bar and setting options.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pboptions</span>(<span class='no'>...</span>)
-<span class='fu'>startpb</span>(<span class='kw'>min</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-<span class='fu'>setpb</span>(<span class='no'>pb</span>, <span class='no'>value</span>)
-<span class='fu'>getpb</span>(<span class='no'>pb</span>)
-<span class='fu'>closepb</span>(<span class='no'>pb</span>)
-<span class='fu'>dopb</span>()
-<span class='fu'>pbtypes</span>()</pre>
+    <pre class="usage"><span class='fu'>pboptions</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
+<span class='fu'>startpb</span><span class='op'>(</span>min <span class='op'>=</span> <span class='fl'>0</span>, max <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'>setpb</span><span class='op'>(</span><span class='va'>pb</span>, <span class='va'>value</span><span class='op'>)</span>
+<span class='fu'>getpb</span><span class='op'>(</span><span class='va'>pb</span><span class='op'>)</span>
+<span class='fu'>closepb</span><span class='op'>(</span><span class='va'>pb</span><span class='op'>)</span>
+<span class='fu'>dopb</span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'>doshiny</span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'>pbtypes</span><span class='op'>(</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -180,7 +184,7 @@ Tags are the following:</p>
     See <code>pbtypes()</code> for available progress bar types
     depending on operating system.</p></dd>
   <dt>char</dt><dd><p>The character (or character string) to form the progress bar.
-    Default value is <code><a href='https://rdrr.io/r/base/Arithmetic.html'>"+"</a></code>.</p></dd>
+    Default value is <code>"+"</code>.</p></dd>
   <dt>txt.width</dt><dd><p>The width of the text based progress bar, as a multiple
     of the width of <code>char</code>.
     If <code>NA</code>, the number of characters is that which fits into
@@ -221,12 +225,20 @@ based on the option getOption("pboptions")$type.
 It is FALSE if the type of progress bar is "none" or
 NULL.
 
+doshiny returns a logical value, TRUE when the shiny
+package namespace is available (i.e. the suggested package is installed),
+the type option is set to "shiny", and a shiny application
+is running.
+
 For closepb closes the connection for the progress bar.
 
 pbtypes prints the available progress bar types
 depending on the operating system (i.e. "win" available
 on Windows only).
 
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Peter Solymos &lt;solymos@ualberta.ca&gt;</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Progress bars used in the functions:
@@ -236,36 +248,37 @@ on Windows only).
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## increase sluggishness to admire the progress bar longer</span>
-<span class='no'>sluggishness</span> <span class='kw'>&lt;-</span> <span class='fl'>0.01</span>
+<span class='va'>sluggishness</span> <span class='op'>&lt;-</span> <span class='fl'>0.01</span>
 
 <span class='co'>## for loop</span>
-<span class='no'>fun1</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>() {
-    <span class='no'>pb</span> <span class='kw'>&lt;-</span> <span class='fu'>startpb</span>(<span class='fl'>0</span>, <span class='fl'>10</span>)
-    <span class='fu'><a href='https://rdrr.io/r/base/on.exit.html'>on.exit</a></span>(<span class='fu'>closepb</span>(<span class='no'>pb</span>))
-    <span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fl'>10</span>) {
-        <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span>(<span class='no'>sluggishness</span>)
-        <span class='fu'>setpb</span>(<span class='no'>pb</span>, <span class='no'>i</span>)
-    }
-    <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span>(<span class='kw'>NULL</span>)
-}
+<span class='va'>fun1</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>pb</span> <span class='op'>&lt;-</span> <span class='fu'>startpb</span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>10</span><span class='op'>)</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/on.exit.html'>on.exit</a></span><span class='op'>(</span><span class='fu'>closepb</span><span class='op'>(</span><span class='va'>pb</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span> <span class='op'>{</span>
+        <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span><span class='op'>(</span><span class='va'>sluggishness</span><span class='op'>)</span>
+        <span class='fu'>setpb</span><span class='op'>(</span><span class='va'>pb</span>, <span class='va'>i</span><span class='op'>)</span>
+    <span class='op'>}</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='cn'>NULL</span><span class='op'>)</span>
+<span class='op'>}</span>
 <span class='co'>## while loop</span>
-<span class='no'>fun2</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>() {
-    <span class='no'>pb</span> <span class='kw'>&lt;-</span> <span class='fu'>startpb</span>(<span class='fl'>0</span>, <span class='fl'>10</span>-<span class='fl'>1</span>)
-    <span class='fu'><a href='https://rdrr.io/r/base/on.exit.html'>on.exit</a></span>(<span class='fu'>closepb</span>(<span class='no'>pb</span>))
-    <span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='fl'>1</span>
-    <span class='kw'>while</span> (<span class='no'>i</span> <span class='kw'>&lt;</span> <span class='fl'>10</span>) {
-        <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span>(<span class='no'>sluggishness</span>)
-        <span class='fu'>setpb</span>(<span class='no'>pb</span>, <span class='no'>i</span>)
-        <span class='no'>i</span> <span class='kw'>&lt;-</span> <span class='no'>i</span> + <span class='fl'>1</span>
-    }
-    <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span>(<span class='kw'>NULL</span>)
-}
+<span class='va'>fun2</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>pb</span> <span class='op'>&lt;-</span> <span class='fu'>startpb</span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>10</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/on.exit.html'>on.exit</a></span><span class='op'>(</span><span class='fu'>closepb</span><span class='op'>(</span><span class='va'>pb</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='va'>i</span> <span class='op'>&lt;-</span> <span class='fl'>1</span>
+    <span class='kw'>while</span> <span class='op'>(</span><span class='va'>i</span> <span class='op'>&lt;</span> <span class='fl'>10</span><span class='op'>)</span> <span class='op'>{</span>
+        <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span><span class='op'>(</span><span class='va'>sluggishness</span><span class='op'>)</span>
+        <span class='fu'>setpb</span><span class='op'>(</span><span class='va'>pb</span>, <span class='va'>i</span><span class='op'>)</span>
+        <span class='va'>i</span> <span class='op'>&lt;-</span> <span class='va'>i</span> <span class='op'>+</span> <span class='fl'>1</span>
+    <span class='op'>}</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='cn'>NULL</span><span class='op'>)</span>
+<span class='op'>}</span>
 <span class='co'>## using original settings</span>
-<span class='fu'>fun1</span>()
+<span class='fu'>fun1</span><span class='op'>(</span><span class='op'>)</span>
 <span class='co'>## resetting pboptions</span>
-<span class='no'>opb</span> <span class='kw'>&lt;-</span> <span class='fu'>pboptions</span>(<span class='kw'>style</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>char</span> <span class='kw'>=</span> <span class='st'>"&gt;"</span>)
+<span class='va'>opb</span> <span class='op'>&lt;-</span> <span class='fu'>pboptions</span><span class='op'>(</span>style <span class='op'>=</span> <span class='fl'>1</span>, char <span class='op'>=</span> <span class='st'>"&gt;"</span><span class='op'>)</span>
 <span class='co'>## check new settings</span>
-<span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"pboptions"</span>)</div><div class='output co'>#&gt; $type
+<span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"pboptions"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $type
 #&gt; [1] "none"
 #&gt; 
 #&gt; $char
@@ -298,11 +311,12 @@ on Windows only).
 #&gt; $use_lb
 #&gt; [1] FALSE
 #&gt; </div><div class='input'><span class='co'>## running again with new settings</span>
-<span class='fu'>fun2</span>()
+<span class='fu'>fun2</span><span class='op'>(</span><span class='op'>)</span>
 <span class='co'>## resetting original</span>
-<span class='fu'>pboptions</span>(<span class='no'>opb</span>)
+<span class='fu'>pboptions</span><span class='op'>(</span><span class='va'>opb</span><span class='op'>)</span>
 <span class='co'>## check reset</span>
-<span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"pboptions"</span>)</div><div class='output co'>#&gt; $type
+<span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"pboptions"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $type
 #&gt; [1] "none"
 #&gt; 
 #&gt; $char
@@ -334,36 +348,29 @@ on Windows only).
 #&gt; 
 #&gt; $use_lb
 #&gt; [1] FALSE
-#&gt; </div><div class='input'><span class='fu'>fun1</span>()
+#&gt; </div><div class='input'><span class='fu'>fun1</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='co'>## dealing with nested progress bars</span>
 <span class='co'>## when only one the 1st one is needed</span>
-<span class='no'>f</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span>(<span class='no'>sluggishness</span>)
-<span class='no'>g</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='pbapply.html'>pblapply</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='no'>f</span>)
-<span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='no'>g</span>) <span class='co'># undesirable</span>
+<span class='va'>f</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span><span class='op'>(</span><span class='va'>sluggishness</span><span class='op'>)</span>
+<span class='va'>g</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='pbapply.html'>pblapply</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, <span class='va'>f</span><span class='op'>)</span>
+<span class='va'>tmp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, <span class='va'>g</span><span class='op'>)</span> <span class='co'># undesirable</span>
 <span class='co'>## here is the desirable solution</span>
-<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) {
-    <span class='no'>opb</span> <span class='kw'>&lt;-</span> <span class='fu'>pboptions</span>(<span class='kw'>type</span><span class='kw'>=</span><span class='st'>"none"</span>)
-    <span class='fu'><a href='https://rdrr.io/r/base/on.exit.html'>on.exit</a></span>(<span class='fu'>pboptions</span>(<span class='no'>opb</span>))
-    <span class='fu'><a href='pbapply.html'>pblapply</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='no'>f</span>)
-}
-<span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pbapply.html'>pblapply</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='no'>h</span>)
+<span class='va'>h</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>opb</span> <span class='op'>&lt;-</span> <span class='fu'>pboptions</span><span class='op'>(</span>type<span class='op'>=</span><span class='st'>"none"</span><span class='op'>)</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/on.exit.html'>on.exit</a></span><span class='op'>(</span><span class='fu'>pboptions</span><span class='op'>(</span><span class='va'>opb</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='fu'><a href='pbapply.html'>pblapply</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, <span class='va'>f</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='va'>tmp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='pbapply.html'>pblapply</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span>, <span class='va'>h</span><span class='op'>)</span>
 
 <span class='co'>## list available pb types</span>
-<span class='fu'>pbtypes</span>()</div><div class='output co'>#&gt; [1] "timer" "txt"   "tk"    "none" </div></pre>
+<span class='fu'>pbtypes</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "timer" "txt"   "tk"    "none"  "shiny"</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Peter Solymos &lt;solymos@ualberta.ca&gt;</p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -374,7 +381,7 @@ on Windows only).
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

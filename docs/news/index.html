@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -63,7 +67,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -77,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">pbapply</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4-4</span>
       </span>
     </div>
 
@@ -85,7 +89,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -98,8 +102,8 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/psolymos/pbapply">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/psolymos/pbapply/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -116,39 +120,48 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
+      <h1 data-toc-skip>Changelog <small></small></h1>
       <small>Source: <a href='https://github.com/psolymos/pbapply/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="version-1-4-3-august-11-2020" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-4-3-august-11-2020" class="anchor"></a>Version 1.4-3, August 11, 2020<small> 2020-08-18 </small>
+    <div id="version-15-0-sept-15-2021" class="section level1">
+<h1 class="page-header" data-toc-text="1.5-0">
+<a href="#version-15-0-sept-15-2021" class="anchor"></a>Version 1.5-0, Sept 15, 2021<small> Unreleased </small>
+</h1>
+<ul>
+<li>New progress bar type <code>"shiny"</code> to show the progress bar in the Shiny UI.</li>
+<li>Following R changes to <code>apply</code>, fixing dimnames issue (<a href='https://github.com/psolymos/pbapply/issues/44'>#44</a>).</li>
+</ul>
+</div>
+    <div id="version-14-3-august-11-2020" class="section level1">
+<h1 class="page-header" data-toc-text="1.4-3">
+<a href="#version-14-3-august-11-2020" class="anchor"></a>Version 1.4-3, August 11, 2020<small> 2020-08-18 </small>
 </h1>
 <ul>
 <li>Following R 3.6.2 changes to <code>apply</code> (<a href='https://github.com/psolymos/pbapply/issues/41'>#41</a>).</li>
 <li>Adding <code>pbtapply</code> (<a href='https://github.com/psolymos/pbapply/issues/21'>#21</a>).</li>
 </ul>
 </div>
-    <div id="version-1-4-2-august-30-2019" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-4-2-august-30-2019" class="anchor"></a>Version 1.4-2, August 30, 2019<small> 2019-08-31 </small>
+    <div id="version-14-2-august-30-2019" class="section level1">
+<h1 class="page-header" data-toc-text="1.4-2">
+<a href="#version-14-2-august-30-2019" class="anchor"></a>Version 1.4-2, August 30, 2019<small> 2019-08-31 </small>
 </h1>
 <ul>
 <li>Fixed environment issue inside the tracer in <code>pbmapply</code> in non-interactive session (issue <a href='https://github.com/psolymos/pbapply/issues/39'>#39</a>). This came up in a package suggesting pbapply, reported by <a href='https://github.com/Nowosad'>@Nowosad</a>.</li>
 </ul>
 </div>
-    <div id="version-1-4-1-july-14-2019" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-4-1-july-14-2019" class="anchor"></a>Version 1.4-1, July 14, 2019<small> 2019-07-15 </small>
+    <div id="version-14-1-july-14-2019" class="section level1">
+<h1 class="page-header" data-toc-text="1.4-1">
+<a href="#version-14-1-july-14-2019" class="anchor"></a>Version 1.4-1, July 14, 2019<small> 2019-07-15 </small>
 </h1>
 <ul>
 <li>Use <code><a href="https://rdrr.io/r/base/strrep.html">base::strrep</a></code> instead of <code><a href="https://rdrr.io/r/base/paste.html">paste(rep(), collapse='')</a></code> in <code>timerProgressBar</code>.</li>
 <li>Fixed space printing glitch (due to rounding), causing issue <a href='https://github.com/psolymos/pbapply/issues/37'>#37</a>.</li>
 </ul>
 </div>
-    <div id="version-1-4-0-february-5-2019" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-4-0-february-5-2019" class="anchor"></a>Version 1.4-0, February 5, 2019<small> 2019-02-05 </small>
+    <div id="version-14-0-february-5-2019" class="section level1">
+<h1 class="page-header" data-toc-text="1.4-0">
+<a href="#version-14-0-february-5-2019" class="anchor"></a>Version 1.4-0, February 5, 2019<small> 2019-02-05 </small>
 </h1>
 <ul>
 <li>
@@ -157,9 +170,9 @@
 <code>pbmapply</code> function added (<a href='https://github.com/psolymos/pbapply/issues/29'>#29</a>) without parallel option.</li>
 </ul>
 </div>
-    <div id="version-1-3-4-january-9-2018" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-3-4-january-9-2018" class="anchor"></a>Version 1.3-4, January 9, 2018<small> 2018-01-10 </small>
+    <div id="version-13-4-january-9-2018" class="section level1">
+<h1 class="page-header" data-toc-text="1.3-4">
+<a href="#version-13-4-january-9-2018" class="anchor"></a>Version 1.3-4, January 9, 2018<small> 2018-01-10 </small>
 </h1>
 <ul>
 <li>New function <code><a href="../reference/pboptions.html">pbtypes()</a></code> to print available pb types depending on OS.</li>
@@ -168,9 +181,9 @@
 <li>New <code>pboption</code> <code>use_lb</code> to switch on load balancing for parallel clusters, <code>FALSE</code> by default (feature request <a href='https://github.com/psolymos/pbapply/issues/28'>#28</a>).</li>
 </ul>
 </div>
-    <div id="version-1-3-3-july-3-2017" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-3-3-july-3-2017" class="anchor"></a>Version 1.3-3, July 3, 2017<small> 2017-07-04 </small>
+    <div id="version-13-3-july-3-2017" class="section level1">
+<h1 class="page-header" data-toc-text="1.3-3">
+<a href="#version-13-3-july-3-2017" class="anchor"></a>Version 1.3-3, July 3, 2017<small> 2017-07-04 </small>
 </h1>
 <ul>
 <li>Bar did not show up at start. This could happen if it was waiting to calculate total time to compare it to <code>min_time</code> option. Bar is shown right away if <code>min_time=0</code> (issue <a href='https://github.com/psolymos/pbapply/issues/18'>#18</a>).</li>
@@ -178,9 +191,9 @@
 <code>pbapply</code> gained <code>cl</code> argument to be consistent with other parallelized functions with progress bar (issue <a href='https://github.com/psolymos/pbapply/issues/24'>#24</a>).</li>
 </ul>
 </div>
-    <div id="version-1-3-2-february-28-2017" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-3-2-february-28-2017" class="anchor"></a>Version 1.3-2, February 28, 2017<small> 2017-03-01 </small>
+    <div id="version-13-2-february-28-2017" class="section level1">
+<h1 class="page-header" data-toc-text="1.3-2">
+<a href="#version-13-2-february-28-2017" class="anchor"></a>Version 1.3-2, February 28, 2017<small> 2017-03-01 </small>
 </h1>
 <ul>
 <li>
@@ -189,9 +202,9 @@
 <li>Bugfix: functions failed with single cluster <code>cl</code> argument (issue <a href='https://github.com/psolymos/pbapply/issues/17'>#17</a>).</li>
 </ul>
 </div>
-    <div id="version-1-3-1-october-30-2016" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-3-1-october-30-2016" class="anchor"></a>Version 1.3-1, October 30, 2016<small> 2016-10-31 </small>
+    <div id="version-13-1-october-30-2016" class="section level1">
+<h1 class="page-header" data-toc-text="1.3-1">
+<a href="#version-13-1-october-30-2016" class="anchor"></a>Version 1.3-1, October 30, 2016<small> 2016-10-31 </small>
 </h1>
 <ul>
 <li>
@@ -200,9 +213,9 @@
 <code>timerProgressBar</code> gained <code>min_time</code> argument for minimum processing time (in seconds) that is required to show a progress bar. The global <code>min_time</code> can be set via <code>pboptions</code>.</li>
 </ul>
 </div>
-    <div id="version-1-3-0-september-25-2016" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-3-0-september-25-2016" class="anchor"></a>Version 1.3-0, September 25, 2016<small> 2016-09-26 </small>
+    <div id="version-13-0-september-25-2016" class="section level1">
+<h1 class="page-header" data-toc-text="1.3-0">
+<a href="#version-13-0-september-25-2016" class="anchor"></a>Version 1.3-0, September 25, 2016<small> 2016-09-26 </small>
 </h1>
 <ul>
 <li>Progress bar is added for parallel (cluster and forking) jobs (request <a href='https://github.com/psolymos/pbapply/issues/9'>#9</a> from Kendon Bell). Package parallel is now imported as a result.</li>
@@ -210,45 +223,45 @@
 <code>timerProgressBar</code> prints days when job is expected to be &gt;24h (PR <a href='https://github.com/psolymos/pbapply/issues/11'>#11</a> from Phil Chalmers).</li>
 </ul>
 </div>
-    <div id="version-1-2-2-august-25-2016" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-2-2-august-25-2016" class="anchor"></a>Version 1.2-2, August 25, 2016<small> 2016-08-26 </small>
+    <div id="version-12-2-august-25-2016" class="section level1">
+<h1 class="page-header" data-toc-text="1.2-2">
+<a href="#version-12-2-august-25-2016" class="anchor"></a>Version 1.2-2, August 25, 2016<small> 2016-08-26 </small>
 </h1>
 <ul>
 <li>Stylistic changes in printed messages.</li>
 <li>Default pb type is <code>'none'</code> when <code>!interactive()</code>.</li>
 </ul>
 </div>
-    <div id="version-1-2-1-march-2-2016" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-2-1-march-2-2016" class="anchor"></a>Version 1.2-1, March 2, 2016<small> 2016-04-19 </small>
+    <div id="version-12-1-march-2-2016" class="section level1">
+<h1 class="page-header" data-toc-text="1.2-1">
+<a href="#version-12-1-march-2-2016" class="anchor"></a>Version 1.2-1, March 2, 2016<small> 2016-04-19 </small>
 </h1>
 <ul>
-<li>Double tilde <code>~</code> in <code>timerProgressBar</code> cleaned up (<code>~~calculating</code>).</li>
+<li>Double tilde <code><a href="https://rdrr.io/r/base/tilde.html">~</a></code> in <code>timerProgressBar</code> cleaned up (<code>~~calculating</code>).</li>
 <li>
 <code>timerProgressBar</code> gained 4 styles as documented on the help page. Showing elapsed and remaining time, throbber and bar formats.</li>
 </ul>
 </div>
-    <div id="version-1-2-0-feb-29-2016" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-2-0-feb-29-2016" class="anchor"></a>Version 1.2-0, Feb 29, 2016<small> 2016-03-01 </small>
+    <div id="version-12-0-feb-29-2016" class="section level1">
+<h1 class="page-header" data-toc-text="1.2-0">
+<a href="#version-12-0-feb-29-2016" class="anchor"></a>Version 1.2-0, Feb 29, 2016<small> 2016-03-01 </small>
 </h1>
 <ul>
 <li>New function: <code>timerProgressBar</code> written by Zygmunt Zawadzki.</li>
 <li>Zygmunt added as package author.</li>
 </ul>
 </div>
-    <div id="version-1-1-3-nov-24-2015" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-1-3-nov-24-2015" class="anchor"></a>Version 1.1-3, Nov 24, 2015<small> 2015-11-24 </small>
+    <div id="version-11-3-nov-24-2015" class="section level1">
+<h1 class="page-header" data-toc-text="1.1-3">
+<a href="#version-11-3-nov-24-2015" class="anchor"></a>Version 1.1-3, Nov 24, 2015<small> 2015-11-24 </small>
 </h1>
 <ul>
 <li>R (&gt;= 3.2.0) dependency added because check failed on R-oldrelease (R-3.1.3) with error <code>'could not find function "forceAndCall"'</code> that was part of the <code>apply</code> function source code. Reported by Uwe Ligges.</li>
 </ul>
 </div>
-    <div id="version-1-1-2-nov-21-2015" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-1-2-nov-21-2015" class="anchor"></a>Version 1.1-2, Nov 21, 2015<small> 2015-11-22 </small>
+    <div id="version-11-2-nov-21-2015" class="section level1">
+<h1 class="page-header" data-toc-text="1.1-2">
+<a href="#version-11-2-nov-21-2015" class="anchor"></a>Version 1.1-2, Nov 21, 2015<small> 2015-11-22 </small>
 </h1>
 <ul>
 <li>Using on.exit and invisible(<code>NULL</code>) in examples.</li>
@@ -262,25 +275,25 @@
 <li>Rd file updated to to match code changes.</li>
 </ul>
 </div>
-    <div id="version-1-1-1-feb-3-2014" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-1-1-feb-3-2014" class="anchor"></a>Version 1.1-1, Feb 3, 2014<small> 2014-05-16 </small>
+    <div id="version-11-1-feb-3-2014" class="section level1">
+<h1 class="page-header" data-toc-text="1.1-1">
+<a href="#version-11-1-feb-3-2014" class="anchor"></a>Version 1.1-1, Feb 3, 2014<small> 2014-05-16 </small>
 </h1>
 <ul>
 <li>pblapply did not pass <code>...</code> when not in interactive mode. Bug reported by R. D. Morey (U Groningen).</li>
 </ul>
 </div>
-    <div id="version-1-1-0-sept-25-2013" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-1-0-sept-25-2013" class="anchor"></a>Version 1.1-0, Sept 25, 2013<small> 2013-10-03 </small>
+    <div id="version-11-0-sept-25-2013" class="section level1">
+<h1 class="page-header" data-toc-text="1.1-0">
+<a href="#version-11-0-sept-25-2013" class="anchor"></a>Version 1.1-0, Sept 25, 2013<small> 2013-10-03 </small>
 </h1>
 <ul>
-<li>Removed <code>:::</code> to satisfy R 3.0.2 checks.</li>
+<li>Removed <code><a href="https://rdrr.io/r/base/ns-dblcolon.html">:::</a></code> to satisfy R 3.0.2 checks.</li>
 </ul>
 </div>
-    <div id="version-1-0-5-july-6-2012" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-0-5-july-6-2012" class="anchor"></a>Version 1.0-5, July 6, 2012<small> 2012-07-07 </small>
+    <div id="version-10-5-july-6-2012" class="section level1">
+<h1 class="page-header" data-toc-text="1.0-5">
+<a href="#version-10-5-july-6-2012" class="anchor"></a>Version 1.0-5, July 6, 2012<small> 2012-07-07 </small>
 </h1>
 <ul>
 <li>
@@ -289,9 +302,9 @@
 <code>.Internal</code> call removed from <code>pblapply</code>.</li>
 </ul>
 </div>
-    <div id="version-1-0-4-september-8-2011" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-0-4-september-8-2011" class="anchor"></a>Version 1.0-4, September 8, 2011<small> 2011-10-24 </small>
+    <div id="version-10-4-september-8-2011" class="section level1">
+<h1 class="page-header" data-toc-text="1.0-4">
+<a href="#version-10-4-september-8-2011" class="anchor"></a>Version 1.0-4, September 8, 2011<small> 2011-10-24 </small>
 </h1>
 <ul>
 <li>
@@ -300,18 +313,18 @@
 <li>Help files a bit reworked.</li>
 </ul>
 </div>
-    <div id="version-1-0-3-september-9-2010" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-0-3-september-9-2010" class="anchor"></a>Version 1.0-3, September 9, 2010<small> 2011-02-09 </small>
+    <div id="version-10-3-september-9-2010" class="section level1">
+<h1 class="page-header" data-toc-text="1.0-3">
+<a href="#version-10-3-september-9-2010" class="anchor"></a>Version 1.0-3, September 9, 2010<small> 2011-02-09 </small>
 </h1>
 <ul>
 <li>
 <code>pboptions.Rd</code> modified: pb type values added.</li>
 </ul>
 </div>
-    <div id="version-1-0-2-september-4-2010" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-0-2-september-4-2010" class="anchor"></a>Version 1.0-2, September 4, 2010<small> 2010-09-10 </small>
+    <div id="version-10-2-september-4-2010" class="section level1">
+<h1 class="page-header" data-toc-text="1.0-2">
+<a href="#version-10-2-september-4-2010" class="anchor"></a>Version 1.0-2, September 4, 2010<small> 2010-09-10 </small>
 </h1>
 <ul>
 <li>
@@ -319,9 +332,9 @@
 <li>Functions simplified.</li>
 </ul>
 </div>
-    <div id="version-1-0-1-september-3-2010" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-0-1-september-3-2010" class="anchor"></a>Version 1.0-1, September 3, 2010<small> 2010-09-03 </small>
+    <div id="version-10-1-september-3-2010" class="section level1">
+<h1 class="page-header" data-toc-text="1.0-1">
+<a href="#version-10-1-september-3-2010" class="anchor"></a>Version 1.0-1, September 3, 2010<small> 2010-09-03 </small>
 </h1>
 <ul>
 <li>
@@ -332,9 +345,9 @@
 <code>R CMD check</code> failed on unix systems: <code>/man</code> and <code>/R</code> directories reworked.</li>
 </ul>
 </div>
-    <div id="version-1-0-0-september-2-2010" class="section level1">
-<h1 class="page-header">
-<a href="#version-1-0-0-september-2-2010" class="anchor"></a>Version 1.0-0, September 2, 2010<small> Unreleased </small>
+    <div id="version-10-0-september-2-2010" class="section level1">
+<h1 class="page-header" data-toc-text="1.0-0">
+<a href="#version-10-0-september-2-2010" class="anchor"></a>Version 1.0-0, September 2, 2010<small> Unreleased </small>
 </h1>
 <ul>
 <li>First release.</li>
@@ -342,34 +355,10 @@
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#version-1-4-3-august-11-2020">1.4-3</a></li>
-        <li><a href="#version-1-4-2-august-30-2019">1.4-2</a></li>
-        <li><a href="#version-1-4-1-july-14-2019">1.4-1</a></li>
-        <li><a href="#version-1-4-0-february-5-2019">1.4-0</a></li>
-        <li><a href="#version-1-3-4-january-9-2018">1.3-4</a></li>
-        <li><a href="#version-1-3-3-july-3-2017">1.3-3</a></li>
-        <li><a href="#version-1-3-2-february-28-2017">1.3-2</a></li>
-        <li><a href="#version-1-3-1-october-30-2016">1.3-1</a></li>
-        <li><a href="#version-1-3-0-september-25-2016">1.3-0</a></li>
-        <li><a href="#version-1-2-2-august-25-2016">1.2-2</a></li>
-        <li><a href="#version-1-2-1-march-2-2016">1.2-1</a></li>
-        <li><a href="#version-1-2-0-feb-29-2016">1.2-0</a></li>
-        <li><a href="#version-1-1-3-nov-24-2015">1.1-3</a></li>
-        <li><a href="#version-1-1-2-nov-21-2015">1.1-2</a></li>
-        <li><a href="#version-1-1-1-feb-3-2014">1.1-1</a></li>
-        <li><a href="#version-1-1-0-sept-25-2013">1.1-0</a></li>
-        <li><a href="#version-1-0-5-july-6-2012">1.0-5</a></li>
-        <li><a href="#version-1-0-4-september-8-2011">1.0-4</a></li>
-        <li><a href="#version-1-0-3-september-9-2010">1.0-3</a></li>
-        <li><a href="#version-1-0-2-september-4-2010">1.0-2</a></li>
-        <li><a href="#version-1-0-1-september-3-2010">1.0-1</a></li>
-        <li><a href="#version-1-0-0-september-2-2010">1.0-0</a></li>
-      </ul>
-    </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 
 </div>
@@ -381,7 +370,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
