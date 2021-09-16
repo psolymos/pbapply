@@ -54,8 +54,8 @@ argument to \code{pboptions} to restore the parameter values.
 Tags are the following:
 
   \item{type}{Type of the progress bar: timer (\code{"timer"}),
-    text (\code{"txt"}),
-    Windows (\code{"win"}), TclTk (\code{"tk"}), or none (\code{"none"}).
+    text (\code{"txt"}), Windows (\code{"win"}), TclTk (\code{"tk"}),
+    none (\code{"none"}), or Shiny (\code{"shiny"}).
     Default value is \code{"timer"} progress bar with estimated remaining time
     when in interactive mode, and \code{"none"} otherwise.
     See \code{pbtypes()} for available progress bar types

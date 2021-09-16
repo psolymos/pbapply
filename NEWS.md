@@ -1,3 +1,7 @@
+# Version 1.5-1, Sept 16, 2021
+
+* ...
+
 # Version 1.5-0, Sept 15, 2021
 
 * New progress bar type `"shiny"` to show the progress bar in the Shiny UI.
