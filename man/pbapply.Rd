@@ -4,6 +4,7 @@
 \alias{pblapply}
 \alias{pbreplicate}
 \alias{pbmapply}
+\alias{pb.mapply}
 \alias{pbtapply}
 \title{
 Adding Progress Bar to '*apply' Functions
@@ -22,6 +23,7 @@ pbsapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE, cl = NULL)
 pbreplicate(n, expr, simplify = "array", cl = NULL)
 
 pbmapply(FUN, ..., MoreArgs = NULL, SIMPLIFY = TRUE, USE.NAMES = TRUE)
+pb.mapply(FUN, dots, MoreArgs)
 
 pbtapply(X, INDEX, FUN = NULL, ..., default = NA, simplify = TRUE, cl = NULL)
 }
@@ -52,6 +54,11 @@ multi-way array \code{pbtapply} normally produces.
 Optional arguments to \code{FUN} and also to underlying functions (e.g.
 \code{\link{parLapply}} and \code{\link{mclapply}} when \code{cl}
 is not \code{NULL}).
+}
+  \item{dots}{
+List of arguments to vectorize over (vectors or lists
+of strictly positive length, or all of zero length);
+see \code{\link{.mapply}}.
 }
   \item{simplify, SIMPLIFY}{
 Logical; should the result be simplified to a vector or matrix if possible?
@@ -155,7 +162,8 @@ Progress bars used in the functions:
 Sequential \code{*apply} functions:
 \code{\link{apply}}, \code{\link{sapply}},
 \code{\link{lapply}}, \code{\link{replicate}},
-\code{\link{mapply}}, \code{\link{tapply}}
+\code{\link{mapply}}, \code{\link{.mapply}},
+\code{\link{tapply}}
 
 Parallel \code{*apply} functions from package 'parallel':
 \code{\link{parLapply}},
@@ -318,7 +326,7 @@ zseq[1,]
 pbapply(z, 3, function(x) seq_len(max(x)))
 # a list without a dim attribute
 
-## --- mapply ---
+## --- mapply and .mapply ---
 
 pbmapply(rep, 1:4, 4:1)
 pbmapply(rep, times = 1:4, x = 4:1)
@@ -328,6 +336,20 @@ pbmapply(function(x, y) seq_len(x) + y,
        c(A = 10, B = 0, C = -10))
 word <- function(C, k) paste(rep.int(C, k), collapse = "")
 utils::str(pbmapply(word, LETTERS[1:6], 6:1, SIMPLIFY = FALSE))
+
+pb.mapply(rep,
+          dots = list(1:4, 4:1),
+          MoreArgs = list())
+pb.mapply(rep,
+          dots = list(times = 1:4, x = 4:1),
+          MoreArgs = list())
+pb.mapply(rep,
+          dots = list(times = 1:4),
+          MoreArgs = list(x = 42))
+pb.mapply(function(x, y) seq_len(x) + y,
+          dots = list(c(a =  1, b = 2, c = 3),  # names from first
+                      c(A = 10, B = 0, C = -10)),
+          MoreArgs = list())
 
 ## --- tapply ---
 

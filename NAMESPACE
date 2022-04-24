@@ -5,7 +5,7 @@ importFrom(utils, txtProgressBar, getTxtProgressBar, setTxtProgressBar,
     flush.console)
 importFrom(parallel, mclapply, parLapply, parLapplyLB)
 export(pbapply, pbsapply, pblapply, pbreplicate,
-    pbmapply, pbtapply,
+    pbmapply, pb.mapply, pbtapply,
     startpb, setpb, getpb, closepb, dopb, doshiny, pboptions, pbtypes,
     timerProgressBar, setTimerProgressBar, getTimerProgressBar,
     splitpb, getTimeAsString,
