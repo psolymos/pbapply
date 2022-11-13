@@ -131,3 +131,33 @@ tmp2 <- pbapply(matrix(numeric(0), 0, 0), 2, identity)
 stopifnot(length(tmp1) == length(tmp2))
 stopifnot(identical(tmp1, tmp2))
 
+## --- tests for issue #48: pbwalk ---
+
+tmp <- tempdir()
+# f <- function(i, dir) {
+#     x <- rnorm(100)
+#     png(file.path(dir, paste0("plot-", i, ".png")))
+#     hist(x, col=i)
+#     dev.off()
+#     x
+# }
+f <- function(i, dir) {
+    x <- data.frame(i=i, j=rnorm(5))
+    write.csv(x, row.names=FALSE, file=file.path(dir, paste0("file-", i, ".csv")))
+    x
+}
+# pblapply(1:3, f, dir=tmp)
+pbwalk(1:3, f, dir=tmp)
+# unlink(file.path(tmp, paste0("plot-", 1:3, ".png")))
+unlink(file.path(tmp, paste0("file-", 1:3, ".csv")))
+
+pbwalk(1:3, f, dir=tmp, cl=2)
+# unlink(file.path(tmp, paste0("plot-", 1:3, ".png")))
+unlink(file.path(tmp, paste0("file-", 1:3, ".csv")))
+
+cl <- parallel::makeCluster(2)
+pbwalk(1:3, f, dir=tmp, cl=cl)
+parallel::stopCluster(cl)
+# unlink(file.path(tmp, paste0("plot-", 1:3, ".png")))
+unlink(file.path(tmp, paste0("file-", 1:3, ".csv")))
+
