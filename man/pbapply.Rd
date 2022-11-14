@@ -281,7 +281,7 @@ pbsapply(i39, fivenum)
 f2 <- function(x, y) outer(rep(x, length.out = 3), y)
 (a2 <- pbsapply(v, f2, y = 2*(1:5), simplify = "array"))
 
-hist(pbreplicate(100, mean(rexp(10))))
+summary(pbreplicate(100, mean(rexp(10))))
 
 ## use of replicate() with parameters:
 foo <- function(x = 1, y = 2) c(x, y)
