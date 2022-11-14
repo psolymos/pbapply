@@ -270,6 +270,7 @@ require(stats); require(graphics)
 x <- list(a = 1:10, beta = exp(-3:3), logic = c(TRUE,FALSE,FALSE,TRUE))
 # compute the list mean for each list element
 pblapply(x, mean)
+pbwalk(x, mean)
 # median and quartiles for each list element
 pblapply(x, quantile, probs = 1:3/4)
 pbsapply(x, quantile)
