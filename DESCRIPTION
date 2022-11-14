@@ -2,7 +2,7 @@ Package: pbapply
 Type: Package
 Title: Adding Progress Bar to '*apply' Functions
 Version: 1.5-1
-Date: 2022-04-24
+Date: 2022-11-12
 Author: Peter Solymos [aut, cre], Zygmunt Zawadzki [aut]
 Maintainer: Peter Solymos <solymos@ualberta.ca>
 Description: A lightweight package that adds

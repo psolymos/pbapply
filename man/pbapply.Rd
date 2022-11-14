@@ -2,6 +2,7 @@
 \alias{pbapply}
 \alias{pbsapply}
 \alias{pblapply}
+\alias{pbwalk}
 \alias{pbreplicate}
 \alias{pbmapply}
 \alias{pb.mapply}
@@ -15,6 +16,7 @@ parallel processing.
 }
 \usage{
 pblapply(X, FUN, ..., cl = NULL)
+pbwalk(X, FUN, ..., cl = NULL)
 
 pbapply(X, MARGIN, FUN, ..., simplify = TRUE, cl = NULL)
 
@@ -29,7 +31,7 @@ pbtapply(X, INDEX, FUN = NULL, ..., default = NA, simplify = TRUE, cl = NULL)
 }
 \arguments{
   \item{X}{
-For \code{pbsapply} and \code{pblapply},
+For \code{pbsapply}, \code{pblapply}, and \code{pbwalk}
 a vector (atomic or list) or an expressions vector
 (other objects including classed objects will be
 coerced by \code{\link{as.list}}.)
@@ -138,6 +140,10 @@ Note the \code{use_lb} option (see \code{\link{pboptions}})
 for using load balancing when running in parallel clusters.
 If using \code{\link{mclapply}}, the \code{...} passes
 arguments to the underlying function for further contol.
+
+\code{pbwalk} is similar to \code{pblapply} but it calls \code{FUN}
+only for its side-effect and returns the input \code{X} invisibly
+(this behavior is modeled after `purrr::walk`).
 }
 \value{
 Similar to the value returned by the standard \code{*apply} functions.
