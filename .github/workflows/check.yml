@@ -27,7 +27,7 @@ jobs:
         run: Rscript -e 'devtools::check()'
 
       - name: Build site
-        run: Rscript -e 'pkgdown::build_site()'
+        run: Rscript -e 'pkgdown::build_site_github_pages()'
 
       - name: Deploy site
         uses: JamesIves/github-pages-deploy-action@v4
