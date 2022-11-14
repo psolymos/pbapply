@@ -52,6 +52,10 @@ Here is a repository called
 [_The Road to Progress_](https://github.com/psolymos/the-road-to-progress) 
 that I created to show how to got from a `for` loop to `lapply`/`sapply`.
 
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=uyhIiTTrTJY" target="_blank">
+ <img src="http://img.youtube.com/vi/uyhIiTTrTJY/mqdefault.jpg" alt="Watch the video" width="240" height="180" border="0" />
+</a>
+
 #### 3. You are an R user familiar with vectorized functions
 
 In this case, you can simply add `pbapply::pb` before your `*apply`
