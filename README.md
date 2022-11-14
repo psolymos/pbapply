@@ -1,14 +1,10 @@
 # pbapply: adding progress bar to '*apply' functions in R
 
-[![CRAN version](http://www.r-pkg.org/badges/version/pbapply)](http://cran.rstudio.com/web/packages/pbapply/index.html)
+[![CRAN version](http://www.r-pkg.org/badges/version/pbapply)](https://CRAN.R-project.org/package=pbapply)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/pbapply)](https://www.rdocumentation.org/packages/pbapply/)
-[![Linux build status](https://travis-ci.org/psolymos/pbapply.svg?branch=master)](https://travis-ci.org/psolymos/pbapply)
-[![Windows build status](https://ci.appveyor.com/api/projects/status/wnr13fj6ybis9jfy?svg=true)](https://ci.appveyor.com/project/psolymos/pbapply)
-[![Code coverage status](https://codecov.io/gh/psolymos/pbapply/branch/master/graph/badge.svg)](https://codecov.io/gh/psolymos/pbapply)
+[![check](https://github.com/psolymos/pbapply/actions/workflows/check.yml/badge.svg)](https://github.com/psolymos/pbapply/actions/workflows/check.yml)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
-[![Research software impact](http://depsy.org/api/package/cran/pbapply/badge.svg)](http://depsy.org/package/r/pbapply)
-[![Github Stars](https://img.shields.io/github/stars/psolymos/pbapply.svg?style=social&label=GitHub)](https://github.com/psolymos/pbapply)
-
+[![GitHub Stars](https://img.shields.io/github/stars/psolymos/pbapply.svg?style=social&label=GitHub)](https://github.com/psolymos/pbapply)
 
 A lightweight package that adds progress bar to vectorized R functions
 (`*apply`). The implementation can easily be added to functions where showing the progress is
@@ -29,8 +25,7 @@ install.packages("pbapply")
 Development version:
 
 ```R
-if (!requireNamespace("remotes")) install.packages("remotes")
-remotes::install_github("psolymos/pbapply")
+install.packages("pbapply", repos = "https://psolymos.r-universe.dev")
 ```
 
 See user-visible changes in the [NEWS](https://github.com/psolymos/pbapply/blob/master/NEWS.md) file.
@@ -42,7 +37,7 @@ to report a problem, or to suggest a new feature.
 
 #### 1. You are not yet an R user
 
-In this case, start with understaning basic programming concepts,
+In this case, start with understanding basic programming concepts,
 such as data structures (matrices, data frames, indexing these),
 `for` loops and functions in R.
 The online version of Garrett Grolemund's

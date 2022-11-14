@@ -104,7 +104,7 @@ it may be set, e.g., to \code{FUN(integer(0))}, e.g., in the case of
 }
 }
 \details{
-The behaviour of the progress bar is controlled by the option
+The behavior of the progress bar is controlled by the option
 \code{type} in \code{\link{pboptions}},
 it can take values \code{c("txt", "win", "tk", "none",)} on Windows,
 and \code{c("txt", "tk", "none",)} on Unix systems.
@@ -139,7 +139,7 @@ Care must be taken to set appropriate random numbers in this case.
 Note the \code{use_lb} option (see \code{\link{pboptions}})
 for using load balancing when running in parallel clusters.
 If using \code{\link{mclapply}}, the \code{...} passes
-arguments to the underlying function for further contol.
+arguments to the underlying function for further control.
 
 \code{pbwalk} is similar to \code{pblapply} but it calls \code{FUN}
 only for its side-effect and returns the input \code{X} invisibly

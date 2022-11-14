@@ -26,7 +26,7 @@
 # Version 1.4-0, February 5, 2019
 
 * `pblapply` returns empty list for empty vector consistent with
-  `lapply` behaviour (#33 by @kendonB); tests also added.
+  `lapply` behavior (#33 by @kendonB); tests also added.
 * `pbmapply` function added (#29) without parallel option.
 
 # Version 1.3-4, January 9, 2018
