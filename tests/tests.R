@@ -161,3 +161,19 @@ parallel::stopCluster(cl)
 # unlink(file.path(tmp, paste0("plot-", 1:3, ".png")))
 unlink(file.path(tmp, paste0("file-", 1:3, ".csv")))
 
+## this could be a quartz issue ...
+# f <- function(i, dir) {
+#     x <- rnorm(100)
+#     png(file.path(dir, paste0("plot-", i, ".png")))
+#     hist(x, col=i)
+#     dev.off()
+#     x
+# }
+## all this works
+# f(1, tmp)
+# pbapply::pblapply(1:3, f, dir=tmp)
+# pbapply::pbwalk(1:3, f, dir=tmp)
+# unlink(file.path(tmp, paste0("plot-", 1:3, ".png")))
+## all this does not
+# pbapply::pbwalk(1:3, f, dir=tmp, cl=2)
+# parallel::mclapply(1:3, f, dir=tmp, mc.cores=2)

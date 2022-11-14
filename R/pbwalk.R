@@ -76,5 +76,5 @@ function (X, FUN, ..., cl = NULL)
         }
     }
     ## output is same as input (for chaining)
-    X
+    invisible(X)
 }
