@@ -7,6 +7,10 @@
 \alias{pbmapply}
 \alias{pb.mapply}
 \alias{pbtapply}
+\alias{pbeapply}
+\alias{pbvapply}
+\alias{pbby}
+\alias{pbMap}
 \title{
 Adding Progress Bar to '*apply' Functions
 }
@@ -16,18 +20,22 @@ parallel processing.
 }
 \usage{
 pblapply(X, FUN, ..., cl = NULL)
+pbeapply(env, FUN, ..., all.names = FALSE, USE.NAMES = TRUE, cl = NULL)
 pbwalk(X, FUN, ..., cl = NULL)
 
 pbapply(X, MARGIN, FUN, ..., simplify = TRUE, cl = NULL)
 
 pbsapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE, cl = NULL)
-
+pbvapply(X, FUN, FUN.VALUE, ..., USE.NAMES = TRUE, cl = NULL)
 pbreplicate(n, expr, simplify = "array", cl = NULL)
 
 pbmapply(FUN, ..., MoreArgs = NULL, SIMPLIFY = TRUE, USE.NAMES = TRUE)
 pb.mapply(FUN, dots, MoreArgs)
+pbMap(f, ...)
 
 pbtapply(X, INDEX, FUN = NULL, ..., default = NA, simplify = TRUE, cl = NULL)
+
+pbby(data, INDICES, FUN, ..., simplify = TRUE, cl = NULL)
 }
 \arguments{
   \item{X}{
@@ -44,7 +52,7 @@ A vector giving the subscripts which the function will be applied over.
 \code{1} indicates rows, \code{2} indicates columns, \code{c(1,2)}
 indicates rows and columns.
 }
-  \item{FUN}{
+  \item{FUN, f}{
 The function to be applied to each element of \code{X}:
 see \code{\link{apply}}, \code{\link{sapply}}, and \code{\link{lapply}}.
 In the case of functions like \code{+}, \code{\%*\%}, etc.,
@@ -62,6 +70,13 @@ List of arguments to vectorize over (vectors or lists
 of strictly positive length, or all of zero length);
 see \code{\link{.mapply}}.
 }
+  \item{env}{
+Environment to be used.
+}
+  \item{FUN.VALUE}{
+A (generalized) vector; a template for the return value from \code{FUN}.
+See 'Details' for \code{\link{vapply}}.
+}
   \item{simplify, SIMPLIFY}{
 Logical; should the result be simplified to a vector or matrix if possible?
 \code{pbtapply} returns an array of mode \code{"list"} (in other words,
@@ -72,6 +87,9 @@ the mode of the scalar.
   \item{USE.NAMES}{
 Logical; if \code{TRUE} and if \code{X} is character,
 use \code{X} as names for the result unless it had names already.
+}
+  \item{all.names}{
+Logical, indicating whether to apply the function to all values.
 }
   \item{n}{
 Number of replications.
@@ -86,14 +104,20 @@ or an integer to indicate number of child-processes
 (see Details on performance).
 }
   \item{MoreArgs}{
-a list of other arguments to \code{FUN}.
+A list of other arguments to \code{FUN}.
 }
   \item{INDEX}{
-a \code{\link{list}} of one or more \code{\link{factor}}s, each of same length
+A \code{\link{list}} of one or more \code{\link{factor}}s, each of same length
 as \code{X}. The elements are coerced to factors by \code{\link{as.factor}}.
 }
+  \item{INDICES}{
+A factor or a list of factors, each of length \code{nrow(data)}.
+}
+  \item{data}{
+An R object, normally a data frame, possibly a matrix.
+}
   \item{default}{
-(only in the case of simplification to an array) the value with which the array
+Only in the case of simplification to an array, the value with which the array
 is initialized as \code{\link{array}}\code{(default, dim = ..)}.
 Before R 3.4.0, this was hard coded to \code{\link{array}}\code{()}'s
 default \code{NA}. If it is \code{NA} (the default), the missing value of the
