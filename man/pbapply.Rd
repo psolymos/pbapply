@@ -300,11 +300,16 @@ pblapply(x, quantile, probs = 1:3/4)
 pbsapply(x, quantile)
 i39 <- sapply(3:9, seq) # list of vectors
 pbsapply(i39, fivenum)
+pbvapply(i39, fivenum,
+       c(Min. = 0, "1st Qu." = 0, Median = 0, "3rd Qu." = 0, Max. = 0))
 
 ## sapply(*, "array") -- artificial example
 (v <- structure(10*(5:8), names = LETTERS[1:4]))
 f2 <- function(x, y) outer(rep(x, length.out = 3), y)
 (a2 <- pbsapply(v, f2, y = 2*(1:5), simplify = "array"))
+a.2 <- pbvapply(v, f2, outer(1:3, 1:5), y = 2*(1:5))
+stopifnot(dim(a2) == c(3,5,4), all.equal(a2, a.2),
+          identical(dimnames(a2), list(NULL,NULL,LETTERS[1:4])))
 
 summary(pbreplicate(100, mean(rexp(10))))
 
@@ -382,6 +387,22 @@ pb.mapply(function(x, y) seq_len(x) + y,
                       c(A = 10, B = 0, C = -10)),
           MoreArgs = list())
 
+## --- Map ---
+
+pbMap(`+`, 1,         1 : 3) ;         1 + 1:3
+pbMap(`+`, numeric(), 1 : 3) ; numeric() + 1:3
+
+## --- eapply ---
+
+env <- new.env(hash = FALSE)
+env$a <- 1:10
+env$beta <- exp(-3:3)
+env$logic <- c(TRUE, FALSE, FALSE, TRUE)
+pbeapply(env, mean)
+unlist(pbeapply(env, mean, USE.NAMES = FALSE))
+pbeapply(env, quantile, probs = 1:3/4)
+pbeapply(env, quantile)
+
 ## --- tapply ---
 
 require(stats)
@@ -421,6 +442,17 @@ stopifnot(
             array(list(`2` = structure(c(2, 5.75, 9.5, 13.25, 17), .Names = nq),
                  `3` = structure(c(3, 6, 9, 12, 15), .Names = nq),
                  `4` = NULL, `5` = NULL), dim=4, dimnames=list(as.character(2:5)))))
+
+## --- by ---
+
+pbby(warpbreaks[, 1:2], warpbreaks[,"tension"], summary)
+pbby(warpbreaks[, 1],   warpbreaks[, -1],       summary)
+pbby(warpbreaks, warpbreaks[,"tension"],
+   function(x) lm(breaks ~ wool, data = x))
+tmp <- with(warpbreaks,
+            pbby(warpbreaks, tension,
+               function(x) lm(breaks ~ wool, data = x)))
+sapply(tmp, coef)
 }
 \keyword{ manip }
 \keyword{ utilities }
