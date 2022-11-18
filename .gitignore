@@ -47,3 +47,5 @@ Temporary Items
 *.Rhistory
 .Rproj.user*
 .Rproj.user
+
+tests/file-*
