@@ -1,3 +1,6 @@
+# Version 1.6-1, Nov 18, 2022
+
+*
 # Version 1.6-0, Nov 13, 2022
 
 * New function `pbwalk` that can be called for side-effects (#48).
