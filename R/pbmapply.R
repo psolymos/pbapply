@@ -46,3 +46,14 @@ function(FUN, dots, MoreArgs)
     ## piggy back on .mapply
     .mapply(.pb_env$FUN, dots = dots, MoreArgs = MoreArgs)
 }
+
+pbMap <- function (f, ...) {
+    f <- match.fun(f)
+    pbmapply(FUN = f, ..., SIMPLIFY = FALSE)
+}
+
+# ## Map() now recycles similar to basic Ops:
+# Map(`+`, 1,         1 : 3) ;         1 + 1:3
+# pbMap(`+`, 1,         1 : 3) ;         1 + 1:3
+# Map(`+`, numeric(), 1 : 3) ; numeric() + 1:3
+# pbMap(`+`, numeric(), 1 : 3) ; numeric() + 1:3

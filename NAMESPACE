@@ -6,8 +6,10 @@ importFrom(utils, txtProgressBar, getTxtProgressBar, setTxtProgressBar,
 importFrom(parallel, mclapply, parLapply, parLapplyLB)
 export(pbapply, pbsapply, pblapply, pbreplicate,
     pbmapply, pb.mapply, pbtapply, pbwalk,
+    pbeapply, pbvapply, pbby, pbMap,
     startpb, setpb, getpb, closepb, dopb, doshiny, pboptions, pbtypes,
     timerProgressBar, setTimerProgressBar, getTimerProgressBar,
     splitpb, getTimeAsString,
     .pb_env)
-
+S3method("pbby", "default")
+S3method("pbby", "data.frame")
