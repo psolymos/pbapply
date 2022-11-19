@@ -177,3 +177,24 @@ unlink(file.path(tmp, paste0("file-", 1:3, ".csv")))
 ## all this does not
 # pbapply::pbwalk(1:3, f, dir=tmp, cl=2)
 # parallel::mclapply(1:3, f, dir=tmp, mc.cores=2)
+
+
+library(future)
+
+l <- list(a = 1, 2, c = -1)
+f <- function(z) {
+    Sys.sleep(0.1)
+    if (z < 0) return(NULL) else return(2 * z)
+}
+
+plan(sequential)
+r2 <- pblapply(l, f, cl = "future")
+
+plan(multisession, workers = 2)
+r2 <- pblapply(l, f, cl = "future")
+
+cl <- parallel::makeCluster(2)
+plan(cluster, workers = cl)
+r2 <- pblapply(l, f, cl = "future")
+stopCluster(cl)
+plan(sequential)
