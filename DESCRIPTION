@@ -14,7 +14,7 @@ Description: A lightweight package that adds
   can be set through options.
   Supports several parallel processing backends.
 Depends: R (>= 3.2.0)
-Imports: parallel
+Imports: parallel, future, future.apply
 Suggests: shiny
 License: GPL-2
 URL: https://github.com/psolymos/pbapply

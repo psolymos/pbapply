@@ -54,6 +54,20 @@ function (X, FUN, ..., cl = NULL)
                 rval[i] <- list(PAR_FUN(cl, X[Split[[i]]], FUN, ...))
                 setpb(pb, i)
             }
+        ## future backend
+        } else if (identical(cl, "future")) {
+            requireNamespace("future")
+            if (!dopb())
+                return(future.apply::future_lapply(X, FUN, ...))
+            Split <- splitpb(length(X), future::nbrOfWorkers(), nout = nout)
+            B <- length(Split)
+            pb <- startpb(0, B)
+            on.exit(closepb(pb), add = TRUE)
+            rval <- vector("list", B)
+            for (i in seq_len(B)) {
+                rval[i] <- list(future.apply::future_lapply(X[Split[[i]]], FUN, ...))
+                setpb(pb, i)
+            }
         ## multicore type forking
         } else {
             if (!dopb())
