@@ -44,22 +44,3 @@ pbby.default <- function (data, INDICES, FUN, ..., simplify = TRUE, cl = NULL) {
         call = match.call(), class = "by")
     }
 }
-
-# require(stats)
-# by(warpbreaks[, 1:2], warpbreaks[,"tension"], summary)
-# pbby(warpbreaks[, 1:2], warpbreaks[,"tension"], summary)
-# by(warpbreaks[, 1],   warpbreaks[, -1],       summary)
-# pbby(warpbreaks[, 1],   warpbreaks[, -1],       summary)
-# by(warpbreaks, warpbreaks[,"tension"],
-#    function(x) lm(breaks ~ wool, data = x))
-# pbby(warpbreaks, warpbreaks[,"tension"],
-#    function(x) lm(breaks ~ wool, data = x))
-# ## now suppose we want to extract the coefficients by group
-# tmp <- with(warpbreaks,
-#             by(warpbreaks, tension,
-#                function(x) lm(breaks ~ wool, data = x)))
-# sapply(tmp, coef)
-# tmp <- with(warpbreaks,
-#             pbby(warpbreaks, tension,
-#                function(x) lm(breaks ~ wool, data = x)))
-# sapply(tmp, coef)
