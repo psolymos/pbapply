@@ -1,4 +1,19 @@
 template:
-  params:
-    bootswatch: cosmo
-    ganalytics: UA-55877016-2
+  bootstrap: 5
+  bootswatch: cosmo
+  includes:
+    in_header: |
+      <script src="https://cdn.usefathom.com/script.js" data-site="KTMJHUPR" defer></script>
+      <link rel="icon" href="https://peter.solymos.org/favicon.ico" />
+navbar:
+  structure:
+    right: [search, twitter, github]
+  components:
+    twitter:
+      icon: fa-twitter
+      href: http://twitter.com/psolymos
+      aria-label: Twitter
+    github:
+      icon: fa-github
+      href: http://github.com/psolymos
+      aria-label: GitHub
