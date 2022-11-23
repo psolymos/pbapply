@@ -14,6 +14,23 @@ The package supports several parallel processing backends, such as snow-type clu
 
 ![](https://github.com/psolymos/pbapply/raw/master/images/pbapply-02.gif)
 
+- [pbapply: adding progress bar to '\*apply' functions in R](#pbapply-adding-progress-bar-to-apply-functions-in-r)
+  - [Versions](#versions)
+  - [How to get started?](#how-to-get-started)
+      - [1. You are not yet an R user](#1-you-are-not-yet-an-r-user)
+      - [2. You are an R user but haven't used vectorized functions yet](#2-you-are-an-r-user-but-havent-used-vectorized-functions-yet)
+      - [3. You are an R user familiar with vectorized functions](#3-you-are-an-r-user-familiar-with-vectorized-functions)
+      - [4. You are a seasoned R developer writing your own packages](#4-you-are-a-seasoned-r-developer-writing-your-own-packages)
+  - [How to add pbapply to a package](#how-to-add-pbapply-to-a-package)
+      - [1. Suggests: pbapply](#1-suggests-pbapply)
+      - [2. Depends/Imports: pbapply](#2-dependsimports-pbapply)
+      - [Customizing the progress bar in your package](#customizing-the-progress-bar-in-your-package)
+      - [Suppressing the progress bar in your functions](#suppressing-the-progress-bar-in-your-functions)
+  - [Parallel backends](#parallel-backends)
+  - [Examples](#examples)
+    - [Command line](#command-line)
+    - [Shiny](#shiny)
+
 ## Versions
 
 Install CRAN release version (recommended):
@@ -134,6 +151,47 @@ In other instances, put this inside a function:
 ```R
 pbo <- pboptions(type = "none")
 on.exit(pboptions(pbo), add = TRUE)
+```
+
+## Parallel backends
+
+You have a few different options to choose a backend. This all comes down to the `cl` argument in the `pb*` functions.
+
+- `cl = NULL` (default): sequential execution
+- `cl` is of class cluster: this implies that you used `cl = parallel::makeCluster(n)` or something similar (`n` being the number of worker nodes)
+- `cl` is a positive integer (usually > 1): forking type parallelism is used in this case
+- `cl = "future"`: you are using one of the [future](https://CRAN.R-project.org/package=future) plans and parallelism is defined outside of the `pb*` call.
+
+Note that on Windows the forking type is not available and `pb*` functions will fall back to sequential evaluation.
+
+Some examples:
+
+```R
+f <- function(i) Sys.sleep(1)
+
+## sequential
+pblapply(1:2, f)
+
+## cluster
+cl <- parallel::makeCluster(2)
+pblapply(1:2, f, cl = cl)
+parallel::stopCluster(cl)
+
+## forking
+pblapply(1:2, f, cl = 2)
+
+## future
+library(future)
+
+cl <- parallel::makeCluster(2)
+plan(cluster, workers = cl)
+r2 <- pblapply(1:2, f, cl = "future")
+parallel::stopCluster(cl)
+
+plan(multisession, workers = 2)
+pblapply(1:2, f, cl = "future")
+
+plan(sequential)
 ```
 
 ## Examples
