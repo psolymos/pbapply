@@ -21,6 +21,56 @@ example(timerProgressBar, run.dontrun = TRUE)
 example(pbapply, run.dontrun = TRUE)
 example(pboptions, run.dontrun = TRUE)
 
+## check potential changes in formal arguments
+check_args <- function(fun1, fun2, cl=TRUE) {
+    f1 <- formals(fun1)
+    f2 <- formals(fun2)
+    args1 <- names(f1)
+    args2cl <- names(f2)
+    args2 <- if (cl)
+        args2cl[seq_len(length(args2cl)-1L)] else args2cl
+    vals1 <- unname(f1)
+    vals2cl <- unname(f2)
+    vals2 <- if (cl)
+        vals2cl[seq_len(length(vals2cl)-1L)] else vals2cl
+    if (length(args1) != length(args2)) {
+        msg <- c("Number of arguments is different:\n - fun1 [",
+            length(args1), "]: ", paste0(args1, collapse=", "),
+            "\n - fun2 [",
+            length(args2), "]: ", paste0(args2, collapse=", "))
+        stop(paste0(msg, collapse=""))
+    }
+    if (!all(args1 == args2)) {
+        msg <- c("Argument mismatches:\n  - in fun1 but not fun2: ", 
+            paste0(setdiff(args1, args2), collapse=", "),
+            "\n  - in fun2 but not fun1: ", 
+            paste0(setdiff(args2, args1), collapse=", "))
+        stop(paste0(msg, collapse=""))
+    }
+    if (!all(sapply(1:length(vals1),function(i) identical(vals1[[i]], vals2[[i]])))) {
+        msg <- c("Number of arguments is different:\n - fun1: ",
+            paste0(vals1, collapse=", "),
+            "\n - fun2: ",
+            paste0(vals2, collapse=", "))
+        stop(paste0(msg, collapse=""))
+    }
+    invisible(TRUE)
+}
+
+check_args(lapply, pblapply)
+check_args(lapply, pbwalk)
+check_args(apply, pbapply)
+check_args(sapply, pbsapply)
+check_args(replicate, pbreplicate)
+check_args(tapply, pbtapply)
+check_args(eapply, pbeapply)
+check_args(vapply, pbvapply)
+check_args(by, pbby)
+
+check_args(mapply, pbmapply, cl=FALSE)
+check_args(Map, pbMap, cl=FALSE)
+check_args(.mapply, pb.mapply, cl=FALSE)
+
 ## --- test for NULL case in lapply ---
 
 l <- list(a = 1, 2, c = -1)
@@ -177,3 +227,24 @@ unlink(file.path(tmp, paste0("file-", 1:3, ".csv")))
 ## all this does not
 # pbapply::pbwalk(1:3, f, dir=tmp, cl=2)
 # parallel::mclapply(1:3, f, dir=tmp, mc.cores=2)
+
+
+library(future)
+
+l <- list(a = 1, 2, c = -1)
+f <- function(z) {
+    Sys.sleep(0.1)
+    if (z < 0) return(NULL) else return(2 * z)
+}
+
+plan(sequential)
+r2 <- pblapply(l, f, cl = "future")
+
+plan(multisession, workers = 2)
+r2 <- pblapply(l, f, cl = "future")
+
+cl <- parallel::makeCluster(2)
+plan(cluster, workers = cl)
+r2 <- pblapply(l, f, cl = "future")
+parallel::stopCluster(cl)
+plan(sequential)
