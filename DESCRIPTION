@@ -1,7 +1,7 @@
 Package: pbapply
 Type: Package
 Title: Adding Progress Bar to '*apply' Functions
-Version: 1.6-1
+Version: 1.7-0
 Date: 2022-11-29
 Authors@R: 
     c(person(given = "Peter",

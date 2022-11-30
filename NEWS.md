@@ -1,6 +1,8 @@
-# Version 1.6-1, Nov 29, 2022
+# Version 1.7-0, Nov 29, 2022
 
 * New functions: `pbeapply`, `pbvapply`, `pbby`, `pbMap` (#50, #51, #52, #53).
+* Added support for future backends (#54), and the future and future.apply packages are now Suggested.
+* Henrik Bengtsson (@HenrikBengtsson) and R Core Team added as contributors.
 
 # Version 1.6-0, Nov 13, 2022
 
