@@ -2,8 +2,22 @@ Package: pbapply
 Type: Package
 Title: Adding Progress Bar to '*apply' Functions
 Version: 1.6-1
-Date: 2022-11-18
-Author: Peter Solymos [aut, cre] (<https://orcid.org/0000-0001-7337-1740>), Zygmunt Zawadzki [aut]
+Date: 2022-11-29
+Authors@R: 
+    c(person(given = "Peter",
+             family = "Solymos",
+             comment = c(ORCID = "0000-0001-7337-1740"),
+             role = c("aut", "cre"),
+             email = "psolymos@gmail.com"),
+      person(given = "Zygmunt",
+             family = "Zawadzki",
+             role = "aut",
+             email = "zygmunt@zstat.pl"),
+      person(given = "Henrik", 
+             family = "Bengtsson", 
+             role = "ctb",
+             email = "henrikb@braju.com"),
+      person("R Core Team", role = c("cph", "ctb")))
 Maintainer: Peter Solymos <solymos@ualberta.ca>
 Description: A lightweight package that adds
   progress bar to vectorized R functions

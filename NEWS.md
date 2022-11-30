@@ -1,4 +1,4 @@
-# Version 1.6-1, Nov 18, 2022
+# Version 1.6-1, Nov 29, 2022
 
 * New functions: `pbeapply`, `pbvapply`, `pbby`, `pbMap` (#50, #51, #52, #53).
 
