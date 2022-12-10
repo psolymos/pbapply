@@ -174,6 +174,10 @@ only for its side-effect and returns the input \code{X} invisibly
 Note that when \code{cl = "future"}, you might have to specify the
 \code{future.seed} argument (passed as part of \code{...}) when
 using random numbers in parallel.
+
+Note also that if your code prints messages or you encounter warnings
+during execution, the condition messages might cause the progress bar
+to break up and continue on a new line.
 }
 \value{
 Similar to the value returned by the standard \code{*apply} functions.
