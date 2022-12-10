@@ -102,7 +102,7 @@ A cluster object created by \code{\link{makeCluster}},
 or an integer to indicate number of child-processes
 (integer values are ignored on Windows) for parallel evaluations
 (see Details on performance).
-It can also be \code{"future"} to use a future backend,
+It can also be \code{"future"} to use a future backend (see Details),
 \code{NULL} (default) refers to sequential evaluation.
 }
   \item{MoreArgs}{
@@ -170,6 +170,10 @@ arguments to the underlying function for further control.
 \code{pbwalk} is similar to \code{pblapply} but it calls \code{FUN}
 only for its side-effect and returns the input \code{X} invisibly
 (this behavior is modeled after `purrr::walk`).
+
+Note that when \code{cl = "future"}, you might have to specify the
+\code{future.seed} argument (passed as part of \code{...}) when
+using random numbers in parallel.
 }
 \value{
 Similar to the value returned by the standard \code{*apply} functions.
