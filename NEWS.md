@@ -4,6 +4,7 @@
 * Added support for future backends (#54), and the future and future.apply packages are now Suggested.
 * Henrik Bengtsson (@HenrikBengtsson) and R Core Team added as contributors.
 * `NEWS.md` file is not excluded from package tarball (#58).
+* `pbapply` performance issue (#62) addressed.
 
 # Version 1.6-0, Nov 13, 2022
 
