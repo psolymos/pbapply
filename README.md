@@ -3,8 +3,6 @@
 [![CRAN version](http://www.r-pkg.org/badges/version/pbapply)](https://CRAN.R-project.org/package=pbapply)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/pbapply)](https://www.rdocumentation.org/packages/pbapply/)
 [![check](https://github.com/psolymos/pbapply/actions/workflows/check.yml/badge.svg)](https://github.com/psolymos/pbapply/actions/workflows/check.yml)
-[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
-[![GitHub Stars](https://img.shields.io/github/stars/psolymos/pbapply.svg?style=social&label=GitHub)](https://github.com/psolymos/pbapply)
 
 A lightweight package that adds progress bar to vectorized R functions
 (`*apply`). The implementation can easily be added to functions where showing the progress is
