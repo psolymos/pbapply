@@ -107,6 +107,7 @@
 <li><a href="#id_2-dependsimports-pbapply">2. Depends/Imports: pbapply</a></li>
 <li><a href="#customizing-the-progress-bar-in-your-package">Customizing the progress bar in your package</a></li>
 <li><a href="#suppressing-the-progress-bar-in-your-functions">Suppressing the progress bar in your functions</a></li>
+<li><a href="#working-with-future-backend">Working with future backend</a></li>
 </ul>
 </li>
 <li><a href="#parallel-backends">Parallel backends</a></li>
@@ -143,14 +144,14 @@
 <div class="section level4">
 <h4 id="id_2-you-are-an-r-user-but-havent-used-vectorized-functions-yet">2. You are an R user but haven’t used vectorized functions yet<a class="anchor" aria-label="anchor" href="#id_2-you-are-an-r-user-but-havent-used-vectorized-functions-yet"></a>
 </h4>
-<p>Learn about vectorized functions designed to replace <code>for</code> loops: <code>lapply</code>, <code>sapply</code>, and <code>apply</code>. Here is a repository called <a href="https://github.com/psolymos/the-road-to-progress" class="external-link"><em>The Road to Progress</em></a> that I created to show how to got from a <code>for</code> loop to <code>lapply</code>/<code>sapply</code>.</p>
+<p>Learn about vectorized functions designed to replace <code>for</code> loops: <code>lapply</code>, <code>sapply</code>, and <code>apply</code>. Here is a repository called <a href="https://github.com/psolymos/the-road-to-progress" class="external-link"><em>The Road to Progress</em></a> that I created to show you how to go from a <code>for</code> loop to <code>lapply</code>/<code>sapply</code>.</p>
 <p><a href="http://www.youtube.com/watch?feature=player_embedded&amp;v=uyhIiTTrTJY" target="_blank" class="external-link"> <img src="http://img.youtube.com/vi/uyhIiTTrTJY/mqdefault.jpg" alt="Watch the video" width="240" height="180" border="0"></a></p>
 </div>
 <div class="section level4">
 <h4 id="id_3-you-are-an-r-user-familiar-with-vectorized-functions">3. You are an R user familiar with vectorized functions<a class="anchor" aria-label="anchor" href="#id_3-you-are-an-r-user-familiar-with-vectorized-functions"></a>
 </h4>
-<p>In this case, you can simply add <code>pbapply::pb</code> before your <code>*apply</code> functions, e.g. <code><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply()</a></code> will be <code><a href="reference/pbapply.html">pbapply::pbapply()</a></code>, etc. You can guess what happens. Now if you want to speed things up a little (or a lot), try <code>pbapply::pbapply(..., cl = 4)</code> to use 4 cores instead of 1.</p>
-<p>If you are a Windows user, things get a bit more complicated, but not much. Check how to work with <code><a href="https://rdrr.io/r/parallel/clusterApply.html" class="external-link">parallel::parLapply</a></code> to set up a snow type cluster. Have a look at the <a href="https://github.com/psolymos/the-road-to-progress" class="external-link"><em>The Road to Progress</em></a> repository to see a worked example.</p>
+<p>In this case, you can simply add <code>pbapply::pb</code> before your <code>*apply</code> functions, e.g. <code><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply()</a></code> will become <code><a href="reference/pbapply.html">pbapply::pbapply()</a></code>, etc. You can guess what happens. Now if you want to speed things up a little (or a lot), try <code>pbapply::pbapply(..., cl = 4)</code> to use 4 cores instead of 1.</p>
+<p>If you are a Windows user, things get a bit more complicated, but not much. Check how to work with <code><a href="https://rdrr.io/r/parallel/clusterApply.html" class="external-link">parallel::parLapply</a></code> to set up a snow type cluster or use a suitable future backend (see some examples <a href="#parallel-backends">below</a>). Have a look at the <a href="https://github.com/psolymos/the-road-to-progress" class="external-link"><em>The Road to Progress</em></a> repository to see more worked examples.</p>
 </div>
 <div class="section level4">
 <h4 id="id_4-you-are-a-seasoned-r-developer-writing-your-own-packages">4. You are a seasoned R developer writing your own packages<a class="anchor" aria-label="anchor" href="#id_4-you-are-a-seasoned-r-developer-writing-your-own-packages"></a>
@@ -165,8 +166,8 @@
 <div class="section level4">
 <h4 id="id_1-suggests-pbapply">1. Suggests: pbapply<a class="anchor" aria-label="anchor" href="#id_1-suggests-pbapply"></a>
 </h4>
-<p>Add pbapply to the Suggests field in the <code>DESCRIPTION</code>.</p>
-<p>Use a conditional statement in your code to fall back on a base function in case of pbapply not installed:</p>
+<p>Add pbapply to the <code>Suggests</code> field in the <code>DESCRIPTION</code>.</p>
+<p>Use a conditional statement in your code to fall back on a base function in case of pbapply is not installed:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"pbapply"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>   <span class="fu">pbapply</span><span class="fu">::</span><span class="fu"><a href="reference/pbapply.html">pblapply</a></span><span class="op">(</span><span class="va">X</span>, <span class="va">FUN</span>, <span class="va">...</span><span class="op">)</span></span>
@@ -178,8 +179,8 @@
 <div class="section level4">
 <h4 id="id_2-dependsimports-pbapply">2. Depends/Imports: pbapply<a class="anchor" aria-label="anchor" href="#id_2-dependsimports-pbapply"></a>
 </h4>
-<p>Add pbapply to the Depends or Imports field in the <code>DESCRIPTION</code>.</p>
-<p>Use the pbapply functions either as <code><a href="reference/pbapply.html">pbapply::pblapply()</a></code> or specify them in the <code>NAMESPACE</code> (<code>importFrom(pbapply, pblapply)</code>) and use it as <code><a href="reference/pbapply.html">pblapply()</a></code> (without the <code>::</code>).</p>
+<p>Add pbapply to the <code>Depends</code> or <code>Imports</code> field in the <code>DESCRIPTION</code>.</p>
+<p>Use the pbapply functions either as <code><a href="reference/pbapply.html">pbapply::pblapply()</a></code> or specify them in the <code>NAMESPACE</code> (<code>importFrom(pbapply, pblapply)</code>) and use it as <code><a href="reference/pbapply.html">pblapply()</a></code> (without the <code>::</code>). You’d have to add a comment <code>#' @importFrom pbapply pblapply</code> if you are <a href="https://roxygen2.r-lib.org/articles/namespace.html#imports" class="external-link">using roxygen2</a>.</p>
 </div>
 <div class="section level4">
 <h4 id="customizing-the-progress-bar-in-your-package">Customizing the progress bar in your package<a class="anchor" aria-label="anchor" href="#customizing-the-progress-bar-in-your-package"></a>
@@ -200,7 +201,7 @@
 <span>        min_time <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>This will set the options and pbapply will not override when loaded.</p>
+<p>This will set the options and pbapply will not override these when loaded.</p>
 <p>See a small example package <a href="https://github.com/psolymos/pbapplyDepends" class="external-link">here</a>.</p>
 </div>
 <div class="section level4">
@@ -211,11 +212,18 @@
 <code class="sourceCode R"><span><span class="va">pbo</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/pboptions.html">pboptions</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit</a></span><span class="op">(</span><span class="fu"><a href="reference/pboptions.html">pboptions</a></span><span class="op">(</span><span class="va">pbo</span><span class="op">)</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
+<div class="section level4">
+<h4 id="working-with-future-backend">Working with future backend<a class="anchor" aria-label="anchor" href="#working-with-future-backend"></a>
+</h4>
+<p>The future backend might require additional arguments to be set by package developers to avoid warnings for end users. Most notably, you will have to determine how to handle random number generation as part of parallel evaluation. You can pass the <code>future.seed</code> argument directly through <code>...</code>. In general, ass any additional arguments to <code>FUN</code> immediately following the <code>FUN</code> argument, and any additional arguments to the the future backend after <code>cl = "future"</code> statement:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pblapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">FUN =</span> my_fcn, {additional my_fcn args}, <span class="at">cl =</span> <span class="st">"future"</span>, {additional future args})</span></code></pre></div>
+<p>See <a href="https://github.com/psolymos/pbapply/issues/60" class="external-link">this issue</a> for a discussion.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="parallel-backends">Parallel backends<a class="anchor" aria-label="anchor" href="#parallel-backends"></a>
 </h2>
-<p>You have a few different options to choose a backend. This all comes down to the <code>cl</code> argument in the <code>pb*</code> functions.</p>
+<p>You have a few different options to choose from as a backend. This all comes down to the <code>cl</code> argument in the <code>pb*</code> functions.</p>
 <ul>
 <li>
 <code>cl = NULL</code> (default): sequential execution</li>
@@ -228,7 +236,7 @@
 </ul>
 <p>Note that on Windows the forking type is not available and <code>pb*</code> functions will fall back to sequential evaluation.</p>
 <p>Some examples:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## sequential</span></span>
@@ -261,7 +269,7 @@
 <div class="section level3">
 <h3 id="command-line">Command line<a class="anchor" aria-label="anchor" href="#command-line"></a>
 </h3>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/psolymos/pbapply" class="external-link">pbapply</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
 <span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">2000</span></span>
@@ -327,7 +335,7 @@
 <div class="section level3">
 <h3 id="shiny">Shiny<a class="anchor" aria-label="anchor" href="#shiny"></a>
 </h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/psolymos/pbapply" class="external-link">pbapply</a></span><span class="op">)</span></span>
 <span></span>
