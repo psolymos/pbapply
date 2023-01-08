@@ -2,7 +2,7 @@ Package: pbapply
 Type: Package
 Title: Adding Progress Bar to '*apply' Functions
 Version: 1.7-0
-Date: 2022-12-07
+Date: 2023-01-08
 Authors@R: 
     c(person(given = "Peter",
              family = "Solymos",
@@ -30,6 +30,6 @@ Description: A lightweight package that adds
 Depends: R (>= 3.2.0)
 Imports: parallel
 Suggests: shiny, future, future.apply
-License: GPL-2
+License: GPL (>=2)
 URL: https://github.com/psolymos/pbapply
 BugReports: https://github.com/psolymos/pbapply/issues
