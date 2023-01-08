@@ -7,8 +7,7 @@
 A lightweight package that adds progress bar to vectorized R functions
 (`*apply`). The implementation can easily be added to functions where showing the progress is
 useful (e.g. bootstrap). The type and style of the progress bar (with percentages or remaining time) can be set through options.
-The package supports several parallel processing backends, such as snow-type clusters and multicore-type forking
-(see overview [here](http://peter.solymos.org/code/2016/09/11/what-is-the-cost-of-a-progress-bar-in-r.html)).
+The package supports several [parallel processing backends](#parallel-backends), such as snow-type clusters, multicore-type forking, and future.
 
 ![](https://github.com/psolymos/pbapply/raw/master/images/pbapply-02.gif)
 
