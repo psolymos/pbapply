@@ -26,6 +26,7 @@ The package supports several parallel processing backends, such as snow-type clu
       - [2. Depends/Imports: pbapply](#2-dependsimports-pbapply)
       - [Customizing the progress bar in your package](#customizing-the-progress-bar-in-your-package)
       - [Suppressing the progress bar in your functions](#suppressing-the-progress-bar-in-your-functions)
+      - [Working with future backend](#working-with-future-backend)
   - [Parallel backends](#parallel-backends)
   - [Examples](#examples)
     - [Command line](#command-line)
@@ -67,7 +68,7 @@ Learn about vectorized functions designed to replace `for` loops:
 `lapply`, `sapply`, and `apply`.
 Here is a repository called 
 [_The Road to Progress_](https://github.com/psolymos/the-road-to-progress) 
-that I created to show how to got from a `for` loop to `lapply`/`sapply`.
+that I created to show you how to go from a `for` loop to `lapply`/`sapply`.
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=uyhIiTTrTJY" target="_blank">
  <img src="http://img.youtube.com/vi/uyhIiTTrTJY/mqdefault.jpg" alt="Watch the video" width="240" height="180" border="0" />
@@ -76,16 +77,17 @@ that I created to show how to got from a `for` loop to `lapply`/`sapply`.
 #### 3. You are an R user familiar with vectorized functions
 
 In this case, you can simply add `pbapply::pb` before your `*apply`
-functions, e.g. `apply()` will be `pbapply::pbapply()`, etc.
+functions, e.g. `apply()` will become `pbapply::pbapply()`, etc.
 You can guess what happens.
 Now if you want to speed things up a little (or a lot),
 try `pbapply::pbapply(..., cl = 4)` to use 4 cores instead of 1.
 
 If you are a Windows user, things get a bit more complicated, but not much.
-Check how to work with `parallel::parLapply` to set up a snow type cluster.
+Check how to work with `parallel::parLapply` to set up a snow type cluster
+or use a suitable future backend (see some examples [below](#parallel-backends)).
 Have a look at the 
 [_The Road to Progress_](https://github.com/psolymos/the-road-to-progress) 
-repository to see a worked example.
+repository to see more worked examples.
 
 #### 4. You are a seasoned R developer writing your own packages
 
@@ -97,9 +99,9 @@ There are two ways of adding the pbapply package to another package.
 
 #### 1. Suggests: pbapply
 
-Add pbapply to the Suggests field in the `DESCRIPTION`.
+Add pbapply to the `Suggests` field in the `DESCRIPTION`.
 
-Use a conditional statement in your code to fall back on a base function in case of pbapply not installed:
+Use a conditional statement in your code to fall back on a base function in case of pbapply is not installed:
 
 ```R
 out <- if (requireNamespace("pbapply", quietly = TRUE)) {
@@ -113,10 +115,11 @@ See a small example package [here](https://github.com/psolymos/pbapplySuggests).
 
 #### 2. Depends/Imports: pbapply
 
-Add pbapply to the Depends or Imports field in the `DESCRIPTION`.
+Add pbapply to the `Depends` or `Imports` field in the `DESCRIPTION`.
 
 Use the pbapply functions either as `pbapply::pblapply()` or specify them in the `NAMESPACE` (`importFrom(pbapply, pblapply)`) and
-use it as `pblapply()` (without the `::`).
+use it as `pblapply()` (without the `::`). 
+You'd have to add a comment `#' @importFrom pbapply pblapply` if you are [using roxygen2](https://roxygen2.r-lib.org/articles/namespace.html#imports).
 
 #### Customizing the progress bar in your package
 
@@ -139,7 +142,7 @@ Specify the progress bar options in the `zzz.R` file of the package:
 }
 ```
 
-This will set the options and pbapply will not override when loaded.
+This will set the options and pbapply will not override these when loaded.
 
 See a small example package [here](https://github.com/psolymos/pbapplyDepends).
 
@@ -153,9 +156,23 @@ pbo <- pboptions(type = "none")
 on.exit(pboptions(pbo), add = TRUE)
 ```
 
+#### Working with future backend
+
+The future backend might require additional arguments to be set by package developers to avoid warnings for end users.
+Most notably, you will have to determine how to handle random number generation as part of parallel evaluation.
+You can pass the `future.seed` argument directly through `...`.
+In general, ass any additional arguments to `FUN` immediately following the `FUN` argument, 
+and any additional arguments to the the future backend after `cl = "future"` statement:
+
+```R
+pblapply(1:2, FUN = my_fcn, {additional my_fcn args}, cl = "future", {additional future args})
+```
+
+See [this issue](https://github.com/psolymos/pbapply/issues/60) for a discussion.
+
 ## Parallel backends
 
-You have a few different options to choose a backend. This all comes down to the `cl` argument in the `pb*` functions.
+You have a few different options to choose from as a backend. This all comes down to the `cl` argument in the `pb*` functions.
 
 - `cl = NULL` (default): sequential execution
 - `cl` is of class cluster: this implies that you used `cl = parallel::makeCluster(n)` or something similar (`n` being the number of worker nodes)
