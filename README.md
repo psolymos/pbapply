@@ -169,6 +169,23 @@ See [this issue](https://github.com/psolymos/pbapply/issues/60) for a discussion
 
 ## Examples
 
+The following `pb*` functions are available in the pbapply package:
+
+| base         | pbapply         | works in parallel |
+|--------------|-----------------|-------------------|
+|  `apply`     |  `pbapply`      |  ✅               |
+|  `by`        |  `pbby`         |  ✅               |
+|  `eapply`    |  `pbeapply`     |  ✅               |
+|  `lapply`    |  `pblapply`     |  ✅               |
+|  `.mapply`   |  `pb.mapply`    |  ❌               |
+|  `mapply`    |  `pbmapply`     |  ❌               |
+|  `Map`       |  `pbMap`        |  ❌               |
+|  `replicate` |  `pbreplicate`  |  ✅               |
+|  `sapply`    |  `pbsapply`     |  ✅               |
+|  `tapply`    |  `pbtapply`     |  ✅               |
+|  `vapply`    |  `pbvapply`     |  ✅               |
+|  ❌          |  `pbwalk`       |  ✅               |
+
 #### Command line usage
 
 ```R
