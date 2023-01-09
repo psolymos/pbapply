@@ -68,7 +68,7 @@
   </a>
 </li>
 <li class="nav-item">
-  <a class="external-link nav-link" href="http://github.com/psolymos" aria-label="GitHub">
+  <a class="external-link nav-link" href="http://github.com/psolymos/pbapply" aria-label="GitHub">
     <span class="fa fa-github"></span>
      
   </a>
@@ -84,7 +84,7 @@
 <div class="page-header"><h1 id="pbapply-adding-progress-bar-to-apply-functions-in-r">pbapply: adding progress bar to ’*apply’ functions in R<a class="anchor" aria-label="anchor" href="#pbapply-adding-progress-bar-to-apply-functions-in-r"></a>
 </h1></div>
 <p><a href="https://CRAN.R-project.org/package=pbapply" class="external-link"><img src="http://www.r-pkg.org/badges/version/pbapply" alt="CRAN version"></a> <a href="https://www.rdocumentation.org/packages/pbapply/" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/grand-total/pbapply" alt="CRAN RStudio mirror downloads"></a> <a href="https://github.com/psolymos/pbapply/actions/workflows/check.yml" class="external-link"><img src="https://github.com/psolymos/pbapply/actions/workflows/check.yml/badge.svg" alt="check"></a></p>
-<p>A lightweight package that adds progress bar to vectorized R functions (<code>*apply</code>). The implementation can easily be added to functions where showing the progress is useful (e.g. bootstrap). The type and style of the progress bar (with percentages or remaining time) can be set through options. The package supports several parallel processing backends, such as snow-type clusters and multicore-type forking (see overview <a href="http://peter.solymos.org/code/2016/09/11/what-is-the-cost-of-a-progress-bar-in-r.html" class="external-link">here</a>).</p>
+<p>A lightweight package that adds progress bar to vectorized R functions (<code>*apply</code>). The implementation can easily be added to functions where showing the progress is useful (e.g. bootstrap). The type and style of the progress bar (with percentages or remaining time) can be set through options. The package supports several <a href="#parallel-backends">parallel processing backends</a>, such as snow-type clusters, multicore-type forking, and future.</p>
 <p><img src="https://github.com/psolymos/pbapply/raw/master/images/pbapply-02.gif"></p>
 <ul>
 <li>
@@ -223,6 +223,76 @@
 <div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
+<p>The following <code>pb*</code> functions are available in the pbapply package:</p>
+<table class="table">
+<thead><tr class="header">
+<th>base</th>
+<th>pbapply</th>
+<th>works in parallel</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>apply</code></td>
+<td><code>pbapply</code></td>
+<td>✅</td>
+</tr>
+<tr class="even">
+<td><code>by</code></td>
+<td><code>pbby</code></td>
+<td>✅</td>
+</tr>
+<tr class="odd">
+<td><code>eapply</code></td>
+<td><code>pbeapply</code></td>
+<td>✅</td>
+</tr>
+<tr class="even">
+<td><code>lapply</code></td>
+<td><code>pblapply</code></td>
+<td>✅</td>
+</tr>
+<tr class="odd">
+<td><code>.mapply</code></td>
+<td><code>pb.mapply</code></td>
+<td>❌</td>
+</tr>
+<tr class="even">
+<td><code>mapply</code></td>
+<td><code>pbmapply</code></td>
+<td>❌</td>
+</tr>
+<tr class="odd">
+<td><code>Map</code></td>
+<td><code>pbMap</code></td>
+<td>❌</td>
+</tr>
+<tr class="even">
+<td><code>replicate</code></td>
+<td><code>pbreplicate</code></td>
+<td>✅</td>
+</tr>
+<tr class="odd">
+<td><code>sapply</code></td>
+<td><code>pbsapply</code></td>
+<td>✅</td>
+</tr>
+<tr class="even">
+<td><code>tapply</code></td>
+<td><code>pbtapply</code></td>
+<td>✅</td>
+</tr>
+<tr class="odd">
+<td><code>vapply</code></td>
+<td><code>pbvapply</code></td>
+<td>✅</td>
+</tr>
+<tr class="even">
+<td>❌</td>
+<td><code>pbwalk</code></td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
 <div class="section level4">
 <h4 id="command-line-usage">Command line usage<a class="anchor" aria-label="anchor" href="#command-line-usage"></a>
 </h4>
