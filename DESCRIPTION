@@ -2,7 +2,7 @@ Package: pbapply
 Type: Package
 Title: Adding Progress Bar to '*apply' Functions
 Version: 1.7-0
-Date: 2023-01-08
+Date: 2023-01-12
 Authors@R: 
     c(person(given = "Peter",
              family = "Solymos",
@@ -18,7 +18,7 @@ Authors@R:
              role = "ctb",
              email = "henrikb@braju.com"),
       person("R Core Team", role = c("cph", "ctb")))
-Maintainer: Peter Solymos <solymos@ualberta.ca>
+Maintainer: Peter Solymos <psolymos@gmail.com>
 Description: A lightweight package that adds
   progress bar to vectorized R functions
   ('*apply'). The implementation can easily be added
@@ -26,7 +26,7 @@ Description: A lightweight package that adds
   useful (e.g. bootstrap). The type and style of the
   progress bar (with percentages or remaining time)
   can be set through options.
-  Supports several parallel processing backends.
+  Supports several parallel processing backends including future.
 Depends: R (>= 3.2.0)
 Imports: parallel
 Suggests: shiny, future, future.apply

@@ -1,4 +1,4 @@
-# Version 1.7-0, Jan 8, 2023
+# Version 1.7-0, Jan 12, 2023
 
 * New functions: `pbeapply`, `pbvapply`, `pbby`, `pbMap` (#50, #51, #52, #53).
 * Added support for future backends (#54), and the future and future.apply packages are now Suggested.
