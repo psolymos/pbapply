@@ -400,7 +400,6 @@ pb.mapply(function(x, y) seq_len(x) + y,
 ## --- Map ---
 
 pbMap(`+`, 1,         1 : 3) ;         1 + 1:3
-pbMap(`+`, numeric(), 1 : 3) ; numeric() + 1:3
 
 ## --- eapply ---
 
