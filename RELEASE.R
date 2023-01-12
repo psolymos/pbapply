@@ -13,9 +13,11 @@ urlchecker::url_check()
 # devtools::document()
 devtools::check()
 
+devtools::build()
+
 # multi-arch checks
 library(rhub)
-#validate_email("peter@analythium.io")
+#validate_email("psolymos@gmail.com")
 platforms()
 f <- c("debian-gcc-devel",
        "debian-gcc-release",
