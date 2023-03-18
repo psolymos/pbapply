@@ -216,7 +216,7 @@
 <h4 id="working-with-a-future-backend">Working with a future backend<a class="anchor" aria-label="anchor" href="#working-with-a-future-backend"></a>
 </h4>
 <p>The future backend might require additional arguments to be set by package developers to avoid warnings for end users. Most notably, you will have to determine how to handle random number generation as part of parallel evaluation. You can pass the <code>future.seed</code> argument directly through <code>...</code>. In general, ass any additional arguments to <code>FUN</code> immediately following the <code>FUN</code> argument, and any additional arguments to the the future backend after <code>cl = "future"</code> statement:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pblapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">FUN =</span> my_fcn, {additional my_fcn args}, <span class="at">cl =</span> <span class="st">"future"</span>, {additional future args})</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">pblapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">FUN =</span> my_fcn, {additional my_fcn args}, <span class="at">cl =</span> <span class="st">"future"</span>, {additional future args})</span></code></pre></div>
 <p>See <a href="https://github.com/psolymos/pbapply/issues/60" class="external-link">this issue</a> for a discussion.</p>
 </div>
 </div>
