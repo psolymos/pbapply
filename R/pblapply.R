@@ -79,7 +79,7 @@ function (X, FUN, ..., cl = NULL)
         ## multicore type forking
         } else {
             if (!dopb())
-                return(parallel::mclapply(X, FUN, ...,
+                return(parallel::mclapply(X, FUN, ..., 
                     mc.cores = as.integer(cl),
                     mc.silent = TRUE))
             ## define split here and use that for counter
