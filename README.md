@@ -1,7 +1,7 @@
 # pbapply: adding progress bar to '*apply' functions in R
 
-[![CRAN version](http://www.r-pkg.org/badges/version/pbapply)](https://CRAN.R-project.org/package=pbapply)
-[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/pbapply)](https://www.rdocumentation.org/packages/pbapply/)
+[![CRAN version](https://www.r-pkg.org/badges/version/pbapply)](https://CRAN.R-project.org/package=pbapply)
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/pbapply)](https://www.rdocumentation.org/packages/pbapply/)
 [![check](https://github.com/psolymos/pbapply/actions/workflows/check.yml/badge.svg)](https://github.com/psolymos/pbapply/actions/workflows/check.yml)
 
 A lightweight package that adds progress bar to vectorized R functions
@@ -67,8 +67,8 @@ Here is a repository called
 [_The Road to Progress_](https://github.com/psolymos/the-road-to-progress) 
 that I created to show you how to go from a `for` loop to `lapply`/`sapply`.
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=uyhIiTTrTJY" target="_blank">
- <img src="http://img.youtube.com/vi/uyhIiTTrTJY/mqdefault.jpg" alt="Watch the video" width="240" height="180" border="0" />
+<a href="https://www.youtube.com/watch?feature=player_embedded&v=uyhIiTTrTJY" target="_blank">
+ <img src="https://img.youtube.com/vi/uyhIiTTrTJY/mqdefault.jpg" alt="Watch the video" width="240" height="180" border="0" />
 </a>
 
 #### 3. You are an R user familiar with vectorized functions
