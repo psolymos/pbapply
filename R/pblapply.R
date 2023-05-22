@@ -8,7 +8,7 @@ function (X, FUN, ..., cl = NULL)
         return(lapply(X, FUN, ...))
     ## catch single node requests and forking on Windows
     if (!is.null(cl)) {
-        if (.Platform$OS.type == "windows") {
+        if (.Platform$OS.type == "windows" | !identical(cl, "future")) {
             if (!inherits(cl, "cluster"))
                 cl <- NULL
         } else {
@@ -79,7 +79,7 @@ function (X, FUN, ..., cl = NULL)
         ## multicore type forking
         } else {
             if (!dopb())
-                return(parallel::mclapply(X, FUN, ..., 
+                return(parallel::mclapply(X, FUN, ...,
                     mc.cores = as.integer(cl),
                     mc.silent = TRUE))
             ## define split here and use that for counter
