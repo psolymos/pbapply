@@ -8,22 +8,27 @@ function (X, FUN, ..., cl = NULL)
         return(lapply(X, FUN, ...))
     ## catch single node requests and forking on Windows
     if (!is.null(cl)) {
-        if (.Platform$OS.type == "windows") {
-            if (!inherits(cl, "cluster"))
+        if (identical(cl, "future")) {
+            ## we let future to figure out the future plan
+            ## deal with future's absence and set cl to NULL
+            if (!requireNamespace("future") || !requireNamespace("future.apply")) {
+                warning("You need some packages for cl='future' to work: install.packages('future.apply')")
                 cl <- NULL
+            }
         } else {
-            if (inherits(cl, "cluster")) {
-                if (length(cl) < 2L)
+            ## catch windows & single node when NOT using future
+            if (.Platform$OS.type == "windows") {
+                if (!inherits(cl, "cluster"))
                     cl <- NULL
             } else {
-                if (cl < 2)
-                    cl <- NULL
+                if (inherits(cl, "cluster")) {
+                    if (length(cl) < 2L)
+                        cl <- NULL
+                } else {
+                    if (cl < 2)
+                        cl <- NULL
+                }
             }
-        }
-        ## deal with future
-        if (identical(cl, "future") && (!requireNamespace("future") || !requireNamespace("future.apply"))) {
-            warning("You need some packages for cl='future' to work: install.packages('future.apply')")
-            cl <- NULL
         }
     }
     nout <- as.integer(getOption("pboptions")$nout)
