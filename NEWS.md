@@ -1,4 +1,4 @@
-# Version 1.7-1, May 22, 2023
+# Version 1.7-1, June 26, 2023
 
 * Future backend not working on Windows (#63), implemented fix similar to PR #64.
 
