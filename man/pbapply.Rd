@@ -11,6 +11,7 @@
 \alias{pbvapply}
 \alias{pbby}
 \alias{pbMap}
+\alias{.pb_env}
 \title{
 Adding Progress Bar to '*apply' Functions
 }
@@ -29,6 +30,7 @@ pbsapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE, cl = NULL)
 pbvapply(X, FUN, FUN.VALUE, ..., USE.NAMES = TRUE, cl = NULL)
 pbreplicate(n, expr, simplify = "array", cl = NULL)
 
+.pb_env
 pbmapply(FUN, ..., MoreArgs = NULL, SIMPLIFY = TRUE, USE.NAMES = TRUE)
 pb.mapply(FUN, dots, MoreArgs)
 pbMap(f, ...)
