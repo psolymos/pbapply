@@ -15,9 +15,9 @@ navbar:
       aria-label: Linkedin
     twitter:
       icon: fa-twitter
-      href: http://twitter.com/psolymos
+      href: https://twitter.com/psolymos
       aria-label: Twitter
     github:
       icon: fa-github
-      href: http://github.com/psolymos
+      href: https://github.com/psolymos
       aria-label: GitHub
