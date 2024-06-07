@@ -7,13 +7,17 @@ template:
       <link rel="icon" href="https://peter.solymos.org/favicon.ico" />
 navbar:
   structure:
-    right: [search, twitter, github]
+    right: [search, linkedin, twitter, github]
   components:
+    linkedin:
+      icon: fa-linkedin
+      href: https://www.linkedin.com/in/peter-solymos/
+      aria-label: Linkedin
     twitter:
       icon: fa-twitter
-      href: http://twitter.com/psolymos
+      href: https://twitter.com/psolymos
       aria-label: Twitter
     github:
       icon: fa-github
-      href: http://github.com/psolymos/pbapply
+      href: https://github.com/psolymos
       aria-label: GitHub
