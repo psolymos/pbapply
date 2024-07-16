@@ -1,3 +1,7 @@
+# Version 1.7-3, July 16, 2024
+
+* Fixed initial message issue with Shiny (#69).
+
 # Version 1.7-2, June 27, 2023
 
 * Documented `.pb_env` environment to address WARNING after CRAN submission.
