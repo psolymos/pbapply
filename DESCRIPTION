@@ -31,5 +31,5 @@ Depends: R (>= 3.2.0)
 Imports: parallel
 Suggests: shiny, future, future.apply
 License: GPL (>=2)
-URL: https://github.com/psolymos/pbapply
+URL: https://github.com/psolymos/pbapply, https://peter.solymos.org/pbapply/
 BugReports: https://github.com/psolymos/pbapply/issues
