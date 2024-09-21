@@ -28,7 +28,7 @@ pbapply(X, MARGIN, FUN, ..., simplify = TRUE, cl = NULL)
 
 pbsapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE, cl = NULL)
 pbvapply(X, FUN, FUN.VALUE, ..., USE.NAMES = TRUE, cl = NULL)
-pbreplicate(n, expr, simplify = "array", cl = NULL)
+pbreplicate(n, expr, simplify = "array", ..., cl = NULL)
 
 .pb_env
 pbmapply(FUN, ..., MoreArgs = NULL, SIMPLIFY = TRUE, USE.NAMES = TRUE)

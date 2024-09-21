@@ -1,6 +1,7 @@
 # Version 1.7-3, July 16, 2024
 
 * Fixed initial message issue with Shiny (#69).
+* Fix: `pbreplicate` was not passing future related arguments (#71).
 
 # Version 1.7-2, June 27, 2023
 

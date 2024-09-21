@@ -22,9 +22,13 @@ example(pbapply, run.dontrun = TRUE)
 example(pboptions, run.dontrun = TRUE)
 
 ## check potential changes in formal arguments
-check_args <- function(fun1, fun2, cl=TRUE) {
+check_args <- function(fun1, fun2, cl=TRUE, dots=TRUE) {
     f1 <- formals(fun1)
     f2 <- formals(fun2)
+    if (!dots) {
+        f1 <- f1[names(f1) != "..."]
+        f2 <- f2[names(f2) != "..."]
+    }
     args1 <- names(f1)
     args2cl <- names(f2)
     args2 <- if (cl)
@@ -61,7 +65,7 @@ check_args(lapply, pblapply)
 check_args(lapply, pbwalk)
 check_args(apply, pbapply)
 check_args(sapply, pbsapply)
-check_args(replicate, pbreplicate)
+check_args(replicate, pbreplicate, dots=FALSE) # don't check ...
 check_args(tapply, pbtapply)
 check_args(eapply, pbeapply)
 check_args(vapply, pbvapply)
