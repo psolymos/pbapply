@@ -7,7 +7,8 @@
 A lightweight package that adds progress bar to vectorized R functions
 (`*apply`). The implementation can easily be added to functions where showing the progress is
 useful (e.g. bootstrap). The type and style of the progress bar (with percentages or remaining time) can be set through options.
-The package supports several [parallel processing backends](#parallel-backends), such as snow-type clusters, multicore-type forking, and future.
+The package supports several [parallel processing backends](#parallel-backends), 
+such as snow-type and mirai clusters, multicore-type forking, and future.
 
 ![](https://github.com/psolymos/pbapply/raw/master/images/pbapply-02.gif)
 
@@ -273,6 +274,17 @@ pblapply(1:2, f)
 
 ## cluster
 cl <- parallel::makeCluster(2)
+pblapply(1:2, f, cl = cl)
+parallel::stopCluster(cl)
+
+# mirai cluster
+library(mirai)
+# -- using the mirai package
+cl <- make_cluster(2)
+pblapply(1:2, f, cl = cl)
+stop_cluster(cl)
+# -- using parallel (requires R >= 2.5)
+cl <- parallel::makeCluster(2, type = "MIRAI")
 pblapply(1:2, f, cl = cl)
 parallel::stopCluster(cl)
 

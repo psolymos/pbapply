@@ -26,7 +26,7 @@ Description: A lightweight package that adds
   useful (e.g. bootstrap). The type and style of the
   progress bar (with percentages or remaining time)
   can be set through options.
-  Supports several parallel processing backends including future.
+  Supports several parallel processing backends including mirai and future.
 Depends: R (>= 3.2.0)
 Imports: parallel
 Suggests: shiny, future, future.apply
