@@ -1,5 +1,4 @@
 # Check spelling
-dict <- hunspell::dictionary('en_CA')
 devtools::spell_check()
 spelling::update_wordlist()
 
@@ -13,32 +12,28 @@ urlchecker::url_check()
 # devtools::document()
 devtools::check()
 
-# multi-arch checks
-library(rhub)
-#validate_email("psolymos@gmail.com")
-platforms()
-f <- c("debian-gcc-devel",
-       "debian-gcc-release",
-    #    "macos-highsierra-release-cran",
-       "windows-x86_64-devel",
-       "windows-x86_64-release",
-       "windows-x86_64-oldrel")
-check(platform=f)
-list_package_checks(".")
+## --------------------
 
-# build package to submit
-devtools::build()
-
-pkgnews <- function() {
-    x <- readLines("NEWS.md")
+# Use R-universe for package checks
+library(jsonlite)
+pkgnews <- function(x) {
     x <- x[x != ""]
     h <- which(startsWith(x, "#"))
     i <- (h[1]+1):(h[2]-1)
     paste0(x[i], collapse="\n")
 }
+
+pkg <- "pbapply"
+
+j <- fromJSON(paste0("https://psolymos.r-universe.dev/api/packages/", pkg))
+checks <- j[["_jobs"]]
+platforms <- checks$config[!startsWith(checks$config, "wasm")]
+news_text <- readLines(gsub("README", "NEWS", j[["_readme"]]))
+# chlog <- readLines(gsub("README\\.md", "inst/ChangeLog", j[["_readme"]]))
+
 cat(sprintf('Dear CRAN Maintainers,
 
-I am submitting the %s version of the pbapply R extension package to CRAN.
+I am submitting the %s version of the %s R extension package to CRAN.
 
 The package passed R CMD check --as-cran without errors/warnings/notes on the following platforms: %s.
 
@@ -49,6 +44,11 @@ I made the following changes since the last release:
 Yours,
 
 Peter Solymos
-maintainer', read.dcf("DESCRIPTION", fields="Version")[1],
-            paste0(f, collapse=", "),
-            pkgnews()))
+maintainer',
+j$Version,
+pkg,
+paste0(platforms, collapse=", "),
+# ""))
+pkgnews(news_text)))
+
+checks
