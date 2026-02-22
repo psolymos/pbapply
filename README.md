@@ -159,7 +159,7 @@ on.exit(pboptions(pbo), add = TRUE)
 The future backend might require additional arguments to be set by package developers to avoid warnings for end users.
 Most notably, you will have to determine how to handle random number generation as part of parallel evaluation.
 You can pass the `future.seed` argument directly through `...`.
-In general, ass any additional arguments to `FUN` immediately following the `FUN` argument, 
+In general, pass any additional arguments to `FUN` immediately following the `FUN` argument, 
 and any additional arguments to the the future backend after `cl = "future"` statement:
 
 ```R
