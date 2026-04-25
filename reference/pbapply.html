@@ -22,8 +22,7 @@ parallel processing."><script src="https://cdn.usefathom.com/script.js" data-sit
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://www.linkedin.com/in/peter-solymos/" aria-label="Linkedin"><span class="fa fa-linkedin"></span></a></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://twitter.com/psolymos" aria-label="Twitter"><span class="fa fa-twitter"></span></a></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://github.com/psolymos" aria-label="GitHub"><span class="fa fa-github"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/psolymos/pbapply" aria-label="GitHub"><span class="fa fa-github"></span></a></li>
       </ul></div>
 
 
@@ -253,16 +252,16 @@ to break up and continue on a new line.</p>
 <span class="r-in"><span><span class="co">## standard '*apply' functions</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">res1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">B</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu">fun</span><span class="op">(</span><span class="va">bid</span><span class="op">[</span>,<span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.027   0.001   0.027 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.028   0.000   0.029 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">res2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">B</span>, <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="fu">fun</span><span class="op">(</span><span class="va">bid</span><span class="op">[</span>,<span class="va">i</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.027   0.000   0.027 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.026   0.001   0.027 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">res3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">bid</span>, <span class="fl">2</span>, <span class="va">fun</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.027   0.000   0.028 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    0.03    0.00    0.03 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">res4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">replicate</a></span><span class="op">(</span><span class="va">B</span>, <span class="fu">fun</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.026   0.000   0.027 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.029   0.000   0.030 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## 'pb*apply' functions</span></span></span>
 <span class="r-in"><span><span class="co">## try different settings:</span></span></span>
@@ -372,7 +371,7 @@ to break up and continue on a new line.</p>
   |++++++++++++++++++++++++++++++++++++++++++++++++++| 99% ~00s          
   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.033   0.001   0.035 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.036   0.001   0.037 </span>
 <span class="r-in"><span><span class="fu"><a href="pboptions.html">pboptions</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="pboptions.html">pboptions</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"txt"</span><span class="op">)</span></span></span>
@@ -581,14 +580,14 @@ to break up and continue on a new line.</p>
   |                                                        
   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.031   0.000   0.032 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.034   0.001   0.034 </span>
 <span class="r-in"><span><span class="fu"><a href="pboptions.html">pboptions</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="pboptions.html">pboptions</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"txt"</span>, style <span class="op">=</span> <span class="fl">1</span>, char <span class="op">=</span> <span class="st">"="</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">res3pb</span> <span class="op">&lt;-</span> <span class="fu">pbapply</span><span class="op">(</span><span class="va">bid</span>, <span class="fl">2</span>, <span class="va">fun</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ==================================================</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.035   0.001   0.036 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.030   0.001   0.031 </span>
 <span class="r-in"><span><span class="fu"><a href="pboptions.html">pboptions</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="pboptions.html">pboptions</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"txt"</span>, char <span class="op">=</span> <span class="st">":"</span><span class="op">)</span></span></span>
@@ -797,7 +796,7 @@ to break up and continue on a new line.</p>
   |                                                        
   |::::::::::::::::::::::::::::::::::::::::::::::::::| 100%</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.032   0.001   0.033 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.037   0.001   0.038 </span>
 <span class="r-in"><span><span class="fu"><a href="pboptions.html">pboptions</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>

@@ -141,20 +141,20 @@ test_fun(width = 35, char = "+", style = 1)
 #> 
   |                                   | 0 % elapsed=00s   
   |                                   | 0 % elapsed=00s   
-  |++                                 | 5 % elapsed=00s, remaining~01s
-  |++++                               | 10% elapsed=00s, remaining~01s
+  |++                                 | 5 % elapsed=00s, remaining~03s
+  |++++                               | 10% elapsed=00s, remaining~02s
   |++++++                             | 15% elapsed=00s, remaining~01s
   |+++++++                            | 20% elapsed=00s, remaining~01s
-  |+++++++++                          | 25% elapsed=00s, remaining~00s
-  |+++++++++++                        | 30% elapsed=00s, remaining~00s
-  |+++++++++++++                      | 35% elapsed=00s, remaining~00s
-  |++++++++++++++                     | 40% elapsed=00s, remaining~00s
-  |++++++++++++++++                   | 45% elapsed=00s, remaining~00s
-  |++++++++++++++++++                 | 50% elapsed=00s, remaining~00s
-  |++++++++++++++++++++               | 55% elapsed=00s, remaining~00s
-  |++++++++++++++++++++++             | 60% elapsed=00s, remaining~00s
-  |+++++++++++++++++++++++            | 65% elapsed=00s, remaining~00s
-  |+++++++++++++++++++++++++          | 70% elapsed=00s, remaining~00s
+  |+++++++++                          | 25% elapsed=00s, remaining~01s
+  |+++++++++++                        | 30% elapsed=00s, remaining~01s
+  |+++++++++++++                      | 35% elapsed=00s, remaining~01s
+  |++++++++++++++                     | 40% elapsed=00s, remaining~01s
+  |++++++++++++++++                   | 45% elapsed=00s, remaining~01s
+  |++++++++++++++++++                 | 50% elapsed=01s, remaining~01s
+  |++++++++++++++++++++               | 55% elapsed=01s, remaining~01s
+  |++++++++++++++++++++++             | 60% elapsed=01s, remaining~00s
+  |+++++++++++++++++++++++            | 65% elapsed=01s, remaining~00s
+  |+++++++++++++++++++++++++          | 70% elapsed=01s, remaining~00s
   |+++++++++++++++++++++++++++        | 75% elapsed=01s, remaining~00s
   |++++++++++++++++++++++++++++       | 80% elapsed=01s, remaining~00s
   |++++++++++++++++++++++++++++++     | 85% elapsed=01s, remaining~00s
@@ -171,14 +171,14 @@ test_fun(style = 2)
  / 20% elapsed=00s, remaining~01s
  - 25% elapsed=00s, remaining~01s
  \ 30% elapsed=00s, remaining~01s
- | 35% elapsed=00s, remaining~00s
- / 40% elapsed=00s, remaining~00s
- - 45% elapsed=00s, remaining~00s
- \ 50% elapsed=00s, remaining~00s
- | 55% elapsed=00s, remaining~00s
- / 60% elapsed=00s, remaining~00s
- - 65% elapsed=00s, remaining~00s
- \ 70% elapsed=00s, remaining~00s
+ | 35% elapsed=00s, remaining~01s
+ / 40% elapsed=00s, remaining~01s
+ - 45% elapsed=01s, remaining~01s
+ \ 50% elapsed=01s, remaining~01s
+ | 55% elapsed=01s, remaining~01s
+ / 60% elapsed=01s, remaining~00s
+ - 65% elapsed=01s, remaining~00s
+ \ 70% elapsed=01s, remaining~00s
  | 75% elapsed=01s, remaining~00s
  / 80% elapsed=01s, remaining~00s
  - 85% elapsed=01s, remaining~00s
@@ -195,7 +195,7 @@ test_fun(width = 50, char = ".", style = 3)
   |..........                                        | 20% ~01s          
   |.............                                     | 25% ~01s          
   |................                                  | 30% ~01s          
-  |..................                                | 35% ~00s          
+  |..................                                | 35% ~01s          
   |....................                              | 40% ~00s          
   |.......................                           | 45% ~00s          
   |.........................                         | 50% ~00s          
@@ -220,10 +220,10 @@ test_fun(style = 4)
  - 25% ~01s          
  \ 30% ~01s          
  | 35% ~01s          
- / 40% ~00s          
- - 45% ~00s          
- \ 50% ~00s          
- | 55% ~00s          
+ / 40% ~01s          
+ - 45% ~01s          
+ \ 50% ~01s          
+ | 55% ~01s          
  / 60% ~00s          
  - 65% ~00s          
  \ 70% ~00s          
@@ -237,18 +237,18 @@ test_fun(width = 35, char = "[=-]", style = 5)
 #> 
   [-----------------------------------] 0 % elapsed=00s   
   [-----------------------------------] 0 % elapsed=00s   
-  [==---------------------------------] 5 % elapsed=00s, remaining~01s
-  [====-------------------------------] 10% elapsed=00s, remaining~01s
+  [==---------------------------------] 5 % elapsed=00s, remaining~02s
+  [====-------------------------------] 10% elapsed=00s, remaining~02s
   [======-----------------------------] 15% elapsed=00s, remaining~01s
   [=======----------------------------] 20% elapsed=00s, remaining~01s
   [=========--------------------------] 25% elapsed=00s, remaining~01s
   [===========------------------------] 30% elapsed=00s, remaining~01s
   [=============----------------------] 35% elapsed=00s, remaining~01s
   [==============---------------------] 40% elapsed=00s, remaining~01s
-  [================-------------------] 45% elapsed=00s, remaining~00s
-  [==================-----------------] 50% elapsed=00s, remaining~00s
-  [====================---------------] 55% elapsed=00s, remaining~00s
-  [======================-------------] 60% elapsed=00s, remaining~00s
+  [================-------------------] 45% elapsed=01s, remaining~01s
+  [==================-----------------] 50% elapsed=01s, remaining~01s
+  [====================---------------] 55% elapsed=01s, remaining~01s
+  [======================-------------] 60% elapsed=01s, remaining~00s
   [=======================------------] 65% elapsed=01s, remaining~00s
   [=========================----------] 70% elapsed=01s, remaining~00s
   [===========================--------] 75% elapsed=01s, remaining~00s
@@ -266,12 +266,12 @@ test_fun(width = 50, char = "{*.}", style = 6)
   {********..........................................} 15% ~01s          
   {**********........................................} 20% ~01s          
   {*************.....................................} 25% ~01s          
-  {****************..................................} 30% ~00s          
-  {******************................................} 35% ~00s          
-  {********************..............................} 40% ~00s          
-  {***********************...........................} 45% ~00s          
-  {*************************.........................} 50% ~00s          
-  {****************************......................} 55% ~00s          
+  {****************..................................} 30% ~01s          
+  {******************................................} 35% ~01s          
+  {********************..............................} 40% ~01s          
+  {***********************...........................} 45% ~01s          
+  {*************************.........................} 50% ~01s          
+  {****************************......................} 55% ~01s          
   {*******************************...................} 60% ~00s          
   {*********************************.................} 65% ~00s          
   {***********************************...............} 70% ~00s          
@@ -288,17 +288,17 @@ test_fun(width = 0, char = "    ", style = 6)
   0 % ~calculating  
   0 % ~calculating  
   5 % ~02s          
-  10% ~01s          
-  15% ~01s          
-  20% ~01s          
+  10% ~02s          
+  15% ~02s          
+  20% ~02s          
   25% ~01s          
   30% ~01s          
   35% ~01s          
   40% ~01s          
   45% ~01s          
-  50% ~00s          
-  55% ~00s          
-  60% ~00s          
+  50% ~01s          
+  55% ~01s          
+  60% ~01s          
   65% ~00s          
   70% ~00s          
   75% ~00s          
@@ -313,16 +313,16 @@ test_fun(width = 0, char = "    ", style = 6)
 #> 
   |                                   | 0 % elapsed=00s   
   |                                   | 0 % elapsed=00s   
-  |==                                 | 5 % elapsed=00s, remaining~01s
-  |====                               | 10% elapsed=00s, remaining~01s
+  |==                                 | 5 % elapsed=00s, remaining~02s
+  |====                               | 10% elapsed=00s, remaining~02s
   |======                             | 15% elapsed=00s, remaining~01s
   |=======                            | 20% elapsed=00s, remaining~01s
   |=========                          | 25% elapsed=00s, remaining~01s
   |===========                        | 30% elapsed=00s, remaining~01s
   |=============                      | 35% elapsed=00s, remaining~01s
   |==============                     | 40% elapsed=00s, remaining~01s
-  |================                   | 45% elapsed=00s, remaining~01s
-  |==================                 | 50% elapsed=00s, remaining~00s
+  |================                   | 45% elapsed=01s, remaining~01s
+  |==================                 | 50% elapsed=01s, remaining~01s
   |====================               | 55% elapsed=01s, remaining~00s
   |======================             | 60% elapsed=01s, remaining~00s
   |=======================            | 65% elapsed=01s, remaining~00s
@@ -334,32 +334,11 @@ test_fun(width = 0, char = "    ", style = 6)
   |================================== | 95% elapsed=01s, remaining~00s
   |===================================| 100% elapsed=01s, remaining~00s
 #> elapsed 
-#>    0.86 
+#>   1.184 
 ## this should not produce a progress bar based on min_time
 system.time(test_fun(min_time = 2 * elapsed))["elapsed"]
-#> 
-  |====                                                                            | 5 % elapsed=00s, remaining~02s
-  |========                                                                        | 10% elapsed=00s, remaining~01s
-  |=============                                                                   | 15% elapsed=00s, remaining~01s
-  |================                                                                | 20% elapsed=00s, remaining~01s
-  |====================                                                            | 25% elapsed=00s, remaining~01s
-  |=========================                                                       | 30% elapsed=00s, remaining~01s
-  |=============================                                                   | 35% elapsed=00s, remaining~01s
-  |================================                                                | 40% elapsed=00s, remaining~01s
-  |====================================                                            | 45% elapsed=00s, remaining~00s
-  |========================================                                        | 50% elapsed=00s, remaining~00s
-  |============================================                                    | 55% elapsed=00s, remaining~00s
-  |=================================================                               | 60% elapsed=00s, remaining~00s
-  |====================================================                            | 65% elapsed=00s, remaining~00s
-  |=========================================================                       | 70% elapsed=01s, remaining~00s
-  |============================================================                    | 75% elapsed=01s, remaining~00s
-  |================================================================                | 80% elapsed=01s, remaining~00s
-  |====================================================================            | 85% elapsed=01s, remaining~00s
-  |========================================================================        | 90% elapsed=01s, remaining~00s
-  |============================================================================    | 95% elapsed=01s, remaining~00s
-  |================================================================================| 100% elapsed=01s, remaining~00s
 #> elapsed 
-#>   0.724 
+#>   1.073 
 
 ## time formatting
 getTimeAsString(NULL)
