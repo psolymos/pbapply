@@ -1,3 +1,7 @@
+# Version 1.7-5, August 31, 2026
+
+* Fix `names` attribute issue in examples.
+
 # Version 1.7-4, July 19, 2025
 
 * Fixed initial message issue with Shiny (#69).
