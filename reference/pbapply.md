@@ -258,16 +258,16 @@ fun <- function(z) {
 ## standard '*apply' functions
 system.time(res1 <- lapply(1:B, function(i) fun(bid[,i])))
 #>    user  system elapsed 
-#>   0.028   0.000   0.029 
+#>   0.039   0.000   0.040 
 system.time(res2 <- sapply(1:B, function(i) fun(bid[,i])))
 #>    user  system elapsed 
-#>   0.026   0.001   0.027 
+#>   0.042   0.001   0.043 
 system.time(res3 <- apply(bid, 2, fun))
 #>    user  system elapsed 
-#>    0.03    0.00    0.03 
+#>   0.035   0.000   0.036 
 system.time(res4 <- replicate(B, fun()))
 #>    user  system elapsed 
-#>   0.029   0.000   0.030 
+#>   0.049   0.001   0.072 
 
 ## 'pb*apply' functions
 ## try different settings:
@@ -377,7 +377,7 @@ system.time(res1pb <- pblapply(1:B, function(i) fun(bid[,i])))
   |++++++++++++++++++++++++++++++++++++++++++++++++++| 99% ~00s          
   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
 #>    user  system elapsed 
-#>   0.036   0.001   0.037 
+#>   0.058   0.004   0.065 
 pboptions(op)
 
 pboptions(type = "txt")
@@ -586,14 +586,14 @@ system.time(res2pb <- pbsapply(1:B, function(i) fun(bid[,i])))
   |                                                        
   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
 #>    user  system elapsed 
-#>   0.034   0.001   0.034 
+#>   0.052   0.002   0.055 
 pboptions(op)
 
 pboptions(type = "txt", style = 1, char = "=")
 system.time(res3pb <- pbapply(bid, 2, fun))
 #> ==================================================
 #>    user  system elapsed 
-#>   0.030   0.001   0.031 
+#>   0.040   0.001   0.041 
 pboptions(op)
 
 pboptions(type = "txt", char = ":")
@@ -802,7 +802,7 @@ system.time(res4pb <- pbreplicate(B, fun()))
   |                                                        
   |::::::::::::::::::::::::::::::::::::::::::::::::::| 100%
 #>    user  system elapsed 
-#>   0.037   0.001   0.038 
+#>   0.066   0.004   0.151 
 pboptions(op)
 
 if (FALSE) { # \dontrun{
@@ -1363,8 +1363,8 @@ stopifnot(
   identical(pbtapply(1:3, ind, sum),
             matrix(c(1L, 2L, NA, 3L), 2, dimnames = list(c("1", "2"), c("A", "B")))),
   identical(pbtapply(1:n, fac, quantile)[-1],
-            array(list(`2` = structure(c(2, 5.75, 9.5, 13.25, 17), .Names = nq),
-                 `3` = structure(c(3, 6, 9, 12, 15), .Names = nq),
+            array(list(`2` = structure(c(2, 5.75, 9.5, 13.25, 17), names = nq),
+                 `3` = structure(c(3, 6, 9, 12, 15), names = nq),
                  `4` = NULL, `5` = NULL), dim=4, dimnames=list(as.character(2:5)))))
 
 ## --- by ---

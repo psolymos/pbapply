@@ -17,13 +17,9 @@ Source:
 [`DESCRIPTION`](https://github.com/psolymos/pbapply/blob/master/DESCRIPTION)
 
 Solymos P, Zawadzki Z (2026). *pbapply: Adding Progress Bar to '\*apply'
-Functions*. R package version 1.7-4,
+Functions*. R package version 1.7-5,
 <https://github.com/psolymos/pbapply>.
 
-    @Manual{,
-      title = {pbapply: Adding Progress Bar to '*apply' Functions},
-      author = {Peter Solymos and Zygmunt Zawadzki},
-      year = {2026},
-      note = {R package version 1.7-4},
-      url = {https://github.com/psolymos/pbapply},
-    }
+@Manual{, title = {pbapply: Adding Progress Bar to '\*apply' Functions},
+author = {Peter Solymos and Zygmunt Zawadzki}, year = {2026}, note = {R
+package version 1.7-5}, url = {https://github.com/psolymos/pbapply}, }

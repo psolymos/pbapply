@@ -44,17 +44,11 @@ multicore-type forking, and future.
 
 Install CRAN release version (recommended):
 
-``` r
-
-install.packages("pbapply")
-```
+[`install.packages`](https://rdrr.io/r/utils/install.packages.html)`(``"pbapply"``)`
 
 Development version:
 
-``` r
-
-install.packages("pbapply", repos = "https://psolymos.r-universe.dev")
-```
+[`install.packages`](https://rdrr.io/r/utils/install.packages.html)`(``"pbapply"``, repos ``=`` ``"https://psolymos.r-universe.dev"``)`
 
 See user-visible changes in the
 [NEWS](https://github.com/psolymos/pbapply/blob/master/NEWS.md) file.
@@ -113,14 +107,7 @@ Add pbapply to the `Suggests` field in the `DESCRIPTION`.
 Use a conditional statement in your code to fall back on a base function
 in case of pbapply is not installed:
 
-``` r
-
-out <- if (requireNamespace("pbapply", quietly = TRUE)) {
-   pbapply::pblapply(X, FUN, ...)
-} else {
-   lapply(X, FUN, ...)
-}
-```
+`out`` ``<-`` ``if`` ``(`[`requireNamespace`](https://rdrr.io/r/base/ns-load.html)`(``"pbapply"``, quietly ``=`` ``TRUE``)``)`` ``{`` `` ``pbapply``::`[`pblapply`](reference/pbapply.md)`(``X``, ``FUN``, ``...``)`` ``}`` ``else`` ``{`` `` `[`lapply`](https://rdrr.io/r/base/lapply.html)`(``X``, ``FUN``, ``...``)`` ``}`
 
 See a small example package
 [here](https://github.com/psolymos/pbapplySuggests).
@@ -140,23 +127,7 @@ roxygen2](https://roxygen2.r-lib.org/articles/namespace.html#imports).
 
 Specify the progress bar options in the `zzz.R` file of the package:
 
-``` r
-
-.onAttach <- function(libname, pkgname){
-    options("pboptions" = list(
-        type = if (interactive()) "timer" else "none",
-        char = "-",
-        txt.width = 50,
-        gui.width = 300,
-        style = 3,
-        initial = 0,
-        title = "R progress bar",
-        label = "",
-        nout = 100L,
-        min_time = 2))
-    invisible(NULL)
-}
-```
+`.onAttach`` ``<-`` ``function``(``libname``, ``pkgname``)``{`` `` `[`options`](https://rdrr.io/r/base/options.html)`(``"pboptions"`` ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(`` `` type ``=`` ``if`` ``(`[`interactive`](https://rdrr.io/r/base/interactive.html)`(``)``)`` ``"timer"`` ``else`` ``"none"``,`` `` char ``=`` ``"-"``,`` `` txt.width ``=`` ``50``,`` `` gui.width ``=`` ``300``,`` `` style ``=`` ``3``,`` `` initial ``=`` ``0``,`` `` title ``=`` ``"R progress bar"``,`` `` label ``=`` ``""``,`` `` nout ``=`` ``100L``,`` `` min_time ``=`` ``2``)``)`` `` `[`invisible`](https://rdrr.io/r/base/invisible.html)`(``NULL``)`` ``}`
 
 This will set the options and pbapply will not override these when
 loaded.
@@ -170,11 +141,7 @@ Suppressing the progress bar is sometimes handy. By default, progress
 bar is suppressed when `!interactive()`. In other instances, put this
 inside a function:
 
-``` r
-
-pbo <- pboptions(type = "none")
-on.exit(pboptions(pbo), add = TRUE)
-```
+`pbo`` ``<-`` `[`pboptions`](reference/pboptions.md)`(``type ``=`` ``"none"``)`` `[`on.exit`](https://rdrr.io/r/base/on.exit.html)`(`[`pboptions`](reference/pboptions.md)`(``pbo``)``, add ``=`` ``TRUE``)`
 
 #### Working with a future backend
 
@@ -214,70 +181,7 @@ The following `pb*` functions are available in the pbapply package:
 
 #### Command line usage
 
-``` r
-
-library(pbapply)
-set.seed(1234)
-n <- 2000
-x <- rnorm(n)
-y <- rnorm(n, model.matrix(~x) %*% c(0,1), sd=0.5)
-d <- data.frame(y, x)
-## model fitting and bootstrap
-mod <- lm(y~x, d)
-ndat <- model.frame(mod)
-B <- 500
-bid <- sapply(1:B, function(i) sample(nrow(ndat), nrow(ndat), TRUE))
-fun <- function(z) {
-    if (missing(z))
-        z <- sample(nrow(ndat), nrow(ndat), TRUE)
-    coef(lm(mod$call$formula, data=ndat[z,]))
-}
-
-## standard '*apply' functions
-# system.time(res1 <- lapply(1:B, function(i) fun(bid[,i])))
-#    user  system elapsed
-#   1.096   0.023   1.127
-system.time(res2 <- sapply(1:B, function(i) fun(bid[,i])))
-#    user  system elapsed
-#   1.152   0.017   1.182
-system.time(res3 <- apply(bid, 2, fun))
-#    user  system elapsed
-#   1.134   0.010   1.160
-system.time(res4 <- replicate(B, fun()))
-#    user  system elapsed
-#   1.141   0.022   1.171
-
-## 'pb*apply' functions
-## try different settings:
-## "none", "txt", "tk", "win", "timer"
-op <- pboptions(type="timer") # default
-system.time(res1pb <- pblapply(1:B, function(i) fun(bid[,i])))
-#    |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% ~00s
-#    user  system elapsed
-#   1.539   0.046   1.599
-pboptions(op)
-
-pboptions(type="txt")
-system.time(res2pb <- pbsapply(1:B, function(i) fun(bid[,i])))
-#   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
-#    user  system elapsed
-#   1.433   0.045   1.518
-pboptions(op)
-
-pboptions(type="txt", style=1, char="=")
-system.time(res3pb <- pbapply(bid, 2, fun))
-# ==================================================
-#    user  system elapsed
-#   1.389   0.032   1.464
-pboptions(op)
-
-pboptions(type="txt", char=":")
-system.time(res4pb <- pbreplicate(B, fun()))
-#   |::::::::::::::::::::::::::::::::::::::::::::::::::| 100%
-#    user  system elapsed
-#   1.427   0.040   1.481
-pboptions(op)
-```
+[`library`](https://rdrr.io/r/base/library.html)`(`[`pbapply`](https://github.com/psolymos/pbapply)`)`` `[`set.seed`](https://rdrr.io/r/base/Random.html)`(``1234``)`` ``n`` ``<-`` ``2000`` ``x`` ``<-`` `[`rnorm`](https://rdrr.io/r/stats/Normal.html)`(``n``)`` ``y`` ``<-`` `[`rnorm`](https://rdrr.io/r/stats/Normal.html)`(``n``, `[`model.matrix`](https://rdrr.io/r/stats/model.matrix.html)`(``~``x``)`` `[`%*%`](https://rdrr.io/r/base/matmult.html)` `[`c`](https://rdrr.io/r/base/c.html)`(``0``,``1``)``, sd``=``0.5``)`` ``d`` ``<-`` `[`data.frame`](https://rdrr.io/r/base/data.frame.html)`(``y``, ``x``)`` ``## model fitting and bootstrap`` ``mod`` ``<-`` `[`lm`](https://rdrr.io/r/stats/lm.html)`(``y``~``x``, ``d``)`` ``ndat`` ``<-`` `[`model.frame`](https://rdrr.io/r/stats/model.frame.html)`(``mod``)`` ``B`` ``<-`` ``500`` ``bid`` ``<-`` `[`sapply`](https://rdrr.io/r/base/lapply.html)`(``1``:``B``, ``function``(``i``)`` `[`sample`](https://rdrr.io/r/base/sample.html)`(`[`nrow`](https://rdrr.io/r/base/nrow.html)`(``ndat``)``, `[`nrow`](https://rdrr.io/r/base/nrow.html)`(``ndat``)``, ``TRUE``)``)`` ``fun`` ``<-`` ``function``(``z``)`` ``{`` `` ``if`` ``(`[`missing`](https://rdrr.io/r/base/missing.html)`(``z``)``)`` `` ``z`` ``<-`` `[`sample`](https://rdrr.io/r/base/sample.html)`(`[`nrow`](https://rdrr.io/r/base/nrow.html)`(``ndat``)``, `[`nrow`](https://rdrr.io/r/base/nrow.html)`(``ndat``)``, ``TRUE``)`` `` `[`coef`](https://rdrr.io/r/stats/coef.html)`(`[`lm`](https://rdrr.io/r/stats/lm.html)`(``mod``$``call``$``formula``, data``=``ndat``[``z``,``]``)``)`` ``}`` `` ``## standard '*apply' functions`` ``# system.time(res1 <- lapply(1:B, function(i) fun(bid[,i])))`` ``# user system elapsed`` ``# 1.096 0.023 1.127`` `[`system.time`](https://rdrr.io/r/base/system.time.html)`(``res2`` ``<-`` `[`sapply`](https://rdrr.io/r/base/lapply.html)`(``1``:``B``, ``function``(``i``)`` ``fun``(``bid``[``,``i``]``)``)``)`` ``# user system elapsed`` ``# 1.152 0.017 1.182`` `[`system.time`](https://rdrr.io/r/base/system.time.html)`(``res3`` ``<-`` `[`apply`](https://rdrr.io/r/base/apply.html)`(``bid``, ``2``, ``fun``)``)`` ``# user system elapsed`` ``# 1.134 0.010 1.160`` `[`system.time`](https://rdrr.io/r/base/system.time.html)`(``res4`` ``<-`` `[`replicate`](https://rdrr.io/r/base/lapply.html)`(``B``, ``fun``(``)``)``)`` ``# user system elapsed`` ``# 1.141 0.022 1.171`` `` ``## 'pb*apply' functions`` ``## try different settings:`` ``## "none", "txt", "tk", "win", "timer"`` ``op`` ``<-`` `[`pboptions`](reference/pboptions.md)`(``type``=``"timer"``)`` ``# default`` `[`system.time`](https://rdrr.io/r/base/system.time.html)`(``res1pb`` ``<-`` `[`pblapply`](reference/pbapply.md)`(``1``:``B``, ``function``(``i``)`` ``fun``(``bid``[``,``i``]``)``)``)`` ``# |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% ~00s`` ``# user system elapsed`` ``# 1.539 0.046 1.599`` `[`pboptions`](reference/pboptions.md)`(``op``)`` `` `[`pboptions`](reference/pboptions.md)`(``type``=``"txt"``)`` `[`system.time`](https://rdrr.io/r/base/system.time.html)`(``res2pb`` ``<-`` `[`pbsapply`](reference/pbapply.md)`(``1``:``B``, ``function``(``i``)`` ``fun``(``bid``[``,``i``]``)``)``)`` ``# |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%`` ``# user system elapsed`` ``# 1.433 0.045 1.518`` `[`pboptions`](reference/pboptions.md)`(``op``)`` `` `[`pboptions`](reference/pboptions.md)`(``type``=``"txt"``, style``=``1``, char``=``"="``)`` `[`system.time`](https://rdrr.io/r/base/system.time.html)`(``res3pb`` ``<-`` `[`pbapply`](reference/pbapply.md)`(``bid``, ``2``, ``fun``)``)`` ``# ==================================================`` ``# user system elapsed`` ``# 1.389 0.032 1.464`` `[`pboptions`](reference/pboptions.md)`(``op``)`` `` `[`pboptions`](reference/pboptions.md)`(``type``=``"txt"``, char``=``":"``)`` `[`system.time`](https://rdrr.io/r/base/system.time.html)`(``res4pb`` ``<-`` `[`pbreplicate`](reference/pbapply.md)`(``B``, ``fun``(``)``)``)`` ``# |::::::::::::::::::::::::::::::::::::::::::::::::::| 100%`` ``# user system elapsed`` ``# 1.427 0.040 1.481`` `[`pboptions`](reference/pboptions.md)`(``op``)`
 
 #### Parallel backends
 
@@ -299,70 +203,10 @@ functions will fall back to sequential evaluation.
 
 Some examples:
 
-``` r
-
-f <- function(i) Sys.sleep(1)
-
-## sequential
-pblapply(1:2, f)
-
-## cluster
-cl <- parallel::makeCluster(2)
-pblapply(1:2, f, cl = cl)
-parallel::stopCluster(cl)
-
-# mirai cluster
-library(mirai)
-# -- using the mirai package
-cl <- make_cluster(2)
-pblapply(1:2, f, cl = cl)
-stop_cluster(cl)
-# -- using parallel (requires R >= 2.5)
-cl <- parallel::makeCluster(2, type = "MIRAI")
-pblapply(1:2, f, cl = cl)
-parallel::stopCluster(cl)
-
-## forking
-pblapply(1:2, f, cl = 2)
-
-## future
-library(future)
-
-cl <- parallel::makeCluster(2)
-plan(cluster, workers = cl)
-r2 <- pblapply(1:2, f, cl = "future")
-parallel::stopCluster(cl)
-
-plan(multisession, workers = 2)
-pblapply(1:2, f, cl = "future")
-
-plan(sequential)
-```
+`f`` ``<-`` ``function``(``i``)`` `[`Sys.sleep`](https://rdrr.io/r/base/Sys.sleep.html)`(``1``)`` `` ``## sequential`` `[`pblapply`](reference/pbapply.md)`(``1``:``2``, ``f``)`` `` ``## cluster`` ``cl`` ``<-`` ``parallel``::`[`makeCluster`](https://rdrr.io/r/parallel/makeCluster.html)`(``2``)`` `[`pblapply`](reference/pbapply.md)`(``1``:``2``, ``f``, cl ``=`` ``cl``)`` ``parallel``::`[`stopCluster`](https://rdrr.io/r/parallel/makeCluster.html)`(``cl``)`` `` ``# mirai cluster`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`mirai`](https://mirai.r-lib.org)`)`` ``# -- using the mirai package`` ``cl`` ``<-`` ``make_cluster``(``2``)`` `[`pblapply`](reference/pbapply.md)`(``1``:``2``, ``f``, cl ``=`` ``cl``)`` ``stop_cluster``(``cl``)`` ``# -- using parallel (requires R >= 2.5)`` ``cl`` ``<-`` ``parallel``::`[`makeCluster`](https://rdrr.io/r/parallel/makeCluster.html)`(``2``, type ``=`` ``"MIRAI"``)`` `[`pblapply`](reference/pbapply.md)`(``1``:``2``, ``f``, cl ``=`` ``cl``)`` ``parallel``::`[`stopCluster`](https://rdrr.io/r/parallel/makeCluster.html)`(``cl``)`` `` ``## forking`` `[`pblapply`](reference/pbapply.md)`(``1``:``2``, ``f``, cl ``=`` ``2``)`` `` ``## future`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`future`](https://future.futureverse.org)`)`` `` ``cl`` ``<-`` ``parallel``::`[`makeCluster`](https://rdrr.io/r/parallel/makeCluster.html)`(``2``)`` `[`plan`](https://future.futureverse.org/reference/plan.html)`(``cluster``, workers ``=`` ``cl``)`` ``r2`` ``<-`` `[`pblapply`](reference/pbapply.md)`(``1``:``2``, ``f``, cl ``=`` ``"future"``)`` ``parallel``::`[`stopCluster`](https://rdrr.io/r/parallel/makeCluster.html)`(``cl``)`` `` `[`plan`](https://future.futureverse.org/reference/plan.html)`(``multisession``, workers ``=`` ``2``)`` `[`pblapply`](reference/pbapply.md)`(``1``:``2``, ``f``, cl ``=`` ``"future"``)`` `` `[`plan`](https://future.futureverse.org/reference/plan.html)`(``sequential``)`
 
 #### Progress with Shiny
 
-``` r
-
-library(shiny)
-library(pbapply)
-
-pboptions(
-    type = "shiny",
-    title = "Shiny progress",
-    label = "Almost there ...")
-
-ui <- fluidPage(
-    plotOutput("plot")
-)
-
-server <- function(input, output, session) {
-    output$plot <- renderPlot({
-        pbsapply(1:15, function(z) Sys.sleep(0.5))
-        plot(cars)
-    })
-}
-
-shinyApp(ui, server)
-```
+[`library`](https://rdrr.io/r/base/library.html)`(`[`shiny`](https://shiny.posit.co/)`)`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`pbapply`](https://github.com/psolymos/pbapply)`)`` `` `[`pboptions`](reference/pboptions.md)`(`` `` type ``=`` ``"shiny"``,`` `` title ``=`` ``"Shiny progress"``,`` `` label ``=`` ``"Almost there ..."``)`` `` ``ui`` ``<-`` `[`fluidPage`](https://rdrr.io/pkg/shiny/man/fluidPage.html)`(`` `` `[`plotOutput`](https://rdrr.io/pkg/shiny/man/plotOutput.html)`(``"plot"``)`` ``)`` `` ``server`` ``<-`` ``function``(``input``, ``output``, ``session``)`` ``{`` `` ``output``$``plot`` ``<-`` `[`renderPlot`](https://rdrr.io/pkg/shiny/man/renderPlot.html)`(``{`` `` `[`pbsapply`](reference/pbapply.md)`(``1``:``15``, ``function``(``z``)`` `[`Sys.sleep`](https://rdrr.io/r/base/Sys.sleep.html)`(``0.5``)``)`` `` `[`plot`](https://rdrr.io/r/graphics/plot.default.html)`(``cars``)`` `` ``}``)`` ``}`` `` `[`shinyApp`](https://rdrr.io/pkg/shiny/man/shinyApp.html)`(``ui``, ``server``)`
 
 ![](https://github.com/psolymos/pbapply/raw/master/images/shiny.png)
