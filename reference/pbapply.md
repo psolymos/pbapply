@@ -258,16 +258,16 @@ fun <- function(z) {
 ## standard '*apply' functions
 system.time(res1 <- lapply(1:B, function(i) fun(bid[,i])))
 #>    user  system elapsed 
-#>   0.039   0.000   0.040 
+#>   0.063   0.002   0.065 
 system.time(res2 <- sapply(1:B, function(i) fun(bid[,i])))
 #>    user  system elapsed 
-#>   0.042   0.001   0.043 
+#>   0.059   0.001   0.060 
 system.time(res3 <- apply(bid, 2, fun))
 #>    user  system elapsed 
-#>   0.035   0.000   0.036 
+#>   0.047   0.000   0.048 
 system.time(res4 <- replicate(B, fun()))
 #>    user  system elapsed 
-#>   0.049   0.001   0.072 
+#>   0.052   0.000   0.052 
 
 ## 'pb*apply' functions
 ## try different settings:
@@ -377,7 +377,7 @@ system.time(res1pb <- pblapply(1:B, function(i) fun(bid[,i])))
   |++++++++++++++++++++++++++++++++++++++++++++++++++| 99% ~00s          
   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=00s  
 #>    user  system elapsed 
-#>   0.058   0.004   0.065 
+#>   0.050   0.005   0.055 
 pboptions(op)
 
 pboptions(type = "txt")
@@ -586,14 +586,14 @@ system.time(res2pb <- pbsapply(1:B, function(i) fun(bid[,i])))
   |                                                        
   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100%
 #>    user  system elapsed 
-#>   0.052   0.002   0.055 
+#>   0.043   0.002   0.046 
 pboptions(op)
 
 pboptions(type = "txt", style = 1, char = "=")
 system.time(res3pb <- pbapply(bid, 2, fun))
 #> ==================================================
 #>    user  system elapsed 
-#>   0.040   0.001   0.041 
+#>   0.041   0.001   0.042 
 pboptions(op)
 
 pboptions(type = "txt", char = ":")
@@ -802,7 +802,7 @@ system.time(res4pb <- pbreplicate(B, fun()))
   |                                                        
   |::::::::::::::::::::::::::::::::::::::::::::::::::| 100%
 #>    user  system elapsed 
-#>   0.066   0.004   0.151 
+#>   0.050   0.002   0.052 
 pboptions(op)
 
 if (FALSE) { # \dontrun{
